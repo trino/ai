@@ -43,45 +43,32 @@ if (!isset($_GET["search"]) || !trim($_GET["search"])) {
 
       where r.name REGEXP '$words'
       or c.name REGEXP '$words'
-      or i.name REGEXP '$words' 
+      or i.name REGEXP '$words'
       or ca.name REGEXP '$words'
       or a.name REGEXP '$words'
     ";
 */
-    $results["SQL"] = "
-    SELECT *
-    from menu
+    $results["SQL"] = "SELECT *
+ from menu";
 
-    ";
+    echo "<div class='col-md-4'>";
 
-
-    //where i.name like '%$word%'
-    //where i.name REGEXP '$words'
-
-    var_dump($results);
-
+    print_r($results);
+    echo '<br>------------------------------------<br>';
+    $result = Query($results["SQL"]);
     $result = Query($results["SQL"]);
     $i = 0;
+
     if ($result) {
         $FirstResult = true;
         $PrevCategory = "";
 
         while ($row = mysqli_fetch_array($result)) {
-
             if ($FirstResult) {
                 echo '<TABLE class="table table-sm table-responsive"><TR>';
-                /*
-                foreach ($row as $Key => $Value) {
-                    if (!is_numeric($Key)) {
-                        echo '<TH>' . $Key . '</TH>';
-                    }
-                }
-                echo '</TR>';
-                */
                 $FirstResult = false;
             }
 
-            //      echo '<TR><td>' . $i . '</td>';
             foreach ($row as $Key => $Value) {
 
                 if (!is_numeric($Key) && ($Key == "category" || $Key == "item" || $Key == "price")) {
@@ -100,39 +87,64 @@ if (!isset($_GET["search"]) || !trim($_GET["search"])) {
                         echo '<TD></TD>';
                     }
                 }
-
             }
             echo '</TR>';
-            ?>
-            <!--tr>
-                <td colspan="8">
-
-                    <div class="card">
-                        <img class="card-img-top" src="http://s3.amazonaws.com/rapgenius/1356504857_pepperoni-pizza.jpg" alt="Card image cap">
-                        <div class="card-block">
-                            <h4 class="card-title">Card title</h4>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn btn-primary">Button</a>
-                        </div>
-                    </div>
-
-
-                </td>
-
-            </tr-->
-
-
-            <?
             $i++;
         }
         if (!$FirstResult) {
-            echo '</TABLE><P>';
+            echo '</TABLE>';
         }
     } else {
         echo "No keywords found in '" . $_GET["search"] . "'<P>";
     }
+
+    echo "</div>";
+
 }
+echo "</div>";
+
+echo "<div class='col-md-4'>";
+
+$results["SQL"] = "SELECT *
+ from toppings";
+print_r($results);
+echo '<br>------------------------------------<br>';
+$result = Query($results["SQL"]);
+if ($result) {
+    while ($row = mysqli_fetch_array($result)) {
+        foreach ($row as $Key => $Value) {
+            if (!is_numeric($Key) && ($Key == "topping")) {
+                echo $Value . '<br>';
+            }
+        }
+    }
+
+}
+echo "</div>";
+
+echo "<div class='col-md-4'>";
+
+$results["SQL"] = "SELECT *
+ from wings_sauce";
+print_r($results);
+echo '<br>------------------------------------<br>';
+$result = Query($results["SQL"]);
+$result = Query($results["SQL"]);
+if ($result) {
+    while ($row = mysqli_fetch_array($result)) {
+        foreach ($row as $Key => $Value) {
+            if (!is_numeric($Key) && ($Key == "sauce")) {
+                echo $Value . '<br>';
+            }
+        }
+    }
+
+}
+
+echo "</div>";
+
 ?>
+
 
 <script type="text/javascript">
     if ('webkitSpeechRecognition' in window) {
