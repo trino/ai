@@ -24,25 +24,20 @@
       <file leaf-file-name="index3.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/index3.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="95" column="131" selection-start-line="95" selection-start-column="131" selection-end-line="95" selection-end-column="131" />
+            <state relative-caret-position="476">
+              <caret line="45" column="32" selection-start-line="45" selection-start-column="32" selection-end-line="45" selection-end-column="32" />
               <folding>
-                <marker date="1469406429053" expanded="true" signature="894:900" ph="SELECT *, co... *" />
-                <marker date="1469406429053" expanded="true" signature="894:1122" ph="SELECT * fro... restaurants" />
-                <marker date="1469406429053" expanded="true" signature="894:1371" ph="SELECT r.nam... restaurants" />
-                <marker date="1469406429053" expanded="true" signature="894:1396" ph="SELECT r.nam... restaurants" />
-                <marker date="1469406429053" expanded="true" signature="894:1411" ph="SELECT r.nam... restaurants" />
-                <marker date="1469406429053" expanded="true" signature="894:1419" ph="SELECT r.nam... restaurants" />
-                <marker date="1469406429053" expanded="true" signature="894:1442" ph="SELECT r.nam... restaurants" />
-                <marker date="1469406429053" expanded="true" signature="894:1535" ph="SELECT r.nam... restaurants" />
-                <marker date="1469406429053" expanded="true" signature="1576:1598" ph="SELECT * fro... menu" />
-                <marker date="1469406429053" expanded="true" signature="1576:1599" ph="SELECT r.nam... restaurants" />
-                <marker date="1469406429053" expanded="true" signature="2012:2228" ph="..." />
-                <marker date="1469406429053" expanded="true" signature="2349:3177" ph="..." />
-                <marker date="1469406429053" expanded="true" signature="3214:3222" ph="..." />
-                <marker date="1469406429053" expanded="true" signature="3214:3679" ph="..." />
-                <marker date="1469406429053" expanded="true" signature="4067:4122" ph="..." />
-                <marker date="1469406429053" expanded="true" signature="4113:4122" ph="..." />
+                <marker date="1469407556710" expanded="true" signature="1530:1559" ph="SELECT r.nam... restaurants" />
+                <marker date="1469407556710" expanded="true" signature="1598:1620" ph="SELECT * fro... menu" />
+                <marker date="1469407556710" expanded="true" signature="1598:1621" ph="SELECT r.nam... restaurants" />
+                <marker date="1469407556710" expanded="true" signature="2011:2250" ph="..." />
+                <marker date="1469407556710" expanded="true" signature="2034:2250" ph="..." />
+                <marker date="1469407556710" expanded="true" signature="2377:3193" ph="..." />
+                <marker date="1469407556710" expanded="true" signature="2791:2884" ph="..." />
+                <marker date="1469407556710" expanded="true" signature="3228:3236" ph="..." />
+                <marker date="1469407556710" expanded="true" signature="3228:3693" ph="..." />
+                <marker date="1469407556710" expanded="true" signature="4081:4136" ph="..." />
+                <marker date="1469407556710" expanded="true" signature="4127:4136" ph="..." />
               </folding>
             </state>
           </provider>
@@ -291,12 +286,12 @@
       <workItem from="1469158201441" duration="619000" />
       <workItem from="1469226201623" duration="44000" />
       <workItem from="1469227043243" duration="3693000" />
-      <workItem from="1469380941232" duration="3927000" />
+      <workItem from="1469380941232" duration="4571000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22391000" />
+    <option name="totallyTimeSpent" value="23035000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -343,22 +338,17 @@
         <state relative-caret-position="408">
           <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
           <folding>
-            <marker date="1469406429053" expanded="true" signature="894:900" ph="SELECT *, co... *" />
-            <marker date="1469406429053" expanded="true" signature="894:1122" ph="SELECT * fro... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1371" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1396" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1411" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1419" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1442" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1535" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="1576:1598" ph="SELECT * fro... menu" />
-            <marker date="1469406429053" expanded="true" signature="1576:1599" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="2012:2228" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="2349:3177" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="3214:3222" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="3214:3679" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="4067:4122" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="4113:4122" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="1530:1559" ph="SELECT r.nam... restaurants" />
+            <marker date="1469407556710" expanded="true" signature="1598:1620" ph="SELECT * fro... menu" />
+            <marker date="1469407556710" expanded="true" signature="1598:1621" ph="SELECT r.nam... restaurants" />
+            <marker date="1469407556710" expanded="true" signature="2011:2250" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="2034:2250" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="2377:3193" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="2791:2884" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="3228:3236" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="3228:3693" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="4081:4136" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="4127:4136" ph="..." />
           </folding>
         </state>
       </provider>
@@ -444,22 +434,17 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1469406429053" expanded="true" signature="894:900" ph="SELECT *, co... *" />
-            <marker date="1469406429053" expanded="true" signature="894:1122" ph="SELECT * fro... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1371" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1396" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1411" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1419" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1442" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1535" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="1576:1598" ph="SELECT * fro... menu" />
-            <marker date="1469406429053" expanded="true" signature="1576:1599" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="2012:2228" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="2349:3177" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="3214:3222" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="3214:3679" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="4067:4122" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="4113:4122" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="1530:1559" ph="SELECT r.nam... restaurants" />
+            <marker date="1469407556710" expanded="true" signature="1598:1620" ph="SELECT * fro... menu" />
+            <marker date="1469407556710" expanded="true" signature="1598:1621" ph="SELECT r.nam... restaurants" />
+            <marker date="1469407556710" expanded="true" signature="2011:2250" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="2034:2250" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="2377:3193" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="2791:2884" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="3228:3236" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="3228:3693" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="4081:4136" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="4127:4136" ph="..." />
           </folding>
         </state>
       </provider>
@@ -476,22 +461,17 @@
         <state relative-caret-position="221">
           <caret line="13" column="31" selection-start-line="13" selection-start-column="31" selection-end-line="13" selection-end-column="31" />
           <folding>
-            <marker date="1469406429053" expanded="true" signature="894:900" ph="SELECT *, co... *" />
-            <marker date="1469406429053" expanded="true" signature="894:1122" ph="SELECT * fro... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1371" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1396" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1411" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1419" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1442" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1535" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="1576:1598" ph="SELECT * fro... menu" />
-            <marker date="1469406429053" expanded="true" signature="1576:1599" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="2012:2228" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="2349:3177" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="3214:3222" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="3214:3679" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="4067:4122" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="4113:4122" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="1530:1559" ph="SELECT r.nam... restaurants" />
+            <marker date="1469407556710" expanded="true" signature="1598:1620" ph="SELECT * fro... menu" />
+            <marker date="1469407556710" expanded="true" signature="1598:1621" ph="SELECT r.nam... restaurants" />
+            <marker date="1469407556710" expanded="true" signature="2011:2250" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="2034:2250" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="2377:3193" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="2791:2884" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="3228:3236" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="3228:3693" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="4081:4136" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="4127:4136" ph="..." />
           </folding>
         </state>
       </provider>
@@ -522,22 +502,17 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1469406429053" expanded="true" signature="894:900" ph="SELECT *, co... *" />
-            <marker date="1469406429053" expanded="true" signature="894:1122" ph="SELECT * fro... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1371" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1396" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1411" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1419" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1442" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1535" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="1576:1598" ph="SELECT * fro... menu" />
-            <marker date="1469406429053" expanded="true" signature="1576:1599" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="2012:2228" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="2349:3177" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="3214:3222" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="3214:3679" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="4067:4122" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="4113:4122" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="1530:1559" ph="SELECT r.nam... restaurants" />
+            <marker date="1469407556710" expanded="true" signature="1598:1620" ph="SELECT * fro... menu" />
+            <marker date="1469407556710" expanded="true" signature="1598:1621" ph="SELECT r.nam... restaurants" />
+            <marker date="1469407556710" expanded="true" signature="2011:2250" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="2034:2250" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="2377:3193" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="2791:2884" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="3228:3236" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="3228:3693" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="4081:4136" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="4127:4136" ph="..." />
           </folding>
         </state>
       </provider>
@@ -547,22 +522,17 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1469406429053" expanded="true" signature="894:900" ph="SELECT *, co... *" />
-            <marker date="1469406429053" expanded="true" signature="894:1122" ph="SELECT * fro... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1371" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1396" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1411" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1419" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1442" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1535" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="1576:1598" ph="SELECT * fro... menu" />
-            <marker date="1469406429053" expanded="true" signature="1576:1599" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="2012:2228" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="2349:3177" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="3214:3222" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="3214:3679" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="4067:4122" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="4113:4122" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="1530:1559" ph="SELECT r.nam... restaurants" />
+            <marker date="1469407556710" expanded="true" signature="1598:1620" ph="SELECT * fro... menu" />
+            <marker date="1469407556710" expanded="true" signature="1598:1621" ph="SELECT r.nam... restaurants" />
+            <marker date="1469407556710" expanded="true" signature="2011:2250" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="2034:2250" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="2377:3193" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="2791:2884" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="3228:3236" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="3228:3693" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="4081:4136" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="4127:4136" ph="..." />
           </folding>
         </state>
       </provider>
@@ -572,22 +542,17 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1469406429053" expanded="true" signature="894:900" ph="SELECT *, co... *" />
-            <marker date="1469406429053" expanded="true" signature="894:1122" ph="SELECT * fro... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1371" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1396" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1411" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1419" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1442" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1535" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="1576:1598" ph="SELECT * fro... menu" />
-            <marker date="1469406429053" expanded="true" signature="1576:1599" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="2012:2228" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="2349:3177" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="3214:3222" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="3214:3679" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="4067:4122" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="4113:4122" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="1530:1559" ph="SELECT r.nam... restaurants" />
+            <marker date="1469407556710" expanded="true" signature="1598:1620" ph="SELECT * fro... menu" />
+            <marker date="1469407556710" expanded="true" signature="1598:1621" ph="SELECT r.nam... restaurants" />
+            <marker date="1469407556710" expanded="true" signature="2011:2250" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="2034:2250" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="2377:3193" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="2791:2884" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="3228:3236" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="3228:3693" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="4081:4136" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="4127:4136" ph="..." />
           </folding>
         </state>
       </provider>
@@ -604,22 +569,17 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1469406429053" expanded="true" signature="894:900" ph="SELECT *, co... *" />
-            <marker date="1469406429053" expanded="true" signature="894:1122" ph="SELECT * fro... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1371" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1396" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1411" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1419" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1442" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1535" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="1576:1598" ph="SELECT * fro... menu" />
-            <marker date="1469406429053" expanded="true" signature="1576:1599" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="2012:2228" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="2349:3177" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="3214:3222" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="3214:3679" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="4067:4122" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="4113:4122" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="1530:1559" ph="SELECT r.nam... restaurants" />
+            <marker date="1469407556710" expanded="true" signature="1598:1620" ph="SELECT * fro... menu" />
+            <marker date="1469407556710" expanded="true" signature="1598:1621" ph="SELECT r.nam... restaurants" />
+            <marker date="1469407556710" expanded="true" signature="2011:2250" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="2034:2250" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="2377:3193" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="2791:2884" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="3228:3236" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="3228:3693" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="4081:4136" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="4127:4136" ph="..." />
           </folding>
         </state>
       </provider>
@@ -636,22 +596,17 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1469406429053" expanded="true" signature="894:900" ph="SELECT *, co... *" />
-            <marker date="1469406429053" expanded="true" signature="894:1122" ph="SELECT * fro... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1371" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1396" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1411" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1419" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1442" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1535" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="1576:1598" ph="SELECT * fro... menu" />
-            <marker date="1469406429053" expanded="true" signature="1576:1599" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="2012:2228" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="2349:3177" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="3214:3222" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="3214:3679" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="4067:4122" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="4113:4122" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="1530:1559" ph="SELECT r.nam... restaurants" />
+            <marker date="1469407556710" expanded="true" signature="1598:1620" ph="SELECT * fro... menu" />
+            <marker date="1469407556710" expanded="true" signature="1598:1621" ph="SELECT r.nam... restaurants" />
+            <marker date="1469407556710" expanded="true" signature="2011:2250" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="2034:2250" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="2377:3193" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="2791:2884" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="3228:3236" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="3228:3693" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="4081:4136" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="4127:4136" ph="..." />
           </folding>
         </state>
       </provider>
@@ -799,25 +754,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/index3.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="95" column="131" selection-start-line="95" selection-start-column="131" selection-end-line="95" selection-end-column="131" />
+        <state relative-caret-position="476">
+          <caret line="45" column="32" selection-start-line="45" selection-start-column="32" selection-end-line="45" selection-end-column="32" />
           <folding>
-            <marker date="1469406429053" expanded="true" signature="894:900" ph="SELECT *, co... *" />
-            <marker date="1469406429053" expanded="true" signature="894:1122" ph="SELECT * fro... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1371" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1396" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1411" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1419" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1442" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="894:1535" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="1576:1598" ph="SELECT * fro... menu" />
-            <marker date="1469406429053" expanded="true" signature="1576:1599" ph="SELECT r.nam... restaurants" />
-            <marker date="1469406429053" expanded="true" signature="2012:2228" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="2349:3177" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="3214:3222" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="3214:3679" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="4067:4122" ph="..." />
-            <marker date="1469406429053" expanded="true" signature="4113:4122" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="1530:1559" ph="SELECT r.nam... restaurants" />
+            <marker date="1469407556710" expanded="true" signature="1598:1620" ph="SELECT * fro... menu" />
+            <marker date="1469407556710" expanded="true" signature="1598:1621" ph="SELECT r.nam... restaurants" />
+            <marker date="1469407556710" expanded="true" signature="2011:2250" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="2034:2250" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="2377:3193" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="2791:2884" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="3228:3236" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="3228:3693" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="4081:4136" ph="..." />
+            <marker date="1469407556710" expanded="true" signature="4127:4136" ph="..." />
           </folding>
         </state>
       </provider>

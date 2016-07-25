@@ -26,29 +26,28 @@ if (!isset($_GET["search"]) || !trim($_GET["search"])) {
 
     $word = $_GET["search"];
     $words = str_replace(" ", "|", $_GET["search"]);
-
-    $results["SQL"] = "
-    SELECT
-    r.name as restaurant_name, 
-    c.name as category_name, 
-    i.name as item_name, i.description as description,i.price as price,
-    ca.name as category_addon_name, 
-    a.name as addon_name
-    
-    from restaurants r
-    inner join categories c         on r.id = c.restaurant_id
-    inner join items i              on c.id = i.category_id 
-    inner join addon_categories ca  on i.id = ca.item_id
-    inner join addons a             on ca.id = a.addon_category_id
     /*
-    where r.name REGEXP '$words' 
-    or c.name REGEXP '$words' 
-    or i.name REGEXP '$words' 
-    or ca.name REGEXP '$words'
-    or a.name REGEXP '$words' */
+      $results["SQL"] = "
+      SELECT
+      r.name as restaurant_name,
+      c.name as category_name,
+      i.name as item_name, i.description as description,i.price as price,
+      ca.name as category_addon_name,
+      a.name as addon_name
+
+      from restaurants r
+      inner join categories c         on r.id = c.restaurant_id
+      inner join items i              on c.id = i.category_id
+      inner join addon_categories ca  on i.id = ca.item_id
+      inner join addons a             on ca.id = a.addon_category_id
+
+      where r.name REGEXP '$words'
+      or c.name REGEXP '$words'
+      or i.name REGEXP '$words' 
+      or ca.name REGEXP '$words'
+      or a.name REGEXP '$words'
     ";
-
-
+*/
     $results["SQL"] = "
     SELECT *
     from menu
@@ -82,7 +81,7 @@ if (!isset($_GET["search"]) || !trim($_GET["search"])) {
                 $FirstResult = false;
             }
 
-      //      echo '<TR><td>' . $i . '</td>';
+            //      echo '<TR><td>' . $i . '</td>';
             foreach ($row as $Key => $Value) {
 
                 if (!is_numeric($Key) && ($Key == "category" || $Key == "item" || $Key == "price")) {
@@ -92,11 +91,11 @@ if (!isset($_GET["search"]) || !trim($_GET["search"])) {
                     } else if ($Key != 'category') {
                         echo '<TD>';
 
-                            if($Key =='item') {
-                               echo '<img src="http://orderpizzaplace.com/SiteFiles/124/Menu/PepperoniPizza350.png"/ width="20"> ';
-                            }
+                        if ($Key == 'item') {
+                            echo '<img src="http://orderpizzaplace.com/SiteFiles/124/Menu/PepperoniPizza350.png"/ width="20"> ';
+                        }
 
-                           echo $Value . '</TD>';
+                        echo $Value . '</TD>';
                     } else {
                         echo '<TD></TD>';
                     }
@@ -104,8 +103,6 @@ if (!isset($_GET["search"]) || !trim($_GET["search"])) {
 
             }
             echo '</TR>';
-
-
             ?>
             <!--tr>
                 <td colspan="8">
