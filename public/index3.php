@@ -7,6 +7,12 @@
     <input type="button" id="startspeech" style="display:none;" value="Click to Speak" onclick="startButton(event);">
     <INPUT TYPE="submit" value="Search">
 </form>
+
+<style>
+body{padding:20px;}
+    td,tr{border:0 !important;padding-top:0 !important;padding-bottom:0 !important;margin:0 !important;}
+    div{border:1px solid #dadada;}
+</style>
 <?php
 
 function firstword($Text)
@@ -71,20 +77,20 @@ if (!isset($_GET["search"]) || !trim($_GET["search"])) {
 
             foreach ($row as $Key => $Value) {
 
-                if (!is_numeric($Key) && ($Key == "category" || $Key == "item" || $Key == "price")) {
+                if (!is_numeric($Key) && ($Key == "category" || $Key == "item" || $Key == "price" || $Key == "id")) {
                     if ($Key == 'category' && $Value != $PrevCategory) {
-                        echo '<TD>' . $Value . '</TD>';
+                        echo ' <TD> ' . $Value . ' </TD> ';
                         $PrevCategory = $Value;
                     } else if ($Key != 'category') {
-                        echo '<TD>';
+                        echo ' <TD> ';
 
                         if ($Key == 'item') {
                             echo '<img src="http://orderpizzaplace.com/SiteFiles/124/Menu/PepperoniPizza350.png"/ width="20"> ';
                         }
 
-                        echo $Value . '</TD>';
+                        echo  $Value . ' </TD>';
                     } else {
-                        echo '<TD></TD>';
+                        echo ' <TD></TD> ';
                     }
                 }
             }
@@ -113,10 +119,12 @@ $result = Query($results["SQL"]);
 if ($result) {
     while ($row = mysqli_fetch_array($result)) {
         foreach ($row as $Key => $Value) {
-            if (!is_numeric($Key) && ($Key == "topping")) {
-                echo $Value . '<br>';
+            if (!is_numeric($Key) && ($Key == "topping" || $Key == "id")) {
+                echo $Value . ' ';
             }
         }
+        echo "<br>";
+
     }
 
 }
@@ -133,10 +141,11 @@ $result = Query($results["SQL"]);
 if ($result) {
     while ($row = mysqli_fetch_array($result)) {
         foreach ($row as $Key => $Value) {
-            if (!is_numeric($Key) && ($Key == "sauce")) {
-                echo $Value . '<br>';
+            if (!is_numeric($Key) && ($Key == "sauce" || $Key == "id")) {
+                echo $Value . ' ';
             }
         }
+        echo "<br>";
     }
 
 }
