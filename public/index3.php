@@ -2,6 +2,21 @@
 <script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
 
 
+
+
+
+<script>
+
+
+    var client = algoliasearch("J0FIP6YVFA", '9a0c07ff24eb7715a94de82b5a64dfd6');
+    var index = client.initIndex('YourIndexName');
+    index.search('something', function(success, hits) {
+        console.log(success, hits)
+    }, { hitsPerPage: 10, page: 0 });
+
+
+
+</script>
 <form method="get">
     <input type="search" id="search" name="search" size=60 value="<?= $_GET["search"]; ?>">
     <input type="button" id="startspeech" style="display:none;" value="Click to Speak" onclick="startButton(event);">
@@ -77,7 +92,7 @@ if (!isset($_GET["search"]) || !trim($_GET["search"])) {
 
             foreach ($row as $Key => $Value) {
 
-                if (!is_numeric($Key) && ($Key == "category" || $Key == "item" || $Key == "price" || $Key == "id")) {
+                if (!is_numeric($Key) && ($Key == "category" || $Key == "item" || $Key == "price" || $Key == "id" || $Key == "toppings" || $Key == "wings_sauce")) {
                     if ($Key == 'category' && $Value != $PrevCategory) {
                         echo ' <TD> ' . $Value . ' </TD> ';
                         $PrevCategory = $Value;
