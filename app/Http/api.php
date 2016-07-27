@@ -1,8 +1,9 @@
 <?php
 $webroot = $_SERVER["REQUEST_URI"];
 $start = strpos($webroot, "/", 1) + 1;
-$webroot = substr($webroot, 0, $start) . "webroot/";
+$webroot = substr($webroot, 0, $start);
 if ( $_SERVER["SERVER_NAME"] != "localhost"){$webroot = str_replace("application/", "", $webroot);}
+$webroot = 'http://' . $_SERVER['HTTP_HOST'] . $webroot;
 $dirroot = getcwd();
 
 error_reporting(E_ERROR | E_PARSE);//suppress warnings
@@ -96,8 +97,8 @@ function printoption($option, $selected = "", $value = ""){
     return '<option' . $value . $tempstr . ">" . $option . "</option>";
 }
 
-function printoptions($name, $valuearray, $selected = "", $optionarray, $isdisabled = ""){
-    echo '<SELECT ' . $isdisabled . ' name="' . $name . '" class="form-control member_type" >';
+function printoptions($name, $valuearray, $selected = "", $optionarray = false, $isdisabled = ""){
+    echo '<SELECT ' . $isdisabled . ' name="' . $name . '" id="' . $name . '" >';
     for ($temp = 0; $temp < count($valuearray); $temp += 1) {
         echo printoption($valuearray[$temp], $selected, $optionarray[$temp]);
     }
@@ -150,3 +151,4 @@ function is_iterable($var) {
     return (is_array($var) || $var instanceof Traversable);
 }
 ?>
+<script src="<?= $webroot; ?>/resources/assets/scripts/api.js"></script>

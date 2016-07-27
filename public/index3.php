@@ -116,39 +116,29 @@
 
         echo "<div class='col-md-4'>";
 
-        $results["SQL"] = "SELECT * FROM toppings";
-        print_r($results);
-        echo '<br>------------------------------------<br>';
-        $result = Query($results["SQL"]);
-        if ($result) {
-            while ($row = mysqli_fetch_array($result)) {
-                foreach ($row as $Key => $Value) {
-                    if (!is_numeric($Key) && ($Key == "topping" || $Key == "id")) {
-                        echo $Value . ' ';
+        function makeSQL($table, $keyvalue){
+            $results = "SELECT * FROM " . $table;
+            print_r($results);
+            echo '<br>------------------------------------<br>';
+            $result = Query($results);
+            if ($result) {
+                while ($row = mysqli_fetch_array($result)) {
+                    foreach ($row as $Key => $Value) {
+                        if (!is_numeric($Key) && ($Key == $keyvalue || $Key == "id")) {
+                            echo $Value . ' ';
+                        }
                     }
+                    echo "<br>";
                 }
-                echo "<br>";
             }
-        }
-        echo "</div><div class='col-md-4'>";
-
-        $results["SQL"] = "SELECT * FROM wings_sauce";
-        print_r($results);
-        echo '<br>------------------------------------<br>';
-        $result = Query($results["SQL"]);
-        $result = Query($results["SQL"]);
-        if ($result) {
-            while ($row = mysqli_fetch_array($result)) {
-                foreach ($row as $Key => $Value) {
-                    if (!is_numeric($Key) && ($Key == "sauce" || $Key == "id")) {
-                        echo $Value . ' ';
-                    }
-                }
-                echo "<br>";
-            }
+            echo "</div>";
         }
 
-        echo "</div>";
+        makeSQL("toppings", "topping");
+
+        echo '<div class="col-md-4">';
+
+        makeSQL("wings_sauce", "sauce");
     }
 ?>
 
