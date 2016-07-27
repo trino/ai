@@ -6,3 +6,5 @@ Homestead.json
 .env
 
 *.xml
+*.json
+*.lock
