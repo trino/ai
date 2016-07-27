@@ -70,7 +70,7 @@
         }
     }
 ?>
-<form method="get">
+<form method="get" id="formmain">
     <input type="text" id="textsearch" name="search" size=60 value="<?= $_GET["search"]; ?>">
     <input type="button" id="startspeech" style="display:none;" value="Click to Speak" onclick="startButton(event);">
     <INPUT TYPE="submit" ID="submit" value="Search">

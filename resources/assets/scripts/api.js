@@ -1,40 +1,38 @@
 //Mini Jquery replacement
+//get more functionality from http://youmightnotneedjquery.com/
+//Siblings, Prev, Prepend, Position Relative To Viewport, Position, Parent, Outer Width With Margin, Outer Width, Outer Height With Margin, Outer Height, Offset Parent, Offset, Next, Matches Selector, matches, Find Children, Filter, Contains Selector, Contains, Clone, Children, Append
 
 String.prototype.replaceAll = function (search, replacement) {
     var target = this;
     return target.replace(new RegExp(search, 'g'), replacement);
 };
-Element.prototype.remove = function() {
-    this.parentElement.removeChild(this);
-}
-NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
-    for(var i = this.length - 1; i >= 0; i--) {
-        if(this[i] && this[i].parentElement) {
-            this[i].parentElement.removeChild(this[i]);
-        }
-    }
-}
 
-function isundefined(variable){
+function isUndefined(variable){
     return typeof variable === 'undefined';
 }
 function isElement(variable){
     return iif(variable && variable.nodeType, true, false);
 }
-function isFunction(functionToCheck) {
+function isFunction(variable) {
     var getType = {};
-    return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+    return variable && getType.toString.call(variable) === '[object Function]';
+}
+function isString(variable){
+    return typeof variable === 'string';
+}
+function isArray(variable){
+    return Array.isArray(variable);
 }
 
 function select(Selector, myFunction){
-    if(Array.isArray(Selector)){
+    if(isArray(Selector)){
         var Elements = Selector;
     } else if(isElement(Selector)){
         var Elements = [Selector];
     } else {
         var Elements = document.querySelectorAll(Selector);
     }
-    if(!isundefined(myFunction)) {
+    if(!isUndefined(myFunction)) {
         for (var index = 0; index < Elements.length; index++) {
             myFunction(Elements[index], index);
         }
@@ -42,23 +40,28 @@ function select(Selector, myFunction){
     return Elements;
 }
 
-/*
-$.fn.hasAttr = function(name) {
-    return this.attr(name) !== undefined;
-};
-*/
+
+
+
+
+
+
+
+
 
 //Value: if missing, return the value. Otherwise set it.
-//KeyID: 0=value (Default), 1=innerHTML, 2=outerHTML, text=attribute
-function value(Selector, Value, KeyID){
-    if(isundefined(KeyID)){KeyID=0;}
-    if(isundefined(Value)){
+//KeyID: 0=value (Default), 1=innerHTML, 2=outerHTML, 3=text, 4=style text=attribute
+function value(Selector, Value, KeyID, ValueID){
+    if(isUndefined(KeyID)){KeyID=0;}
+    if(isUndefined(Value)){
         Value = new Array;
         select(Selector, function (element, index) {
             switch(KeyID){
                 case 0: Value.push(element.value); break;
                 case 1: Value.push(element.innerHTML); break;
                 case 2: Value.push(element.outerHTML); break;
+                case 3: Value.push(element.textContent); break;
+                case 4: Value.push( getComputedStyle(element)[ValueID] ); break;
                 default: Value.push(element.getAttribute(KeyID));
             }
         });
@@ -69,6 +72,8 @@ function value(Selector, Value, KeyID){
                 case 0: element.value = Value;break;
                 case 1: element.innerHTML = Value; break;
                 case 2: element.outerHTML = Value; break;
+                case 3: element.textContent = Value; break;
+                case 4: element.style[ValueID] = Value; break;
                 default: element.setAttribute(KeyID, Value);
             }
         });
@@ -80,6 +85,20 @@ function innerHTML(Selector, HTML){
     return value(Selector, HTML, 1);
 }
 
+//Value: if missing, return the text. Otherwise set it.
+function text(Selector, Value){
+    return value(Selector, Value, 3);
+}
+
+//Empty an element's HTML
+function empty(Selector){
+    innerHTML(Selector, "");
+}
+
+function style(Selector, Key, Value){
+    return value(Selector, Value, 4, Key);
+}
+
 //Push a function to be run when done loading the page
 var todoonload = new Array;
 function doonload(myFunction){
@@ -87,7 +106,7 @@ function doonload(myFunction){
     return todoonload.length;
 }
 window.onload = function(){
-    console.log("window.onload! " + todoonload.length);
+    console.log("window.onload queue: " + todoonload.length + " functions");
     for(var index = 0; index < todoonload.length; index++){
         todoonload[index]();
     }
@@ -146,14 +165,14 @@ function fade(Selector, StartingAlpha, EndingAlpha, AlphaIncrement, Delay, whenD
 //removes the elements from the DOM
 function removeelements(Selector){
     return select(Selector, function (element, index) {
-        element.remove();
+        element.parentElement.removeChild(element);
     });
 }
 
 //if value=true, returns istrue, else returns isfalse
 function iif(value, istrue, isfalse){
     if(value){return istrue;}
-    if(isundefined(isfalse)){return "";}
+    if(isUndefined(isfalse)){return "";}
     return isfalse;
 }
 
@@ -172,7 +191,7 @@ function toggleclass(Selector, theClass){
 //checks if the elements contain theClass
 //needsAll [Optional]: if not missing, all elements must contain the class to return true. If missing, only 1 element needs to
 function containsclass(Selector, theClass, needsAll){
-    classop(Selector, iif(isundefined(needsAll), 4, 3), theClass);
+    classop(Selector, iif(isUndefined(needsAll), 4, 3), theClass);
 }
 
 //INTERNAL-Use addclass/removeclass/toggleclass/containsclass instead
@@ -180,15 +199,73 @@ function containsclass(Selector, theClass, needsAll){
 function classop(Selector, Operation, theClass){
     var Ret = select(Selector, function (element, index) {
         switch(Operation){
-            case 0: element.classList.add(theClass); break;
-            case 1: element.classList.remove(theClass); break;
-            case 2: element.classList.toggle(theClass); break;
-            case 3: if (element.classList.contains(theClass)){return true;} break;
-            case 4: if(!element.classList.contains(theClass)){return false;} break;
+            case 0://add
+                if (element.classList) {
+                    element.classList.add(theClass);
+                } else {//IE
+                    element.className = element.className + " " +  theClass;
+                }
+                break;
+            case 1://remove
+                if (element.classList) {
+                    element.classList.remove(theClass);
+                } else {//IE
+                    element.className = element.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+                    //element.className = removeindex(element.className, theClass);
+                }
+                break;
+            case 2:
+                if (element.classList) {
+                    element.classList.toggle(theClass);
+                } else {//IE
+                    var classes = element.className.split(' ');
+                    var existingIndex = classes.indexOf(theClass);
+                    if (existingIndex >= 0) {
+                        classes.splice(existingIndex, 1);
+                    }else {
+                        classes.push(theClass);
+                    }
+                    element.className = classes.join(' ');
+                }
+                break;
+            case 3: if (hasclass(element, theClass)){return true;} break;
+            case 4: if(!hasclass(element, theClass)){return false;} break;
         }
     });
     if(Operation < 3){ return Ret;}
     return Operation == 4;
+}
+
+function hasclass(element, theClass){
+    if (element.classList) {
+        return element.classList.contains(className);
+    }else {//IE
+        return hasword(element.className, theClass) > -1;
+    }
+}
+function hasword(text, word, delimiter){
+    word = word.toLowerCase();
+    if(isUndefined(delimiter)){delimiter=" ";}
+    if(!isArray(text)){
+        text = text.split(delimiter);
+    }
+    for (var i = 0; i < text.length; i++) {
+        if (text[i].toLowerCase() == word) {return i;}
+    }
+    return -1;
+}
+function removeindex(arr, index, count, delimiter){
+    if(!isArray(arr)){
+        if(isUndefined(delimiter)){delimiter=" ";}
+        arr = removeindex(arr.split(delimiter), index, count, delimiter).join(delimiter);
+    } else {
+        if(isNaN(index)){index = hasword(arr, index);}
+        if (index > -1 && index < arr.length) {
+            if (isUndefined(count)) {count = 1;}
+            arr.splice(index, count);
+        }
+    }
+    return arr;
 }
 
 //hide elements
@@ -217,7 +294,7 @@ function trigger(Selector, eventName, options) {
         console.log(element.getAttribute("name"));
         console.log(event);
         element.dispatchEvent(event);
-    })
+    });
 }
 
 //send a POST AJAX request
@@ -230,23 +307,96 @@ function ajax(URL, data, whenDone){
     var request = new XMLHttpRequest();
     request.open('POST', URL, true);
 
-    request.onreadystatechange = function() {
-        if (this.readyState === 4) {
-            if (this.status >= 200 && this.status < 400) {
-                whenDone(this.responseText, true); //Success!
-            } else {
-                whenDone("", false); //Failure!
-            }
-        }
+    request.onload = function() {
+        whenDone(this.responseText, request.status >= 200 && request.status < 400); //Success!
     };
 
-    request.send(data);
-    //request = null;
+    if(isUndefined(data)){data = {};}
+    request.send(data);//request = null;
+}
+
+function load(Selector, URL, data, whenDone){
+    ajax(URL, data, function(message, status){
+        innerHTML(Selector, message);
+        if(isFunction(whenDone)){
+            whenDone();
+        }
+    })
 }
 
 
-/*
+//Operation [optional]: 0=closest
+function multiop(Selector1, Selector2, Operation){
+    var ret = new Array;
+    if(isUndefined(Operation)){Operation=0;}
+    select(Selector1, function (element, index) {
+        var current = false;
+        switch(Operation){
+            case 0: //closest
+                current = getclosest(element, Selector2);
+                break;
+        }
+        if(current) {ret.push(current);}
+    });
+    return ret;
+}
+//Finds the closest element to element, matching selector. Only works with a single element, so use closest() instead
+function getclosest(element, selector) {
+    var matchesFn, parent; // find vendor prefix
+    ['matches','webkitMatchesSelector','mozMatchesSelector','msMatchesSelector','oMatchesSelector'].some(function(fn) {
+        if (typeof document.body[fn] == 'function') {
+            matchesFn = fn;
+            return true;
+        }
+        return false;
+    });
+    while (element) {// traverse parents
+        parent = element.parentElement;
+        if (parent && parent[matchesFn](selector)) {
+            return parent;
+        }
+        element = parent;
+    }
+    return false;
+}
+
+//Gets the closest elements UP the DOM from Selector1 matching Selector2
+function closest(Selector1, Selector2){
+    return multiop(Selector1, Selector2, 0);
+}
+
+//adds HTML to the elements without destroying the existing HTML
+//position: If undefined, HTML is added to the end. Else, added to the start
+function addHTML(Selector, HTML, position){
+    position = isUndefined(position);
+    select(Selector, function (element, index) {
+        if(position){
+            element.insertAdjacentHTML('afterend', HTML);
+        } else {
+            element.insertAdjacentHTML('beforebegin', HTML);
+        }
+    });
+}
+
+
+
+
+
+
+
+
 //testing api
+
+doonload(function(){
+    addlistener("#startspeech", "click", function(){
+        alert( innerHTML(closest(this, "form")) );
+    })
+    alert( style("#thepopup", "width") );
+    style("#thepopup", "color", "red");
+});
+
+
+/*
 doonload(function () {
     value("#textsearch", "TEST");
     fadeout("#textsearch", 2000);
