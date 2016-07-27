@@ -1,9 +1,13 @@
 <?php
-$webroot = $_SERVER["REQUEST_URI"];
-$start = strpos($webroot, "/", 1) + 1;
-$webroot = substr($webroot, 0, $start);
-if ( $_SERVER["SERVER_NAME"] != "localhost"){$webroot = str_replace("application/", "", $webroot);}
-$webroot = 'http://' . $_SERVER['HTTP_HOST'] . $webroot;
+$webroot = webroot();
+
+function webroot($file = "") {
+    $webroot = $_SERVER["REQUEST_URI"];
+    $start = strpos($webroot, "/", 1) + 1;
+    $webroot = substr($webroot, 0, $start);
+    if ($_SERVER["SERVER_NAME"] != "localhost") {$webroot = str_replace("application/", "", $webroot);}
+    return 'http://' . $_SERVER['HTTP_HOST'] . $webroot . $file;
+}
 $dirroot = getcwd();
 
 error_reporting(E_ERROR | E_PARSE);//suppress warnings
@@ -31,8 +35,9 @@ function mid($text, $start, $length){
     return substr($text,$start, $length);
 }
 
-function insertdb($conn, $Table, $DataArray, $PrimaryKey = "", $Execute = True){
-    if (is_object($conn)){$DataArray = escapearray($conn, $DataArray);}
+function insertdb($Table, $DataArray, $PrimaryKey = "id", $Execute = True){
+    global $con;
+    if (is_object($con)){$DataArray = escapearray($DataArray);}
     $query = "INSERT INTO " . $Table . " (" . getarrayasstring($DataArray, True) . ") VALUES (" . getarrayasstring($DataArray, False) . ")";
     if($PrimaryKey) {
         $query.= " ON DUPLICATE KEY UPDATE";
@@ -45,15 +50,17 @@ function insertdb($conn, $Table, $DataArray, $PrimaryKey = "", $Execute = True){
         }
     }
     $query.=";";
-    if($Execute && is_object($conn)) {
-        mysqli_query($conn, $query) or die ('Unable to execute query. '. mysqli_error($conn) . "<P>Query: " . $query);
+    if($Execute && is_object($con)) {
+        mysqli_query($con, $query) or die ('Unable to execute query. '. mysqli_error($con) . "<P>Query: " . $query);
+        return $con->insert_id;
     }
     return $query;
 }
 
-function escapearray($conn, $DataArray){
+function escapearray($DataArray){
+    global $con;
     foreach($DataArray as $Key => $Value) {
-        $DataArray[$Key] = mysqli_real_escape_string($conn, $Value);
+        $DataArray[$Key] = mysqli_real_escape_string($con, $Value);
     }
     return $DataArray;
 }
@@ -69,13 +76,53 @@ function getarrayasstring($DataArray, $Keys = True){
     }
 }
 
-function first($query) {
-    global $con;
-    $result = $con->query($query);
-    if($result) {
-        while ($row = mysqli_fetch_array($result)) {
-            return $row;
+/*
+ * $getcol:
+ *  blank, returns first query results
+ *  false, returns all results after the get(). use while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) { to get results
+ *  true, returns the SQL query
+ *  "COUNT()" returns the count of the results
+ *  "ALL()" all the results in an array
+ *  a string returns that specific column
+ *  $OrderBy/$Dir/$GroupBy = order by column/direction (ASC/DESC)/group by column
+*/
+function select_field_where($Table, $Where, $getcol = "", $OrderBy = "", $Dir = "ASC", $GroupBy = "", $LimitBy = 0, $Start = 0){
+    $query = "SELECT * FROM " . $Table . " WHERE " . $Where;
+    if($OrderBy){$query .= " ORDER BY " . $OrderBy . " " . $Dir;}
+    if($GroupBy){$query .= " GROUP BY " . $GroupBy;}
+    if($LimitBy){
+        $query .= " LIMIT " . $LimitBy;
+        if($Start){$query .= " OFFSET " . $Start;}
+    }
+    if($getcol === true){ return $query; }
+    $result = Query($query);
+    if($getcol !== false) {
+        if ($getcol == "COUNT()") {
+            return iterator_count($result);
+        } else if ($getcol == "ALL()") {
+            return first($result, false);
+        } else {
+            $result = first($result);
+            if ($getcol) {return $result[$getcol];}
         }
+    }
+    return $result;
+}
+
+function deleterow($Table, $Where){
+    Query("DELETE FROM $Table WHERE $Where");
+}
+
+function first($query, $Only1 = true) {
+    global $con;
+    if (!is_object($query)){$query = Query($query);}
+    if($query) {
+        $ret = array();
+        while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+            if ($Only1) {return $row;}
+            $ret[] = $row;
+        }
+        return $ret;
     }
 }
 
@@ -86,7 +133,7 @@ function get($Key, $default = ""){
 }
 
 function Query($query){
-    global $con;//use while ($row = mysqli_fetch_array($result)) { to get results
+    global $con;//use while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) { to get results
     return $con->query($query);
 }
 
@@ -98,7 +145,8 @@ function printoption($option, $selected = "", $value = ""){
 }
 
 function printoptions($name, $valuearray, $selected = "", $optionarray = false, $isdisabled = ""){
-    echo '<SELECT ' . $isdisabled . ' name="' . $name . '" id="' . $name . '" >';
+    echo '<SELECT ' . $isdisabled . ' name="' . $name . '" id="' . $name . '">';
+    if(!$optionarray){$optionarray = $valuearray;}
     for ($temp = 0; $temp < count($valuearray); $temp += 1) {
         echo printoption($valuearray[$temp], $selected, $optionarray[$temp]);
     }
@@ -150,5 +198,40 @@ function debug($Iterator, $DoStacktrace = true){
 function is_iterable($var) {
     return (is_array($var) || $var instanceof Traversable);
 }
+
+//$src = source array, $keys = the keys to remove
+function removekeys($src, $keys){
+    return array_diff_key($src, array_flip($keys));
+}
+
+function printrow($row, &$FirstResult = false, $PrimaryKey = "id", $TableID = ""){
+    if ($FirstResult) {
+        echo '<TABLE BORDER="1"';
+        if($TableID){ echo ' ID="' . $TableID . '"';}
+        echo '><THEAD><TR>';
+        $ID = 0;
+        foreach ($row as $Key => $Value) {
+            echo '<TH CLASS="' . $TableID . 'colheader" ID="' . $TableID . '-col' . $ID . '">' . $Key . '</TH>';
+            $ID++;
+        }
+        echo '</TR></THEAD>';
+        $FirstResult = false;
+    }
+
+    echo '<TR ID="' . $TableID . 'row' . $row[$PrimaryKey] . '">';
+    foreach ($row as $Key => $Value) {
+        echo '<TD ID="' . $TableID . 'row' . $row[$PrimaryKey] . '-' . $Key . '"';
+        if(is_numeric($Value)){echo ' ALIGN="RIGHT"';}
+        echo '>';
+        if(is_array($Value)){
+            $FirstResult2=true;
+            printrow($Value, $FirstResult2, $PrimaryKey, $TableID . $row[$PrimaryKey] . "-" . $Key);
+            echo '</TABLE>';
+        } else {
+            echo $Value;
+        }
+        echo '</TD>';
+    }
+    echo '</TR>';
+}
 ?>
-<script src="<?= $webroot; ?>/resources/assets/scripts/api.js"></script>

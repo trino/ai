@@ -1,3 +1,4 @@
+<script src="<?= webroot(); ?>/resources/assets/scripts/api.js"></script>
 <?php
     function firstword($Text){
         $Space = strpos($Text, " ");
@@ -183,7 +184,7 @@
     }
 
     function indepth(){
-        window.location = "<?= Request::url(); ?>?search=" + value("#textsearch");
+        window.location = "<?= webroot(); ?>public/index3.php?search=" + value("#textsearch");
     }
 
     addlistener(".colheader", "click", function(){

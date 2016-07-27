@@ -139,12 +139,12 @@ function setOpacity(Selector, Alpha) {
 }
 
 //Fades elements in over the course of Delay, executes whenDone at the end
-function fadein(Selector, Delay, whenDone){
+function fadeIn(Selector, Delay, whenDone){
     show(Selector);
     fade(Selector, 0, 100, 100/fadesteps, Delay/fadesteps, whenDone)
 }
 //Fades elements out over the course of Delay, executes whenDone at the end
-function fadeout(Selector, Delay, whenDone){
+function fadeOut(Selector, Delay, whenDone){
     fade(Selector, 100, 0, -100/fadesteps, Delay/fadesteps, whenDone)
 }
 
@@ -303,16 +303,27 @@ function trigger(Selector, eventName, options) {
     //whenDone Parameters:
         //message: data recieved
         //status: true if successful
-function ajax(URL, data, whenDone){
+function post(URL, data, whenDone){
     var request = new XMLHttpRequest();
     request.open('POST', URL, true);
-
+    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request.onload = function() {
         whenDone(this.responseText, request.status >= 200 && request.status < 400); //Success!
     };
 
-    if(isUndefined(data)){data = {};}
+    if(isUndefined(data)){data = "";} else if(!isString(data)) { data = serialize(data); }
     request.send(data);//request = null;
+}
+
+serialize = function(obj, prefix) {
+    var str = [];//return '?'+Object.keys(obj).reduce(function(a,k){a.push(k+'='+encodeURIComponent(obj[k]));return a},[]).join('&');
+    for(var p in obj) {
+        if (obj.hasOwnProperty(p)) {
+            var k = prefix ? prefix + "[" + p + "]" : p, v = obj[p];
+            str.push(typeof v == "object" ? serialize(v, k) : encodeURIComponent(k) + "=" + encodeURIComponent(v));
+        }
+    }
+    return str.join("&");
 }
 
 function load(Selector, URL, data, whenDone){
@@ -378,7 +389,9 @@ function addHTML(Selector, HTML, position){
     });
 }
 
-
+function append(Selector, HTML){
+    addHTML(Selector, HTML);
+}
 
 
 
@@ -387,16 +400,16 @@ function addHTML(Selector, HTML, position){
 
 //testing api
 
-doonload(function(){
-    addlistener("#startspeech", "click", function(){
-        alert( innerHTML(closest(this, "form")) );
-    })
-    alert( style("#thepopup", "width") );
-    style("#thepopup", "color", "red");
-});
-
-
 /*
+ doonload(function(){
+     addlistener("#startspeech", "click", function(){
+        alert( innerHTML(closest(this, "form")) );
+     })
+     alert( style("#thepopup", "width") );
+     style("#thepopup", "color", "red");
+ });
+
+
 doonload(function () {
     value("#textsearch", "TEST");
     fadeout("#textsearch", 2000);

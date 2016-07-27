@@ -33,8 +33,8 @@
     if (!isset($_GET["search"]) || !trim($_GET["search"])) {
         $_GET["search"] = "";
     } else {
-        include("api.php");
-        $con = connectdb("keywordtest");
+        include("../app/Http/api.php");
+        $con = connectdb("ai");
 
         $word = $_GET["search"];
         $words = str_replace(" ", "|", $_GET["search"]);
@@ -60,29 +60,37 @@
           or a.name REGEXP '$words'
         ";
     */
-        $results["SQL"] = "SELECT * FROM menu";
+        $results["SQL"] = "SELECT * FROM menu WHERE item LIKE '%" . $_GET["search"] . "%'";
 
         echo "<div class='col-md-4'>";
 
         print_r($results);
         echo '<br>------------------------------------<br>';
         $result = Query($results["SQL"]);
-        $result = Query($results["SQL"]);
         $i = 0;
 
         if ($result) {
             $FirstResult = true;
             $PrevCategory = "";
+            $Columns = array("category", "item", "price", "id", "Actions");
 
             while ($row = mysqli_fetch_array($result)) {
+                $row["Actions"] = '<A HREF="' . webroot("public/edit?id=") . $row["id"] . '">Edit</A>';
+
                 if ($FirstResult) {
                     echo '<TABLE class="table table-sm table-responsive"><TR>';
                     $FirstResult = false;
+                    foreach ($row as $Key => $Value) {
+                        if (!is_numeric($Key) && in_array($Key, $Columns)) {
+                            echo '<TH>' . $Key . '</TH>';
+                        }
+                    }
+                    echo '</TR>';
                 }
 
+                echo '<TR>';
                 foreach ($row as $Key => $Value) {
-
-                    if (!is_numeric($Key) && ($Key == "category" || $Key == "item" || $Key == "price" || $Key == "id")) {
+                    if (!is_numeric($Key) && in_array($Key, $Columns)){
                         if ($Key == 'category' && $Value != $PrevCategory) {
                             echo ' <TD> ' . $Value . ' </TD> ';
                             $PrevCategory = $Value;
@@ -90,7 +98,7 @@
                             echo ' <TD> ';
 
                             if ($Key == 'item') {
-                                echo '<img src="http://orderpizzaplace.com/SiteFiles/124/Menu/PepperoniPizza350.png"/ width="20"> ';
+                                echo '<img src="' . webroot("resources/assets/images/pizza.png") . '"/ width="20"> ';
                             }
 
                             echo $Value . ' </TD>';
@@ -109,12 +117,7 @@
             echo "No keywords found in '" . $_GET["search"] . "'<P>";
         }
 
-        echo "</div>";
-
-
-        echo "</div>";
-
-        echo "<div class='col-md-4'>";
+        echo "</div></div><div class='col-md-4'>";
 
         function makeSQL($table, $keyvalue){
             $results = "SELECT * FROM " . $table;
@@ -122,16 +125,29 @@
             echo '<br>------------------------------------<br>';
             $result = Query($results);
             if ($result) {
+                $FirstResult=true;
                 while ($row = mysqli_fetch_array($result)) {
+                    if ($FirstResult) {
+                        echo '<TABLE class="table table-sm table-responsive"><TR>';
+                        $FirstResult = false;
+                        foreach ($row as $Key => $Value) {
+                            if (!is_numeric($Key)) {
+                                echo '<TH>' . $Key . '</TH>';
+                            }
+                        }
+                        echo '</TR>';
+                    }
+
+                    echo '<TR>';
                     foreach ($row as $Key => $Value) {
-                        if (!is_numeric($Key) && ($Key == $keyvalue || $Key == "id")) {
-                            echo $Value . ' ';
+                        if (!is_numeric($Key) && (in_array($Key, array($keyvalue, "id")))) {
+                            echo '<TD>' . $Value . '</TD>';
                         }
                     }
-                    echo "<br>";
+                    echo "</TR>";
                 }
             }
-            echo "</div>";
+            echo "</table></div>";
         }
 
         makeSQL("toppings", "topping");
