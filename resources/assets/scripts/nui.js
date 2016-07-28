@@ -1,6 +1,6 @@
 //natural user interface
 
-var wordstoignore = ["the", "with", "and"];
+var wordstoignore = ["the", "with", "and", "times", "on"];
 var synonyms = [//multi-dimensional array of multi-word terms, the first term is the primary terms, followed by the secondary terms
     ["jalapenos", "jalapeno", "jalapeño", "jalapeños", "jalape?o"],
     ["green peppers"],
@@ -15,6 +15,14 @@ var synonyms = [//multi-dimensional array of multi-word terms, the first term is
 
     ["2", "two"]
 ];
+var qualifiers = [
+    ["¼", "quarter"],
+    ["½", "less", "easy", "half"],
+    ["¹", "single", "regular", "normal", "one", "1"],
+    ["²", "double", "extra", "more", "two", "2"],
+    ["³", "triple", "three", "3"],
+    ["⁴", "quadruple", "four", "4"]
+];//⁵⁶⁷⁸⁹
 
 function findlabel(element){
     var label = select("label[for='"+attr(element, 'id')+"']");
@@ -58,15 +66,25 @@ function removemultiples(text, texttoremove, replacewith){
     return text;
 }
 
+function removewords(text, words){
+    if(isUndefined(words)){words = wordstoignore;}
+    text = text.toLowerCase().split(" ");
+    for(var i=text.length-1; i>-1; i--){
+        if(words.indexOf(text[i]) >-1){
+            removeindex(text, i);
+        }
+    }
+    return removemultiples(text.join(" "), "  ", " ").trim();
+}
+
 function assimilate(ID){
-    var originalsearchstring = removemultiples(value("#textsearch").toLowerCase(), "  ", " ");
+    var originalsearchstring = removewords(value("#textsearch"));
     var startsearchstring = replacesynonyms(originalsearchstring);
     var searchstring = startsearchstring.split(" ");
     var itemname = replacesynonyms(text("#itemtitle" + ID));
     //quantity
     for(var searchindex = 0; searchindex<searchstring.length; searchindex++){
         if(isNumeric( searchstring[searchindex] )){
-            log("Checking: " + searchstring[searchindex]);
             if(select("#select" + ID + " option[id='" + searchstring[searchindex] + "']").length > 0) {//make sure the quantity even exists
                 if(itemname.indexOf( searchstring[searchindex] ) == -1) {//make sure the number isn't part of the item name
                     value("#select" + ID, searchstring[searchindex]);
@@ -125,19 +143,11 @@ function findsynonym(keyword, thesynonyms){
 function getqualifier(startsearchstring, keyword){
     keyword = replacesynonyms(keyword);
     var synonymindex = findsynonym(keyword);
-    var qualifiers = [
-        ["¼", "quarter"],
-        ["½", "less", "easy", "half"],
-        ["¹", "single", "regular", "normal", "one", "1"],
-        ["²", "double", "extra", "more", "two", "2"],
-        ["³", "triple", "three", "3"],
-        ["⁴", "quadruple", "four", "4"]
-    ];//⁵⁶⁷⁸⁹
     if(synonymindex[0] > -1){
         keyword = synonyms[synonymindex[0]][0].replaceAll(" ", "-");
         startsearchstring = startsearchstring.replaceAll( synonyms[synonymindex[0]][synonymindex[1]], keyword);
     }
-    startsearchstring = startsearchstring.replaceAll(["on the ", "times "], "").split(" ");
+    startsearchstring = startsearchstring.split(" ");
     var wordID = startsearchstring.indexOf(keyword);
     if(wordID > 0){
         var qualifier = startsearchstring[wordID-1];

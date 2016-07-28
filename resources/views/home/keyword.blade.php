@@ -168,8 +168,11 @@
                 select[1][i] = strike(select[1][i], 'This keyword was used to find the menu item');
             } else if( wordstoignore.indexOf(select[1][i]) > -1 ){
                 select[1][i] = strike(select[1][i], 'This keyword can not be used to find food and is better off ignored');
+            } else if( findsynonym(select[1][i], qualifiers)[0] >-1 ){
+                select[1][i] = strike(select[1][i], 'Quantity qualifier');
             }
         }
+        select[1].push( strike(wordstoignore.join(", "), 'Discarded words') );
         log(select[1].join(", "));
 
         innerHTML("#searchfor", "Searching string: " + select[0] + "<BR>Keywords not found: " + select[1].join(", ") + " (Words that are <STRIKE>struck out</STRIKE> are not useful)");
