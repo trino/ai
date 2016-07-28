@@ -168,7 +168,7 @@
                 select[1][i] = strike(select[1][i], 'This keyword was used to find the menu item');
             } else if( wordstoignore.indexOf(select[1][i]) > -1 ){
                 select[1][i] = strike(select[1][i], 'This keyword can not be used to find food and is better off ignored');
-            } else if( findsynonym(select[1][i], qualifiers)[0] >-1 ){
+            } else if( findsynonym(select[1][i], qualifiers)[0] >-1 ) {
                 select[1][i] = strike(select[1][i], 'Quantity qualifier');
             }
         }
