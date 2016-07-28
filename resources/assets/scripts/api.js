@@ -6,6 +6,22 @@ String.prototype.replaceAll = function (search, replacement) {
     var target = this;
     return target.replace(new RegExp(search, 'g'), replacement);
 };
+String.prototype.isEqual = function (str){
+    return this.toUpperCase()==str.toUpperCase();
+};
+String.prototype.left = function(n) {
+    return this.substring(0, n);
+};
+String.prototype.right = function(n) {
+    if(n<0){n=this.length+n;}
+    return this.substring(0, this.length-n);
+};
+
+Object.prototype.getName = function() {
+    var funcNameRegex = /function (.{1,})\(/;
+    var results = (funcNameRegex).exec((this).constructor.toString());
+    return (results && results.length > 1) ? results[1] : "";
+};
 
 function isUndefined(variable){
     return typeof variable === 'undefined';
@@ -23,21 +39,68 @@ function isString(variable){
 function isArray(variable){
     return Array.isArray(variable);
 }
+function isObject(variable, typename){
+    if (typeof variable == "object"){
+        if(isUndefined(typename)) {return true;}
+        return variable.getName().toLowerCase() == typename.toLowerCase();
+    }
+    return false;
+}
+function isSelector(variable){
+    return isArray(variable) || isObject(variable, "NodeList") || isElement(variable) || isString(variable);
+}
 
 function select(Selector, myFunction){
-    if(isArray(Selector)){
+    if(isArray(Selector) || isObject(Selector, "NodeList")){
         var Elements = Selector;
     } else if(isElement(Selector)){
         var Elements = [Selector];
-    } else {
+    } else if(isString(Selector)) {
         var Elements = document.querySelectorAll(Selector);
+    } else {
+        console.log("Selector not found: " + Selector);
     }
-    if(!isUndefined(myFunction)) {
+    if(!isUndefined(myFunction) && !isUndefined(Elements)) {
         for (var index = 0; index < Elements.length; index++) {
             myFunction(Elements[index], index);
         }
     }
     return Elements;
+}
+
+function filter(Selector, bywhat, myFunction) {
+    var elements = select(Selector);
+    var out = [];
+    console.log("GOT HERE  -----");
+
+    for (var i = elements.length; i--;) {
+        if (checkelement(elements[i], i, bywhat)) {
+            out.unshift(elements[i]);
+            console.log(elements[i]);
+        }
+    }
+
+    console.log(out);
+    return select(out, myFunction);
+}
+function checkelement(element, elementindex, bywhat){
+    var ret = true;
+    if(isFunction(bywhat)) {
+        ret = bywhat(element);
+    } else if (isString(bywhat) && bywhat.left(1) == "1"){
+        bywhat = bywhat.split(' ');
+        for(var i=0; i<bywhat.length; i++){
+            var currentfilter = bywhat[i].toLowerCase();
+            switch(currentfilter){
+                case ":visible":    if(!visible(element)){ret = false;} break;
+                case ":even":       if (Math.abs(elementindex % 2) == 1){ret = false;} break;
+                case ":odd":        if(elementindex % 2 == 0){ret = false;} break;
+            }
+        }
+    } else if (isSelector(bywhat)){
+        //not sure how to do this!
+    }
+    return ret;
 }
 
 
@@ -46,11 +109,8 @@ function select(Selector, myFunction){
 
 
 
-
-
-
 //Value: if missing, return the value. Otherwise set it.
-//KeyID: 0=value (Default), 1=innerHTML, 2=outerHTML, 3=text, 4=style text=attribute
+//KeyID: 0=value (Default), 1=innerHTML, 2=outerHTML, 3=text, 4=style, 5=node value (can't be set), text=attribute
 function value(Selector, Value, KeyID, ValueID){
     if(isUndefined(KeyID)){KeyID=0;}
     if(isUndefined(Value)){
@@ -99,6 +159,44 @@ function style(Selector, Key, Value){
     return value(Selector, Value, 4, Key);
 }
 
+function visible(Selector, doParents){
+    var ret = true;
+    if(isUndefined(doParents)){doParents=true;}
+    select(Selector, function(element, index){
+        if(ret) {
+            if(isObject(element, "HTMLDocument")){return true;}//is the document
+            var visibility = style(element, "visibility").isEqual("visible");
+            var display = !style(element, "display").isEqual("none") ;
+            if(!visibility || !display) { ret = false; }
+            if(ret){//don't check if others are false
+                var parentnodes = visible(parents(element), false);
+                if(!parentnodes){ret = false;}
+            }
+            if(!ret){return false;}
+        }
+    });
+    return ret;
+}
+
+function find(Selector, ChildSelector){
+    var ret = new Array;
+    select(Selector, function(element, index){
+        var ret2 = element.querySelectorAll(ChildSelector);
+        if(ret2 !== null) {ret = ret.concat(ret2);}
+    });
+    return ret;
+}
+
+function parents(Selector){
+    var element = select(Selector)[0];
+    var ret = new Array;
+    while (element.parentNode) {
+        ret.push(element.parentNode);
+        element = element.parentNode;
+    }
+    return ret;
+}
+
 //Push a function to be run when done loading the page
 var todoonload = new Array;
 function doonload(myFunction){
@@ -114,11 +212,17 @@ window.onload = function(){
 
 //returns true if any selected element has the attribute
 function hasattribute(Selector, Attribute){
-    return select(Selector, function (element, index) {
+    select(Selector, function (element, index) {
         if(element.hasAttribute(Attribute)){
             return true;
         }
     });
+    return false;
+}
+
+//Value: if missing, return the Attribute. Otherwise set it.
+function attr(Selector, Attribute, Value){
+    return value(Selector, Value, Attribute);
 }
 
 //adds an event listener to the elements
@@ -163,9 +267,9 @@ function fade(Selector, StartingAlpha, EndingAlpha, AlphaIncrement, Delay, whenD
 }
 
 //removes the elements from the DOM
-function removeelements(Selector){
+function remove(Selector){
     return select(Selector, function (element, index) {
-        element.parentElement.removeChild(element);
+        element.parentNode.removeChild(element);
     });
 }
 
@@ -298,19 +402,19 @@ function trigger(Selector, eventName, options) {
 }
 
 //send a POST AJAX request
-//data: object of parameters to send as the post header
-//whenDone: function to run when done.
+//data (OPTIONAL): object of parameters to send as the post header
+//whenDone (OPTIONAL): function to run when done.
     //whenDone Parameters:
         //message: data recieved
         //status: true if successful
-function post(URL, data, whenDone){
+//async (OPTIONAL): if undefined, async=true, else false
+function post(URL, data, whenDone, async){
     var request = new XMLHttpRequest();
-    request.open('POST', URL, true);
+    request.open('POST', URL, isUndefined(async));
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request.onload = function() {
         whenDone(this.responseText, request.status >= 200 && request.status < 400); //Success!
     };
-
     if(isUndefined(data)){data = "";} else if(!isString(data)) { data = serialize(data); }
     request.send(data);//request = null;
 }
@@ -380,11 +484,12 @@ function closest(Selector1, Selector2){
 //position: If undefined, HTML is added to the end. Else, added to the start
 function addHTML(Selector, HTML, position){
     position = isUndefined(position);
+    //afterend, beforebegin
     select(Selector, function (element, index) {
-        if(position){
-            element.insertAdjacentHTML('afterend', HTML);
+        if(position){//append
+            element.insertAdjacentHTML('beforeend', HTML);
         } else {
-            element.insertAdjacentHTML('beforebegin', HTML);
+            element.insertAdjacentHTML('afterbegin', HTML);
         }
     });
 }

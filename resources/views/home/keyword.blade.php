@@ -1,4 +1,5 @@
-<script src="<?= webroot(); ?>/resources/assets/scripts/api.js"></script>
+<script src="<?= webroot("resources/assets/scripts/api.js"); ?>"></script>
+<script src="<?= webroot("resources/assets/scripts/nui.js"); ?>"></script>
 <?php
     function firstword($Text){
         $Space = strpos($Text, " ");
@@ -38,18 +39,17 @@
         $results["VARS"] = implode(" ", $results["VARS"]);
         $results["SortColumn"] = get("SortColumn", "keywords");
         $results["SortDirection"] = get("SortDirection", "DESC");
-
-        $results["SQL"] = "SELECT *, count(DISTINCT keyword_id) as keywords, CAST(SUM(weight)/count(*) AS UNSIGNED) as weight, GROUP_CONCAT(DISTINCT addons.name SEPARATOR '|') as addons, GROUP_CONCAT(DISTINCT synonyms SEPARATOR '|') as synonyms
-
+        $results["toppings"] = implode('|', array_column(Query("SELECT * FROM toppings", true), 'topping'));;
+        echo '<DIV ID="addons" STYLE="display:none;">' . $results["toppings"] . '</DIV>';
+        $results["SQL"] = "SELECT *, count(DISTINCT keyword_id) as keywords, CAST(SUM(weight)/count(*) AS UNSIGNED) as weight, GROUP_CONCAT(DISTINCT synonyms SEPARATOR '|') as synonyms
               FROM (
-                  SELECT items.*, items.id AS menuid, items.name as itemname, items.price as itemprice, keywords.id as wordid, menukeywords.id as mkid, menuitem_id, keyword_id, synonyms, weight
-                  FROM items, menukeywords, keywords
+                  SELECT menu.*, menu.id AS menuid, menu.item as itemname, menu.price as itemprice, keywords.id as wordid, menukeywords.id as mkid, menuitem_id, keyword_id, synonyms, weight
+                  FROM menu, menukeywords, keywords
                   HAVING menuid=menuitem_id
                   AND keyword_id IN (" . $results["SQL"] . ")
                   AND keyword_id = wordid
               ) results
-              INNER JOIN addon_categories ON addon_categories.item_id = results.menuid
-              INNER JOIN addons           ON addons.addon_category_id = addon_categories.id
+
               GROUP BY menuid ORDER BY " . $results["SortColumn"] . " " . $results["SortDirection"];
 
         var_dump($results);
@@ -61,7 +61,7 @@
             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 $row["id"] = $row["menuitem_id"];
                 $row = removekeys($row, array("category_id", "name", "price", "display_order", "has_addon", "wordid", "mkid", "keyword_id", "req_opt", "sing_mul", "exact_upto", "exact_upto_qty", "created_at", "updated_at", "addon_category_id", "image", "menuitem_id", "item_id", "menuid"));//just to clean up the results
-                $row["actions"] = '<INPUT TYPE="BUTTON" ONCLICK="runtest(this);" VALUE="' . $row["id"] . '" STYLE="width: 100%;" TITLE="Assimilate"><BR><A HREF="edititem.php?id=' . $row["id"] . '">Edit</A>';
+                $row["actions"] = '<INPUT TYPE="BUTTON" ONCLICK="runtest(this);" VALUE="' . $row["id"] . '" STYLE="width: 100%;" TITLE="Assimilate"><BR><A HREF="edit?id=' . $row["id"] . '">Edit</A>';
 
                 printrow($row, $FirstResult);
             }
@@ -90,8 +90,6 @@
 </form>
 <BR>Simulating menu item order popup<BR>
 <DIV ID="thepopup" STYLE="border: 1px solid black;">Click the button in the ID column to assimilate your search string into the menu item. This cannnot be done in SQL as it's too complex, so it must by done in Javascript</DIV>
-
-<DIM class="colheader" name="thisisatestcol" id="testingcol">TEST col</DIM>
 
 <script type="text/javascript">
     if ('webkitSpeechRecognition' in window) {
@@ -137,10 +135,10 @@
     }
 
     function runtest(t) {
-        var ID = t.getAttribute("value");
-        var toppings = document.getElementById("row" + ID + "-addons").innerHTML.split("|");
-        var keywords = document.getElementById("row" + ID + "-synonyms").innerHTML.replaceAll("[|]", " ");
-        var itemname = document.getElementById("row" + ID + "-itemname").innerHTML;
+        var ID = value(t);
+        var toppings = innerHTML("#addons").split("|");
+        var keywords = innerHTML("#row" + ID + "-synonyms").replaceAll("[|]", " ");
+        var itemname = innerHTML("#row" + ID + "-itemname");
         var select = '<SPAN ID="searchfor"></SPAN><BR>Item Title: <SPAN ID="itemtitle' + ID + '">' + itemname + '</SPAN> (Converts to: ' + replacesynonyms(itemname) + ')<BR>';
         select = select + 'Quantity: <SELECT ID="select' + ID + '">';
         for (var i = 1; i <= 10; i++) {
@@ -151,7 +149,8 @@
         var col = 0
         for (var i = 0; i < toppings.length; i++) {
             toppings[i] = toppings[i].replaceAll("Jalape?o", "Jalapeno");
-            select = select + '<TD WIDTH="20%"><LABEL><INPUT TYPE="CHECKBOX"><SPAN CLASS="ver">' + toppings[i] + '</SPAN></LABEL></TD>';
+            var toppingID = 'topping' + ID + '.' + i;
+            select = select + '<TD WIDTH="20%"><LABEL FOR="' + toppingID + '"><INPUT TYPE="CHECKBOX" ID="' + toppingID + '"><SPAN CLASS="ver" ID="ver' + ID + '">' + toppings[i] + '</SPAN></LABEL></TD>';
             col++;
             if (col == 5) {
                 select = select + '</TR><TR>';
@@ -161,6 +160,7 @@
         select = select + "</TABLE>";
 
         innerHTML("#thepopup", '<DIV ID="product-pop-up_' + ID + '">' + select + '</DIV>');
+
         select = assimilate(ID);
 
         for(i=0; i< select[1].length; i++){

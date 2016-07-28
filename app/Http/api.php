@@ -132,8 +132,12 @@ function get($Key, $default = ""){
     return $default;
 }
 
-function Query($query){
+function Query($query, $all=false){
     global $con;//use while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) { to get results
+    if($all){
+        $result = $con->query($query);
+        return mysqli_fetch_all($result,MYSQLI_ASSOC);
+    }
     return $con->query($query);
 }
 
@@ -206,7 +210,7 @@ function removekeys($src, $keys){
 
 function printrow($row, &$FirstResult = false, $PrimaryKey = "id", $TableID = ""){
     if ($FirstResult) {
-        echo '<TABLE BORDER="1"';
+        echo '<TABLE BORDER="1" CLASS="autotable"';
         if($TableID){ echo ' ID="' . $TableID . '"';}
         echo '><THEAD><TR>';
         $ID = 0;

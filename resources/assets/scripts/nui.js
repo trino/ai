@@ -17,9 +17,9 @@ var synonyms = [//multi-dimensional array of multi-word terms, the first term is
 ];
 
 function findlabel(element){
-    var label = $("label[for='"+element.attr('id')+"']");
+    var label = select("label[for='"+attr(element, 'id')+"']");
     if (label.length == 0) {
-        label = element.closest('label')
+        label = closest(element, 'label')
     }
     return label;
 }
@@ -48,17 +48,16 @@ function replacesynonyms(searchstring){
 }
 
 function assimilate(ID){
-    var startsearchstring = replacesynonyms($("#textsearch").val());
+    var startsearchstring = replacesynonyms(value("#textsearch"));
     var searchstring = startsearchstring.split(" ");
-    var itemname = replacesynonyms($("#itemtitle" + ID).text());
-
+    var itemname = replacesynonyms(text("#itemtitle" + ID));
     //quantity
     for(var searchindex = 0; searchindex<searchstring.length; searchindex++){
         log("Checking: " + searchstring[searchindex]);
         if(!isNaN( searchstring[searchindex] )){
-            if($("#select" + ID + " option:contains('" + searchstring[searchindex] + "')").length > 0) {//make sure the quantity even exists
+            if(select("#select" + ID + " option:contains('" + searchstring[searchindex] + "')").length > 0) {//make sure the quantity even exists
                 if(itemname.indexOf( searchstring[searchindex] ) == -1) {//make sure the number isn't part of the item name
-                    $("#select" + ID).val(searchstring[searchindex]);
+                    value("#select" + ID, searchstring[searchindex]);
                     searchstring[searchindex] = false;//remove it from the search, no need to check it twice
                 }
             }
@@ -66,13 +65,15 @@ function assimilate(ID){
     }
 
     //add ons/toppings
-    $("#product-pop-up_" + ID  + " input").filter(":visible").each(function () {
+    select("#product-pop-up_" + ID  + " input", function (element) {
         var Found = -1;
-        var label = findlabel($(this)).find(".ver");
-        if( !$(this).hasAttr("normalized") ){
-            $(this).attr("normalized", replacesynonyms(label.contents().get(0).nodeValue));//cache results
+        var label = findlabel(element);
+        if( !hasattribute(element, "normalized") ){
+            label = text(label);
+            attr(element, "normalized", replacesynonyms(label));//cache results
         }
-        label = $(this).attr("normalized");
+        label = attr(element, "normalized");
+        
         for(var searchindex = 0; searchindex<searchstring.length; searchindex++){
             if(searchstring[searchindex]) {
                 if (label.indexOf(searchstring[searchindex]) > -1) {
@@ -83,7 +84,7 @@ function assimilate(ID){
             }
         }
         if(Found > -1){
-            $(this).prop('checked', true);
+            attr(element, 'checked', true);
         }
     });
 

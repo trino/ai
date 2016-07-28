@@ -153,6 +153,7 @@
             _token: token
         }, function (result) {
             if(result){
+                console.log(result);
                 append("#keywords", result);
                 fadeoutanddelete("#keywordsfoundrow" + ID);
                 fadeoutanddelete("#suggestionsrow" + ID);
