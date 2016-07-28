@@ -4,6 +4,16 @@
 
 String.prototype.replaceAll = function (search, replacement) {
     var target = this;
+    if(isArray(search)){
+        for(var i=0; i<search.length; i++){
+            if(isArray(replacement)){
+                target = target.replaceAll( search[i], replacement[i] );
+            } else {
+                target = target.replaceAll( search[i], replacement );
+            }
+        }
+        return target;
+    }
     return target.replace(new RegExp(search, 'g'), replacement);
 };
 String.prototype.isEqual = function (str){
@@ -23,6 +33,9 @@ Object.prototype.getName = function() {
     return (results && results.length > 1) ? results[1] : "";
 };
 
+function isNumeric(variable){
+    return !isNaN(Number(variable));
+}
 function isUndefined(variable){
     return typeof variable === 'undefined';
 }

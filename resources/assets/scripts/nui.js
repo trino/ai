@@ -29,33 +29,45 @@ function replaceAll(Source, Find, ReplaceWith){
     return Source.replaceAll(Find, ReplaceWith);
 }
 
-function replacesynonyms(searchstring){
+function replacesynonyms(searchstring, thesynonyms, includenotfounds){
     //replace synonyms with the first term to normalize the search
+    //thesynonyms [OPTIONAL], if missing, will use global synonyms
+    //includenotfounds [OPTIONAL], if missing, the words that don't have synonyms will be included in the result
+    if(isUndefined(thesynonyms)){thesynonyms = synonyms;}
+    includenotfounds = isUndefined(includenotfounds);
     searchstring = searchstring.trim().toLowerCase().replaceAll("-", " ");
     var searchstring2 = "";
     var temp = -1;
-    for(var synonymparentindex = 0; synonymparentindex< synonyms.length; synonymparentindex++){
-        for(var synonymchildindex = 0; synonymchildindex < synonyms[synonymparentindex].length; synonymchildindex++){
-            temp = searchstring.indexOf(synonyms[synonymparentindex][synonymchildindex]);
+    for(var synonymparentindex = 0; synonymparentindex< thesynonyms.length; synonymparentindex++){
+        for(var synonymchildindex = 0; synonymchildindex < thesynonyms[synonymparentindex].length; synonymchildindex++){
+            temp = searchstring.indexOf(thesynonyms[synonymparentindex][synonymchildindex]);
             if(temp  > -1){
-                searchstring = replaceAll(searchstring, synonyms[synonymparentindex][synonymchildindex], "");
-                searchstring2 = searchstring2 + " " + synonyms[synonymparentindex][0].replaceAll(" ", "-");
+                searchstring = replaceAll(searchstring, thesynonyms[synonymparentindex][synonymchildindex], "");
+                searchstring2 = searchstring2 + " " + thesynonyms[synonymparentindex][0].replaceAll(" ", "-");
             }
         }
     }
-    searchstring2 = searchstring2.trim() + " " + searchstring.trim();
+    if(includenotfounds) {searchstring2 = searchstring2.trim() + " " + searchstring.trim();}
     return searchstring2.trim();
 }
 
+function removemultiples(text, texttoremove, replacewith){
+   while(text.indexOf(texttoremove) !== -1){
+       text = text.replaceAll(text, replacewith);
+   }
+    return text;
+}
+
 function assimilate(ID){
-    var startsearchstring = replacesynonyms(value("#textsearch"));
+    var originalsearchstring = removemultiples(value("#textsearch").toLowerCase(), "  ", " ");
+    var startsearchstring = replacesynonyms(originalsearchstring);
     var searchstring = startsearchstring.split(" ");
     var itemname = replacesynonyms(text("#itemtitle" + ID));
     //quantity
     for(var searchindex = 0; searchindex<searchstring.length; searchindex++){
-        log("Checking: " + searchstring[searchindex]);
-        if(!isNaN( searchstring[searchindex] )){
-            if(select("#select" + ID + " option:contains('" + searchstring[searchindex] + "')").length > 0) {//make sure the quantity even exists
+        if(isNumeric( searchstring[searchindex] )){
+            log("Checking: " + searchstring[searchindex]);
+            if(select("#select" + ID + " option[id='" + searchstring[searchindex] + "']").length > 0) {//make sure the quantity even exists
                 if(itemname.indexOf( searchstring[searchindex] ) == -1) {//make sure the number isn't part of the item name
                     value("#select" + ID, searchstring[searchindex]);
                     searchstring[searchindex] = false;//remove it from the search, no need to check it twice
@@ -73,17 +85,19 @@ function assimilate(ID){
             attr(element, "normalized", replacesynonyms(label));//cache results
         }
         label = attr(element, "normalized");
-        
+        var qualifier;
         for(var searchindex = 0; searchindex<searchstring.length; searchindex++){
             if(searchstring[searchindex]) {
                 if (label.indexOf(searchstring[searchindex]) > -1) {
                     Found = searchindex;
+                    qualifier = getqualifier(originalsearchstring, searchstring[searchindex]);
                     searchstring[searchindex] = false;//remove it from the search, no need to check it twice
                     searchindex = searchstring.length;
                 }
             }
         }
         if(Found > -1){
+            attr("#ver" + element.id, 'title', qualifier);
             attr(element, 'checked', true);
         }
     });
@@ -95,4 +109,39 @@ function assimilate(ID){
     }
 
     return [startsearchstring, searchstring];
+}
+
+function findsynonym(keyword, thesynonyms){
+    if(isUndefined(thesynonyms)){thesynonyms = synonyms;}
+    keyword = keyword.toLowerCase();
+    for(var synonymparentindex = 0; synonymparentindex< thesynonyms.length; synonymparentindex++){
+        for(var synonymchildindex = 0; synonymchildindex < thesynonyms[synonymparentindex].length; synonymchildindex++){
+            if(thesynonyms[synonymparentindex][synonymchildindex] == keyword){return [synonymparentindex, synonymchildindex];}
+        }
+    }
+    return [-1,-1];
+}
+
+function getqualifier(startsearchstring, keyword){
+    keyword = replacesynonyms(keyword);
+    var synonymindex = findsynonym(keyword);
+    var qualifiers = [
+        ["¼", "quarter"],
+        ["½", "less", "easy", "half"],
+        ["¹", "single", "regular", "normal", "one", "1"],
+        ["²", "double", "extra", "more", "two", "2"],
+        ["³", "triple", "three", "3"],
+        ["⁴", "quadruple", "four", "4"]
+    ];//⁵⁶⁷⁸⁹
+    if(synonymindex[0] > -1){
+        keyword = synonyms[synonymindex[0]][0].replaceAll(" ", "-");
+        startsearchstring = startsearchstring.replaceAll( synonyms[synonymindex[0]][synonymindex[1]], keyword);
+    }
+    startsearchstring = startsearchstring.replaceAll(["on the ", "times "], "").split(" ");
+    var wordID = startsearchstring.indexOf(keyword);
+    if(wordID > 0){
+        var qualifier = startsearchstring[wordID-1];
+        return replacesynonyms(qualifier, qualifiers, false);
+    }
+    return "¹";
 }

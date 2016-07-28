@@ -142,15 +142,15 @@
         var select = '<SPAN ID="searchfor"></SPAN><BR>Item Title: <SPAN ID="itemtitle' + ID + '">' + itemname + '</SPAN> (Converts to: ' + replacesynonyms(itemname) + ')<BR>';
         select = select + 'Quantity: <SELECT ID="select' + ID + '">';
         for (var i = 1; i <= 10; i++) {
-            select = select + '<OPTION>' + i + '</OPTION>';
+            select = select + '<OPTION VALUE="' + i + '">' + i + '</OPTION>';
         }
         select = select + '</SELECT><TABLE><TR>';
 
         var col = 0
         for (var i = 0; i < toppings.length; i++) {
             toppings[i] = toppings[i].replaceAll("Jalape?o", "Jalapeno");
-            var toppingID = 'topping' + ID + '.' + i;
-            select = select + '<TD WIDTH="20%"><LABEL FOR="' + toppingID + '"><INPUT TYPE="CHECKBOX" ID="' + toppingID + '"><SPAN CLASS="ver" ID="ver' + ID + '">' + toppings[i] + '</SPAN></LABEL></TD>';
+            var toppingID = 'topping' + ID + '-' + i;
+            select = select + '<TD WIDTH="20%"><LABEL FOR="' + toppingID + '"><INPUT TYPE="CHECKBOX" ID="' + toppingID + '"><SPAN CLASS="ver" ID="ver' + toppingID + '">' + toppings[i] + '</SPAN></LABEL></TD>';
             col++;
             if (col == 5) {
                 select = select + '</TR><TR>';
