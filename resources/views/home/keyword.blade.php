@@ -193,6 +193,7 @@
     addlistener(".colheader", "click", function(){
         var clicked = innerHTML(this);
         var selected = value("#SortColumn");
+
         if(selected == clicked){
             var direction = value("#SortDirection");
             if(direction == "ASC"){
@@ -205,13 +206,14 @@
         } else {
             return false;
         }
+
         trigger("#submit", "click");
     });
 
     function SelectHasOptionValue(Select, Value){
-        return Select(Select + " option[value='" + Value + "']").length > 0;
+        return select(Select + " option[value='" + Value + "']").length > 0;
     }
     function SelectHasOptionText(Select, Option){
-        return Select(Select + " option:contains('" + Option + "')").length > 0;
+        return select(Select + " option:contains('" + Option + "')").length > 0;
     }
 </script>

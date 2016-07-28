@@ -139,7 +139,7 @@ function assimilate(ID){
             }
         }
     }
-    
+
     return [startsearchstring, searchstring];
 }
 
