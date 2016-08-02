@@ -119,7 +119,7 @@
 
         echo "</div></div><div class='col-md-4'>";
 
-        function makeSQL($table, $keyvalue){
+        function makeSQL($table, $keyvalue = "name"){
             $results = "SELECT * FROM " . $table;
             print_r($results);
             echo '<br>------------------------------------<br>';
@@ -150,11 +150,11 @@
             echo "</table></div>";
         }
 
-        makeSQL("toppings", "topping");
+        makeSQL("toppings");
 
         echo '<div class="col-md-4">';
 
-        makeSQL("wings_sauce", "sauce");
+        makeSQL("wings_sauce");
     }
 ?>
 

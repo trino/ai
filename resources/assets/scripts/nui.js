@@ -16,12 +16,12 @@ var synonyms = [//multi-dimensional array of multi-word terms, the first term is
     ["2", "two"]
 ];
 var qualifiers = [
-    ["¼", "quarter"],
-    ["½", "less", "easy", "half"],
-    ["¹", "single", "regular", "normal", "one", "1"],
-    ["²", "double", "extra", "more", "two", "2"],
-    ["³", "triple", "three", "3"],
-    ["⁴", "quadruple", "four", "4"]
+    ["quarter"],
+    ["half", "less", "easy"],
+    ["single", "regular", "normal", "one", "1"],
+    ["double", "extra", "more", "two", "2"],
+    ["triple", "three", "3"],
+    ["quadruple", "four", "4"]
 ];//⁵⁶⁷⁸⁹
 
 function findlabel(element){
@@ -77,8 +77,9 @@ function removewords(text, words){
     return removemultiples(text.join(" "), "  ", " ").trim();
 }
 
-function assimilate(ID){
-    var originalsearchstring = removewords(value("#textsearch"));
+function assimilate(ID, originalsearchstring){
+    if(isUndefined(originalsearchstring)) {originalsearchstring = value("#textsearch");}
+    originalsearchstring = removewords(originalsearchstring);
     var startsearchstring = replacesynonyms(originalsearchstring);
     var searchstring = startsearchstring.split(" ");
     var itemname = replacesynonyms(text("#itemtitle" + ID));
@@ -96,11 +97,13 @@ function assimilate(ID){
 
     //add ons/toppings
     var labels = new Array;
-    select("#product-pop-up_" + ID  + " input", function (element) {
+
+    clearaddons();
+    select(".tr-addon", function (element) {
         var Found = -1;
-        var label = findlabel(element);
+        var label = attr(element, "name"); //findlabel(element);
+        console.log("TEST: " + label);
         if( !hasattribute(element, "normalized") ){
-            label = text(label);
             attr(element, "normalized", replacesynonyms(label));//cache results
         }
         label = attr(element, "normalized");
@@ -117,8 +120,7 @@ function assimilate(ID){
             }
         }
         if(Found > -1){
-            attr("#ver" + element.id, 'title', qualifier);
-            attr(element, 'checked', true);
+            qualifytopping("", qualifier, label);
         }
     });
 
@@ -128,19 +130,25 @@ function assimilate(ID){
         } else if (findsynonym(searchstring[searchindex], qualifiers)[0] == -1) {//handle simple typos
             if(itemname.indexOf( searchstring[searchindex] ) == -1) {
                 var closestword = findclosestsynonym(searchstring[searchindex], 1, labels).replaceAll(" ", "-");
-                console.log("Closest word to '" + searchstring[searchindex] + "' was '" + closestword + "'");
                 var qualifier = getqualifier(originalsearchstring, searchstring[searchindex]);
-                select("#product-pop-up_" + ID  + " input[normalized='" + closestword + "']", function (element) {
-                    startsearchstring = startsearchstring.replaceAll( searchstring[searchindex], closestword);
-                    attr("#ver" + element.id, 'title', qualifier);
-                    attr(element, 'checked', true);
-                    searchstring.splice(searchindex, 1);//remove it cause it was used
-                });
             }
         }
     }
 
     return [startsearchstring, searchstring];
+}
+
+function qualifytopping(table, qualifier, topping){
+    if(!table){
+        qualifytopping("toppings", qualifier, topping);
+        qualifytopping("wings_sauce", qualifier, topping);
+    } else {
+        if (!qualifier) {qualifier = "single";}
+        console.log("qualifytopping: " + qualifier + " " + topping);
+        var element = select(".tr-addon-" + table + "[normalized='" + topping + "']");
+        attr(element, "SELECTED", qualifier);
+        attr(children(element, "input[value='" + qualifier + "']"), "checked", true);
+    }
 }
 
 function findclosestsynonym(keyword, cutoff, thesynonyms){
@@ -188,7 +196,7 @@ function getqualifier(startsearchstring, keyword){
         var qualifier = startsearchstring[wordID-1];
         return replacesynonyms(qualifier, qualifiers, false);
     }
-    return "¹";
+    return "single";
 }
 
 //Damerau–Levenshtein distance
@@ -238,4 +246,35 @@ function levenshteinWeighted (seq1,seq2) {
 
     dist = column[len2];
     return dist;
+}
+
+function getaddons(table, astext){
+    if(!table){
+        return [getaddons("toppings", true), getaddons("wings_sauce", true)].join(", ");
+    }
+    if(isUndefined(astext)){astext = false;}
+    var qualifiers = new Array;
+    var toppingIDs = new Array;
+    select(".tr-addon-" + table, function(element){
+        var Selected = attr(element, "SELECTED");
+        if(Selected){
+            if(astext){
+                qualifiers.push(Selected + " " + attr(element, "name"));
+            } else {
+                qualifiers.push(Selected);
+                toppingIDs.push(attr(element, "TOPPINGID"))
+            }
+        }
+    });
+    if(astext){
+        return qualifiers.join(", ");
+    }
+    return [qualifiers, toppingIDs];
+}
+
+function clearaddons(table){
+    if(isUndefined(table)){table = "";}
+    if(table){table = "-" + table;}
+    attr(".tr-addon" + table, "SELECTED", "");
+    attr(".addon" + table, "checked", false);
 }

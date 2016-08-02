@@ -39,8 +39,8 @@
         $results["VARS"] = implode(" ", $results["VARS"]);
         $results["SortColumn"] = get("SortColumn", "keywords");
         $results["SortDirection"] = get("SortDirection", "DESC");
-        $results["toppings"] = implode('|', array_column(Query("SELECT * FROM toppings", true), 'topping'));;
-        echo '<DIV ID="addons" STYLE="display:none;">' . $results["toppings"] . '</DIV>';
+        //$results["toppings"] = implode('|', array_column(Query("SELECT * FROM toppings", true), 'name'));;
+        //echo '<DIV ID="addons" STYLE="display:none;">' . $results["toppings"] . '</DIV>';
         $results["SQL"] = "SELECT *, count(DISTINCT keyword_id) as keywords, CAST(SUM(weight)/count(*) AS UNSIGNED) as weight, GROUP_CONCAT(DISTINCT synonyms SEPARATOR '|') as synonyms
               FROM (
                   SELECT menu.*, menu.id AS menuid, menu.item as itemname, menu.price as itemprice, keywords.id as wordid, menukeywords.id as mkid, menuitem_id, keyword_id, synonyms, weight
@@ -61,7 +61,7 @@
             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 $row["id"] = $row["menuitem_id"];
                 $row = removekeys($row, array("category_id", "name", "price", "display_order", "has_addon", "wordid", "mkid", "keyword_id", "req_opt", "sing_mul", "exact_upto", "exact_upto_qty", "created_at", "updated_at", "addon_category_id", "image", "menuitem_id", "item_id", "menuid"));//just to clean up the results
-                $row["actions"] = '<INPUT TYPE="BUTTON" ONCLICK="runtest(this);" VALUE="' . $row["id"] . '" STYLE="width: 100%;" TITLE="Assimilate"><BR><A HREF="edit?id=' . $row["id"] . '">Edit</A>';
+                $row["actions"] = '<INPUT TYPE="BUTTON" ONCLICK="runtest(this);" VALUE="' . $row["id"] . '" STYLE="width: 100%;" TITLE="Assimilate" toppings="' . $row["toppings"] . '" wings_sauce="' . $row["wings_sauce"] . '" ID="menu' . $row["id"] .'"><BR><A HREF="edit?id=' . $row["id"] . '">Edit</A>';
 
                 printrow($row, $FirstResult);
             }
@@ -140,12 +140,18 @@
         var keywords = innerHTML("#row" + ID + "-synonyms").replaceAll("[|]", " ");
         var itemname = innerHTML("#row" + ID + "-itemname");
         var select = '<SPAN ID="searchfor"></SPAN><BR>Item Title: <SPAN ID="itemtitle' + ID + '">' + itemname + '</SPAN> (Converts to: ' + replacesynonyms(itemname) + ')<BR>';
+        select = select + 'Toppings: <SPAN ID="toppings"></SPAN><BR>';
         select = select + 'Quantity: <SELECT ID="select' + ID + '">';
         for (var i = 1; i <= 10; i++) {
             select = select + '<OPTION VALUE="' + i + '">' + i + '</OPTION>';
         }
-        select = select + '</SELECT><TABLE><TR>';
+        select = select + '</SELECT>';
 
+        if(attr(t, "toppings") == 1){show(".addons-toppings");}
+        if(attr(t, "wings_sauce") == 1){show(".addons-wings_sauce");}
+
+        /*
+         select = select + '<TABLE><TR>';
         var col = 0
         for (var i = 0; i < toppings.length; i++) {
             toppings[i] = toppings[i].replaceAll("Jalape?o", "Jalapeno");
@@ -157,7 +163,8 @@
                 col = 0;
             }
         }
-        select = select + "</TABLE>";
+         select = select + "</TABLE>";
+        */
 
         innerHTML("#thepopup", '<DIV ID="product-pop-up_' + ID + '">' + select + '</DIV>');
 
@@ -176,6 +183,7 @@
         log(select[1].join(", "));
 
         innerHTML("#searchfor", "Searching string: " + select[0] + "<BR>Keywords not found: " + select[1].join(", ") + " (Words that are <STRIKE>struck out</STRIKE> are not useful)");
+        innerHTML("#toppings", getaddons("", true));
     }
 
     function strike(Text, Reason){
@@ -217,3 +225,6 @@
         return select(Select + " option:contains('" + Option + "')").length > 0;
     }
 </script>
+
+@include("popups.addons", array("table" => "toppings"))
+@include("popups.addons", array("table" => "wings_sauce"))

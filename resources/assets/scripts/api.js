@@ -1,6 +1,7 @@
 //Mini Jquery replacement
 //get more functionality from http://youmightnotneedjquery.com/
 //Siblings, Prev, Prepend, Position Relative To Viewport, Position, Parent, Outer Width With Margin, Outer Width, Outer Height With Margin, Outer Height, Offset Parent, Offset, Next, Matches Selector, matches, Find Children, Filter, Contains Selector, Contains, Clone, Children, Append
+var debugmode = true;
 
 String.prototype.replaceAll = function (search, replacement) {
     var target = this;
@@ -81,11 +82,23 @@ function select(Selector, myFunction){
     return Elements;
 }
 
+function children(ParentSelector, ChildSelector, myFunction){
+    var allElements = new Array();
+    select(ParentSelector, function(element){
+        //console.log("TESTING " + ChildSelector + " AGAINST " + element);
+        var Elements = element.querySelectorAll(ChildSelector);
+        for (var index = 0; index < Elements.length; index++) {
+            allElements.push(Elements[index]);
+        }
+    });
+    if(!isUndefined(myFunction)) {return select(allElements, myFunction);}
+    return allElements;
+}
+
 function filter(Selector, bywhat, myFunction) {
     var elements = select(Selector);
     var out = [];
     console.log("GOT HERE  -----");
-
     for (var i = elements.length; i--;) {
         if (checkelement(elements[i], i, bywhat)) {
             out.unshift(elements[i]);
@@ -147,7 +160,11 @@ function value(Selector, Value, KeyID, ValueID){
                 case 2: element.outerHTML = Value; break;
                 case 3: element.textContent = Value; break;
                 case 4: element.style[ValueID] = Value; break;
-                default: element.setAttribute(KeyID, Value);
+                default:
+                    element.setAttribute(KeyID, Value);
+                    if(KeyID.isEqual("checked")){
+                        element.checked = Value;//element.removeAttribute("checked");//radio buttons
+                    }
             }
         });
     }
@@ -236,6 +253,12 @@ function hasattribute(Selector, Attribute){
 //Value: if missing, return the Attribute. Otherwise set it.
 function attr(Selector, Attribute, Value){
     return value(Selector, Value, Attribute);
+}
+
+function removeattr(Selector, Attribute){
+    return select(Selector, function (element, index) {
+        element.removeAttribute(Attribute);
+    });
 }
 
 //adds an event listener to the elements
