@@ -14,15 +14,21 @@
     } else{
         $con = connectdb("keywordtest");
 
-        $results = array("SQL" => array(), "VARS" => array());
+        $results = array("SQL" => array());
         $words = strtolower(str_replace(" ", "|", $_GET["search"]));
 
         $plurals = explode("|", $words);//automatically check for non-pluralized words
-        foreach($plurals as $plural){
-            if (strlen($plural) > 2 && right($plural, 1) == "s"){
-                $words.= "|" . left($plural, strlen($plural)-1);
+        $wordstoignore = array("the", "with", "and", "times", "on");
+        foreach($plurals as $index => $plural){
+            $plural = trim(strtolower($plural));
+            $plurals[$index] = $plural;
+            if(in_array($plural, $wordstoignore)) {
+                unset($plurals[$index]);
+            } else if (strlen($plural) > 2 && right($plural, 1) == "s"){
+                $plurals[] = "|" . left($plural, strlen($plural)-1);
             }
         }
+        $words = implode("|", $plurals);
 
         $result = Query("SELECT * FROM keywords WHERE synonyms REGEXP '" . $words . "';");
 
@@ -32,11 +38,11 @@
                 "weight" => $row["weight"]
             );
             $results["SQL"][] = $row["id"];
-            $results["VARS"][] = "SET @" . $results[ $row["id"] ]["word"] . " = " . $row["weight"] . ";";
+            //$results["VARS"][] = "SET @" . $results[ $row["id"] ]["word"] . " = " . $row["weight"] . ";";
         }
 
         $results["SQL"] = implode(",", $results["SQL"]);
-        $results["VARS"] = implode(" ", $results["VARS"]);
+        //$results["VARS"] = implode(" ", $results["VARS"]);
         $results["SortColumn"] = get("SortColumn", "keywords");
         $results["SortDirection"] = get("SortDirection", "DESC");
         //$results["toppings"] = implode('|', array_column(Query("SELECT * FROM toppings", true), 'name'));;
