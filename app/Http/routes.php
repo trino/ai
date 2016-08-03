@@ -33,8 +33,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::delete('/task/{task}',       'TaskController@destroy');
 
     Route::get('/test',                 'HomeController@index');
-    Route::get('/edit',                 'HomeController@edit');
-    Route::post('/edit',                'HomeController@edit');
+    Route::any('/edit',                 'HomeController@edit');
+    Route::any('/edittable',            'HomeController@edittable');
 
     Route::auth();
 });

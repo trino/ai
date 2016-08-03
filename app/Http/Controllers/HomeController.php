@@ -18,4 +18,8 @@ class HomeController extends Controller {
     public function edit(Request $request) {
         return view('home.editor');
     }
+
+    public function edittable(Request $request){
+        return view('home.edittable');
+    }
 }

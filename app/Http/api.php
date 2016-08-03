@@ -132,6 +132,29 @@ function get($Key, $default = ""){
     return $default;
 }
 
+function collapsearray($Arr, $Key = ""){
+    foreach($Arr as $index => $value){
+        if(!$Key){
+            foreach($value as $key2 => $value2){
+                $Key = $key2;
+                break;
+            }
+        }
+        $Arr[$index] = $value[$Key];
+    }
+}
+
+function flattenarray($arr, $key){
+    foreach($arr as $index => $value){
+        $arr[$index] = $value[$key];
+    }
+    return $arr;
+}
+
+function enum_tables(){
+    return flattenarray(Query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='ai'", true), "TABLE_NAME");
+}
+
 function Query($query, $all=false){
     global $con;//use while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) { to get results
     if($all){
@@ -143,18 +166,19 @@ function Query($query, $all=false){
 
 function printoption($option, $selected = "", $value = ""){
     $tempstr = "";
-    if ($option == $selected) {$tempstr = " selected";}
+    if ($option == $selected || $value == $selected) {$tempstr = " selected";}
     if (strlen($value) > 0) {$value = " value='" . $value . "'";}
     return '<option' . $value . $tempstr . ">" . $option . "</option>";
 }
 
 function printoptions($name, $valuearray, $selected = "", $optionarray = false, $isdisabled = ""){
-    echo '<SELECT ' . $isdisabled . ' name="' . $name . '" id="' . $name . '">';
+    $tempstr = '<SELECT ' . $isdisabled . ' name="' . $name . '" id="' . $name . '">';
     if(!$optionarray){$optionarray = $valuearray;}
     for ($temp = 0; $temp < count($valuearray); $temp += 1) {
-        echo printoption($valuearray[$temp], $selected, $optionarray[$temp]);
+        $tempstr .= printoption($valuearray[$temp], $selected, $optionarray[$temp]);
     }
-    echo '</SELECT>';
+    $tempstr .= '</SELECT>';
+    return $tempstr;
 }
 
 function cleanit($array){

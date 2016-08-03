@@ -90,9 +90,8 @@
         //<INPUT TYPE="text" NAME="SortColumn" readonly VALUE="<?= $results["SortColumn"];">
         //<INPUT TYPE="text" NAME="SortDirection" readonly VALUE="<?= $results["SortDirection"]; ">
         $Columns = array("restaurant_id", "itemprice", "weight", "keywords");
-        printoptions("SortColumn", $Columns, $results["SortColumn"]);
-        echo ' Direction: ';
-        printoptions("SortDirection", array("ASC", "DESC"), $results["SortDirection"]);
+        echo printoptions("SortColumn", $Columns, $results["SortColumn"]);
+        echo ' Direction: ' . printoptions("SortDirection", array("ASC", "DESC"), $results["SortDirection"]);
     ?>
     Click a numerical column to sort by it. Click it again to change the sorting direction
 </form>

@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
 <script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
-
+<script src="../resources/assets/scripts/api.js"></script>
 <script>
     var client = algoliasearch("J0FIP6YVFA", '9a0c07ff24eb7715a94de82b5a64dfd6');
     var index = client.initIndex('YourIndexName');
@@ -19,6 +19,7 @@
     body{padding:20px;}
     td,tr{border:0 !important;padding-top:0 !important;padding-bottom:0 !important;margin:0 !important;}
     div{border:1px solid #dadada;}
+    .table-row{cursor: pointer;}
 </style>
 
 <?php
@@ -121,7 +122,7 @@
 
         echo "</div></div><div class='col-md-4'>";
 
-        function makeSQL($table, $keyvalue = "name"){
+        function makeSQL($table){
             $results = "SELECT * FROM " . $table;
             print_r($results);
             echo '<br>------------------------------------<br>';
@@ -130,7 +131,7 @@
                 $FirstResult=true;
                 while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                     if ($FirstResult) {
-                        echo '<TABLE class="table table-sm table-responsive"><TR>';
+                        echo '<TABLE cellpadding="5" class="table-' . $table . '" TABLEID="' . $table . '"><TR>';
                         $FirstResult = false;
                         foreach ($row as $Key => $Value) {
                             echo '<TH>' . $Key . '</TH>';
@@ -138,9 +139,11 @@
                         echo '</TR>';
                     }
 
-                    echo '<TR>';
+                    echo '<TR ROWID="' . $row["id"] . '" CLASS="table-row table-' . $table . '-row table-' . $table . '-' . $row["id"] . '">';
                     foreach ($row as $Key => $Value) {
-                        echo '<TD>' . $Value . '</TD>';
+                        echo '<TD CLASS="table-td table-' . $table . '-' . $row["id"] . '-' . $Key . '"';
+                        if(is_numeric($Value)){ echo ' ALIGN="RIGHT"'; }
+                        echo '>' . $Value . '</TD>';
                     }
                     echo "</TR>";
                 }
@@ -203,4 +206,11 @@
 
         speechSynthesis.speak(u);
     }
+
+    addlistener(".table-row", "click", function(event){
+        var element = closest(event.target, "tr");
+        var rowid = attr(element, "rowid");
+        var tableid = attr(closest(element, "table"), "tableid");
+        window.location = "<?= webroot(); ?>public/edittable?table=" + tableid + "&id=" + rowid;
+    });
 </script>
