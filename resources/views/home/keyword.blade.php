@@ -42,15 +42,15 @@
                 $results["SQL"][] = $row["id"];
             }
 
-            $results["SQL"] = implode(",", $results["SQL"]);
+            $results["keywordids"] = implode(",", $results["SQL"]);
             $results["SortColumn"] = get("SortColumn", "keywords");
             $results["SortDirection"] = get("SortDirection", "DESC");//TESTWEIGHT, CAST(SUM(weight)/count(*) AS UNSIGNED) as
             $results["SQL"] = "SELECT *, count(DISTINCT keyword_id) as keywords, SUM(weight) as weight, GROUP_CONCAT(DISTINCT synonyms SEPARATOR '|') as synonyms
                   FROM (
                       SELECT menu.*, menu.id AS menuid, menu.item as itemname, menu.price as itemprice, keywords.id as wordid, menukeywords.id as mkid, menuitem_id, keyword_id, synonyms, weight
                       FROM menu, menukeywords, keywords
-                      HAVING menuid=menuitem_id OR -menu.category_id = menuitem_id
-                      AND keyword_id IN (" . $results["SQL"] . ")
+                      HAVING (menuid=menuitem_id OR -menu.category_id = menuitem_id)
+                      AND keyword_id IN (" . $results["keywordids"] . ")
                       AND keyword_id = wordid
                   ) results
 
