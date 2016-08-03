@@ -11,6 +11,7 @@
         $_GET["search"] = "";
         $results["SortColumn"] = get("SortColumn", "keywords");
         $results["SortDirection"] = get("SortDirection", "DESC");
+        $results["words"] = "";
     } else{
         $con = connectdb("keywordtest");
 
@@ -77,6 +78,10 @@
             die("SQL FAILED! " . $words);
         }
     }
+
+    if(is_array($results["words"])){
+        $results["words"] = trim(implode(" ", $results["words"]));
+    }
 ?>
 <form method="get" id="formmain">
     <input type="text" id="textsearch" name="search" size=60 value="<?= $_GET["search"]; ?>">
@@ -99,7 +104,7 @@
 <DIV ID="thepopup" STYLE="border: 1px solid black;">Click the button in the ID column to assimilate your search string into the menu item. This cannnot be done in SQL as it's too complex, so it must by done in Javascript</DIV>
 
 <script type="text/javascript">
-    var keywords = "<?= implode(" ", $results["words"]) ?>";
+    var keywords = "<?= $results["words"]; ?>";
 
     if ('webkitSpeechRecognition' in window) {
         document.getElementById("startspeech").style = "display: inline;";
@@ -240,5 +245,7 @@
     }
 </script>
 
-@include("popups.addons", array("table" => "toppings"))
-@include("popups.addons", array("table" => "wings_sauce"))
+@if($results["words"])
+    @include("popups.addons", array("table" => "toppings"))
+    @include("popups.addons", array("table" => "wings_sauce"))
+@endif

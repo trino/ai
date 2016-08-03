@@ -4,26 +4,38 @@
         $currentURL = Request::url();
         $backURL = $currentURL;
         if(isset($_GET["table"])){
+            if(isset($_GET["delete"])){
+                deleterow($_GET["table"], "id = " . $_GET["delete"]);
+                echo 'Row ' . $_GET["delete"] . ' was deleted from ' . $_GET["table"] . '<BR>';
+            }
             echo '<FORM METHOD="GET" ACTION="' . $currentURL . '">';
             $currentURL .= "?table=" . $_GET["table"];
             $query = "SELECT * FROM " . $_GET["table"];
-            if(isset($_GET["id"])){
+            if(isset($_GET["id"]) && $_GET["id"]){
                 $query .= " WHERE id = " . $_GET["id"];
                 $backURL .= "?table=" . $_GET["table"];
-                if(isset($_GET["name"])){
-                    $dataarray = $_GET;
-                    unset($dataarray["table"]);
-                    insertdb($_GET["table"], $dataarray);
-                    echo 'Data has been saved to ' . $_GET["table"] . '<BR>';
-                }
                 echo '<INPUT TYPE="HIDDEN" NAME="id" VALUE="' . $_GET["id"] . '">';
+            }
+            if(isset($_GET["name"])){
+                $dataarray = $_GET;
+                unset($dataarray["table"]);
+                insertdb($_GET["table"], $dataarray);
+                echo 'Data has been saved to ' . $_GET["table"] . '<BR>';
             }
             echo '<A HREF="' . $backURL . '">Back</A> ';
             $results = Query($query, true);
             $firstresult = true;
             echo '<INPUT TYPE="HIDDEN" NAME="table" VALUE="' . $_GET["table"] . '">';
+            if(isset($_GET["id"]) && !$_GET["id"]){
+                $results = array($results[0]);
+            }
             foreach($results as $result){
                 if(isset($_GET["id"])){
+                    if(!$_GET["id"]){
+                        foreach($result as $index => $value){
+                            $result[$index] = "";
+                        }
+                    }
                     if(in_array($_GET["table"], array("toppings", "wings_sauce"))){
                         $categories = Query("SELECT DISTINCT(type) FROM " . $_GET["table"],true);
                         foreach($categories as $index => $category){
@@ -42,9 +54,14 @@
                     }
                     echo '<INPUT TYPE="SUBMIT" VALUE="Save">';
                 } else {
-                    $result["Actions"] = '<A HREF="' . $currentURL . '&id=' . $result["id"] .'">Edit</A>';
+                    $result["Actions"] = '<A HREF="' . $currentURL . '&id=' . $result["id"] .'">Edit</A> ';
+                    $result["Actions"] .= '<A ONCLICK="return confirm(' . "'Are you sure you want to delete " . $result["id"] . "?'" . ');" HREF="' . $currentURL . '&delete=' . $result["id"] .'">Delete</A>';
                 }
                 printrow($result, $firstresult, "id", $_GET["table"]);
+            }
+            if(!isset($_GET["id"])){
+                $cols= count($result)-1;
+                echo '<TR><TD COLSPAN="' . $cols . '"></TD><TD><A HREF="' . $currentURL . '&id=0">New</A></TD></TR>';
             }
         } else {
             foreach(enum_tables() as $table){
