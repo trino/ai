@@ -12,13 +12,23 @@
     function keywordresult($keyword, $Actions = "", &$firstresult = false){
         switch($Actions){
             case "suggestions": case "keywordsfound":
-            $keyword["Actions"] = '<BUTTON STYLE="width:100%;" VALUE="' . $keyword["id"] . '" ONCLICK="assign(this);" CLASS="assign">Assign</BUTTON>';
-            break;
+                $keyword["Assign"] = '<BUTTON STYLE="width:100%;" VALUE="' . $keyword["id"] . '" ONCLICK="assign(this, false);" CLASS="assign">To Item</BUTTON>';
+                $keyword["Assign"] .= '<BUTTON STYLE="width:100%;" VALUE="' . $keyword["id"] . '" ONCLICK="assign(this, true);" CLASS="assign">To Category</BUTTON>';
+                break;
             case "keywords":
+                $keyword["Assigned to"] = iif($keyword["menuitem_id"] > 0, "Item", "Category");
                 $keyword["Actions"] = '<BUTTON VALUE="' . $keyword["id"] . '" ONCLICK="deletekeyword(this);">Delete</BUTTON>';
                 break;
         }
         printrow($keyword, $firstresult, "id", $Actions);
+    }
+
+    function findarraywhere($ARR, $Key, $Value){
+        foreach($ARR as $Index => $Cell){
+            if($Cell[$Key] == $Value){
+                return $Index;
+            }
+        }
     }
 
     switch($_GET["action"]){
@@ -30,7 +40,7 @@
             //$menuitem["restaurant_name"] = select_field_where("restaurants", "id=" . $menuitem["restaurant_id"], "name");
             //$menuitem["category_name"] = select_field_where("categories", "id=" . $menuitem["category_id"], "name");
 
-            $keywords = first("SELECT *, menukeywords.id as id FROM menukeywords INNER JOIN keywords ON keywords.id = menukeywords.keyword_id WHERE menuitem_id = " . $_GET["id"], false);
+            $keywords = Query("SELECT *, menukeywords.id as id FROM menukeywords INNER JOIN keywords ON keywords.id = menukeywords.keyword_id WHERE menuitem_id = " . $_GET["id"] . " OR -menuitem_id = " . $menuitem["category_id"], true);
 
             $firstresult = true;
             echo "<P>Menu item data:";
@@ -38,14 +48,16 @@
             echo '</TABLE>';
 
             $suggestions = select_field_where("keywords", "synonyms REGEXP '" . str_replace(" ", "|", $menuitem["item"]) . "'", "ALL()");//item was name
-
             $firstresult = true;
             echo "<P>Assigned Keywords:";
             if($keywords) {
                 foreach ($keywords as $keyword) {
                     keywordresult($keyword, "keywords", $firstresult);
-                    $key = array_search($keyword["keyword_id"], array_column($suggestions, "id"));
-                    unset($suggestions[ $key ]);
+                    //$key = array_search($keyword["keyword_id"], array_column($suggestions, "id"));//doesn't work well enough
+                    $key = findarraywhere($suggestions, "id", $keyword["keyword_id"]);
+                    if(strlen($key)){
+                        unset($suggestions[ $key ]);
+                    }
                 }
                 echo '</TABLE>';
             } else {
@@ -107,18 +119,26 @@
     if($_GET["action"] != "main"){die();}//no need to send the javascript
 ?>
 <SCRIPT>
-    var itemID = "<?= $_GET["id"]; ?>";
-    var itemName = text("#itemrow" + itemID + "-name");
+    var itemID = Number("<?= $_GET["id"]; ?>");
+    var categoryID = -Number(text("#itemrow" + itemID + "-category_id"));
+    var itemName = text("#itemrow" + itemID + "-item");
     var thisURL = "<?= Request::url(); ?>";
     var token = "<?= csrf_token(); ?>";
 
+    function getID(iscategory){
+        if(isUndefined(iscategory)){iscategory = false;}
+        if(iscategory){return categoryID;}
+        return itemID;
+    }
+
     function deletekeyword(t){
         var ID = t.getAttribute("value");
+        var menuitem_id = text("#keywordsrow" + ID + "-menuitem_id");
         if (confirm("Are you sure you want to delete '" + text("#keywordsrow" + ID + "-synonyms") + "' from '" + itemName + "'?")){
             post(thisURL, {
                 action: "deleteitemkeyword",
                 id: ID,
-                itemid: itemID,
+                itemid: menuitem_id,
                 _token: token
             }, function (result) {
                 fadeoutanddelete("#keywordsrow" + ID);
@@ -143,13 +163,13 @@
         });
     }
 
-    function assign(t){
+    function assign(t, iscategory){
         var ID = t.getAttribute("value");
         var Name = text("#keywordsfoundrow" + ID + "-synonyms");
         post(thisURL, {
             action: "assignkeyword",
             keyword_id: ID,
-            menuitem_id: itemID,
+            menuitem_id: getID(iscategory),
             _token: token
         }, function (result) {
             if(result){

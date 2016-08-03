@@ -31,27 +31,24 @@
         $words = implode("|", $plurals);
 
         $result = Query("SELECT * FROM keywords WHERE synonyms REGEXP '" . $words . "';");
-
         while ($row = mysqli_fetch_array($result)){
-            $results[ $row["id"] ] = array(
-                "word" => firstword($row["synonyms"]),
+            $word = firstword($row["synonyms"]);
+            $results["words"][] = $word;
+            $results["keywords"][ $row["id"] ] = array(
+                "word" => $word,
                 "weight" => $row["weight"]
             );
             $results["SQL"][] = $row["id"];
-            //$results["VARS"][] = "SET @" . $results[ $row["id"] ]["word"] . " = " . $row["weight"] . ";";
         }
 
         $results["SQL"] = implode(",", $results["SQL"]);
-        //$results["VARS"] = implode(" ", $results["VARS"]);
         $results["SortColumn"] = get("SortColumn", "keywords");
         $results["SortDirection"] = get("SortDirection", "DESC");
-        //$results["toppings"] = implode('|', array_column(Query("SELECT * FROM toppings", true), 'name'));;
-        //echo '<DIV ID="addons" STYLE="display:none;">' . $results["toppings"] . '</DIV>';
         $results["SQL"] = "SELECT *, count(DISTINCT keyword_id) as keywords, CAST(SUM(weight)/count(*) AS UNSIGNED) as weight, GROUP_CONCAT(DISTINCT synonyms SEPARATOR '|') as synonyms
               FROM (
                   SELECT menu.*, menu.id AS menuid, menu.item as itemname, menu.price as itemprice, keywords.id as wordid, menukeywords.id as mkid, menuitem_id, keyword_id, synonyms, weight
                   FROM menu, menukeywords, keywords
-                  HAVING menuid=menuitem_id
+                  HAVING menuid=menuitem_id OR -menu.category_id = menuitem_id
                   AND keyword_id IN (" . $results["SQL"] . ")
                   AND keyword_id = wordid
               ) results
@@ -65,8 +62,8 @@
         if($result) {
             $FirstResult = true;
             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                $row["id"] = $row["menuitem_id"];
-                $row = removekeys($row, array("category_id", "name", "price", "display_order", "has_addon", "wordid", "mkid", "keyword_id", "req_opt", "sing_mul", "exact_upto", "exact_upto_qty", "created_at", "updated_at", "addon_category_id", "image", "menuitem_id", "item_id", "menuid"));//just to clean up the results
+                $row["id"] = $row["menuid"];
+                $row = removekeys($row, array("name", "price", "display_order", "has_addon", "wordid", "mkid", "keyword_id", "req_opt", "sing_mul", "exact_upto", "exact_upto_qty", "created_at", "updated_at", "addon_category_id", "image", "menuitem_id", "item_id", "menuid"));//just to clean up the results
                 $row["actions"] = '<INPUT TYPE="BUTTON" ONCLICK="runtest(this);" VALUE="' . $row["id"] . '" STYLE="width: 100%;" TITLE="Assimilate" toppings="' . $row["toppings"] . '" wings_sauce="' . $row["wings_sauce"] . '" ID="menu' . $row["id"] .'"><BR><A HREF="edit?id=' . $row["id"] . '">Edit</A>';
 
                 printrow($row, $FirstResult);
@@ -81,7 +78,8 @@
     <input type="text" id="textsearch" name="search" size=60 value="<?= $_GET["search"]; ?>">
     <input type="button" id="startspeech" style="display:none;" value="Click to Speak" onclick="startButton(event);">
     <INPUT TYPE="submit" ID="submit" value="Search">
-    <input type="button" value="In-depth search" ONCLICK="indepth();">
+    <input type="button" value="In-depth search" ONCLICK="indepth(false);">
+    <input type="button" value="In-depth search (keywords only)" ONCLICK="indepth(true);">
     <BR>
     Sorting by:
     <?php
@@ -98,6 +96,8 @@
 <DIV ID="thepopup" STYLE="border: 1px solid black;">Click the button in the ID column to assimilate your search string into the menu item. This cannnot be done in SQL as it's too complex, so it must by done in Javascript</DIV>
 
 <script type="text/javascript">
+    var keywords = "<?= implode(" ", $results["words"]) ?>";
+
     if ('webkitSpeechRecognition' in window) {
         document.getElementById("startspeech").style = "display: inline;";
 
@@ -200,8 +200,13 @@
         console.log(text);
     }
 
-    function indepth(){
-        window.location = "<?= webroot(); ?>public/index3.php?search=" + value("#textsearch");
+    function indepth(usekeywords){
+        if(usekeywords){
+            usekeywords = keywords;
+        } else {
+            usekeywords = value("#textsearch");
+        }
+        window.location = "<?= webroot(); ?>public/index3.php?search=" + usekeywords;
     }
 
     addlistener(".colheader", "click", function(){

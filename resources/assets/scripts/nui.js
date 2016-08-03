@@ -131,6 +131,10 @@ function assimilate(ID, originalsearchstring){
             if(itemname.indexOf( searchstring[searchindex] ) == -1) {
                 var closestword = findclosestsynonym(searchstring[searchindex], 1, labels).replaceAll(" ", "-");
                 var qualifier = getqualifier(originalsearchstring, searchstring[searchindex]);
+                if(closestword) {
+                    qualifytopping("", qualifier, closestword);
+                    searchstring[searchindex] = closestword;
+                }
             }
         }
     }

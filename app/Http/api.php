@@ -199,6 +199,11 @@ function debug($Iterator, $DoStacktrace = true){
     }
 }
 
+function iif($value, $istrue, $isfalse = ""){
+    if($value){return $istrue;}
+    return $isfalse;
+}
+
 function is_iterable($var) {
     return (is_array($var) || $var instanceof Traversable);
 }

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 02, 2016 at 07:57 PM
+-- Generation Time: Aug 03, 2016 at 04:33 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `keywords` (
   `synonyms` varchar(1024) NOT NULL,
   `weight` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `keywords`
@@ -89,7 +89,10 @@ INSERT INTO `keywords` (`id`, `synonyms`, `weight`) VALUES
 (2, 'pizza pizzas', 2),
 (3, 'pastry', 1),
 (4, 'donuts timbits', 2),
-(6, '2 two', 1);
+(6, '2 two', 1),
+(7, 'chicken', 1),
+(8, 'wings', 1),
+(9, '3 three', 1);
 
 -- --------------------------------------------------------
 
@@ -203,14 +206,18 @@ CREATE TABLE IF NOT EXISTS `menukeywords` (
   `menuitem_id` int(11) NOT NULL,
   `keyword_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
 
 --
 -- Dumping data for table `menukeywords`
 --
 
 INSERT INTO `menukeywords` (`id`, `menuitem_id`, `keyword_id`) VALUES
-(4, 1, 2);
+(9, -1, 2),
+(11, -2, 2),
+(12, -2, 6),
+(13, -3, 2),
+(15, -3, 9);
 
 -- --------------------------------------------------------
 
