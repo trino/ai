@@ -60,6 +60,8 @@
           or a.name REGEXP '$words'
         ";
     */
+
+        $_GET["search"] = str_replace(" ",  "%' AND item LIKE '%" , $_GET["search"]);
         $results["SQL"] = "SELECT * FROM menu WHERE item LIKE '%" . $_GET["search"] . "%'";
 
         echo "<div class='col-md-4'>";
@@ -74,7 +76,7 @@
             $PrevCategory = "";
             $Columns = array("category", "item", "price", "id", "Actions");
 
-            while ($row = mysqli_fetch_array($result)) {
+            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 $row["Actions"] = '<A HREF="' . webroot("public/edit?id=") . $row["id"] . '">Edit</A>';
 
                 if ($FirstResult) {
@@ -126,23 +128,19 @@
             $result = Query($results);
             if ($result) {
                 $FirstResult=true;
-                while ($row = mysqli_fetch_array($result)) {
+                while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                     if ($FirstResult) {
                         echo '<TABLE class="table table-sm table-responsive"><TR>';
                         $FirstResult = false;
                         foreach ($row as $Key => $Value) {
-                            if (!is_numeric($Key)) {
-                                echo '<TH>' . $Key . '</TH>';
-                            }
+                            echo '<TH>' . $Key . '</TH>';
                         }
                         echo '</TR>';
                     }
 
                     echo '<TR>';
                     foreach ($row as $Key => $Value) {
-                        if (!is_numeric($Key) && (in_array($Key, array($keyvalue, "id")))) {
-                            echo '<TD>' . $Value . '</TD>';
-                        }
+                        echo '<TD>' . $Value . '</TD>';
                     }
                     echo "</TR>";
                 }

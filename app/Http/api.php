@@ -136,7 +136,7 @@ function Query($query, $all=false){
     global $con;//use while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) { to get results
     if($all){
         $result = $con->query($query);
-        return mysqli_fetch_all($result,MYSQLI_ASSOC);
+        return mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
     return $con->query($query);
 }
