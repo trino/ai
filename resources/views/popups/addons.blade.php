@@ -6,7 +6,7 @@
     $toppings = select_field_where($table, "1=1", "ALL()", "type");
     $width = round(100 / count($categories));
 
-    echo '<STYLE>.cat-header-' . $table .'{width: ' . $width . '%; display: inline-block;}</STYLE>';
+    echo '<STYLE>.cat-header-' . $table .'{width: ' . $width . '%; display: inline-block; cursor: pointer;}</STYLE>';
 
     echo '<DIV CLASS="addons-' . $table . '" STYLE="display: none;">';
     foreach($categories as $index => $category){

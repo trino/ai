@@ -25,52 +25,56 @@
             if(in_array($plural, $wordstoignore)) {
                 unset($plurals[$index]);
             } else if (strlen($plural) > 2 && right($plural, 1) == "s"){
-                $plurals[] = "|" . left($plural, strlen($plural)-1);
+                $plurals[] = left($plural, strlen($plural)-1);
             }
         }
         $words = implode("|", $plurals);
 
         $result = Query("SELECT * FROM keywords WHERE synonyms REGEXP '" . $words . "';");
-        while ($row = mysqli_fetch_array($result)){
-            $word = firstword($row["synonyms"]);
-            $results["words"][] = $word;
-            $results["keywords"][ $row["id"] ] = array(
-                "word" => $word,
-                "weight" => $row["weight"]
-            );
-            $results["SQL"][] = $row["id"];
-        }
-
-        $results["SQL"] = implode(",", $results["SQL"]);
-        $results["SortColumn"] = get("SortColumn", "keywords");
-        $results["SortDirection"] = get("SortDirection", "DESC");
-        $results["SQL"] = "SELECT *, count(DISTINCT keyword_id) as keywords, CAST(SUM(weight)/count(*) AS UNSIGNED) as weight, GROUP_CONCAT(DISTINCT synonyms SEPARATOR '|') as synonyms
-              FROM (
-                  SELECT menu.*, menu.id AS menuid, menu.item as itemname, menu.price as itemprice, keywords.id as wordid, menukeywords.id as mkid, menuitem_id, keyword_id, synonyms, weight
-                  FROM menu, menukeywords, keywords
-                  HAVING menuid=menuitem_id OR -menu.category_id = menuitem_id
-                  AND keyword_id IN (" . $results["SQL"] . ")
-                  AND keyword_id = wordid
-              ) results
-
-              GROUP BY menuid ORDER BY " . $results["SortColumn"] . " " . $results["SortDirection"];
-
-        var_dump($results);
-
-        $result = Query($results["SQL"]);
-
-        if($result) {
-            $FirstResult = true;
-            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                $row["id"] = $row["menuid"];
-                $row = removekeys($row, array("name", "price", "display_order", "has_addon", "wordid", "mkid", "keyword_id", "req_opt", "sing_mul", "exact_upto", "exact_upto_qty", "created_at", "updated_at", "addon_category_id", "image", "menuitem_id", "item_id", "menuid"));//just to clean up the results
-                $row["actions"] = '<INPUT TYPE="BUTTON" ONCLICK="runtest(this);" VALUE="' . $row["id"] . '" STYLE="width: 100%;" TITLE="Assimilate" toppings="' . $row["toppings"] . '" wings_sauce="' . $row["wings_sauce"] . '" ID="menu' . $row["id"] .'"><BR><A HREF="edit?id=' . $row["id"] . '">Edit</A>';
-
-                printrow($row, $FirstResult);
+        if($result){
+            while ($row = mysqli_fetch_array($result)){
+                $word = firstword($row["synonyms"]);
+                $results["words"][] = $word;
+                $results["keywords"][ $row["id"] ] = array(
+                    "word" => $word,
+                    "weight" => $row["weight"]
+                );
+                $results["SQL"][] = $row["id"];
             }
-            if (!$FirstResult) {echo '</TABLE><P>';}
+
+            $results["SQL"] = implode(",", $results["SQL"]);
+            $results["SortColumn"] = get("SortColumn", "keywords");
+            $results["SortDirection"] = get("SortDirection", "DESC");//TESTWEIGHT, CAST(SUM(weight)/count(*) AS UNSIGNED) as 
+            $results["SQL"] = "SELECT *, count(DISTINCT keyword_id) as keywords, SUM(weight) as weight, GROUP_CONCAT(DISTINCT synonyms SEPARATOR '|') as synonyms
+                  FROM (
+                      SELECT menu.*, menu.id AS menuid, menu.item as itemname, menu.price as itemprice, keywords.id as wordid, menukeywords.id as mkid, menuitem_id, keyword_id, synonyms, weight
+                      FROM menu, menukeywords, keywords
+                      HAVING menuid=menuitem_id OR -menu.category_id = menuitem_id
+                      AND keyword_id IN (" . $results["SQL"] . ")
+                      AND keyword_id = wordid
+                  ) results
+
+                  GROUP BY menuid ORDER BY " . $results["SortColumn"] . " " . $results["SortDirection"];
+
+            var_dump($results);
+
+            $result = Query($results["SQL"]);
+
+            if($result) {
+                $FirstResult = true;
+                while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                    $row["id"] = $row["menuid"];
+                    $row = removekeys($row, array("name", "price", "display_order", "has_addon", "wordid", "mkid", "keyword_id", "req_opt", "sing_mul", "exact_upto", "exact_upto_qty", "created_at", "updated_at", "addon_category_id", "image", "menuitem_id", "item_id", "menuid"));//just to clean up the results
+                    $row["actions"] = '<INPUT TYPE="BUTTON" ONCLICK="runtest(this);" VALUE="' . $row["id"] . '" STYLE="width: 100%;" TITLE="Assimilate" toppings="' . $row["toppings"] . '" wings_sauce="' . $row["wings_sauce"] . '" ID="menu' . $row["id"] .'"><BR><A HREF="edit?id=' . $row["id"] . '">Edit</A>';
+
+                    printrow($row, $FirstResult);
+                }
+                if (!$FirstResult) {echo '</TABLE><P>';}
+            } else {
+                echo "No keywords found in '" . $_GET["search"] . "'<P>";
+            }
         } else {
-            echo "No keywords found in '" . $_GET["search"] . "'<P>";
+            die("SQL FAILED! " . $words);
         }
     }
 ?>
@@ -89,7 +93,7 @@
         printoptions("SortColumn", $Columns, $results["SortColumn"]);
         echo ' Direction: ';
         printoptions("SortDirection", array("ASC", "DESC"), $results["SortDirection"]);
-        ?>
+    ?>
     Click a numerical column to sort by it. Click it again to change the sorting direction
 </form>
 <BR>Simulating menu item order popup<BR>
