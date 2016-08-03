@@ -6,7 +6,7 @@
     $toppings = select_field_where($table, "1=1", "ALL()", "type");
     $width = round(100 / count($categories));
 
-    echo '<STYLE>.cat-header-' . $table .'{width: ' . $width . '%; display: inline-block; cursor: pointer;}</STYLE>';
+    echo '<STYLE>.td-' . $table . '-name {vertical-align: bottom; padding-left: 10px;} .cat-header-' . $table .'{width: ' . $width . '%; display: inline-block; cursor: pointer;}</STYLE>';
 
     echo '<DIV CLASS="addons-' . $table . '" STYLE="display: none;">';
     foreach($categories as $index => $category){
@@ -49,7 +49,7 @@
             echo '<TD><LABEL><INPUT TYPE="RADIO" NAME="addon-' . $table . '-' . $topping["id"] . '" CLASS="addon addon-' . $table . '" VALUE="' . $qualifier . '">' . $name . '</LABEL></TD>';
         }
 
-        echo '<TD>' . $topping["name"] . '</TD></TR>';
+        echo '<TD CLASS="td-' . $table . '-name">' . $topping["name"] . '</TD></TR>';
     }
     endtoppings($table);
     echo '</DIV>';

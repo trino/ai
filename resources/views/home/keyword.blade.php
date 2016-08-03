@@ -44,7 +44,7 @@
 
             $results["SQL"] = implode(",", $results["SQL"]);
             $results["SortColumn"] = get("SortColumn", "keywords");
-            $results["SortDirection"] = get("SortDirection", "DESC");//TESTWEIGHT, CAST(SUM(weight)/count(*) AS UNSIGNED) as 
+            $results["SortDirection"] = get("SortDirection", "DESC");//TESTWEIGHT, CAST(SUM(weight)/count(*) AS UNSIGNED) as
             $results["SQL"] = "SELECT *, count(DISTINCT keyword_id) as keywords, SUM(weight) as weight, GROUP_CONCAT(DISTINCT synonyms SEPARATOR '|') as synonyms
                   FROM (
                       SELECT menu.*, menu.id AS menuid, menu.item as itemname, menu.price as itemprice, keywords.id as wordid, menukeywords.id as mkid, menuitem_id, keyword_id, synonyms, weight
