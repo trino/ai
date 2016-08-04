@@ -17,7 +17,8 @@
                 break;
             case "keywords":
                 $keyword["Assigned to"] = iif($keyword["menuitem_id"] > 0, "Item", "Category");
-                $keyword["Actions"] = '<BUTTON VALUE="' . $keyword["id"] . '" ONCLICK="deletekeyword(this);">Delete</BUTTON>';
+                $keyword["Actions"] = '<BUTTON VALUE="' . $keyword["keyword_id"] . '" ONCLICK="editkeyword(this);">Edit</BUTTON> ';
+                $keyword["Actions"] .= '<BUTTON VALUE="' . $keyword["id"] . '" ONCLICK="deletekeyword(this);">Delete</BUTTON>';
                 break;
         }
         printrow($keyword, $firstresult, "id", $Actions);
@@ -57,9 +58,9 @@
                 foreach ($keywords as $keyword) {
                     keywordresult($keyword, "keywords", $firstresult);
                     $key = findarraywhere($suggestions, "id", $keyword["keyword_id"]);
-                    if(strlen($key)){
-                        unset($suggestions[ $key ]);
-                    }
+                    if(strlen($key)){unset($suggestions[ $key ]);}
+                    $key = findarraywhere($suggestions, "id", $keyword["keyword_id"]);
+                    if(strlen($key)){unset($suggestions[ $key ]);}
                 }
                 echo '</TABLE>';
             } else {
@@ -72,6 +73,7 @@
                 foreach ($suggestions as $keyword) {
                     keywordresult($keyword, "suggestions", $firstresult);
                 }
+                echo '</TABLE>';
             }
 
             echo "<P>Keyword Search:";
@@ -131,6 +133,11 @@
         return itemID;
     }
 
+    function editkeyword(t){
+        var ID = t.getAttribute("value");
+        window.location = "<?= webroot() ;?>public/edittable?table=keywords&id=" + ID;
+    }
+
     function deletekeyword(t){
         var ID = t.getAttribute("value");
         var menuitem_id = text("#keywordsrow" + ID + "-menuitem_id");
@@ -188,7 +195,7 @@
     }
 
     function create(){
-        var Name = value("#searchtext");
+        var Name = value("#searchtext").toLowerCase();
         var Weight = value("#weight");
         value("#searchtext", "");
         value("#weight", "1");

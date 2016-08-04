@@ -1,3 +1,4 @@
+<button onclick="window.history.back();">Go Back</button> <button onclick="location.reload();">Refresh</button><P>
 <TABLE>
     <?php
         $con = connectdb("ai");
@@ -23,7 +24,7 @@
                 insertdb($_GET["table"], $dataarray);
                 echo 'Data has been saved to ' . $_GET["table"] . '<BR>';
             }
-            echo '<A HREF="' . $backURL . '">Back</A> ';
+            echo '<A HREF="' . $backURL . '">Go Up</A>';
             $results = Query($query, true);
             $firstresult = true;
             echo '<INPUT TYPE="HIDDEN" NAME="table" VALUE="' . $_GET["table"] . '">';
@@ -48,10 +49,13 @@
                         $result["qualifiers"] = '<INPUT TYPE="TEXT" NAME="qualifiers" VALUE="' . $result["qualifiers"] . '" TITLE="Leave blank for Half/Single/Double, must have 3 items in a comma delimited list if not blank">';
                     } else {
                         foreach($result as $index => $value){
-                            if($index != "id"){
+                            if($index == "weight" && $_GET["table"] == "keywords"){
+                                $result[$index] = '<INPUT TYPE="NUMBER" NAME="weight" VALUE="' . $value . '" MIN="1" MAX="5">';
+                            } else if($index != "id"){
                                 $result[$index] = '<INPUT TYPE="TEXT" NAME="' . $index . '" VALUE="' . $value . '">';
                             }
                         }
+                        $result["Actions"] = '<A ONCLICK="return confirm(' . "'Are you sure you want to delete " . $result["id"] . "?'" . ');" HREF="' . $currentURL . '&delete=' . $result["id"] .'">Delete</A>';
                     }
                     echo '<INPUT TYPE="SUBMIT" NAME="save" VALUE="Save">';
                 } else {

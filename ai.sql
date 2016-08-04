@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 04, 2016 at 05:06 PM
+-- Generation Time: Aug 04, 2016 at 05:59 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `keywords` (
   `synonyms` varchar(1024) NOT NULL,
   `weight` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
 
 --
 -- Dumping data for table `keywords`
@@ -93,7 +93,24 @@ INSERT INTO `keywords` (`id`, `synonyms`, `weight`) VALUES
 (7, 'chicken', 1),
 (8, 'wing', 5),
 (9, '3 three', 1),
-(10, 'dip', 5);
+(10, 'dip', 5),
+(11, 'cheddar', 1),
+(12, 'jalapeno', 1),
+(13, 'marinara', 1),
+(14, 'bbq barbeque', 1),
+(15, 'garlic', 1),
+(16, 'parmesan', 1),
+(17, 'honey', 1),
+(18, 'hot', 1),
+(19, 'medium', 1),
+(20, 'mild', 1),
+(21, 'ranch', 1),
+(22, 'buffalo', 1),
+(23, 'spicy', 1),
+(24, '1 one', 1),
+(25, '4 four', 1),
+(26, '5 five', 1),
+(27, 'small', 1);
 
 -- --------------------------------------------------------
 
@@ -207,7 +224,7 @@ CREATE TABLE IF NOT EXISTS `menukeywords` (
   `menuitem_id` int(11) NOT NULL,
   `keyword_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=41 ;
 
 --
 -- Dumping data for table `menukeywords`
@@ -221,7 +238,29 @@ INSERT INTO `menukeywords` (`id`, `menuitem_id`, `keyword_id`) VALUES
 (15, -3, 9),
 (16, -6, 10),
 (17, -4, 8),
-(18, -4, 7);
+(18, -4, 7),
+(19, 39, 11),
+(20, 35, 11),
+(21, 35, 12),
+(22, 36, 13),
+(23, 38, 14),
+(24, 37, 15),
+(25, 37, 16),
+(26, 41, 15),
+(27, 41, 17),
+(28, 42, 18),
+(29, 44, 19),
+(30, 45, 20),
+(31, 46, 21),
+(32, 47, 22),
+(33, 47, 23),
+(34, 16, 24),
+(35, 17, 6),
+(36, 18, 9),
+(37, 19, 25),
+(38, 20, 26),
+(39, 1, 27),
+(40, 2, 19);
 
 -- --------------------------------------------------------
 
