@@ -48,12 +48,14 @@
             echo '</TABLE>';
 
             $suggestions = select_field_where("keywords", "synonyms REGEXP '" . str_replace(" ", "|", $menuitem["item"]) . "'", "ALL()");//item was name
+            $suggestions2 = select_field_where("keywords", "synonyms REGEXP '" . str_replace(" ", "|", $menuitem["category"]) . "'", "ALL()");//item was name
+            $suggestions = array_merge($suggestions, $suggestions2);
+
             $firstresult = true;
             echo "<P>Assigned Keywords:";
             if($keywords) {
                 foreach ($keywords as $keyword) {
                     keywordresult($keyword, "keywords", $firstresult);
-                    //$key = array_search($keyword["keyword_id"], array_column($suggestions, "id"));//doesn't work well enough
                     $key = findarraywhere($suggestions, "id", $keyword["keyword_id"]);
                     if(strlen($key)){
                         unset($suggestions[ $key ]);
@@ -70,12 +72,12 @@
                 foreach ($suggestions as $keyword) {
                     keywordresult($keyword, "suggestions", $firstresult);
                 }
-                echo '<!--TR><TD COLSPAN="4"><BUTTON STYLE="width:100%;">Assign All</BUTTON></TD></TR--!></TABLE>';
             }
 
             echo "<P>Keyword Search:";
             echo '<TABLE BORDER="1"><THEAD><TR><TH>ID</TH><TH>Synonyms</TH><TH>Weight</TH><TH>Actions</TH></TR><TR><TD></TD><TD>';
-            echo '<INPUT TYPE="TEXT" NAME="searchtext" ID="searchtext"></TD><TD><INPUT TYPE="NUMBER" MIN="1" MAX="10" VALUE="1" NAME="weight" ID="weight" STYLE="text-align:right;">';
+            echo '<INPUT TYPE="TEXT" NAME="searchtext" ID="searchtext" TITLE="Do not use commas to delimit it, do not add a keyword that exists already"></TD><TD>';
+            echo '<INPUT TYPE="NUMBER" MIN="1" MAX="5" VALUE="1" NAME="weight" ID="weight" STYLE="text-align:right;" TITLE="A weight of 5 counts as an item important enough to run a new search">';
             echo '</TD><TD><BUTTON ONCLICK="search();" STYLE="width:100%;">Search</BUTTON>';
             echo '</TD></TR></THEAD><TBODY ID="searchbody"></TBODY></TABLE>';
 
@@ -99,8 +101,6 @@
 
         case "createkeyword":
             $_GET["keyword_id"] = insertdb("keywords", array("synonyms" => $_GET["synonyms"], "weight" => $_GET["weight"]));
-        //nobreak, go right into assignkeyword
-
         case "assignkeyword":
             if(!select_field_where("menukeywords", "menuitem_id = " . $_GET["menuitem_id"] . " AND keyword_id = " . $_GET["keyword_id"], "COUNT()")) {
                 $ID = insertdb("menukeywords", array("menuitem_id" => $_GET["menuitem_id"], "keyword_id" => $_GET["keyword_id"]));
@@ -116,7 +116,7 @@
         default:
             echo "'" . $_GET["action"] ."' is unhandled";
     }
-    if($_GET["action"] != "main"){die();}//no need to send the javascript
+    if($_GET["action"] != "main"){die();}
 ?>
 <SCRIPT>
     var itemID = Number("<?= $_GET["id"]; ?>");

@@ -1,25 +1,37 @@
 <script src="<?= webroot("resources/assets/scripts/api.js"); ?>"></script>
 <script src="<?= webroot("resources/assets/scripts/nui.js"); ?>"></script>
+<STYLE>
+    .selectedbutton{
+        background-color: #4CAF50; /* Green */
+    }
+</STYLE>
 <?php
+    $con = connectdb("keywordtest");
+
     function firstword($Text){
         $Space = strpos($Text, " ");
         if($Space === false){return $Text;}
         return left($Text, $Space);
     }
 
-    if(!isset($_GET["search"]) || !trim($_GET["search"])){
-        $_GET["search"] = "";
+    $isKeyword = get("searchtype", "Keyword search") == "Keyword search";
+    $selectedbutton = ' CLASS="selectedbutton"';
+    $keywordclass = iif($isKeyword, $selectedbutton);
+    $textclass = iif(!$isKeyword, $selectedbutton);
+
+    if(!isset($_GET["search"]) || !trim($_GET["search"]) || !$isKeyword){
+        if(!isset($_GET["search"])) {$_GET["search"] = "";}
         $results["SortColumn"] = get("SortColumn", "keywords");
         $results["SortDirection"] = get("SortDirection", "DESC");
         $results["words"] = "";
+        echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "isKeyword" => $isKeyword, "searchstring" => $_GET["search"]));
     } else{
-        $con = connectdb("keywordtest");
 
         $results = array("SQL" => array());
         $words = strtolower(str_replace(" ", "|", $_GET["search"]));
 
         $plurals = explode("|", $words);//automatically check for non-pluralized words
-        $wordstoignore = array("the", "with", "and", "times", "on");
+        $wordstoignore = array("the", "with", "and", "times", "on", "an");
         foreach($plurals as $index => $plural){
             $plural = trim(strtolower($plural));
             $plurals[$index] = $plural;
@@ -33,6 +45,8 @@
 
         $result = Query("SELECT * FROM keywords WHERE synonyms REGEXP '" . $words . "';");
         if($result){
+            $results["is5keywords"] = array();
+            $results["non5keywords"] = array();
             while ($row = mysqli_fetch_array($result)){
                 $word = firstword($row["synonyms"]);
                 $results["words"][] = $word;
@@ -40,39 +54,27 @@
                     "word" => $word,
                     "weight" => $row["weight"]
                 );
+                if($row["weight"] == 5){
+                    $results["is5keywords"][] = $row["id"];
+                } else {
+                    $results["non5keywords"][] = $row["id"];
+                }
                 $results["SQL"][] = $row["id"];
             }
 
             $results["keywordids"] = implode(",", $results["SQL"]);
             $results["SortColumn"] = get("SortColumn", "keywords");
             $results["SortDirection"] = get("SortDirection", "DESC");//TESTWEIGHT, CAST(SUM(weight)/count(*) AS UNSIGNED) as
-            $results["SQL"] = "SELECT *, count(DISTINCT keyword_id) as keywords, SUM(weight) as weight, GROUP_CONCAT(DISTINCT synonyms SEPARATOR '|') as synonyms
-                  FROM (
-                      SELECT menu.*, menu.id AS menuid, menu.item as itemname, menu.price as itemprice, keywords.id as wordid, menukeywords.id as mkid, menuitem_id, keyword_id, synonyms, weight
-                      FROM menu, menukeywords, keywords
-                      HAVING (menuid=menuitem_id OR -menu.category_id = menuitem_id)
-                      AND keyword_id IN (" . $results["keywordids"] . ")
-                      AND keyword_id = wordid
-                  ) results
-
-                  GROUP BY menuid ORDER BY " . $results["SortColumn"] . " " . $results["SortDirection"];
 
             var_dump($results);
 
-            $result = Query($results["SQL"]);
-
-            if($result) {
-                $FirstResult = true;
-                while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                    $row["id"] = $row["menuid"];
-                    $row = removekeys($row, array("name", "price", "display_order", "has_addon", "wordid", "mkid", "keyword_id", "req_opt", "sing_mul", "exact_upto", "exact_upto_qty", "created_at", "updated_at", "addon_category_id", "image", "menuitem_id", "item_id", "menuid"));//just to clean up the results
-                    $row["actions"] = '<INPUT TYPE="BUTTON" ONCLICK="runtest(this);" VALUE="' . $row["id"] . '" STYLE="width: 100%;" TITLE="Assimilate" toppings="' . $row["toppings"] . '" wings_sauce="' . $row["wings_sauce"] . '" ID="menu' . $row["id"] .'"><BR><A HREF="edit?id=' . $row["id"] . '">Edit</A>';
-
-                    printrow($row, $FirstResult);
+            if(count($results["is5keywords"])){
+                foreach($results["is5keywords"] as $primaryKeyID){
+                    $keywordids = array_merge(array($primaryKeyID), $results["non5keywords"]);
+                    echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $keywordids));
                 }
-                if (!$FirstResult) {echo '</TABLE><P>';}
-            } else {
-                echo "No keywords found in '" . $_GET["search"] . "'<P>";
+            } else if ($results["non5keywords"]){
+                echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $results["non5keywords"]));
             }
         } else {
             die("SQL FAILED! " . $words);
@@ -84,11 +86,13 @@
     }
 ?>
 <form method="get" id="formmain">
-    <input type="text" id="textsearch" name="search" size=60 value="<?= $_GET["search"]; ?>">
-    <input type="button" id="startspeech" style="display:none;" value="Click to Speak" onclick="startButton(event);">
-    <INPUT TYPE="submit" ID="submit" value="Search">
-    <input type="button" value="In-depth search" ONCLICK="indepth(false);">
-    <input type="button" value="In-depth search (keywords only)" ONCLICK="indepth(true);">
+    <input type="text" id="textsearch" name="search" size=60 value="<?= $_GET["search"]; ?>" TITLE="Leave blank to search for all items">
+    <input type="button" id="startspeech" style="display:none;" value="Click to Speak" onclick="startButton(event);" TITLE="Use voice recognition">
+    <INPUT TYPE="submit" ID="submit" name="searchtype" value="Keyword search" <?= $keywordclass; ?> TITLE="Search using assigned keywords/synonyms">
+    <INPUT TYPE="submit" ID="submit" name="searchtype" value="Text search" <?= $textclass; ?> TITLE="Search using item/category name">
+
+    <!--input type="button" value="In-depth search" ONCLICK="indepth(false);">
+    <input type="button" value="In-depth search (keywords only)" ONCLICK="indepth(true);"-->
     <BR>
     Sorting by:
     <?php

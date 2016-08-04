@@ -16,15 +16,17 @@
                 $backURL .= "?table=" . $_GET["table"];
                 echo '<INPUT TYPE="HIDDEN" NAME="id" VALUE="' . $_GET["id"] . '">';
             }
-            if(isset($_GET["name"])){
+            if(isset($_GET["save"])){
                 $dataarray = $_GET;
                 unset($dataarray["table"]);
+                unset($dataarray["save"]);
                 insertdb($_GET["table"], $dataarray);
                 echo 'Data has been saved to ' . $_GET["table"] . '<BR>';
             }
             echo '<A HREF="' . $backURL . '">Back</A> ';
             $results = Query($query, true);
             $firstresult = true;
+            echo '<INPUT TYPE="HIDDEN" NAME="save" VALUE="">';
             echo '<INPUT TYPE="HIDDEN" NAME="table" VALUE="' . $_GET["table"] . '">';
             if(isset($_GET["id"]) && !$_GET["id"]){
                 $results = array($results[0]);

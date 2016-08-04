@@ -62,8 +62,8 @@
         ";
     */
 
-        $_GET["search"] = str_replace(" ",  "%' AND item LIKE '%" , $_GET["search"]);
-        $results["SQL"] = "SELECT * FROM menu WHERE item LIKE '%" . $_GET["search"] . "%'";
+        $_GET["search"] = str_replace(" ",  "%' AND COL LIKE '%" , $_GET["search"]);
+        $results["SQL"] = "SELECT * FROM menu WHERE item LIKE '%" . str_replace("COL", "item", $_GET["search"]) . "%' OR category LIKE '%" . str_replace("COL", "item", $_GET["search"]) . "%'";
 
         echo "<div class='col-md-4'>";
 
