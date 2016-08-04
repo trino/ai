@@ -26,7 +26,6 @@
             echo '<A HREF="' . $backURL . '">Back</A> ';
             $results = Query($query, true);
             $firstresult = true;
-            echo '<INPUT TYPE="HIDDEN" NAME="save" VALUE="">';
             echo '<INPUT TYPE="HIDDEN" NAME="table" VALUE="' . $_GET["table"] . '">';
             if(isset($_GET["id"]) && !$_GET["id"]){
                 $results = array($results[0]);
@@ -54,7 +53,7 @@
                             }
                         }
                     }
-                    echo '<INPUT TYPE="SUBMIT" VALUE="Save">';
+                    echo '<INPUT TYPE="SUBMIT" NAME="save" VALUE="Save">';
                 } else {
                     $result["Actions"] = '<A HREF="' . $currentURL . '&id=' . $result["id"] .'">Edit</A> ';
                     $result["Actions"] .= '<A ONCLICK="return confirm(' . "'Are you sure you want to delete " . $result["id"] . "?'" . ');" HREF="' . $currentURL . '&delete=' . $result["id"] .'">Delete</A>';

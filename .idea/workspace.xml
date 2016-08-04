@@ -45,16 +45,16 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="edittable.blade.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="edittable.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/home/edittable.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.5384617">
-              <caret line="20" column="39" selection-start-line="20" selection-start-column="39" selection-end-line="20" selection-end-column="39" />
+            <state vertical-scroll-proportion="0.5823817">
+              <caret line="55" column="59" selection-start-line="55" selection-start-column="59" selection-end-line="55" selection-end-column="59" />
               <folding>
-                <marker date="1470317489804" expanded="true" signature="521:534" placeholder="SELECT * FRO..." />
-                <marker date="1470317489804" expanded="true" signature="521:535" placeholder="SELECT * FRO..." />
-                <marker date="1470317489804" expanded="true" signature="1924:1950" placeholder="SELECT DISTI..." />
-                <marker date="1470317489804" expanded="true" signature="1924:1951" placeholder="SELECT DISTI..." />
+                <marker date="1470323502001" expanded="true" signature="521:534" placeholder="SELECT * FRO..." />
+                <marker date="1470323502001" expanded="true" signature="521:535" placeholder="SELECT * FRO..." />
+                <marker date="1470323502001" expanded="true" signature="1861:1887" placeholder="SELECT DISTI..." />
+                <marker date="1470323502001" expanded="true" signature="1861:1888" placeholder="SELECT DISTI..." />
               </folding>
             </state>
           </provider>
@@ -100,10 +100,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="keyword.blade.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="keyword.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/home/keyword.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.26064736">
+            <state vertical-scroll-proportion="-2.9423077">
               <caret line="89" column="145" selection-start-line="89" selection-start-column="145" selection-end-line="89" selection-end-column="145" />
               <folding>
                 <element signature="e#4021#4042#0#HTML" expanded="true" />
@@ -210,11 +210,11 @@
         <option value="$PROJECT_DIR$/app/Http/routes.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" />
         <option value="$PROJECT_DIR$/app/Http/api.php" />
-        <option value="$PROJECT_DIR$/resources/views/home/edittable.blade.php" />
         <option value="$PROJECT_DIR$/public/index3.php" />
         <option value="$PROJECT_DIR$/resources/views/home/editor.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/popups/itemsearch.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/home/keyword.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/home/edittable.blade.php" />
       </list>
     </option>
   </component>
@@ -1173,9 +1173,9 @@
         <state vertical-scroll-proportion="0.34747145">
           <caret line="92" column="8" selection-start-line="92" selection-start-column="8" selection-end-line="92" selection-end-column="8" />
           <folding>
-            <marker date="1470323087292" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..keywords..." />
-            <marker date="1470323087292" expanded="true" signature="-1:-1" placeholder="SELECT *, co..*..." />
-            <marker date="1470323087292" expanded="true" signature="-1:-1" placeholder="SELECT menu...menu..." />
+            <marker date="1470323185749" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..keywords..." />
+            <marker date="1470323185749" expanded="true" signature="-1:-1" placeholder="SELECT *, co..*..." />
+            <marker date="1470323185749" expanded="true" signature="-1:-1" placeholder="SELECT menu...menu..." />
           </folding>
         </state>
       </provider>
@@ -1197,19 +1197,6 @@
             <marker date="1470251452338" expanded="true" signature="3338:3373" placeholder="SELECT * FRO..." />
             <marker date="1470251452338" expanded="true" signature="4075:4100" placeholder="DELETE FROM ..." />
             <marker date="1470251452338" expanded="true" signature="5062:5134" placeholder="SELECT TABLE..TABLES..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/home/edittable.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.5384617">
-          <caret line="20" column="39" selection-start-line="20" selection-start-column="39" selection-end-line="20" selection-end-column="39" />
-          <folding>
-            <marker date="1470317489804" expanded="true" signature="521:534" placeholder="SELECT * FRO..." />
-            <marker date="1470317489804" expanded="true" signature="521:535" placeholder="SELECT * FRO..." />
-            <marker date="1470317489804" expanded="true" signature="1924:1950" placeholder="SELECT DISTI..." />
-            <marker date="1470317489804" expanded="true" signature="1924:1951" placeholder="SELECT DISTI..." />
           </folding>
         </state>
       </provider>
@@ -1287,12 +1274,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/home/keyword.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.26064736">
+        <state vertical-scroll-proportion="-2.9423077">
           <caret line="89" column="145" selection-start-line="89" selection-start-column="145" selection-end-line="89" selection-end-column="145" />
           <folding>
             <element signature="e#4021#4042#0#HTML" expanded="true" />
             <element signature="e#5241#5273#0#HTML" expanded="true" />
             <marker date="1470323183914" expanded="true" signature="1907:1968" placeholder="SELECT * FRO..keywords..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/home/edittable.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5823817">
+          <caret line="55" column="59" selection-start-line="55" selection-start-column="59" selection-end-line="55" selection-end-column="59" />
+          <folding>
+            <marker date="1470323502001" expanded="true" signature="521:534" placeholder="SELECT * FRO..." />
+            <marker date="1470323502001" expanded="true" signature="521:535" placeholder="SELECT * FRO..." />
+            <marker date="1470323502001" expanded="true" signature="1861:1887" placeholder="SELECT DISTI..." />
+            <marker date="1470323502001" expanded="true" signature="1861:1888" placeholder="SELECT DISTI..." />
           </folding>
         </state>
       </provider>
