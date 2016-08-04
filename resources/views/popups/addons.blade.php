@@ -36,17 +36,23 @@
         echo '<TR ID="tr-addon-' . $table . '-' . $topping["id"] . '" CLASS="tr-addon tr-addon-' . $table . '" SELECTED="" TOPPINGID="' . $topping["id"] . '" NAME="' . $topping["name"] .'"';
         if($topping["isfree"]){echo ' ISFREE="true"';}
         echo '>';
-        $qualifiers = array("half" => "Half", "single" => "Single", "double" => "Double");
+        $qualifiers = array("half" => "Easy", "single" => "Single", "double" => "Double", "triple" => "Triple");
         if($topping["qualifiers"]){
             $name = explode(",", $topping["qualifiers"]);
             $index = 0;
             foreach($qualifiers as $qualifier => $discard){
-                $qualifiers[$qualifier] = trim($name[$index]);
-                $index++;
+                if(isset($name[$index])){
+                    $qualifiers[$qualifier] = trim($name[$index]);
+                    $index++;
+                }
             }
         }
         foreach($qualifiers as $qualifier => $name){
-            echo '<TD><LABEL><INPUT TYPE="RADIO" NAME="addon-' . $table . '-' . $topping["id"] . '" CLASS="addon addon-' . $table . '" VALUE="' . $qualifier . '">' . $name . '</LABEL></TD>';
+            $class = " addon-" . $table . "-" . str_replace(" ", "-", strtolower($name)) . "-" . str_replace(" ", "-", strtolower($topping["name"])) ;
+            if($qualifier != strtolower($name)){
+                $class .= " addon-" . $table . "-" . $qualifier . "-" . str_replace(" ", "-", strtolower($topping["name"])) ;
+            }
+            echo '<TD><LABEL><INPUT TYPE="RADIO" NAME="addon-' . $table . '-' . $topping["id"] . '" CLASS="addon addon-' . $table . $class . '" VALUE="' . $qualifier . '">' . $name . '</LABEL></TD>';
         }
 
         echo '<TD CLASS="td-' . $table . '-name">' . $topping["name"] . '</TD></TR>';

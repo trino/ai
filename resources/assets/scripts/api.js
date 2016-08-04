@@ -431,8 +431,8 @@ function trigger(Selector, eventName, options) {
         event.initCustomEvent(eventName, true, true, options);
     }
     select(Selector, function (element, index) {
-        console.log(element.getAttribute("name"));
-        console.log(event);
+        //console.log(element.getAttribute("name"));
+        //console.log(event);
         element.dispatchEvent(event);
     });
 }
