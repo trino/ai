@@ -98,15 +98,11 @@ function children(ParentSelector, ChildSelector, myFunction){
 function filter(Selector, bywhat, myFunction) {
     var elements = select(Selector);
     var out = [];
-    console.log("GOT HERE  -----");
     for (var i = elements.length; i--;) {
         if (checkelement(elements[i], i, bywhat)) {
             out.unshift(elements[i]);
-            console.log(elements[i]);
         }
     }
-
-    console.log(out);
     return select(out, myFunction);
 }
 function checkelement(element, elementindex, bywhat){
@@ -234,7 +230,6 @@ function doonload(myFunction){
     return todoonload.length;
 }
 window.onload = function(){
-    console.log("window.onload queue: " + todoonload.length + " functions");
     for(var index = 0; index < todoonload.length; index++){
         todoonload[index]();
     }
@@ -431,8 +426,6 @@ function trigger(Selector, eventName, options) {
         event.initCustomEvent(eventName, true, true, options);
     }
     select(Selector, function (element, index) {
-        //console.log(element.getAttribute("name"));
-        //console.log(event);
         element.dispatchEvent(event);
     });
 }

@@ -69,12 +69,14 @@ function replaceAll(Source, Find, ReplaceWith){
     return Source.replaceAll(Find, ReplaceWith);
 }
 
-function replacesynonyms(searchstring, thesynonyms, includenotfounds){
+function replacesynonyms(searchstring, thesynonyms, includenotfounds, returnArray){
     //replace synonyms with the first term to normalize the search
     //thesynonyms [OPTIONAL], if missing, will use global synonyms
     //includenotfounds [OPTIONAL], if missing, the words that don't have synonyms will be included in the result
     if(isUndefined(thesynonyms)){thesynonyms = synonyms;}
     if(isUndefined(includenotfounds)){includenotfounds=true;}
+    if(isUndefined(returnArray)){returnArray = false;}
+    if(isArray(searchstring)){searchstring = searchstring.join(" ");}
     searchstring = searchstring.trim().toLowerCase().replaceAll("-", " ").split(" ");
     for(var searchstringindex = searchstring.length-1; searchstringindex >= 0; searchstringindex--){
         var wasfound = false;
@@ -107,24 +109,8 @@ function replacesynonyms(searchstring, thesynonyms, includenotfounds){
         }
         removeempties(searchstring);
     }
+    if(returnArray) {return searchstring;}
     return searchstring.join(" ").trim();
-    /*
-    includenotfounds = isUndefined(includenotfounds);
-    searchstring = searchstring.trim().toLowerCase().replaceAll("-", " ");
-    var searchstring2 = "";
-    var temp = -1;
-    for(var synonymparentindex = 0; synonymparentindex< thesynonyms.length; synonymparentindex++){
-        for(var synonymchildindex = 0; synonymchildindex < thesynonyms[synonymparentindex].length; synonymchildindex++){
-            temp = searchstring.indexOf(thesynonyms[synonymparentindex][synonymchildindex]);
-            if(temp  > -1){
-                searchstring = replaceAll(searchstring, thesynonyms[synonymparentindex][synonymchildindex], "");
-                searchstring2 = searchstring2 + " " + thesynonyms[synonymparentindex][0].replaceAll(" ", "-");
-            }
-        }
-    }
-    if(includenotfounds) {searchstring2 = searchstring2.trim() + " " + searchstring.trim();}
-    return searchstring2.trim();
-    */
 }
 
 function removemultiples(text, texttoremove, replacewith){
@@ -160,11 +146,11 @@ function get_quantity(searchstring, itemname){
 }
 
 function get_toppings(originalsearchstring, thesearchstring){
-    if(!isArray(thesearchstring)){var searchstring = thesearchstring.split(" ")} else {var searchstring = cloneData(thesearchstring);}//should already be processed by replacesynonyms
+    var searchstring = replacesynonyms(thesearchstring, synonyms, true, true);
     var ret = new Array;
     select(".tr-addon", function (element) {
         var Found = -1;
-        var label = enum_labels(element); //findlabel(element);
+        var label = enum_labels(element); //findlabel(element);//
         var qualifier;
         for(var searchindex = 0; searchindex<searchstring.length; searchindex++){
             if(searchstring[searchindex]) {
@@ -181,6 +167,9 @@ function get_toppings(originalsearchstring, thesearchstring){
             ret.push({searchindex: Found, qualifier: qualifier, label: label, needsRemoving: needsRemoving });
         }
     });
+
+    log("GET_TOPPINGS: " + JSON.stringify(ret));
+
     return ret;
 }
 
@@ -214,10 +203,12 @@ function get_typos(itemname, originalsearchstring, thesearchstring, labels){
     for (var searchindex = searchstring.length-1; searchindex > -1 ; searchindex--) {
         if (findsynonym(searchstring[searchindex], qualifiers)[0] == -1) {//handle simple typos
             if(itemname.indexOf( searchstring[searchindex] ) == -1) {
-                var closestword = findclosestsynonym(searchstring[searchindex], 1, labels).replaceAll(" ", "-");
-                if(closestword) {
-                    var qualifier = getqualifier(originalsearchstring, searchstring[searchindex], closestword);
-                    ret.push({searchindex: searchindex, qualifier: qualifier, label: closestword, needsRemoving: needsRemoving });
+                var closestword = findclosestsynonym(searchstring[searchindex], 1, labels);
+                closestword.word = closestword.word.replaceAll(" ", "-");
+                if(closestword.word) {
+                    var qualifier = getqualifier(originalsearchstring, searchstring[searchindex], closestword.word);
+                    ret.push({searchindex: searchindex, qualifier: qualifier, label: closestword.word, needsRemoving: needsRemoving, originalword: searchstring[searchindex], distance: closestword.distance});
+                    searchstring[searchindex] = false;
                 }
             }
         }
@@ -228,9 +219,13 @@ function get_typos(itemname, originalsearchstring, thesearchstring, labels){
 function qualifytoppings(toppings, searchstring, ID){
     if(isArray(toppings)) {
         for (var i = toppings.length - 1; i > -1; i--) {
-            if (toppings[i].needsRemoving) {searchstring[toppings[i].searchindex - 1] = false;}//remove words that were used
             qualifytopping("", toppings[i].qualifier, toppings[i].label);
+            if (toppings[i].needsRemoving) {
+                searchstring[toppings[i].searchindex - 1] = false;
+                removeindex(searchstring, i, 1);
+            }
             searchstring[toppings[i].searchindex] = false;
+            removeindex(searchstring, i, 1);
         }
         removeempties(searchstring);
     } else if ( isNumeric(toppings) ){
@@ -238,32 +233,29 @@ function qualifytoppings(toppings, searchstring, ID){
             if(select("#select" + ID + " option[id='" + searchstring[toppings] + "']").length > 0) {
                 value("#select" + ID, searchstring[toppings]);
                 searchstring[toppings] = false;
+                removeindex(searchstring, toppings, 1);
             }
         }
     }
+    return searchstring;
 }
 
 function assimilate(ID, originalsearchstring){
     //if(isUndefined(originalsearchstring)) {originalsearchstring = value("#textsearch");}
-    log("originalsearchstring BEFORE: " + originalsearchstring);
+    clearaddons();
     originalsearchstring = removewords(originalsearchstring);
     var startsearchstring = replacesynonyms(originalsearchstring);
     var searchstring = startsearchstring.split(" ");
     var itemname = replacesynonyms(text("#itemtitle" + ID));
-    clearaddons();
-
-    log("originalsearchstring AFTER: " + originalsearchstring);
-    log("startsearchstring: " + startsearchstring);
-    log("searchstring: " + searchstring);
-    log("itemname: " + itemname);
 
     var searchindex = get_quantity(searchstring, itemname);
     qualifytoppings(searchindex, searchstring, ID);
 
     var toppings = get_toppings(originalsearchstring, searchstring);
-    qualifytoppings(toppings, searchstring);
+    searchstring = qualifytoppings(toppings, searchstring);
 
     var typos = get_typos(itemname, originalsearchstring, searchstring);
+
     qualifytoppings(typos, searchstring);
 
     return [startsearchstring, searchstring];
@@ -277,7 +269,6 @@ function qualifytopping(table, qualifier, topping){
         }
     } else {
         if (!qualifier) {qualifier = "single";}
-        console.log("qualifytopping: " + table + " " + qualifier + " " + topping);
         var element = select(".tr-addon-" + table + "[normalized='" + topping + "']");
         attr(element, "SELECTED", qualifier);
         attr(children(element, "input[value='" + qualifier + "']"), "checked", true);
@@ -290,7 +281,9 @@ function findclosestsynonym(keyword, cutoff, thesynonyms){
     for(var synonymparentindex = 0; synonymparentindex< synonyms.length; synonymparentindex++){
         for(var synonymchildindex = 0; synonymchildindex < synonyms[synonymparentindex].length; synonymchildindex++){
             var value = levenshteinWeighted(keyword, synonyms[synonymparentindex][synonymchildindex]);
-            if(value == 0){return synonyms[synonymparentindex][synonymchildindex];} else if (value < cutoff){
+            if(value == 0){
+                return {distance: 0, word: synonyms[synonymparentindex][synonymchildindex]};
+            } else if (value < cutoff){
                 cutoff = value;
                 ret = synonyms[synonymparentindex][0];
             }
@@ -303,7 +296,7 @@ function findclosestsynonym(keyword, cutoff, thesynonyms){
             ret = thesynonyms[synonymparentindex];
         }
     }
-    return ret;
+    return {distance: cutoff, word: ret};
 }
 function findsynonym(keyword, thesynonyms){
     if(isUndefined(thesynonyms)){thesynonyms = synonyms;}

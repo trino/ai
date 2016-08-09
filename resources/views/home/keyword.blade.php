@@ -186,8 +186,6 @@
         }
         select = assimilate(ID, searchtext);
 
-        alert(select);
-
         if(select) {
             for (i = 0; i < select[1].length; i++) {
                 if (keywords.indexOf(select[1][i]) > -1) {
