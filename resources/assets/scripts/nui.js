@@ -267,7 +267,7 @@ function qualifytopping(table, qualifier, topping){
         for(var i=0; i < tables.length; i++){
             qualifytopping(tables[i], qualifier, topping);
         }
-    } else {
+    } else if(visible(".addons-" + table, false)) {
         if (!qualifier) {qualifier = "single";}
         var element = select(".tr-addon-" + table + "[normalized='" + topping + "']");
         attr(element, "SELECTED", qualifier);
@@ -416,23 +416,25 @@ function getaddons(table, astext){
         for(var i=0; i < tables.length; i++){
             addons.push( getaddons(tables[i], true) );
         }
-        return addons.join(", ");
+        return addons.join(", ").trim().trimright(",");
     }
     if(isUndefined(astext)){astext = false;}
     var qualifiers = new Array;
     var toppingIDs = new Array;
-    select(".tr-addon-" + table, function(element){
-        var Selected = attr(element, "SELECTED");
-        if(Selected){
-            if(astext){
-                Selected = gettoppingqualifier(table, Selected, attr(element, "name"));
-                qualifiers.push(Selected + " " + attr(element, "name"));
-            } else {
-                qualifiers.push(Selected);
-                toppingIDs.push(attr(element, "TOPPINGID"))
+    if(visible(".addons-" + table, false)) {
+        select(".tr-addon-" + table, function (element) {
+            var Selected = attr(element, "SELECTED");
+            if (Selected) {
+                if (astext) {
+                    Selected = gettoppingqualifier(table, Selected, attr(element, "name"));
+                    qualifiers.push(Selected + " " + attr(element, "name"));
+                } else {
+                    qualifiers.push(Selected);
+                    toppingIDs.push(attr(element, "TOPPINGID"))
+                }
             }
-        }
-    });
+        });
+    }
     if(astext){
         return qualifiers.join(", ");
     }

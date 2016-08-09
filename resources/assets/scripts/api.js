@@ -24,9 +24,16 @@ String.prototype.left = function(n) {
     return this.substring(0, n);
 };
 String.prototype.right = function(n) {
-    if(n<0){n=this.length+n;}
-    return this.substring(0, this.length-n);
+    return this.substring(this.length-n);
 };
+String.prototype.trimright = function (str){
+    var target = this;
+    while(target.right(str.length).isEqual(str)){
+        target = target.left(target.length - str.length);
+    }
+    return target;
+};
+
 
 Object.prototype.getName = function() {
     var funcNameRegex = /function (.{1,})\(/;
