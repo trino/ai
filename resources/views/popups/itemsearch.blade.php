@@ -9,10 +9,6 @@
         $ret = array();
         if(!is_array($text)){$text = explode(" ", $text);}
         if(!is_array($words)){$words = array(normalizetext($words));} else {$words = normalizetext($words);}
-
-        var_dump($text);
-        var_dump($words);
-
         foreach($text as $index => $text_word){
             if(in_array(normalizetext($text_word), $words)){
                 $ret[] = $index;
