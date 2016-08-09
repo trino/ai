@@ -69,11 +69,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="nui.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="nui.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/assets/scripts/nui.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.35543767">
-              <caret line="83" column="93" selection-start-line="83" selection-start-column="93" selection-end-line="83" selection-end-column="93" />
+            <state vertical-scroll-proportion="-17.5">
+              <caret line="41" column="16" selection-start-line="41" selection-start-column="16" selection-end-line="41" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -82,8 +82,8 @@
       <file leaf-file-name="api.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/assets/scripts/api.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.3846154">
-              <caret line="69" column="35" selection-start-line="69" selection-start-column="35" selection-end-line="69" selection-end-column="35" />
+            <state vertical-scroll-proportion="-9.807693">
+              <caret line="17" column="64" selection-start-line="17" selection-start-column="64" selection-end-line="17" selection-end-column="64" />
               <folding />
             </state>
           </provider>
@@ -104,13 +104,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="keyword.blade.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="keyword.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/home/keyword.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.0">
-              <caret line="188" column="76" selection-start-line="188" selection-start-column="76" selection-end-line="188" selection-end-column="76" />
+            <state vertical-scroll-proportion="0.3791209">
+              <caret line="180" column="113" selection-start-line="180" selection-start-column="113" selection-end-line="180" selection-end-column="113" />
               <folding>
-                <marker date="1470333831340" expanded="true" signature="1907:1968" placeholder="SELECT * FRO..keywords..." />
+                <marker date="1470748958011" expanded="true" signature="1907:1968" placeholder="SELECT * FRO..keywords..." />
               </folding>
             </state>
           </provider>
@@ -190,10 +190,10 @@
         <option value="$PROJECT_DIR$/resources/views/popups/itemsearch.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/home/editor.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/home/edittable.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/home/keyword.blade.php" />
         <option value="$PROJECT_DIR$/resources/assets/scripts/api.js" />
         <option value="$PROJECT_DIR$/resources/views/popups/addons.blade.php" />
         <option value="$PROJECT_DIR$/resources/assets/scripts/nui.js" />
+        <option value="$PROJECT_DIR$/resources/views/home/keyword.blade.php" />
       </list>
     </option>
   </component>
@@ -1156,16 +1156,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/home/keyword.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.0">
-          <caret line="188" column="76" selection-start-line="188" selection-start-column="76" selection-end-line="188" selection-end-column="76" />
-          <folding>
-            <marker date="1470333831340" expanded="true" signature="1907:1968" placeholder="SELECT * FRO..keywords..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/api.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="26.153847">
@@ -1194,17 +1184,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/scripts/api.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.3846154">
-          <caret line="69" column="35" selection-start-line="69" selection-start-column="35" selection-end-line="69" selection-end-column="35" />
+        <state vertical-scroll-proportion="-9.807693">
+          <caret line="17" column="64" selection-start-line="17" selection-start-column="64" selection-end-line="17" selection-end-column="64" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/scripts/nui.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.35543767">
-          <caret line="83" column="93" selection-start-line="83" selection-start-column="93" selection-end-line="83" selection-end-column="93" />
+        <state vertical-scroll-proportion="-17.5">
+          <caret line="41" column="16" selection-start-line="41" selection-start-column="16" selection-end-line="41" selection-end-column="16" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/home/keyword.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3791209">
+          <caret line="180" column="113" selection-start-line="180" selection-start-column="113" selection-end-line="180" selection-end-column="113" />
+          <folding>
+            <marker date="1470748958011" expanded="true" signature="1907:1968" placeholder="SELECT * FRO..keywords..." />
+          </folding>
         </state>
       </provider>
     </entry>

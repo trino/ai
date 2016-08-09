@@ -177,8 +177,8 @@
 
         var searchtext = value("#textsearch");
         var quantity = searchtext.containswords(quantities);
-        if( quantity ){
-            var buttontext = ' <BUTTON IID="' + ID + '" ONCLICK="runtest2(this);" VALUE="';
+        if( quantity.length ){
+            var buttontext = ' <BUTTON IID="' + ID + '" ONCLICK="runtest2(this);" TITLE="Found word: ' + quantity + '" VALUE="';
             for(var i = 0; i < quantity.length-1; i++ ){
                 select = select + buttontext + removewords(getwordsbetween(searchtext, quantity[i], quantity[i+1])) + '">Item: ' +  (i+1) + '</BUTTON>';
             }
