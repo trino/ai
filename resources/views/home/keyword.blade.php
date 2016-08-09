@@ -34,10 +34,10 @@
         $wordstoignore = array("the", "with", "and", "times", "on", "an");
         foreach($plurals as $index => $plural){
             $plural = trim(strtolower($plural));
-            $plurals[$index] = $plural;
-            if(in_array($plural, $wordstoignore)) {
+            if(in_array($plural, $wordstoignore) || !$plural) {
                 unset($plurals[$index]);
             } else if (strlen($plural) > 2 && right($plural, 1) == "s"){
+                $plurals[$index] = $plural;
                 $plurals[] = left($plural, strlen($plural)-1);
             }
         }
@@ -71,10 +71,10 @@
             if(count($results["is5keywords"])){
                 foreach($results["is5keywords"] as $primaryKeyID){
                     $keywordids = array_merge(array($primaryKeyID), $results["non5keywords"]);
-                    echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $keywordids));
+                    echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $keywordids, "text" => $_GET["search"]));
                 }
             } else if ($results["non5keywords"]){
-                echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $results["non5keywords"]));
+                echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $results["non5keywords"], "text" => $_GET["search"]));
             }
         } else {
             die("SQL FAILED! " . $words);
@@ -155,18 +155,23 @@
     function runtest2(t){
         var value = t.getAttribute("value");
         var id = t.getAttribute("iid");
-        assimilate(id, value);
-        innerHTML("#toppings", getaddons("", true));
+        runtest(id, value);
     }
 
-    function runtest(t) {
-        var ID = value(t);
+    function runtest(t, searchtext) {
+        if(isNumeric(t)){
+            var ID = t;
+            t = document.getElementById("assimilate" + t + "-1");
+        } else {
+            var ID = value(t);
+        }
         var toppings = innerHTML("#addons").split("|");
         var keywords = innerHTML("#row" + ID + "-synonyms").replaceAll("[|]", " ");
         var itemname = innerHTML("#row" + ID + "-itemname");
         var select = '<SPAN ID="searchfor"></SPAN><BR>Item Title: <SPAN ID="itemtitle' + ID + '">' + itemname + '</SPAN> (Converts to: ' + replacesynonyms(itemname) + ')<BR>';
         select = select + 'Toppings: <SPAN ID="toppings"></SPAN><BR>';
-        select = select + 'Quantity: <SELECT ID="select' + ID + '">';
+        select = select + 'Quantity: <SELECT ID="select' + ID + '" CLASS="quantityselect">';
+
         for (var i = 1; i <= 10; i++) {
             select = select + '<OPTION VALUE="' + i + '">' + i + '</OPTION>';
         }
@@ -175,20 +180,13 @@
         if(attr(t, "toppings") == 1){show(".addons-toppings");}
         if(attr(t, "wings_sauce") == 1){show(".addons-wings_sauce");}
 
-        var searchtext = value("#textsearch");
-        var quantity = searchtext.containswords(quantities);
-        if( quantity.length ){
-            var buttontext = ' <BUTTON IID="' + ID + '" ONCLICK="runtest2(this);" TITLE="Found word: ' + quantity + '" VALUE="';
-            for(var i = 0; i < quantity.length-1; i++ ){
-                select = select + buttontext + removewords(getwordsbetween(searchtext, quantity[i], quantity[i+1])) + '">Item: ' +  (i+1) + '</BUTTON>';
-            }
-            select = select + buttontext + removewords(getwordsbetween(searchtext, quantity[quantity.length-1])) + '">Item: ' +  quantity.length + '</BUTTON>';
-            innerHTML("#thepopup", '<DIV ID="product-pop-up_' + ID + '">SINGLE PIZZA: ' + select + '</DIV>');
-            select = false;
-        } else {
-            innerHTML("#thepopup", '<DIV ID="product-pop-up_' + ID + '">SINGLE PIZZA: ' + select + '</DIV>');
-            select = assimilate(ID);
+        innerHTML("#thepopup", '<DIV ID="product-pop-up_' + ID + '">SINGLE PIZZA: ' + select + '</DIV>');
+        if(isUndefined(searchtext)){
+            var searchtext = value("#textsearch");
         }
+        select = assimilate(ID, searchtext);
+
+        alert(select);
 
         if(select) {
             for (i = 0; i < select[1].length; i++) {

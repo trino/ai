@@ -1,7 +1,6 @@
 //natural user interface
 
 var tables = ["toppings", "wings_sauce"];
-var wordstoignore = ["the", "with", "and", "times", "on", "one"];
 var synonyms = [//multi-dimensional array of multi-word terms, the first term is the primary terms, followed by the secondary terms
     ["jalapenos", "jalapeno", "jalapeño", "jalapeños", "jalape?o"],
     ["green peppers"],
@@ -25,29 +24,34 @@ var qualifiers = [
     ["triple", "three", "3"],
     ["quadruple", "four", "4"]
 ];//⁵⁶⁷⁸⁹
-var quantities = ["next", "first", "second", "third", "fourth"];
+
+function cloneData(data) {
+    var jsonString = JSON.stringify(data);// Convert the data into a string first
+    return JSON.parse(jsonString);//  Parse the string to create a new instance of the data
+}
 
 String.prototype.containswords = function (words){
     var text = this.toLowerCase().split(" ");
     var count = new Array;
+    var index;
     if(isArray(words)) {
         for (var i = 0; i < words.length; i++) {
-            if( text.indexOf(words[i].toLowerCase()) > -1 ){
-                count.push(words[i].toLowerCase());
-            }
+            index = text.indexOf(words[i].toLowerCase());
+            if( index > -1 ){count.push(index);}//count.push(words[i].toLowerCase());
         }
-    } else if (text.indexOf(words.toLowerCase())) {
-        count.push(words.toLowerCase());
+    } else {
+        index = text.indexOf(words.toLowerCase());
+        if( index > -1 ){count.push(index);}//count.push(words[i].toLowerCase());
     }
     return count;
 };
 
 function getwordsbetween(text, leftword, rightword){
     text = text.toLowerCase().split(" ");
-    var start  = text.indexOf(leftword)+1;
+    var start  = leftword+1;//text.indexOf(leftword)+1;
     var finish = text.length;
     if(!isUndefined(rightword)){
-        finish = text.indexOf(rightword, start);
+        finish = rightword;//text.indexOf(rightword, start);
     }
     return text.slice(start, finish).join(" ");
 }
@@ -70,6 +74,7 @@ function replacesynonyms(searchstring, thesynonyms, includenotfounds){
     //thesynonyms [OPTIONAL], if missing, will use global synonyms
     //includenotfounds [OPTIONAL], if missing, the words that don't have synonyms will be included in the result
     if(isUndefined(thesynonyms)){thesynonyms = synonyms;}
+    if(isUndefined(includenotfounds)){includenotfounds=true;}
     searchstring = searchstring.trim().toLowerCase().replaceAll("-", " ").split(" ");
     for(var searchstringindex = searchstring.length-1; searchstringindex >= 0; searchstringindex--){
         var wasfound = false;
@@ -87,6 +92,20 @@ function replacesynonyms(searchstring, thesynonyms, includenotfounds){
                 }
             }
         }
+    }
+    if(!includenotfounds){
+        for(var searchstringindex = 0; searchstringindex < searchstring.length; searchstringindex++){
+            var wasfound = false;
+            for(var synonymparentindex = 0; synonymparentindex< thesynonyms.length; synonymparentindex++){
+                var synonym = thesynonyms[synonymparentindex][0].split(" ");
+                wasfound = arraycompare(searchstring, searchstringindex, synonym);
+                if(wasfound){ synonymparentindex = thesynonyms.length; }
+            }
+            if(!wasfound){
+                searchstring[searchstringindex] = false;
+            }
+        }
+        removeempties(searchstring);
     }
     return searchstring.join(" ").trim();
     /*
@@ -109,87 +128,143 @@ function replacesynonyms(searchstring, thesynonyms, includenotfounds){
 }
 
 function removemultiples(text, texttoremove, replacewith){
-   while(text.indexOf(texttoremove) !== -1){
-       text = text.replaceAll(text, replacewith);
+   while(text.indexOf(texttoremove) > -1){
+       text = text.replaceAll(texttoremove, replacewith);
    }
-    return text;
+   return text.trim();
 }
 
 function removewords(text, words){
     if(isUndefined(words)){words = wordstoignore;}
     text = text.toLowerCase().split(" ");
     for(var i=text.length-1; i>-1; i--){
-        if(words.indexOf(text[i]) >-1){
+        if(words.indexOf(text[i]) > -1){
             removeindex(text, i);
         }
     }
-    return removemultiples(text.join(" "), "  ", " ").trim();
+    text = removemultiples(text.join(" "), "  ", " ");
+    return text;
 }
 
-function assimilate(ID, originalsearchstring){
-    if(isUndefined(originalsearchstring)) {originalsearchstring = value("#textsearch");}
-    originalsearchstring = removewords(originalsearchstring);
-    var startsearchstring = replacesynonyms(originalsearchstring);
-    var searchstring = startsearchstring.split(" ");
-    var itemname = replacesynonyms(text("#itemtitle" + ID));
-
-    //quantity
+//DOES NOT RETURN THE QUANTITY!!!! Returns the index of searchstring where the quantity was found (an array split by " ")
+function get_quantity(searchstring, itemname){
+    if(!isArray(searchstring)){searchstring = searchstring.split(" ")}//should already be processed by replacesynonyms
     for(var searchindex = 0; searchindex<searchstring.length; searchindex++){
         if(isNumeric( searchstring[searchindex] )){
-            if(select("#select" + ID + " option[id='" + searchstring[searchindex] + "']").length > 0) {//make sure the quantity even exists
-                if(itemname.indexOf( searchstring[searchindex] ) == -1) {//make sure the number isn't part of the item name
-                    value("#select" + ID, searchstring[searchindex]);
-                    searchstring[searchindex] = false;//remove it from the search, no need to check it twice
-                }
+            if(itemname.indexOf( searchstring[searchindex] ) == -1) {//make sure the number isn't part of the item name
+                return searchindex;
             }
         }
     }
+    return -1;
+}
 
-    //add ons/toppings
-    var labels = new Array;
-
-    clearaddons();
+function get_toppings(originalsearchstring, thesearchstring){
+    if(!isArray(thesearchstring)){var searchstring = thesearchstring.split(" ")} else {var searchstring = cloneData(thesearchstring);}//should already be processed by replacesynonyms
+    var ret = new Array;
     select(".tr-addon", function (element) {
         var Found = -1;
-        var label = attr(element, "name"); //findlabel(element);
-        //console.log("TEST: " + label);
-        if( !hasattribute(element, "normalized") ){
-            attr(element, "normalized", replacesynonyms(label));//cache results
-        }
-        label = attr(element, "normalized");
-        labels.push(label);
+        var label = enum_labels(element); //findlabel(element);
         var qualifier;
         for(var searchindex = 0; searchindex<searchstring.length; searchindex++){
             if(searchstring[searchindex]) {
                 if (label.indexOf(searchstring[searchindex]) > -1) {
                     Found = searchindex;
-                    qualifier = getqualifier(originalsearchstring, searchstring[searchindex])
+                    qualifier = getqualifier(originalsearchstring, searchstring[searchindex]);
                     if(needsRemoving){searchstring[searchindex-1] = false;}
                     searchstring[searchindex] = false;//remove it from the search, no need to check it twice
                     searchindex = searchstring.length;
                 }
             }
         }
-        if(Found > -1){
-            qualifytopping("", qualifier, label);
+        if(Found > -1){//qualifytopping("", qualifier, label);
+            ret.push({searchindex: Found, qualifier: qualifier, label: label, needsRemoving: needsRemoving });
         }
     });
+    return ret;
+}
 
+function enum_labels(element){
+    if(isUndefined(element)) {
+        var labels = new Array;//add ons/toppings list for spell check
+        select(".tr-addon", function (element) {
+            labels.push(enum_labels(element));
+        });
+        return labels;
+    }
+    var label = attr(element, "name"); //findlabel(element);
+    if (!hasattribute(element, "normalized")) {
+        attr(element, "normalized", replacesynonyms(label));//cache results
+    }
+    return attr(element, "normalized");
+}
+
+function removeempties(array){
+    for (var searchindex = array.length-1; searchindex > -1 ; searchindex--) {
+        if(!array[searchindex]){
+            removeindex(array, searchindex, 1);
+        }
+    }
+}
+
+function get_typos(itemname, originalsearchstring, thesearchstring, labels){
+    var ret = new Array;
+    if(isUndefined(labels)){labels = enum_labels();;}
+    if(!isArray(thesearchstring)){var searchstring = thesearchstring.split(" ")} else {var searchstring = cloneData(thesearchstring);}//should already be processed by replacesynonyms and get_toppings
     for (var searchindex = searchstring.length-1; searchindex > -1 ; searchindex--) {
-        if(!searchstring[searchindex]) {
-            searchstring.splice(searchindex, 1);//remove words that were used
-        } else if (findsynonym(searchstring[searchindex], qualifiers)[0] == -1) {//handle simple typos
+        if (findsynonym(searchstring[searchindex], qualifiers)[0] == -1) {//handle simple typos
             if(itemname.indexOf( searchstring[searchindex] ) == -1) {
                 var closestword = findclosestsynonym(searchstring[searchindex], 1, labels).replaceAll(" ", "-");
-                console.log("Closest word to '" + searchstring[searchindex] + "' is '" + closestword + "'");
                 if(closestword) {
                     var qualifier = getqualifier(originalsearchstring, searchstring[searchindex], closestword);
-                    qualifytopping("", qualifier, closestword);
-                    searchstring[searchindex] = closestword;
+                    ret.push({searchindex: searchindex, qualifier: qualifier, label: closestword, needsRemoving: needsRemoving });
                 }
             }
         }
     }
+    return ret;
+}
+
+function qualifytoppings(toppings, searchstring, ID){
+    if(isArray(toppings)) {
+        for (var i = toppings.length - 1; i > -1; i--) {
+            if (toppings[i].needsRemoving) {searchstring[toppings[i].searchindex - 1] = false;}//remove words that were used
+            qualifytopping("", toppings[i].qualifier, toppings[i].label);
+            searchstring[toppings[i].searchindex] = false;
+        }
+        removeempties(searchstring);
+    } else if ( isNumeric(toppings) ){
+        if(toppings > -1){//make sure the quantity even exists
+            if(select("#select" + ID + " option[id='" + searchstring[toppings] + "']").length > 0) {
+                value("#select" + ID, searchstring[toppings]);
+                searchstring[toppings] = false;
+            }
+        }
+    }
+}
+
+function assimilate(ID, originalsearchstring){
+    //if(isUndefined(originalsearchstring)) {originalsearchstring = value("#textsearch");}
+    log("originalsearchstring BEFORE: " + originalsearchstring);
+    originalsearchstring = removewords(originalsearchstring);
+    var startsearchstring = replacesynonyms(originalsearchstring);
+    var searchstring = startsearchstring.split(" ");
+    var itemname = replacesynonyms(text("#itemtitle" + ID));
+    clearaddons();
+
+    log("originalsearchstring AFTER: " + originalsearchstring);
+    log("startsearchstring: " + startsearchstring);
+    log("searchstring: " + searchstring);
+    log("itemname: " + itemname);
+
+    var searchindex = get_quantity(searchstring, itemname);
+    qualifytoppings(searchindex, searchstring, ID);
+
+    var toppings = get_toppings(originalsearchstring, searchstring);
+    qualifytoppings(toppings, searchstring);
+
+    var typos = get_typos(itemname, originalsearchstring, searchstring);
+    qualifytoppings(typos, searchstring);
 
     return [startsearchstring, searchstring];
 }
@@ -278,9 +353,6 @@ function getqualifier(startsearchstring, keyword, toppingword){
             return qualifierValue;
         }
     }
-
-
-
     return "single";
 }
 
@@ -380,6 +452,7 @@ function clearaddons(table){
             clearaddons(tables[i]);
         }
     } else {
+        value(".quantityselect", "1");
         table = "-" + table;
         attr(".tr-addon" + table, "SELECTED", "");
         attr(".addon" + table, "checked", false);
