@@ -222,10 +222,10 @@ function qualifytoppings(toppings, searchstring, ID){
             qualifytopping("", toppings[i].qualifier, toppings[i].label);
             if (toppings[i].needsRemoving) {
                 searchstring[toppings[i].searchindex - 1] = false;
-                removeindex(searchstring, i, 1);
+                //removeindex(searchstring, i, 1);
             }
             searchstring[toppings[i].searchindex] = false;
-            removeindex(searchstring, i, 1);
+            //removeindex(searchstring, i, 1);
         }
         removeempties(searchstring);
     } else if ( isNumeric(toppings) ){
@@ -233,11 +233,15 @@ function qualifytoppings(toppings, searchstring, ID){
             if(select("#select" + ID + " option[id='" + searchstring[toppings] + "']").length > 0) {
                 value("#select" + ID, searchstring[toppings]);
                 searchstring[toppings] = false;
-                removeindex(searchstring, toppings, 1);
+                //removeindex(searchstring, toppings, 1);
             }
         }
     }
     return searchstring;
+}
+
+function get_itemname(ID){
+    return replacesynonyms(text("#itemtitle" + ID));//can also use "#row" + ID + "-item"
 }
 
 function assimilate(ID, originalsearchstring){
@@ -246,19 +250,14 @@ function assimilate(ID, originalsearchstring){
     originalsearchstring = removewords(originalsearchstring);
     var startsearchstring = replacesynonyms(originalsearchstring);
     var searchstring = startsearchstring.split(" ");
-    var itemname = replacesynonyms(text("#itemtitle" + ID));
-
+    var itemname = get_itemname(ID);
     var searchindex = get_quantity(searchstring, itemname);
     qualifytoppings(searchindex, searchstring, ID);
-
     var toppings = get_toppings(originalsearchstring, searchstring);
     searchstring = qualifytoppings(toppings, searchstring);
-
     var typos = get_typos(itemname, originalsearchstring, searchstring);
-
-    qualifytoppings(typos, searchstring);
-
-    return [startsearchstring, searchstring];
+    qualifytoppings(typos, cloneData(searchstring));
+    return [startsearchstring, searchstring,toppings, typos];
 }
 
 function qualifytopping(table, qualifier, topping){

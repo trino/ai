@@ -180,27 +180,40 @@
         if(attr(t, "toppings") == 1){show(".addons-toppings");}
         if(attr(t, "wings_sauce") == 1){show(".addons-wings_sauce");}
 
-        innerHTML("#thepopup", '<DIV ID="product-pop-up_' + ID + '">SINGLE PIZZA: ' + select + '</DIV>');
+        innerHTML("#thepopup", '<DIV ID="product-pop-up_' + ID + '">ITEM: ' + select + '</DIV>');
         if(isUndefined(searchtext)){
             var searchtext = value("#textsearch");
         }
         select = assimilate(ID, searchtext);
 
         if(select) {
-            for (i = 0; i < select[1].length; i++) {
-                if (keywords.indexOf(select[1][i]) > -1) {
-                    select[1][i] = strike(select[1][i], 'This keyword was used to find the menu item');
-                } else if (wordstoignore.indexOf(select[1][i]) > -1) {
-                    select[1][i] = strike(select[1][i], 'This keyword can not be used to find food and is better off ignored');
-                } else if (findsynonym(select[1][i], qualifiers)[0] > -1) {
-                    select[1][i] = strike(select[1][i], 'Quantity qualifier');
-                }
-            }
-            select[1].push(strike(wordstoignore.join(", "), 'Discarded words'));
-            log(select[1].join(", "));
-            innerHTML("#searchfor", "Searching string: " + select[0] + "<BR>Keywords not found: " + select[1].join(", ") + " (Words that are <STRIKE>struck out</STRIKE> are not useful)");
+            select[1] = get_notfound(select[1], keywords);
+            innerHTML("#searchfor", "Searching string: " + select[0] + "<BR>Keywords not found: " + select[1] + " (Words that are <STRIKE>struck out</STRIKE> are not useful)");
         }
         innerHTML("#toppings", getaddons("", true));
+    }
+
+    function indexOf(Arr, toFind){
+        toFind = toFind.toLowerCase();
+        if(toFind.right(1) == "s"){
+            var value = Arr.indexOf(toFind.left( toFind.length-1));
+            if(value > -1){return value;}
+        }
+        return Arr.indexOf(toFind);
+    }
+
+    function get_notfound(select1, keywords){
+        for (i = 0; i < select1.length; i++) {
+            if (indexOf(keywords, select1[i]) > -1) {
+                select1[i] = strike(select1[i], 'This keyword was used to find the menu item');
+            } else if (indexOf(wordstoignore, select1[i]) > -1) {
+                select1[i] = strike(select1[i], 'This keyword can not be used to find food and is better off ignored');
+            } else if (findsynonym(select1[i], qualifiers)[0] > -1) {
+                select1[i] = strike(select1[i], 'Quantity qualifier');
+            }
+        }
+        select1.push(strike(wordstoignore.join(", "), 'Discarded words'));
+        return select1.join(", ");
     }
 
     function strike(Text, Reason){
