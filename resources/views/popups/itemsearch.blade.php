@@ -213,7 +213,13 @@
         if(!isset($text)){$text="";}
         $quantity = containswords($text, $quantities);//check if the search contains multiple items, instead of just one
         $buttontext= "";
-        $buttonstarttext = ' <BUTTON ID="assimilate[rowid]-[itemid]" CLASS="assimilate assimilate[rowid]" IID="[rowid]" TITLE="[title]" ONCLICK="[script]" VALUE="[text]" toppings="[toppings]" wings_sauce="[wings_sauce]" [style]>Item: [itemid]</BUTTON>';//base string, replace [text] later on
+        $Tables = array("toppings", "wings_sauce");
+        $buttonstarttext="";
+        foreach($Tables as $Table){
+            $buttonstarttext .= " " . $Table . '="[' . $Table . ']"';
+        }
+
+        $buttonstarttext = ' <BUTTON ID="assimilate[rowid]-[itemid]" CLASS="assimilate assimilate[rowid]" IID="[rowid]" TITLE="[title]" ONCLICK="[script]" VALUE="[text]" ' . $buttonstarttext . '[style]>Item: [itemid]</BUTTON>';//base string, replace [text] later on
 
         if($quantity){//split the search up into it's individual items
             $lastkey = lastkey($quantity);
@@ -236,7 +242,9 @@
             $row["id"] = $row["menuid"];
             $row = removekeys($row, array("name", "price", "display_order", "has_addon", "wordid", "mkid", "keyword_id", "req_opt", "sing_mul", "exact_upto", "exact_upto_qty", "created_at", "updated_at", "addon_category_id", "image", "menuitem_id", "item_id", "menuid"));//just to clean up the results
             $row["actions"] = '<A HREF="edit?id=' . $row["id"] . '">Edit</A><BR>';
-            $row["actions"] .= multireplace($buttontext, array("[rowid]" => $row["id"], "[wings_sauce]" => $row["wings_sauce"], "[toppings]" => $row["toppings"]));
+            $row["actions"] .= multireplace($buttontext, array("[rowid]" => $row["id"]));//, "[wings_sauce]" => $row["addontype"] == 2, "[toppings]" => $row["addontype"] == 1));
+            foreach($Tables as $TableID => $TableName){
+            }
             printrow($row, $FirstResult);
         }
         if (!$FirstResult) {echo '</TABLE>';}
