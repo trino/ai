@@ -4,51 +4,77 @@
     if(isset($keywordids) && is_array($keywordids)){$keywordids = implode(",", $keywordids);}
     if(!isset($isKeyword)){$isKeyword = true;}
     $quantities = ["next", "first", "second", "third", "fourth", "then", "other"];//add rank 5 keywords to this, but only the single-word synonyms
-    $wordstoignore = ["the", "with", "and", "times", "on", "one"];
+    //if(!isset($wordstoignore)) {$wordstoignore = ["the", "with", "and", "times", "on", "one"];}//use copy from keyword.blade instead
+    if(count($is5keywords) > 1){//is part of a multiple item search
+        $WordsBefore = 5;
+        //reduce the $text to X words before the primary keyword, till the next primary keyword or end of the string
+        //also reprocess the keywords to only get the keyword IDs between those 2 points as well, making the toppings for example, wings more specific to wings
+        var_dump($text);
+        $primarykeyid = $keywords[$primarykeyid];
+        var_dump($primarykeyid);
+        var_dump($is5keywords);
+        var_dump($keywords);
+    }
 
-    //explodes $text by space, checks if the cells contain $words and returns the indexes
-    function containswords($text, $words){
-        $ret = array();
-        if(!is_array($text)){$text = explode(" ", $text);}
-        if(!is_array($words)){$words = array(normalizetext($words));} else {$words = normalizetext($words);}
-        foreach($text as $index => $text_word){
-            if(in_array(normalizetext($text_word), $words)){
-                $ret[] = $index;
+    if(!function_exists("containswords")){
+        //explodes $text by space, checks if the cells contain $words and returns the indexes
+        function containswords($text, $words){
+            $ret = array();
+            if(!is_array($text)){$text = explode(" ", $text);}
+            if(!is_array($words)){$words = array(normalizetext($words));} else {$words = normalizetext($words);}
+            foreach($text as $index => $text_word){
+                if(in_array(normalizetext($text_word), $words)){
+                    $ret[] = $index;
+                }
             }
+            return $ret;
         }
-        return $ret;
-    }
 
-    //uses containswords() to check for $words, then removes the cells
-    function removewords($text, $words){
-        if(!is_array($text)){$text = explode(" ", $text);}
-        $words = containswords($text, $words);
-        foreach($words as $index){
-            unset($text[$index]);
-        }
-        return implode(" ", $text);
-    }
-
-    //gets the words between $leftword and $rightword. if $rightword isn't specified, it gets all words after $leftword
-    function getwordsbetween($text, $leftword, $rightword = false){
-        if(!is_array($text)){
-            return implode(" ", getwordsbetween(explode(" ", $text), $leftword, $rightword));
-        }
-        $length = NULL;
-        $leftword = $leftword + 1;
-        if($rightword){$length = $rightword - $leftword;}
-        return array_slice($text, $leftword, $length);
-    }
-
-    //lowercase and trim text for == comparison
-    function normalizetext($text){
-        if(is_array($text)){
-            foreach($text as $index => $word){
-                $text[$index] = normalizetext($word);
+        //uses containswords() to check for $words, then removes the cells
+        function removewords($text, $words){
+            if(!is_array($text)){$text = explode(" ", $text);}
+            $words = containswords($text, $words);
+            foreach($words as $index){
+                unset($text[$index]);
             }
-            return $text;
+            return implode(" ", $text);
         }
-        return strtolower(trim($text));
+
+        //gets the words between $leftword and $rightword. if $rightword isn't specified, it gets all words after $leftword
+        function getwordsbetween($text, $leftword, $rightword = false){
+            if(!is_array($text)){
+                return implode(" ", getwordsbetween(explode(" ", $text), $leftword, $rightword));
+            }
+            $length = NULL;
+            $leftword = $leftword + 1;
+            if($rightword){$length = $rightword - $leftword;}
+            return array_slice($text, $leftword, $length);
+        }
+
+        //lowercase and trim text for == comparison
+        function normalizetext($text){
+            if(is_array($text)){
+                foreach($text as $index => $word){
+                    $text[$index] = normalizetext($word);
+                }
+                return $text;
+            }
+            return strtolower(trim($text));
+        }
+
+        //gets the last key of an array
+        function lastkey($array){
+            $keys = array_keys($array);
+            return last($keys);
+        }
+
+        //a faster replace using the key of data as the text to find, and the value of data as the text to replace it with
+        function multireplace($Text, $Data){
+            foreach($Data as $Key => $Value){
+                $Text = str_replace($Key, $Value, $Text);
+            }
+            return $Text;
+        }
     }
 
     if(isset($searchstring) && !$isKeyword){//search by text
@@ -90,20 +116,6 @@
 
     $result = Query($SQL);
 
-    //gets the last key of an array
-    function lastkey($array){
-        $keys = array_keys($array);
-        return last($keys);
-    }
-
-    //a faster replace using the key of data as the text to find, and the value of data as the text to replace it with
-    function multireplace($Text, $Data){
-        foreach($Data as $Key => $Value){
-            $Text = str_replace($Key, $Value, $Text);
-        }
-        return $Text;
-    }
-
     if($result) {
         $FirstResult = true;
         if(!isset($text)){$text="";}
@@ -136,8 +148,7 @@
         if (!$FirstResult) {echo '</TABLE>';}
     } else {
         echo "No keywords found in '" . $_GET["search"] . "'";
-    }
-    //dump the arrays to javascript, that way only 1 copy needs to be edited
+    }//dump the arrays to javascript, that way only 1 copy needs to be edited
 ?>
 </DIV>
 <SCRIPT>

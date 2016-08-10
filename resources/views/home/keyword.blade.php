@@ -15,35 +15,77 @@
         }
     }
 
+    //How the search works:
+        //there are 2 stages to a search, the first being the MySQL portion
+        //then the javascript attempts to take the addons/toppings from the search and assigns them to the results of the first stage
+
+    //for text-only searches:
+            //a search string is broken up into individual words, and a LIKE comparison is used to return any menu item that has any of the words found in it's text columns
+
+    //for keyword searches:
+        //this reduces any text search to it's keyword ID numbers
+        //first a text search is split up into individual words
+        //then each word is searched for in the keywords table
+        //if any term has the word in it's synonym list then it's added to a list
+        //a keyword has a list of words it will match against, so a search for soda or cola would match against pop, instead of needing multiple terms
+        //either the weight5keywords[] if it's weight is 5, or nonweight5keywords[] if it's less
+        //this allows multiple keyword searches to be run from a single text search
+        //since keywords tend to be relevant to a specific item, this would allow
+        //"large pizza" and "cheddar dip" to return the appropriate items at the top of the list without interference
+        //However searching for "large pizza and pop" would return "large pizza" and "large pop" as "large" would be relevant to both items
+        //The more keywords a menu item has from the search, the higher weight (sum of the weights of all keywords found) it will have
+        //meaning the more relevant a menu item is to the search string, the higher weight it will have
+        //if a search string seems to be for multiple items (ie: 2 Pizzas), it will be broken apart into multiple strings for stage 2 (in itemsearch.blade.php)
+
+    //Stage 2: Javascript
+        //the javascript assimilator will attempt to break apart the search string into quantity of items, as well as each addon and their qualifier (if present)
+        //clearaddons();
+            //resets the addon form so only regular sauce/cheese/etc are selected
+        //originalsearchstring = removewords(originalsearchstring);
+            //removes useless words from the search (the, an, and, a, etc)
+        //var startsearchstring = replacesynonyms(originalsearchstring);
+            //attempts to break originalsearchstring down by word, and finds the first word in the synonym list to match it
+        //var itemname = get_itemname(ID);
+            //gets the menu item name from the table
+        //var searchindex = get_quantity(searchstring, itemname); qualifytoppings(searchindex, searchstring, ID);
+            //attempts to get the quantity of the menu item, and selects it from the dropdown
+        //var toppings = get_toppings(originalsearchstring, searchstring); searchstring = qualifytoppings(toppings, searchstring);
+            //attempts to get the addons from the search string, then selects them
+        //var typos = get_typos(itemname, originalsearchstring, searchstring); qualifytoppings(typos, cloneData(searchstring));
+            //attempts to get the words not found from the previous step, then finds the closest spelled word from the list of addons and selects them
+        //return the results for final processing/display
+
+    $wordstoignore = array("the", "with", "and", "times", "on", "an");//discard these words
     $isKeyword = get("searchtype", "Keyword search") == "Keyword search";
     $selectedbutton = ' CLASS="selectedbutton"';
     $keywordclass = iif($isKeyword, $selectedbutton);
     $textclass = iif(!$isKeyword, $selectedbutton);
 
     if(!isset($_GET["search"]) || !trim($_GET["search"]) || !$isKeyword){
+        //blank search, just show the entire menu
         if(!isset($_GET["search"])) {$_GET["search"] = "";}
         $results["SortColumn"] = get("SortColumn", "keywords");
         $results["SortDirection"] = get("SortDirection", "DESC");
         $results["words"] = "";
-        echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "isKeyword" => $isKeyword, "searchstring" => $_GET["search"]));
+        echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "isKeyword" => $isKeyword, "searchstring" => $_GET["search"], "wordstoignore" => $wordstoignore));
     } else{
-
+        //text found, reduce the search to keyword ID numbers
         $results = array("SQL" => array());
         $words = strtolower(str_replace(" ", "|", $_GET["search"]));
 
         $plurals = explode("|", $words);//automatically check for non-pluralized words
-        $wordstoignore = array("the", "with", "and", "times", "on", "an");
         foreach($plurals as $index => $plural){
             $plural = trim(strtolower($plural));
             if(in_array($plural, $wordstoignore) || !$plural) {
-                unset($plurals[$index]);
-            } else if (strlen($plural) > 2 && right($plural, 1) == "s"){
+                unset($plurals[$index]);//discard words from $wordstoignore
+            } else if (strlen($plural) > 2 && right($plural, 1) == "s"){//if the last letter of the word is an 's', remove it and add the result as a new word to handle plurals
                 $plurals[$index] = $plural;
                 $plurals[] = left($plural, strlen($plural)-1);
             }
         }
         $words = implode("|", $plurals);
 
+        //search the keywords table for the search string
         $result = Query("SELECT * FROM keywords WHERE synonyms REGEXP '" . $words . "';");
         if($result){
             $results["is5keywords"] = array();
@@ -53,12 +95,13 @@
                 $results["words"][] = $word;
                 $results["keywords"][ $row["id"] ] = array(
                     "word" => $word,
+                    "synonyms" => $row["synonyms"],
                     "weight" => $row["weight"]
                 );
                 if($row["weight"] == 5){
-                    $results["is5keywords"][] = $row["id"];
+                    $results["is5keywords"][] = $row["id"];//is a weight 5 keyword, indicating a new search needs to be run
                 } else {
-                    $results["non5keywords"][] = $row["id"];
+                    $results["non5keywords"][] = $row["id"];//is a weight of less than 5
                 }
                 $results["SQL"][] = $row["id"];
             }
@@ -69,16 +112,16 @@
 
             var_dump($results);
 
-            if(count($results["is5keywords"])){
+            if(count($results["is5keywords"])){//run a search for each weight-5 keyword, with only 1 weight-5 keyword per search
                 foreach($results["is5keywords"] as $primaryKeyID){
                     $keywordids = array_merge(array($primaryKeyID), $results["non5keywords"]);
-                    echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $keywordids, "text" => $_GET["search"]));
+                    echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $keywordids, "text" => $_GET["search"], "wordstoignore" => $wordstoignore, "primarykeyid" => $primaryKeyID, "is5keywords" => $results["is5keywords"], "keywords" => $results["keywords"]));
                 }
-            } else if ($results["non5keywords"]){
-                echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $results["non5keywords"], "text" => $_GET["search"]));
+            } else if ($results["non5keywords"]){//no weight-5 keywords found, run a single search of all the keywords
+                echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $results["non5keywords"], "text" => $_GET["search"], "wordstoignore" => $wordstoignore));
             }
         } else {
-            die("SQL FAILED! " . $words);
+            die("SQL FAILED! " . $words);//no keywords found in the search
         }
     }
 
@@ -110,6 +153,7 @@
 
 <script type="text/javascript">
     var keywords = "<?= $results["words"]; ?>";
+    var results = <?= json_encode($results); ?>;
 
     //handles speech recognition
     if ('webkitSpeechRecognition' in window) {
@@ -133,6 +177,7 @@
         console.log("Speech recognition was not found");
     }
 
+    //start speech recognition
     function startButton(event) {
         recognition.start();
     }
@@ -154,12 +199,14 @@
         speechSynthesis.speak(u);
     }
 
+    //used for searches with multiple items in 1 search
     function runtest2(t){
         var value = t.getAttribute("value");
         var id = t.getAttribute("iid");
         runtest(id, value);
     }
 
+    //show debug info in the box
     function runtest(t, searchtext) {
         if(isNumeric(t)){
             var ID = t;
@@ -195,6 +242,7 @@
         innerHTML("#toppings", getaddons("", true));
     }
 
+    //similar to array.indexOf() but also handles plurals
     function indexOf(Arr, toFind){
         toFind = toFind.toLowerCase();
         if(toFind.right(1) == "s"){
@@ -204,6 +252,7 @@
         return Arr.indexOf(toFind);
     }
 
+    //gets the keywords that weren't found, and why others were discarded
     function get_notfound(select1, keywords){
         for (i = 0; i < select1.length; i++) {
             if (indexOf(keywords, select1[i]) > -1) {
@@ -218,23 +267,17 @@
         return select1.join(", ");
     }
 
+    //returns the text, striked out, with a title="$reason"
     function strike(Text, Reason){
         return '<STRIKE TITLE="' + Reason + '">' + Text + '</STRIKE>';
     }
 
+    //shortcut to console.log
     function log(text){
         console.log(text);
     }
 
-    function indepth(usekeywords){
-        if(usekeywords){
-            usekeywords = keywords;
-        } else {
-            usekeywords = value("#textsearch");
-        }
-        window.location = "<?= webroot(); ?>public/index3.php?search=" + usekeywords;
-    }
-
+    //event listener to handle column sorting
     addlistener(".colheader", "click", function(){
         var clicked = innerHTML(this);
         var selected = value("#SortColumn");
@@ -255,6 +298,7 @@
         trigger("#submit", "click");
     });
 
+    //checks if a select dropdown has the option/value
     function SelectHasOptionValue(Select, Value){
         return select(Select + " option[value='" + Value + "']").length > 0;
     }
