@@ -25,8 +25,8 @@
       <file leaf-file-name="keyword.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/home/keyword.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.1923075">
-              <caret line="97" column="51" selection-start-line="97" selection-start-column="51" selection-end-line="97" selection-end-column="51" />
+            <state vertical-scroll-proportion="-13.730769">
+              <caret line="117" column="318" selection-start-line="117" selection-start-column="310" selection-end-line="117" selection-end-column="318" />
               <folding>
                 <element signature="e#8332#8353#0#HTML" expanded="true" />
                 <element signature="e#9552#9584#0#HTML" expanded="true" />
@@ -61,11 +61,14 @@
       <file leaf-file-name="itemsearch.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/popups/itemsearch.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.18104367">
-              <caret line="10" column="159" selection-start-line="10" selection-start-column="159" selection-end-line="10" selection-end-column="159" />
+            <state vertical-scroll-proportion="0.702081">
+              <caret line="232" column="9" selection-start-line="232" selection-start-column="9" selection-end-line="232" selection-end-column="9" />
               <folding>
-                <marker date="1470846189770" expanded="true" signature="5080:5652" placeholder="SELECT *, co..*..." />
-                <marker date="1470846189770" expanded="true" signature="5306:5652" placeholder="SELECT menu...menu..." />
+                <element signature="n#STYLE#0;n#DIV#0;n#!!top" expanded="true" />
+                <marker date="1470852869302" expanded="true" signature="4092:4185" placeholder="..." />
+                <marker date="1470852869302" expanded="true" signature="8931:9503" placeholder="SELECT *, co..*..." />
+                <marker date="1470852869302" expanded="true" signature="9157:9503" placeholder="SELECT menu...menu..." />
+                <marker date="1470852869302" expanded="true" signature="12501:12625" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -1248,8 +1251,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/home/keyword.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.1923075">
-          <caret line="97" column="51" selection-start-line="97" selection-start-column="51" selection-end-line="97" selection-end-column="51" />
+        <state vertical-scroll-proportion="-13.730769">
+          <caret line="117" column="318" selection-start-line="117" selection-start-column="310" selection-end-line="117" selection-end-column="318" />
           <folding>
             <element signature="e#8332#8353#0#HTML" expanded="true" />
             <element signature="e#9552#9584#0#HTML" expanded="true" />
@@ -1260,11 +1263,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/popups/itemsearch.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.18104367">
-          <caret line="10" column="159" selection-start-line="10" selection-start-column="159" selection-end-line="10" selection-end-column="159" />
+        <state vertical-scroll-proportion="0.702081">
+          <caret line="232" column="9" selection-start-line="232" selection-start-column="9" selection-end-line="232" selection-end-column="9" />
           <folding>
-            <marker date="1470846189770" expanded="true" signature="5080:5652" placeholder="SELECT *, co..*..." />
-            <marker date="1470846189770" expanded="true" signature="5306:5652" placeholder="SELECT menu...menu..." />
+            <element signature="n#STYLE#0;n#DIV#0;n#!!top" expanded="true" />
+            <marker date="1470852869302" expanded="true" signature="4092:4185" placeholder="..." />
+            <marker date="1470852869302" expanded="true" signature="8931:9503" placeholder="SELECT *, co..*..." />
+            <marker date="1470852869302" expanded="true" signature="9157:9503" placeholder="SELECT menu...menu..." />
+            <marker date="1470852869302" expanded="true" signature="12501:12625" placeholder="..." />
           </folding>
         </state>
       </provider>

@@ -5,18 +5,23 @@
     if(!isset($isKeyword)){$isKeyword = true;}
     $quantities = ["next", "first", "second", "third", "fourth", "then", "other"];//add rank 5 keywords to this, but only the single-word synonyms
     //if(!isset($wordstoignore)) {$wordstoignore = ["the", "with", "and", "times", "on", "one"];}//use copy from keyword.blade instead
-    if(count($is5keywords) > 1){//is part of a multiple item search
-        $WordsBefore = 5;
-        //reduce the $text to X words before the primary keyword, till the next primary keyword or end of the string
-        //also reprocess the keywords to only get the keyword IDs between those 2 points as well, making the toppings for example, wings more specific to wings
-        var_dump($text);
-        $primarykeyid = $keywords[$primarykeyid];
-        var_dump($primarykeyid);
-        var_dump($is5keywords);
-        var_dump($keywords);
-    }
 
     if(!function_exists("containswords")){
+        //faster version of containswords
+        function containstext($text, $word){
+            return stristr($text, $word) == true;//case-insensitive
+        }
+        //find the synonym ID of $text
+        function findsynonym($text, $synonyms){
+            foreach($synonyms as $ID => $synonym){
+                if(containstext($synonym["synonyms"], $text)){return $ID;}
+            }
+            if(strtolower(right($text,1)) == "s" && strlen($text) > 1){
+                return findsynonym(left($text, strlen($text) -1), $synonyms);
+            }
+            return -1;
+        }
+
         //explodes $text by space, checks if the cells contain $words and returns the indexes
         function containswords($text, $words){
             $ret = array();
@@ -75,6 +80,93 @@
             }
             return $Text;
         }
+
+        function weightstring($newsearch, $keywords){
+            $text = array();
+            foreach($newsearch as $key => $value){
+                if($value["synonymid"] == -1){
+                    $text[] = $value["word"] . "[0]";
+                } else {
+                    $text[] = $value["word"] . "[" . $keywords[$value["synonymid"]]["weight"] . "]";
+                }
+            }
+            return implode(" ", $text);
+        }
+    }
+
+    $reduced = false;
+    if($isKeyword && isset($is5keywords) && count($is5keywords) > 1){//is part of a multiple item search
+        echo '<DIV STYLE="border: 2px solid blue;margin-left: 5px;margin-bottom: 5px;margin-right: 5px;margin-top: 5px;">';
+        $WordsBefore = 5;//similar_text
+        //reduce the $text to X words before the primary keyword, till the next primary keyword or end of the string
+        //also reprocess the keywords to only get the keyword IDs between those 2 points as well, making the toppings for example, wings more specific to wings
+
+        echo "<B>Multiple item search detected. Collapsing search to a smaller area</B>";
+        echo "<BR>Primary keyword: " . $primarykeyid . " (" . $keywords[$primarykeyid]["word"] . ")" ;//ID of the primary search key
+        echo "<BR>Weight-5 keyword IDs: " . implode(", ", $is5keywords);
+        echo "<BR>(BEFORE) All keywords: " . $keywordids;
+
+        //var_dump($keywords);
+        $startingIndex = -1;
+        $endingIndex = -1;
+
+        $newsearch = explode(" ", $text);
+        foreach($newsearch as $index => $word){
+            $synonymID = findsynonym($word, $keywords);
+            $newsearch[$index] = array("word" => $word, "synonymid" => $synonymID);
+            if($synonymID > -1 && $index > 0){//remove duplicates as it'll confuse the system
+                for($i = 0; $i < $index; $i++){
+                    if( $newsearch[$i]["synonymid"] == $synonymID){
+                        $newsearch[$index] = array("word" => "", "synonymid" => -1);
+                        $synonymID = false;
+                        $i = $index;
+                    }
+                }
+            }
+            if($synonymID){
+                if ($synonymID == $primarykeyid){
+                    $startingIndex = $index;
+                } else if ($startingIndex > -1 && $endingIndex == -1 && $synonymID > -1){
+                    $endingIndex = $index - 1;
+                }
+            }
+        }
+        if($endingIndex == -1){$endingIndex = lastkey($newsearch);}
+
+        //look X words before the desired weight-5 keyword, stopping at the previous weight-5 keyword
+        for($index = 1; $index < $WordsBefore; $index++){
+            $newindex = $startingIndex - $index;
+            if($newindex > -1){
+                if($newsearch[$newindex]["synonymid"] > -1){
+                    $WordsBefore = $index-1;
+                }
+            }
+        }
+
+        $text = weightstring($newsearch, $keywords);
+        echo "<BR>(BEFORE) Search string: " . $text;
+        echo "<BR>Get Words and keywordIDs from " . $startingIndex . "(-" . $WordsBefore . ") to " . $endingIndex;
+        $startingIndex = max($startingIndex - $WordsBefore, 0);
+
+        $keywordids = array();
+        $text = array();
+        for($index = $startingIndex; $index <= $endingIndex; $index++){
+            $ID = $newsearch[$index]["synonymid"];
+            if($ID == -1){
+                $text[] = $newsearch[$index]["word"];
+            } else {
+                $keywordids[] = $ID;
+                $text[] = $keywords[$ID]["word"];
+            }
+        }
+        $text = implode(" ", $text);
+        $keywordids = implode(" ", $keywordids);
+
+        echo "<BR>(AFTER) Search string: " . $text;
+        echo "<BR>(AFTER) All keywords: " . $keywordids;
+
+        echo '</DIV>';
+        $reduced = true;
     }
 
     if(isset($searchstring) && !$isKeyword){//search by text
@@ -121,11 +213,11 @@
         if(!isset($text)){$text="";}
         $quantity = containswords($text, $quantities);//check if the search contains multiple items, instead of just one
         $buttontext= "";
-        $buttonstarttext = ' <BUTTON ID="assimilate[rowid]-[itemid]" CLASS="assimilate assimilate[rowid]" IID="[rowid]" TITLE="Assimilate" ONCLICK="[script]" VALUE="[text]" toppings="[toppings]" wings_sauce="[wings_sauce]" [style]>Item: [itemid]</BUTTON>';//base string, replace [text] later on
+        $buttonstarttext = ' <BUTTON ID="assimilate[rowid]-[itemid]" CLASS="assimilate assimilate[rowid]" IID="[rowid]" TITLE="[title]" ONCLICK="[script]" VALUE="[text]" toppings="[toppings]" wings_sauce="[wings_sauce]" [style]>Item: [itemid]</BUTTON>';//base string, replace [text] later on
 
         if($quantity){//split the search up into it's individual items
             $lastkey = lastkey($quantity);
-            $buttonstarttext = multireplace($buttonstarttext, array("[script]" => 'runtest2(this);', "[style]" => ""));
+            $buttonstarttext = multireplace($buttonstarttext, array("[script]" => 'runtest2(this);', "[style]" => "", "[title]" => "Assimilate multiple"));
             foreach($quantity as $i => $word){
                 $rightword=false;
                 if($i != $lastkey){
@@ -134,8 +226,10 @@
                 $resulttext = getwordsbetween($text, $quantity[$i], $rightword);
                 $buttontext .= multireplace($buttonstarttext, array("[text]" => $resulttext, "[itemid]" => $i+1));
             }
+        } else if($reduced){
+            $buttontext = multireplace($buttonstarttext, array("[script]" => 'runtest2(this);', "[style]" => "", "[title]" => "Assimilate reduced", "[itemid]" => 1, "[text]" => $text));
         } else {//only 1 item, only needs 1 assimilate button
-            $buttontext = multireplace($buttonstarttext, array("[script]" => 'runtest(this);', "[itemid]" => 1, "[style]" => ' STYLE="width: 100%;"', "[text]" => "[rowid]"));
+            $buttontext = multireplace($buttonstarttext, array("[script]" => 'runtest(this);', "[itemid]" => 1, "[style]" => ' STYLE="width: 100%;"', "[text]" => "[rowid]", "[title]" => "Assimilate Single"));
         }
 
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {//display SQL results
