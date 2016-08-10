@@ -244,6 +244,7 @@
             $row["actions"] = '<A HREF="edit?id=' . $row["id"] . '">Edit</A><BR>';
             $row["actions"] .= multireplace($buttontext, array("[rowid]" => $row["id"]));//, "[wings_sauce]" => $row["addontype"] == 2, "[toppings]" => $row["addontype"] == 1));
             foreach($Tables as $TableID => $TableName){
+                $row["actions"] = multireplace($row["actions"], array("[" . $TableName . "]" => $row[$TableName]));
             }
             printrow($row, $FirstResult);
         }
