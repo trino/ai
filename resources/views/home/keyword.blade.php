@@ -7,11 +7,12 @@
 </STYLE>
 <?php
     $con = connectdb("keywordtest");
-
-    function firstword($Text){
-        $Space = strpos($Text, " ");
-        if($Space === false){return $Text;}
-        return left($Text, $Space);
+    if(function_exists("firstword")){
+        function firstword($Text){
+            $Space = strpos($Text, " ");
+            if($Space === false){return $Text;}
+            return left($Text, $Space);
+        }
     }
 
     $isKeyword = get("searchtype", "Keyword search") == "Keyword search";
