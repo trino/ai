@@ -35,7 +35,10 @@
         //However searching for "large pizza and pop" would return "large pizza" and "large pop" as "large" would be relevant to both items
         //The more keywords a menu item has from the search, the higher weight (sum of the weights of all keywords found) it will have
         //meaning the more relevant a menu item is to the search string, the higher weight it will have
-        //if a search string seems to be for multiple items (ie: 2 Pizzas), it will be broken apart into multiple strings for stage 2 (in itemsearch.blade.php)
+
+    //itemsearch.blade.php will further process the string/keyword IDs it's given to attempt to reduce it to being more relevant to the primary weight-5 keyword it's searching for
+        //if a search string seems to be for multiple items (ie: 2 Pizzas), it will be broken apart into multiple strings for the javascript stage 2
+        //as well as the keywords limited to the area between the primary weight-5 keyword (-5 words, or the previous weight-5 keyword, whichever comes first) and the next weight-5 keyword or the end
 
     //Stage 2: Javascript
         //the javascript assimilator will attempt to break apart the search string into quantity of items, as well as each addon and their qualifier (if present)
