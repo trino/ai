@@ -1,6 +1,6 @@
 //natural user interface
 
-var tables = ["toppings", "wings_sauce"];
+var tables = ["toppings", "wings_sauce"];//individual topping tables
 var synonyms = [//multi-dimensional array of multi-word terms, the first term is the primary terms, followed by the secondary terms
     ["jalapenos", "jalapeno", "jalapeño", "jalapeños", "jalape?o"],
     ["green peppers"],
@@ -23,13 +23,15 @@ var qualifiers = [
     ["double", "extra", "more", "two", "2"],
     ["triple", "three", "3"],
     ["quadruple", "four", "4"]
-];//⁵⁶⁷⁸⁹
+];//when these words are directly before a topping, they indicate a quantity of the topping  ⁵⁶⁷⁸⁹
 
+//makes a copy of an array/object without referencing the source
 function cloneData(data) {
-    var jsonString = JSON.stringify(data);// Convert the data into a string first
-    return JSON.parse(jsonString);//  Parse the string to create a new instance of the data
+    var jsonString = JSON.stringify(data);
+    return JSON.parse(jsonString);
 }
 
+//splits text up by " ", then checks if the cells contain $words (can be a string or an array),
 String.prototype.containswords = function (words){
     var text = this.toLowerCase().split(" ");
     var count = new Array;
@@ -46,6 +48,7 @@ String.prototype.containswords = function (words){
     return count;
 };
 
+//gets words between $leftword and $rightword. if $rightword isn't specified, gets all words after $leftword
 function getwordsbetween(text, leftword, rightword){
     text = text.toLowerCase().split(" ");
     var start  = leftword+1;//text.indexOf(leftword)+1;
@@ -56,14 +59,7 @@ function getwordsbetween(text, leftword, rightword){
     return text.slice(start, finish).join(" ");
 }
 
-function findlabel(element){
-    var label = select("label[for='"+attr(element, 'id')+"']");
-    if (label.length == 0) {
-        label = closest(element, 'label')
-    }
-    return label;
-}
-
+//procedural version of string.replaceAll
 function replaceAll(Source, Find, ReplaceWith){
     Find = Find.replaceAll("[?]", "[?]");
     return Source.replaceAll(Find, ReplaceWith);
@@ -71,8 +67,9 @@ function replaceAll(Source, Find, ReplaceWith){
 
 function replacesynonyms(searchstring, thesynonyms, includenotfounds, returnArray){
     //replace synonyms with the first term to normalize the search
-    //thesynonyms [OPTIONAL], if missing, will use global synonyms
-    //includenotfounds [OPTIONAL], if missing, the words that don't have synonyms will be included in the result
+    //thesynonyms [OPTIONAL]: if missing, will use global synonyms
+    //includenotfounds [OPTIONAL]: if missing, the words that don't have synonyms will be included in the result
+    //returnArray [OPTIONAL, assumes false]: if true, returns the array instead of the joined text
     if(isUndefined(thesynonyms)){thesynonyms = synonyms;}
     if(isUndefined(includenotfounds)){includenotfounds=true;}
     if(isUndefined(returnArray)){returnArray = false;}
@@ -95,7 +92,7 @@ function replacesynonyms(searchstring, thesynonyms, includenotfounds, returnArra
             }
         }
     }
-    if(!includenotfounds){
+    if(!includenotfounds){//filter words that do not have registered synonyms
         for(var searchstringindex = 0; searchstringindex < searchstring.length; searchstringindex++){
             var wasfound = false;
             for(var synonymparentindex = 0; synonymparentindex< thesynonyms.length; synonymparentindex++){
@@ -113,6 +110,7 @@ function replacesynonyms(searchstring, thesynonyms, includenotfounds, returnArra
     return searchstring.join(" ").trim();
 }
 
+//make sure there are no instances of $texttoremove within $text (ie: search for double spaces in "       ", ending up with " "
 function removemultiples(text, texttoremove, replacewith){
    while(text.indexOf(texttoremove) > -1){
        text = text.replaceAll(texttoremove, replacewith);
@@ -120,6 +118,7 @@ function removemultiples(text, texttoremove, replacewith){
    return text.trim();
 }
 
+//remove $words from $text
 function removewords(text, words){
     if(isUndefined(words)){words = wordstoignore;}
     text = text.toLowerCase().split(" ");
@@ -145,6 +144,7 @@ function get_quantity(searchstring, itemname){
     return -1;
 }
 
+//gets the toppings and qualifiers from the search text (requires both the original and synonym-processed text)
 function get_toppings(originalsearchstring, thesearchstring){
     var searchstring = replacesynonyms(thesearchstring, synonyms, true, true);
     var ret = new Array;
@@ -167,12 +167,10 @@ function get_toppings(originalsearchstring, thesearchstring){
             ret.push({searchindex: Found, qualifier: qualifier, label: label, needsRemoving: needsRemoving });
         }
     });
-
-    log("GET_TOPPINGS: " + JSON.stringify(ret));
-
     return ret;
 }
 
+//get all toppings labels for the spellcheck
 function enum_labels(element){
     if(isUndefined(element)) {
         var labels = new Array;//add ons/toppings list for spell check
@@ -188,6 +186,7 @@ function enum_labels(element){
     return attr(element, "normalized");
 }
 
+//remove empty cells from an array
 function removeempties(array){
     for (var searchindex = array.length-1; searchindex > -1 ; searchindex--) {
         if(!array[searchindex]){
@@ -196,6 +195,7 @@ function removeempties(array){
     }
 }
 
+//get toppings that weren't spelled correctly
 function get_typos(itemname, originalsearchstring, thesearchstring, labels){
     var ret = new Array;
     if(isUndefined(labels)){labels = enum_labels();;}
@@ -216,6 +216,7 @@ function get_typos(itemname, originalsearchstring, thesearchstring, labels){
     return ret;
 }
 
+//check all the topping's radio buttons
 function qualifytoppings(toppings, searchstring, ID){
     if(isArray(toppings)) {
         for (var i = toppings.length - 1; i > -1; i--) {
@@ -240,10 +241,12 @@ function qualifytoppings(toppings, searchstring, ID){
     return searchstring;
 }
 
+//gets the name of a menu item from the table
 function get_itemname(ID){
     return replacesynonyms(text("#itemtitle" + ID));//can also use "#row" + ID + "-item"
 }
 
+//handles the processing of search text
 function assimilate(ID, originalsearchstring){
     //if(isUndefined(originalsearchstring)) {originalsearchstring = value("#textsearch");}
     clearaddons();
@@ -260,6 +263,7 @@ function assimilate(ID, originalsearchstring){
     return [startsearchstring, searchstring,toppings, typos];
 }
 
+//check a single topping's radio button
 function qualifytopping(table, qualifier, topping){
     if(qualifier){qualifier = qualifier.replaceAll(" ", "-").toLowerCase();}
     if(!table){
@@ -274,6 +278,9 @@ function qualifytopping(table, qualifier, topping){
     }
 }
 
+//find the closest-spelled synonym to a keyword
+//cutoff: the tolerance, words must be below this to count as spelled similarly to the keyword
+//thesynonyms: multi-dimensional array of synonyms, first cell in each sub-array will be treated as the primary term
 function findclosestsynonym(keyword, cutoff, thesynonyms){
     keyword = keyword.toLowerCase();
     var ret = "";
@@ -297,6 +304,7 @@ function findclosestsynonym(keyword, cutoff, thesynonyms){
     }
     return {distance: cutoff, word: ret};
 }
+//finds the parent synonym of keyword, returning [it's parent ID, the child ID of the keyword itself]. returns [-1,-1] if not found
 function findsynonym(keyword, thesynonyms){
     if(isUndefined(thesynonyms)){thesynonyms = synonyms;}
     keyword = keyword.toLowerCase();
@@ -308,7 +316,8 @@ function findsynonym(keyword, thesynonyms){
     return [-1,-1];
 }
 
-var needsRemoving = false;
+//checks the original search string for the word BEFORE the topping to see if it's a qualifer
+var needsRemoving = false;//used to return 2 variables, check it AFTER running getqualifier()
 function getqualifier(startsearchstring, keyword, toppingword){
     needsRemoving = false;
     keyword = replacesynonyms(keyword);
@@ -348,6 +357,7 @@ function getqualifier(startsearchstring, keyword, toppingword){
     return "single";
 }
 
+//gets the custom qualifiers of a topping from the radio buttons
 function gettoppingqualifier(table, qualifier, topping){
     if(table) {
         var classname = ".addon-" + table + "-" + qualifier + "-" + topping.toLowerCase().replaceAll(" ", "-");
@@ -409,6 +419,7 @@ function levenshteinWeighted (seq1,seq2) {
     return dist;
 }
 
+//gets all selected toppings/addons
 function getaddons(table, astext){
     if(!table){
         var addons = new Array;
@@ -440,6 +451,7 @@ function getaddons(table, astext){
     return [qualifiers, toppingIDs];
 }
 
+//reset the toppings/addons
 function clearaddons(table){
     if(isUndefined(table)){
         for(var i=0; i < tables.length; i++){
@@ -456,12 +468,15 @@ function clearaddons(table){
     }
 }
 
+//click a topping's radio button
 function clicktopping(table, qualifier, topping){
     var classname = ".addon-" + table + "-" + qualifier.toLowerCase() + "-" + topping.toLowerCase().replaceAll(" ", "-");
     trigger(classname, "click");
     attr(classname, "checked", true);
 }
 
+//compares $arr with $comparewith, starting at $arr[$startingindex] and $comparewith[0]
+//if $comparewith isn't an array/is a string, it'll be split on " "
 function arraycompare(arr, startingindex, comparewith){
     if(!isArray(comparewith)){comparewith = comparewith.split(" ");}
     for(var i = 0; i < comparewith.length; i++){

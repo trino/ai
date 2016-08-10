@@ -3,6 +3,7 @@
 //Siblings, Prev, Prepend, Position Relative To Viewport, Position, Parent, Outer Width With Margin, Outer Width, Outer Height With Margin, Outer Height, Offset Parent, Offset, Next, Matches Selector, matches, Find Children, Filter, Contains Selector, Contains, Clone, Children, Append
 var debugmode = true;
 
+//replaces all instances of $search within a string with $replacement
 String.prototype.replaceAll = function (search, replacement) {
     var target = this;
     if(isArray(search)){
@@ -17,15 +18,23 @@ String.prototype.replaceAll = function (search, replacement) {
     }
     return target.replace(new RegExp(search, 'g'), replacement);
 };
+
+//returns true if 2 strings are equal, case-insensitive
 String.prototype.isEqual = function (str){
     return this.toUpperCase()==str.toUpperCase();
 };
+
+//returns the left $n characters of a string
 String.prototype.left = function(n) {
     return this.substring(0, n);
 };
+
+//returns the right $n characters of a string
 String.prototype.right = function(n) {
     return this.substring(this.length-n);
 };
+
+//trims any occurences of $str off the right end of a string
 String.prototype.trimright = function (str){
     var target = this;
     while(target.right(str.length).isEqual(str)){
@@ -34,32 +43,46 @@ String.prototype.trimright = function (str){
     return target;
 };
 
-
+//gets the typename of an object
 Object.prototype.getName = function() {
     var funcNameRegex = /function (.{1,})\(/;
     var results = (funcNameRegex).exec((this).constructor.toString());
     return (results && results.length > 1) ? results[1] : "";
 };
 
+//returns true if $variable appears to be a valid number
 function isNumeric(variable){
     return !isNaN(Number(variable));
 }
+
+//returns true if $variable was not defined (ie: a missing optional parameter)
 function isUndefined(variable){
     return typeof variable === 'undefined';
 }
+
+//returns true if $variable appears to be a valid HTML element
 function isElement(variable){
     return iif(variable && variable.nodeType, true, false);
 }
+
+//returns true if $variable appears to be a valid function
 function isFunction(variable) {
     var getType = {};
     return variable && getType.toString.call(variable) === '[object Function]';
 }
+
+//returns true if $variable appears to be a valid string
 function isString(variable){
     return typeof variable === 'string';
 }
+
+//returns true if $variable appears to be a valid array
 function isArray(variable){
     return Array.isArray(variable);
 }
+
+//returns true if $variable appears to be a valid object
+//typename (optional): the $variable would also need to be of the same object type (case-sensitive)
 function isObject(variable, typename){
     if (typeof variable == "object"){
         if(isUndefined(typename)) {return true;}
@@ -67,10 +90,14 @@ function isObject(variable, typename){
     }
     return false;
 }
+
+//returns true if $variable appears to be a valid Selector
 function isSelector(variable){
     return isArray(variable) || isObject(variable, "NodeList") || isElement(variable) || isString(variable);
 }
 
+//selects elements, then runs myFunction on them
+//Selector can be a CSS selector string, an element itself, an array of elements or a nodelist
 function select(Selector, myFunction){
     if(isArray(Selector) || isObject(Selector, "NodeList")){
         var Elements = Selector;
@@ -89,10 +116,10 @@ function select(Selector, myFunction){
     return Elements;
 }
 
+//returns all children of the parent selector
 function children(ParentSelector, ChildSelector, myFunction){
     var allElements = new Array();
     select(ParentSelector, function(element){
-        //console.log("TESTING " + ChildSelector + " AGAINST " + element);
         var Elements = element.querySelectorAll(ChildSelector);
         for (var index = 0; index < Elements.length; index++) {
             allElements.push(Elements[index]);
@@ -102,6 +129,7 @@ function children(ParentSelector, ChildSelector, myFunction){
     return allElements;
 }
 
+//filters elements by the ones that checkelement() returns true
 function filter(Selector, bywhat, myFunction) {
     var elements = select(Selector);
     var out = [];
@@ -112,6 +140,9 @@ function filter(Selector, bywhat, myFunction) {
     }
     return select(out, myFunction);
 }
+//checks an element for:
+//:visible - is the element visible
+//:even/:odd - is the index number even/odd
 function checkelement(element, elementindex, bywhat){
     var ret = true;
     if(isFunction(bywhat)) {
@@ -188,10 +219,13 @@ function empty(Selector){
     innerHTML(Selector, "");
 }
 
+//Value: if missing, return the style. Otherwise set it.
 function style(Selector, Key, Value){
     return value(Selector, Value, 4, Key);
 }
 
+//attempts to check if the selector is visible
+//doParents (optional, assumes true): determines if all of the parent elements need to be checked
 function visible(Selector, doParents){
     var ret = true;
     if(isUndefined(doParents)){doParents=true;}
@@ -211,6 +245,7 @@ function visible(Selector, doParents){
     return ret;
 }
 
+//finds children of the selector
 function find(Selector, ChildSelector){
     var ret = new Array;
     select(Selector, function(element, index){
@@ -220,6 +255,7 @@ function find(Selector, ChildSelector){
     return ret;
 }
 
+//returns an array of all the element's parents, ending BEFORE the document itself
 function parents(Selector){
     var element = select(Selector)[0];
     var ret = new Array;
@@ -257,6 +293,7 @@ function attr(Selector, Attribute, Value){
     return value(Selector, Value, Attribute);
 }
 
+//remove an attribute from the selector
 function removeattr(Selector, Attribute){
     return select(Selector, function (element, index) {
         element.removeAttribute(Attribute);
@@ -378,6 +415,7 @@ function classop(Selector, Operation, theClass){
     return Operation == 4;
 }
 
+//checks if an element contains theClass
 function hasclass(element, theClass){
     if (element.classList) {
         return element.classList.contains(className);
@@ -385,6 +423,9 @@ function hasclass(element, theClass){
         return hasword(element.className, theClass) > -1;
     }
 }
+
+//checks if text contains word
+//delimiter (optional, assumes " "): if arr is text, it'll split the text by the delimiter
 function hasword(text, word, delimiter){
     word = word.toLowerCase();
     if(isUndefined(delimiter)){delimiter=" ";}
@@ -396,6 +437,10 @@ function hasword(text, word, delimiter){
     }
     return -1;
 }
+
+//removes cells from an array, starting from index
+//count (optional, assumes 1): how many cells to remove
+//delimiter (optional, assumes " "): if arr is text, it'll split the text by the delimiter
 function removeindex(arr, index, count, delimiter){
     if(!isArray(arr)){
         if(isUndefined(delimiter)){delimiter=" ";}
@@ -408,6 +453,15 @@ function removeindex(arr, index, count, delimiter){
         }
     }
     return arr;
+}
+
+//finds the label for an element
+function findlabel(element){
+    var label = select("label[for='"+attr(element, 'id')+"']");
+    if (label.length == 0) {
+        label = closest(element, 'label')
+    }
+    return label;
 }
 
 //hide elements
@@ -455,6 +509,7 @@ function post(URL, data, whenDone, async){
     request.send(data);//request = null;
 }
 
+//serialize an object into a request string
 serialize = function(obj, prefix) {
     var str = [];//return '?'+Object.keys(obj).reduce(function(a,k){a.push(k+'='+encodeURIComponent(obj[k]));return a},[]).join('&');
     for(var p in obj) {
@@ -466,6 +521,7 @@ serialize = function(obj, prefix) {
     return str.join("&");
 }
 
+//replace the innerHTML of the selector with the results of an AJAX query
 function load(Selector, URL, data, whenDone){
     ajax(URL, data, function(message, status){
         innerHTML(Selector, message);
@@ -530,6 +586,7 @@ function addHTML(Selector, HTML, position){
     });
 }
 
+//add HTML to the end of the innerHTML of the selector
 function append(Selector, HTML){
     addHTML(Selector, HTML);
 }
