@@ -7,7 +7,7 @@
 </STYLE>
 <?php
     $con = connectdb("keywordtest");
-    if(function_exists("firstword")){
+    if(!function_exists("firstword")){
         function firstword($Text){
             $Space = strpos($Text, " ");
             if($Space === false){return $Text;}
@@ -111,6 +111,7 @@
 <script type="text/javascript">
     var keywords = "<?= $results["words"]; ?>";
 
+    //handles speech recognition
     if ('webkitSpeechRecognition' in window) {
         document.getElementById("startspeech").style = "display: inline;";
 

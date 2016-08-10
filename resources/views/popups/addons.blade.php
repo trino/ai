@@ -1,4 +1,5 @@
 <?php
+    //this page takes an addon table (toppings or wings_sauce) and makes it into a list with the quantity radio buttons and a label
     if(!isset($table)){
         $table = "toppings";
     }
