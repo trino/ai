@@ -240,9 +240,7 @@
         $startingIndex = max($startingIndex - $WordsBefore, 0);
         $text = reassemble_text($newsearch, $keywords, $startingIndex, $endingIndex);
         $keywordids = reassemble_keywordIDs($newsearch, $startingIndex, $endingIndex);
-
         $text2 = weightstring(reassemble($newsearch, $startingIndex, $endingIndex), $keywords, $wordstoignore);
-
         echo "<BR>(AFTER) Search string: " . $text2;
         echo "<BR>(AFTER) All keywords: " . $keywordids;
         echo '</DIV>';

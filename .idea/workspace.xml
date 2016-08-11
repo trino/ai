@@ -48,6 +48,21 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="api.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/api.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-5.8461537">
+              <caret line="157" column="27" selection-start-line="157" selection-start-column="9" selection-end-line="157" selection-end-column="27" />
+              <folding>
+                <marker date="1470251452338" expanded="true" signature="1592:1716" placeholder="INSERT INTO ..." />
+                <marker date="1470251452338" expanded="true" signature="3338:3373" placeholder="SELECT * FRO..." />
+                <marker date="1470251452338" expanded="true" signature="4075:4100" placeholder="DELETE FROM ..." />
+                <marker date="1470251452338" expanded="true" signature="5062:5134" placeholder="SELECT TABLE..TABLES..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="nui.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/assets/scripts/nui.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -61,12 +76,12 @@
       <file leaf-file-name="itemsearch.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/popups/itemsearch.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.49726176">
-              <caret line="230" column="24" selection-start-line="230" selection-start-column="24" selection-end-line="230" selection-end-column="24" />
+            <state vertical-scroll-proportion="0.42278203">
+              <caret line="231" column="4" selection-start-line="231" selection-start-column="4" selection-end-line="231" selection-end-column="4" />
               <folding>
-                <marker date="1470929562353" expanded="true" signature="14439:15011" placeholder="SELECT *, co..*..." />
-                <marker date="1470929562353" expanded="true" signature="14665:15011" placeholder="SELECT menu...menu..." />
-                <marker date="1470929562353" expanded="true" signature="18381:18505" placeholder="..." />
+                <marker date="1470929692448" expanded="true" signature="14437:15009" placeholder="SELECT *, co..*..." />
+                <marker date="1470929692448" expanded="true" signature="14663:15009" placeholder="SELECT menu...menu..." />
+                <marker date="1470929692448" expanded="true" signature="18379:18503" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -79,6 +94,27 @@
               <caret line="7" column="45" selection-start-line="7" selection-start-column="45" selection-end-line="7" selection-end-column="45" />
               <folding>
                 <marker date="1470843639789" expanded="true" signature="222:274" placeholder="SELECT DISTI..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="editor.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/home/editor.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-9.057693">
+              <caret line="219" column="33" selection-start-line="219" selection-start-column="33" selection-end-line="219" selection-end-column="33" />
+              <folding>
+                <marker date="1470931255072" expanded="true" signature="2022:2040" placeholder="SELECT * FRO..menu..." />
+                <marker date="1470931255072" expanded="true" signature="2985:3154" placeholder="SELECT *, me..menukeywords..." />
+                <marker date="1470931255072" expanded="true" signature="5071:5189" placeholder="..." />
+                <marker date="1470931255072" expanded="true" signature="5143:5189" placeholder="..." />
+                <marker date="1470931255072" expanded="true" signature="5156:5189" placeholder="..." />
+                <marker date="1470931255072" expanded="true" signature="5321:5354" placeholder="..." />
+                <marker date="1470931255072" expanded="true" signature="5423:5440" placeholder="..." />
+                <marker date="1470931255072" expanded="true" signature="5584:5595" placeholder="..." />
+                <marker date="1470931255072" expanded="true" signature="6310:6321" placeholder="..." />
+                <marker date="1470931255072" expanded="true" signature="7411:7436" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -117,7 +153,6 @@
         <option value="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" />
         <option value="$PROJECT_DIR$/app/Http/api.php" />
         <option value="$PROJECT_DIR$/public/index3.php" />
-        <option value="$PROJECT_DIR$/resources/views/home/editor.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/home/edittable.blade.php" />
         <option value="$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php" />
         <option value="$PROJECT_DIR$/resources/assets/scripts/api.js" />
@@ -125,6 +160,7 @@
         <option value="$PROJECT_DIR$/resources/views/popups/addons.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/home/keyword.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/popups/itemsearch.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/home/editor.blade.php" />
       </list>
     </option>
   </component>
@@ -783,10 +819,10 @@
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23020834" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.0" sideWeight="0.5104167" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.0" sideWeight="0.5125" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.0" sideWeight="0.48958334" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.0" sideWeight="0.4875" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -1174,37 +1210,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/home/editor.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="19" column="78" selection-start-line="19" selection-start-column="78" selection-end-line="19" selection-end-column="78" />
-          <folding>
-            <marker date="1470326248549" expanded="true" signature="-1:-1" placeholder="SELECT *, me..menukeywords..." />
-            <marker date="1470326248549" expanded="true" signature="-1:-1" placeholder="SELECT *, me..menukeywords..." />
-            <marker date="1470326248549" expanded="true" signature="-1:-1" placeholder="SELECT *, me..menukeywords..." />
-            <marker date="1470326248549" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/com/jetbrains/php/lang/psi/stubs/data/mysqli.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.32142857">
           <caret line="2099" column="9" selection-start-line="2099" selection-start-column="9" selection-end-line="2099" selection-end-column="9" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/api.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.13527851">
-          <caret line="62" column="35" selection-start-line="62" selection-start-column="35" selection-end-line="62" selection-end-column="35" />
-          <folding>
-            <marker date="1470251452338" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
-            <marker date="1470251452338" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..." />
-            <marker date="1470251452338" expanded="true" signature="-1:-1" placeholder="DELETE FROM ..." />
-            <marker date="1470251452338" expanded="true" signature="-1:-1" placeholder="SELECT TABLE..TABLES..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1271,14 +1281,46 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/api.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.8461537">
+          <caret line="157" column="27" selection-start-line="157" selection-start-column="9" selection-end-line="157" selection-end-column="27" />
+          <folding>
+            <marker date="1470251452338" expanded="true" signature="1592:1716" placeholder="INSERT INTO ..." />
+            <marker date="1470251452338" expanded="true" signature="3338:3373" placeholder="SELECT * FRO..." />
+            <marker date="1470251452338" expanded="true" signature="4075:4100" placeholder="DELETE FROM ..." />
+            <marker date="1470251452338" expanded="true" signature="5062:5134" placeholder="SELECT TABLE..TABLES..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/home/editor.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.057693">
+          <caret line="219" column="33" selection-start-line="219" selection-start-column="33" selection-end-line="219" selection-end-column="33" />
+          <folding>
+            <marker date="1470931255072" expanded="true" signature="2022:2040" placeholder="SELECT * FRO..menu..." />
+            <marker date="1470931255072" expanded="true" signature="2985:3154" placeholder="SELECT *, me..menukeywords..." />
+            <marker date="1470931255072" expanded="true" signature="5071:5189" placeholder="..." />
+            <marker date="1470931255072" expanded="true" signature="5143:5189" placeholder="..." />
+            <marker date="1470931255072" expanded="true" signature="5156:5189" placeholder="..." />
+            <marker date="1470931255072" expanded="true" signature="5321:5354" placeholder="..." />
+            <marker date="1470931255072" expanded="true" signature="5423:5440" placeholder="..." />
+            <marker date="1470931255072" expanded="true" signature="5584:5595" placeholder="..." />
+            <marker date="1470931255072" expanded="true" signature="6310:6321" placeholder="..." />
+            <marker date="1470931255072" expanded="true" signature="7411:7436" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/popups/itemsearch.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.49726176">
-          <caret line="230" column="24" selection-start-line="230" selection-start-column="24" selection-end-line="230" selection-end-column="24" />
+        <state vertical-scroll-proportion="0.42278203">
+          <caret line="231" column="4" selection-start-line="231" selection-start-column="4" selection-end-line="231" selection-end-column="4" />
           <folding>
-            <marker date="1470929562353" expanded="true" signature="14439:15011" placeholder="SELECT *, co..*..." />
-            <marker date="1470929562353" expanded="true" signature="14665:15011" placeholder="SELECT menu...menu..." />
-            <marker date="1470929562353" expanded="true" signature="18381:18505" placeholder="..." />
+            <marker date="1470929692448" expanded="true" signature="14437:15009" placeholder="SELECT *, co..*..." />
+            <marker date="1470929692448" expanded="true" signature="14663:15009" placeholder="SELECT menu...menu..." />
+            <marker date="1470929692448" expanded="true" signature="18379:18503" placeholder="..." />
           </folding>
         </state>
       </provider>

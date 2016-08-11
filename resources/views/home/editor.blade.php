@@ -5,7 +5,10 @@
         if(isset($_POST["action"])){
             $_GET = $_POST;
         } else {
-            $_GET["action"] = "main";
+            $_GET["action"] = "list";
+            if(isset($_GET["id"]) && $_GET["id"]){
+                $_GET["action"] = "main";
+            }
         }
     }
 
@@ -16,6 +19,16 @@
                 $keyword["Assign"] .= '<BUTTON STYLE="width:100%;" VALUE="' . $keyword["id"] . '" ONCLICK="assign(this, true);" CLASS="assign">To Category</BUTTON>';
                 break;
             case "keywords":
+                $keywordtype = "Unknown";
+                switch ($keyword["keywordtype"]){
+                    case 1: $keywordtype = "Quantity"; break;
+                    case 2: $keywordtype = "Size"; break;
+                }
+                if($keyword["weight"] == 5){
+                    $keyword["keywordtype"] = -5;
+                    $keywordtype = "Primary";
+                }
+                $keyword["keywordtypeS"] = $keywordtype;
                 $keyword["Assigned to"] = iif($keyword["menuitem_id"] > 0, "Item", "Category");
                 $keyword["Actions"] = '<BUTTON VALUE="' . $keyword["keyword_id"] . '" ONCLICK="editkeyword(this);">Edit</BUTTON> ';
                 $keyword["Actions"] .= '<BUTTON VALUE="' . $keyword["id"] . '" ONCLICK="deletekeyword(this);">Delete</BUTTON>';
@@ -33,9 +46,18 @@
     }
 
     switch($_GET["action"]){
+        case "list":
+            $menuitems = Query("SELECT * FROM menu", true);
+            $firstresult = true;
+            foreach($menuitems as $menuitem){
+                $menuitem["Actions"] = '<A HREF="?id=' . $menuitem["id"] . '">Edit</A>';
+                printrow($menuitem, $firstresult);
+            }
+            echo '</TABLE>';
+            break;
         case "main":
             echo '<script src="' . webroot() . '/resources/assets/scripts/api.js"></script>';
-            echo '<button onclick="window.history.back();">Go Back</button> <button onclick="location.reload();">Refresh</button>';
+            echo '<button onclick="window.history.back();">Go Back</button> <button onclick="location.reload();">Refresh</button> <button onclick="viewall();">View All</button>';
 
             $menuitem = select_field_where("menu", "id=" . $_GET["id"]);//was items
             //$menuitem["restaurant_name"] = select_field_where("restaurants", "id=" . $menuitem["restaurant_id"], "name");
@@ -64,7 +86,7 @@
                 }
                 echo '</TABLE>';
             } else {
-                echo '<table border="1" id="keywords"><tr><th id="keywords-col0">id</th><th id="keywords-col1">menuitem_id</th><th id="keywords-col2">keyword_id</th><th id="keywords-col3">synonyms</th><th id="keywords-col4">weight</th><th id="keywords-col5">Actions</th></tr></table>';
+                echo '<table border="1" id="keywords"><tr><th id="keywords-col0">id</th><th id="keywords-col1">menuitem_id</th><th id="keywords-col2">keyword_id</th><th id="keywords-col3">synonyms</th><th id="keywords-col4">weight</th><TH>keywordtype</TH><TH>keywordtypeS</TH><th id="keywords-col5">Actions</th></tr></table>';
             }
 
             if($suggestions) {
@@ -108,7 +130,7 @@
                 $ID = insertdb("menukeywords", array("menuitem_id" => $_GET["menuitem_id"], "keyword_id" => $_GET["keyword_id"]));
                 $keyword = select_field_where("keywords", "id = " . $_GET["keyword_id"]);
                 $firstresult = false;
-                keywordresult(array("id" => $ID, "menuitem_id" => $_GET["menuitem_id"], "keyword_id" => $_GET["keyword_id"], "synonyms" => $keyword["synonyms"], "weight" => $keyword["weight"]), "keywords");
+                keywordresult(array("id" => $ID, "menuitem_id" => $_GET["menuitem_id"], "keyword_id" => $_GET["keyword_id"], "synonyms" => $keyword["synonyms"], "weight" => $keyword["weight"], "keywordtype" => $keyword["keywordtype"]), "keywords");
             }
             break;
 
@@ -141,7 +163,7 @@
     function deletekeyword(t){
         var ID = t.getAttribute("value");
         var menuitem_id = text("#keywordsrow" + ID + "-menuitem_id");
-        if (confirm("Are you sure you want to delete '" + text("#keywordsrow" + ID + "-synonyms") + "' from '" + itemName + "'?")){
+        if (confirm("Are you sure you want to unassign '" + text("#keywordsrow" + ID + "-synonyms") + "' from '" + itemName + "'?")){
             post(thisURL, {
                 action: "deleteitemkeyword",
                 id: ID,
@@ -192,6 +214,10 @@
 
     function assignall(){
         trigger("#suggestions .assign :first", "click");
+    }
+
+    function viewall(){
+        window.location = thisURL;
     }
 
     function create(){
