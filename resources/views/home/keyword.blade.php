@@ -39,6 +39,7 @@
     //itemsearch.blade.php will further process the string/keyword IDs it's given to attempt to reduce it to being more relevant to the primary weight-5 keyword it's searching for
         //if a search string seems to be for multiple items (ie: 2 Pizzas), it will be broken apart into multiple strings for the javascript stage 2
         //as well as the keywords limited to the area between the primary weight-5 keyword (-5 words, or the previous weight-5 keyword, whichever comes first) and the next weight-5 keyword or the end
+        //All quantity descriptors after the first one will be stripped from the search
 
     //Stage 2: Javascript
         //the javascript assimilator will attempt to break apart the search string into quantity of items, as well as each addon and their qualifier (if present)

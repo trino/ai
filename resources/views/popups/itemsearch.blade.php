@@ -85,20 +85,37 @@
             return $Text;
         }
 
-        function weightstring($newsearch, $keywords){
+        function weightstring($newsearch, $keywords, $wordstoignore){
             $text = array();
             foreach($newsearch as $key => $value){
-                if($value["synonymid"] == -1){
-                    $text[] = "<B>" . $value["word"] . "</B> [I:" . $key . "|S:-1|W:-1|T:-1]";
+                if(containswords($wordstoignore, $value["word"])){
+                    $text[] = weightstringoneword($keywords, $value["word"], $key, -2, -2, -2);
+                } else if($value["synonymid"] == -1){
+                    $text[] = weightstringoneword($keywords, $value["word"], $key, -1, -1, -1);
                 } else {
-                    $Type = "";
-                    switch($keywords[$value["synonymid"]]["type"]){
-                        case 1: $Type="(QTY)"; break;
-                    }
-                    $text[] = "<B>" . $value["word"] . "</B> [I:" . $key . "|S:" . $value["synonymid"] . "|W:" . $keywords[$value["synonymid"]]["weight"] . "|T:" . $keywords[$value["synonymid"]]["type"] . $Type . "]";
+                    $text[] = weightstringoneword($keywords, $value["word"], $key, $value["synonymid"], $keywords[$value["synonymid"]]["weight"], $keywords[$value["synonymid"]]["type"]);
                 }
             }
             return implode(" ", $text);
+        }
+
+        function weightstringoneword($keywords, $Word, $ID, $SynonymID, $Weight, $Type){
+            $TypeString = "Unknown";
+            if($Weight == 5){$Type=-5;}
+            $BGColor = false;
+            $TextColor = false;
+            $Style = "";
+            switch($Type){
+                case -5:    $TypeString="Primary"; $Word = "<B>" . $Word . "</B>"; $BGColor = "yellow"; break;
+                case -2:    $TypeString="Ignore"; $Word = "<STRIKE>" . $Word . "</STRIKE>"; $BGColor = "grey"; $TextColor = "White"; break;
+                case -1:    $TypeString="Add-on"; $BGColor = "green"; break;
+                case 1:     $TypeString="Quantity"; $BGColor = "magenta"; break;
+                case 2:     $TypeString="Size"; $BGColor = "red"; break;
+            }
+            if($BGColor){$Style = "background-color: " . $BGColor . ";";}
+            if($TextColor){$Style .= "color: " . $TextColor . ";";}
+            if($SynonymID > -1){$SynonymID .= " (" . $keywords[$SynonymID]["word"] . ")";}
+            return '<SPAN STYLE="' . $Style . '" TITLE="Index:' . $ID . '|Synonym ID:' . $SynonymID . '|Weight:' . $Weight . '|Type:' . $Type . " (" . $TypeString . ')">' . $Word . "</SPAN>";
         }
 
         function getsynonymsandweights($text, $keywords){
@@ -196,7 +213,7 @@
             }
         }
 
-        $text = weightstring($newsearch, $keywords);
+        $text = weightstring($newsearch, $keywords, $wordstoignore);
         echo "<BR>(BEFORE) Search string: " . $text;
         echo "<BR>Get Words and keywordIDs from " . $startingIndex . "(-" . $WordsBefore . ") to " . $endingIndex;
         $startingIndex = max($startingIndex - $WordsBefore, 0);
@@ -218,7 +235,7 @@
                     if($startremoving){
                         if(!$hasremoved){
                             echo '<DIV CLASS="blue"><B>Multiple quantity keywords found. Removing all but the first one from the keyword search</B>';
-                            $text = weightstring($newsearch, $keywords);
+                            $text = weightstring($newsearch, $keywords, $wordstoignore);
                             echo "<BR>(BEFORE) Search string: " . $text;
                         }
                         unset($newsearch[$ID]);
@@ -230,7 +247,7 @@
         }
         if($hasremoved){
             echo "<BR>(BEFORE) All keywords: " . $keywordids;
-            $text = weightstring($newsearch, $keywords);
+            $text = weightstring($newsearch, $keywords, $wordstoignore);
             echo "<BR>(AFTER) Search string: " . $text;
             $text = reassemble_text($newsearch, $keywords);
             $keywordids = reassemble_keywordIDs($newsearch);

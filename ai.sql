@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 10, 2016 at 08:46 PM
+-- Generation Time: Aug 11, 2016 at 05:16 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -77,40 +77,43 @@ CREATE TABLE IF NOT EXISTS `keywords` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `synonyms` varchar(1024) NOT NULL,
   `weight` int(11) NOT NULL,
+  `keywordtype` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
 
 --
 -- Dumping data for table `keywords`
 --
 
-INSERT INTO `keywords` (`id`, `synonyms`, `weight`) VALUES
-(1, 'italian', 1),
-(2, 'pizza', 5),
-(3, 'pastry', 1),
-(4, 'donuts timbits', 2),
-(6, '2 two', 1),
-(7, 'chicken', 1),
-(8, 'wing', 5),
-(9, '3 three', 1),
-(10, 'dip', 5),
-(11, 'cheddar', 1),
-(12, 'jalapeno', 1),
-(13, 'marinara', 1),
-(14, 'bbq barbeque', 1),
-(15, 'garlic', 1),
-(16, 'parmesan', 1),
-(17, 'honey', 1),
-(18, 'hot', 1),
-(19, 'medium', 1),
-(20, 'mild', 1),
-(21, 'ranch', 1),
-(22, 'buffalo', 1),
-(23, 'spicy', 1),
-(24, '1 one', 1),
-(25, '4 four', 1),
-(26, '5 five', 1),
-(27, 'small', 1);
+INSERT INTO `keywords` (`id`, `synonyms`, `weight`, `keywordtype`) VALUES
+(1, 'italian', 1, 0),
+(2, 'pizza', 5, 0),
+(3, 'pastry', 1, 0),
+(4, 'donuts timbits', 2, 0),
+(6, '2 two', 1, 1),
+(7, 'chicken', 1, 0),
+(8, 'wing', 5, 0),
+(9, '3 three', 1, 1),
+(10, 'dip', 5, 0),
+(11, 'cheddar', 1, 0),
+(12, 'jalapeno', 1, 0),
+(13, 'marinara', 1, 0),
+(14, 'bbq barbeque', 1, 0),
+(15, 'garlic', 1, 0),
+(16, 'parmesan', 1, 0),
+(17, 'honey', 1, 0),
+(18, 'hot', 1, 0),
+(19, 'medium', 1, 0),
+(20, 'mild', 1, 0),
+(21, 'ranch', 1, 0),
+(22, 'buffalo', 1, 0),
+(23, 'spicy', 1, 0),
+(24, '1 one', 1, 1),
+(25, '4 four', 1, 1),
+(26, '5 five', 1, 1),
+(27, 'small sm', 1, 2),
+(28, 'large lg', 1, 2),
+(29, 'extra xl ex', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -224,7 +227,7 @@ CREATE TABLE IF NOT EXISTS `menukeywords` (
   `menuitem_id` int(11) NOT NULL,
   `keyword_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=41 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=52 ;
 
 --
 -- Dumping data for table `menukeywords`
@@ -260,7 +263,18 @@ INSERT INTO `menukeywords` (`id`, `menuitem_id`, `keyword_id`) VALUES
 (37, 19, 25),
 (38, 20, 26),
 (39, 1, 27),
-(40, 2, 19);
+(40, 2, 19),
+(41, 6, 27),
+(42, 7, 19),
+(43, 8, 28),
+(44, 9, 29),
+(45, -1, 24),
+(46, 3, 28),
+(47, 4, 29),
+(48, 11, 27),
+(49, 12, 19),
+(50, 13, 28),
+(51, 14, 29);
 
 -- --------------------------------------------------------
 
