@@ -136,6 +136,20 @@
             return $newsearch;
         }
 
+        function reassemble($newsearch, $startingIndex = 0, $endingIndex = false){
+            $keywordids = array();
+            if($endingIndex){
+                for($index = $startingIndex; $index <= $endingIndex; $index++){
+                    $keywordids[] = $newsearch[$index];
+                }
+            } else {
+                foreach($newsearch as $index => $value){
+                    $keywordids[] = $value;
+                }
+            }
+            return $keywordids;
+        }
+
         function reassemble_text($newsearch, $keywords, $startingIndex = 0, $endingIndex = false){
             $text = array();
             if($endingIndex){
@@ -193,11 +207,15 @@
         $newsearch = getsynonymsandweights($text, $keywords);
         foreach($newsearch as $index => $word){
             $synonymID = $word["synonymid"];
+            if($synonymID > -1){$synonym = $keywords[$synonymID];}
             if($synonymID){
                 if ($synonymID == $primarykeyid){
                     $startingIndex = $index;
-                } else if ($startingIndex > -1 && $endingIndex == -1 && $synonymID > -1){
+                    echo "<BR>Found primary search key at: " . $index;
+                } else if (($startingIndex > -1) && ($endingIndex == -1) && ($synonymID > -1) && ($synonym["weight"] == 5)){
+
                     $endingIndex = $index - 1;
+                    echo "<BR>Found ending at: " . $endingIndex;
                 }
             }
         }
@@ -208,7 +226,10 @@
             $newindex = $startingIndex - $index;
             if($newindex > -1){
                 if($newsearch[$newindex]["synonymid"] > -1){
-                    $WordsBefore = $index-1;
+                    $synonym = $keywords[$newsearch[$newindex]["synonymid"]];
+                    if($synonym["weight"] == 5){
+                        $WordsBefore = $index-1;
+                    }
                 }
             }
         }
@@ -219,7 +240,10 @@
         $startingIndex = max($startingIndex - $WordsBefore, 0);
         $text = reassemble_text($newsearch, $keywords, $startingIndex, $endingIndex);
         $keywordids = reassemble_keywordIDs($newsearch, $startingIndex, $endingIndex);
-        echo "<BR>(AFTER) Search string: " . $text;
+
+        $text2 = weightstring(reassemble($newsearch, $startingIndex, $endingIndex), $keywords, $wordstoignore);
+
+        echo "<BR>(AFTER) Search string: " . $text2;
         echo "<BR>(AFTER) All keywords: " . $keywordids;
         echo '</DIV>';
         $reduced = true;

@@ -61,12 +61,12 @@
       <file leaf-file-name="itemsearch.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/popups/itemsearch.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.2584885">
-              <caret line="97" column="13" selection-start-line="97" selection-start-column="13" selection-end-line="97" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.49726176">
+              <caret line="230" column="24" selection-start-line="230" selection-start-column="24" selection-end-line="230" selection-end-column="24" />
               <folding>
-                <marker date="1470928432967" expanded="true" signature="13433:14005" placeholder="SELECT *, co..*..." />
-                <marker date="1470928432967" expanded="true" signature="13659:14005" placeholder="SELECT menu...menu..." />
-                <marker date="1470928432967" expanded="true" signature="17375:17499" placeholder="..." />
+                <marker date="1470929562353" expanded="true" signature="14439:15011" placeholder="SELECT *, co..*..." />
+                <marker date="1470929562353" expanded="true" signature="14665:15011" placeholder="SELECT menu...menu..." />
+                <marker date="1470929562353" expanded="true" signature="18381:18505" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -123,8 +123,8 @@
         <option value="$PROJECT_DIR$/resources/assets/scripts/api.js" />
         <option value="$PROJECT_DIR$/resources/assets/scripts/nui.js" />
         <option value="$PROJECT_DIR$/resources/views/popups/addons.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/popups/itemsearch.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/home/keyword.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/popups/itemsearch.blade.php" />
       </list>
     </option>
   </component>
@@ -1273,12 +1273,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/popups/itemsearch.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2584885">
-          <caret line="97" column="13" selection-start-line="97" selection-start-column="13" selection-end-line="97" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.49726176">
+          <caret line="230" column="24" selection-start-line="230" selection-start-column="24" selection-end-line="230" selection-end-column="24" />
           <folding>
-            <marker date="1470928432967" expanded="true" signature="13433:14005" placeholder="SELECT *, co..*..." />
-            <marker date="1470928432967" expanded="true" signature="13659:14005" placeholder="SELECT menu...menu..." />
-            <marker date="1470928432967" expanded="true" signature="17375:17499" placeholder="..." />
+            <marker date="1470929562353" expanded="true" signature="14439:15011" placeholder="SELECT *, co..*..." />
+            <marker date="1470929562353" expanded="true" signature="14665:15011" placeholder="SELECT menu...menu..." />
+            <marker date="1470929562353" expanded="true" signature="18381:18505" placeholder="..." />
           </folding>
         </state>
       </provider>
