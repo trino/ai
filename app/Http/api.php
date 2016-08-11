@@ -255,6 +255,7 @@ function printrow($row, &$FirstResult = false, $PrimaryKey = "id", $TableID = ""
     foreach ($row as $Key => $Value) {
         echo '<TD ID="' . $TableID . 'row' . $row[$PrimaryKey] . '-' . $Key . '"';
         if(is_numeric($Value)){echo ' ALIGN="RIGHT"';}
+        if($Value == "*"){echo ' ALIGN="CENTER"';}
         echo '>';
         if(is_array($Value)){
             $FirstResult2=true;

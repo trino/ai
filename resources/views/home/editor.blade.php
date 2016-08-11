@@ -45,18 +45,45 @@
         }
     }
 
+    function firstword($Text){
+        $Space = strpos($Text, " ");
+        if($Space === false){return $Text;}
+        return left($Text, $Space);
+    }
+
+    $dieafter = true;
     switch($_GET["action"]){
         case "list":
-            $menuitems = Query("SELECT * FROM menu", true);
+            $dieafter=false;
+            $_GET["id"] = "";
+            $SQL = "SELECT * FROM menu";
+            echo '<FORM ACTION="' . webroot("public/edit") . '">';
+            if(isset($_GET["name"])){
+                $SQL .= " WHERE item LIKE '%" . $_GET["name"] . "%' OR category LIKE '%" . $_GET["name"] ."%'";
+                echo '<button onclick="return viewall();">View All</button> ';
+            } else {
+                $_GET["name"] = "";
+            }
+            echo '<INPUT TYPE="TEXT" NAME="name" VALUE="' . $_GET["name"] . '"> ';
+            echo '<INPUT TYPE="SUBMIT" VALUE="Search"></FORM> ';
+
+            $menuitems = Query($SQL, true);
             $firstresult = true;
             foreach($menuitems as $menuitem){
+                $keywords = Query("SELECT * FROM keywords, menukeywords WHERE menuitem_id = " . $menuitem["id"] . " OR -menuitem_id = " . $menuitem["category_id"] . " HAVING keywords.id = keyword_id", true);
+                //id, synonyms, weight, keywordtype, menuitem_id, keyword_id
+                foreach($keywords as $ID => $keyword){
+                    $keywords[$ID] = '<SPAN TITLE="Weight: ' . $keyword["weight"] . '">' . firstword($keyword["synonyms"]) . '</SPAN>';
+                }
+                $menuitem["price"] = number_format($menuitem["price"], 2);
+                $menuitem["keywords"] = implode(", ", $keywords);
                 $menuitem["Actions"] = '<A HREF="?id=' . $menuitem["id"] . '">Edit</A>';
                 printrow($menuitem, $firstresult);
             }
             echo '</TABLE>';
             break;
         case "main":
-            echo '<script src="' . webroot() . '/resources/assets/scripts/api.js"></script>';
+            $dieafter=false;
             echo '<button onclick="window.history.back();">Go Back</button> <button onclick="location.reload();">Refresh</button> <button onclick="viewall();">View All</button>';
 
             $menuitem = select_field_where("menu", "id=" . $_GET["id"]);//was items
@@ -140,7 +167,8 @@
         default:
             echo "'" . $_GET["action"] ."' is unhandled";
     }
-    if($_GET["action"] != "main"){die();}
+    if($dieafter){die();}
+    echo '<script src="' . webroot() . '/resources/assets/scripts/api.js"></script>';
 ?>
 <SCRIPT>
     var itemID = Number("<?= $_GET["id"]; ?>");
@@ -217,7 +245,7 @@
     }
 
     function viewall(){
-        window.location = thisURL;
+        return loadUrl('<?= webroot("public/edit"); ?>');
     }
 
     function create(){

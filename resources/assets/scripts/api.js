@@ -591,7 +591,10 @@ function append(Selector, HTML){
     addHTML(Selector, HTML);
 }
 
-
+function loadUrl(newLocation) {
+    window.location = newLocation;
+    return false;
+}
 
 
 

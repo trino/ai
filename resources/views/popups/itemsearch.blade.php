@@ -197,7 +197,7 @@
         //reduce the $text to X words before the primary keyword, till the next primary keyword or end of the string
         //also reprocess the keywords to only get the keyword IDs between those 2 points as well, making the toppings for example, wings more specific to wings
 
-        echo "<B>Multiple item search detected. Collapsing search to a smaller area</B>";
+        echo "<B>Stage 1.1: Multiple item search detected. Collapsing search to a smaller area</B>";
         echo "<BR>Primary keyword: " . $primarykeyid . " (" . $keywords[$primarykeyid]["word"] . ")" ;//ID of the primary search key
         echo "<BR>Weight-5 keyword IDs: " . implode(", ", $is5keywords);
         echo "<BR>(BEFORE) All keywords: " . $keywordids;
@@ -256,7 +256,7 @@
                 if($keywords[$synonymID]["type"] == 1){//is a quantity
                     if($startremoving){
                         if(!$hasremoved){
-                            echo '<DIV CLASS="blue"><B>Multiple quantity keywords found. Removing all but the first one from the keyword search</B>';
+                            echo '<DIV CLASS="blue"><B>Stage 1.2: Multiple quantity keywords found. Removing all but the first one from the keyword search</B>';
                             $text = weightstring($newsearch, $keywords, $wordstoignore);
                             echo "<BR>(BEFORE) Search string: " . $text;
                         }
@@ -330,7 +330,7 @@
 
         $buttonstarttext = ' <BUTTON ID="assimilate[rowid]-[itemid]" CLASS="assimilate assimilate[rowid]" IID="[rowid]" TITLE="[title]" ONCLICK="[script]" VALUE="[text]" ' . $buttonstarttext . '[style]>Item: [itemid]</BUTTON>';//base string, replace [text] later on
 
-        if($quantity){//split the search up into it's individual items
+        if($quantity){//Stage 1.3: split the search up into it's individual items
             $lastkey = lastkey($quantity);
             $buttonstarttext = multireplace($buttonstarttext, array("[script]" => 'runtest2(this);', "[style]" => "", "[title]" => "Assimilate multiple"));
             foreach($quantity as $i => $word){
@@ -349,9 +349,14 @@
 
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {//display SQL results
             $row["id"] = $row["menuid"];
+            $row["price"] = number_format($row["price"], 2);
+
             $row = removekeys($row, array("name", "price", "display_order", "has_addon", "wordid", "mkid", "keyword_id", "req_opt", "sing_mul", "exact_upto", "exact_upto_qty", "created_at", "updated_at", "addon_category_id", "image", "menuitem_id", "item_id", "menuid"));//just to clean up the results
-            $row["actions"] = '<A HREF="edit?id=' . $row["id"] . '">Edit</A><BR>';
-            $row["actions"] .= multireplace($buttontext, array("[rowid]" => $row["id"]));//, "[wings_sauce]" => $row["addontype"] == 2, "[toppings]" => $row["addontype"] == 1));
+            $row["actions"] = '<A HREF="edit?id=' . $row["id"] . '">Edit</A>';
+            if($quantity){
+                $row["actions"] .= " Stage 1.3:";
+            }
+            $row["actions"] .= '<BR>' . multireplace($buttontext, array("[rowid]" => $row["id"]));//, "[wings_sauce]" => $row["addontype"] == 2, "[toppings]" => $row["addontype"] == 1));
             foreach($Tables as $TableID => $TableName){
                 $row["actions"] = multireplace($row["actions"], array("[" . $TableName . "]" => $row[$TableName]));
             }

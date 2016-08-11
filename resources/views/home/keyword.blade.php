@@ -19,10 +19,10 @@
         //there are 2 stages to a search, the first being the MySQL portion
         //then the javascript attempts to take the addons/toppings from the search and assigns them to the results of the first stage
 
-    //for text-only searches:
+    //Stage 1.0: for text-only searches:
             //a search string is broken up into individual words, and a LIKE comparison is used to return any menu item that has any of the words found in it's text columns
 
-    //for keyword searches:
+    //Stage 1.0: for keyword searches:
         //this reduces any text search to it's keyword ID numbers
         //first a text search is split up into individual words
         //then each word is searched for in the keywords table
@@ -37,9 +37,9 @@
         //meaning the more relevant a menu item is to the search string, the higher weight it will have
 
     //itemsearch.blade.php will further process the string/keyword IDs it's given to attempt to reduce it to being more relevant to the primary weight-5 keyword it's searching for
-        //if a search string seems to be for multiple items (ie: 2 Pizzas), it will be broken apart into multiple strings for the javascript stage 2
-        //as well as the keywords limited to the area between the primary weight-5 keyword (-5 words, or the previous weight-5 keyword, whichever comes first) and the next weight-5 keyword or the end
-        //All quantity descriptors after the first one will be stripped from the search
+        //Stage 1.1: as well as the keywords limited to the area between the primary weight-5 keyword (-5 words, or the previous weight-5 keyword, whichever comes first) and the next weight-5 keyword or the end
+        //Stage 1.2: All quantity descriptors after the first one will be stripped from the search
+        //Stage 1.3: if a search string seems to be for multiple items (ie: 2 Pizzas), it will be broken apart into multiple strings for the javascript stage 2
 
     //Stage 2: Javascript
         //the javascript assimilator will attempt to break apart the search string into quantity of items, as well as each addon and their qualifier (if present)
@@ -117,7 +117,29 @@
             $results["SortColumn"] = get("SortColumn", "keywords");
             $results["SortDirection"] = get("SortDirection", "DESC");//TESTWEIGHT, CAST(SUM(weight)/count(*) AS UNSIGNED) as
 
-            var_dump($results);
+            echo '<DIV CLASS="red"><B>Stage 1.0: Keyword search</B>';
+            echo '<BR>Sort by: ' . $results["SortColumn"] . ' ' . $results["SortDirection"];
+            echo "<BR>Keywords:";
+            $firstresult = true;
+            foreach($results["keywords"] as $ID => $keyword){
+                $keyword = array_merge(array("id" => $ID), $keyword);
+                if(strlen($keyword["synonyms"]) > strlen($keyword["word"])){
+                    $keyword["word"] = "<B>" . $keyword["word"] . '</B> <U>' . trim(right($keyword["synonyms"], strlen($keyword["synonyms"]) - strlen($keyword["word"]))) . '</U>';
+                } else {
+                    $keyword["word"] = "<B>" . $keyword["word"] . '</B>';
+                }
+                unset($keyword["synonyms"]);
+                $keyword["PRI"] = "";
+                $keyword["SEC"] = "";
+                if($keyword["weight"] == 5){
+                    $keyword["PRI"] = "*";
+                } else {
+                    $keyword["SEC"] = "*";
+                }
+                printrow($keyword, $firstresult);
+            }
+
+            echo '</TABLE></DIV>';
 
             if(count($results["is5keywords"])){//run a search for each weight-5 keyword, with only 1 weight-5 keyword per search
                 foreach($results["is5keywords"] as $primaryKeyID){
@@ -236,7 +258,7 @@
         if(attr(t, "toppings") == 1){show(".addons-toppings");}
         if(attr(t, "wings_sauce") == 1){show(".addons-wings_sauce");}
 
-        innerHTML("#thepopup", '<DIV ID="product-pop-up_' + ID + '">ITEM: ' + select + '</DIV>');
+        innerHTML("#thepopup", '<DIV ID="product-pop-up_' + ID + '"><B>Stage 2:</B><BR>ITEM: ' + select + '</DIV>');
         if(isUndefined(searchtext)){
             var searchtext = value("#textsearch");
         }
