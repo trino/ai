@@ -1,4 +1,12 @@
-<DIV STYLE="border: 1px solid red;">
+<STYLE>
+    .blue{
+        border: 2px solid blue;margin-left: 5px;margin-bottom: 5px;margin-right: 5px;margin-top: 5px;
+    }
+    .red{
+        border: 1px solid red;
+    }
+</STYLE>
+<DIV CLASS="red">
 <?php
     //this is the item search engine, works by either text, or keyword IDs
     if(isset($keywordids) && is_array($keywordids)){$keywordids = implode(",", $keywordids);}
@@ -7,14 +15,10 @@
     //if(!isset($wordstoignore)) {$wordstoignore = ["the", "with", "and", "times", "on", "one"];}//use copy from keyword.blade instead
 
     if(!function_exists("containswords")){
-        //faster version of containswords
-        function containstext($text, $word){
-            return stristr($text, $word) == true;//case-insensitive
-        }
         //find the synonym ID of $text
         function findsynonym($text, $synonyms){
             foreach($synonyms as $ID => $synonym){
-                if(containstext($synonym["synonyms"], $text)){return $ID;}
+                if(containswords($synonym["synonyms"], $text)){return $ID;}
             }
             if(strtolower(right($text,1)) == "s" && strlen($text) > 1){
                 return findsynonym(left($text, strlen($text) -1), $synonyms);
@@ -85,18 +89,79 @@
             $text = array();
             foreach($newsearch as $key => $value){
                 if($value["synonymid"] == -1){
-                    $text[] = $value["word"] . "[0]";
+                    $text[] = "<B>" . $value["word"] . "</B> [I:" . $key . "|S:-1|W:-1|T:-1]";
                 } else {
-                    $text[] = $value["word"] . "[" . $keywords[$value["synonymid"]]["weight"] . "]";
+                    $Type = "";
+                    switch($keywords[$value["synonymid"]]["type"]){
+                        case 1: $Type="(QTY)"; break;
+                    }
+                    $text[] = "<B>" . $value["word"] . "</B> [I:" . $key . "|S:" . $value["synonymid"] . "|W:" . $keywords[$value["synonymid"]]["weight"] . "|T:" . $keywords[$value["synonymid"]]["type"] . $Type . "]";
                 }
             }
             return implode(" ", $text);
+        }
+
+        function getsynonymsandweights($text, $keywords){
+            $newsearch = explode(" ", $text);
+            foreach($newsearch as $index => $word){
+                $synonymID = findsynonym($word, $keywords);
+                $newsearch[$index] = array("word" => $word, "synonymid" => $synonymID);
+                if($synonymID > -1 && $index > 0){//remove duplicates as it'll confuse the system
+                    for($i = 0; $i < $index; $i++){
+                        if( $newsearch[$i]["synonymid"] == $synonymID){
+                            $newsearch[$index] = array("word" => "", "synonymid" => -1);
+                            $synonymID = false;
+                            $i = $index;
+                        }
+                    }
+                }
+            }
+            return $newsearch;
+        }
+
+        function reassemble_text($newsearch, $keywords, $startingIndex = 0, $endingIndex = false){
+            $text = array();
+            if($endingIndex){
+                for($index = $startingIndex; $index <= $endingIndex; $index++){
+                    $text[] = reassemble_textID($newsearch, $keywords, $index);
+                }
+            } else {
+                foreach($newsearch as $index => $value){
+                    //echo "<BR>" . $index . " (" . $value["synonymid"] . " = " . $value["word"] . ") BECOMES " . reassemble_textID($newsearch, $keywords, $index);
+                    $text[] = reassemble_textID($newsearch, $keywords, $index);
+                }
+            }
+            return implode(" ", $text);
+        }
+        function reassemble_textID($newsearch, $keywords, $index){
+            $ID = $newsearch[$index]["synonymid"];
+            if($ID == -1){
+                return $newsearch[$index]["word"];
+            } else {
+                return $keywords[$ID]["word"];
+            }
+        }
+
+        function reassemble_keywordIDs($newsearch, $startingIndex = 0, $endingIndex = false){
+            $keywordids = array();
+            if($endingIndex){
+                for($index = $startingIndex; $index <= $endingIndex; $index++){
+                    $ID = $newsearch[$index]["synonymid"];
+                    if($ID > -1){$keywordids[] = $ID;}
+                }
+            } else {
+                foreach($newsearch as $index => $value){
+                    $ID = $value["synonymid"];
+                    if($ID > -1){$keywordids[] = $ID;}
+                }
+            }
+            return implode(",", $keywordids);
         }
     }
 
     $reduced = false;
     if($isKeyword && isset($is5keywords) && count($is5keywords) > 1){//is part of a multiple item search
-        echo '<DIV STYLE="border: 2px solid blue;margin-left: 5px;margin-bottom: 5px;margin-right: 5px;margin-top: 5px;">';
+        echo '<DIV CLASS="blue">';
         $WordsBefore = 5;//similar_text
         //reduce the $text to X words before the primary keyword, till the next primary keyword or end of the string
         //also reprocess the keywords to only get the keyword IDs between those 2 points as well, making the toppings for example, wings more specific to wings
@@ -106,23 +171,11 @@
         echo "<BR>Weight-5 keyword IDs: " . implode(", ", $is5keywords);
         echo "<BR>(BEFORE) All keywords: " . $keywordids;
 
-        //var_dump($keywords);
         $startingIndex = -1;
         $endingIndex = -1;
-
-        $newsearch = explode(" ", $text);
+        $newsearch = getsynonymsandweights($text, $keywords);
         foreach($newsearch as $index => $word){
-            $synonymID = findsynonym($word, $keywords);
-            $newsearch[$index] = array("word" => $word, "synonymid" => $synonymID);
-            if($synonymID > -1 && $index > 0){//remove duplicates as it'll confuse the system
-                for($i = 0; $i < $index; $i++){
-                    if( $newsearch[$i]["synonymid"] == $synonymID){
-                        $newsearch[$index] = array("word" => "", "synonymid" => -1);
-                        $synonymID = false;
-                        $i = $index;
-                    }
-                }
-            }
+            $synonymID = $word["synonymid"];
             if($synonymID){
                 if ($synonymID == $primarykeyid){
                     $startingIndex = $index;
@@ -147,26 +200,43 @@
         echo "<BR>(BEFORE) Search string: " . $text;
         echo "<BR>Get Words and keywordIDs from " . $startingIndex . "(-" . $WordsBefore . ") to " . $endingIndex;
         $startingIndex = max($startingIndex - $WordsBefore, 0);
-
-        $keywordids = array();
-        $text = array();
-        for($index = $startingIndex; $index <= $endingIndex; $index++){
-            $ID = $newsearch[$index]["synonymid"];
-            if($ID == -1){
-                $text[] = $newsearch[$index]["word"];
-            } else {
-                $keywordids[] = $ID;
-                $text[] = $keywords[$ID]["word"];
-            }
-        }
-        $text = implode(" ", $text);
-        $keywordids = implode(" ", $keywordids);
-
+        $text = reassemble_text($newsearch, $keywords, $startingIndex, $endingIndex);
+        $keywordids = reassemble_keywordIDs($newsearch, $startingIndex, $endingIndex);
         echo "<BR>(AFTER) Search string: " . $text;
         echo "<BR>(AFTER) All keywords: " . $keywordids;
-
         echo '</DIV>';
         $reduced = true;
+    }
+    if($isKeyword){
+        $newsearch = getsynonymsandweights($text, $keywords);
+        $startremoving = false;
+        $hasremoved = false;
+        foreach($newsearch as $ID => $value){
+            $synonymID = $value["synonymid"];
+            if($synonymID > -1){
+                if($keywords[$synonymID]["type"] == 1){//is a quantity
+                    if($startremoving){
+                        if(!$hasremoved){
+                            echo '<DIV CLASS="blue"><B>Multiple quantity keywords found. Removing all but the first one from the keyword search</B>';
+                            $text = weightstring($newsearch, $keywords);
+                            echo "<BR>(BEFORE) Search string: " . $text;
+                        }
+                        unset($newsearch[$ID]);
+                        $hasremoved = true;
+                    }
+                    $startremoving = true;
+                }
+            }
+        }
+        if($hasremoved){
+            echo "<BR>(BEFORE) All keywords: " . $keywordids;
+            $text = weightstring($newsearch, $keywords);
+            echo "<BR>(AFTER) Search string: " . $text;
+            $text = reassemble_text($newsearch, $keywords);
+            $keywordids = reassemble_keywordIDs($newsearch);
+            echo "<BR>(AFTER) All keywords: " . $keywordids;
+            echo '</DIV>';
+        }
     }
 
     if(isset($searchstring) && !$isKeyword){//search by text

@@ -67,12 +67,14 @@
     if(!isset($_GET["search"]) || !trim($_GET["search"]) || !$isKeyword){
         //blank search, just show the entire menu
         if(!isset($_GET["search"])) {$_GET["search"] = "";}
+        $_GET["search"] = preg_replace("/[^A-Za-z0-9 ]/", '', $_GET["search"]);//remove non-alphanumeric
         $results["SortColumn"] = get("SortColumn", "keywords");
         $results["SortDirection"] = get("SortDirection", "DESC");
         $results["words"] = "";
         echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "isKeyword" => $isKeyword, "searchstring" => $_GET["search"], "wordstoignore" => $wordstoignore));
     } else{
         //text found, reduce the search to keyword ID numbers
+        $_GET["search"] = preg_replace("/[^A-Za-z0-9 ]/", '', $_GET["search"]);//remove non-alphanumeric
         $results = array("SQL" => array());
         $words = strtolower(str_replace(" ", "|", $_GET["search"]));
 
@@ -99,7 +101,8 @@
                 $results["keywords"][ $row["id"] ] = array(
                     "word" => $word,
                     "synonyms" => $row["synonyms"],
-                    "weight" => $row["weight"]
+                    "weight" => $row["weight"],
+                    "type" => $row["keywordtype"]
                 );
                 if($row["weight"] == 5){
                     $results["is5keywords"][] = $row["id"];//is a weight 5 keyword, indicating a new search needs to be run
@@ -121,7 +124,7 @@
                     echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $keywordids, "text" => $_GET["search"], "wordstoignore" => $wordstoignore, "primarykeyid" => $primaryKeyID, "is5keywords" => $results["is5keywords"], "keywords" => $results["keywords"]));
                 }
             } else if ($results["non5keywords"]){//no weight-5 keywords found, run a single search of all the keywords
-                echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $results["non5keywords"], "text" => $_GET["search"], "wordstoignore" => $wordstoignore));
+                echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $results["non5keywords"], "text" => $_GET["search"], "wordstoignore" => $wordstoignore, "keywords" => $results["keywords"]));
             }
         } else {
             die("SQL FAILED! " . $words);//no keywords found in the search
