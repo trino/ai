@@ -28,7 +28,7 @@
                     $keyword["keywordtype"] = -5;
                     $keywordtype = "Primary";
                 }
-                $keyword["keywordtypeS"] = $keywordtype;
+                $keyword["Context"] = $keywordtype;
                 $keyword["Assigned to"] = iif($keyword["menuitem_id"] > 0, "Item", "Category");
                 $keyword["Actions"] = '<BUTTON VALUE="' . $keyword["keyword_id"] . '" ONCLICK="editkeyword(this);">Edit</BUTTON> ';
                 $keyword["Actions"] .= '<BUTTON VALUE="' . $keyword["id"] . '" ONCLICK="deletekeyword(this);">Delete</BUTTON>';
@@ -113,7 +113,7 @@
                 }
                 echo '</TABLE>';
             } else {
-                echo '<table border="1" id="keywords"><tr><th id="keywords-col0">id</th><th id="keywords-col1">menuitem_id</th><th id="keywords-col2">keyword_id</th><th id="keywords-col3">synonyms</th><th id="keywords-col4">weight</th><TH>keywordtype</TH><TH>keywordtypeS</TH><th id="keywords-col5">Actions</th></tr></table>';
+                echo '<table border="1" id="keywords"><tr><th id="keywords-col0">id</th><th id="keywords-col1">menuitem_id</th><th id="keywords-col2">keyword_id</th><th id="keywords-col3">synonyms</th><th id="keywords-col4">weight</th><TH>keywordtype</TH><TH>Context</TH><th id="keywords-col5">Actions</th></tr></table>';
             }
 
             if($suggestions) {
@@ -125,12 +125,9 @@
                 echo '</TABLE>';
             }
 
-            echo "<P>Keyword Search:";
-            echo '<TABLE BORDER="1"><THEAD><TR><TH>ID</TH><TH>Synonyms</TH><TH>Weight</TH><TH>Actions</TH></TR><TR><TD></TD><TD>';
-            echo '<INPUT TYPE="TEXT" NAME="searchtext" ID="searchtext" TITLE="Do not use commas to delimit it, do not add a keyword that exists already"></TD><TD>';
-            echo '<INPUT TYPE="NUMBER" MIN="1" MAX="5" VALUE="1" NAME="weight" ID="weight" STYLE="text-align:right;" TITLE="A weight of 5 counts as an item important enough to run a new search">';
-            echo '</TD><TD><BUTTON ONCLICK="search();" STYLE="width:100%;">Search</BUTTON>';
-            echo '</TD></TR></THEAD><TBODY ID="searchbody"></TBODY></TABLE>';
+            echo view("popups.keywordsearch");
+
+
 
             break;
 
@@ -146,12 +143,12 @@
                     keywordresult($keyword, "keywordsfound");
                 }
             } else {
-                echo '<TR><TD COLSPAN="3">No results found for: ' . $_GET["text"] . '</TD><TD><BUTTON ONCLICK="create();" STYLE="width:100%;" ID="create">Create</BUTTON></TD></TR>';
+                echo '<TR><TD COLSPAN="4">No results found for: ' . $_GET["text"] . '</TD><TD><BUTTON ONCLICK="create();" STYLE="width:100%;" ID="create">Create</BUTTON></TD></TR>';
             }
             break;
 
         case "createkeyword":
-            $_GET["keyword_id"] = insertdb("keywords", array("synonyms" => $_GET["synonyms"], "weight" => $_GET["weight"]));
+            $_GET["keyword_id"] = insertdb("keywords", array("synonyms" => $_GET["synonyms"], "weight" => $_GET["weight"], "keywordtype" => $_GET["keywordtype"]));
         case "assignkeyword":
             if(!select_field_where("menukeywords", "menuitem_id = " . $_GET["menuitem_id"] . " AND keyword_id = " . $_GET["keyword_id"], "COUNT()")) {
                 $ID = insertdb("menukeywords", array("menuitem_id" => $_GET["menuitem_id"], "keyword_id" => $_GET["keyword_id"]));
@@ -176,6 +173,10 @@
     var itemName = text("#itemrow" + itemID + "-item");
     var thisURL = "<?= Request::url(); ?>";
     var token = "<?= csrf_token(); ?>";
+
+    function keychange(){
+        var keywordtype = value("#keywordtype");//in case it's needed
+    }
 
     function getID(iscategory){
         if(isUndefined(iscategory)){iscategory = false;}
@@ -217,6 +218,11 @@
             _token: token
         }, function (result) {
             innerHTML("#searchbody", result);
+            if(result.indexOf("create();") == -1){
+                hidecols();
+            } else {
+                showcols();
+            }
         });
     }
 
@@ -251,13 +257,14 @@
     function create(){
         var Name = value("#searchtext").toLowerCase();
         var Weight = value("#weight");
-        value("#searchtext", "");
-        value("#weight", "1");
+        var keywordtype = value("#keywordtype");
+        hidecols();
 
         post(thisURL, {
             action: "createkeyword",
             synonyms: Name,
             weight: Weight,
+            keywordtype: keywordtype,
             menuitem_id: itemID,
             _token: token
         }, function (result) {
@@ -265,4 +272,16 @@
             fadeoutanddelete("#create");
         });
     }
+
+    function hidecols(){
+        hide(".hideme");
+        value("#searchtext", "");
+        value("#weight", "1");
+        value("#keywordtype", "0");
+    }
+    function showcols(){
+        show(".hideme");
+    }
+
+    hidecols();
 </SCRIPT>
