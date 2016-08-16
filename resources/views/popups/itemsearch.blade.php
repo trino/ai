@@ -246,10 +246,12 @@
         echo '</DIV>';
         $reduced = true;
     }
+
     if($isKeyword){
         $newsearch = getsynonymsandweights($text, $keywords);
         $startremoving = false;
         $hasremoved = false;
+        $quantityID = false;
         foreach($newsearch as $ID => $value){
             $synonymID = $value["synonymid"];
             if($synonymID > -1){
@@ -264,6 +266,7 @@
                         $hasremoved = true;
                     }
                     $startremoving = true;
+                    $quantityID = $synonymID;
                 }
             }
         }
@@ -274,6 +277,14 @@
             $text = reassemble_text($newsearch, $keywords);
             $keywordids = reassemble_keywordIDs($newsearch);
             echo "<BR>(AFTER) All keywords: " . $keywordids;
+            echo '</DIV>';
+        } else if(!$startremoving){
+            echo '<DIV CLASS="blue">Quantity not found, assuming 1<BR>';
+            $quantityID = select_field_where("keywords", "keywordtype = 1 AND synonyms LIKE '%1%'");
+            $keywords[$quantityID["id"]] = array("word" => "1", "synonyms" => $quantityID["synonyms"], "weight" => $quantityID["weight"], "type" => $quantityID["keywordtype"]);
+            $quantityID = $quantityID["id"];
+            $keywordids = addtodelstring($keywordids, $quantityID);
+            echo $quantityID . " = " . print_r($keywords[$quantityID], true);
             echo '</DIV>';
         }
     }
@@ -300,9 +311,15 @@
         //join the menu with mnukeywords on menu.id=mnukeywords.menuitem_id (assigned to the item) or -menu.category_id = mnukeywords.menuitem_id (assigned to the category), then
         //join that with keywords on mnukeywords.keyword_id = keywords.id
         //concatenate the synonyms and weights to give a '|' delimited list of both, sum the weights to get the total weight of the menu item compared to the search
-        $SQL = "SELECT *, count(DISTINCT keyword_id) as keywords, SUM(weight) as weight, GROUP_CONCAT(DISTINCT synonyms SEPARATOR '|') as synonyms, GROUP_CONCAT(DISTINCT weight SEPARATOR '|') as weights
+        $SQL = "SELECT *,
+              count(DISTINCT keyword_id) as keywords,
+              SUM(weight) as weight,
+              GROUP_CONCAT(synonyms SEPARATOR '|') as synonyms,
+              GROUP_CONCAT(wordid SEPARATOR '|') as keywordids,
+              GROUP_CONCAT(weight SEPARATOR '|') as weights,
+              GROUP_CONCAT(keywordtype SEPARATOR '|') as types
               FROM (
-                  SELECT menu.*, menu.id AS menuid, menu.item as itemname, menu.price as itemprice, keywords.id as wordid, menukeywords.id as mkid, menuitem_id, keyword_id, synonyms, weight
+                  SELECT menu.*, menu.id AS menuid, menu.item as itemname, menu.price as itemprice, keywords.id as wordid, keywords.keywordtype as keywordtype, menukeywords.id as mkid, menuitem_id, keyword_id, synonyms, weight
                   FROM menu, menukeywords, keywords
                   HAVING (menuid=menuitem_id OR -menu.category_id = menuitem_id)
                   AND keyword_id = wordid
@@ -313,7 +330,8 @@
         }
         $SQL .= ") results GROUP BY menuid";
     }
-    $SQL .= " ORDER BY " . $SortColumn . " " . $SortDirection;
+    $SQL .= " ORDER BY " . $SortColumn . " " . $SortDirection . " LIMIT 5   ";
+
 
     $result = Query($SQL);
 
@@ -351,7 +369,21 @@
             $row["id"] = $row["menuid"];
             $row["price"] = number_format($row["price"], 2);
 
-            $row = removekeys($row, array("name", "price", "display_order", "has_addon", "wordid", "mkid", "keyword_id", "req_opt", "sing_mul", "exact_upto", "exact_upto_qty", "created_at", "updated_at", "addon_category_id", "image", "menuitem_id", "item_id", "menuid"));//just to clean up the results
+            //get quantity of item
+            $quantityID = false;
+            $thesekeywords = array_combine ( explode("|", $row["keywordids"]) , explode("|", $row["types"]) );
+            foreach($thesekeywords as $ID => $type){
+                if($type == 1){//quantity found
+                    $quantityID = $ID;
+                    $row["quantity"] = firstword($keywords[$ID]["synonyms"]);
+                }
+            }
+            if(!$quantityID){//keyword for quantity wasn't in the search, get it manually
+                $QTY = Query("SELECT * FROM menukeywords, keywords WHERE menuitem_id = " . $row["id"] . " OR menuitem_id = -" . $row["category_id"] . " AND keywordtype = 1 HAVING keywords.id = menukeywords.keyword_id", true)[0];
+                //$row["quantityID"] = $QTY["id"];
+                $row["quantity"] = firstword($QTY["synonyms"]);
+            }
+
             $row["actions"] = '<A HREF="edit?id=' . $row["id"] . '">Edit</A>';
             if($quantity){
                 $row["actions"] .= " Stage 1.3:";
@@ -360,11 +392,15 @@
             foreach($Tables as $TableID => $TableName){
                 $row["actions"] = multireplace($row["actions"], array("[" . $TableName . "]" => $row[$TableName]));
             }
+
+            $row = removekeys($row, array("name", "price", "display_order", "has_addon", "wordid", "mkid", "keyword_id", "req_opt", "sing_mul", "exact_upto", "exact_upto_qty", "created_at", "updated_at", "addon_category_id", "image", "menuitem_id", "item_id", "menuid", "keywordtype"));//just to clean up the results
+            $row = removekeys($row, $Tables);
             printrow($row, $FirstResult);
         }
         if (!$FirstResult) {echo '</TABLE>';}
     } else {
         echo "No keywords found in '" . $_GET["search"] . "'";
+        echo '<BR>SQL: <B>' . $SQL . '</B>';
     }//dump the arrays to javascript, that way only 1 copy needs to be edited
 ?>
 </DIV>

@@ -64,6 +64,7 @@
     $selectedbutton = ' CLASS="selectedbutton"';
     $keywordclass = iif($isKeyword, $selectedbutton);
     $textclass = iif(!$isKeyword, $selectedbutton);
+    $results = array("SQL" => array(), "limit" => 5);
 
     if(!isset($_GET["search"]) || !trim($_GET["search"]) || !$isKeyword){
         //blank search, just show the entire menu
@@ -76,7 +77,7 @@
     } else{
         //text found, reduce the search to keyword ID numbers
         $_GET["search"] = preg_replace("/[^A-Za-z0-9 ]/", '', $_GET["search"]);//remove non-alphanumeric
-        $results = array("SQL" => array());
+
         $words = strtolower(str_replace(" ", "|", $_GET["search"]));
 
         $plurals = explode("|", $words);//automatically check for non-pluralized words
@@ -118,7 +119,7 @@
             $results["SortDirection"] = get("SortDirection", "DESC");//TESTWEIGHT, CAST(SUM(weight)/count(*) AS UNSIGNED) as
 
             echo '<DIV CLASS="red"><B>Stage 1.0: Keyword search</B>';
-            echo '<BR>Sort by: ' . $results["SortColumn"] . ' ' . $results["SortDirection"];
+            echo '<BR>Sort by: ' . $results["SortColumn"] . ' ' . $results["SortDirection"] . " LIMIT " . $results["limit"];
             echo "<BR>Keywords:";
             $firstresult = true;
             foreach($results["keywords"] as $ID => $keyword){
@@ -144,10 +145,10 @@
             if(count($results["is5keywords"])){//run a search for each weight-5 keyword, with only 1 weight-5 keyword per search
                 foreach($results["is5keywords"] as $primaryKeyID){
                     $keywordids = array_merge(array($primaryKeyID), $results["non5keywords"]);
-                    echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $keywordids, "text" => $_GET["search"], "wordstoignore" => $wordstoignore, "primarykeyid" => $primaryKeyID, "is5keywords" => $results["is5keywords"], "keywords" => $results["keywords"]));
+                    echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $keywordids, "text" => $_GET["search"], "wordstoignore" => $wordstoignore, "primarykeyid" => $primaryKeyID, "is5keywords" => $results["is5keywords"], "keywords" => $results["keywords"], "limit" => $results["limit"]));
                 }
             } else if ($results["non5keywords"]){//no weight-5 keywords found, run a single search of all the keywords
-                echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $results["non5keywords"], "text" => $_GET["search"], "wordstoignore" => $wordstoignore, "keywords" => $results["keywords"]));
+                echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $results["non5keywords"], "text" => $_GET["search"], "wordstoignore" => $wordstoignore, "keywords" => $results["keywords"], "limit" => $results["limit"]));
             }
         } else {
             die("SQL FAILED! " . $words);//no keywords found in the search

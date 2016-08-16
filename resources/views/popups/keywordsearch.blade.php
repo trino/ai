@@ -33,4 +33,12 @@
     <LI>Then set the context (if applicable) of the keyword. ie: Is it a quantity, or a size?</LI>
 </UL>
 
+<P>Notes:
+<UL>
+    <LI>Only assign one quantity-type keyword to a menu item</LI>
+    <LI>Creating a keyword will automatically assign it to the <I>Item</I></LI>
+    <LI>Assigning a keyword to the <I>Category</I> will assign it to every item in that category</LI>
+    <LI>Likewise, unassigning a keyword from the <I>Category</I> will unassign it from every item in that category</LI>
+</UL>
+
 

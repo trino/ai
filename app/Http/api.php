@@ -253,7 +253,7 @@ function printrow($row, &$FirstResult = false, $PrimaryKey = "id", $TableID = ""
 
     echo '<TR ID="' . $TableID . 'row' . $row[$PrimaryKey] . '">';
     foreach ($row as $Key => $Value) {
-        echo '<TD ID="' . $TableID . 'row' . $row[$PrimaryKey] . '-' . $Key . '"';
+        echo '<TD TYPE="' . $Key . '" ID="' . $TableID . 'row' . $row[$PrimaryKey] . '-' . $Key . '"';
         if(is_numeric($Value)){echo ' ALIGN="RIGHT"';}
         if($Value == "*"){echo ' ALIGN="CENTER"';}
         echo '>';
@@ -267,5 +267,11 @@ function printrow($row, &$FirstResult = false, $PrimaryKey = "id", $TableID = ""
         echo '</TD>';
     }
     echo '</TR>';
+}
+
+function addtodelstring($string, $stringtoadd, $delimiter = ","){
+    $keywordids = explode($delimiter, $string);
+    $keywordids[] = $stringtoadd;
+    return implode($delimiter, $keywordids);
 }
 ?>

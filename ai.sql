@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 11, 2016 at 05:16 PM
+-- Generation Time: Aug 16, 2016 at 05:36 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -159,14 +159,14 @@ INSERT INTO `menu` (`id`, `category_id`, `category`, `item`, `price`, `toppings`
 (2, 1, 'Pizza', 'Medium Pizza', 7.99, 1, 0),
 (3, 1, 'Pizza', 'Large Pizza', 8.99, 1, 0),
 (4, 1, 'Pizza', 'X-Large Pizza', 10.99, 1, 0),
-(6, 2, '2 for 1 Pizza', '2 Small Pizza', 19.99, 1, 0),
-(7, 2, '2 for 1 Pizza', '2 Medium Pizza', 21.99, 1, 0),
-(8, 2, '2 for 1 Pizza', '2 Large Pizza', 33.99, 1, 0),
-(9, 2, '2 for 1 Pizza', '2 X-Large Pizza', 45.99, 1, 0),
-(11, 3, '3 for 1 Pizza', '3 Small Pizza', 22.99, 1, 0),
-(12, 3, '3 for 1 Pizza', '3 Medium Pizza', 33.99, 1, 0),
-(13, 3, '3 for 1 Pizza', '3 Large Pizza', 40.99, 1, 0),
-(14, 3, '3 for 1 Pizza', '3 X-Large Pizza', 44.99, 1, 0),
+(6, 2, '2 for 1 Pizza', '2 Small Pizza', 19.99, 2, 0),
+(7, 2, '2 for 1 Pizza', '2 Medium Pizza', 21.99, 2, 0),
+(8, 2, '2 for 1 Pizza', '2 Large Pizza', 33.99, 2, 0),
+(9, 2, '2 for 1 Pizza', '2 X-Large Pizza', 45.99, 2, 0),
+(11, 3, '3 for 1 Pizza', '3 Small Pizza', 22.99, 3, 0),
+(12, 3, '3 for 1 Pizza', '3 Medium Pizza', 33.99, 3, 0),
+(13, 3, '3 for 1 Pizza', '3 Large Pizza', 40.99, 3, 0),
+(14, 3, '3 for 1 Pizza', '3 X-Large Pizza', 44.99, 3, 0),
 (16, 4, 'Wings', '1 Pound Wings', 19.99, 0, 1),
 (17, 4, 'Wings', '2 Pound Wings', 21.99, 0, 1),
 (18, 4, 'Wings', '3 Pound Wings', 33.99, 0, 1),
@@ -227,7 +227,7 @@ CREATE TABLE IF NOT EXISTS `menukeywords` (
   `menuitem_id` int(11) NOT NULL,
   `keyword_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=52 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=53 ;
 
 --
 -- Dumping data for table `menukeywords`
@@ -261,7 +261,6 @@ INSERT INTO `menukeywords` (`id`, `menuitem_id`, `keyword_id`) VALUES
 (35, 17, 6),
 (36, 18, 9),
 (37, 19, 25),
-(38, 20, 26),
 (39, 1, 27),
 (40, 2, 19),
 (41, 6, 27),
@@ -274,7 +273,8 @@ INSERT INTO `menukeywords` (`id`, `menuitem_id`, `keyword_id`) VALUES
 (48, 11, 27),
 (49, 12, 19),
 (50, 13, 28),
-(51, 14, 29);
+(51, 14, 29),
+(52, 20, 26);
 
 -- --------------------------------------------------------
 
