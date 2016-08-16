@@ -1,5 +1,6 @@
 <script src="<?= webroot("resources/assets/scripts/api.js"); ?>"></script>
 <script src="<?= webroot("resources/assets/scripts/nui.js"); ?>"></script>
+<script src="<?= webroot("resources/assets/scripts/receipt.js"); ?>"></script>
 <STYLE>
     .selectedbutton{
         background-color: #4CAF50; /* Green */
@@ -159,7 +160,7 @@
         $results["words"] = trim(implode(" ", $results["words"]));
     }
 ?>
-<form method="get" id="formmain">
+<form method="get" id="formmain" class="red">
     <input type="text" id="textsearch" name="search" size=60 value="<?= $_GET["search"]; ?>" TITLE="Leave blank to search for all items">
     <input type="button" id="startspeech" style="display:none;" value="Click to Speak" onclick="startButton(event);" TITLE="Use voice recognition">
     <INPUT TYPE="submit" ID="submit" name="searchtype" value="Keyword search" <?= $keywordclass; ?> TITLE="Search using assigned keywords/synonyms">
@@ -256,8 +257,8 @@
         }
         select = select + '</SELECT>';
 
-        if(attr(t, "toppings") == 1){show(".addons-toppings");}
-        if(attr(t, "wings_sauce") == 1){show(".addons-wings_sauce");}
+        if(attr(t, "toppings") > 0){show(".addons-toppings");}
+        if(attr(t, "wings_sauce") > 0){show(".addons-wings_sauce");}
 
         innerHTML("#thepopup", '<DIV ID="product-pop-up_' + ID + '"><B>Stage 2:</B><BR>ITEM: ' + select + '</DIV>');
         if(isUndefined(searchtext)){

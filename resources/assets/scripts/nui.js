@@ -431,6 +431,7 @@ function getaddons(table, astext){
     if(isUndefined(astext)){astext = false;}
     var qualifiers = new Array;
     var toppingIDs = new Array;
+    var toppingNames = new Array;
     if(visible(".addons-" + table, false)) {
         select(".tr-addon-" + table, function (element) {
             var Selected = attr(element, "SELECTED");
@@ -440,7 +441,8 @@ function getaddons(table, astext){
                     qualifiers.push(Selected + " " + attr(element, "name"));
                 } else {
                     qualifiers.push(Selected);
-                    toppingIDs.push(attr(element, "TOPPINGID"))
+                    toppingIDs.push(attr(element, "TOPPINGID"));
+                    toppingNames.push(attr(element, "name"));
                 }
             }
         });
@@ -448,7 +450,7 @@ function getaddons(table, astext){
     if(astext){
         return qualifiers.join(", ");
     }
-    return [qualifiers, toppingIDs];
+    return [qualifiers, toppingIDs, toppingNames];
 }
 
 //reset the toppings/addons

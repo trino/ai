@@ -101,8 +101,9 @@ function isSelector(variable){
 function select(Selector, myFunction){
     if(isArray(Selector) || isObject(Selector, "NodeList")){
         var Elements = Selector;
-    } else if(isElement(Selector)){
+    } else if(isElement(Selector)) {
         var Elements = [Selector];
+    //} else if(Selector.isEqual("body")){ var Elements = [document.body];
     } else if(isString(Selector)) {
         var Elements = document.querySelectorAll(Selector);
     } else {
@@ -478,8 +479,10 @@ function show(Selector){
 }
 
 //trigger all eventName events for the Selector elements
+//eventName [optional, assumes 'click']: what event to trigger
 //options [optional]: an object of parameters you want to pass into the event
 function trigger(Selector, eventName, options) {
+    if(isUndefined(eventName)){eventName = "click"};
     if (window.CustomEvent) {
         var event = new CustomEvent(eventName, options);
     } else {

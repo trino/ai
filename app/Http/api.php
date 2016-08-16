@@ -244,7 +244,7 @@ function printrow($row, &$FirstResult = false, $PrimaryKey = "id", $TableID = ""
         echo '><THEAD><TR>';
         $ID = 0;
         foreach ($row as $Key => $Value) {
-            echo '<TH CLASS="' . $TableID . 'colheader" ID="' . $TableID . '-col' . $ID . '">' . $Key . '</TH>';
+            echo '<TH CLASS="' . $TableID . 'colheader ' . $Key . '" ID="' . $TableID . '-col' . $ID . '">' . $Key . '</TH>';
             $ID++;
         }
         echo '</TR></THEAD>';
@@ -253,7 +253,7 @@ function printrow($row, &$FirstResult = false, $PrimaryKey = "id", $TableID = ""
 
     echo '<TR ID="' . $TableID . 'row' . $row[$PrimaryKey] . '">';
     foreach ($row as $Key => $Value) {
-        echo '<TD TYPE="' . $Key . '" ID="' . $TableID . 'row' . $row[$PrimaryKey] . '-' . $Key . '"';
+        echo '<TD CLASS="' . $Key . '" ID="' . $TableID . 'row' . $row[$PrimaryKey] . '-' . $Key . '"';
         if(is_numeric($Value)){echo ' ALIGN="RIGHT"';}
         if($Value == "*"){echo ' ALIGN="CENTER"';}
         echo '>';

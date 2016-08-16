@@ -4,6 +4,7 @@
     }
     .red{
         border: 1px solid red;
+        margin-top: 10px;
     }
 </STYLE>
 <DIV CLASS="red">
@@ -341,13 +342,14 @@
         $quantity = containswords($text, $quantities);//check if the search contains multiple items, instead of just one
         $buttontext= "";
         $Tables = array("toppings", "wings_sauce");
-        $buttonstarttext="";
+        $tabletext="";
         foreach($Tables as $Table){
-            $buttonstarttext .= " " . $Table . '="[' . $Table . ']"';
+            $tabletext .= " " . $Table . '="[' . $Table . ']"';
         }
 
-        $buttonstarttext = ' <BUTTON ID="assimilate[rowid]-[itemid]" CLASS="assimilate assimilate[rowid]" IID="[rowid]" TITLE="[title]" ONCLICK="[script]" VALUE="[text]" ' . $buttonstarttext . '[style]>Item: [itemid]</BUTTON>';//base string, replace [text] later on
+        $buttonstarttext = ' <BUTTON ID="assimilate[rowid]-[itemid]" CLASS="assimilate assimilate[rowid]" IID="[rowid]" TITLE="[title]" ONCLICK="[script]" VALUE="[text]" [tabletext] [style]>Item: [itemid]</BUTTON>';//base string, replace [text] later on
 
+        $itemlist = array();
         if($quantity){//Stage 1.3: split the search up into it's individual items
             $lastkey = lastkey($quantity);
             $buttonstarttext = multireplace($buttonstarttext, array("[script]" => 'runtest2(this);', "[style]" => "", "[title]" => "Assimilate multiple"));
@@ -356,26 +358,37 @@
                 if($i != $lastkey){
                     $rightword = $quantity[$i+1];//if it's not the last key, then get the next one
                 }
-                $resulttext = getwordsbetween($text, $quantity[$i], $rightword);
+                $resulttext = trim(getwordsbetween($text, $quantity[$i], $rightword));
+                $itemlist[] = $resulttext;
                 $buttontext .= multireplace($buttonstarttext, array("[text]" => $resulttext, "[itemid]" => $i+1));
             }
         } else if($reduced){
             $buttontext = multireplace($buttonstarttext, array("[script]" => 'runtest2(this);', "[style]" => "", "[title]" => "Assimilate reduced", "[itemid]" => 1, "[text]" => $text));
+            $itemlist[] = trim($text);
         } else {//only 1 item, only needs 1 assimilate button
             $buttontext = multireplace($buttonstarttext, array("[script]" => 'runtest(this);', "[itemid]" => 1, "[style]" => ' STYLE="width: 100%;"', "[text]" => "[rowid]", "[title]" => "Assimilate Single"));
+            $itemlist[] = trim($text);
         }
 
+
+        $ItemID = 0;
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {//display SQL results
             $row["id"] = $row["menuid"];
             $row["price"] = number_format($row["price"], 2);
 
             //get quantity of item
+            $itemtype = 0;
             $quantityID = false;
-            $thesekeywords = array_combine ( explode("|", $row["keywordids"]) , explode("|", $row["types"]) );
+            $keywordIDs = explode("|", $row["keywordids"]);
+            $thesekeywords = array_combine ( $keywordIDs , explode("|", $row["types"]) );
+            $thesekeywordw = array_combine ( $keywordIDs , explode("|", $row["weights"]) );
             foreach($thesekeywords as $ID => $type){
+                $weight = $thesekeywordw[$ID];
                 if($type == 1){//quantity found
                     $quantityID = $ID;
                     $row["quantity"] = firstword($keywords[$ID]["synonyms"]);
+                } else if($weight == 5){
+                    $itemtype = $ID;
                 }
             }
             if(!$quantityID){//keyword for quantity wasn't in the search, get it manually
@@ -388,14 +401,28 @@
             if($quantity){
                 $row["actions"] .= " Stage 1.3:";
             }
-            $row["actions"] .= '<BR>' . multireplace($buttontext, array("[rowid]" => $row["id"]));//, "[wings_sauce]" => $row["addontype"] == 2, "[toppings]" => $row["addontype"] == 1));
+
             foreach($Tables as $TableID => $TableName){
-                $row["actions"] = multireplace($row["actions"], array("[" . $TableName . "]" => $row[$TableName]));
+                $tabletext = multireplace($tabletext, array("[" . $TableName . "]" => $row[$TableName]));
             }
 
-            $row = removekeys($row, array("name", "price", "display_order", "has_addon", "wordid", "mkid", "keyword_id", "req_opt", "sing_mul", "exact_upto", "exact_upto_qty", "created_at", "updated_at", "addon_category_id", "image", "menuitem_id", "item_id", "menuid", "keywordtype"));//just to clean up the results
+            $row["actions"] .= '<BR>' . multireplace($buttontext, array("[rowid]" => $row["id"], "[tabletext]" => $tabletext));
+
+            $row = removekeys($row, array("name", "price", "display_order", "has_addon", "wordid", "mkid", "keyword_id", "req_opt", "sing_mul", "exact_upto", "exact_upto_qty", "created_at", "updated_at", "addon_category_id", "image", "menuitem_id", "item_id", "menuid", "keywordtype", "itemname"));//just to clean up the results
             $row = removekeys($row, $Tables);
+
+
+            $buttonstarttext = '<BUTTON ID="order' . $ItemID . '" CLASS="assimilateall order' . $ItemID . '" ONCLICK="orderitem(this);" VALUE="' . $row["id"] . '" ' . $tabletext . ' STYLE="width:100%;height:100%;" itemcount="' . count($itemlist) . '" itemname="' . $row["item"] . '" price="' . $row["itemprice"] . '" typeid="' . $itemtype . '"';
+            if($itemtype){
+                $buttonstarttext .= ' type="' . firstword($keywords[$itemtype]["synonyms"]) . '"';
+            }
+            foreach($itemlist as $index => $item){
+                $buttonstarttext .= " item" . $index . '="' . $item . '"';
+            }
+            $row["Order"] = $buttonstarttext . '>Order</BUTTON>';
+
             printrow($row, $FirstResult);
+            $ItemID++;
         }
         if (!$FirstResult) {echo '</TABLE>';}
     } else {
