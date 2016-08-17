@@ -44,8 +44,9 @@ function filteraddons(addons, tablename){
 }
 
 function assimilateaddons(ID, element, Index){
+    //[0=startsearchstring, 1=searchstring, 2=toppings, 3=typos, 4=defaults, 5=quantity, 6=itemname]
     var toppings = assimilate(ID, element.getAttribute("item" + Index));
-    return toppings[2].concat( toppings[3] );
+    return toppings[2].concat( toppings[3] ).concat( toppings[4] );
 }
 
 function makerow(Label, Price, Extra, newcol){

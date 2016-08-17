@@ -237,12 +237,13 @@ function qualifytoppings(toppings, searchstring, ID){
         removeempties(searchstring);
     } else if ( isNumeric(toppings) ){
         if(toppings > -1){//make sure the quantity even exists
-            quantityselect = searchstring[toppings];
+            var quantityselect = searchstring[toppings];
             if(select("#select" + ID + " option[id='" + searchstring[toppings] + "']").length > 0) {
                 value("#select" + ID, searchstring[toppings]);
                 searchstring[toppings] = false;
                 //removeindex(searchstring, toppings, 1);
             }
+            return quantityselect;
         }
     }
     return searchstring;
@@ -256,18 +257,33 @@ function get_itemname(ID){
 //handles the processing of search text
 function assimilate(ID, originalsearchstring){
     //if(isUndefined(originalsearchstring)) {originalsearchstring = value("#textsearch");}
-    clearaddons();
+    var defaults = clearaddons();
     originalsearchstring = removewords(originalsearchstring);
     var startsearchstring = replacesynonyms(originalsearchstring);
     var searchstring = startsearchstring.split(" ");
     var itemname = get_itemname(ID);
     var searchindex = get_quantity(searchstring, itemname);
-    qualifytoppings(searchindex, searchstring, ID);
+    var quantity = qualifytoppings(searchindex, searchstring, ID);
     var toppings = get_toppings(originalsearchstring, searchstring);
     searchstring = qualifytoppings(toppings, searchstring);
     var typos = get_typos(itemname, originalsearchstring, searchstring);
     qualifytoppings(typos, cloneData(searchstring));
-    return [startsearchstring, searchstring, toppings, typos];
+    defaults = removeduplicatetoppings(defaults, toppings);
+    defaults = removeduplicatetoppings(defaults, typos);
+    return [startsearchstring, searchstring, toppings, typos, defaults, quantity, itemname];
+}
+
+function removeduplicatetoppings(filterthis, leavethis){
+    for(var i=0; i< leavethis.length; i++){
+        for(var v=filterthis.length-1; v>-1; v--){
+            //ret.push({qualifier: qualifier, label: topping, needsRemoving: false, tablename: table});
+            if(filterthis[v].tablename.isEqual( leavethis[i].tablename ) && filterthis[v].label.isEqual( leavethis[i].label )){
+                removeindex(filterthis, v);
+                v=-1;
+            }
+        }
+    }
+    return filterthis;
 }
 
 //check a single topping's radio button
@@ -465,22 +481,22 @@ function getaddons(table, astext){
     return [qualifiers, toppingIDs, toppingNames, tablenames];
 }
 
-var quantityselect;
 //reset the toppings/addons
 function clearaddons(table){
     if(isUndefined(table)){
+        var defaults = new Array;
         for(var i=0; i < tables.length; i++){
             clearaddons(tables[i]);
         }
+        defaults.push(clicktopping("toppings", "single", "cheese"));
+        defaults.push(clicktopping("toppings", "single", "italian tomato sauce"));
+        defaults.push(clicktopping("toppings", "regular", "cooked"));
+        return defaults;
     } else {
-        quantityselect=1;
         value(".quantityselect", "1");
         table = "-" + table;
         attr(".tr-addon" + table, "SELECTED", "");
         attr(".addon" + table, "checked", false);
-        clicktopping("toppings", "single", "cheese");
-        clicktopping("toppings", "single", "italian tomato sauce");
-        clicktopping("toppings", "regular", "cooked");
     }
 }
 
@@ -489,6 +505,7 @@ function clicktopping(table, qualifier, topping){
     var classname = ".addon-" + table + "-" + qualifier.toLowerCase() + "-" + topping.toLowerCase().replaceAll(" ", "-");
     trigger(classname, "click");
     attr(classname, "checked", true);
+    return {qualifier: qualifier, label: topping, needsRemoving: false, tablename: table};
 }
 
 //compares $arr with $comparewith, starting at $arr[$startingindex] and $comparewith[0]
