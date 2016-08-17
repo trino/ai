@@ -45,6 +45,18 @@
         }
     }
 
+    function keywordsexist($words){
+        $words = explode(" ", $words);
+        $result = Query("SELECT synonyms FROM keywords");
+        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            $ret = containswords($row["synonyms"], $words);
+            if($ret){
+                $synonyms = explode(" ", $row["synonyms"]);
+                return $synonyms[ $ret[0] ];
+            }
+        }
+    }
+
     function firstword($Text){
         $Space = strpos($Text, " ");
         if($Space === false){return $Text;}
@@ -113,7 +125,7 @@
                 }
                 echo '</TABLE>';
             } else {
-                echo '<table border="1" id="keywords"><tr><th id="keywords-col0">id</th><th id="keywords-col1">menuitem_id</th><th id="keywords-col2">keyword_id</th><th id="keywords-col3">synonyms</th><th id="keywords-col4">weight</th><TH>keywordtype</TH><TH>Context</TH><th id="keywords-col5">Actions</th></tr></table>';
+                echo '<table border="1" id="keywords"><tr><th id="keywords-col0">id</th><th id="keywords-col1">menuitem_id</th><th id="keywords-col2">keyword_id</th><th id="keywords-col3">synonyms</th><th id="keywords-col4">weight</th><TH>keywordtype</TH><TH>Context</TH><TH>Assigned to</TH><th id="keywords-col5">Actions</th></tr></table>';
             }
 
             if($suggestions) {
@@ -148,6 +160,22 @@
             break;
 
         case "createkeyword":
+            //error handling
+            $wordstoignore = ["the", "with", "and", "times", "on", "one"];
+            $_GET["synonyms"] = strtolower(trim(filterduplicates(filternonalphanumeric($_GET["synonyms"]))));
+            $exists = keywordsexist($_GET["synonyms"]);
+            if($exists){
+                die("ERROR: '" . $exists . "' already exists");
+            }
+            $synoynms = explode(" ", $_GET["synonyms"]);
+            foreach($synoynms as $synoynm){
+                if( strlen($synoynm) < 3 ){
+                    die("ERROR: '" . $synoynm . "' is too small");
+                } else if (in_array($synoynm, $wordstoignore)){
+                    die("ERROR: '" . $synoynm . "' is an ignored word");
+                }
+            }
+
             $_GET["keyword_id"] = insertdb("keywords", array("synonyms" => $_GET["synonyms"], "weight" => $_GET["weight"], "keywordtype" => $_GET["keywordtype"]));
         case "assignkeyword":
             if(!select_field_where("menukeywords", "menuitem_id = " . $_GET["menuitem_id"] . " AND keyword_id = " . $_GET["keyword_id"], "COUNT()")) {
@@ -268,8 +296,12 @@
             menuitem_id: itemID,
             _token: token
         }, function (result) {
-            append("#keywords", result);
-            fadeoutanddelete("#create");
+            if(result.startswith("ERROR:")){
+                alert(result);
+            } else {
+                append("#keywords", result);
+                fadeoutanddelete("#create");
+            }
         });
     }
 

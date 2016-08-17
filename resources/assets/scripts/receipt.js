@@ -1,5 +1,6 @@
 var order = new Array;
 var surcharge = 3.50;
+var lastquantity = 0;
 
 function orderitem(element) {
     var ID = element.getAttribute("value");
@@ -14,6 +15,7 @@ function orderitem(element) {
     var items = element.getAttribute("itemcount");
     for(var i=0; i < items; i++){
         var addons = assimilateaddons(ID, element, i);
+        if(lastquantity > 1){item.quantity = lastquantity;}
         for(var v=0; v < tables.length; v++) {
             if(item[tables[v]].length > i){
                 item[tables[v]][i] = filteraddons(addons, tables[v]);
@@ -46,6 +48,7 @@ function filteraddons(addons, tablename){
 function assimilateaddons(ID, element, Index){
     //[0=startsearchstring, 1=searchstring, 2=toppings, 3=typos, 4=defaults, 5=quantity, 6=itemname]
     var toppings = assimilate(ID, element.getAttribute("item" + Index));
+    lastquantity = toppings[5];
     return toppings[2].concat( toppings[3] ).concat( toppings[4] );
 }
 
@@ -53,7 +56,7 @@ function makerow(Label, Price, Extra, newcol){
     if(isUndefined(Extra)){Extra = "";}
     if(isUndefined(newcol)){newcol = "";}
     if(newcol) {newcol = '<TD COLSPAN="2" ROWSPAN="4" ALIGN="CENTER">Checkout button goes here</TD>'}
-    return '<TR><TD COLSPAN="3">' + Extra + '</TD><TD>' + Label + '</TD><TD ALIGN="right"><SPAN STYLE="float:left;">$</SPAN>' + Price.toFixed(2) + '</TD>' + newcol + '</TR>';
+    return '<TR><TD COLSPAN="2">' + Extra + '</TD><TD>' + Label + '</TD><TD ALIGN="right"><SPAN STYLE="float:left;">$</SPAN>' + Price.toFixed(2) + '</TD>' + newcol + '</TR>';
 }
 
 function generatereceipt(index){
@@ -63,7 +66,7 @@ function generatereceipt(index){
             text = "Your order is empty";
         } else {
             text =  '<BUTTON ID="saveitems" STYLE="float:right;display:none;width:100px;height:100px;" ONCLICK="saveitem();">Save</BUTTON>' +
-                    '<TABLE BORDER="1"><TR><TH>Index</TH><TH>ID</TH><TH>Item</TH><TH>QTY</TH><TH>Price</TH><TH>Items</TH><TH>Actions</TH></TR>';
+                    '<TABLE BORDER="1"><TR><TH>Index</TH><TH>Item</TH><TH>QTY</TH><TH>Price</TH><TH>Items</TH><TH>Actions</TH></TR>';
             for(var i=0; i < order.length; i++){
                 var item = order[i];
                 text += generatereceipt(i);
@@ -79,16 +82,24 @@ function generatereceipt(index){
         innerHTML("#receipt", text);
     } else {//return 1 item
         var item = order[index];
-        text = '<TR><TD>' + index + '</TD><TD>' + item.id + '</TD><TD>' + item.name + '</TD><TD>' +
+        var tableterm = "123TABLE123";
+        text = '<TR><TD CLASS="item' + item.id + '">' + index + '</TD><TD>' + item.name + '</TD><TD>' +
                 '<BUTTON CLASS="minus" ONCLICK="itemdir(' + index + ', -1);">-</BUTTON><SPAN STYLE="float:right;">' + item.quantity + '<BUTTON CLASS="plus" ONCLICK="itemdir(' + index + ', 1);">+</BUTTON></SPAN>' +
-                '</TD><TD ALIGN="right"><SPAN STYLE="float:left;">$</SPAN>' + item.price + '</TD><TD><TABLE BORDER="1" WIDTH="100%"><TR><TH WIDTH="5%">#</TH><TH>Add-ons</TH><TH WIDTH="10%">Actions</TH></TR>';
+                '</TD><TD ALIGN="right"><SPAN STYLE="float:left;">$</SPAN>' + item.price + '</TD><TD>' + tableterm;
+        var doit = false;
         for(var i=0; i < tables.length; i++){
             for(var v=0; v < item[tables[i]].length; v++){
+                doit = true;
                 text += '<TR><TD>' + (v+1) + '</TD><TD>' + stringifyaddons(item[tables[i]][v]) + '</TD><TD CLASS="tdbtn">' +
                         '<BUTTON ONCLICK="edititem(this);" STYLE="width: 100%; height: 100%;" itemindex="' + index + '" type="' + tables[i] + '" addonindex="' + i + '">Edit</BUTTON></TD></TR>';
             }
         }
-        text += '</TABLE></TD><TD CLASS="tdbtn"><BUTTON ONCLICK="deleteitem(' + index + ');" STYLE="height:100%">Delete</BUTTON></TD></TR>';
+        if(doit){
+            text = text.replaceAll(tableterm, '<TABLE BORDER="1" WIDTH="100%"><TR><TH WIDTH="5%">#</TH><TH>Add-ons</TH><TH WIDTH="10%">Actions</TH></TR>') + '</TABLE>';
+        } else {
+            text = text.replaceAll(tableterm, "");
+        }
+        text += '</TD><TD CLASS="tdbtn"><BUTTON ONCLICK="deleteitem(' + index + ');" STYLE="height:100%">Delete</BUTTON></TD></TR>';
     }
     return text;
 }

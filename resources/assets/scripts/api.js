@@ -29,6 +29,10 @@ String.prototype.left = function(n) {
     return this.substring(0, n);
 };
 
+String.prototype.startswith = function(str) {
+    return this.substring(0, str.length).isEqual(str);
+};
+
 //returns the right $n characters of a string
 String.prototype.right = function(n) {
     return this.substring(this.length-n);

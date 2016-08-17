@@ -70,7 +70,7 @@
     if(!isset($_GET["search"]) || !trim($_GET["search"]) || !$isKeyword){
         //blank search, just show the entire menu
         if(!isset($_GET["search"])) {$_GET["search"] = "";}
-        $_GET["search"] = preg_replace("/[^A-Za-z0-9 ]/", '', $_GET["search"]);//remove non-alphanumeric
+        $_GET["search"] = filternonalphanumeric($_GET["search"]);//remove non-alphanumeric
         $results["SortColumn"] = get("SortColumn", "keywords");
         $results["SortDirection"] = get("SortDirection", "DESC");
         $results["words"] = "";
@@ -91,11 +91,17 @@
                 $plurals[] = left($plural, strlen($plural)-1);
             }
         }
-        if(containswords($plurals, "chicken")){//HCSC
-            if(!containswords($plurals, "wing")){
-                $plurals[] = "wing";
+
+        //HCSC
+        $primarysynoynms = array("wing" => "chicken", "drink" => array("pepsi", "cola", "coke"));//32 drink beverage soda pop
+        foreach($primarysynoynms as $primarykeyword => $synonyms){
+            if(containswords($plurals, $synonyms)){
+                if(!containswords($plurals, $primarykeyword)){
+                    $plurals[] = $primarykeyword;
+                }
             }
         }
+
         $words = implode("|", $plurals);
 
         //search the keywords table for the search string

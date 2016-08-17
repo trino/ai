@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 16, 2016 at 05:36 PM
+-- Generation Time: Aug 17, 2016 at 09:40 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `keywords` (
   `weight` int(11) NOT NULL,
   `keywordtype` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=57 ;
 
 --
 -- Dumping data for table `keywords`
@@ -113,7 +113,33 @@ INSERT INTO `keywords` (`id`, `synonyms`, `weight`, `keywordtype`) VALUES
 (26, '5 five', 1, 1),
 (27, 'small sm', 1, 2),
 (28, 'large lg', 1, 2),
-(29, 'extra xl ex', 1, 2);
+(29, 'extra xl ex', 1, 2),
+(30, 'lbl pound lb', 1, 2),
+(31, '2lbl 2lb 2pound', 1, 1),
+(32, 'drink beverage soda pop', 5, 0),
+(33, 'coke cola', 1, 0),
+(34, 'diet', 1, 0),
+(35, 'liter litre 2liter 2litre 2lt bottle', 1, 0),
+(36, 'iced ice tea nestea lipton brisk', 1, 0),
+(37, 'ginger ale', 1, 0),
+(38, 'pepper doctor', 1, 0),
+(39, 'crush', 1, 0),
+(40, 'orange', 1, 0),
+(41, 'pepsi', 1, 0),
+(42, '7up seven', 1, 0),
+(44, 'water h20', 1, 0),
+(45, 'salad', 5, 0),
+(46, 'caesar', 1, 0),
+(47, 'greek', 1, 0),
+(48, 'garden', 1, 0),
+(49, 'side', 1, 0),
+(50, 'poutine', 5, 0),
+(51, 'french fry fries', 5, 0),
+(52, 'wedges potato potatoe', 5, 0),
+(53, 'ring', 5, 0),
+(54, 'veggie', 5, 0),
+(55, 'stick', 1, 0),
+(56, 'bread', 5, 0);
 
 -- --------------------------------------------------------
 
@@ -168,10 +194,10 @@ INSERT INTO `menu` (`id`, `category_id`, `category`, `item`, `price`, `toppings`
 (13, 3, '3 for 1 Pizza', '3 Large Pizza', 40.99, 3, 0),
 (14, 3, '3 for 1 Pizza', '3 X-Large Pizza', 44.99, 3, 0),
 (16, 4, 'Wings', '1 Pound Wings', 19.99, 0, 1),
-(17, 4, 'Wings', '2 Pound Wings', 21.99, 0, 1),
-(18, 4, 'Wings', '3 Pound Wings', 33.99, 0, 1),
-(19, 4, 'Wings', '4 Pound Wings', 45.99, 0, 1),
-(20, 4, 'Wings', '5 Pound Wings', 45.99, 0, 1),
+(17, 4, 'Wings', '2 Pound Wings', 21.99, 0, 2),
+(18, 4, 'Wings', '3 Pound Wings', 33.99, 0, 3),
+(19, 4, 'Wings', '4 Pound Wings', 45.99, 0, 4),
+(20, 4, 'Wings', '5 Pound Wings', 45.99, 0, 5),
 (22, 5, 'Sides', 'Poutine', 4.99, 0, 0),
 (23, 5, 'Sides', 'Potato Wedges', 4.99, 0, 0),
 (24, 5, 'Sides', 'Onion Rings', 3.99, 0, 0),
@@ -227,7 +253,7 @@ CREATE TABLE IF NOT EXISTS `menukeywords` (
   `menuitem_id` int(11) NOT NULL,
   `keyword_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=53 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=113 ;
 
 --
 -- Dumping data for table `menukeywords`
@@ -274,7 +300,63 @@ INSERT INTO `menukeywords` (`id`, `menuitem_id`, `keyword_id`) VALUES
 (49, 12, 19),
 (50, 13, 28),
 (51, 14, 29),
-(52, 20, 26);
+(52, 20, 26),
+(54, -4, 30),
+(55, 17, 31),
+(57, -7, 32),
+(58, 52, 33),
+(59, 53, 33),
+(60, 53, 34),
+(61, 62, 35),
+(62, 62, 33),
+(63, 63, 35),
+(64, 63, 34),
+(66, 63, 33),
+(68, 60, 34),
+(69, 60, 35),
+(70, 64, 35),
+(71, 65, 35),
+(72, 66, 35),
+(73, 67, 35),
+(74, 68, 35),
+(75, 68, 36),
+(76, 67, 37),
+(77, 66, 38),
+(78, 65, 39),
+(79, 65, 40),
+(80, 40, 15),
+(81, 43, 13),
+(82, 50, 34),
+(83, 50, 41),
+(84, 51, 41),
+(85, 54, 42),
+(86, 55, 39),
+(87, 55, 40),
+(88, 56, 38),
+(89, 57, 37),
+(90, 58, 36),
+(91, 59, 35),
+(92, 59, 44),
+(93, 28, 45),
+(94, 28, 7),
+(95, 30, 45),
+(96, 30, 46),
+(97, 31, 47),
+(98, 31, 45),
+(99, 32, 45),
+(100, 32, 48),
+(101, 29, 45),
+(102, 29, 49),
+(103, 61, 35),
+(104, 61, 41),
+(105, 22, 50),
+(106, 27, 51),
+(107, 23, 52),
+(108, 24, 53),
+(109, 25, 54),
+(110, 25, 55),
+(111, 26, 15),
+(112, 26, 56);
 
 -- --------------------------------------------------------
 

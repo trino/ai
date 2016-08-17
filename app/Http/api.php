@@ -308,4 +308,15 @@ function normalizetext($text){
     }
     return strtolower(trim($text));
 }
+
+function filternonalphanumeric($text){
+    return preg_replace("/[^A-Za-z0-9 ]/", '', $text);
+}
+
+function filterduplicates($text, $filter = "  ", $withwhat = " "){
+    while (strpos($text, $filter) !== false){
+        $text = str_replace($filter, $withwhat, $text);
+    }
+    return $text;
+}
 ?>

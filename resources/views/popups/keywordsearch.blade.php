@@ -27,8 +27,8 @@
 <UL>
     <LI>If you search for a keyword and it is not found, you are given the option to create it</LI>
     <LI>When searching, only search for one keyword and not all it's synonyms</LI>
-    <LI>This step is important because you cannot add the same keyword multiple times as it will conflict with itself</LI>
-    <LI>Before clicking the 'Create' button, add all the synonyms for the keyword, separating them with spaces (no other punctuation)</LI>
+    <LI>This step is important because you cannot add the same keyword multiple times as it will conflict with itself (the system will attempt to prevent this)</LI>
+    <LI>Before clicking the 'Create' button, add all the synonyms for the keyword, separating them with spaces (punctuation and double spaces will be removed)</LI>
     <LI>Then set the weight, the higher the number means the keyword is more specific to that item. 5 being 100% specific, and will act as a new search term (if a search has multiple weight-5 keywords, each one will trigger a new search)</LI>
     <LI>Then set the context (if applicable) of the keyword. ie: Is it a quantity, or a size?</LI>
 </UL>
