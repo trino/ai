@@ -406,7 +406,7 @@
                 foreach($results["is5keywords"] as $primaryKeyID){
                     $keywordids = array_merge(array($primaryKeyID), $results["non5keywords"]);
                     $indexes = countsynonyms($newsearch, $primaryKeyID);
-                    if($indexes){
+                    if(count($indexes) > 1){
 
                         $text = weightstring($newsearch, $results["keywords"], $wordstoignore);
 

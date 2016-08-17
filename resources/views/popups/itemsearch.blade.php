@@ -161,7 +161,6 @@
     }
     $SQL .= " ORDER BY " . $SortColumn . " " . $SortDirection . " LIMIT 5   ";
 
-
     $result = Query($SQL);
 
     if($result) {
@@ -189,9 +188,6 @@
                 $resulttext = trim(getwordsbetween($text, $quantity[$i], $rightword));
                 $resulttext = removewords($resulttext, $wordstoignore);
                 $itemlist[] = $resulttext;
-                //foreach($quantities as $quantitiytext){
-                //    $resulttext = multireplace($resulttext, array($quantitiytext . " one" => $quantitiytext, $quantitiytext . " with" => $quantitiytext));
-                //}
                 $buttontext .= multireplace($buttonstarttext, array("[text]" => $resulttext, "[itemid]" => $i+1));
             }
         } else if($reduced){

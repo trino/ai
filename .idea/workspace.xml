@@ -22,17 +22,17 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="keyword.blade.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="keyword.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/home/keyword.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.32647464">
-              <caret line="422" column="72" selection-start-line="422" selection-start-column="72" selection-end-line="422" selection-end-column="72" />
+            <state vertical-scroll-proportion="-3.0384614">
+              <caret line="408" column="42" selection-start-line="408" selection-start-column="42" selection-end-line="408" selection-end-column="42" />
               <folding>
-                <marker date="1471466850624" expanded="true" signature="17268:17329" placeholder="SELECT * FRO..keywords..." />
-                <marker date="1471466850624" expanded="true" signature="23152:24290" placeholder="..." />
-                <marker date="1471466850624" expanded="true" signature="23341:23354" placeholder="..." />
-                <marker date="1471466850624" expanded="true" signature="23733:23893" placeholder="..." />
-                <marker date="1471466850624" expanded="true" signature="24561:24585" placeholder="..." />
+                <marker date="1471466954320" expanded="true" signature="17268:17329" placeholder="SELECT * FRO..keywords..." />
+                <marker date="1471466954320" expanded="true" signature="23163:24301" placeholder="..." />
+                <marker date="1471466954320" expanded="true" signature="23352:23365" placeholder="..." />
+                <marker date="1471466954320" expanded="true" signature="23744:23904" placeholder="..." />
+                <marker date="1471466954320" expanded="true" signature="24572:24596" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -120,15 +120,15 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="itemsearch.blade.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="itemsearch.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/popups/itemsearch.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.807693">
-              <caret line="70" column="86" selection-start-line="69" selection-start-column="7" selection-end-line="70" selection-end-column="86" />
+            <state vertical-scroll-proportion="0.26337448">
+              <caret line="168" column="120" selection-start-line="168" selection-start-column="120" selection-end-line="168" selection-end-column="120" />
               <folding>
-                <marker date="1471463980990" expanded="true" signature="7881:8656" placeholder="SELECT *, co..*..." />
-                <marker date="1471463980990" expanded="true" signature="8273:8656" placeholder="SELECT menu...menu..." />
-                <marker date="1471463980990" expanded="true" signature="12409:12595" placeholder="SELECT * FRO..menukeywords..." />
+                <marker date="1471467118951" expanded="true" signature="7881:8656" placeholder="SELECT *, co..*..." />
+                <marker date="1471467118951" expanded="true" signature="8273:8656" placeholder="SELECT menu...menu..." />
+                <marker date="1471467118951" expanded="true" signature="12173:12359" placeholder="SELECT * FRO..menukeywords..." />
               </folding>
             </state>
           </provider>
@@ -182,8 +182,8 @@
         <option value="$PROJECT_DIR$/resources/views/popups/keywordsearch.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/home/editor.blade.php" />
         <option value="$PROJECT_DIR$/resources/assets/scripts/receipt.js" />
-        <option value="$PROJECT_DIR$/resources/views/popups/itemsearch.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/home/keyword.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/popups/itemsearch.blade.php" />
       </list>
     </option>
   </component>
@@ -1252,6 +1252,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/home/keyword.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.0384614">
+          <caret line="408" column="42" selection-start-line="408" selection-start-column="42" selection-end-line="408" selection-end-column="42" />
+          <folding>
+            <marker date="1471466954320" expanded="true" signature="17268:17329" placeholder="SELECT * FRO..keywords..." />
+            <marker date="1471466954320" expanded="true" signature="23163:24301" placeholder="..." />
+            <marker date="1471466954320" expanded="true" signature="23352:23365" placeholder="..." />
+            <marker date="1471466954320" expanded="true" signature="23744:23904" placeholder="..." />
+            <marker date="1471466954320" expanded="true" signature="24572:24596" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/popups/addons.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-9.153846">
@@ -1264,26 +1278,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/popups/itemsearch.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.807693">
-          <caret line="70" column="86" selection-start-line="69" selection-start-column="7" selection-end-line="70" selection-end-column="86" />
+        <state vertical-scroll-proportion="0.26337448">
+          <caret line="168" column="120" selection-start-line="168" selection-start-column="120" selection-end-line="168" selection-end-column="120" />
           <folding>
-            <marker date="1471463980990" expanded="true" signature="7881:8656" placeholder="SELECT *, co..*..." />
-            <marker date="1471463980990" expanded="true" signature="8273:8656" placeholder="SELECT menu...menu..." />
-            <marker date="1471463980990" expanded="true" signature="12409:12595" placeholder="SELECT * FRO..menukeywords..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/home/keyword.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.32647464">
-          <caret line="422" column="72" selection-start-line="422" selection-start-column="72" selection-end-line="422" selection-end-column="72" />
-          <folding>
-            <marker date="1471466850624" expanded="true" signature="17268:17329" placeholder="SELECT * FRO..keywords..." />
-            <marker date="1471466850624" expanded="true" signature="23152:24290" placeholder="..." />
-            <marker date="1471466850624" expanded="true" signature="23341:23354" placeholder="..." />
-            <marker date="1471466850624" expanded="true" signature="23733:23893" placeholder="..." />
-            <marker date="1471466850624" expanded="true" signature="24561:24585" placeholder="..." />
+            <marker date="1471467118951" expanded="true" signature="7881:8656" placeholder="SELECT *, co..*..." />
+            <marker date="1471467118951" expanded="true" signature="8273:8656" placeholder="SELECT menu...menu..." />
+            <marker date="1471467118951" expanded="true" signature="12173:12359" placeholder="SELECT * FRO..menukeywords..." />
           </folding>
         </state>
       </provider>
