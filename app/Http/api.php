@@ -284,4 +284,28 @@ function filternonnumeric($Text){
     if(!$Text){return 1;}
     return $Text;
 }
+
+//explodes $text by space, checks if the cells contain $words and returns the indexes
+function containswords($text, $words, $delimiter = " "){
+    $ret = array();
+    if(!is_array($text)){$text = explode($delimiter, $text);}
+    if(!is_array($words)){$words = array(normalizetext($words));} else {$words = normalizetext($words);}
+    foreach($text as $index => $text_word){
+        if(in_array(normalizetext($text_word), $words)){
+            $ret[] = $index;
+        }
+    }
+    return $ret;
+}
+
+//lowercase and trim text for == comparison
+function normalizetext($text){
+    if(is_array($text)){
+        foreach($text as $index => $word){
+            $text[$index] = normalizetext($word);
+        }
+        return $text;
+    }
+    return strtolower(trim($text));
+}
 ?>

@@ -210,11 +210,13 @@ function get_typos(itemname, originalsearchstring, thesearchstring, labels){
         if (findsynonym(searchstring[searchindex], qualifiers)[0] == -1) {//handle simple typos
             if(itemname.indexOf( searchstring[searchindex] ) == -1) {
                 var closestword = findclosestsynonym(searchstring[searchindex], 1, labels);
-                closestword.word = closestword.word.replaceAll(" ", "-");
-                if(closestword.word) {
-                    var qualifier = getqualifier(originalsearchstring, searchstring[searchindex], closestword.word);
-                    ret.push({searchindex: searchindex, qualifier: qualifier, label: closestword.word, needsRemoving: needsRemoving, originalword: searchstring[searchindex], distance: closestword.distance, tablename: qualifier_tables[closestword.parent], parent: closestword.parent, child: closestword.child });
-                    searchstring[searchindex] = false;
+                if(!isUndefined(closestword.word)){
+                    closestword.word = closestword.word.replaceAll(" ", "-");
+                    if(closestword.word) {
+                        var qualifier = getqualifier(originalsearchstring, searchstring[searchindex], closestword.word);
+                        ret.push({searchindex: searchindex, qualifier: qualifier, label: closestword.word, needsRemoving: needsRemoving, originalword: searchstring[searchindex], distance: closestword.distance, tablename: qualifier_tables[closestword.parent], parent: closestword.parent, child: closestword.child });
+                        searchstring[searchindex] = false;
+                    }
                 }
             }
         }

@@ -25,7 +25,7 @@
     $quantities = ["next", "first", "second", "third", "fourth", "then", "other"];
     //if(!isset($wordstoignore)) {$wordstoignore = ["the", "with", "and", "times", "on", "one"];}//use copy from keyword.blade instead
 
-    if(!function_exists("containswords")){
+    if(!function_exists("findsynonym")){
         /* function removewords($text, $wordstoignore, $delimiter = " "){
             $text = explode($delimiter, $text);
             foreach($text as $index => $word){
@@ -48,19 +48,6 @@
             return -1;
         }
 
-        //explodes $text by space, checks if the cells contain $words and returns the indexes
-        function containswords($text, $words){
-            $ret = array();
-            if(!is_array($text)){$text = explode(" ", $text);}
-            if(!is_array($words)){$words = array(normalizetext($words));} else {$words = normalizetext($words);}
-            foreach($text as $index => $text_word){
-                if(in_array(normalizetext($text_word), $words)){
-                    $ret[] = $index;
-                }
-            }
-            return $ret;
-        }
-
         //uses containswords() to check for $words, then removes the cells
         function removewords($text, $words){
             if(!is_array($text)){$text = explode(" ", $text);}
@@ -80,17 +67,6 @@
             $leftword = $leftword + 1;
             if($rightword){$length = $rightword - $leftword;}
             return array_slice($text, $leftword, $length);
-        }
-
-        //lowercase and trim text for == comparison
-        function normalizetext($text){
-            if(is_array($text)){
-                foreach($text as $index => $word){
-                    $text[$index] = normalizetext($word);
-                }
-                return $text;
-            }
-            return strtolower(trim($text));
         }
 
         //gets the last key of an array
@@ -140,12 +116,12 @@
             return '<SPAN STYLE="' . $Style . '" TITLE="Index:' . $ID . '|Synonym ID:' . $SynonymID . '|Weight:' . $Weight . '|Type:' . $Type . " (" . $TypeString . ')">' . $Word . "</SPAN>";
         }
 
-        function getsynonymsandweights($text, $keywords){
+        function getsynonymsandweights($text, $keywords, $removeduplicates = true){
             $newsearch = explode(" ", $text);
             foreach($newsearch as $index => $word){
                 $synonymID = findsynonym($word, $keywords);
                 $newsearch[$index] = array("word" => $word, "synonymid" => $synonymID);
-                if($synonymID > -1 && $index > 0){//remove duplicates as it'll confuse the system
+                if($synonymID > -1 && $index > 0 && $removeduplicates){//remove duplicates as it'll confuse the system
                     for($i = 0; $i < $index; $i++){
                         if( $newsearch[$i]["synonymid"] == $synonymID){
                             $newsearch[$index] = array("word" => "", "synonymid" => -1);
@@ -210,6 +186,45 @@
             }
             return implode(",", $keywordids);
         }
+
+        function getstartandend($newsearch, $keywords, $primarykeyid, &$startingIndex, &$endingIndex){
+            $startingIndex = -1;
+            $endingIndex = -1;
+            foreach($newsearch as $index => $word){
+                $synonymID = $word["synonymid"];
+                if($synonymID > -1){$synonym = $keywords[$synonymID];}
+                if($synonymID){
+                    if ($synonymID == $primarykeyid){
+                        $startingIndex = $index;
+                    } else if (($startingIndex > -1) && ($endingIndex == -1) && ($synonymID > -1) && ($synonym["weight"] == 5)){
+                        $endingIndex = $index - 1;
+                    }
+                }
+            }
+            return array($startingIndex, $endingIndex);
+        }
+
+        function finditemforquantity($keywords, $newsearch, $quantityindex){
+            foreach($newsearch as $index => $keyword){
+                if($index > $quantityindex){
+                    if($keyword["synonymid"] >-1){
+                        $synonym = $keywords[ $keyword["synonymid"] ];
+                        if( $synonym["weight"] == 5 ){
+                            return $index;
+                        } else if ( $synonym["type"] == 1 ){
+                            return false;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        //will put it BEFORE $spot, so that $spot will become $item, and old $spot=$spot++
+        function array_inject(&$arr, $spot, $item){
+            array_splice($arr, $spot, 0, "DUMMY");
+            $arr[$spot] = $item;
+        }
     }
 
     $reduced = false;
@@ -223,23 +238,36 @@
         echo "<BR>Primary keyword: " . $primarykeyid . " (" . $keywords[$primarykeyid]["word"] . ")" ;//ID of the primary search key
         echo "<BR>Weight-5 keyword IDs: " . implode(", ", $is5keywords);
         echo "<BR>(BEFORE) All keywords: " . $keywordids;
+        $newsearch = getsynonymsandweights($text, $keywords, false);
+        $text = weightstring($newsearch, $keywords, $wordstoignore);
+        echo "<BR>(BEFORE) Search string: " . $text;
 
-        $startingIndex = -1;
-        $endingIndex = -1;
-        $newsearch = getsynonymsandweights($text, $keywords);
-        foreach($newsearch as $index => $word){
-            $synonymID = $word["synonymid"];
-            if($synonymID > -1){$synonym = $keywords[$synonymID];}
-            if($synonymID){
-                if ($synonymID == $primarykeyid){
-                    $startingIndex = $index;
-                    echo "<BR>Found primary search key at: " . $index;
-                } else if (($startingIndex > -1) && ($endingIndex == -1) && ($synonymID > -1) && ($synonym["weight"] == 5)){
-
-                    $endingIndex = $index - 1;
-                    echo "<BR>Found ending at: " . $endingIndex;
+        getstartandend($newsearch, $keywords, $primarykeyid, $startingIndex, $endingIndex);
+        if($startingIndex == -1){
+            echo "<BR><B>Primary keyword '" . $keywords[$primarykeyid]["word"] . "' not found!</B>";
+            foreach($newsearch as $ID => $searchterm){
+                if($searchterm["synonymid"] > -1){
+                    $keyword = $keywords[ $searchterm["synonymid"] ];
+                    if($keyword["type"] == 1){
+                        $keyword["goeswith"] = finditemforquantity($keywords, $newsearch, $ID);
+                        if(!$keyword["goeswith"]){
+                            array_inject($newsearch, $ID+1, array(
+                                "word" => $keywords[$primarykeyid]["word"],
+                                "synonymid" => $primarykeyid
+                            ));
+                            $text = weightstring($newsearch, $keywords, $wordstoignore);
+                            echo "<BR>(INJECTED) Search string: " . $text;
+                            getstartandend($newsearch, $keywords, $primarykeyid, $startingIndex, $endingIndex);
+                            break;
+                        }
+                    }
                 }
             }
+            /*switch ($keywords[$primarykeyid]["word"]){//HCSC
+                case "wing":
+
+                    break;
+            }*/
         }
         if($endingIndex == -1){$endingIndex = lastkey($newsearch);}
 
@@ -256,8 +284,7 @@
             }
         }
 
-        $text = weightstring($newsearch, $keywords, $wordstoignore);
-        echo "<BR>(BEFORE) Search string: " . $text;
+
         echo "<BR>Get Words and keywordIDs from " . $startingIndex . "(-" . $WordsBefore . ") to " . $endingIndex;
         $startingIndex = max($startingIndex - $WordsBefore, 0);
         $text = reassemble_text($newsearch, $keywords, $startingIndex, $endingIndex);
@@ -270,7 +297,7 @@
     }
 
     if($isKeyword){
-        $newsearch = getsynonymsandweights($text, $keywords);
+        $newsearch = getsynonymsandweights($text, $keywords, false);
         $startremoving = false;
         $hasremoved = false;
         $quantityID = false;

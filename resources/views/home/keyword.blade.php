@@ -91,6 +91,11 @@
                 $plurals[] = left($plural, strlen($plural)-1);
             }
         }
+        if(containswords($plurals, "chicken")){//HCSC
+            if(!containswords($plurals, "wing")){
+                $plurals[] = "wing";
+            }
+        }
         $words = implode("|", $plurals);
 
         //search the keywords table for the search string
