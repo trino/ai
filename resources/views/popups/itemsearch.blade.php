@@ -10,9 +10,15 @@
     .plus{
         float: right;
     }
+
+    .tdbtn{
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
 </STYLE>
 <DIV CLASS="red">
 <?php
+    printfile("popups/itemsearch.blade.php");
     //this is the item search engine, works by either text, or keyword IDs
     if(isset($keywordids) && is_array($keywordids)){$keywordids = implode(",", $keywordids);}
     if(!isset($isKeyword)){$isKeyword = true;}
@@ -20,6 +26,17 @@
     //if(!isset($wordstoignore)) {$wordstoignore = ["the", "with", "and", "times", "on", "one"];}//use copy from keyword.blade instead
 
     if(!function_exists("containswords")){
+        /* function removewords($text, $wordstoignore, $delimiter = " "){
+            $text = explode($delimiter, $text);
+            foreach($text as $index => $word){
+                if(containswords($word, $wordstoignore)){
+                    unset($text[$index]);
+                }
+            }
+            return implode($delimiter, $text);
+        } */
+
+
         //find the synonym ID of $text
         function findsynonym($text, $synonyms){
             foreach($synonyms as $ID => $synonym){
@@ -363,7 +380,11 @@
                     $rightword = $quantity[$i+1];//if it's not the last key, then get the next one
                 }
                 $resulttext = trim(getwordsbetween($text, $quantity[$i], $rightword));
+                $resulttext = removewords($resulttext, $wordstoignore);
                 $itemlist[] = $resulttext;
+                //foreach($quantities as $quantitiytext){
+                //    $resulttext = multireplace($resulttext, array($quantitiytext . " one" => $quantitiytext, $quantitiytext . " with" => $quantitiytext));
+                //}
                 $buttontext .= multireplace($buttonstarttext, array("[text]" => $resulttext, "[itemid]" => $i+1));
             }
         } else if($reduced){

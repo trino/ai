@@ -274,4 +274,8 @@ function addtodelstring($string, $stringtoadd, $delimiter = ","){
     $keywordids[] = $stringtoadd;
     return implode($delimiter, $keywordids);
 }
+
+function printfile($filename){
+    echo '<DIV CLASS="blue">' . $filename . '</DIV>';
+}
 ?>

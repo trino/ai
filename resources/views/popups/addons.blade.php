@@ -10,6 +10,7 @@
     echo '<STYLE>.td-' . $table . '-name {vertical-align: bottom; padding-left: 10px;} .cat-header-' . $table .'{width: ' . $width . '%; display: inline-block; cursor: pointer;}</STYLE>';
 
     echo '<DIV CLASS="addons-' . $table . ' red" STYLE="display: none;">';
+    printfile("popups/addons.blade.php");
     foreach($categories as $index => $category){
         echo '<SPAN CLASS="cat-header cat-headerid-' . $table . '-' . $index .' cat-header-' . $table . '" NAME="cat-' . $table . '-' . strtolower(str_replace(" ", "-", $category["type"]));
         echo '" align="center">' . $category["type"] . '</SPAN>';

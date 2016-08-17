@@ -48,9 +48,11 @@ function assimilateaddons(ID, element, Index){
     return toppings[2].concat( toppings[3] );
 }
 
-function makerow(Label, Price, Extra){
+function makerow(Label, Price, Extra, newcol){
     if(isUndefined(Extra)){Extra = "";}
-    return '<TR><TD COLSPAN="3">' + Extra + '</TD><TD>' + Label + '</TD><TD ALIGN="right">$' + Price.toFixed(2) + '</TD></TR>';
+    if(isUndefined(newcol)){newcol = "";}
+    if(newcol) {newcol = '<TD COLSPAN="2" ROWSPAN="4" ALIGN="CENTER">Checkout button goes here</TD>'}
+    return '<TR><TD COLSPAN="3">' + Extra + '</TD><TD>' + Label + '</TD><TD ALIGN="right"><SPAN STYLE="float:left;">$</SPAN>' + Price.toFixed(2) + '</TD>' + newcol + '</TR>';
 }
 
 function generatereceipt(index){
@@ -68,7 +70,7 @@ function generatereceipt(index){
                 items += item.quantity;
             }
 
-            text += makerow("Subtotal", subtotal, items + pluralize(" item", items));
+            text += makerow("Subtotal", subtotal, items + pluralize(" item", items), true);
             subtotal += surcharge;
             text += makerow("Surcharge", surcharge, "THIS IS AN EXAMPLE");
             text += makerow("Tax (13%)", subtotal*0.13) + makerow("Total", subtotal*1.13) + '</TABLE>';
@@ -77,15 +79,15 @@ function generatereceipt(index){
     } else {//return 1 item
         var item = order[index];
         text = '<TR><TD>' + index + '</TD><TD>' + item.id + '</TD><TD>' + item.name + '</TD><TD>' +
-                '<BUTTON CLASS="minus" ONCLICK="itemdir(' + index + ', -1);">-</BUTTON>' + item.quantity + '<BUTTON CLASS="plus" ONCLICK="itemdir(' + index + ', 1);">+</BUTTON>' +
-                '</TD><TD ALIGN="right">$' + item.price + '</TD><TD><TABLE BORDER="1" WIDTH="100%"><TR><TH WIDTH="5%">#</TH><TH>Add-ons</TH><TH WIDTH="10%">Actions</TH></TR>';
+                '<BUTTON CLASS="minus" ONCLICK="itemdir(' + index + ', -1);">-</BUTTON><SPAN STYLE="float:right;">' + item.quantity + '<BUTTON CLASS="plus" ONCLICK="itemdir(' + index + ', 1);">+</BUTTON></SPAN>' +
+                '</TD><TD ALIGN="right"><SPAN STYLE="float:left;">$</SPAN>' + item.price + '</TD><TD><TABLE BORDER="1" WIDTH="100%"><TR><TH WIDTH="5%">#</TH><TH>Add-ons</TH><TH WIDTH="10%">Actions</TH></TR>';
         for(var i=0; i < tables.length; i++){
             for(var v=0; v < item[tables[i]].length; v++){
-                text += '<TR><TD>' + (v+1) + '</TD><TD>' + stringifyaddons(item[tables[i]][v]) + '</TD><TD>' +
+                text += '<TR><TD>' + (v+1) + '</TD><TD>' + stringifyaddons(item[tables[i]][v]) + '</TD><TD CLASS="tdbtn">' +
                         '<BUTTON ONCLICK="edititem(this);" STYLE="width: 100%; height: 100%;" itemindex="' + index + '" type="' + tables[i] + '" addonindex="' + i + '">Edit</BUTTON></TD></TR>';
             }
         }
-        text += '</TABLE></TD><TD><BUTTON ONCLICK="deleteitem(' + index + ');" STYLE="height:100%">Delete</BUTTON></TD></TR>';
+        text += '</TABLE></TD><TD CLASS="tdbtn"><BUTTON ONCLICK="deleteitem(' + index + ');" STYLE="height:100%">Delete</BUTTON></TD></TR>';
     }
     return text;
 }
