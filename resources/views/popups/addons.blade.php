@@ -34,7 +34,7 @@
             $CurrentType = endtoppings($table, $topping["type"]);
         }
 
-        echo '<TR ID="tr-addon-' . $table . '-' . $topping["id"] . '" CLASS="tr-addon tr-addon-' . $table . '" SELECTED="" TOPPINGID="' . $topping["id"] . '" NAME="' . $topping["name"] .'"';
+        echo '<TR ID="tr-addon-' . $table . '-' . $topping["id"] . '" CLASS="tr-addon tr-addon-' . $table . '" TABLE="' . $table . '" SELECTED="" TOPPINGID="' . $topping["id"] . '" NAME="' . $topping["name"] .'"';
         if($topping["isfree"]){echo ' ISFREE="true"';}
         echo '>';
         $qualifiers = array("half" => "Easy", "single" => "Single", "double" => "Double", "triple" => "Triple");
@@ -55,7 +55,7 @@
                 if($qualifier != strtolower($name)){
                     $class .= " addon-" . $table . "-" . $qualifier . "-" . str_replace(" ", "-", strtolower($topping["name"])) ;
                 }
-                echo '<TD><LABEL><INPUT TYPE="RADIO" NAME="addon-' . $table . '-' . $topping["id"] . '" CLASS="addon addon-' . $table . $class . '" VALUE="' . $qualifier . '">' . $name . '</LABEL></TD>';
+                echo '<TD><LABEL><INPUT TYPE="RADIO" TABLE="' . $table . '" NAME="addon-' . $table . '-' . $topping["id"] . '" CLASS="addon addon-' . $table . $class . '" VALUE="' . $qualifier . '">' . $name . '</LABEL></TD>';
             }
         }
 

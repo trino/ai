@@ -6,13 +6,17 @@
         border: 1px solid red;
         margin-top: 10px;
     }
+
+    .plus{
+        float: right;
+    }
 </STYLE>
 <DIV CLASS="red">
 <?php
     //this is the item search engine, works by either text, or keyword IDs
     if(isset($keywordids) && is_array($keywordids)){$keywordids = implode(",", $keywordids);}
     if(!isset($isKeyword)){$isKeyword = true;}
-    $quantities = ["next", "first", "second", "third", "fourth", "then", "other"];//add rank 5 keywords to this, but only the single-word synonyms
+    $quantities = ["next", "first", "second", "third", "fourth", "then", "other"];
     //if(!isset($wordstoignore)) {$wordstoignore = ["the", "with", "and", "times", "on", "one"];}//use copy from keyword.blade instead
 
     if(!function_exists("containswords")){
@@ -412,7 +416,7 @@
             $row = removekeys($row, $Tables);
 
 
-            $buttonstarttext = '<BUTTON ID="order' . $ItemID . '" CLASS="assimilateall order' . $ItemID . '" ONCLICK="orderitem(this);" VALUE="' . $row["id"] . '" ' . $tabletext . ' STYLE="width:100%;height:100%;" itemcount="' . count($itemlist) . '" itemname="' . $row["item"] . '" price="' . $row["itemprice"] . '" typeid="' . $itemtype . '"';
+            $buttonstarttext = '<BUTTON ID="order' . $ItemID . '" CLASS="assimilateall order' . $ItemID . '" ONCLICK="orderitem(this);" VALUE="' . $row["id"] . '" ' . $tabletext . ' STYLE="width:100%;height:110%;" itemcount="' . count($itemlist) . '" itemname="' . $row["item"] . '" price="' . $row["itemprice"] . '" typeid="' . $itemtype . '"';
             if($itemtype){
                 $buttonstarttext .= ' type="' . firstword($keywords[$itemtype]["synonyms"]) . '"';
             }

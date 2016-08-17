@@ -148,13 +148,16 @@ function get_quantity(searchstring, itemname){
 function get_toppings(originalsearchstring, thesearchstring){
     var searchstring = replacesynonyms(thesearchstring, synonyms, true, true);
     var ret = new Array;
+    var labelindex;
+    var tablename;
     select(".tr-addon", function (element) {
         var Found = -1;
-        var label = enum_labels(element); //findlabel(element);//
+        var label = enum_labels(element, true);
         var qualifier;
         for(var searchindex = 0; searchindex<searchstring.length; searchindex++){
             if(searchstring[searchindex]) {
                 if (label.indexOf(searchstring[searchindex]) > -1) {
+                    tablename = attr(element, "table");
                     Found = searchindex;
                     qualifier = getqualifier(originalsearchstring, searchstring[searchindex]);
                     if(needsRemoving){searchstring[searchindex-1] = false;}
@@ -164,7 +167,7 @@ function get_toppings(originalsearchstring, thesearchstring){
             }
         }
         if(Found > -1){//qualifytopping("", qualifier, label);
-            ret.push({searchindex: Found, qualifier: qualifier, label: label, needsRemoving: needsRemoving });
+            ret.push({searchindex: Found, qualifier: qualifier, label: label, needsRemoving: needsRemoving, tablename: tablename });
         }
     });
     return ret;
@@ -231,6 +234,7 @@ function qualifytoppings(toppings, searchstring, ID){
         removeempties(searchstring);
     } else if ( isNumeric(toppings) ){
         if(toppings > -1){//make sure the quantity even exists
+            quantityselect = searchstring[toppings];
             if(select("#select" + ID + " option[id='" + searchstring[toppings] + "']").length > 0) {
                 value("#select" + ID, searchstring[toppings]);
                 searchstring[toppings] = false;
@@ -432,7 +436,8 @@ function getaddons(table, astext){
     var qualifiers = new Array;
     var toppingIDs = new Array;
     var toppingNames = new Array;
-    if(visible(".addons-" + table, false)) {
+    var tablenames = new Array;
+    //if(visible(".addons-" + table)) {
         select(".tr-addon-" + table, function (element) {
             var Selected = attr(element, "SELECTED");
             if (Selected) {
@@ -443,16 +448,18 @@ function getaddons(table, astext){
                     qualifiers.push(Selected);
                     toppingIDs.push(attr(element, "TOPPINGID"));
                     toppingNames.push(attr(element, "name"));
+                    tablenames.push(attr(element, "table"));
                 }
             }
         });
-    }
+    //}
     if(astext){
         return qualifiers.join(", ");
     }
-    return [qualifiers, toppingIDs, toppingNames];
+    return [qualifiers, toppingIDs, toppingNames, tablenames];
 }
 
+var quantityselect;
 //reset the toppings/addons
 function clearaddons(table){
     if(isUndefined(table)){
@@ -460,6 +467,7 @@ function clearaddons(table){
             clearaddons(tables[i]);
         }
     } else {
+        quantityselect=1;
         value(".quantityselect", "1");
         table = "-" + table;
         attr(".tr-addon" + table, "SELECTED", "");
