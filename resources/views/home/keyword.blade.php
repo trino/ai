@@ -131,12 +131,14 @@
                     $keyword["word"] = "<B>" . $keyword["word"] . '</B>';
                 }
                 unset($keyword["synonyms"]);
-                $keyword["PRI"] = "";
-                $keyword["SEC"] = "";
+                $keyword["Context"] = "Unknown";
                 if($keyword["weight"] == 5){
-                    $keyword["PRI"] = "*";
+                    $keyword["Context"] = "Primary";
                 } else {
-                    $keyword["SEC"] = "*";
+                    switch ($keyword["type"]){
+                        case 1: $keyword["Context"] = "Quantity"; break;
+                        case 2: $keyword["Context"] = "Size"; break;
+                    }
                 }
                 printrow($keyword, $firstresult);
             }

@@ -278,4 +278,10 @@ function addtodelstring($string, $stringtoadd, $delimiter = ","){
 function printfile($filename){
     echo '<DIV CLASS="blue">' . $filename . '</DIV>';
 }
+
+function filternonnumeric($Text){
+    $Text = filter_var($Text, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION | FILTER_FLAG_ALLOW_THOUSAND);
+    if(!$Text){return 1;}
+    return $Text;
+}
 ?>

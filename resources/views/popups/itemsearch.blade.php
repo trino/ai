@@ -411,7 +411,7 @@
                 $weight = $thesekeywordw[$ID];
                 if($type == 1){//quantity found
                     $quantityID = $ID;
-                    $row["quantity"] = firstword($keywords[$ID]["synonyms"]);
+                    $row["quantity"] = filternonnumeric(firstword($keywords[$ID]["synonyms"]));
                 } else if($weight == 5){
                     $itemtype = $ID;
                 }
