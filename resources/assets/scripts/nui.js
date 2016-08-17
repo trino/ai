@@ -24,6 +24,7 @@ var qualifiers = [
     ["triple", "three", "3"],
     ["quadruple", "four", "4"]
 ];//when these words are directly before a topping, they indicate a quantity of the topping  ⁵⁶⁷⁸⁹
+var qualifier_tables = new Array;
 
 //makes a copy of an array/object without referencing the source
 function cloneData(data) {
@@ -152,7 +153,7 @@ function get_toppings(originalsearchstring, thesearchstring){
     var tablename;
     select(".tr-addon", function (element) {
         var Found = -1;
-        var label = enum_labels(element, true);
+        var label = enum_labels(element);
         var qualifier;
         for(var searchindex = 0; searchindex<searchstring.length; searchindex++){
             if(searchstring[searchindex]) {
@@ -176,6 +177,7 @@ function get_toppings(originalsearchstring, thesearchstring){
 //get all toppings labels for the spellcheck
 function enum_labels(element){
     if(isUndefined(element)) {
+        qualifier_tables = new Array;
         var labels = new Array;//add ons/toppings list for spell check
         select(".tr-addon", function (element) {
             labels.push(enum_labels(element));
@@ -186,6 +188,7 @@ function enum_labels(element){
     if (!hasattribute(element, "normalized")) {
         attr(element, "normalized", replacesynonyms(label));//cache results
     }
+    qualifier_tables.push(attr(element, "table"));
     return attr(element, "normalized");
 }
 
@@ -201,7 +204,7 @@ function removeempties(array){
 //get toppings that weren't spelled correctly
 function get_typos(itemname, originalsearchstring, thesearchstring, labels){
     var ret = new Array;
-    if(isUndefined(labels)){labels = enum_labels();;}
+    if(isUndefined(labels)){labels = enum_labels();}
     if(!isArray(thesearchstring)){var searchstring = thesearchstring.split(" ")} else {var searchstring = cloneData(thesearchstring);}//should already be processed by replacesynonyms and get_toppings
     for (var searchindex = searchstring.length-1; searchindex > -1 ; searchindex--) {
         if (findsynonym(searchstring[searchindex], qualifiers)[0] == -1) {//handle simple typos
@@ -210,7 +213,7 @@ function get_typos(itemname, originalsearchstring, thesearchstring, labels){
                 closestword.word = closestword.word.replaceAll(" ", "-");
                 if(closestword.word) {
                     var qualifier = getqualifier(originalsearchstring, searchstring[searchindex], closestword.word);
-                    ret.push({searchindex: searchindex, qualifier: qualifier, label: closestword.word, needsRemoving: needsRemoving, originalword: searchstring[searchindex], distance: closestword.distance});
+                    ret.push({searchindex: searchindex, qualifier: qualifier, label: closestword.word, needsRemoving: needsRemoving, originalword: searchstring[searchindex], distance: closestword.distance, tablename: qualifier_tables[closestword.parent], parent: closestword.parent, child: closestword.child });
                     searchstring[searchindex] = false;
                 }
             }
@@ -264,7 +267,7 @@ function assimilate(ID, originalsearchstring){
     searchstring = qualifytoppings(toppings, searchstring);
     var typos = get_typos(itemname, originalsearchstring, searchstring);
     qualifytoppings(typos, cloneData(searchstring));
-    return [startsearchstring, searchstring,toppings, typos];
+    return [startsearchstring, searchstring, toppings, typos];
 }
 
 //check a single topping's radio button
@@ -287,15 +290,17 @@ function qualifytopping(table, qualifier, topping){
 //thesynonyms: multi-dimensional array of synonyms, first cell in each sub-array will be treated as the primary term
 function findclosestsynonym(keyword, cutoff, thesynonyms){
     keyword = keyword.toLowerCase();
-    var ret = "";
+    var ret = "", parentID = -1, childID = -1;
     for(var synonymparentindex = 0; synonymparentindex< synonyms.length; synonymparentindex++){
         for(var synonymchildindex = 0; synonymchildindex < synonyms[synonymparentindex].length; synonymchildindex++){
             var value = levenshteinWeighted(keyword, synonyms[synonymparentindex][synonymchildindex]);
             if(value == 0){
-                return {distance: 0, word: synonyms[synonymparentindex][synonymchildindex]};
+                return {distance: 0, word: synonyms[synonymparentindex][synonymchildindex], parent: synonymparentindex, child: synonymchildindex};
             } else if (value < cutoff){
                 cutoff = value;
                 ret = synonyms[synonymparentindex][0];
+                parentID = synonymparentindex;
+                childID = synonymchildindex;
             }
         }
     }
@@ -304,9 +309,10 @@ function findclosestsynonym(keyword, cutoff, thesynonyms){
         if(value == 0){return thesynonyms[synonymparentindex];} else if (value < cutoff){
             cutoff = value;
             ret = thesynonyms[synonymparentindex];
+            parentID = synonymparentindex;
         }
     }
-    return {distance: cutoff, word: ret};
+    return {distance: cutoff, word: ret, parent: parentID, child: childID};
 }
 //finds the parent synonym of keyword, returning [it's parent ID, the child ID of the keyword itself]. returns [-1,-1] if not found
 function findsynonym(keyword, thesynonyms){

@@ -67,8 +67,8 @@
       <file leaf-file-name="nui.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/assets/scripts/nui.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="7.1923075">
-              <caret line="159" column="54" selection-start-line="159" selection-start-column="54" selection-end-line="159" selection-end-column="54" />
+            <state vertical-scroll-proportion="-8.5">
+              <caret line="215" column="114" selection-start-line="215" selection-start-column="114" selection-end-line="215" selection-end-column="114" />
               <folding />
             </state>
           </provider>
@@ -77,12 +77,12 @@
       <file leaf-file-name="receipt.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/assets/scripts/receipt.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.62222224">
-              <caret line="28" column="51" selection-start-line="28" selection-start-column="51" selection-end-line="28" selection-end-column="51" />
+            <state vertical-scroll-proportion="0.35555556">
+              <caret line="46" column="72" selection-start-line="46" selection-start-column="72" selection-end-line="46" selection-end-column="72" />
               <folding>
-                <marker date="1471443643118" expanded="true" signature="1476:1501" placeholder="..." />
-                <marker date="1471443643118" expanded="true" signature="1476:1526" placeholder="..." />
-                <marker date="1471443643118" expanded="true" signature="2958:2969" placeholder="..." />
+                <marker date="1471445788395" expanded="true" signature="1987:2012" placeholder="..." />
+                <marker date="1471445788395" expanded="true" signature="1987:2037" placeholder="..." />
+                <marker date="1471445788395" expanded="true" signature="3618:3629" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -1242,20 +1242,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/scripts/nui.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="7.1923075">
-          <caret line="159" column="54" selection-start-line="159" selection-start-column="54" selection-end-line="159" selection-end-column="54" />
+        <state vertical-scroll-proportion="-8.5">
+          <caret line="215" column="114" selection-start-line="215" selection-start-column="114" selection-end-line="215" selection-end-column="114" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/scripts/receipt.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.62222224">
-          <caret line="28" column="51" selection-start-line="28" selection-start-column="51" selection-end-line="28" selection-end-column="51" />
+        <state vertical-scroll-proportion="0.35555556">
+          <caret line="46" column="72" selection-start-line="46" selection-start-column="72" selection-end-line="46" selection-end-column="72" />
           <folding>
-            <marker date="1471443643118" expanded="true" signature="1476:1501" placeholder="..." />
-            <marker date="1471443643118" expanded="true" signature="1476:1526" placeholder="..." />
-            <marker date="1471443643118" expanded="true" signature="2958:2969" placeholder="..." />
+            <marker date="1471445788395" expanded="true" signature="1987:2012" placeholder="..." />
+            <marker date="1471445788395" expanded="true" signature="1987:2037" placeholder="..." />
+            <marker date="1471445788395" expanded="true" signature="3618:3629" placeholder="..." />
           </folding>
         </state>
       </provider>

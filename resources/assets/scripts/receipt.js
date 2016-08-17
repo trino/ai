@@ -1,4 +1,5 @@
 var order = new Array;
+var surcharge = 3.50;
 
 function orderitem(element) {
     var ID = element.getAttribute("value");
@@ -19,6 +20,15 @@ function orderitem(element) {
             }
         }
     }
+
+    if(items == 1){
+        for(var v=0; v < tables.length; v++) {
+            for(var i=1; i < item[tables[v]].length; i++){
+                item[tables[v]][i] = cloneData( item[tables[v]][0] );
+            }
+        }
+    }
+
     order.push(item);
     generatereceipt();
 }
@@ -34,7 +44,13 @@ function filteraddons(addons, tablename){
 }
 
 function assimilateaddons(ID, element, Index){
-    return assimilate(ID, element.getAttribute("item" + Index))[2];
+    var toppings = assimilate(ID, element.getAttribute("item" + Index));
+    return toppings[2].concat( toppings[3] );
+}
+
+function makerow(Label, Price, Extra){
+    if(isUndefined(Extra)){Extra = "";}
+    return '<TR><TD COLSPAN="3">' + Extra + '</TD><TD>' + Label + '</TD><TD ALIGN="right">$' + Price.toFixed(2) + '</TD></TR>';
 }
 
 function generatereceipt(index){
@@ -52,7 +68,10 @@ function generatereceipt(index){
                 items += item.quantity;
             }
 
-            text += '<TR><TD COLSPAN="3">' + items + ' item(s)</TD><TD>Subtotal</TD><TD ALIGN="right">$' + subtotal.toFixed(2) + '</TD></TR></TABLE>';
+            text += makerow("Subtotal", subtotal, items + pluralize(" item", items));
+            subtotal += surcharge;
+            text += makerow("Surcharge", surcharge, "THIS IS AN EXAMPLE");
+            text += makerow("Tax (13%)", subtotal*0.13) + makerow("Total", subtotal*1.13) + '</TABLE>';
         }
         innerHTML("#receipt", text);
     } else {//return 1 item
@@ -63,12 +82,18 @@ function generatereceipt(index){
         for(var i=0; i < tables.length; i++){
             for(var v=0; v < item[tables[i]].length; v++){
                 text += '<TR><TD>' + (v+1) + '</TD><TD>' + stringifyaddons(item[tables[i]][v]) + '</TD><TD>' +
-                        '<BUTTON ONCLICK="edititem(this);" STYLE="width: 100%; height: 120%;" itemindex="' + index + '" type="' + tables[i] + '" addonindex="' + i + '">Edit</BUTTON></TD></TR>';
+                        '<BUTTON ONCLICK="edititem(this);" STYLE="width: 100%; height: 100%;" itemindex="' + index + '" type="' + tables[i] + '" addonindex="' + i + '">Edit</BUTTON></TD></TR>';
             }
         }
-        text += '</TABLE></TD><TD><BUTTON ONCLICK="deleteitem(' + index + ');" STYLE="height:110%">Delete</BUTTON></TD></TR>';
+        text += '</TABLE></TD><TD><BUTTON ONCLICK="deleteitem(' + index + ');" STYLE="height:100%">Delete</BUTTON></TD></TR>';
     }
     return text;
+}
+
+function pluralize(text, qty, append){
+    if(isUndefined(append)){append="s";}
+    if(qty==1){return text;}
+    return text + append;
 }
 
 function itemdir(index, value){
