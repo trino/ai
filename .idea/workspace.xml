@@ -22,10 +22,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="keyword.blade.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="keyword.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/home/keyword.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.40206185">
+            <state vertical-scroll-proportion="-3.0961537">
               <caret line="369" column="37" selection-start-line="369" selection-start-column="37" selection-end-line="369" selection-end-column="37" />
               <folding>
                 <marker date="1471530507362" expanded="true" signature="20203:20264" placeholder="SELECT * FRO..keywords..." />
@@ -75,18 +75,18 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="receipt.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="receipt.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/assets/scripts/receipt.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.461538">
-              <caret line="16" column="54" selection-start-line="16" selection-start-column="54" selection-end-line="16" selection-end-column="54" />
+            <state vertical-scroll-proportion="0.2994129">
+              <caret line="92" column="64" selection-start-line="92" selection-start-column="64" selection-end-line="92" selection-end-column="64" />
               <folding>
-                <marker date="1471462637811" expanded="true" signature="2090:2101" placeholder="..." />
-                <marker date="1471462637811" expanded="true" signature="2423:2448" placeholder="..." />
-                <marker date="1471462637811" expanded="true" signature="2423:2473" placeholder="..." />
-                <marker date="1471462637811" expanded="true" signature="3554:3566" placeholder="..." />
-                <marker date="1471462637811" expanded="true" signature="3721:3732" placeholder="..." />
-                <marker date="1471462637811" expanded="true" signature="4135:4146" placeholder="..." />
+                <marker date="1471532972162" expanded="true" signature="2090:2101" placeholder="..." />
+                <marker date="1471532972162" expanded="true" signature="2423:2448" placeholder="..." />
+                <marker date="1471532972162" expanded="true" signature="2423:2473" placeholder="..." />
+                <marker date="1471532972162" expanded="true" signature="3554:3566" placeholder="..." />
+                <marker date="1471532972162" expanded="true" signature="3700:3711" placeholder="..." />
+                <marker date="1471532972162" expanded="true" signature="4219:4230" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -180,10 +180,10 @@
         <option value="$PROJECT_DIR$/resources/assets/scripts/api.js" />
         <option value="$PROJECT_DIR$/resources/views/popups/keywordsearch.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/home/editor.blade.php" />
-        <option value="$PROJECT_DIR$/resources/assets/scripts/receipt.js" />
         <option value="$PROJECT_DIR$/resources/views/popups/itemsearch.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/api.php" />
         <option value="$PROJECT_DIR$/resources/views/home/keyword.blade.php" />
+        <option value="$PROJECT_DIR$/resources/assets/scripts/receipt.js" />
       </list>
     </option>
   </component>
@@ -1192,21 +1192,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/scripts/receipt.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.461538">
-          <caret line="16" column="54" selection-start-line="16" selection-start-column="54" selection-end-line="16" selection-end-column="54" />
-          <folding>
-            <marker date="1471462637811" expanded="true" signature="2090:2101" placeholder="..." />
-            <marker date="1471462637811" expanded="true" signature="2423:2448" placeholder="..." />
-            <marker date="1471462637811" expanded="true" signature="2423:2473" placeholder="..." />
-            <marker date="1471462637811" expanded="true" signature="3554:3566" placeholder="..." />
-            <marker date="1471462637811" expanded="true" signature="3721:3732" placeholder="..." />
-            <marker date="1471462637811" expanded="true" signature="4135:4146" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/popups/keywordsearch.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.65298015">
@@ -1276,7 +1261,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/home/keyword.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.40206185">
+        <state vertical-scroll-proportion="-3.0961537">
           <caret line="369" column="37" selection-start-line="369" selection-start-column="37" selection-end-line="369" selection-end-column="37" />
           <folding>
             <marker date="1471530507362" expanded="true" signature="20203:20264" placeholder="SELECT * FRO..keywords..." />
@@ -1284,6 +1269,21 @@
             <marker date="1471530507362" expanded="true" signature="26373:26386" placeholder="..." />
             <marker date="1471530507362" expanded="true" signature="26765:26925" placeholder="..." />
             <marker date="1471530507362" expanded="true" signature="27593:27617" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/scripts/receipt.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2994129">
+          <caret line="92" column="64" selection-start-line="92" selection-start-column="64" selection-end-line="92" selection-end-column="64" />
+          <folding>
+            <marker date="1471532972162" expanded="true" signature="2090:2101" placeholder="..." />
+            <marker date="1471532972162" expanded="true" signature="2423:2448" placeholder="..." />
+            <marker date="1471532972162" expanded="true" signature="2423:2473" placeholder="..." />
+            <marker date="1471532972162" expanded="true" signature="3554:3566" placeholder="..." />
+            <marker date="1471532972162" expanded="true" signature="3700:3711" placeholder="..." />
+            <marker date="1471532972162" expanded="true" signature="4219:4230" placeholder="..." />
           </folding>
         </state>
       </provider>

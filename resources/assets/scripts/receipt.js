@@ -84,13 +84,14 @@ function generatereceipt(index){
         var item = order[index];
         var tableterm = "123TABLE123";
         text = '<TR><TD CLASS="item' + item.id + '">' + index + '</TD><TD>' + item.name + '</TD><TD>' +
-                '<BUTTON CLASS="minus" ONCLICK="itemdir(' + index + ', -1);">-</BUTTON><SPAN STYLE="float:right;">' + item.quantity + '<BUTTON CLASS="plus" ONCLICK="itemdir(' + index + ', 1);">+</BUTTON></SPAN>' +
-                '</TD><TD ALIGN="right"><SPAN STYLE="float:left;">$</SPAN>' + item.price + '</TD><TD>' + tableterm;
+                '<BUTTON CLASS="minus" ONCLICK="itemdir(' + index + ', -1);">-</BUTTON><SPAN STYLE="float:right;">' + item.quantity + '<BUTTON CLASS="plus" ONCLICK="itemdir(' + index + ', 1);">+</BUTTON></SPAN></TD><TD ALIGN="right"><SPAN STYLE="float:left;">$</SPAN>' + item.price + '</TD><TD>' + tableterm;
         var doit = false;
         for(var i=0; i < tables.length; i++){
             for(var v=0; v < item[tables[i]].length; v++){
                 doit = true;
-                text += '<TR><TD>' + (v+1) + '</TD><TD>' + stringifyaddons(item[tables[i]][v]) + '</TD><TD CLASS="tdbtn">' +
+                var addons = stringifyaddons(item[tables[i]][v]);
+                if(!addons){addons = "<B>NO ADD-ONS SELECTED</B>";}
+                text += '<TR><TD>' + (v+1) + '</TD><TD>' + addons + '</TD><TD CLASS="tdbtn">' +
                         '<BUTTON ONCLICK="edititem(this);" STYLE="width: 100%; height: 100%;" itemindex="' + index + '" type="' + tables[i] + '" addonindex="' + i + '">Edit</BUTTON></TD></TR>';
             }
         }
