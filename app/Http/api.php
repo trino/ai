@@ -126,9 +126,13 @@ function first($query, $Only1 = true) {
     }
 }
 
-function get($Key, $default = ""){
-    if (isset($_POST[$Key])) { return $_POST[$Key];}
-    if (isset($_GET[$Key])) { return $_GET[$Key];}
+function get($Key, $default = "", $arr = false){
+    if(is_array($arr)){
+        if (isset($arr[$Key])) {return $arr[$Key];}
+    } else {
+        if (isset($_POST[$Key])) {return $_POST[$Key];}
+        if (isset($_GET[$Key])) {return $_GET[$Key];}
+    }
     return $default;
 }
 
@@ -286,31 +290,49 @@ function filternonnumeric($Text){
 }
 
 //explodes $text by space, checks if the cells contain $words and returns the indexes
-function containswords($text, $words, $delimiter = " "){
+function containswords($text, $words, $all = false, $delimiter = " ", $normalizationmode = 0){
     $ret = array();
     if(!is_array($text)){$text = explode($delimiter, $text);}
     if(!is_array($words)){$words = array(normalizetext($words));} else {$words = normalizetext($words);}
     foreach($text as $index => $text_word){
-        if(in_array(normalizetext($text_word), $words)){
+        if(is_array($text_word)){
+            if(count(containswords($text, $text_word))){
+                $ret[] = $index;
+            }
+        } else if(in_array(normalizetext($text_word, $normalizationmode), $words)){
             $ret[] = $index;
         }
     }
+    if($all){return count($ret) == count($words);}
     return $ret;
 }
 
 //lowercase and trim text for == comparison
-function normalizetext($text){
+function normalizetext($text, $normalizationmode = 0){
+    //$before = $text;
     if(is_array($text)){
         foreach($text as $index => $word){
             $text[$index] = normalizetext($word);
         }
         return $text;
     }
-    return strtolower(trim($text));
+    $text = strtolower(trim($text));
+    if($normalizationmode) {
+        if (extract_bits($normalizationmode, 1)) {$text = filternonalphanumeric($text);}//2
+        if (extract_bits($normalizationmode, 2)) {$text = filternumeric($text, "#");}//4
+        if (extract_bits($normalizationmode, 3)) {$text = filternumeric($text);}//8
+        if (extract_bits($normalizationmode, 4)) {if(right($text,1) == "s"){$text = left($text, strlen($text)-1);}}//16
+    }
+    //echo "<BR>'<I>" . $before . "</I>' in mode " . $normalizationmode . " becomes '<I>" . $text . "</I>'";
+    return $text;
 }
 
-function filternonalphanumeric($text){
-    return preg_replace("/[^A-Za-z0-9 ]/", '', $text);
+function filternumeric($text, $withwhat = ''){
+    return preg_replace('/[0-9]/', $withwhat, $text);
+}
+
+function filternonalphanumeric($text, $withwhat = ''){
+    return preg_replace("/[^A-Za-z0-9 ]/", $withwhat, $text);
 }
 
 function filterduplicates($text, $filter = "  ", $withwhat = " "){
@@ -318,5 +340,11 @@ function filterduplicates($text, $filter = "  ", $withwhat = " "){
         $text = str_replace($filter, $withwhat, $text);
     }
     return $text;
+}
+
+function extract_bits($value, $start_pos, $length = 1){
+    $end_pos = $start_pos + $length;
+    $mask = (1 << ($end_pos - $start_pos)) - 1;
+    return ($value >> $start_pos) & $mask;
 }
 ?>

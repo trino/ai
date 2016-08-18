@@ -4,7 +4,6 @@
     //this is the item search engine, works by either text, or keyword IDs
     if(isset($keywordids) && is_array($keywordids)){$keywordids = implode(",", $keywordids);}
     if(!isset($isKeyword)){$isKeyword = true;}
-    $quantities = ["next", "first", "second", "third", "fourth", "then", "other"];
     //if(!isset($wordstoignore)) {$wordstoignore = ["the", "with", "and", "times", "on", "one"];}//use copy from keyword.blade instead
 
     $reduced = false;

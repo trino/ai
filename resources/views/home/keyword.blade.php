@@ -257,8 +257,14 @@
     }
 
     //How the search works:
-        //there are 2 stages to a search, the first being the MySQL portion
-        //then the javascript attempts to take the addons/toppings from the search and assigns them to the results of the first stage
+        //there are 2 stages to a search, the first being the MySQL portion which obtains the relevant keywords from the search (no spellcheck)
+        //then the javascript attempts to take the addons/toppings from the search and assigns them to the results of the first stage (with spellcheck)
+        //non-alphanumeric characters as well as double-spaces are also removed
+        //any word with an 's' on the end will have the word added without the 's' in case it's a plural, that way plurals of each keyword don't need to be added to the database
+
+    //Stage 0.0:
+        //remove the words 1/one from searches if it comes adjacent to word from $quantities
+        //replace the word 1/one if it is not adjacent to a word from $quantities, but is adjacent to the word 'with'
 
     //Stage 1.0: for text-only searches:
             //a search string is broken up into individual words, and a LIKE comparison is used to return any menu item that has any of the words found in it's text columns
@@ -304,6 +310,7 @@
             //attempts to get the words not found from the previous step, then finds the closest spelled word from the list of addons and selects them
         //return the results for final processing/display
 
+    $quantities = ["next", "first", "second", "third", "fourth", "then", "other"];
     $wordstoignore = array("the", "with", "and", "times", "on", "an");//discard these words
     $isKeyword = get("searchtype", "Keyword search") == "Keyword search";
     $selectedbutton = ' CLASS="selectedbutton"';
@@ -318,13 +325,30 @@
         $results["SortColumn"] = get("SortColumn", "keywords");
         $results["SortDirection"] = get("SortDirection", "DESC");
         $results["words"] = "";
-        echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "isKeyword" => $isKeyword, "searchstring" => $_GET["search"], "wordstoignore" => $wordstoignore));
+        echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "isKeyword" => $isKeyword, "searchstring" => $_GET["search"], "wordstoignore" => $wordstoignore, "quantities" => $quantities));
     } else{
         //text found, reduce the search to keyword ID numbers
-        $_GET["search"] = filternonalphanumeric($_GET["search"]);//remove non-alphanumeric
+        echo '<DIV CLASS="red"><B>Stage 0.0: Pre-filtering</B>';
+        echo '<BR>BEFORE: ' . $_GET["search"];
+        $_GET["search"] = filterduplicates(filternonalphanumeric($_GET["search"]));//remove non-alphanumeric and double-spaces
+        $words = explode(" ", $_GET["search"]);
+        foreach($words as $ID => $word){
+            $word = normalizetext($word);
+            if($word == "1" || $word == "one"){
+                $firstword="";
+                $lastword="";
+                if($ID < lastkey($words)){$lastword = $words[$ID+1];}
+                if($ID > 0){$firstword = $words[$ID-1];}
+                $DOIT = count(containswords(array($firstword, $lastword), $quantities)) > 0;
+                if(!$DOIT){if(count(containswords(array($firstword, $lastword), array("with")))){$DOIT = 2;}}
+                echo '<BR>1/one found at index: ' . $ID . " PREV: '" . $firstword . "' NEXT: '" . $lastword . "' DOIT: " . $DOIT;
+                if($DOIT == 1){$words[$ID] = "";} else if ($DOIT == 2){$words[$ID] = $quantities[0];}
+            }
+        }
+        $_GET["search"] = filterduplicates(implode(" ", $words));
+        echo '<BR>AFTER: ' . $_GET["search"];
 
         $words = strtolower(str_replace(" ", "|", $_GET["search"]));
-
         $plurals = explode("|", $words);//automatically check for non-pluralized words
         foreach($plurals as $index => $plural){
             $plural = trim(strtolower($plural));
@@ -336,17 +360,37 @@
             }
         }
 
+        echo '<BR>Plural normalization: ' . implode(" ", $plurals);
+
         //HCSC
-        $primarysynoynms = array("wing" => "chicken", "drink" => array("pepsi", "cola", "coke"));//32 drink beverage soda pop
-        foreach($primarysynoynms as $primarykeyword => $synonyms){
-            if(containswords($plurals, $synonyms)){
+        $primarysynoynms = array(
+                "wing" => array(
+                        "words" => array("chicken", array("pound", "lbl", "lb")),//sub-array acts as an OR
+                        "normalizationmode" => 8,//numbers removed
+                        "all" => true
+                    ),
+                "drink" => array(
+                        "words" => array("pepsi", "cola", "coke")//should contain entire list of drink names...
+                )
+        );//32 drink beverage soda pop
+        //function containswords($text, $words, $all = false, $delimiter = " ", $normalizationmode = 0:none 2:filternonalphanumeric 4:numbers replaced with # 8:numbers removed 16:plurals removed)
+        foreach($primarysynoynms as $primarykeyword => $parameters){
+            $all = get("all", false, $parameters);
+            $normalizationmode = get("normalizationmode", 0, $parameters);
+            $delimiter = get("delimiter", " ", $parameters);
+            $synonyms = $parameters["words"];
+            $containswords = count(containswords($plurals, $synonyms, $all, $delimiter, $normalizationmode));
+            echo '<BR>Running secondary check for missing "' . $primarykeyword . '" = ' . $containswords;
+            if($containswords){
                 if(!containswords($plurals, $primarykeyword)){
                     $plurals[] = $primarykeyword;
                 }
             }
         }
 
+        echo '<BR>Final search string: ' . implode(" ", $plurals);
         $words = implode("|", $plurals);
+        echo '</DIV>';
 
         //search the keywords table for the search string
         $result = Query("SELECT * FROM keywords WHERE synonyms REGEXP '" . $words . "';");
@@ -424,16 +468,15 @@
                             echo '<BR>Get words from: ' . $startingIndex . " to: " . $endingIndex;
                             echo '<BR>(AFTER) Search string: ' . $newtext;
 
-                            echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $keywordids, "text" => $newtext, "wordstoignore" => $wordstoignore, "primarykeyid" => $primaryKeyID, "is5keywords" => $results["is5keywords"], "keywords" => $results["keywords"], "limit" => $results["limit"]));
-
+                            echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $keywordids, "text" => $newtext, "wordstoignore" => $wordstoignore, "primarykeyid" => $primaryKeyID, "is5keywords" => $results["is5keywords"], "keywords" => $results["keywords"], "limit" => $results["limit"], "quantities" => $quantities));
                             echo '</DIV>';
                         }
                     } else {
-                        echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $keywordids, "text" => $_GET["search"], "wordstoignore" => $wordstoignore, "primarykeyid" => $primaryKeyID, "is5keywords" => $results["is5keywords"], "keywords" => $results["keywords"], "limit" => $results["limit"]));
+                        echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $keywordids, "text" => $_GET["search"], "wordstoignore" => $wordstoignore, "primarykeyid" => $primaryKeyID, "is5keywords" => $results["is5keywords"], "keywords" => $results["keywords"], "limit" => $results["limit"], "quantities" => $quantities));
                     }
                 }
             } else if ($results["non5keywords"]){//no weight-5 keywords found, run a single search of all the keywords
-                echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $results["non5keywords"], "text" => $_GET["search"], "wordstoignore" => $wordstoignore, "keywords" => $results["keywords"], "limit" => $results["limit"]));
+                echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $results["non5keywords"], "text" => $_GET["search"], "wordstoignore" => $wordstoignore, "keywords" => $results["keywords"], "limit" => $results["limit"], "quantities" => $quantities));
             }
         } else {
             die("SQL FAILED! " . $words);//no keywords found in the search
