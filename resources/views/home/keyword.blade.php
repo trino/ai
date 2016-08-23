@@ -379,7 +379,8 @@
             $normalizationmode = get("normalizationmode", 0, $parameters);
             $delimiter = get("delimiter", " ", $parameters);
             $synonyms = $parameters["words"];
-            $containswords = count(containswords($plurals, $synonyms, $all, $delimiter, $normalizationmode));
+            $containswords = containswords($plurals, $synonyms, $all, $delimiter, $normalizationmode);
+            if(is_array($containswords)){$containswords = count($containswords);}
             echo '<BR>Running secondary check for missing "' . $primarykeyword . '" = ' . $containswords;
             if($containswords){
                 if(!containswords($plurals, $primarykeyword)){

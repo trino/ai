@@ -32,7 +32,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/task',                'TaskController@store');
     Route::delete('/task/{task}',       'TaskController@destroy');
 
-    Route::get('/test',                 'HomeController@index');
+    Route::any('/test',                 'HomeController@index');
+    Route::any('/clipi',                'HomeController@clipi');
     Route::any('/edit',                 'HomeController@edit');
     Route::any('/edittable',            'HomeController@edittable');
 

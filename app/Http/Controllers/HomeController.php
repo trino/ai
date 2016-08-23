@@ -15,6 +15,10 @@ class HomeController extends Controller {
         return view('home.keyword');
     }
 
+    public function clipi(Request $request) {
+        return view('home.clipi');
+    }
+
     public function edit(Request $request) {
         return view('home.editor');
     }
