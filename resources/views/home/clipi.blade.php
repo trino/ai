@@ -1,11 +1,9 @@
 <?php
+    $quantities = ["next", "first", "second", "third", "fourth", "then", "other"];
+    $wordstoignore = array("the", "with", "and", "times", "on", "an");//discard these words
+    $Tables = array("toppings", "wings_sauce");
+    $WordsBefore = 5;//similar_text
     if(isset($_POST["action"])){
-
-        $quantities = ["next", "first", "second", "third", "fourth", "then", "other"];
-        $wordstoignore = array("the", "with", "and", "times", "on", "an");//discard these words
-        $Tables = array("toppings", "wings_sauce");
-        $WordsBefore = 5;//similar_text
-
         $con = connectdb("keywordtest");
         if(!function_exists("firstword")){
             function firstword($Text){
@@ -456,7 +454,7 @@
                         }
                         $results["searches"][$SearchID]["stage"] .= " 1.3";
                     } else {
-                        $itemlist[] = trim($text);
+                        //$itemlist[] = trim($text);
                     }
                     $results["searches"][$SearchID]["items"] = $itemlist;
 
@@ -474,9 +472,8 @@
                   AND keyword_id = wordid
                   ";
 
-                    if (isset($keywordids)){
-                        $SQL .= "AND keyword_id IN (" . $keywordids . ")";//only return results from the keyword search
-                    }
+                    if(is_array($keywordids)){$keywordids = implode(",", $keywordids);}
+                    $SQL .= "AND keyword_id IN (" . $keywordids . ")";//only return results from the keyword search
                     $SQL .= ") results GROUP BY menuid ORDER BY " . $results["SortColumn"] . " " . $results["SortDirection"] . " LIMIT " . $results["limit"];
 
                     $SQLresults = Query($SQL, true);
@@ -500,7 +497,8 @@
                             }
                         }
                         if(!$quantityID){$row["quantity"] = firstword($one["synonyms"]);}
-                        foreach(array("synonyms", "keywordids", "weights", "types") as $column){$row[$column] = explode("|", $row[$column]);
+                        foreach(array("synonyms", "keywordids", "weights", "types") as $column){
+                            $row[$column] = explode("|", $row[$column]);
                         }
 
                         $row = removekeys($row, array("itemname", "menuid", "itemprice", "wordid", "keywordtype", "mkid", "menuitem_id", "keyword_id"));//just to clean up the results
@@ -533,7 +531,7 @@
         }
     </STYLE>
     <DIV id="formmain" class="red">
-        <input type="text" id="textsearch" name="search" style="width:100%" onKeyUp="handlebutton(event);" value="<?= $_POST["search"]; ?>" TITLE="Press 'Space' or 'Enter' to search">
+        <input type="text" id="textsearch" name="search" style="width:100%" oninput="submitform();" onKeyUp="handlebutton(event);" value="<?= $_POST["search"]; ?>" TITLE="Press 'Space' or 'Enter' to search">
         <input type="button" id="startspeech" style="display:none;" value="Click to Speak" onclick="startButton(event);" TITLE="Use voice recognition">
         <BR>
         Sorting by:
@@ -566,7 +564,28 @@
                 limit: 5,
                 _token: token
             }, function(result, success){
-                innerHTML("#searchresults", "<pre>" + result + "</pre>");
+                var data = JSON.parse(result);
+                var HTML = "TIME STAMP: " + Date.now(true) + "<BR>";
+
+                if( data.is5keywords.length == 0 ){
+                    HTML += "No weight 5 keywords found. Search for something like 'pizza' or 'wings'<BR>";
+                } else {
+                    for( var i = 0; i < data.searches.length; i++ ){
+                        var currentsearch = data.searches[i];
+                        if(!isUndefined( currentsearch.primarykeyid )){
+                            HTML += "Item found: " + data.keywords[currentsearch.primarykeyid].word + "<BR>";
+                            if( currentsearch.items.length == 0) {
+                                HTML += "No addons found. Use these words to split up a list of addons: '" + quantities.join(", ") + "'<BR>";
+                            } else {
+                                for (var v = 0; v < currentsearch.items.length; v++) {
+                                    HTML += "Addons for sub-item " + (v + 1) + ": " + currentsearch.items[v] + "<BR>";
+                                }
+                            }
+                        }
+                    }
+                }
+
+                innerHTML("#searchresults", HTML + "<pre>" + result + "</pre>");
             });
         }
 

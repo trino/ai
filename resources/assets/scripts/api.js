@@ -2,6 +2,10 @@
 //get more functionality from http://youmightnotneedjquery.com/
 //Siblings, Prev, Prepend, Position Relative To Viewport, Position, Parent, Outer Width With Margin, Outer Width, Outer Height With Margin, Outer Height, Offset Parent, Offset, Next, Matches Selector, matches, Find Children, Filter, Contains Selector, Contains, Clone, Children, Append
 var debugmode = true;
+Date.now = function(verbose) {
+    if(isUndefined(verbose)) {return new Date().getTime();}
+    return new Date().toJSON();
+}
 
 //replaces all instances of $search within a string with $replacement
 String.prototype.replaceAll = function (search, replacement) {
