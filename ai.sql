@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 17, 2016 at 09:40 PM
+-- Generation Time: Aug 23, 2016 at 10:22 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -361,33 +361,6 @@ INSERT INTO `menukeywords` (`id`, `menuitem_id`, `keyword_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `migrations`
---
-
-CREATE TABLE IF NOT EXISTS `migrations` (
-  `migration` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `batch` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `migrations`
---
-
-INSERT INTO `migrations` (`migration`, `batch`) VALUES
-('2014_10_12_000000_create_users_table', 1),
-('2014_10_12_100000_create_password_resets_table', 1),
-('2016_02_04_041533_create_tasks_table', 1),
-('2016_07_09_200740_create_locations_table', 1),
-('2016_07_09_200754_create_hours_table', 1),
-('2016_07_09_200804_create_restaurants_table', 1),
-('2016_07_24_170400_menu', 1),
-('2016_07_24_170421_additional_toppings', 1),
-('2016_07_24_170442_wings_sauce', 1),
-('2016_07_24_170457_toppings', 1);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `password_resets`
 --
 
@@ -398,6 +371,28 @@ CREATE TABLE IF NOT EXISTS `password_resets` (
   KEY `password_resets_email_index` (`email`),
   KEY `password_resets_token_index` (`token`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `presets`
+--
+
+CREATE TABLE IF NOT EXISTS `presets` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `toppings` varchar(1024) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `presets`
+--
+
+INSERT INTO `presets` (`id`, `name`, `toppings`) VALUES
+(1, 'hawaiian', 'Pineapple Bacon Ham'),
+(2, 'classic super', 'pepperoni mushrooms green peppers'),
+(3, 'deluxe', 'pepperoni mushrooms green peppers');
 
 -- --------------------------------------------------------
 
@@ -424,22 +419,6 @@ CREATE TABLE IF NOT EXISTS `restaurants` (
   `lastorder_id` int(11) NOT NULL,
   `franchise` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tasks`
---
-
-CREATE TABLE IF NOT EXISTS `tasks` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `tasks_user_id_index` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------

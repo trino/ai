@@ -273,8 +273,8 @@ function printrow($row, &$FirstResult = false, $PrimaryKey = "id", $TableID = ""
     echo '</TR>';
 }
 
-function addtodelstring($string, $stringtoadd, $delimiter = ","){
-    $keywordids = explode($delimiter, $string);
+function addtodelstring($keywordids, $stringtoadd, $delimiter = ","){
+    if(!is_array($keywordids)) {$keywordids = explode($delimiter, $keywordids);}
     $keywordids[] = $stringtoadd;
     return implode($delimiter, $keywordids);
 }

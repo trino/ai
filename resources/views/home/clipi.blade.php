@@ -3,8 +3,19 @@
     $wordstoignore = array("the", "with", "and", "times", "on", "an");//discard these words
     $Tables = array("toppings", "wings_sauce");
     $WordsBefore = 5;//similar_text
+    $con = connectdb("keywordtest");
+
+    function explodetrim($text, $delimiter = ",", $dotrim = true){
+        if(is_array($text)){return $text;}
+        $text = explode($delimiter, $text);
+        if(!$dotrim){return $text;}
+        foreach($text as $ID => $Word){
+            $text[$ID] = trim($Word);
+        }
+        return $text;
+    }
+
     if(isset($_POST["action"])){
-        $con = connectdb("keywordtest");
         if(!function_exists("firstword")){
             function firstword($Text){
                 $Space = strpos($Text, " ");
@@ -13,7 +24,7 @@
             }
 
             function getsynonymsandweights($text, $keywords, $removeduplicates = true){
-                $newsearch = explode(" ", $text);
+                $newsearch = explodetrim($text, " ", false);
                 foreach($newsearch as $index => $word){
                     $synonymID = findsynonym($word, $keywords);
                     $newsearch[$index] = array("word" => $word, "synonymid" => $synonymID);
@@ -53,7 +64,7 @@
 
             //uses containswords() to check for $words, then removes the cells
             function removewords($text, $words){
-                if(!is_array($text)){$text = explode(" ", $text);}
+                if(!is_array($text)){$text = explodetrim($text, " ", false);}
                 $words = containswords($text, $words);
                 foreach($words as $index){
                     unset($text[$index]);
@@ -64,7 +75,7 @@
             //gets the words between $leftword and $rightword. if $rightword isn't specified, it gets all words after $leftword
             function getwordsbetween($text, $leftword, $rightword = false){
                 if(!is_array($text)){
-                    return implode(" ", getwordsbetween(explode(" ", $text), $leftword, $rightword));
+                    return implode(" ", getwordsbetween(explodetrim($text, " ", false), $leftword, $rightword));
                 }
                 $length = NULL;
                 $leftword = $leftword + 1;
@@ -226,14 +237,12 @@
             }
         }
 
-
-
         switch(strtolower(trim($_POST["action"]))){
             case "keywordsearch":
                 $results = array("status" => false, "stages" => array($_POST["search"]), "searches" => array());
                 $one = select_field_where("keywords", "keywordtype = 1 AND synonyms LIKE '%1%'");
                 $_POST["search"] = filterduplicates(filternonalphanumeric($_POST["search"]));//remove non-alphanumeric and double-spaces
-                $words = explode(" ", $_POST["search"]);
+                $words = explodetrim($_POST["search"], " ", false);
                 foreach($words as $ID => $word){
                     $word = normalizetext($word);
                     if($word == "1" || $word == "one"){
@@ -251,7 +260,7 @@
                 $results["stages"][] = $_POST["search"];
 
                 $words = strtolower(str_replace(" ", "|", $_POST["search"]));
-                $plurals = explode("|", $words);//automatically check for non-pluralized words
+                $plurals = explodetrim($words, "|", false);//automatically check for non-pluralized words
                 foreach($plurals as $index => $plural){
                     $plural = trim(strtolower($plural));
                     if(in_array($plural, $wordstoignore) || !$plural) {
@@ -275,6 +284,7 @@
                                 "words" => array("pepsi", "cola", "coke")//should contain entire list of drink names...
                         )
                 );
+
                 foreach($primarysynoynms as $primarykeyword => $parameters){
                     $all = get("all", false, $parameters);
                     $normalizationmode = get("normalizationmode", 0, $parameters);
@@ -291,12 +301,13 @@
 
                 $results["stages"]["final"] = implode(" ", $plurals);
                 $words = implode("|", $plurals);
-                
+
                 $result = Query("SELECT * FROM keywords WHERE synonyms REGEXP '" . $words . "';");
                 if($result){
                     $results["status"] = true;
                     $results["is5keywords"] = array();
                     $results["non5keywords"] = array();
+                    $results["keywordids"] = array();
                     while ($row = mysqli_fetch_array($result)){
                         $word = firstword($row["synonyms"]);
                         $results["keywords"][ $row["id"] ] = array(
@@ -425,6 +436,7 @@
                             }
                         }
                     }
+
                     if($hasremoved){
                         $results["searches"][$SearchID]["stage"] .= " 1.2";
                         $text = reassemble_text($newsearch, $results["keywords"]);
@@ -439,7 +451,6 @@
                     $results["searches"][$SearchID]["keywordids"] = $keywordids;
 
                     $quantity = containswords($text, $quantities);//check if the search contains multiple items, instead of just one
-
                     $itemlist = array();
                     if($quantity){//Stage 1.3: split the search up into it's individual items
                         $lastkey = lastkey($quantity);
@@ -454,7 +465,7 @@
                         }
                         $results["searches"][$SearchID]["stage"] .= " 1.3";
                     } else {
-                        //$itemlist[] = trim($text);
+                        $itemlist[] = trim($text);
                     }
                     $results["searches"][$SearchID]["items"] = $itemlist;
 
@@ -484,9 +495,13 @@
                         //get quantity of item
                         $itemtype = 0;
                         $quantityID = false;
-                        $keywordIDs = explode("|", $row["keywordids"]);
-                        $thesekeywords = array_combine ( $keywordIDs , explode("|", $row["types"]) );
-                        $thesekeywordw = array_combine ( $keywordIDs , explode("|", $row["weights"]) );
+                        if(is_array($row["keywordids"])){
+                            $keywordIDs = $row["keywordids"];
+                        } else {
+                            $keywordIDs = explodetrim($row["keywordids"], "|", false);
+                        }
+                        $thesekeywords = array_combine ( $keywordIDs , explodetrim($row["types"], "|", false) );
+                        $thesekeywordw = array_combine ( $keywordIDs , explodetrim($row["weights"], "|", false) );
                         foreach($thesekeywords as $ID => $type){
                             $weight = $thesekeywordw[$ID];
                             if($type == 1){//quantity found
@@ -498,7 +513,7 @@
                         }
                         if(!$quantityID){$row["quantity"] = firstword($one["synonyms"]);}
                         foreach(array("synonyms", "keywordids", "weights", "types") as $column){
-                            $row[$column] = explode("|", $row[$column]);
+                            $row[$column] = explodetrim($row[$column], "|", false);
                         }
 
                         $row = removekeys($row, array("itemname", "menuid", "itemprice", "wordid", "keywordtype", "mkid", "menuitem_id", "keyword_id"));//just to clean up the results
@@ -512,7 +527,21 @@
                 break;
         }
     } else {
-        if(!isset($_POST["search"])){$_POST["search"]="";}
+        if(!isset($_GET["search"])){$_GET["search"]="";}
+        if(!isset($_POST["search"])){$_POST["search"]=$_GET["search"];}
+        $addons = array();
+        foreach($Tables as $table){
+            $results = Query("SELECT * FROM " . $table, true);
+            foreach($results as $result){
+                $addons[$table][$result["type"]][$result["name"]] = explodetrim($result["qualifiers"]);
+            }
+        }
+
+        $presets = Query("SELECT * FROM presets", true);
+        $presetsnames = array();
+        foreach($presets as $ID => $preset){
+            $presetsnames[] = $preset["name"];
+        }
 ?>
     <script src="<?= webroot("resources/assets/scripts/api.js"); ?>"></script>
     <script src="<?= webroot("resources/assets/scripts/nui.js"); ?>"></script>
@@ -547,12 +576,65 @@
     <SCRIPT>
         var currentURL = "<?= Request::url(); ?>";
         var token = "<?= csrf_token(); ?>";
-        var wordstoignore = <?= json_encode($wordstoignore) ?>;
-        var quantities = <?= json_encode($quantities) ?>;
+        var wordstoignore = <?= json_encode($wordstoignore); ?>;
+        var quantities = <?= json_encode($quantities); ?>;
+        var addons = <?= json_encode($addons); ?>;
+        var presets = <?= json_encode($presets); ?>;
+        var presetnames = <?= json_encode($presetsnames); ?>;
+
+        function replacemultiplewordsynonyms(text, synonyms, cutoff){
+            var originaltext = text.toLowerCase();
+            text = text.split(" ");
+            for(var i = 0; i < synonyms.length; i++){
+                var synonym = synonyms[i].split(" ");
+                var words = synonym.length;
+                var currentCutoff = cutoff;
+                var wordindex = -1;
+                var wordstoreplace = 0;
+                var originalword = "";
+
+                for(var v = 0; v < text.length - (words-1); v++){
+                    var distance = levenshteinWeighted(synonyms[i], text[v].trim());
+                    if(distance < currentCutoff){
+                        originalword = text[v].trim();
+                        currentCutoff = distance;
+                        wordindex = v;
+                        wordstoreplace = 1;
+                    }
+
+                    var currentword = grabcells(text, v, words).join(" ").trim();
+                    var distance = levenshteinWeighted(synonyms[i], currentword);
+                    if(distance < currentCutoff){
+                        originalword = currentword;
+                        currentCutoff = distance;
+                        wordindex = v;
+                        wordstoreplace = words;
+                    }
+                }
+                if(wordindex > -1){originaltext = originaltext.replaceAll(originalword, synonyms[i]);}
+            }
+            return originaltext;//removemultiples(text.join(" "), "  ", " ");
+        }
+
+        function grabcells(arr, start, length){
+            return arr.slice(start, start+length);
+        }
+
+        function gettheaddons(text){
+            //check for presets
+            var aftertext = replacemultiplewordsynonyms(text, presetnames, 1);
+            for(var i = 0; i < presets.length; i++){
+                aftertext = aftertext.replaceAll(presets[i].name, presets[i].toppings);
+            }
+
+            text = stringifyaddons(assimilateaddons(0, aftertext));
+            return text;
+        }
 
         function handlebutton(evt){
             var charCode = (evt.which) ? evt.which : event.keyCode;
-            if(charCode == 32 || charCode == 13){submitform();}//32 is space, 13 is enter
+            if(charCode == 32 || charCode == 13){return submitform();}//32 is space, 13 is enter
+            console.log(charCode);
         }
 
         function submitform(){
@@ -574,18 +656,48 @@
                         var currentsearch = data.searches[i];
                         if(!isUndefined( currentsearch.primarykeyid )){
                             HTML += "Item found: " + data.keywords[currentsearch.primarykeyid].word + "<BR>";
+
+                            var ButtonHTML = '<BUTTON CLASS="assimilateall order123ID123" onclick="orderitem(this);" TYPE="' + data.keywords[currentsearch.primarykeyid].word + '" typeid="' + currentsearch.primarykeyid + '"';
+
                             if( currentsearch.items.length == 0) {
-                                HTML += "No addons found. Use these words to split up a list of addons: '" + quantities.join(", ") + "'<BR>";
+                                HTML += "No addons found<BR>";
                             } else {
+                                ButtonHTML += ' itemcount="' + currentsearch.items.length + '"';
                                 for (var v = 0; v < currentsearch.items.length; v++) {
+                                    currentsearch.items[v] = gettheaddons(currentsearch.items[v]);
+                                    data.searches[i].items[v] = currentsearch.items[v];
+                                    ButtonHTML += ' item' + v + '="' + currentsearch.items[v].replace(/<(?:.|\n)*?>/gm, '') + '"';
                                     HTML += "Addons for sub-item " + (v + 1) + ": " + currentsearch.items[v] + "<BR>";
                                 }
+
+                                if( currentsearch.menuitems.length > 0 ){
+                                    var expectedquantity = currentsearch.menuitems[0].quantity;
+                                    if(currentsearch.items.length < expectedquantity){
+                                        HTML += "Addons for " + currentsearch.items.length + " items found. Expected " + expectedquantity + " items. Use these words to split up lists of addons: " + quantities.join(", ") + " <BR>";
+                                        if(currentsearch.items.length == 1){
+                                            HTML += "If you don't specify any other items, the first set will be used for all items ordered<BR>";
+                                        }
+                                    }
+                                }
+                            }
+
+                            for(var i = 0; i < currentsearch.menuitems.length; i++){
+                                var currentItem = currentsearch.menuitems[i];
+                                var currentButtonHTML = ButtonHTML + 'value="' + currentItem.id + '" itemname="' + currentItem.item + '" price="' + currentItem.price + '"';
+                                currentButtonHTML = currentButtonHTML.replace("123ID123", i);
+                                for(var v = 0; v < tables.length; v++){
+                                    currentButtonHTML += " " + tables[v] + '="' +  currentItem[tables[v]] + '"';
+                                }
+                                HTML += currentButtonHTML + '>Order: ' + currentItem.item + '</BUTTON>';
                             }
                         }
                     }
+                    HTML += '<HR>';
                 }
 
-                innerHTML("#searchresults", HTML + "<pre>" + result + "</pre>");
+                innerHTML("#searchresults", HTML);
+                //result = JSON.stringify(data, null, 2);//isn't needed
+                //innerHTML("#searchresults", HTML + "<pre>" + result + "</pre>");//<PRE>result</PRE> isn't needed
             });
         }
 
@@ -633,5 +745,11 @@
 
             speechSynthesis.speak(u);
         }
+
+        <?php if(trim($_POST["search"])){echo 'submitform();';} ?>
     </SCRIPT>
-<?php } ?>
+<?php
+    foreach($Tables as $table){
+        echo view("popups.addons", array("table" => $table));
+    }
+} ?>
