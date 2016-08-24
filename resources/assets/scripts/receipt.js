@@ -47,13 +47,16 @@ function filteraddons(addons, tablename){
 
 function assimilateaddons(ID, element, Index){
     //[0=startsearchstring, 1=searchstring, 2=toppings, 3=typos, 4=defaults, 5=quantity, 6=itemname]
+    var defaults = true;
     if(isUndefined(Index)){
+        var defaults = false;
         var toppings = assimilate(ID, element);
     } else {
         var toppings = assimilate(ID, element.getAttribute("item" + Index));
     }
     lastquantity = toppings[5];
-    return toppings[2].concat( toppings[3] ).concat( toppings[4] );
+    if(defaults){return toppings[2].concat( toppings[3] ).concat( toppings[4] );}
+    return toppings[2].concat( toppings[3] );
 }
 
 function makerow(Label, Price, Extra, newcol){
@@ -174,7 +177,7 @@ function getaddonslikeassimilate(table){
 
 //the body can only be manipulated after the page has loaded
 doonload(function(){
-    append("body", '<DIV ID="receipt" CLASS="red"></DIV>');
+    if(select("#receipt").length == 0) {append("body", '<DIV ID="receipt" CLASS="red"></DIV>');}
     generatereceipt();
-    trigger(".order0", "click");
+    //trigger(".order0", "click");
 });

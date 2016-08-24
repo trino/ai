@@ -1,6 +1,6 @@
 <?php
     $quantities = ["next", "first", "second", "third", "fourth", "then", "other"];
-    $wordstoignore = array("the", "with", "and", "times", "on", "an");//discard these words
+    $wordstoignore = array("the", "with", "and", "times", "on", "an", "of");//discard these words
     $Tables = array("toppings", "wings_sauce");
     $WordsBefore = 5;//similar_text
     $con = connectdb("keywordtest");
@@ -700,7 +700,7 @@
                                 for(var v = 0; v < tables.length; v++){
                                     currentButtonHTML += " " + tables[v] + '="' +  currentItem[tables[v]] + '"';
                                 }
-                                HTML += currentButtonHTML + '>Order: ' + currentItem.item + '</BUTTON>';
+                                HTML += currentButtonHTML + ' TITLE="Item: ' + i + '">Order: ' + currentItem.item + " for: $" + currentItem.price + '</BUTTON>';
                             }
                         }
                     }
@@ -708,8 +708,8 @@
                 }
 
                 //innerHTML("#searchresults", HTML);
-                //result = JSON.stringify(data, null, 2);//isn't needed
-                innerHTML("#searchresults", HTML + "<pre CLASS='blue'>" + result + "</pre>");//<PRE>result</PRE> isn't needed
+                result = JSON.stringify(data, null, 2);//isn't needed
+                innerHTML("#searchresults", HTML + '<pre CLASS="blue" TITLE="JSON result">' + result + "</pre>");//<PRE>result</PRE> isn't needed
             });
         }
 
