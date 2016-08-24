@@ -639,7 +639,14 @@ function loadUrl(newLocation) {
     return false;
 }
 
-
+//changes the URL in the history/URL bar without updating the page
+function ChangeUrl(Title, URL) {
+    if (typeof (history.pushState) != "undefined") {
+        var obj = {Page: Title, Url: URL};
+        history.pushState(obj, obj.Page, obj.Url);
+        return true;
+    }
+}
 
 
 //testing api

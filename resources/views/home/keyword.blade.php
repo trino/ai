@@ -23,7 +23,7 @@
     }
 </STYLE>
 <?php
-    $con = connectdb("keywordtest");
+    //$con = connectdb("keywordtest");
     if(!function_exists("firstword")){
         function firstword($Text){
             $Space = strpos($Text, " ");

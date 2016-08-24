@@ -155,8 +155,8 @@ function flattenarray($arr, $key){
     return $arr;
 }
 
-function enum_tables(){
-    return flattenarray(Query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='ai'", true), "TABLE_NAME");
+function enum_tables($table = ""){
+    return flattenarray(Query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='ai'" . iif($table, "AND TABLE_NAME='" . $table . "'"), true), "TABLE_NAME");
 }
 
 function Query($query, $all=false){
@@ -348,9 +348,54 @@ function extract_bits($value, $start_pos, $length = 1){
     return ($value >> $start_pos) & $mask;
 }
 
-function myself($filename = ""){
-    global $view_name;
-    if(!$filename){$filename = $view_name;}
-    return resource_path() . "/views/" . str_replace(".", "/", $filename) . ".blade.php";
+function myself($view_name){
+    return resource_path() . "/views/" . str_replace(".", "/", $view_name) . ".blade.php";
+}
+
+function setsetting($Key, $Value){
+    return insertdb("settings", array("keyname" => $Key, "value" => $Value), "keyname");
+}
+function getsetting($Key, $Default = ""){
+    if(!enum_tables("settings")){return $Default;}
+    $Value = Query("SELECT value FROM settings WHERE keyname='" . $Key . "'", true);
+    if(isset($Value[0]["value"])){return $Value[0]["value"];}
+    return $Default;
+}
+
+function drop_table($table = ""){
+    if(!$table){
+        Query("SET foreign_key_checks = 0");
+        $tables = enum_tables();
+        foreach($tables as $table){
+            drop_table($table);
+        }
+    } else {
+        Query("DROP TABLE IF EXISTS " . $table);
+    }
+}
+function importSQL($filename){
+    drop_table();
+    $templine = '';// Temporary variable, used to store current query
+    $lines = file($filename);// Read in entire file
+    foreach ($lines as $line){// Loop through each line
+        if (substr($line, 0, 2) == '--' || $line == '') {continue;}// Skip it if it's a comment
+        $templine .= $line;// Add this line to the current segment
+        if (substr(trim($line), -1, 1) == ';') {// If it has a semicolon at the end, it's the end of the query
+            Query($templine);// Perform the query
+            $templine = '';// Reset temp variable to empty
+        }
+    }
+}
+
+$con = connectdb("keywordtest");
+$Filename = base_path() . "/ai.sql";
+if(file_exists($Filename)){
+    $lastSQLupdate = getsetting("lastSQL", "0");
+    $lastFILupdate = filemtime($Filename);
+    if($lastFILupdate > $lastSQLupdate){
+        importSQL($Filename);
+        setsetting("lastSQL", $lastFILupdate);
+        echo '<DIV CLASS="red">SQL was out of date, imported AI.sql</DIV>';
+    }
 }
 ?>

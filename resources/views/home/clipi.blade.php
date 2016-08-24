@@ -3,7 +3,6 @@
     $wordstoignore = array("the", "with", "and", "times", "on", "an", "of");//discard these words
     $Tables = array("toppings", "wings_sauce");
     $WordsBefore = 5;//similar_text
-    $con = connectdb("keywordtest");
 
     function explodetrim($text, $delimiter = ",", $dotrim = true){
         if(is_array($text)){return $text;}
@@ -650,6 +649,7 @@
         }
 
         function submitform(){
+            ChangeUrl("CLIPi", currentURL + "?search=" + value("#textsearch") + "&SortColumn=" + value("#SortColumn") + "&SortDirection=" + value("#SortDirection"));
             post(currentURL, {
                 action: "keywordsearch",
                 search: value("#textsearch"),
@@ -707,7 +707,7 @@
                                 for(var v = 0; v < tables.length; v++){
                                     currentButtonHTML += " " + tables[v] + '="' +  currentItem[tables[v]] + '"';
                                 }
-                                HTML += currentButtonHTML + ' TITLE="Item: ' + i + '">Order: ' + currentItem.item + " for: $" + currentItem.price + '</BUTTON>';
+                                HTML += currentButtonHTML + ' TITLE="Item: ' + i + iif(i==0, " (***BEST CANDIDATE***)") + '">Order: ' + currentItem.item + " for: $" + currentItem.price + '</BUTTON>';
                             }
                         }
                     }

@@ -130,8 +130,8 @@ function itemdir(index, value){
 function stringifyaddons(addons){
     var text = "";
     for(var i=0; i<addons.length;i++){
-        if(i > 0){text += ", ";}
-        text += "<I>" + addons[i].qualifier + "</I> " + addons[i].label;
+        if(i > 0){text += ",  ";}
+        text += "<I>" + addons[i].qualifier + "</I>  " + addons[i].label;
     }
     return text;
 }

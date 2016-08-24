@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 23, 2016 at 10:22 PM
+-- Generation Time: Aug 24, 2016 at 08:50 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `keywords` (
   `weight` int(11) NOT NULL,
   `keywordtype` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=57 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=60 ;
 
 --
 -- Dumping data for table `keywords`
@@ -115,11 +115,10 @@ INSERT INTO `keywords` (`id`, `synonyms`, `weight`, `keywordtype`) VALUES
 (28, 'large lg', 1, 2),
 (29, 'extra xl ex', 1, 2),
 (30, 'lbl pound lb', 1, 2),
-(31, '2lbl 2lb 2pound', 1, 1),
 (32, 'drink beverage soda pop', 5, 0),
 (33, 'coke cola', 1, 0),
 (34, 'diet', 1, 0),
-(35, 'liter litre 2liter 2litre 2lt bottle', 1, 0),
+(35, 'liter litre lt bottle', 1, 0),
 (36, 'iced ice tea nestea lipton brisk', 1, 0),
 (37, 'ginger ale', 1, 0),
 (38, 'pepper doctor', 1, 0),
@@ -253,7 +252,7 @@ CREATE TABLE IF NOT EXISTS `menukeywords` (
   `menuitem_id` int(11) NOT NULL,
   `keyword_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=113 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=116 ;
 
 --
 -- Dumping data for table `menukeywords`
@@ -302,7 +301,6 @@ INSERT INTO `menukeywords` (`id`, `menuitem_id`, `keyword_id`) VALUES
 (51, 14, 29),
 (52, 20, 26),
 (54, -4, 30),
-(55, 17, 31),
 (57, -7, 32),
 (58, 52, 33),
 (59, 53, 33),
@@ -420,6 +418,27 @@ CREATE TABLE IF NOT EXISTS `restaurants` (
   `franchise` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `settings`
+--
+
+CREATE TABLE IF NOT EXISTS `settings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `keyname` varchar(255) NOT NULL,
+  `value` varchar(1024) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `keyname` (`keyname`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+
+--
+-- Dumping data for table `settings`
+--
+
+INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
+(1, 'lastSQL', '0');
 
 -- --------------------------------------------------------
 
