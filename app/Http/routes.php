@@ -21,6 +21,9 @@
 | kernel and includes session state, CSRF protection, and more.
 |
 */
+View::composer('*', function($view){
+    View::share('view_name', $view->getName());
+});
 
 Route::group(['middleware' => ['web']], function () {
 
@@ -32,6 +35,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/task',                'TaskController@store');
     Route::delete('/task/{task}',       'TaskController@destroy');
 
+    Route::get('/getjs',                'HomeController@getjs');
     Route::any('/test',                 'HomeController@index');
     Route::any('/clipi',                'HomeController@clipi');
     Route::any('/edit',                 'HomeController@edit');

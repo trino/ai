@@ -347,4 +347,10 @@ function extract_bits($value, $start_pos, $length = 1){
     $mask = (1 << ($end_pos - $start_pos)) - 1;
     return ($value >> $start_pos) & $mask;
 }
+
+function myself($filename = ""){
+    global $view_name;
+    if(!$filename){$filename = $view_name;}
+    return resource_path() . "/views/" . str_replace(".", "/", $filename) . ".blade.php";
+}
 ?>

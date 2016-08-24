@@ -22,23 +22,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="keyword.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/home/keyword.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.1538461">
-              <caret line="580" column="88" selection-start-line="580" selection-start-column="74" selection-end-line="580" selection-end-column="88" />
-              <folding>
-                <marker date="1471960326526" expanded="true" signature="20278:20339" placeholder="SELECT * FRO..keywords..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="api.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/assets/scripts/api.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.115385">
-              <caret line="541" column="97" selection-start-line="541" selection-start-column="97" selection-end-line="541" selection-end-column="97" />
+            <state vertical-scroll-proportion="-7.3076925">
+              <caret line="645" column="0" selection-start-line="645" selection-start-column="0" selection-end-line="645" selection-end-column="0" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -49,17 +37,42 @@
       <file leaf-file-name="clipi.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/home/clipi.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.67911714">
-              <caret line="702" column="83" selection-start-line="702" selection-start-column="83" selection-end-line="702" selection-end-column="83" />
+            <state vertical-scroll-proportion="0.75042444">
+              <caret line="266" column="44" selection-start-line="266" selection-start-column="44" selection-end-line="266" selection-end-column="44" />
               <folding>
-                <element signature="e#30019#30037#0#HTML" expanded="true" />
-                <element signature="e#30216#30237#0#HTML" expanded="true" />
-                <marker date="1472048361998" expanded="true" signature="14943:15004" placeholder="SELECT * FRO..keywords..." />
-                <marker date="1472048361998" expanded="true" signature="25380:26155" placeholder="SELECT *, co..*..." />
-                <marker date="1472048361998" expanded="true" signature="25772:26155" placeholder="SELECT menu...menu..." />
-                <marker date="1472048361998" expanded="true" signature="28903:28917" placeholder="SELECT * FRO..." />
-                <marker date="1472048361998" expanded="true" signature="29133:29154" placeholder="SELECT * FRO..presets..." />
+                <element signature="e#29534#29552#0#HTML" expanded="true" />
+                <element signature="e#29731#29752#0#HTML" expanded="true" />
+                <marker date="1472061630826" expanded="true" signature="14453:14514" placeholder="SELECT * FRO..keywords..." />
+                <marker date="1472061630826" expanded="true" signature="24890:25665" placeholder="SELECT *, co..*..." />
+                <marker date="1472061630826" expanded="true" signature="25282:25665" placeholder="SELECT menu...menu..." />
+                <marker date="1472061630826" expanded="true" signature="28413:28427" placeholder="SELECT * FRO..." />
+                <marker date="1472061630826" expanded="true" signature="28643:28664" placeholder="SELECT * FRO..presets..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="api.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/api.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-3.7692308">
+              <caret line="337" column="25" selection-start-line="337" selection-start-column="9" selection-end-line="337" selection-end-column="25" />
+              <folding>
+                <marker date="1472054723714" expanded="true" signature="1592:1716" placeholder="INSERT INTO ..." />
+                <marker date="1472054723714" expanded="true" signature="3338:3373" placeholder="SELECT * FRO..." />
+                <marker date="1472054723714" expanded="true" signature="4075:4100" placeholder="DELETE FROM ..." />
+                <marker date="1472054723714" expanded="true" signature="5177:5249" placeholder="SELECT TABLE..TABLES..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HomeController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/HomeController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-10.461538">
+              <caret line="22" column="32" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="32" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -67,8 +80,8 @@
       <file leaf-file-name="nui.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/assets/scripts/nui.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.2692308">
-              <caret line="10" column="32" selection-start-line="10" selection-start-column="32" selection-end-line="10" selection-end-column="32" />
+            <state vertical-scroll-proportion="-0.6923077">
+              <caret line="408" column="48" selection-start-line="408" selection-start-column="48" selection-end-line="408" selection-end-column="48" />
               <folding />
             </state>
           </provider>
@@ -77,8 +90,8 @@
       <file leaf-file-name="receipt.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/assets/scripts/receipt.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-18.423077">
-              <caret line="181" column="6" selection-start-line="181" selection-start-column="6" selection-end-line="181" selection-end-column="6" />
+            <state vertical-scroll-proportion="-5.8846154">
+              <caret line="9" column="65" selection-start-line="9" selection-start-column="65" selection-end-line="9" selection-end-column="65" />
               <folding>
                 <marker date="1472048272505" expanded="true" signature="2304:2315" placeholder="..." />
                 <marker date="1472048272505" expanded="true" signature="2637:2687" placeholder="..." />
@@ -89,16 +102,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="api.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/api.php">
+      <file leaf-file-name="getjs.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/home/getjs.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-90.23077">
-              <caret line="276" column="79" selection-start-line="276" selection-start-column="79" selection-end-line="276" selection-end-column="79" />
+            <state vertical-scroll-proportion="-16.461538">
+              <caret line="67" column="91" selection-start-line="67" selection-start-column="91" selection-end-line="67" selection-end-column="91" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="nui-api-receipt.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/assets/scripts/nui-api-receipt.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="4160" selection-start-line="0" selection-start-column="4160" selection-end-line="0" selection-end-column="4160" />
               <folding>
-                <marker date="1471977834673" expanded="true" signature="1592:1716" placeholder="INSERT INTO ..." />
-                <marker date="1471977834673" expanded="true" signature="3338:3373" placeholder="SELECT * FRO..." />
-                <marker date="1471977834673" expanded="true" signature="4075:4100" placeholder="DELETE FROM ..." />
-                <marker date="1471977834673" expanded="true" signature="5177:5249" placeholder="SELECT TABLE..TABLES..." />
+                <marker date="1472061106553" expanded="true" signature="0:22" placeholder="/*...*/" />
               </folding>
             </state>
           </provider>
@@ -107,45 +127,9 @@
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.346153">
-              <caret line="34" column="14" selection-start-line="34" selection-start-column="14" selection-end-line="34" selection-end-column="14" />
+            <state vertical-scroll-proportion="-5.3461537">
+              <caret line="23" column="36" selection-start-line="23" selection-start-column="36" selection-end-line="23" selection-end-column="36" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HomeController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/HomeController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.8461537">
-              <caret line="18" column="31" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="addons.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/popups/addons.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.9423077">
-              <caret line="34" column="65" selection-start-line="34" selection-start-column="65" selection-end-line="34" selection-end-column="65" />
-              <folding>
-                <marker date="1471446074083" expanded="true" signature="222:274" placeholder="SELECT DISTI..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="itemsearch.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/popups/itemsearch.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.7884614">
-              <caret line="211" column="12" selection-start-line="211" selection-start-column="12" selection-end-line="219" selection-end-column="13" />
-              <folding>
-                <marker date="1471527844237" expanded="true" signature="7798:8573" placeholder="SELECT *, co..*..." />
-                <marker date="1471527844237" expanded="true" signature="8190:8573" placeholder="SELECT menu...menu..." />
-                <marker date="1471527844237" expanded="true" signature="12090:12276" placeholder="SELECT * FRO..menukeywords..." />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -192,14 +176,17 @@
         <option value="$PROJECT_DIR$/resources/views/popups/addons.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/popups/keywordsearch.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/home/editor.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" />
-        <option value="$PROJECT_DIR$/app/Http/routes.php" />
         <option value="$PROJECT_DIR$/resources/views/popups/itemsearch.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/home/keyword.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/api.php" />
-        <option value="$PROJECT_DIR$/resources/assets/scripts/api.js" />
-        <option value="$PROJECT_DIR$/resources/assets/scripts/nui.js" />
         <option value="$PROJECT_DIR$/resources/assets/scripts/receipt.js" />
+        <option value="$PROJECT_DIR$/resources/assets/scripts/api.js" />
+        <option value="$PROJECT_DIR$/resources/assets/scripts/api-nui-receipt.js" />
+        <option value="$PROJECT_DIR$/resources/assets/scripts/nui-api-receipt.js" />
+        <option value="$PROJECT_DIR$/app/Http/routes.php" />
+        <option value="$PROJECT_DIR$/app/Http/api.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" />
+        <option value="$PROJECT_DIR$/resources/assets/scripts/nui.js" />
+        <option value="$PROJECT_DIR$/resources/views/home/getjs.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/home/clipi.blade.php" />
       </list>
     </option>
@@ -859,10 +846,10 @@
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22972973" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32964823" sideWeight="0.53742206" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32964823" sideWeight="0.54158" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32964823" sideWeight="0.46257797" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32964823" sideWeight="0.45841995" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -895,20 +882,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.env">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="26" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/index3.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1188,14 +1161,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.346153">
-          <caret line="34" column="14" selection-start-line="34" selection-start-column="14" selection-end-line="34" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/home/editor.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3327674">
@@ -1210,81 +1175,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/HomeController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.8461537">
-          <caret line="18" column="31" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/popups/addons.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.9423077">
           <caret line="34" column="65" selection-start-line="34" selection-start-column="65" selection-end-line="34" selection-end-column="65" />
           <folding>
-            <marker date="1471446074083" expanded="true" signature="222:274" placeholder="SELECT DISTI..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/api.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-90.23077">
-          <caret line="276" column="79" selection-start-line="276" selection-start-column="79" selection-end-line="276" selection-end-column="79" />
-          <folding>
-            <marker date="1471977834673" expanded="true" signature="1592:1716" placeholder="INSERT INTO ..." />
-            <marker date="1471977834673" expanded="true" signature="3338:3373" placeholder="SELECT * FRO..." />
-            <marker date="1471977834673" expanded="true" signature="4075:4100" placeholder="DELETE FROM ..." />
-            <marker date="1471977834673" expanded="true" signature="5177:5249" placeholder="SELECT TABLE..TABLES..." />
+            <marker date="1471446074083" expanded="true" signature="-1:-1" placeholder="SELECT DISTI..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/popups/itemsearch.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.7884614">
-          <caret line="211" column="12" selection-start-line="211" selection-start-column="12" selection-end-line="219" selection-end-column="13" />
+        <state vertical-scroll-proportion="5.0797963">
+          <caret line="174" column="0" selection-start-line="174" selection-start-column="0" selection-end-line="174" selection-end-column="0" />
           <folding>
-            <marker date="1471527844237" expanded="true" signature="7798:8573" placeholder="SELECT *, co..*..." />
-            <marker date="1471527844237" expanded="true" signature="8190:8573" placeholder="SELECT menu...menu..." />
-            <marker date="1471527844237" expanded="true" signature="12090:12276" placeholder="SELECT * FRO..menukeywords..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/scripts/api.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.115385">
-          <caret line="541" column="97" selection-start-line="541" selection-start-column="97" selection-end-line="541" selection-end-column="97" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <marker date="1471527844237" expanded="true" signature="-1:-1" placeholder="SELECT *, co..*..." />
+            <marker date="1471527844237" expanded="true" signature="-1:-1" placeholder="SELECT menu...menu..." />
+            <marker date="1471527844237" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..menukeywords..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/home/keyword.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.1538461">
+        <state vertical-scroll-proportion="0.3327674">
           <caret line="580" column="88" selection-start-line="580" selection-start-column="74" selection-end-line="580" selection-end-column="88" />
           <folding>
-            <marker date="1471960326526" expanded="true" signature="20278:20339" placeholder="SELECT * FRO..keywords..." />
+            <marker date="1471960326526" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..keywords..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/scripts/nui.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.2692308">
-          <caret line="10" column="32" selection-start-line="10" selection-start-column="32" selection-end-line="10" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/scripts/receipt.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-18.423077">
-          <caret line="181" column="6" selection-start-line="181" selection-start-column="6" selection-end-line="181" selection-end-column="6" />
+        <state vertical-scroll-proportion="-5.8846154">
+          <caret line="9" column="65" selection-start-line="9" selection-start-column="65" selection-end-line="9" selection-end-column="65" />
           <folding>
             <marker date="1472048272505" expanded="true" signature="2304:2315" placeholder="..." />
             <marker date="1472048272505" expanded="true" signature="2637:2687" placeholder="..." />
@@ -1294,18 +1220,83 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.3461537">
+          <caret line="23" column="36" selection-start-line="23" selection-start-column="36" selection-end-line="23" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/HomeController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.461538">
+          <caret line="22" column="32" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/api.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.7692308">
+          <caret line="337" column="25" selection-start-line="337" selection-start-column="9" selection-end-line="337" selection-end-column="25" />
+          <folding>
+            <marker date="1472054723714" expanded="true" signature="1592:1716" placeholder="INSERT INTO ..." />
+            <marker date="1472054723714" expanded="true" signature="3338:3373" placeholder="SELECT * FRO..." />
+            <marker date="1472054723714" expanded="true" signature="4075:4100" placeholder="DELETE FROM ..." />
+            <marker date="1472054723714" expanded="true" signature="5177:5249" placeholder="SELECT TABLE..TABLES..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/scripts/api.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.3076925">
+          <caret line="645" column="0" selection-start-line="645" selection-start-column="0" selection-end-line="645" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/scripts/nui.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.6923077">
+          <caret line="408" column="48" selection-start-line="408" selection-start-column="48" selection-end-line="408" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/scripts/nui-api-receipt.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="4160" selection-start-line="0" selection-start-column="4160" selection-end-line="0" selection-end-column="4160" />
+          <folding>
+            <marker date="1472061106553" expanded="true" signature="0:22" placeholder="/*...*/" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/home/getjs.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-16.461538">
+          <caret line="67" column="91" selection-start-line="67" selection-start-column="91" selection-end-line="67" selection-end-column="91" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/home/clipi.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.67911714">
-          <caret line="702" column="83" selection-start-line="702" selection-start-column="83" selection-end-line="702" selection-end-column="83" />
+        <state vertical-scroll-proportion="0.75042444">
+          <caret line="266" column="44" selection-start-line="266" selection-start-column="44" selection-end-line="266" selection-end-column="44" />
           <folding>
-            <element signature="e#30019#30037#0#HTML" expanded="true" />
-            <element signature="e#30216#30237#0#HTML" expanded="true" />
-            <marker date="1472048361998" expanded="true" signature="14943:15004" placeholder="SELECT * FRO..keywords..." />
-            <marker date="1472048361998" expanded="true" signature="25380:26155" placeholder="SELECT *, co..*..." />
-            <marker date="1472048361998" expanded="true" signature="25772:26155" placeholder="SELECT menu...menu..." />
-            <marker date="1472048361998" expanded="true" signature="28903:28917" placeholder="SELECT * FRO..." />
-            <marker date="1472048361998" expanded="true" signature="29133:29154" placeholder="SELECT * FRO..presets..." />
+            <element signature="e#29534#29552#0#HTML" expanded="true" />
+            <element signature="e#29731#29752#0#HTML" expanded="true" />
+            <marker date="1472061630826" expanded="true" signature="14453:14514" placeholder="SELECT * FRO..keywords..." />
+            <marker date="1472061630826" expanded="true" signature="24890:25665" placeholder="SELECT *, co..*..." />
+            <marker date="1472061630826" expanded="true" signature="25282:25665" placeholder="SELECT menu...menu..." />
+            <marker date="1472061630826" expanded="true" signature="28413:28427" placeholder="SELECT * FRO..." />
+            <marker date="1472061630826" expanded="true" signature="28643:28664" placeholder="SELECT * FRO..presets..." />
           </folding>
         </state>
       </provider>

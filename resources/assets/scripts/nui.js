@@ -406,7 +406,7 @@ function levenshteinWeighted (seq1,seq2) {
     var i, j, dist, ic, dc, rc, last, old, column;
 
     var weighter={
-        insert:     function(c)     { return 1.; },
+        insert:     function(c)     { return 1.0; },
         delete:     function(c)     { return 0.5; },
         replace:    function(c, d)  { return 0.3; }
     };

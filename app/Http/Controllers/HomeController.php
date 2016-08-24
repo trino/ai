@@ -19,6 +19,10 @@ class HomeController extends Controller {
         return view('home.clipi');
     }
 
+    public function getjs(Request $request) {
+        return view('home.getjs');
+    }
+
     public function edit(Request $request) {
         return view('home.editor');
     }

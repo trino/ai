@@ -5,7 +5,7 @@ var debugmode = true;
 Date.now = function(verbose) {
     if(isUndefined(verbose)) {return new Date().getTime();}
     return new Date().toJSON();
-}
+};
 
 //replaces all instances of $search within a string with $replacement
 String.prototype.replaceAll = function (search, replacement) {
@@ -408,14 +408,14 @@ function containsclass(Selector, theClass, needsAll){
 function classop(Selector, Operation, theClass){
     var Ret = select(Selector, function (element, index) {
         switch(Operation){
-            case 0://add
+            case 0: //add
                 if (element.classList) {
                     element.classList.add(theClass);
                 } else {//IE
                     element.className = element.className + " " +  theClass;
                 }
                 break;
-            case 1://remove
+            case 1: //remove
                 if (element.classList) {
                     element.classList.remove(theClass);
                 } else {//IE
@@ -562,7 +562,7 @@ serialize = function(obj, prefix) {
         }
     }
     return str.join("&");
-}
+};
 
 //replace the innerHTML of the selector with the results of an AJAX query
 function load(Selector, URL, data, whenDone){
