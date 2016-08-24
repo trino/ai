@@ -33,6 +33,7 @@ String.prototype.left = function(n) {
     return this.substring(0, n);
 };
 
+//returns true if the string starts with str
 String.prototype.startswith = function(str) {
     return this.substring(0, str.length).isEqual(str);
 };
@@ -42,6 +43,21 @@ String.prototype.right = function(n) {
     return this.substring(this.length-n);
 };
 
+//gets the middle length digits starting from n
+String.prototype.middle = function(n, length) {
+    return this.substring(n, n+length);
+};
+
+//gets the text between left and right
+String.prototype.between = function(left, right) {
+    var start = this.indexOf(left);
+    if(start > -1){
+        start += left.length;
+        var finish = this.indexOf(right, start);
+        return this.substring(start, finish);
+    }
+};
+
 //trims any occurences of $str off the right end of a string
 String.prototype.trimright = function (str){
     var target = this;
@@ -49,6 +65,11 @@ String.prototype.trimright = function (str){
         target = target.left(target.length - str.length);
     }
     return target;
+};
+
+//returns if str is contained in this
+String.prototype.contains = function (str){
+    return this.indexOf(str) > -1;
 };
 
 //gets the typename of an object
@@ -514,7 +535,18 @@ function post(URL, data, whenDone, async){
     request.open('POST', URL, isUndefined(async));
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request.onload = function() {
-        whenDone(this.responseText, request.status >= 200 && request.status < 400); //Success!
+        var status = request.status >= 200 && request.status < 400;
+        var responseText = this.responseText;
+        if(!status){
+            if(responseText.contains('Whoops, looks like something went wrong')){
+                responseText = responseText.between('<span class="exception_title">', '</span>');
+                responseText = responseText.between('>', '<') + " in " + responseText.between('<a title="', '" ondblclick');
+            }
+        } else if(responseText.startswith('<div class="alert alert-danger" role="alert"') && responseText.contains('View error')){
+            status = false;
+            responseText = responseText.between('<SMALL>', '</SMALL>');
+        }
+        whenDone(responseText, status); //Success!
     };
     if(isUndefined(data)){data = "";} else if(!isString(data)) { data = serialize(data); }
     request.send(data);//request = null;

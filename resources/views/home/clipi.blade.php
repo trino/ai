@@ -299,6 +299,8 @@
                     }
                 }
 
+
+
                 $results["stages"]["final"] = implode(" ", $plurals);
                 $words = implode("|", $plurals);
 
@@ -558,6 +560,9 @@
         .plus{
             float: right;
         }
+        .selectedbutton{
+            background-color: #4CAF50; /* Green */
+        }
     </STYLE>
     <DIV id="formmain" class="red">
         <input type="text" id="textsearch" name="search" style="width:100%" oninput="submitform();" onKeyUp="handlebutton(event);" value="<?= $_POST["search"]; ?>" TITLE="Press 'Space' or 'Enter' to search">
@@ -646,6 +651,10 @@
                 limit: 5,
                 _token: token
             }, function(result, success){
+                if(!success){
+                    alert("ERROR: " + result);
+                    return false;
+                }
                 var data = JSON.parse(result);
                 var HTML = "TIME STAMP: " + Date.now(true) + "<BR>";
 
@@ -685,6 +694,9 @@
                                 var currentItem = currentsearch.menuitems[i];
                                 var currentButtonHTML = ButtonHTML + 'value="' + currentItem.id + '" itemname="' + currentItem.item + '" price="' + currentItem.price + '"';
                                 currentButtonHTML = currentButtonHTML.replace("123ID123", i);
+                                if(i == 0){
+                                    currentButtonHTML = currentButtonHTML.replace('CLASS="', 'CLASS="selectedbutton ');
+                                }
                                 for(var v = 0; v < tables.length; v++){
                                     currentButtonHTML += " " + tables[v] + '="' +  currentItem[tables[v]] + '"';
                                 }
@@ -695,9 +707,9 @@
                     HTML += '<HR>';
                 }
 
-                innerHTML("#searchresults", HTML);
+                //innerHTML("#searchresults", HTML);
                 //result = JSON.stringify(data, null, 2);//isn't needed
-                //innerHTML("#searchresults", HTML + "<pre>" + result + "</pre>");//<PRE>result</PRE> isn't needed
+                innerHTML("#searchresults", HTML + "<pre CLASS='blue'>" + result + "</pre>");//<PRE>result</PRE> isn't needed
             });
         }
 

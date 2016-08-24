@@ -25,6 +25,7 @@ var qualifiers = [
     ["quadruple", "four", "4"]
 ];//when these words are directly before a topping, they indicate a quantity of the topping  ⁵⁶⁷⁸⁹
 var qualifier_tables = new Array;
+var quantityselect = 0;
 
 //makes a copy of an array/object without referencing the source
 function cloneData(data) {
@@ -239,7 +240,7 @@ function qualifytoppings(toppings, searchstring, ID){
         removeempties(searchstring);
     } else if ( isNumeric(toppings) ){
         if(toppings > -1){//make sure the quantity even exists
-            var quantityselect = searchstring[toppings];
+            quantityselect = searchstring[toppings];
             if(select("#select" + ID + " option[id='" + searchstring[toppings] + "']").length > 0) {
                 value("#select" + ID, searchstring[toppings]);
                 searchstring[toppings] = false;
