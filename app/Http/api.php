@@ -362,8 +362,8 @@ function getsetting($Key, $Default = ""){
     return $Default;
 }
 
-function drop_table($table = ""){
-    if(!$table){
+function drop_table($table = false){
+    if($table === false){
         Query("SET foreign_key_checks = 0");
         $tables = enum_tables();
         foreach($tables as $table){
