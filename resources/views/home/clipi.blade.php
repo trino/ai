@@ -290,7 +290,6 @@
                                 "words" => array("pepsi", "cola", "coke")//should contain entire list of drink names...
                         )
                 );
-
                 foreach($primarysynoynms as $primarykeyword => $parameters){
                     $all = get("all", false, $parameters);
                     $normalizationmode = get("normalizationmode", 0, $parameters);
@@ -304,8 +303,6 @@
                         }
                     }
                 }
-
-
 
                 $results["stages"]["final"] = implode(" ", $plurals);
                 $words = implode("|", $plurals);
@@ -633,12 +630,13 @@
 
         function gettheaddons(text){
             //check for presets
+            assimilate_enabled = false;
             var aftertext = replacemultiplewordsynonyms(text, presetnames, 1);
             for(var i = 0; i < presets.length; i++){
                 aftertext = aftertext.replaceAll(presets[i].name, presets[i].toppings);
             }
-
             text = stringifyaddons(assimilateaddons(0, aftertext));
+            assimilate_enabled = true;
             return text;
         }
 
@@ -671,7 +669,7 @@
                     for( var i = 0; i < data.searches.length; i++ ){
                         var currentsearch = data.searches[i];
                         if(!isUndefined( currentsearch.primarykeyid )){
-                            HTML += "Item found: " + data.keywords[currentsearch.primarykeyid].word + "<BR>";
+                            HTML += "<BR>Item found: " + data.keywords[currentsearch.primarykeyid].word + "<BR>";
 
                             var ButtonHTML = '<BUTTON CLASS="assimilateall order123ID123" onclick="orderitem(this);" TYPE="' + data.keywords[currentsearch.primarykeyid].word + '" typeid="' + currentsearch.primarykeyid + '"';
 
@@ -697,17 +695,19 @@
                                 }
                             }
 
-                            for(var i = 0; i < currentsearch.menuitems.length; i++){
-                                var currentItem = currentsearch.menuitems[i];
+                            for(var i2 = 0; i2 < currentsearch.menuitems.length; i2++){
+                                var itemtitle = 'Item: ' + i2;
+                                var currentItem = currentsearch.menuitems[i2];
                                 var currentButtonHTML = ButtonHTML + 'value="' + currentItem.id + '" itemname="' + currentItem.item + '" price="' + currentItem.price + '"';
                                 currentButtonHTML = currentButtonHTML.replace("123ID123", i);
-                                if(i == 0){
+                                if(i2 == 0){
                                     currentButtonHTML = currentButtonHTML.replace('CLASS="', 'CLASS="selectedbutton ');
                                 }
                                 for(var v = 0; v < tables.length; v++){
                                     currentButtonHTML += " " + tables[v] + '="' +  currentItem[tables[v]] + '"';
                                 }
-                                HTML += currentButtonHTML + ' TITLE="Item: ' + i + iif(i==0, " (***BEST CANDIDATE***)") + '">Order: ' + currentItem.item + " for: $" + currentItem.price + '</BUTTON>';
+                                if(i2==0){itemtitle += " (***BEST CANDIDATE***)";}
+                                HTML += currentButtonHTML + ' TITLE="' + itemtitle + '">Order:  ' + currentItem.item + " for: $" + currentItem.price + '</BUTTON>';
                             }
                         }
                     }

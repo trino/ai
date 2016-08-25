@@ -37,6 +37,9 @@ String.prototype.left = function(n) {
 String.prototype.startswith = function(str) {
     return this.substring(0, str.length).isEqual(str);
 };
+String.prototype.endswith = function(str) {
+    return this.right(str.length).isEqual(str);
+};
 
 //returns the right $n characters of a string
 String.prototype.right = function(n) {
@@ -61,7 +64,7 @@ String.prototype.between = function(left, right) {
 //trims any occurences of $str off the right end of a string
 String.prototype.trimright = function (str){
     var target = this;
-    while(target.right(str.length).isEqual(str)){
+    while(target.endswith(str) && target.length >= str.length && str.length > 0){
         target = target.left(target.length - str.length);
     }
     return target;

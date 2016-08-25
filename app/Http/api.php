@@ -294,14 +294,18 @@ function containswords($text, $words, $all = false, $delimiter = " ", $normaliza
     $ret = array();
     if(!is_array($text)){$text = explode($delimiter, $text);}
     if(!is_array($words)){$words = array(normalizetext($words));} else {$words = normalizetext($words);}
-    foreach($text as $index => $text_word){
-        if(is_array($text_word)){
-            if(count(containswords($text, $text_word))){
+    foreach($text as $index => $text_word) {
+        $text_word = normalizetext($text_word, $normalizationmode);
+        foreach($words as $word_index => $word_word){
+            if (is_array($word_word)) {
+                if (count(containswords($text_word, $word_word, false, $delimiter, $normalizationmode))) {
+                    $ret[] = $index;
+                }
+            } else if($text_word == normalizetext($word_word, $normalizationmode)) {
                 $ret[] = $index;
             }
-        } else if(in_array(normalizetext($text_word, $normalizationmode), $words)){
-            $ret[] = $index;
         }
+
     }
     if($all){return count($ret) == count($words);}
     return $ret;

@@ -75,9 +75,8 @@
             thevalue = "";
         }
         attr("#tr-" + this.name, "selected", thevalue);
-
+        if(!assimilate_enabled){return false;}
         innerHTML("#toppings", getaddons("", true));
-
         if(!thevalue) {return false;}
     });
 

@@ -12,6 +12,9 @@
     $forcenew = isset($_GET["forcenew"]) || isset($forcenew);
     $myfilename = myself($view_name);
     $mytimestamp = filemtime($myfilename);
+    if(isset($_GET["leavealone"])){$leavealone=true;}
+    $minimize = !isset($leavealone);
+
 
     if(file_exists($workingfile) && !$forcenew){
         $workingtimestamp = filemtime($workingfile);
@@ -45,7 +48,7 @@
             }
             $file = $root . $path . $file;
             if(file_exists($file)){
-                $entirefile .= " /*" . $orig . "*/ " . minify_JS(file_get_contents($file));
+                $entirefile .= " /*" . $orig . "*/ " . minify_JS(file_get_contents($file), $minimize);
             } else {
                 $entirefile .= " /*" . $orig . " NOT FOUND!*/ ";
             }
@@ -54,8 +57,8 @@
         echo $entirefile;
     }
 
-    function minify_JS($code){
-
+    function minify_JS($code, $minimize = true){
+        if(!$minimize){return $code;}
         $code = str_replace(array(";", "//"), array(" ; ", " // "), $code);//error handling
         $code = preg_replace( "/(?<!\:)\/\/(.*)\\n/", "", $code );//single line comments
         $code = preg_replace('!/\*.*?\*/!s', '', $code);//multi line comments
