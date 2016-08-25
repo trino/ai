@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 24, 2016 at 08:50 PM
+-- Generation Time: Aug 25, 2016 at 09:42 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -431,14 +431,14 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '0');
+(1, 'lastSQL', '1472064634');
 
 -- --------------------------------------------------------
 
@@ -481,7 +481,7 @@ INSERT INTO `toppings` (`id`, `name`, `type`, `isfree`, `qualifiers`) VALUES
 (19, 'Hot Peppers', 'Vegetable', 0, ''),
 (20, 'Hot Sausage', 'Meat', 0, ''),
 (21, 'Italian Sausage', 'Meat', 0, ''),
-(22, 'Italian Tomato Sauce', 'Preparation', 1, ''),
+(22, 'Tomato Sauce', 'Preparation', 1, ''),
 (23, 'Jalapeno Peppers', 'Vegetable', 0, ''),
 (24, 'Mild Sausage', 'Meat', 0, ''),
 (25, 'Mixed Cheese', 'Cheese', 0, ''),

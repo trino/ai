@@ -1,9 +1,9 @@
 <?php
     $quantities = ["next", "first", "second", "third", "fourth", "then", "other"];
-    $wordstoignore = array("the", "with", "and", "times", "on", "an", "of");//discard these words
+    $wordstoignore = array("the", "with", "and", "times", "on", "an", "of", "just"); //discard these words
     $defaultsizes = array("pizza" => "large");
     $Tables = array("toppings", "wings_sauce");
-    $WordsBefore = 5;//similar_text
+    $WordsBefore = 5; //similar_text
 
     function explodetrim($text, $delimiter = ",", $dotrim = true){
         if(is_array($text)){return $text;}
@@ -27,7 +27,7 @@
             foreach($newsearch as $index => $word){
                 $synonymID = findsynonym($word, $keywords);
                 $newsearch[$index] = array("word" => $word, "synonymid" => $synonymID);
-                if($synonymID > -1 && $index > 0 && $removeduplicates){//remove duplicates as it'll confuse the system
+                if($synonymID > -1 && $index > 0 && $removeduplicates){ //remove duplicates as it'll confuse the system
                     for($i = 0; $i < $index; $i++){
                         if( $newsearch[$i]["synonymid"] == $synonymID){
                             $newsearch[$index] = array("word" => "", "synonymid" => -1);
@@ -71,7 +71,7 @@
             return implode(" ", $text);
         }
 
-        //gets the words between $leftword and $rightword. if $rightword isn't specified, it gets all words after $leftword
+        // gets the words between leftword and rightword or the end of the string
         function getwordsbetween($text, $leftword, $rightword = false){
             if(!is_array($text)){
                 return implode(" ", getwordsbetween(explodetrim($text, " ", false), $leftword, $rightword));
@@ -178,7 +178,7 @@
                     if($ID > -1){$keywordids[] = $ID;}
                 }
             }
-            return implode(",", $keywordids);
+            return implode(",", array_unique($keywordids));
         }
 
         function getstartandend($newsearch, $keywords, $primarykeyid, &$startingIndex, &$endingIndex, $realstartingindex=-1){
@@ -187,8 +187,8 @@
             foreach($newsearch as $index => $word){
                 if($index >= $realstartingindex){
                     $synonymID = $word["synonymid"];
-                    if($synonymID > -1){$synonym = $keywords[$synonymID];}
-                    if($synonymID){
+                    if($synonymID > -1){
+                        $synonym = $keywords[$synonymID];
                         if ($synonymID == $primarykeyid && $startingIndex == -1){
                             $startingIndex = $index;
                         } else if (($startingIndex > -1) && ($endingIndex == -1) && ($synonymID > -1) && ($synonym["weight"] == 5)){
@@ -255,10 +255,10 @@
             case "keywordsearch":
                 $results = array("status" => false, "stages" => array($_POST["search"]), "searches" => array());
                 $one = select_field_where("keywords", "keywordtype = 1 AND synonyms LIKE '%1%'");
-                $_POST["search"] = trim(filterduplicates(filternonalphanumeric($_POST["search"])));//remove non-alphanumeric and double-spaces
+                $_POST["search"] = trim(filterduplicates(filternonalphanumeric($_POST["search"]))); //remove non-alphanumeric and double-spaces
                 $_POST["search"] = str_replace(array(" for 1", " for one"), "", $_POST["search"]);
                 $words = explodetrim($_POST["search"], " ", false);
-                foreach($words as $ID => $word){//reduce extra "one"s
+                foreach($words as $ID => $word){ //reduce extra "one"s
                     $word = normalizetext($word);
                     if($word == "1" || $word == "one"){
                         $firstword="";
@@ -277,12 +277,12 @@
                 $results["stages"]["numbers"] = $_POST["search"];
 
                 $words = strtolower(str_replace(" ", "|", $_POST["search"]));
-                $plurals = explodetrim($words, "|", false);//automatically check for non-pluralized words
+                $plurals = explodetrim($words, "|", false); //automatically check for non-pluralized words
                 foreach($plurals as $index => $plural){
                     $plural = trim(strtolower($plural));
                     if(in_array($plural, $wordstoignore) || !$plural) {
-                        unset($plurals[$index]);//discard words from $wordstoignore
-                    } else if (strlen($plural) > 2 && right($plural, 1) == "s"){//if the last letter of the word is an 's', remove it and add the result as a new word to handle plurals
+                        unset($plurals[$index]); //discard words from $wordstoignore
+                    } else if (strlen($plural) > 2 && right($plural, 1) == "s"){ //if the last letter of the word is an 's', remove it and add the result as a new word to handle plurals
                         $plurals[$index] = $plural;
                         $plurals[] = left($plural, strlen($plural)-1);
                     }
@@ -293,12 +293,12 @@
                 //HCSC
                 $primarysynoynms = array(
                         "wing" => array(
-                                "words" => array("chicken", array("pound", "lbl", "lb")),//sub-array acts as an OR
-                                "normalizationmode" => 8,//numbers removed
+                                "words" => array("chicken", array("pound", "lbl", "lb")), //sub-array acts as an OR
+                                "normalizationmode" => 8, //numbers removed
                                 "all" => true
                         ),
                         "drink" => array(
-                                "words" => array("pepsi", "cola", "coke")//should contain entire list of drink names...
+                                "words" => array("pepsi", "cola", "coke") //should contain entire list of drink names...
                         )
                 );
                 foreach($primarysynoynms as $primarykeyword => $parameters){
@@ -333,9 +333,9 @@
                                 "type" => $row["keywordtype"]
                         );
                         if($row["weight"] == 5){
-                            $results["is5keywords"][] = $row["id"];//is a weight 5 keyword, indicating a new search needs to be run
+                            $results["is5keywords"][] = $row["id"]; //is a weight 5 keyword, indicating a new search needs to be run
                         } else {
-                            $results["non5keywords"][] = $row["id"];//is a weight of less than 5
+                            $results["non5keywords"][] = $row["id"]; //is a weight of less than 5
                         }
                         $results["keywordids"][] = $row["id"];
                     }
@@ -344,7 +344,7 @@
                     $results["SortDirection"] = get("SortDirection", "DESC");
                     $results["limit"] = get("limit", "5");
 
-                    if(count($results["is5keywords"])){//run a search for each weight-5 keyword, with only 1 weight-5 keyword per search
+                    if(count($results["is5keywords"]) > 0){ //run a search for each weight-5 keyword, with only 1 weight-5 keyword per search
                         $newsearch = getsynonymsandweights($_POST["search"], $results["keywords"], false);
 
                         //remove the weight 5 keywords next to a qualifier (ie: 'first pizza' becomes 'pizza')
@@ -354,29 +354,29 @@
                             $synonymID = $value["synonymid"];
                             if($synonymID > -1){
                                 if($wasquantity) {
-                                    if($results["keywords"][$synonymID]["weight"] == 5){//is a primary next to a quantity
+                                    if($results["keywords"][$synonymID]["weight"] == 5){ //is a primary next to a quantity
                                         unset($newsearch[$ID]);
                                         $hasremoved=true;
                                     }
                                     $wasquantity = false;
                                 }
-                            } else if (in_array($value["word"], $quantities)) {//is a qualifier
+                            } else if (in_array($value["word"], $quantities)) { //is a qualifier
                                 $wasquantity=true;
-                            } else {//is irrelevant
+                            } else { //is irrelevant
                                 $wasquantity=false;
                             }
                         }
-                        if($hasremoved){//reassemble
+                        if($hasremoved){ //reassemble
                             $text = reassemble_text($newsearch, $results["keywords"]);
                             $results["stages"]["weight5adj"] = $text;
                             $keywordids = reassemble_keywordIDs($newsearch);
                         }
                         //done
 
-                        foreach($results["is5keywords"] as $primaryKeyID){
+                        foreach($results["is5keywords"] as $keywordid => $primaryKeyID){
                             $keywordids = array_merge(array($primaryKeyID), $results["non5keywords"]);
                             $indexes = countsynonyms($newsearch, $primaryKeyID);
-                            if(count($indexes) > 1){//search contains multiple of the same weight-5 keyword, split it into multiple searches
+                            if(count($indexes) > 1){ //search contains multiple of the same weight-5 keyword, split it into multiple searches
                                 $text = weightstring($newsearch, $results["keywords"], $wordstoignore);
                                 foreach($indexes as $index){
                                     getstartandend($newsearch, $results["keywords"], $primaryKeyID, $startingIndex, $endingIndex, $index);
@@ -396,7 +396,7 @@
                                             "endingIndex" => $endingIndex
                                     );
                                 }
-                            } else {//only 1 weight-5 keyword
+                            } else { //only 1 weight-5 keyword
                                 $results["searches"][] = array(
                                         "stage" => "1.w5",
                                         "text" => $_POST["search"],
@@ -404,8 +404,10 @@
                                         "primarykeyid" => $primaryKeyID,
                                 );
                             }
+
+
                         }
-                    } else if ($results["non5keywords"]){//no weight-5 keywords found, run a single search of all the keywords
+                    } else if ($results["non5keywords"]){ //no weight-5 keywords found, run a single search of all the keywords
                         $results["searches"][] = array(
                                 "stage" => "1.w0",
                                 "text" => $_POST["search"],
@@ -422,47 +424,73 @@
                     $keywordids = $VALUE["keywordids"];
                     $text = $VALUE["text"];
                     unset($primarykeyid);
-                    if(isset($VALUE["primarykeyid"])){$primarykeyid = $VALUE["primarykeyid"];}
-                    if(count($results["is5keywords"]) > 1){//is part of a multiple item search, split each item into it's own search
-                        $newsearch = getsynonymsandweights($text, $results["keywords"], false);
-                        getstartandend($newsearch, $results["keywords"], $primarykeyid, $startingIndex, $endingIndex);
-                        if($startingIndex == -1){
-                            foreach($newsearch as $ID => $searchterm){
-                                if($searchterm["synonymid"] > -1){
-                                    $keyword = $results["keywords"][ $searchterm["synonymid"] ];
-                                    if($keyword["type"] == 1){
-                                        $keyword["goeswith"] = finditemforquantity($results["keywords"], $newsearch, $ID);
-                                        if(!$keyword["goeswith"]){
-                                            array_inject($newsearch, $ID+1, array(
-                                                    "word" => $results["keywords"][$primarykeyid]["word"],
-                                                    "synonymid" => $primarykeyid
-                                            ));
-                                            $text = weightstring($newsearch, $results["keywords"], $wordstoignore);
-                                            getstartandend($newsearch, $results["keywords"], $primarykeyid, $startingIndex, $endingIndex);
-                                            break;
+                    if(isset($VALUE["primarykeyid"])){
+                        $primarykeyid = $VALUE["primarykeyid"];
+                        if(count($results["is5keywords"]) > 1){ //is part of a multiple item search, reducing each item into it's own search
+                            $newsearch = getsynonymsandweights($text, $results["keywords"], false);
+                            $quantity = containswords($text, $quantities); //check if the search contains multiple items, instead of just one
+                            $itemlist = array(); //if word to the right of a quantity is weight = 5, then erase the weight 5
+                            if($quantity){
+                                foreach($quantity as $i => $word){
+                                    $rightword=false;
+                                    if(isset($newsearch[$quantity[$i]+1])){
+                                        $rightword = $newsearch[$quantity[$i]+1]; //if it's not the last key, then get the next one
+                                        if($rightword["synonymid"] > -1){
+                                            $synonym = $results["keywords"][$rightword["synonymid"]];
+                                            if($synonym["weight"] == 5){
+                                                unset($newsearch[$quantity[$i]+1]);
+                                            }
+                                        }
+                                    }
+                                }
+                                $results["searches"][$SearchID]["stage"] .= " [w5 next to quantity]";
+                            }
+
+                            $text = reassemble_text($newsearch, $results["keywords"]);
+                            $results["stages"]["remove w5s " . $SearchID] = $text;
+                            $newsearch = getsynonymsandweights($text, $results["keywords"], false);
+
+                            getstartandend($newsearch, $results["keywords"], $primarykeyid, $startingIndex, $endingIndex);
+                            if($startingIndex == -1){
+                                foreach($newsearch as $ID => $searchterm){
+                                    if($searchterm["synonymid"] > -1){
+                                        $keyword = $results["keywords"][ $searchterm["synonymid"] ];
+                                        if($keyword["type"] == 1){
+                                            $keyword["goeswith"] = finditemforquantity($results["keywords"], $newsearch, $ID);
+                                            if(!$keyword["goeswith"]){
+                                                array_inject($newsearch, $ID+1, array(
+                                                        "word" => $results["keywords"][$primarykeyid]["word"],
+                                                        "synonymid" => $primarykeyid
+                                                ));
+                                                $text = weightstring($newsearch, $results["keywords"], $wordstoignore);
+                                                getstartandend($newsearch, $results["keywords"], $primarykeyid, $startingIndex, $endingIndex);
+                                                break;
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                        if($endingIndex == -1){$endingIndex = lastkey($newsearch);}
+                            if($endingIndex == -1){$endingIndex = lastkey($newsearch);}
 
-                        //look X words before the desired weight-5 keyword, stopping at the previous weight-5 keyword
-                        for($index = 1; $index < $WordsBefore; $index++){
-                            $newindex = $startingIndex - $index;
-                            if($newindex > -1){
-                                if($newsearch[$newindex]["synonymid"] > -1){
-                                    $synonym = $results["keywords"][$newsearch[$newindex]["synonymid"]];
-                                    if($synonym["weight"] == 5){
-                                        $WordsBefore = $index-1;
+                            //look X words before the desired weight-5 keyword, stopping at the previous weight-5 keyword
+                            for($index = 1; $index < $WordsBefore; $index++){
+                                $newindex = $startingIndex - $index;
+                                if($newindex > -1){
+                                    if($newsearch[$newindex]["synonymid"] > -1){
+                                        $synonym = $results["keywords"][$newsearch[$newindex]["synonymid"]];
+                                        if($synonym["weight"] == 5){
+                                            $WordsBefore = $index-1;
+                                        }
                                     }
                                 }
                             }
+
+                            $startingIndex = max($startingIndex - $WordsBefore, 0);
+                            $results["searches"][$SearchID]["stage"] .= " [1.1:area reduction]";
+                            $text = reassemble_text($newsearch, $results["keywords"], $startingIndex, $endingIndex);
+                            $keywordids = reassemble_keywordIDs($newsearch, $startingIndex, $endingIndex);
+                            $results["stages"]["[1.1]" . $SearchID] = $text . "(" . $keywordids . ")";
                         }
-                        $startingIndex = max($startingIndex - $WordsBefore, 0);
-                        $results["searches"][$SearchID]["stage"] .= " 1.1";
-                        $text = reassemble_text($newsearch, $results["keywords"], $startingIndex, $endingIndex);
-                        $keywordids = reassemble_keywordIDs($newsearch, $startingIndex, $endingIndex);
                     }
 
                     //allow only one quantity word per search
@@ -494,11 +522,11 @@
                     }
 
                     if($hasremoved){
-                        $results["searches"][$SearchID]["stage"] .= " 1.2";
+                        $results["searches"][$SearchID]["stage"] .= " [1.2:removed quantities]";
                         $text = reassemble_text($newsearch, $results["keywords"]);
                         $keywordids = reassemble_keywordIDs($newsearch);
                     } else if(!$startremoving){
-                        $results["searches"][$SearchID]["stage"] .= " 1.2.1";
+                        $results["searches"][$SearchID]["stage"] .= " [1.2:only 1 quantity]";
                         $results["keywords"][$one["id"]] = array("word" => "1", "synonyms" => $one["synonyms"], "weight" => $one["weight"], "type" => $one["keywordtype"]);
                         $keywordids = addtodelstring($keywordids, $one["id"]);
                     }
@@ -519,21 +547,18 @@
                     $results["searches"][$SearchID]["text"] = $text;
                     $results["searches"][$SearchID]["keywordids"] = $keywordids;
 
-                    $quantity = containswords($text, $quantities);//check if the search contains multiple items, instead of just one
+                    $quantity = containswords($text, $quantities); //check if the search contains multiple items, instead of just one
                     $itemlist = array();
-                    if($quantity){//Stage 1.3: split the search up into it's individual items
+                    if($quantity){ //Stage 1.3: split the search up into it's individual items
                         $lastkey = lastkey($quantity);
                         foreach($quantity as $i => $word){
                             $rightword=false;
-                            if($i != $lastkey){
-                                $rightword = $quantity[$i+1];//if it's not the last key, then get the next one
-                                //if rightword's weight = 5, then erase
-                            }
+                            if($i != $lastkey){$rightword = $quantity[$i+1];}
                             $resulttext = trim(getwordsbetween($text, $quantity[$i], $rightword));
                             $resulttext = removewords($resulttext, $wordstoignore);
                             $itemlist[] = $resulttext;
                         }
-                        $results["searches"][$SearchID]["stage"] .= " 1.3";
+                        $results["searches"][$SearchID]["stage"] .= " [1.3:split]";
                     } else {
                         $itemlist[] = trim($text);
                     }
@@ -555,7 +580,7 @@
                   ";
 
                     if(is_array($keywordids)){$keywordids = implode(",", $keywordids);}
-                    $SQL .= "AND keyword_id IN (" . $keywordids . ")";//only return results from the keyword search
+                    $SQL .= "AND keyword_id IN (" . $keywordids . ")"; //only return results from the keyword search
                     $SQL .= ") results GROUP BY menuid ORDER BY " . $results["SortColumn"] . " " . $results["SortDirection"] . " LIMIT " . $results["limit"];
 
                     $SQLresults = Query($SQL, true);
@@ -575,7 +600,7 @@
                         $thesekeywordw = array_combine ( $keywordIDs , explodetrim($row["weights"], "|", false) );
                         foreach($thesekeywords as $ID => $type){
                             $weight = $thesekeywordw[$ID];
-                            if($type == 1){//quantity found
+                            if($type == 1){ //quantity found
                                 $quantityID = $ID;
                                 $row["quantity"] = filternonnumeric(firstword($results["keywords"][$ID]["synonyms"]));
                             } else if($weight == 5){
@@ -587,7 +612,7 @@
                             $row[$column] = explodetrim($row[$column], "|", false);
                         }
 
-                        $row = removekeys($row, array("itemname", "menuid", "itemprice", "wordid", "keywordtype", "mkid", "menuitem_id", "keyword_id"));//just to clean up the results
+                        $row = removekeys($row, array("itemname", "menuid", "itemprice", "wordid", "keywordtype", "mkid", "menuitem_id", "keyword_id")); //just to clean up the results
                         unset($row["menuid"]);
 
                         $results["searches"][$SearchID]["menuitems"][] = $row;
@@ -631,6 +656,11 @@
         }
         .selectedbutton{
             background-color: #4CAF50; /* Green */
+        }
+
+        hr{
+            margin-top: 1px;
+            margin-bottom: 1px;
         }
     </STYLE>
     <DIV id="formmain" class="red">
@@ -693,7 +723,7 @@
                 }
                 if(wordindex > -1){originaltext = originaltext.replaceAll(originalword, synonyms[i]);}
             }
-            return originaltext;//removemultiples(text.join(" "), "  ", " ");
+            return originaltext; //removemultiples(text.join(" "), "  ", " ");
         }
 
         function grabcells(arr, start, length){
@@ -751,6 +781,7 @@
                                 ButtonHTML += ' itemcount="' + currentsearch.items.length + '"';
                                 for (var v = 0; v < currentsearch.items.length; v++) {
                                     currentsearch.items[v] = gettheaddons(currentsearch.items[v]);
+                                    if(!isNumeric(lastquantity)){lastquantity=1;}
                                     currentsearch.quantity = lastquantity;
                                     data.searches[i].items[v] = currentsearch.items[v];
                                     ButtonHTML += ' item' + v + '="' + currentsearch.items[v].replace(/<(?:.|\n)*?>/gm, '') + '"';
@@ -776,7 +807,13 @@
                                 for(var i3 = 0; i3 < tables.length; i3++){
                                     currentItem.quantity = Number(currentItem.quantity) + Number(currentItem[tables[i3]]);
                                 }
-                                if (currentItem.quantity < 2){quantity = currentsearch.quantity;}
+                                if (currentItem.quantity <= 1){//if quantity = 1, then set it to the desired quantity
+                                    quantity = currentsearch.quantity;
+                                } else {//check if it's easily divisible, if it is, use the result
+                                    var qty = currentsearch.quantity / currentItem.quantity;
+                                    if( isInteger(qty) ) { quantity = qty; }//is a whole number
+                                }
+
                                 var currentButtonHTML = ButtonHTML + 'value="' + currentItem.id + '" itemname="' + currentItem.item + '" price="' + currentItem.price + '" quantity="' + quantity + '"';
                                 currentButtonHTML = currentButtonHTML.replace("123ID123", i2);
                                 if(i2 == 0){
@@ -792,7 +829,7 @@
                                 if(quantity > 1){
                                     itemname = quantity + "x " + itemname;
                                     if(!itemname.endswith("s")){itemname += "s"}
-                                    itemprice = Number(itemprice * quantity).toFixed(2);
+                                    itemprice += " ($" + Number(itemprice * quantity).toFixed(2) + ")";
                                 }
                                 HTML += currentButtonHTML + ' TITLE="Item: ' + itemtitle + '">Order:  ' + itemname + " for: $" + itemprice + '</BUTTON>';
                             }
@@ -802,8 +839,8 @@
                 }
 
                 //innerHTML("#searchresults", HTML);
-                result = JSON.stringify(data, null, 2);//isn't needed
-                innerHTML("#searchresults", HTML + '<pre CLASS="blue jsonresult" TITLE="JSON result">' + result + "</pre>");//<PRE>result</PRE> isn't needed
+                result = JSON.stringify(data, null, 2); //isn't needed
+                innerHTML("#searchresults", HTML + '<pre CLASS="blue jsonresult" TITLE="JSON result">' + result + "</pre>"); //<PRE>result</PRE> isn't needed
                 handlejson();
                 if(isFunction(whendone)){whendone();}
             });

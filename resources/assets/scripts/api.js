@@ -82,6 +82,10 @@ Object.prototype.getName = function() {
     return (results && results.length > 1) ? results[1] : "";
 };
 
+function isInteger (variable) {
+    return typeof variable === "number" && isFinite(variable) && variable > -9007199254740992 && variable < 9007199254740992 && Math.floor(variable) === variable;
+}
+
 //returns true if $variable appears to be a valid number
 function isNumeric(variable){
     return !isNaN(Number(variable));

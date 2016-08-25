@@ -500,7 +500,7 @@ function clearaddons(table){
             clearaddons(tables[i]);
         }
         defaults.push(clicktopping("toppings", "single", "cheese"));
-        defaults.push(clicktopping("toppings", "single", "italian tomato sauce"));
+        defaults.push(clicktopping("toppings", "single", "tomato sauce"));
         defaults.push(clicktopping("toppings", "regular", "cooked"));
         return defaults;
     } else {
