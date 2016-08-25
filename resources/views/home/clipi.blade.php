@@ -244,9 +244,9 @@
             case "keywordsearch":
                 $results = array("status" => false, "stages" => array($_POST["search"]), "searches" => array());
                 $one = select_field_where("keywords", "keywordtype = 1 AND synonyms LIKE '%1%'");
-                $_POST["search"] = filterduplicates(filternonalphanumeric($_POST["search"]));//remove non-alphanumeric and double-spaces
+                $_POST["search"] = trim(filterduplicates(filternonalphanumeric($_POST["search"])));//remove non-alphanumeric and double-spaces
                 $words = explodetrim($_POST["search"], " ", false);
-                foreach($words as $ID => $word){
+                foreach($words as $ID => $word){//reduce extra "one"s
                     $word = normalizetext($word);
                     if($word == "1" || $word == "one"){
                         $firstword="";
@@ -255,7 +255,6 @@
                         if($ID > 0){$firstword = $words[$ID-1];}
                         $DOIT = count(containswords(array($firstword, $lastword), $quantities)) > 0;
                         if(!$DOIT){if(count(containswords(array($firstword, $lastword), array("with")))){$DOIT = 2;}}
-                        //echo '<BR>1/one found at index: ' . $ID . " PREV: '" . $firstword . "' NEXT: '" . $lastword . "' DOIT: " . $DOIT;
                         if($DOIT == 1){$words[$ID] = "";} else if ($DOIT == 2){$words[$ID] = $quantities[0];}
                     }
                 }
@@ -679,6 +678,7 @@
                                 ButtonHTML += ' itemcount="' + currentsearch.items.length + '"';
                                 for (var v = 0; v < currentsearch.items.length; v++) {
                                     currentsearch.items[v] = gettheaddons(currentsearch.items[v]);
+                                    currentsearch.quantity = lastquantity;
                                     data.searches[i].items[v] = currentsearch.items[v];
                                     ButtonHTML += ' item' + v + '="' + currentsearch.items[v].replace(/<(?:.|\n)*?>/gm, '') + '"';
                                     HTML += "Addons for sub-item " + (v + 1) + ": " + currentsearch.items[v] + "<BR>";
@@ -696,9 +696,15 @@
                             }
 
                             for(var i2 = 0; i2 < currentsearch.menuitems.length; i2++){
-                                var itemtitle = 'Item: ' + i2;
+                                var quantity = 1;
+                                var itemtitle = i2;
                                 var currentItem = currentsearch.menuitems[i2];
-                                var currentButtonHTML = ButtonHTML + 'value="' + currentItem.id + '" itemname="' + currentItem.item + '" price="' + currentItem.price + '"';
+                                currentItem.quantity = 0;
+                                for(var i3 = 0; i3 < tables.length; i3++){
+                                    currentItem.quantity = Number(currentItem.quantity) + Number(currentItem[tables[i3]]);
+                                }
+                                if (currentItem.quantity == 1){quantity = currentsearch.quantity;}
+                                var currentButtonHTML = ButtonHTML + 'value="' + currentItem.id + '" itemname="' + currentItem.item + '" price="' + currentItem.price + '" quantity="' + quantity + '"';
                                 currentButtonHTML = currentButtonHTML.replace("123ID123", i);
                                 if(i2 == 0){
                                     currentButtonHTML = currentButtonHTML.replace('CLASS="', 'CLASS="selectedbutton ');
@@ -707,7 +713,15 @@
                                     currentButtonHTML += " " + tables[v] + '="' +  currentItem[tables[v]] + '"';
                                 }
                                 if(i2==0){itemtitle += " (***BEST CANDIDATE***)";}
-                                HTML += currentButtonHTML + ' TITLE="' + itemtitle + '">Order:  ' + currentItem.item + " for: $" + currentItem.price + '</BUTTON>';
+
+                                var itemname = currentItem.item;
+                                var itemprice = currentItem.price;
+                                if(quantity > 1){
+                                    itemname = quantity + "x " + itemname;
+                                    if(!itemname.endswith("s")){itemname += "s"}
+                                    itemprice = Number(itemprice * quantity).toFixed(2);
+                                }
+                                HTML += currentButtonHTML + ' TITLE="Item: ' + itemtitle + '">Order:  ' + itemname + " for: $" + itemprice + '</BUTTON>';
                             }
                         }
                     }

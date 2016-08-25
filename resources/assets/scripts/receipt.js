@@ -5,6 +5,7 @@ var lastquantity = 0;
 function orderitem(element) {
     var ID = element.getAttribute("value");
     var item = {id: ID, name: element.getAttribute("itemname"), price: element.getAttribute("price"), typeid: element.getAttribute("typeid"), type: element.getAttribute("type"), quantity: 1};
+    if(element.hasAttribute("quantity")){item.quantity = element.getAttribute("quantity");}
     for(var i=0; i < tables.length; i++){
         item[tables[i]] = new Array();
         for(var v = 0; v < element.getAttribute(tables[i]); v++){
@@ -92,7 +93,9 @@ function generatereceipt(index){
         var item = order[index];
         var tableterm = "123TABLE123";
         text = '<TR><TD CLASS="item' + item.id + '">' + index + '</TD><TD>' + item.name + '</TD><TD>' +
-                '<BUTTON CLASS="minus" ONCLICK="itemdir(' + index + ', -1);">-</BUTTON><SPAN STYLE="float:right;">' + item.quantity + '<BUTTON CLASS="plus" ONCLICK="itemdir(' + index + ', 1);">+</BUTTON></SPAN></TD><TD ALIGN="right"><SPAN STYLE="float:left;">$</SPAN>' + item.price + '</TD><TD>' + tableterm;
+                '<BUTTON CLASS="minus" ONCLICK="itemdir(' + index + ', -1);">-</BUTTON><SPAN STYLE="float:right;">' + item.quantity + '<BUTTON CLASS="plus" ONCLICK="itemdir(' + index + ', 1);">+</BUTTON></SPAN></TD><TD ALIGN="right"><SPAN STYLE="float:left;">$</SPAN>' + item.price;
+        if(item.quantity > 1){text += '<HR>(' + Number(item.price * item.quantity).toFixed(2) + ')';}
+        text += '</TD><TD>' + tableterm;
         var doit = false;
         for(var i=0; i < tables.length; i++){
             for(var v=0; v < item[tables[i]].length; v++){

@@ -351,8 +351,6 @@ function getqualifier(startsearchstring, keyword, toppingword){
     needsRemoving = false;
     keyword = replacesynonyms(keyword);
     if(isUndefined(toppingword)){toppingword = keyword;}
-    //alert(toppingword + " - " + keyword);
-
     var synonymindex = findsynonym(keyword);
     if(synonymindex[0] > -1){
         keyword = synonyms[synonymindex[0]][0].replaceAll(" ", "-");
@@ -363,10 +361,15 @@ function getqualifier(startsearchstring, keyword, toppingword){
     if(wordID > 0){
         var qualifier = startsearchstring[wordID-1].toLowerCase();
 
+        var qualiferdistance = 1;
+        var qualiferName = "";
+
         //custom qualifiers
         for(var i = 0; i < qualifiers.length; i++) {
             var qualifierKey = qualifiers[i][0];
             var qualifierValue = gettoppingqualifier("", qualifierKey, toppingword);
+            var currentweight = levenshteinWeighted(qualifier, qualifierValue);
+
             if(qualifier && qualifierValue && !qualifierKey.isEqual(qualifierValue)) {
                 var found = qualifierValue.toLowerCase().indexOf(qualifier) > -1;
                 console.log("Checking if " + qualifier + " matches " + qualifierValue + " (" + found  + ")");
@@ -374,8 +377,13 @@ function getqualifier(startsearchstring, keyword, toppingword){
                     needsRemoving=true;
                     return qualifierKey;
                 }
+            } else if (currentweight < qualiferdistance) {
+                qualiferName = qualifierKey;
+                qualiferdistance = currentweight;
             }
         }
+
+        if(qualiferName){qualifier = qualiferName;}
 
         var qualifierValue = replacesynonyms(qualifier, qualifiers, false);
         if(qualifierValue){
