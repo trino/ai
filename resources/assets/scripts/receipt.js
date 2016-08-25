@@ -64,8 +64,15 @@ function assimilateaddons(ID, element, Index){
 function makerow(Label, Price, Extra, newcol){
     if(isUndefined(Extra)){Extra = "";}
     if(isUndefined(newcol)){newcol = "";}
-    if(newcol) {newcol = '<TD COLSPAN="2" ROWSPAN="4" ALIGN="CENTER">Checkout button goes here</TD>'}
+    if(newcol) {newcol = '<TD COLSPAN="2" ROWSPAN="4" ALIGN="CENTER"><BUTTON ONCLICK="clearorder();">Clear</BUTTON><P><BUTTON>Checkout button goes here</BUTTON></TD>'}
     return '<TR><TD COLSPAN="2">' + Extra + '</TD><TD>' + Label + '</TD><TD ALIGN="right"><SPAN STYLE="float:left;">$</SPAN>' + Price.toFixed(2) + '</TD>' + newcol + '</TR>';
+}
+
+function clearorder(){
+    if(confirm("Are you sure you want to erase your entire order?")) {
+        order = new Array;
+        generatereceipt();
+    }
 }
 
 function generatereceipt(index){
@@ -79,8 +86,8 @@ function generatereceipt(index){
             for(var i=0; i < order.length; i++){
                 var item = order[i];
                 text += generatereceipt(i);
-                subtotal += Number(item.price) * item.quantity;
-                items += item.quantity;
+                subtotal += Number(item.price) * Number(item.quantity);
+                items += Number(item.quantity);
             }
 
             text += makerow("Subtotal", subtotal, items + pluralize(" item", items), true);
@@ -94,7 +101,7 @@ function generatereceipt(index){
         var tableterm = "123TABLE123";
         text = '<TR><TD CLASS="item' + item.id + '">' + index + '</TD><TD>' + item.name + '</TD><TD>' +
                 '<BUTTON CLASS="minus" ONCLICK="itemdir(' + index + ', -1);">-</BUTTON><SPAN STYLE="float:right;">' + item.quantity + '<BUTTON CLASS="plus" ONCLICK="itemdir(' + index + ', 1);">+</BUTTON></SPAN></TD><TD ALIGN="right"><SPAN STYLE="float:left;">$</SPAN>' + item.price;
-        if(item.quantity > 1){text += '<HR>(' + Number(item.price * item.quantity).toFixed(2) + ')';}
+        if(item.quantity > 1){text += 'x' + item.quantity + '<HR>(' + Number(item.price * item.quantity).toFixed(2) + ')';}
         text += '</TD><TD>' + tableterm;
         var doit = false;
         for(var i=0; i < tables.length; i++){
@@ -135,7 +142,7 @@ function stringifyaddons(addons){
     var text = "";
     for(var i=0; i<addons.length;i++){
         if(i > 0){text += ",  ";}
-        text += "<I>" + addons[i].qualifier + "</I>  " + addons[i].label;
+        text += '<I TITLE="' + JSON.stringify(addons[i]).replaceAll('"', "'") + '">' + addons[i].qualifier + "</I>  " + addons[i].label;
     }
     return text;
 }

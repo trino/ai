@@ -215,7 +215,12 @@ function value(Selector, Value, KeyID, ValueID){
                 case 2: Value.push(element.outerHTML); break;
                 case 3: Value.push(element.textContent); break;
                 case 4: Value.push( getComputedStyle(element)[ValueID] ); break;
-                default: Value.push(element.getAttribute(KeyID));
+                default:
+                    if(KeyID.isEqual("checked")) {
+                        Value.push(element.checked);
+                    } else {
+                        Value.push(element.getAttribute(KeyID));
+                    }
             }
         });
         return Value.join();
@@ -235,6 +240,10 @@ function value(Selector, Value, KeyID, ValueID){
             }
         });
     }
+}
+
+function checked(Selector, Value){
+    return value(Selector, Value, "checked");
 }
 
 //Value: if missing, return the HTML. Otherwise set it.
@@ -499,15 +508,31 @@ function findlabel(element){
 
 //hide elements
 function hide(Selector){
-    select(Selector, function (element, index) {
+    return select(Selector, function (element, index) {
         element.style.display = 'none';
     });
 }
 //show elements
 function show(Selector){
-    select(Selector, function (element, index) {
+    return select(Selector, function (element, index) {
         element.style.display = '';
     });
+}
+
+function isTrue(Value){
+    if(isUndefined(Value)){Value = false;}
+    if(isArray(Value)){Value=Value[0];}
+    if(isString(Value)){if(Value.isEqual("false") || Value.isEqual("0")){Value = false;}}
+    return Value;
+}
+
+function setvisible(Selector, Status){
+    Status = isTrue(Status);
+    if(Status){
+        show(Selector);
+    } else {
+        hide(Selector);
+    }
 }
 
 //trigger all eventName events for the Selector elements

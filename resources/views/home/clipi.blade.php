@@ -245,6 +245,7 @@
                 $results = array("status" => false, "stages" => array($_POST["search"]), "searches" => array());
                 $one = select_field_where("keywords", "keywordtype = 1 AND synonyms LIKE '%1%'");
                 $_POST["search"] = trim(filterduplicates(filternonalphanumeric($_POST["search"])));//remove non-alphanumeric and double-spaces
+                $_POST["search"] = str_replace(array(" for 1", " for one"), "", $_POST["search"]);
                 $words = explodetrim($_POST["search"], " ", false);
                 foreach($words as $ID => $word){//reduce extra "one"s
                     $word = normalizetext($word);
@@ -334,10 +335,37 @@
 
                     if(count($results["is5keywords"])){//run a search for each weight-5 keyword, with only 1 weight-5 keyword per search
                         $newsearch = getsynonymsandweights($_POST["search"], $results["keywords"], false);
+
+                        //remove the weight 5 keywords next to a qualifier (ie: 'first pizza' becomes 'pizza')
+                        $hasremoved = false;
+                        $wasquantity=false;
+                        foreach($newsearch as $ID => $value){
+                            $synonymID = $value["synonymid"];
+                            if($synonymID > -1){
+                                if($wasquantity) {
+                                    if($results["keywords"][$synonymID]["weight"] == 5){//is a primary next to a quantity
+                                        unset($newsearch[$ID]);
+                                        $hasremoved=true;
+                                    }
+                                    $wasquantity = false;
+                                }
+                            } else if (in_array($value["word"], $quantities)) {//is a qualifier
+                                $wasquantity=true;
+                            } else {//is irrelevant
+                                $wasquantity=false;
+                            }
+                        }
+                        if($hasremoved){//reassemble
+                            $text = reassemble_text($newsearch, $results["keywords"]);
+                            $results["stages"]["weight5adj"] = $text;
+                            $keywordids = reassemble_keywordIDs($newsearch);
+                        }
+                        //done
+
                         foreach($results["is5keywords"] as $primaryKeyID){
                             $keywordids = array_merge(array($primaryKeyID), $results["non5keywords"]);
                             $indexes = countsynonyms($newsearch, $primaryKeyID);
-                            if(count($indexes) > 1){
+                            if(count($indexes) > 1){//search contains multiple of the same weight-5 keyword, split it into multiple searches
                                 $text = weightstring($newsearch, $results["keywords"], $wordstoignore);
                                 foreach($indexes as $index){
                                     getstartandend($newsearch, $results["keywords"], $primaryKeyID, $startingIndex, $endingIndex, $index);
@@ -357,7 +385,7 @@
                                             "endingIndex" => $endingIndex
                                     );
                                 }
-                            } else {
+                            } else {//only 1 weight-5 keyword
                                 $results["searches"][] = array(
                                         "stage" => "1.w5",
                                         "text" => $_POST["search"],
@@ -375,12 +403,16 @@
                     }
                 }
 
+                function array2string($arr){
+                    return str_replace("\n", '<BR>', print_r($arr, true));
+                }
+
                 foreach($results["searches"] as $SearchID => $VALUE){
                     $keywordids = $VALUE["keywordids"];
                     $text = $VALUE["text"];
                     unset($primarykeyid);
                     if(isset($VALUE["primarykeyid"])){$primarykeyid = $VALUE["primarykeyid"];}
-                    if(count($results["is5keywords"]) > 1){//is part of a multiple item search
+                    if(count($results["is5keywords"]) > 1){//is part of a multiple item search, split each item into it's own search
                         $newsearch = getsynonymsandweights($text, $results["keywords"], false);
                         getstartandend($newsearch, $results["keywords"], $primarykeyid, $startingIndex, $endingIndex);
                         if($startingIndex == -1){
@@ -423,10 +455,12 @@
                         $keywordids = reassemble_keywordIDs($newsearch, $startingIndex, $endingIndex);
                     }
 
+                    //allow only one quantity word per search
                     $newsearch = getsynonymsandweights($text, $results["keywords"], false);
                     $startremoving = false;
                     $hasremoved = false;
                     $quantityID = false;
+                    $lastkey = lastkey($newsearch);
                     foreach($newsearch as $ID => $value){
                         $synonymID = $value["synonymid"];
                         if($synonymID > -1){
@@ -462,6 +496,7 @@
                             $rightword=false;
                             if($i != $lastkey){
                                 $rightword = $quantity[$i+1];//if it's not the last key, then get the next one
+                                //if rightword's weight = 5, then erase
                             }
                             $resulttext = trim(getwordsbetween($text, $quantity[$i], $rightword));
                             $resulttext = removewords($resulttext, $wordstoignore);
@@ -569,14 +604,20 @@
     <DIV id="formmain" class="red">
         <input type="text" id="textsearch" name="search" style="width:100%" oninput="submitform();" onKeyUp="handlebutton(event);" value="<?= $_POST["search"]; ?>" TITLE="Press 'Space' or 'Enter' to search">
         <input type="button" id="startspeech" style="display:none;" value="Click to Speak" onclick="startButton(event);" TITLE="Use voice recognition">
+        <input type="button" id="clearform" value="Clear Search" onclick="clearform();">
         <BR>
         Sorting by:
         <?php
             $Columns = array("restaurant_id", "itemprice", "weight", "keywords");
             echo printoptions("SortColumn", $Columns, "weight");
             echo ' Direction: ' . printoptions("SortDirection", array("ASC", "DESC"), "DESC");
+            echo ' <LABEL><INPUT TYPE="checkbox" ID="showjson" ' . iif(isset($_GET["showjson"]) && $_GET["showjson"] == "true", 'checked="true" ')  . 'ONCLICK="handlejson();"> Show JSON</LABEL>';
+            echo '<SPAN STYLE="float:right;">Test: ';
+            foreach(array("2 medium pepperoni pizza", "2 bacon pizza", "4 large pizzas", "1 large pizza with pepperoni bacon and ham", "2 medium pepperoni pizza with 2lbs chicken bbq sauce", "1 pizza plane, 1 cheddar dip and 2 cokes", "2 for 1 pizza combo with ice tea first pizza pepperni bacon and ham, second pizza just bacon", "tripple bacon pizza", "1 large pepperoni pizza and 1 medium ham", "pizza with extra cheese", "2 large pizza 1 with bacon the next one with ham") as $INDEX => $teststring){
+                echo '<BUTTON VALUE="' . $teststring . '" TITLE="Test with: ' . $teststring . '" ONCLICK="testwith(this);">' . $INDEX . '</BUTTON>';
+            }
+            echo '</SPAN>';
         ?>
-        Click a numerical column to sort by it. Click it again to change the sorting direction
     </DIV>
     <DIV ID="questions" class="blue"></DIV>
     <DIV ID="searchresults" CLASS="red"></DIV>
@@ -645,8 +686,8 @@
             console.log(charCode);
         }
 
-        function submitform(){
-            ChangeUrl("CLIPi", currentURL + "?search=" + value("#textsearch") + "&SortColumn=" + value("#SortColumn") + "&SortDirection=" + value("#SortDirection"));
+        function submitform(whendone){
+            updateURL();
             post(currentURL, {
                 action: "keywordsearch",
                 search: value("#textsearch"),
@@ -705,7 +746,7 @@
                                 }
                                 if (currentItem.quantity == 1){quantity = currentsearch.quantity;}
                                 var currentButtonHTML = ButtonHTML + 'value="' + currentItem.id + '" itemname="' + currentItem.item + '" price="' + currentItem.price + '" quantity="' + quantity + '"';
-                                currentButtonHTML = currentButtonHTML.replace("123ID123", i);
+                                currentButtonHTML = currentButtonHTML.replace("123ID123", i2);
                                 if(i2 == 0){
                                     currentButtonHTML = currentButtonHTML.replace('CLASS="', 'CLASS="selectedbutton ');
                                 }
@@ -730,7 +771,9 @@
 
                 //innerHTML("#searchresults", HTML);
                 result = JSON.stringify(data, null, 2);//isn't needed
-                innerHTML("#searchresults", HTML + '<pre CLASS="blue" TITLE="JSON result">' + result + "</pre>");//<PRE>result</PRE> isn't needed
+                innerHTML("#searchresults", HTML + '<pre CLASS="blue jsonresult" TITLE="JSON result">' + result + "</pre>");//<PRE>result</PRE> isn't needed
+                handlejson();
+                if(isFunction(whendone)){whendone();}
             });
         }
 
@@ -777,6 +820,28 @@
             };
 
             speechSynthesis.speak(u);
+        }
+
+        function testwith(element){
+            value("#textsearch", value(element));
+            submitform(function(){
+               trigger(".order0", "click");
+            });
+        }
+
+        function handlejson(){
+            setvisible(".jsonresult", checked("#showjson"));
+            updateURL();
+        }
+
+        function clearform(){
+            value('#textsearch', '');
+            innerHTML("#searchresults", "");
+            updateURL();
+        }
+
+        function updateURL(){
+            ChangeUrl("CLIPi", currentURL + "?search=" + value("#textsearch") + "&SortColumn=" + value("#SortColumn") + "&SortDirection=" + value("#SortDirection") + "&showjson=" + checked("#showjson"));
         }
 
         <?= view("home.getjs", array("files" => "nui,api,receipt")); ?>

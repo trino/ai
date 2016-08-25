@@ -19,10 +19,10 @@ var synonyms = [//multi-dimensional array of multi-word terms, the first term is
 var qualifiers = [
     ["quarter"],
     ["half", "less", "easy"],
-    ["single", "regular", "normal", "one", "1"],
-    ["double", "extra", "more", "two", "2"],
-    ["triple", "three", "3"],
-    ["quadruple", "four", "4"]
+    ["single", "regular", "normal"],
+    ["double", "extra", "more"],
+    ["triple", "three"],
+    ["quadruple", "four"]
 ];//when these words are directly before a topping, they indicate a quantity of the topping  ⁵⁶⁷⁸⁹
 var qualifier_tables = new Array;
 var quantityselect = 0;
@@ -213,7 +213,7 @@ function get_typos(itemname, originalsearchstring, thesearchstring, labels){
                 var closestword = findclosestsynonym(searchstring[searchindex], 1, labels);
                 if(!isUndefined(closestword.word)){
                     closestword.word = closestword.word.replaceAll(" ", "-");
-                    if(closestword.word) {
+                    if(closestword.word && labels.indexOf(closestword.word) > -1) {
                         var qualifier = getqualifier(originalsearchstring, searchstring[searchindex], closestword.word);
                         ret.push({searchindex: searchindex, qualifier: qualifier, label: closestword.word, needsRemoving: needsRemoving, originalword: searchstring[searchindex], distance: closestword.distance, tablename: qualifier_tables[closestword.parent], parent: closestword.parent, child: closestword.child });
                         searchstring[searchindex] = false;
