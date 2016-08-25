@@ -506,6 +506,7 @@
                     } else {
                         $itemlist[] = trim($text);
                     }
+                    $results["searches"][$SearchID]["originalitems"] = $itemlist;
                     $results["searches"][$SearchID]["items"] = $itemlist;
 
                     $SQL = "SELECT *,
@@ -744,7 +745,7 @@
                                 for(var i3 = 0; i3 < tables.length; i3++){
                                     currentItem.quantity = Number(currentItem.quantity) + Number(currentItem[tables[i3]]);
                                 }
-                                if (currentItem.quantity == 1){quantity = currentsearch.quantity;}
+                                if (currentItem.quantity < 2){quantity = currentsearch.quantity;}
                                 var currentButtonHTML = ButtonHTML + 'value="' + currentItem.id + '" itemname="' + currentItem.item + '" price="' + currentItem.price + '" quantity="' + quantity + '"';
                                 currentButtonHTML = currentButtonHTML.replace("123ID123", i2);
                                 if(i2 == 0){
@@ -823,6 +824,7 @@
         }
 
         function testwith(element){
+            order = new Array;
             value("#textsearch", value(element));
             submitform(function(){
                trigger(".order0", "click");

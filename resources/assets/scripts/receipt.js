@@ -57,8 +57,28 @@ function assimilateaddons(ID, element, Index){
         var toppings = assimilate(ID, element.getAttribute("item" + Index));
     }
     lastquantity = toppings[5];
-    if(defaults){return toppings[2].concat( toppings[3] ).concat( toppings[4] );}
-    return toppings[2].concat( toppings[3] );
+    if(defaults){
+        toppings = toppings[2].concat( toppings[3] ).concat( toppings[4] );
+    } else {
+        toppings = toppings[2].concat( toppings[3] );
+    }
+    return removeduplicates(toppings, "label");
+}
+
+function removeduplicates(source, key){
+    var dest = new Array();
+    for (var i = 0; i < source.length; i++){
+        var current = source[i];
+        if(isUndefined(current.checked)){
+            for(var v=i+1; v<source.length; v++){
+                if( current[key].isEqual( source[v][key] )){
+                    source[v].checked = true;
+                }
+            }
+            dest.push(source[i]);
+        }
+    }
+    return dest;
 }
 
 function makerow(Label, Price, Extra, newcol){
@@ -101,7 +121,7 @@ function generatereceipt(index){
         var tableterm = "123TABLE123";
         text = '<TR><TD CLASS="item' + item.id + '">' + index + '</TD><TD>' + item.name + '</TD><TD>' +
                 '<BUTTON CLASS="minus" ONCLICK="itemdir(' + index + ', -1);">-</BUTTON><SPAN STYLE="float:right;">' + item.quantity + '<BUTTON CLASS="plus" ONCLICK="itemdir(' + index + ', 1);">+</BUTTON></SPAN></TD><TD ALIGN="right"><SPAN STYLE="float:left;">$</SPAN>' + item.price;
-        if(item.quantity > 1){text += 'x' + item.quantity + '<HR>(' + Number(item.price * item.quantity).toFixed(2) + ')';}
+        if(item.quantity > 1){text += 'x' + item.quantity + '<HR>($' + Number(item.price * item.quantity).toFixed(2) + ')';}
         text += '</TD><TD>' + tableterm;
         var doit = false;
         for(var i=0; i < tables.length; i++){
