@@ -2,12 +2,19 @@
     $root = left(public_path(), strlen(public_path()) - 6);
     if(!isset($files)){$files = $_GET["files"];}
     if(!is_array($files)){$files = explode(",", $files);}
+    if (in_array("api", $files)){//api must always go first
+        $index = array_search("api", $files);
+        unset( $files[$index] );
+        $files = array_merge(array("api"), $files);
+    }
+
     $path = "resources/assets/scripts/";
     if(isset($_GET["path"])){
         $path = $_GET["path"];
         if(right($_GET["path"],1) != '/' && right($_GET["path"],1) != "\\"){$path .= '/';}
     }
-    $workingfile = $root . $path . str_replace(".js", "", implode("-", $files)) . ".js";
+    $workingfile = $root . $path . str_replace(".js", "", implode("-", $files)) . "-min.js";
+
     $workingtimestamp = 0;
     $forcenew = isset($_GET["forcenew"]) || isset($forcenew);
     $myfilename = myself($view_name);

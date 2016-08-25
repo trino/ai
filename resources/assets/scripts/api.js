@@ -2,6 +2,7 @@
 //get more functionality from http://youmightnotneedjquery.com/
 //Siblings, Prev, Prepend, Position Relative To Viewport, Position, Parent, Outer Width With Margin, Outer Width, Outer Height With Margin, Outer Height, Offset Parent, Offset, Next, Matches Selector, matches, Find Children, Filter, Contains Selector, Contains, Clone, Children, Append
 var debugmode = true;
+var todoonload = new Array;
 Date.now = function(verbose) {
     if(isUndefined(verbose)) {return new Date().getTime();}
     return new Date().toJSON();
@@ -313,7 +314,6 @@ function parents(Selector){
 }
 
 //Push a function to be run when done loading the page
-var todoonload = new Array;
 function doonload(myFunction){
     todoonload.push( myFunction );
     return todoonload.length;
