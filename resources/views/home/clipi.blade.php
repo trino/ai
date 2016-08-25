@@ -1,6 +1,7 @@
 <?php
     $quantities = ["next", "first", "second", "third", "fourth", "then", "other"];
     $wordstoignore = array("the", "with", "and", "times", "on", "an", "of");//discard these words
+    $defaultsizes = array("pizza" => "large");
     $Tables = array("toppings", "wings_sauce");
     $WordsBefore = 5;//similar_text
 
@@ -240,6 +241,16 @@
             return implode(" ", $matches[0]);
         }
 
+        function addkeyword(&$results, $keyword){
+            $keyword = strtolower($keyword);
+            foreach($results["keywords"] as $ID => $Value){
+                if(strpos($Value["synonyms"], $keyword) !== false){return $ID;}
+            }
+            $one = select_field_where("keywords", "synonyms LIKE '%" . $keyword . "%'");
+            $results["keywords"][$one["id"]] = array("word" => firstword($one["synonyms"]), "synonyms" => $one["synonyms"], "weight" => $one["weight"], "type" => $one["keywordtype"]);
+            return $one["id"];
+        }
+
         switch(strtolower(trim($_POST["action"]))){
             case "keywordsearch":
                 $results = array("status" => false, "stages" => array($_POST["search"]), "searches" => array());
@@ -448,7 +459,6 @@
                                 }
                             }
                         }
-
                         $startingIndex = max($startingIndex - $WordsBefore, 0);
                         $results["searches"][$SearchID]["stage"] .= " 1.1";
                         $text = reassemble_text($newsearch, $results["keywords"], $startingIndex, $endingIndex);
@@ -460,17 +470,25 @@
                     $startremoving = false;
                     $hasremoved = false;
                     $quantityID = false;
+                    $size="";
+                    $sizeid=0;
                     $lastkey = lastkey($newsearch);
                     foreach($newsearch as $ID => $value){
                         $synonymID = $value["synonymid"];
                         if($synonymID > -1){
-                            if($results["keywords"][$synonymID]["type"] == 1){//is a quantity
-                                if($startremoving){
-                                    unset($newsearch[$ID]);
-                                    $hasremoved = true;
-                                }
-                                $startremoving = true;
-                                $quantityID = $synonymID;
+                            switch($results["keywords"][$synonymID]["type"]){
+                                case 1://quantity
+                                    if($startremoving){
+                                        unset($newsearch[$ID]);
+                                        $hasremoved = true;
+                                    }
+                                    $startremoving = true;
+                                    $quantityID = $synonymID;
+                                    break;
+                                case 2://size
+                                    $sizeid=$synonymID;
+                                    $size = $results["keywords"][$synonymID]["word"];
+                                    break;
                             }
                         }
                     }
@@ -484,6 +502,19 @@
                         $results["keywords"][$one["id"]] = array("word" => "1", "synonyms" => $one["synonyms"], "weight" => $one["weight"], "type" => $one["keywordtype"]);
                         $keywordids = addtodelstring($keywordids, $one["id"]);
                     }
+
+                    if(!$size){
+                        $primaryword = $results["keywords"][$primarykeyid]["word"];
+                        if(isset($defaultsizes[$primaryword])){
+                            $results["searches"][$SearchID]["stage"] .= " [defsize]";
+                            $size = $defaultsizes[$primaryword];
+                            $sizeid = addkeyword($results, $defaultsizes[$primaryword]);
+                            $text .= " " . $size;
+                            $keywordids = addtodelstring($keywordids, $sizeid);
+                        }
+                    }
+                    $results["searches"][$SearchID]["size"] = $size;
+                    $results["searches"][$SearchID]["sizeid"] = $sizeid;
 
                     $results["searches"][$SearchID]["text"] = $text;
                     $results["searches"][$SearchID]["keywordids"] = $keywordids;
