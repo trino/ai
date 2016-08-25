@@ -15,6 +15,7 @@
     if(isset($_GET["leavealone"])){$leavealone=true;}
     $minimize = !isset($leavealone);
 
+    //$minimize=false;
 
     if(file_exists($workingfile) && !$forcenew){
         $workingtimestamp = filemtime($workingfile);
