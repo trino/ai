@@ -645,7 +645,7 @@
             echo ' Direction: ' . printoptions("SortDirection", array("ASC", "DESC"), "DESC");
             echo ' <LABEL><INPUT TYPE="checkbox" ID="showjson" ' . iif(isset($_GET["showjson"]) && $_GET["showjson"] == "true", 'checked="true" ')  . 'ONCLICK="handlejson();"> Show JSON</LABEL>';
             echo '<SPAN STYLE="float:right;">Test: ';
-            foreach(array("2 medium pepperoni pizza", "2 bacon pizza", "4 large pizzas", "1 large pizza with pepperoni bacon and ham", "2 medium pepperoni pizza with 2lbs chicken bbq sauce", "1 pizza plane, 1 cheddar dip and 2 cokes", "2 for 1 pizza combo with ice tea first pizza pepperni bacon and ham, second pizza just bacon", "tripple bacon pizza", "1 large pepperoni pizza and 1 medium ham", "pizza with extra cheese", "2 large pizza 1 with bacon the next one with ham") as $INDEX => $teststring){
+            foreach(array("2 medium pepperoni pizza", "2 bacon pizza", "4 large pizzas", "1 large pizza with pepperoni bacon and ham", "2 medium pepperoni pizza with 2lbs chicken bbq sauce", "1 pizza plane, 1 cheddar dip and 2 cokes", "2 for 1 pizza combo with ice tea first pizza pepperni bacon and ham, second pizza just bacon", "tripple bacon pizza", "1 large pepperoni pizza and 1 medium pizza ham", "pizza with extra cheese", "2 large pizza 1 with bacon the next one with ham") as $INDEX => $teststring){
                 echo '<BUTTON VALUE="' . $teststring . '" TITLE="Test with: ' . $teststring . '" ONCLICK="testwith(this);">' . $INDEX . '</BUTTON>';
             }
             echo '</SPAN>';
