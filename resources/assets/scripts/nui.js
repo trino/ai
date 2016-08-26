@@ -688,7 +688,7 @@ function pluralize(text, qty, append){
 
 function itemdir(index, value){
     var item = order[index];
-    item.quantity = item.quantity + value;
+    item.quantity = Number(item.quantity) + Number(value);
     if(item.quantity == 0){
         deleteitem(index);
     }
