@@ -531,7 +531,7 @@
                         $keywordids = addtodelstring($keywordids, $one["id"]);
                     }
 
-                    if(!$size){
+                    if(!$size && isset($primarykeyid)){
                         $primaryword = $results["keywords"][$primarykeyid]["word"];
                         if(isset($defaultsizes[$primaryword])){
                             $results["searches"][$SearchID]["stage"] .= " [defsize]";
