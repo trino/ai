@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 25, 2016 at 09:42 PM
+-- Generation Time: Aug 26, 2016 at 04:57 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -118,7 +118,7 @@ INSERT INTO `keywords` (`id`, `synonyms`, `weight`, `keywordtype`) VALUES
 (32, 'drink beverage soda pop', 5, 0),
 (33, 'coke cola', 1, 0),
 (34, 'diet', 1, 0),
-(35, 'liter litre lt bottle', 1, 0),
+(35, 'liter litre lt bottle ltr', 1, 0),
 (36, 'iced ice tea nestea lipton brisk', 1, 0),
 (37, 'ginger ale', 1, 0),
 (38, 'pepper doctor', 1, 0),
@@ -431,14 +431,14 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1472064634');
+(1, 'lastSQL', '1472154144');
 
 -- --------------------------------------------------------
 
