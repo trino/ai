@@ -37,18 +37,18 @@
       <file leaf-file-name="clipi.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/home/clipi.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.50054765">
-              <caret line="533" column="52" selection-start-line="533" selection-start-column="52" selection-end-line="533" selection-end-column="52" />
+            <state vertical-scroll-proportion="0.33296824">
+              <caret line="666" column="83" selection-start-line="666" selection-start-column="83" selection-end-line="666" selection-end-column="83" />
               <folding>
                 <element signature="e#35084#35102#0#HTML" expanded="true" />
-                <element signature="e#35281#35302#0#HTML" expanded="true" />
-                <marker date="1472179511297" expanded="true" signature="14989:15050" placeholder="SELECT * FRO..keywords..." />
-                <marker date="1472179511297" expanded="true" signature="30353:31128" placeholder="SELECT *, co..*..." />
-                <marker date="1472179511297" expanded="true" signature="30745:31128" placeholder="SELECT menu...menu..." />
-                <marker date="1472179511297" expanded="true" signature="33879:33893" placeholder="SELECT * FRO..." />
-                <marker date="1472179511297" expanded="true" signature="34109:34130" placeholder="SELECT * FRO..presets..." />
-                <marker date="1472179511297" expanded="true" signature="35992:36004" placeholder="..." />
-                <marker date="1472179511297" expanded="true" signature="49549:49601" placeholder="SELECT DISTI..." />
+                <element signature="e#35286#35307#0#HTML" expanded="true" />
+                <marker date="1472179590581" expanded="true" signature="14989:15050" placeholder="SELECT * FRO..keywords..." />
+                <marker date="1472179590581" expanded="true" signature="30353:31128" placeholder="SELECT *, co..*..." />
+                <marker date="1472179590581" expanded="true" signature="30745:31128" placeholder="SELECT menu...menu..." />
+                <marker date="1472179590581" expanded="true" signature="33879:33893" placeholder="SELECT * FRO..." />
+                <marker date="1472179590581" expanded="true" signature="34109:34130" placeholder="SELECT * FRO..presets..." />
+                <marker date="1472179590581" expanded="true" signature="35997:36009" placeholder="..." />
+                <marker date="1472179590581" expanded="true" signature="49554:49606" placeholder="SELECT DISTI..." />
               </folding>
             </state>
           </provider>
@@ -1277,18 +1277,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/home/clipi.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.50054765">
-          <caret line="533" column="52" selection-start-line="533" selection-start-column="52" selection-end-line="533" selection-end-column="52" />
+        <state vertical-scroll-proportion="0.33296824">
+          <caret line="666" column="83" selection-start-line="666" selection-start-column="83" selection-end-line="666" selection-end-column="83" />
           <folding>
             <element signature="e#35084#35102#0#HTML" expanded="true" />
-            <element signature="e#35281#35302#0#HTML" expanded="true" />
-            <marker date="1472179511297" expanded="true" signature="14989:15050" placeholder="SELECT * FRO..keywords..." />
-            <marker date="1472179511297" expanded="true" signature="30353:31128" placeholder="SELECT *, co..*..." />
-            <marker date="1472179511297" expanded="true" signature="30745:31128" placeholder="SELECT menu...menu..." />
-            <marker date="1472179511297" expanded="true" signature="33879:33893" placeholder="SELECT * FRO..." />
-            <marker date="1472179511297" expanded="true" signature="34109:34130" placeholder="SELECT * FRO..presets..." />
-            <marker date="1472179511297" expanded="true" signature="35992:36004" placeholder="..." />
-            <marker date="1472179511297" expanded="true" signature="49549:49601" placeholder="SELECT DISTI..." />
+            <element signature="e#35286#35307#0#HTML" expanded="true" />
+            <marker date="1472179590581" expanded="true" signature="14989:15050" placeholder="SELECT * FRO..keywords..." />
+            <marker date="1472179590581" expanded="true" signature="30353:31128" placeholder="SELECT *, co..*..." />
+            <marker date="1472179590581" expanded="true" signature="30745:31128" placeholder="SELECT menu...menu..." />
+            <marker date="1472179590581" expanded="true" signature="33879:33893" placeholder="SELECT * FRO..." />
+            <marker date="1472179590581" expanded="true" signature="34109:34130" placeholder="SELECT * FRO..presets..." />
+            <marker date="1472179590581" expanded="true" signature="35997:36009" placeholder="..." />
+            <marker date="1472179590581" expanded="true" signature="49554:49606" placeholder="SELECT DISTI..." />
           </folding>
         </state>
       </provider>

@@ -664,7 +664,7 @@
         }
     </STYLE>
     <DIV id="formmain" class="red">
-        <input type="text" id="textsearch" name="search" style="width:100%" oninput="submitform();" onKeyUp="handlebutton(event);" value="<?= $_POST["search"]; ?>" TITLE="Press 'Space' or 'Enter' to search">
+        <input type="text" id="textsearch" name="search" style="width:100%" on_old_input="submitform();" onKeyUp="handlebutton(event);" value="<?= $_POST["search"]; ?>" TITLE="Press 'Space' or 'Enter' to search">
         <input type="button" id="startspeech" style="display:none;" value="Click to Speak" onclick="startButton(event);" TITLE="Use voice recognition">
         <input type="button" id="clearform" value="Clear Search" onclick="clearform();">
         <BR>
