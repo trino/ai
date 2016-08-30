@@ -710,3 +710,12 @@ doonload(function () {
     innerHTML("#thepopup", "TESTING !23");
 });
 */
+
+function isRightClick(event){
+    event = event || window.event;
+    if ("which" in event) {
+        return event.which == 3;// Gecko (Firefox), WebKit (Safari/Chrome) & Opera
+    } else if ("button" in e) {
+        return event.button == 2;// IE, Opera
+    }
+}

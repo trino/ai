@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 26, 2016 at 04:57 AM
+-- Generation Time: Aug 30, 2016 at 09:48 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `keywords` (
   `weight` int(11) NOT NULL,
   `keywordtype` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=60 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=61 ;
 
 --
 -- Dumping data for table `keywords`
@@ -138,7 +138,8 @@ INSERT INTO `keywords` (`id`, `synonyms`, `weight`, `keywordtype`) VALUES
 (53, 'ring', 5, 0),
 (54, 'veggie', 5, 0),
 (55, 'stick', 1, 0),
-(56, 'bread', 5, 0);
+(56, 'bread', 5, 0),
+(60, 'regular classic', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -252,7 +253,7 @@ CREATE TABLE IF NOT EXISTS `menukeywords` (
   `menuitem_id` int(11) NOT NULL,
   `keyword_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=116 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=117 ;
 
 --
 -- Dumping data for table `menukeywords`
@@ -354,7 +355,8 @@ INSERT INTO `menukeywords` (`id`, `menuitem_id`, `keyword_id`) VALUES
 (109, 25, 54),
 (110, 25, 55),
 (111, 26, 15),
-(112, 26, 56);
+(112, 26, 56),
+(116, 51, 60);
 
 -- --------------------------------------------------------
 
@@ -381,7 +383,7 @@ CREATE TABLE IF NOT EXISTS `presets` (
   `name` varchar(255) NOT NULL,
   `toppings` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `presets`
@@ -390,7 +392,8 @@ CREATE TABLE IF NOT EXISTS `presets` (
 INSERT INTO `presets` (`id`, `name`, `toppings`) VALUES
 (1, 'hawaiian', 'Pineapple Bacon Ham'),
 (2, 'classic super', 'pepperoni mushrooms green peppers'),
-(3, 'deluxe', 'pepperoni mushrooms green peppers');
+(3, 'deluxe', 'pepperoni mushrooms green peppers'),
+(4, 'vegetarian', 'mushrooms tomatoes green peppers');
 
 -- --------------------------------------------------------
 
@@ -431,14 +434,14 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1472154144');
+(1, 'lastSQL', '1472578348');
 
 -- --------------------------------------------------------
 

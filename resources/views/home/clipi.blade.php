@@ -3,6 +3,9 @@
     $superquantities = array("all", "both");
     $wordstoignore = array("the", "with", "and", "times", "on", "an", "of", "just"); //discard these words
     $defaultsizes = array("pizza" => "large");
+    $otherdefaults = array(
+            "drink" => array("regular", "diet")//adds regular to drinks if regular and diet are not found
+    );
     $Tables = array("toppings", "wings_sauce");
     $WordsBefore = 5; //similar_text
 
@@ -291,7 +294,7 @@
 
                 $results["stages"]["plurals"] = implode(" ", $plurals);
 
-                //HCSC
+                //if the primary synonym isn't found, but the "words" are, add the primary synonym in to force it to return a weight-5 result
                 $primarysynoynms = array(
                         "wing" => array(
                                 "words" => array("chicken", array("pound", "lbl", "lb")), //sub-array acts as an OR
@@ -405,8 +408,6 @@
                                         "primarykeyid" => $primaryKeyID,
                                 );
                             }
-
-
                         }
                     } else if ($results["non5keywords"]){ //no weight-5 keywords found, run a single search of all the keywords
                         $results["searches"][] = array(
@@ -427,6 +428,7 @@
                     unset($primarykeyid);
                     if(isset($VALUE["primarykeyid"])){
                         $primarykeyid = $VALUE["primarykeyid"];
+                        $primaryword = $results["keywords"][$primarykeyid]["word"];
                         if(count($results["is5keywords"]) > 1){ //is part of a multiple item search, reducing each item into it's own search
                             $newsearch = getsynonymsandweights($text, $results["keywords"], false);
                             $quantity = containswords($text, $quantities); //check if the search contains multiple items, instead of just one
@@ -533,7 +535,6 @@
                     }
 
                     if(!$size && isset($primarykeyid)){
-                        $primaryword = $results["keywords"][$primarykeyid]["word"];
                         if(isset($defaultsizes[$primaryword])){
                             $results["searches"][$SearchID]["stage"] .= " [defsize]";
                             $size = $defaultsizes[$primaryword];
@@ -550,7 +551,7 @@
 
                     $quantity = containswords($text, $quantities); //check if the search contains multiple items, instead of just one
                     $itemlist = array();
-                    if($quantity){ //Stage 1.3: split the search up into it's individual items
+                    if($quantity){
                         $lastkey = lastkey($quantity);
                         foreach($quantity as $i => $word){
                             $rightword=false;
@@ -565,6 +566,26 @@
                     }
                     $results["searches"][$SearchID]["originalitems"] = $itemlist;
                     $results["searches"][$SearchID]["items"] = $itemlist;
+
+                    if(isset($primaryword) && isset($otherdefaults[$primaryword])){
+                        $found = false;
+                        $keywordids = explode(",", $results["searches"][$SearchID]["keywordids"]);
+                        foreach($keywordids as $keywordid){
+                            $keyword = $results["keywords"][$keywordid];
+                            if(in_array( $keyword["word"], $otherdefaults[$primaryword])){
+                                $found = true;
+                                break;
+                            }
+                        }
+                        if(!$found){
+                            $results["searches"][$SearchID]["stage"] .= " [other defaults]";
+                            foreach($results["searches"][$SearchID]["items"] as $id => $item){
+                                $results["searches"][$SearchID]["items"][$id] .= $otherdefaults[$primaryword][0];
+                            }
+                            $keywordids[] = addkeyword($results, $otherdefaults[$primaryword][0]);
+                            $results["searches"][$SearchID]["keywordids"] = implode(",", $keywordids);
+                        }
+                    }
 
                     $SQL = "SELECT *,
               count(DISTINCT keyword_id) as keywords,
@@ -663,6 +684,22 @@
             margin-top: 1px;
             margin-bottom: 1px;
         }
+
+        a.button {
+            appearance: button;
+            -moz-appearance: button;
+            -webkit-appearance: button;
+            padding: 1px 6px;
+            color: inherit;
+            text-decoration:none;
+        }
+
+        .editmenu{
+            height:19px;
+            margin-right: 10px;
+            position: relative;
+            top: 3px;
+        }
     </STYLE>
     <DIV id="formmain" class="red">
         <input type="text" id="textsearch" name="search" style="width:100%" on_old_input="submitform();" onKeyUp="handlebutton(event);" value="<?= $_POST["search"]; ?>" TITLE="Press 'Space' or 'Enter' to search">
@@ -702,6 +739,7 @@
         var addons = <?= json_encode($addons); ?>;
         var presets = <?= json_encode($presets); ?>;
         var presetnames = <?= json_encode($presetsnames); ?>;
+        var DoPerfectlyFormed = false;
 
         function replacemultiplewordsynonyms(text, synonyms, cutoff){
             var originaltext = text.toLowerCase();
@@ -748,7 +786,8 @@
             for(var i = 0; i < presets.length; i++){
                 aftertext = aftertext.replaceAll(presets[i].name, presets[i].toppings);
             }
-            text = stringifyaddons(assimilateaddons(0, aftertext));
+            text = stringifyaddons(assimilateaddons(0, aftertext), DoPerfectlyFormed);
+            if(isNumeric(lastquantity)){text += ",quantity|" + lastquantity;}
             assimilate_enabled = true;
             return text;
         }
@@ -773,9 +812,13 @@
                     alert("ERROR: " + result);
                     return false;
                 }
-                var data = JSON.parse(result);
+                try {
+                    var data = JSON.parse(result);
+                } catch (e){
+                    innerHTML("#searchresults", e + " NON-JSON DETECTED: " + result);
+                    return false;
+                }
                 var HTML = "TIME STAMP: " + Date.now(true) + "<BR>";
-
                 if( data.is5keywords.length == 0 ){
                     HTML += "No weight 5 keywords found. Search for something like 'pizza' or 'wings'<BR>";
                 } else {
@@ -796,7 +839,11 @@
                                     currentsearch.quantity = lastquantity;
                                     data.searches[i].items[v] = currentsearch.items[v];
                                     ButtonHTML += ' item' + v + '="' + currentsearch.items[v].replace(/<(?:.|\n)*?>/gm, '') + '"';
-                                    HTML += "Addons for sub-item " + (v + 1) + ": " + currentsearch.items[v] + "<BR>";
+                                    var item = currentsearch.items[v];
+                                    if(DoPerfectlyFormed){
+                                        item = "<I>" + item.replaceAll("\\|", "</I> ").replaceAll(",", "</I>, <I>");
+                                    }
+                                    HTML += "Addons for sub-item " + (v + 1) + ": " + item + "<BR>";
                                 }
 
                                 if( currentsearch.menuitems.length > 0 ){
@@ -842,7 +889,8 @@
                                     if(!itemname.endswith("s")){itemname += "s"}
                                     itemprice += " ($" + Number(itemprice * quantity).toFixed(2) + ")";
                                 }
-                                HTML += currentButtonHTML + ' TITLE="Item: ' + itemtitle + '">Order:  ' + itemname + " for: $" + itemprice + '</BUTTON>';
+                                HTML += currentButtonHTML + ' TITLE="Item: ' + itemtitle + '">Order: ' + itemname + " for: $" + itemprice + '</BUTTON>' +
+                                        '<A CLASS="button editmenu" HREF="edit?id=' + currentItem.id + '" target="_new" TITLE="Edit: ' + currentItem.item + '">&#10096;Edit</A>';
                             }
                         }
                     }

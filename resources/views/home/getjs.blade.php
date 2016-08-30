@@ -22,7 +22,7 @@
     if(isset($_GET["leavealone"])){$leavealone=true;}
     $minimize = !isset($leavealone);
 
-    //$minimize=false;
+    $minimize=false;//comment out in post.
 
     if(file_exists($workingfile) && !$forcenew){
         $workingtimestamp = filemtime($workingfile);

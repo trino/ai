@@ -35,7 +35,7 @@
             $CurrentType = endtoppings($table, $topping["type"]);
         }
 
-        echo '<TR ID="tr-addon-' . $table . '-' . $topping["id"] . '" CLASS="tr-addon tr-addon-' . $table . '" TABLE="' . $table . '" SELECTED="" TOPPINGID="' . $topping["id"] . '" NAME="' . $topping["name"] .'"';
+        echo '<TR ID="tr-addon-' . $table . '-' . $topping["id"] . '" CLASS="tr-addon tr-addon-' . $table . ' tr-addon-' . str_replace(" ", "-", $topping["name"]) . '" TABLE="' . $table . '" SELECTED="" TOPPINGID="' . $topping["id"] . '" NAME="' . $topping["name"] .'"';
         if($topping["isfree"]){echo ' ISFREE="true"';}
         echo '>';
         $qualifiers = array("half" => "Easy", "single" => "Single", "double" => "Double", "triple" => "Triple");

@@ -6,7 +6,7 @@ var synonyms = [//multi-dimensional array of multi-word terms, the first term is
     ["green peppers"],
     ["red peppers"],
     ["black olives", "kalamata olives"],
-    ["sun dried tomatoes", "sun dried tomatoes", "sundried tomatoes", "sun dried tomatos", "sun dried tomatos", "sundried tomatos"],
+    ["sundried tomatoes", "sun dried tomatoes", "sun dried tomatoes", "sun dried tomatos", "sun dried tomatos", "sundried tomatos"],
     ["tomatoes", "tomatos"],
     ["pepperoni", "pepperonis"],
     ["red onions"],
@@ -39,7 +39,11 @@ function cloneData(data) {
 
 //splits text up by " ", then checks if the cells contain $words (can be a string or an array),
 String.prototype.containswords = function (words){
-    var text = this.toLowerCase().split(" ");
+    return containswords(this, words);
+};
+
+function containswords(text, words){
+    if(!isArray(text)) {text = text.toLowerCase().split(" ");}
     var count = new Array;
     var index;
     if(isArray(words)) {
@@ -52,7 +56,7 @@ String.prototype.containswords = function (words){
         if( index > -1 ){count.push(index);}//count.push(words[i].toLowerCase());
     }
     return count;
-};
+}
 
 //gets words between $leftword and $rightword. if $rightword isn't specified, gets all words after $leftword
 function getwordsbetween(text, leftword, rightword){
@@ -154,21 +158,37 @@ function get_quantity(searchstring, itemname){
 function get_toppings(originalsearchstring, thesearchstring){
     var searchstring = replacesynonyms(thesearchstring, synonyms, true, true);
     var ret = new Array;
-    var labelindex;
+    var labels = enum_labels();
     var tablename;
+    var maxwordtolerance = 3;
+
+    for(var searchindex = 0; searchindex < searchstring.length; searchindex++){
+        var closestword = findclosestsynonym(searchstring[searchindex], 1, labels);
+        if(closestword.word){
+            var tablename = GetAddonTable(closestword.word);
+            var qualifier = getqualifier(originalsearchstring, searchstring[searchindex]);
+            if (needsRemoving) {searchstring[searchindex - 1] = false;}
+            searchstring[searchindex] = false;//remove it from the search, no need to check it twice
+            ret.push({searchindex: searchindex, qualifier: qualifier, label: closestword.word, needsRemoving: needsRemoving, tablename: tablename });
+        }
+    }
+    /*
     select(".tr-addon", function (element) {
         var Found = -1;
         var label = enum_labels(element);
         var qualifier;
         for(var searchindex = 0; searchindex<searchstring.length; searchindex++){
             if(searchstring[searchindex]) {
-                if (label.indexOf(searchstring[searchindex]) > -1) {
-                    tablename = attr(element, "table");
-                    Found = searchindex;
-                    qualifier = getqualifier(originalsearchstring, searchstring[searchindex]);
-                    if(needsRemoving){searchstring[searchindex-1] = false;}
-                    searchstring[searchindex] = false;//remove it from the search, no need to check it twice
-                    searchindex = searchstring.length;
+                if (label.indexOf(searchstring[searchindex]) > -1) {//if this topping contains the entire text, so sundried tomatoes would count for tomatoes
+                    var wordsinlabel = label.split(" ").length;
+                    if(containswords(searchstring, label) == wordsinlabel) {
+                        tablename = attr(element, "table");
+                        Found = searchindex;
+                        qualifier = getqualifier(originalsearchstring, searchstring[searchindex]);
+                        if (needsRemoving) {searchstring[searchindex - 1] = false;}
+                        searchstring[searchindex] = false;//remove it from the search, no need to check it twice
+                        searchindex = searchstring.length;
+                    }
                 }
             }
         }
@@ -176,6 +196,7 @@ function get_toppings(originalsearchstring, thesearchstring){
             ret.push({searchindex: Found, qualifier: qualifier, label: label, needsRemoving: needsRemoving, tablename: tablename });
         }
     });
+    */
     return ret;
 }
 
@@ -262,22 +283,32 @@ function get_itemname(ID){
 }
 
 //handles the processing of search text
-function assimilate(ID, originalsearchstring){
-    //if(isUndefined(originalsearchstring)) {originalsearchstring = value("#textsearch");}
-    var defaults = clearaddons();
-    originalsearchstring = removewords(originalsearchstring);
-    var startsearchstring = replacesynonyms(originalsearchstring);
-    var searchstring = startsearchstring.split(" ");
+function assimilate(ID, originalsearchstring, isPerfectlyFormed){
+    if(isUndefined(isPerfectlyFormed)) {isPerfectlyFormed = false;}
     var itemname = get_itemname(ID);
-    var searchindex = get_quantity(searchstring, itemname);
-    var quantity = qualifytoppings(searchindex, searchstring, ID);
-    var toppings = get_toppings(originalsearchstring, searchstring);
-    searchstring = qualifytoppings(toppings, searchstring);
-    var typos = get_typos(itemname, originalsearchstring, searchstring);
-    qualifytoppings(typos, cloneData(searchstring));
-    defaults = removeduplicatetoppings(defaults, toppings);
-    defaults = removeduplicatetoppings(defaults, typos);
-    return [startsearchstring, searchstring, toppings, typos, defaults, quantity, itemname];
+    if(isPerfectlyFormed){
+        var startsearchstring = originalsearchstring.split(",");
+        for(var i=0; i<startsearchstring.length; i++){
+            startsearchstring[i] = startsearchstring[i].split("|");
+            //qualifytopping(startsearchstring[i][0], startsearchstring[i][1]);
+            startsearchstring[i] = {searchindex: i, qualifier: startsearchstring[i][0], label: startsearchstring[i][1], needsRemoving: false, tablename: ""};
+        }
+        return startsearchstring;
+    } else {
+        var defaults = clearaddons();
+        originalsearchstring = removewords(originalsearchstring);
+        var startsearchstring = replacesynonyms(originalsearchstring);
+        var searchstring = startsearchstring.split(" ");
+        var searchindex = get_quantity(searchstring, itemname);
+        var quantity = qualifytoppings(searchindex, searchstring, ID);
+        var toppings = get_toppings(originalsearchstring, searchstring);
+        searchstring = qualifytoppings(toppings, searchstring);
+        var typos = get_typos(itemname, originalsearchstring, searchstring);
+        qualifytoppings(typos, cloneData(searchstring));
+        defaults = removeduplicatetoppings(defaults, toppings);
+        defaults = removeduplicatetoppings(defaults, typos);
+        return [startsearchstring, searchstring, toppings, typos, defaults, quantity, itemname];
+    }
 }
 
 function removeduplicatetoppings(filterthis, leavethis){
@@ -329,7 +360,9 @@ function findclosestsynonym(keyword, cutoff, thesynonyms){
     }
     for(synonymparentindex=0; synonymparentindex < thesynonyms.length; synonymparentindex++){
         var value = levenshteinWeighted(keyword, thesynonyms[synonymparentindex]);
-        if(value == 0){return thesynonyms[synonymparentindex];} else if (value < cutoff){
+        if(value == 0){
+            return {distance: 0, word: thesynonyms[synonymparentindex], parent: synonymparentindex, child: 0};
+        } else if (value < cutoff){
             cutoff = value;
             ret = thesynonyms[synonymparentindex];
             parentID = synonymparentindex;
@@ -401,7 +434,7 @@ function getqualifier(startsearchstring, keyword, toppingword){
 //gets the custom qualifiers of a topping from the radio buttons
 function gettoppingqualifier(table, qualifier, topping){
     if(table) {
-        var classname = ".addon-" + table + "-" + qualifier + "-" + topping.toLowerCase().replaceAll(" ", "-");
+        var classname = ".addon-" + table + "-" + qualifier + "-" + topping.toLowerCase().replaceAll(" ", "-").replaceAll(",", "");
         return text(closest(classname, "label"));
     }
     for(var i=0; i < tables.length; i++){
@@ -535,10 +568,13 @@ function arraycompare(arr, startingindex, comparewith){
 }
 
 
+
+
+
+
+
+
 //receipt generation
-
-
-
 function orderitem(element) {
     var ID = element.getAttribute("value");
     var item = {id: ID, name: element.getAttribute("itemname"), price: element.getAttribute("price"), typeid: element.getAttribute("typeid"), type: element.getAttribute("type"), quantity: 1};
@@ -552,7 +588,7 @@ function orderitem(element) {
 
     var items = element.getAttribute("itemcount");
     for(var i=0; i < items; i++){
-        var addons = assimilateaddons(ID, element, i);
+        var addons = assimilateaddons(ID, element, i, DoPerfectlyFormed);
         if(lastquantity > 1){item.quantity = lastquantity;}
         for(var v=0; v < tables.length; v++) {
             if(item[tables[v]].length > i){
@@ -576,23 +612,49 @@ function orderitem(element) {
 function filteraddons(addons, tablename){
     var ret = new Array();
     for(var i=0;i<addons.length;i++){
-        if(tablename.isEqual(addons[i].tablename)){
-            ret.push( addons[i] );
+        if(!addons[i].label.isEqual("quantity")) {
+            if (!addons[i].tablename) {
+                if(IsAddonInTable(addons[i].label, tablename)){
+                    ret.push(addons[i]);
+                }
+            } else if (tablename.isEqual(addons[i].tablename)) {
+                ret.push(addons[i]);
+            }
         }
     }
     return ret;
 }
 
+function GetAddonTable(addon){
+    for(var i=0; i < tables.length; i++){
+        if(IsAddonInTable(addon, tables[i])){
+            return tables[i];
+        }
+    }
+}
+function IsAddonInTable(addon, tablename){
+    var Sections = Object.keys(addons[tablename]);
+    addon = addon.replaceAll(" ", "");
+    for(var SectionID = 0; SectionID < Sections.length; SectionID++){
+        var Toppings = Object.keys(addons[tablename][Sections[SectionID]]);
+        for(var ToppingID = 0; ToppingID < Toppings.length; ToppingID++){
+            if(addon.isEqual(Toppings[ToppingID].replaceAll(" ", ""))){return true;}
+        }
+    }
+}
+
 var assimilate_enabled = true;
-function assimilateaddons(ID, element, Index){
+function assimilateaddons(ID, element, Index, isPerfectlyFormed){
     //[0=startsearchstring, 1=searchstring, 2=toppings, 3=typos, 4=defaults, 5=quantity, 6=itemname]
+    if(isUndefined(isPerfectlyFormed)){isPerfectlyFormed = false;}
     var defaults = true;
     if(isUndefined(Index)){
         var defaults = false;
-        var toppings = assimilate(ID, element);
+        var toppings = assimilate(ID, element, isPerfectlyFormed);
     } else {
-        var toppings = assimilate(ID, element.getAttribute("item" + Index));
+        var toppings = assimilate(ID, element.getAttribute("item" + Index), isPerfectlyFormed);
     }
+    if(isPerfectlyFormed){return toppings;}
     lastquantity = toppings[5];
     if(defaults){
         toppings = toppings[2].concat( toppings[3] ).concat( toppings[4] );
@@ -695,11 +757,18 @@ function itemdir(index, value){
     generatereceipt();
 }
 
-function stringifyaddons(addons){
+function stringifyaddons(addons, istoppingslist){
     var text = "";
+    var delimiter = ", ";
+    if(isUndefined(istoppingslist)){istoppingslist = false;}
+    if(istoppingslist){delimiter=",";}
     for(var i=0; i<addons.length;i++){
-        if(i > 0){text += ",  ";}
-        text += '<I TITLE="' + JSON.stringify(addons[i]).replaceAll('"', "'") + '">' + addons[i].qualifier + "</I>  " + addons[i].label;
+        if(i > 0){text += delimiter;}
+        if(istoppingslist){
+            text +=  addons[i].qualifier + "|" + addons[i].label;
+        } else {
+            text += '<I TITLE="' + JSON.stringify(addons[i]).replaceAll('"', "'") + '">' + addons[i].qualifier + "</I>  " + addons[i].label;
+        }
     }
     return text;
 }
