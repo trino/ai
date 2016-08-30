@@ -655,11 +655,9 @@
             }
         }
 
+        $allkeywords = collapsearray(Query("SELECT * FROM keywords", true), "synonyms", " ");
         $presets = Query("SELECT * FROM presets", true);
-        $presetsnames = array();
-        foreach($presets as $ID => $preset){
-            $presetsnames[] = $preset["name"];
-        }
+        $presetsnames = collapsearray($presets, "name");
 ?>
     <!--script src="<?= webroot("resources/assets/scripts/api.js"); ?>"></script>
     <script src="<?= webroot("resources/assets/scripts/nui.js"); ?>"></script>
@@ -692,6 +690,12 @@
             padding: 1px 6px;
             color: inherit;
             text-decoration:none;
+        }
+
+        a{
+            color: blue;
+            cursor: pointer;
+            text-decoration:underline;
         }
 
         .editmenu{
@@ -739,6 +743,8 @@
         var addons = <?= json_encode($addons); ?>;
         var presets = <?= json_encode($presets); ?>;
         var presetnames = <?= json_encode($presetsnames); ?>;
+        var allkeywords = <?= json_encode($allkeywords) ?>;
+
         var DoPerfectlyFormed = false;
 
         function replacemultiplewordsynonyms(text, synonyms, cutoff){
@@ -800,9 +806,10 @@
 
         function submitform(whendone){
             updateURL();
+            var searchstring = value("#textsearch");
             post(currentURL, {
                 action: "keywordsearch",
-                search: value("#textsearch"),
+                search: searchstring,
                 SortColumn: value("#SortColumn"),
                 SortDirection: value("#SortDirection"),
                 limit: 5,
@@ -819,6 +826,16 @@
                     return false;
                 }
                 var HTML = "TIME STAMP: " + Date.now(true) + "<BR>";
+
+                searchstring = data.stages.final.split(" ");
+                for(var searchindex = 0; searchindex < searchstring.length; searchindex++){
+                    var closestword = findsynonym(searchstring[searchindex], allkeywords, 1);
+                    //[0=synonym parent ID, 1=synonym child ID of the closest match, 2=distance to the match, 3=closest word]
+                    if(closestword[2] > 0){
+                        HTML += '<A onclick="typo(this);" originalword="' + searchstring[searchindex] + '" suggestion="' + closestword[3] + '">' + searchstring[searchindex] + " wasn't found, did you mean " + closestword[3] + '?</A><BR>';
+                    }
+                }
+
                 if( data.is5keywords.length == 0 ){
                     HTML += "No weight 5 keywords found. Search for something like 'pizza' or 'wings'<BR>";
                 } else {
@@ -971,6 +988,18 @@
 
         function updateURL(){
             ChangeUrl("CLIPi", currentURL + "?search=" + value("#textsearch") + "&SortColumn=" + value("#SortColumn") + "&SortDirection=" + value("#SortDirection") + "&showjson=" + checked("#showjson"));
+        }
+
+        function typo(element){
+            var originalword = element.getAttribute("originalword");
+            var searchstring = value("#textsearch").split(" ");
+            for(var i=0; i<searchstring.length; i++){
+                if(searchstring[i].isEqual(originalword)){
+                    searchstring[i] = element.getAttribute("suggestion");
+                }
+            }
+            value("#textsearch", searchstring.join(" "));
+            submitform();
         }
 
         <?= view("home.getjs", array("files" => "api,nui")); ?>

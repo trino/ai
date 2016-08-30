@@ -136,7 +136,7 @@ function get($Key, $default = "", $arr = false){
     return $default;
 }
 
-function collapsearray($Arr, $Key = ""){
+function collapsearray($Arr, $Key = "", $Delimiter = false){
     foreach($Arr as $index => $value){
         if(!$Key){
             foreach($value as $key2 => $value2){
@@ -144,8 +144,13 @@ function collapsearray($Arr, $Key = ""){
                 break;
             }
         }
-        $Arr[$index] = $value[$Key];
+        if($Delimiter){
+            $Arr[$index] = explode($Delimiter, $value[$Key]);
+        } else {
+            $Arr[$index] = $value[$Key];
+        }
     }
+    return $Arr;
 }
 
 function flattenarray($arr, $key){

@@ -1,4 +1,4 @@
-/* Generated at 1472586404 */ /*api*/ //Mini Jquery replacement
+/* Generated at 1472588734 */ /*api*/ //Mini Jquery replacement
 //get more functionality from http://youmightnotneedjquery.com/
 //Siblings, Prev, Prepend, Position Relative To Viewport, Position, Parent, Outer Width With Margin, Outer Width, Outer Height With Margin, Outer Height, Offset Parent, Offset, Next, Matches Selector, matches, Find Children, Filter, Contains Selector, Contains, Clone, Children, Append
 var debugmode = true;
@@ -1090,16 +1090,28 @@ function findclosestsynonym(keyword, cutoff, thesynonyms){
     }
     return {distance: cutoff, word: ret, parent: parentID, child: childID};
 }
-//finds the parent synonym of keyword, returning [it's parent ID, the child ID of the keyword itself]. returns [-1,-1] if not found
-function findsynonym(keyword, thesynonyms){
+//finds the parent synonym of keyword, returning [it's parent ID, the child ID of the keyword itself, distance, closest word]. returns [-1,-1,-1, ""] if not found
+function findsynonym(keyword, thesynonyms, cutoff){
     if(isUndefined(thesynonyms)){thesynonyms = synonyms;}
+    if(isUndefined(cutoff)){cutoff = 0;}
     keyword = keyword.toLowerCase();
+    var ret = "", parentID = -1, childID = -1;
     for(var synonymparentindex = 0; synonymparentindex< thesynonyms.length; synonymparentindex++){
         for(var synonymchildindex = 0; synonymchildindex < thesynonyms[synonymparentindex].length; synonymchildindex++){
-            if(thesynonyms[synonymparentindex][synonymchildindex] == keyword){return [synonymparentindex, synonymchildindex];}
+            if(thesynonyms[synonymparentindex][synonymchildindex] == keyword){return [synonymparentindex, synonymchildindex, 0, thesynonyms[synonymparentindex][0]];}//found exact match
+            if(cutoff>0){
+                var value = levenshteinWeighted(thesynonyms[synonymparentindex][synonymchildindex], keyword);
+                if (value < cutoff){
+                    cutoff = value;
+                    ret = thesynonyms[synonymparentindex][0];
+                    parentID = synonymparentindex;
+                    childID = synonymchildindex;
+                }
+            }
         }
     }
-    return [-1,-1];
+    if(ret){return [parentID,childID,cutoff,ret];}//found typo
+    return [-1,-1,-1, ""];//found nothing
 }
 
 //checks the original search string for the word BEFORE the topping to see if it's a qualifer
