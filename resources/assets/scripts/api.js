@@ -214,18 +214,27 @@ function value(Selector, Value, KeyID, ValueID){
     if(isUndefined(Value)){
         Value = new Array;
         select(Selector, function (element, index) {
-            switch(KeyID){
-                case 0: Value.push(element.value); break;
-                case 1: Value.push(element.innerHTML); break;
-                case 2: Value.push(element.outerHTML); break;
-                case 3: Value.push(element.textContent); break;
-                case 4: Value.push( getComputedStyle(element)[ValueID] ); break;
-                default:
-                    if(KeyID.isEqual("checked")) {
-                        Value.push(element.checked);
-                    } else {
-                        Value.push(element.getAttribute(KeyID));
-                    }
+            var tempvalue="";
+            try {
+                switch(KeyID){
+                    case 0: tempvalue = element.value; break;
+                    case 1: tempvalue = element.innerHTML; break;
+                    case 2: tempvalue = element.outerHTML; break;
+                    case 3: tempvalue = element.textContent; break;
+                    case 4: tempvalue = getComputedStyle(element)[ValueID]; break;// if(isObject(element, "Element")) {
+                    default:
+                        if(KeyID.isEqual("checked")) {
+                            tempvalue = element.checked;
+                        } else {
+                            tempvalue = element.getAttribute(KeyID);
+                        }
+                }
+                Value.push(tempvalue);
+            } catch (err) {
+                console.log("ERROR DURING SELECT");
+                console.log("ERROR:    " + err.message);
+                console.log(Selector);
+                console.log(element);
             }
         });
         return Value.join();

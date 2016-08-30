@@ -1,5 +1,6 @@
 <?php
-    $quantities = ["next", "first", "second", "third", "fourth", "then", "other"];
+    $quantities = array("next", "first", "second", "third", "fourth", "then", "other");
+    $superquantities = array("all", "both");
     $wordstoignore = array("the", "with", "and", "times", "on", "an", "of", "just"); //discard these words
     $defaultsizes = array("pizza" => "large");
     $Tables = array("toppings", "wings_sauce");
@@ -930,11 +931,12 @@
     </SCRIPT>
 <?php
     foreach($Tables as $table){
-        //echo "\r\n" . '<!-- BEGIN ' . $table . '--!>' . view("popups.addons", array("table" => $table)) . '<!-- END ' . $table . '--!>';
-        makeaddons($table);
+        echo "\r\n" . '<!-- BEGIN ' . $table . '--!>' . view("popups.addons", array("table" => $table)) . '<!-- END ' . $table . '--!>';
+        //makeaddons($table);
     }
 }
 
+        /*
 function endtoppings($table, $start = false){
     if($start){
         $start = strtolower($start);
@@ -995,7 +997,7 @@ function makeaddons($table = "toppings"){
     endtoppings($table);
     echo '</DIV>';
     ?>
-    <SCRIPT>
+    <!--SCRIPT>
         addlistener(".addon-<?= $table ?>", "click", function(){
             var thevalue = this.value;
             var selected = attr( "#tr-" + this.name, "selected");
@@ -1016,8 +1018,9 @@ function makeaddons($table = "toppings"){
         });
 
         trigger(".cat-headerid-<?= $table; ?>-0", "click");
-    </SCRIPT>
+    </SCRIPT-->
     <?php
     echo '<!-- END ' . $table . '--!>';
 }
+*/
 ?>

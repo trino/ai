@@ -76,9 +76,10 @@
         $code = filterduplicates($code, "   ", "  ");// replace all triple spaces with two spaces (two spaces are needed)
         $code = str_replace(array('new Array()', 'new Array', "{ ", "} "), array('[]', '[]', "{", "}"),$code);
 
-        foreach(array(",", "(", ")", "+", "=", "<", ">", "||", ":", ";", ";", "{", "}", "&&") as $char){
+        foreach(array(")", "+", "=", "<", ">", "||", ";", ";", "{", "}", "&&") as $char){//",", "(", ":", and double spaces must remain
             $code = str_replace(array($char . " ", " " . $char, " " . $char . " "), $char, $code);
         }
+
         return $code;// replace some unneeded spaces, modify as needed
     }
 ?>
