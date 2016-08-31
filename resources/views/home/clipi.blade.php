@@ -736,6 +736,7 @@
         </UL>
     </DIV>
     <SCRIPT>
+        var tables = ["toppings", "wings_sauce"];//individual topping tables
         var currentURL = "<?= Request::url(); ?>";
         var token = "<?= csrf_token(); ?>";
         var wordstoignore = <?= json_encode($wordstoignore); ?>;
@@ -743,7 +744,24 @@
         var addons = <?= json_encode($addons); ?>;
         var presets = <?= json_encode($presets); ?>;
         var presetnames = <?= json_encode($presetsnames); ?>;
-        var allkeywords = <?= json_encode($allkeywords) ?>;
+        var allkeywords = <?= json_encode($allkeywords) ?>;//master spell check list
+        allkeywords.push(wordstoignore);
+        allkeywords.push(quantities);
+        allkeywords.push(presetnames);
+        allkeywords.push(enum_addons());
+
+        function enum_addons() {
+            var ret = new Array();
+            for (var TableID = 0; TableID < tables.length; TableID++) {
+                var tablename = tables[TableID];
+                var Sections = Object.keys(addons[tablename]);
+                for (var SectionID = 0; SectionID < Sections.length; SectionID++){
+                    var Toppings = Object.keys(addons[tablename][Sections[SectionID]]);
+                    ret = ret.concat(Toppings);
+                }
+            }
+            return ret;
+        }
 
         var DoPerfectlyFormed = false;
 
@@ -841,10 +859,11 @@
 
                 searchstring = data.stages.final.split(" ");
                 for(var searchindex = 0; searchindex < searchstring.length; searchindex++){
+                    var originalword = searchstring[searchindex];
                     var closestword = findsynonym(searchstring[searchindex], allkeywords, 1);
-                    //[0=synonym parent ID, 1=synonym child ID of the closest match, 2=distance to the match, 3=closest word]
-                    if(closestword[2] > 0){
-                        HTML += '<A onclick="typo(this);" originalword="' + searchstring[searchindex] + '" suggestion="' + closestword[3] + '">' + searchstring[searchindex] + " wasn't found, did you mean " + closestword[3] + '?</A><BR>';
+                    //[0=synonym parent ID, 1=synonym child ID of the closest match, 2=distance to the match, 3=closest parent word, 4=closest child word]
+                    if(closestword[2] > 0 && wordstoignore.indexOf(closestword[3]) == -1 && !originalword.isEqual(closestword[4]) ){
+                        HTML += '<A onclick="typo(this);" originalword="' + originalword + '" suggestion="' + closestword[4].toLowerCase() + '" TITLE="' + closestword + '">' + "'" + searchstring[searchindex] + "' wasn't found, did you mean '" + closestword[4].toLowerCase() + "'?</A><BR>";
                     }
                 }
 

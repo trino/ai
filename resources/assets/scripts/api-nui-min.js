@@ -1,4 +1,4 @@
-/* Generated at 1472651723 */ /*api*/ //Mini Jquery replacement
+/* Generated at 1472653953 */ /*api*/ //Mini Jquery replacement
 //get more functionality from http://youmightnotneedjquery.com/
 //Siblings, Prev, Prepend, Position Relative To Viewport, Position, Parent, Outer Width With Margin, Outer Width, Outer Height With Margin, Outer Height, Offset Parent, Offset, Next, Matches Selector, matches, Find Children, Filter, Contains Selector, Contains, Clone, Children, Append
 var debugmode = true;
@@ -724,7 +724,6 @@ function isRightClick(event){
     }
 } /*nui*/ //natural user interface
 
-var tables = ["toppings", "wings_sauce"];//individual topping tables
 var synonyms = [//multi-dimensional array of multi-word terms, the first term is the primary terms, followed by the secondary terms
     ["jalapenos", "jalapeno", "jalapeño", "jalapeños", "jalape?o"],
     ["green peppers"],
@@ -1094,28 +1093,32 @@ function findclosestsynonym(keyword, cutoff, thesynonyms){
     }
     return {distance: cutoff, word: ret, parent: parentID, child: childID};
 }
-//finds the parent synonym of keyword, returning [it's parent ID, the child ID of the keyword itself, distance, closest word]. returns [-1,-1,-1, ""] if not found
+
+//finds the parent synonym of keyword, returning [0=it's parent ID, 1=the child ID of the keyword itself, 2=distance, 3=closest parent word, 4=closest child word].
+//returns [-1,-1,-1, "", ""] if not found. cutoff needs to be above 0 to search for typos
 function findsynonym(keyword, thesynonyms, cutoff){
     if(isUndefined(thesynonyms)){thesynonyms = synonyms;}
     if(isUndefined(cutoff)){cutoff = 0;}
     keyword = keyword.toLowerCase();
-    var ret = "", parentID = -1, childID = -1;
+    var ret = "", parentID = -1, childID = -1, wordfound = "";
     for(var synonymparentindex = 0; synonymparentindex< thesynonyms.length; synonymparentindex++){
         for(var synonymchildindex = 0; synonymchildindex < thesynonyms[synonymparentindex].length; synonymchildindex++){
-            if(thesynonyms[synonymparentindex][synonymchildindex] == keyword){return [synonymparentindex, synonymchildindex, 0, thesynonyms[synonymparentindex][0]];}//found exact match
-            if(cutoff>0){
+            if(thesynonyms[synonymparentindex][synonymchildindex] == keyword){
+                return [synonymparentindex, synonymchildindex, 0, thesynonyms[synonymparentindex][0],thesynonyms[synonymparentindex][0]];//found exact match
+            } else if(cutoff>0){
                 var value = levenshteinWeighted(thesynonyms[synonymparentindex][synonymchildindex], keyword);
                 if (value < cutoff){
                     cutoff = value;
                     ret = thesynonyms[synonymparentindex][0];
                     parentID = synonymparentindex;
                     childID = synonymchildindex;
+                    wordfound = thesynonyms[synonymparentindex][synonymchildindex];
                 }
             }
         }
     }
-    if(ret){return [parentID,childID,cutoff,ret];}//found typo
-    return [-1,-1,-1, ""];//found nothing
+    if(ret){return [parentID,childID,cutoff,ret,wordfound];}//found typo
+    return [-1,-1,-1, "", ""];//found nothing
 }
 
 //checks the original search string for the word BEFORE the topping to see if it's a qualifer
@@ -1183,8 +1186,10 @@ function gettoppingqualifier(table, qualifier, topping){
 //Damerau–Levenshtein distance
 //https://gist.github.com/doukremt/9473228
 function levenshteinWeighted (seq1,seq2) {
-    var len1=seq1.length, len2=seq2.length;
-    var i, j, dist, ic, dc, rc, last, old, column;
+    seq1 = seq1.toLowerCase();
+    seq2 = seq2.toLowerCase();
+    if(seq1 == seq2){return 0;}
+    var len1=seq1.length, len2=seq2.length, i, j, dist, ic, dc, rc, last, old, column;
 
     var weighter={
         insert:     function(c)     { return 1.0; },
