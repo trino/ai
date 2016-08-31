@@ -26,6 +26,7 @@ String.prototype.replaceAll = function (search, replacement) {
 
 //returns true if 2 strings are equal, case-insensitive
 String.prototype.isEqual = function (str){
+    if(isUndefined(str)){return false;}
     return this.toUpperCase()==str.toUpperCase();
 };
 

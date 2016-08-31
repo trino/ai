@@ -1,4 +1,4 @@
-/* Generated at 1472588734 */ /*api*/ //Mini Jquery replacement
+/* Generated at 1472610054 */ /*api*/ //Mini Jquery replacement
 //get more functionality from http://youmightnotneedjquery.com/
 //Siblings, Prev, Prepend, Position Relative To Viewport, Position, Parent, Outer Width With Margin, Outer Width, Outer Height With Margin, Outer Height, Offset Parent, Offset, Next, Matches Selector, matches, Find Children, Filter, Contains Selector, Contains, Clone, Children, Append
 var debugmode = true;
@@ -26,6 +26,7 @@ String.prototype.replaceAll = function (search, replacement) {
 
 //returns true if 2 strings are equal, case-insensitive
 String.prototype.isEqual = function (str){
+    if(isUndefined(str)){return false;}
     return this.toUpperCase()==str.toUpperCase();
 };
 

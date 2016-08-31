@@ -793,7 +793,7 @@
                 aftertext = aftertext.replaceAll(presets[i].name, presets[i].toppings);
             }
             text = stringifyaddons(assimilateaddons(0, aftertext), DoPerfectlyFormed);
-            if(isNumeric(lastquantity)){text += ",quantity|" + lastquantity;}
+            if(isNumeric(lastquantity) && DoPerfectlyFormed){text += ",quantity|" + lastquantity;}
             assimilate_enabled = true;
             return text;
         }
