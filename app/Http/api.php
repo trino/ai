@@ -136,18 +136,23 @@ function get($Key, $default = "", $arr = false){
     return $default;
 }
 
-function collapsearray($Arr, $Key = "", $Delimiter = false){
+function collapsearray($Arr, $ValueKey = false, $KeyKey = false, $Delimiter = false){
     foreach($Arr as $index => $value){
-        if(!$Key){
+        if(!$ValueKey){
             foreach($value as $key2 => $value2){
-                $Key = $key2;
+                $ValueKey = $key2;
                 break;
             }
         }
         if($Delimiter){
-            $Arr[$index] = explode($Delimiter, $value[$Key]);
+            $Arr[$index] = explode($Delimiter, $value[$ValueKey]);
         } else {
-            $Arr[$index] = $value[$Key];
+            if($KeyKey){
+                $Arr[$value[$KeyKey]] = $value[$ValueKey];
+                unset($Arr[$index]);
+            } else {
+                $Arr[$index] = $value[$ValueKey];
+            }
         }
     }
     return $Arr;

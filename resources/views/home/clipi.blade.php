@@ -330,6 +330,7 @@
 
                 $result = Query("SELECT * FROM keywords WHERE synonyms REGEXP '" . $words . "';");
                 if($result){
+                    $results["integrity"] = $_POST["integrity"];
                     $results["status"] = true;
                     $results["is5keywords"] = array();
                     $results["non5keywords"] = array();
@@ -653,7 +654,7 @@
     } else {
         if(!isset($_GET["search"])){$_GET["search"]="";}
         if(!isset($_POST["search"])){$_POST["search"]=$_GET["search"];}
-        $isfree = array();
+        $isfree = collapsearray(Query("SELECT * FROM additional_toppings", true), "price", "size");
         foreach($Tables as $table){
             $results = Query("SELECT * FROM " . $table, true);
             $isfree[$table] = array();
@@ -665,7 +666,7 @@
             }
         }
 
-        $allkeywords = collapsearray(Query("SELECT * FROM keywords", true), "synonyms", " ");
+        $allkeywords = collapsearray(Query("SELECT * FROM keywords", true), "synonyms", false, " ");
         $presets = Query("SELECT * FROM presets", true);
         $presetsnames = collapsearray($presets, "name");
 ?>
@@ -714,6 +715,14 @@
             position: relative;
             top: 3px;
         }
+
+        .blink {
+            animation: blinker 1s linear infinite;
+        }
+
+        @keyframes blinker {
+            50% { opacity: 0.25; }
+        }
     </STYLE>
     <DIV id="formmain" class="red">
         <input type="text" id="textsearch" name="search" style="width:100%" on_old_input="submitform();" onKeyUp="handlebutton(event);" value="<?= $_POST["search"]; ?>" TITLE="Press 'Space' or 'Enter' to search">
@@ -756,10 +765,15 @@
         var presetnames = <?= json_encode($presetsnames); ?>;
         var allkeywords = <?= json_encode($allkeywords); ?>;//master spell check list
         var freetoppings = <?= json_encode($isfree); ?>;
+
         allkeywords.push(wordstoignore);
         allkeywords.push(quantities);
         allkeywords.push(presetnames);
         allkeywords.push(enum_addons());
+
+        function integritycheck(){
+            return CRC32(JSON.stringify(freetoppings));
+        }
 
         function enum_addons() {
             var ret = new Array();
@@ -843,6 +857,7 @@
                 search: searchstring,
                 SortColumn: value("#SortColumn"),
                 SortDirection: value("#SortDirection"),
+                integrity: integritycheck(),
                 limit: 5,
                 _token: token
             }, function(result, success){
@@ -950,12 +965,12 @@
                                     if(!itemname.endswith("s")){itemname += "s"}
                                     itemprice += " ($" + Number(itemprice * quantity).toFixed(2) + ")";
                                 }
-                                HTML += currentButtonHTML + ' TITLE="Item: ' + itemtitle + '">Order: ' + itemname + " for: $" + itemprice + '</BUTTON>' +
+                                HTML += currentButtonHTML + ' TITLE="Item: ' + itemtitle + '">Order: ' + itemname + " for: $" + itemprice + '*</BUTTON>' +
                                         '<A CLASS="button editmenu" HREF="edit?id=' + currentItem.id + '" target="_new" TITLE="Edit: ' + currentItem.item + '">&#10096;Edit</A>';
                             }
                         }
                     }
-                    HTML += '<HR>';
+                    HTML += '<BR><SPAN CLASS="blink">*Prices do not include addons, which will be calculated when you add the item to the order</SPAN><HR>';
                 }
 
                 //innerHTML("#searchresults", HTML);
