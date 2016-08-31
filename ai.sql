@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 30, 2016 at 09:48 PM
+-- Generation Time: Aug 31, 2016 at 05:12 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -41,7 +41,7 @@ INSERT INTO `additional_toppings` (`id`, `size`, `price`) VALUES
 (1, 'Small', 1),
 (2, 'Medium', 1.25),
 (3, 'Large', 1.5),
-(4, 'X-Large', 2);
+(4, 'Extra Large', 2);
 
 -- --------------------------------------------------------
 
@@ -383,17 +383,20 @@ CREATE TABLE IF NOT EXISTS `presets` (
   `name` varchar(255) NOT NULL,
   `toppings` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `presets`
 --
 
 INSERT INTO `presets` (`id`, `name`, `toppings`) VALUES
-(1, 'hawaiian', 'Pineapple Bacon Ham'),
-(2, 'classic super', 'pepperoni mushrooms green peppers'),
+(1, 'hawaiian', 'pineapple bacon ham'),
+(2, 'canadian', 'pepperoni mushrooms bacon'),
 (3, 'deluxe', 'pepperoni mushrooms green peppers'),
-(4, 'vegetarian', 'mushrooms tomatoes green peppers');
+(4, 'vegetarian', 'mushrooms tomatoes green peppers'),
+(5, 'meat', 'sausage salami bacon pepperoni'),
+(6, 'super', 'pepperoni mushrooms green peppers'),
+(7, 'supreme', 'pepperoni mushrooms green peppers');
 
 -- --------------------------------------------------------
 
@@ -434,14 +437,14 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1472578348');
+(1, 'lastSQL', '1472586486');
 
 -- --------------------------------------------------------
 
@@ -472,7 +475,6 @@ INSERT INTO `toppings` (`id`, `name`, `type`, `isfree`, `qualifiers`) VALUES
 (7, 'Cheddar', 'Cheese', 0, ''),
 (8, 'Cheese', 'Cheese', 0, ''),
 (9, 'Chicken', 'Meat', 0, ''),
-(10, 'Extra Cheese', 'Cheese', 0, ''),
 (11, 'Feta Cheese', 'Cheese', 0, ''),
 (12, 'Fresh Mushrooms', 'Vegetable', 0, ''),
 (13, 'Green Olives', 'Vegetable', 0, ''),

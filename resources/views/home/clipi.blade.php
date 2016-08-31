@@ -262,7 +262,8 @@
                 $_POST["search"] = trim(filterduplicates(filternonalphanumeric($_POST["search"]))); //remove non-alphanumeric and double-spaces
                 $_POST["search"] = str_replace(array(" for 1", " for one"), "", $_POST["search"]);
                 $words = explodetrim($_POST["search"], " ", false);
-                foreach($words as $ID => $word){ //reduce extra "one"s
+                $wasqualifier = false;
+                foreach($words as $ID => $word){ //reduce extra "one"s and adjacent qualifiers
                     $word = normalizetext($word);
                     if($word == "1" || $word == "one"){
                         $firstword="";
@@ -271,11 +272,16 @@
                         if($ID > 0){$firstword = $words[$ID-1];}
                         $DOIT = count(containswords(array($firstword, $lastword), $quantities)) > 0;
                         if(!$DOIT){if(count(containswords(array($firstword, $lastword), array("with")))){$DOIT = 2;}}
-                        if($DOIT == 1){$words[$ID] = "";} else if ($DOIT == 2){$words[$ID] = $quantities[0];}
+                        if($DOIT == 1 || $wasqualifier){$words[$ID] = "";} else if ($DOIT == 2){$words[$ID] = $quantities[0];$wasqualifier = true;}
+                    } else if(in_array($word, $quantities)) {
+                        if($wasqualifier){$words[$ID] = "";}
+                        $wasqualifier = true;
+                    } else {
+                        $wasqualifier = false;
                     }
                 }
                 $_POST["search"] = filterduplicates(implode(" ", $words));
-                $results["stages"][] = $_POST["search"];
+                $results["stages"]["extraones"] = $_POST["search"];
 
                 $_POST["search"] = separatealphanumerics($_POST["search"]);
                 $results["stages"]["numbers"] = $_POST["search"];
@@ -647,11 +653,15 @@
     } else {
         if(!isset($_GET["search"])){$_GET["search"]="";}
         if(!isset($_POST["search"])){$_POST["search"]=$_GET["search"];}
-        $addons = array();
+        $isfree = array();
         foreach($Tables as $table){
             $results = Query("SELECT * FROM " . $table, true);
+            $isfree[$table] = array();
             foreach($results as $result){
                 $addons[$table][$result["type"]][$result["name"]] = explodetrim($result["qualifiers"]);
+                if($result["isfree"]){
+                    $isfree[$table][] = $result["name"];
+                }
             }
         }
 
@@ -744,7 +754,8 @@
         var addons = <?= json_encode($addons); ?>;
         var presets = <?= json_encode($presets); ?>;
         var presetnames = <?= json_encode($presetsnames); ?>;
-        var allkeywords = <?= json_encode($allkeywords) ?>;//master spell check list
+        var allkeywords = <?= json_encode($allkeywords); ?>;//master spell check list
+        var freetoppings = <?= json_encode($isfree); ?>;
         allkeywords.push(wordstoignore);
         allkeywords.push(quantities);
         allkeywords.push(presetnames);
@@ -825,6 +836,8 @@
         function submitform(whendone){
             updateURL();
             var searchstring = value("#textsearch");
+            searchstring = searchstring.toLowerCase().replaceAll("1 with", "first with").replaceAll("one with", "first with");
+
             post(currentURL, {
                 action: "keywordsearch",
                 search: searchstring,
@@ -1035,7 +1048,7 @@
 
         <?= view("home.getjs", array("files" => "api,nui")); ?>
 
-        <?php if(trim($_POST["search"])){echo 'submitform();';} ?>
+        <?php if(trim($_POST["search"])){echo ' doonload(function(){ submitform(); });';} ?>
     </SCRIPT>
 <?php
     foreach($Tables as $table){

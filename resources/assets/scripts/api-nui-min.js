@@ -1,4 +1,4 @@
-/* Generated at 1472653953 */ /*api*/ //Mini Jquery replacement
+/* Generated at 1472655782 */ /*api*/ //Mini Jquery replacement
 //get more functionality from http://youmightnotneedjquery.com/
 //Siblings, Prev, Prepend, Position Relative To Viewport, Position, Parent, Outer Width With Margin, Outer Width, Outer Height With Margin, Outer Height, Offset Parent, Offset, Next, Matches Selector, matches, Find Children, Filter, Contains Selector, Contains, Clone, Children, Append
 var debugmode = true;
@@ -1006,9 +1006,9 @@ function get_itemname(ID){
 }
 
 //handles the processing of search text
-function assimilate(ID, originalsearchstring, isPerfectlyFormed){
+function assimilate(ID, originalsearchstring, isPerfectlyFormed, itemname){
     if(isUndefined(isPerfectlyFormed)) {isPerfectlyFormed = false;}
-    var itemname = get_itemname(ID);
+    if(isUndefined(itemname)) {itemname = get_itemname(ID);}
     if(isPerfectlyFormed){
         var startsearchstring = originalsearchstring.split(",");
         for(var i=0; i<startsearchstring.length; i++){
@@ -1186,10 +1186,11 @@ function gettoppingqualifier(table, qualifier, topping){
 //Damerau–Levenshtein distance
 //https://gist.github.com/doukremt/9473228
 function levenshteinWeighted (seq1,seq2) {
+    var len1=seq1.length, len2=seq2.length, i, j, dist, ic, dc, rc, last, old, column;
+    if(len1==0 || len2==0 || !isString(seq1) || !isString(seq2)){return 100;}
     seq1 = seq1.toLowerCase();
     seq2 = seq2.toLowerCase();
     if(seq1 == seq2){return 0;}
-    var len1=seq1.length, len2=seq2.length, i, j, dist, ic, dc, rc, last, old, column;
 
     var weighter={
         insert:     function(c)     { return 1.0; },
@@ -1329,7 +1330,7 @@ function orderitem(element) {
 
     var items = element.getAttribute("itemcount");
     for(var i=0; i < items; i++){
-        var addons = assimilateaddons(ID, element, i, DoPerfectlyFormed);
+        var addons = assimilateaddons(ID, element, i, DoPerfectlyFormed, element.getAttribute("itemname"));
         if(lastquantity > 1){item.quantity = lastquantity;}
         for(var v=0; v < tables.length; v++) {
             if(item[tables[v]].length > i){
@@ -1346,6 +1347,7 @@ function orderitem(element) {
         }
     }
 
+    if(item.quantity == 0){item.quantity=1;}
     order.push(item);
     generatereceipt();
 }
@@ -1385,15 +1387,15 @@ function IsAddonInTable(addon, tablename){
 }
 
 var assimilate_enabled = true;
-function assimilateaddons(ID, element, Index, isPerfectlyFormed){
+function assimilateaddons(ID, element, Index, isPerfectlyFormed, itemname){
     //[0=startsearchstring, 1=searchstring, 2=toppings, 3=typos, 4=defaults, 5=quantity, 6=itemname]
     if(isUndefined(isPerfectlyFormed)){isPerfectlyFormed = false;}
     var defaults = true;
     if(isUndefined(Index)){
         var defaults = false;
-        var toppings = assimilate(ID, element, isPerfectlyFormed);
+        var toppings = assimilate(ID, element, isPerfectlyFormed, itemname);
     } else {
-        var toppings = assimilate(ID, element.getAttribute("item" + Index), isPerfectlyFormed);
+        var toppings = assimilate(ID, element.getAttribute("item" + Index), isPerfectlyFormed, itemname);
     }
     if(isPerfectlyFormed){return toppings;}
     lastquantity = toppings[5];
