@@ -1,4 +1,4 @@
-/* Generated at 1472610054 */ /*api*/ //Mini Jquery replacement
+/* Generated at 1472651723 */ /*api*/ //Mini Jquery replacement
 //get more functionality from http://youmightnotneedjquery.com/
 //Siblings, Prev, Prepend, Position Relative To Viewport, Position, Parent, Outer Width With Margin, Outer Width, Outer Height With Margin, Outer Height, Offset Parent, Offset, Next, Matches Selector, matches, Find Children, Filter, Contains Selector, Contains, Clone, Children, Append
 var debugmode = true;
@@ -570,17 +570,20 @@ function trigger(Selector, eventName, options) {
 //whenDone (OPTIONAL): function to run when done.
     //whenDone Parameters:
         //message: data recieved
-        //status: true if successful
-//async (OPTIONAL): if undefined, async=true, else false
-function post(URL, data, whenDone, async){
+        //status: true if successful (will check for LARAVEL errors)
+//Method (OPTIONAL: assumed POST): POST or GET
+//async (OPTIONAL: assumed true): is it asynchronous
+function post(URL, data, whenDone, Method, async){
     var request = new XMLHttpRequest();
-    request.open('POST', URL, isUndefined(async));
+    if(isUndefined(async)){async=true;}
+    if(isUndefined(Method)){Method="POST";}
+    request.open(Method.toUpperCase(), URL, isUndefined(async));
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request.onload = function() {
         var status = request.status >= 200 && request.status < 400;
         var responseText = this.responseText;
         if(!status){
-            if(responseText.contains('Whoops, looks like something went wrong')){
+            if(responseText.contains('Whoops')){
                 responseText = responseText.between('<span class="exception_title">', '</span>');
                 responseText = responseText.between('>', '<') + " in " + responseText.between('<a title="', '" ondblclick');
             }

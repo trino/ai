@@ -816,7 +816,19 @@
                 _token: token
             }, function(result, success){
                 if(!success){
-                    alert("ERROR: " + result);
+                    if(result.contains("TokenMismatchException")){//attempt to generate a new token
+                        var oldtoken = token;
+                        post("<?= webroot("public/auth/gettoken"); ?>", {}, function(result, status){
+                            if(status){
+                                token = result;
+                                submitform(whendone);
+                            }
+                            //clearorder();
+                            alert("Your session has expired. A new one has started, no need to refresh the page.");
+                        }, "GET");
+                    } else {
+                        alert("ERROR: " + result);
+                    }
                     return false;
                 }
                 try {
