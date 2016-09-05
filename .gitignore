@@ -9,3 +9,6 @@ Homestead.json
 *.json
 *.lock
 .idea/workspace.xml
+*.iml
+.idea/workspace.xml
+*.iml
