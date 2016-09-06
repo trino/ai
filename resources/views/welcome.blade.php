@@ -17,35 +17,13 @@
 
         body {
             font-family: 'Roboto', serif;
-            background-color: #181009;
-            background-size: 58px 58px;
-            background-position: 0px 2px, 4px 35px, 29px 31px, 34px 6px;
-            background-image: -webkit-linear-gradient(115deg, #b00 23px, transparent 23px),
-            -webkit-linear-gradient(295deg, #d00 23px, transparent 23px),
-            -webkit-linear-gradient(115deg, #b00 23px, transparent 23px),
-            -webkit-linear-gradient(295deg, #d00 23px, transparent 23px);
-            background-image: -moz-linear-gradient(115deg, #b00 23px, transparent 23px),
-            -moz-linear-gradient(295deg, #d00 23px, transparent 23px),
-            -moz-linear-gradient(115deg, #b00 23px, transparent 23px),
-            -moz-linear-gradient(295deg, #d00 23px, transparent 23px);
-            background-image: linear-gradient(335deg, #b00 23px, transparent 23px) 0 2px,
-            linear-gradient(155deg, #d00 23px, transparent 23px) 4px 35px,
-            linear-gradient(335deg, #b00 23px, transparent 23px) 29px 31px,
-            linear-gradient(155deg, #d00 23px, transparent 23px) 34px 6px;
-            -pie-background: linear-gradient(335deg, #b00 23px, transparent 23px) 0 2px / 58px,
-            linear-gradient(155deg, #d00 23px, transparent 23px) 4px 35px / 58px,
-            linear-gradient(335deg, #b00 23px, transparent 23px) 29px 31px / 58px,
-            linear-gradient(155deg, #d00 23px, transparent 23px) 34px 6px / 58px,
-            #181009;
+
         }
 
-        .card {
-            border: 4px solid #333;
-        }
 
-        button {
+        button,.card {
             box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .36), 0 5px 10px 0 rgba(0, 0, 0, .22);
-
+border:0 !important;
         }
     </style>
 

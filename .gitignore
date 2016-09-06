@@ -12,3 +12,4 @@ Homestead.json
 *.iml
 .idea/workspace.xml
 *.iml
+*.xml
