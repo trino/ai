@@ -725,6 +725,13 @@
             width:100%;
             text-align: left;
         }
+
+        .cost::before {
+            content: '$';
+        }
+        .cost{
+            text-align: right;
+        }
     </STYLE>
     <DIV id="formmain" class="red">
         <input type="text" id="textsearch" name="search" style="width:100%" on_old_input="submitform();" onKeyUp="handlebutton(event);" value="<?= $_POST["search"]; ?>" TITLE="Press 'Space' or 'Enter' to search">
@@ -935,7 +942,7 @@
                                 }
                             }
 
-                            HTML += '<TABLE BORDER="1">';
+                            HTML += '<TABLE BORDER="1"><TR><TH>Item</TH><TH>Sub-total</TH><TH>Addons</TH><TH>Cost</TH><TH>Total</TH><TH>Edit</TH></TR>';
                             for(var i2 = 0; i2 < currentsearch.menuitems.length; i2++){
                                 var quantity = 1;
                                 var itemtitle = i2;
@@ -973,7 +980,7 @@
                                 var addons = getaddonscost(currentItem, currentsearch.items);
                                 var total = Number(currentItem.price) + Number(addons.price);
 
-                                HTML += '<TR><TD>' + currentButtonHTML + ' TITLE="Item: ' + itemtitle + ' - ' + addons.summary + '">Order: ' + itemname + " for: $" + itemprice + ' + $' + (addons.price*quantity).toFixed(2) + " = $" + (total*quantity).toFixed(2) + '</BUTTON></TD><TD><A CLASS="button editmenu" HREF="edit?id=' + currentItem.id + '" target="_new" TITLE="Edit: ' + currentItem.item + '">Edit</A></TD></TR>';
+                                HTML += '<TR><TD>' + currentButtonHTML + ' TITLE="Item: ' + itemtitle + ' - ' + addons.summary + '">' + itemname + '</BUTTON></TD><TD CLASS="cost">' + itemprice + '</TD><TD>' + addons.count + 'x $' + addons.pertopping.toFixed(2) + '</TD><TD CLASS="cost">' + (addons.price*quantity).toFixed(2) + '</TD><TD CLASS="cost">' + (total*quantity).toFixed(2) + '</TD><TD><A CLASS="button editmenu" HREF="edit?id=' + currentItem.id + '" target="_new" TITLE="Edit: ' + currentItem.item + '">Edit</A></TD></TR>';
                             }
                         }
                     }
