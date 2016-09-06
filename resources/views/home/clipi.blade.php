@@ -698,7 +698,7 @@
             appearance: button;
             -moz-appearance: button;
             -webkit-appearance: button;
-            padding: 1px 6px;
+            padding: 2px;
             color: inherit;
             text-decoration:none;
         }
@@ -710,10 +710,7 @@
         }
 
         .editmenu{
-            height:19px;
-            margin-right: 10px;
-            position: relative;
-            top: 3px;
+            height:100%;
         }
 
         .blink {
@@ -722,6 +719,11 @@
 
         @keyframes blinker {
             50% { opacity: 0.25; }
+        }
+
+        .assimilateall{
+            width:100%;
+            text-align: left;
         }
     </STYLE>
     <DIV id="formmain" class="red">
@@ -933,6 +935,7 @@
                                 }
                             }
 
+                            HTML += '<TABLE BORDER="1">';
                             for(var i2 = 0; i2 < currentsearch.menuitems.length; i2++){
                                 var quantity = 1;
                                 var itemtitle = i2;
@@ -964,13 +967,18 @@
                                     itemname = quantity + "x " + itemname;
                                     if(!itemname.endswith("s")){itemname += "s"}
                                     itemprice += " ($" + Number(itemprice * quantity).toFixed(2) + ")";
+                                } else {
+                                    quantity = 1;
                                 }
-                                HTML += currentButtonHTML + ' TITLE="Item: ' + itemtitle + '">Order: ' + itemname + " for: $" + itemprice + '*</BUTTON>' +
-                                        '<A CLASS="button editmenu" HREF="edit?id=' + currentItem.id + '" target="_new" TITLE="Edit: ' + currentItem.item + '">&#10096;Edit</A>';
+                                var addons = getaddonscost(currentItem, currentsearch.items);
+                                var total = Number(currentItem.price) + Number(addons.price);
+
+                                HTML += '<TR><TD>' + currentButtonHTML + ' TITLE="Item: ' + itemtitle + ' - ' + addons.summary + '">Order: ' + itemname + " for: $" + itemprice + ' + $' + (addons.price*quantity).toFixed(2) + " = $" + (total*quantity).toFixed(2) + '</BUTTON></TD><TD><A CLASS="button editmenu" HREF="edit?id=' + currentItem.id + '" target="_new" TITLE="Edit: ' + currentItem.item + '">Edit</A></TD></TR>';
                             }
                         }
                     }
-                    HTML += '<BR><SPAN CLASS="blink">*Prices do not include addons, which will be calculated when you add the item to the order</SPAN><HR>';
+                    //HTML += '<BR><SPAN CLASS="blink">*Prices do not include addons, which will be calculated when you add the item to the order</SPAN><HR>';
+                    HTML += '</TABLE><HR>';
                 }
 
                 //innerHTML("#searchresults", HTML);

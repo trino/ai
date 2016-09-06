@@ -714,6 +714,20 @@ function clearorder(){
     }
 }
 
+function getaddonscost(currentItem, addons){
+    var testitem = {name: currentItem.item};
+    for(var i = 0; i < tables.length; i++) {
+        testitem[tables[i]] = new Array;
+    }
+    for(i=0; i<addons.length; i++){
+        var addon = addons[i].getbetween('<I TITLE="', '">').replaceAll("'", '"');
+        var item = JSON.parse(addon);
+        testitem[ item.tablename ].push(item);
+    }
+    testitem = addoncost(testitem);
+    return testitem;
+}
+
 function addoncost(item){
     var price = 0;
     var count = 0;
@@ -734,6 +748,7 @@ function addoncost(item){
             var tablesaddons = item[tables[i]];
             for (var v = 0; v < tablesaddons.length; v++) {
                 var addons = item[tablename][v];//all addons for this table
+                if(!isArray(addons)){addons = [addons];}
                 for (var t = 0; t < addons.length; t++) {
                     var addon = addons[t];//{qualifier (single, double, triple), label, tablename}
                     var label = addon.label.toLocaleLowerCase().replaceAll(" ", "-");

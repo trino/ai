@@ -1,4 +1,4 @@
-/* Generated at 1472667067 */ /*api*/ //Mini Jquery replacement
+/* Generated at 1473171174 */ /*api*/ //Mini Jquery replacement
 //get more functionality from http://youmightnotneedjquery.com/
 //Siblings, Prev, Prepend, Position Relative To Viewport, Position, Parent, Outer Width With Margin, Outer Width, Outer Height With Margin, Outer Height, Offset Parent, Offset, Next, Matches Selector, matches, Find Children, Filter, Contains Selector, Contains, Clone, Children, Append
 var debugmode = true;
@@ -75,6 +75,11 @@ String.prototype.trimright = function (str){
 //returns if str is contained in this
 String.prototype.contains = function (str){
     return this.indexOf(str) > -1;
+};
+
+String.prototype.getbetween = function (left, right){
+    var subStr = this.match(left + "(.*)" + right);
+    return subStr[1];
 };
 
 //gets the typename of an object
@@ -1438,6 +1443,20 @@ function clearorder(){
     }
 }
 
+function getaddonscost(currentItem, addons){
+    var testitem = {name: currentItem.item};
+    for(var i = 0; i < tables.length; i++) {
+        testitem[tables[i]] = new Array;
+    }
+    for(i=0; i<addons.length; i++){
+        var addon = addons[i].getbetween('<I TITLE="', '">').replaceAll("'", '"');
+        var item = JSON.parse(addon);
+        testitem[ item.tablename ].push(item);
+    }
+    testitem = addoncost(testitem);
+    return testitem;
+}
+
 function addoncost(item){
     var price = 0;
     var count = 0;
@@ -1458,6 +1477,7 @@ function addoncost(item){
             var tablesaddons = item[tables[i]];
             for (var v = 0; v < tablesaddons.length; v++) {
                 var addons = item[tablename][v];//all addons for this table
+                if(!isArray(addons)){addons = [addons];}
                 for (var t = 0; t < addons.length; t++) {
                     var addon = addons[t];//{qualifier (single, double, triple), label, tablename}
                     var label = addon.label.toLocaleLowerCase().replaceAll(" ", "-");

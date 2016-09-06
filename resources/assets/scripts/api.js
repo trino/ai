@@ -77,6 +77,11 @@ String.prototype.contains = function (str){
     return this.indexOf(str) > -1;
 };
 
+String.prototype.getbetween = function (left, right){
+    var subStr = this.match(left + "(.*)" + right);
+    return subStr[1];
+};
+
 //gets the typename of an object
 Object.prototype.getName = function() {
     var funcNameRegex = /function (.{1,})\(/;
