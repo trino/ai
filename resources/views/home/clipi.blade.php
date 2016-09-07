@@ -615,8 +615,7 @@
                     if(is_array($keywordids)){$keywordids = implode(",", $keywordids);}
                     $SQL .= "AND keyword_id IN (" . $keywordids . ")"; //only return results from the keyword search
                     $SQL .= ") results GROUP BY menuid ORDER BY " . $results["SortColumn"] . " " . $results["SortDirection"] . " LIMIT " . $results["limit"];
-                    $results["SQL"] = $SQL;
-
+                    if(debugmode){$results["SQL"] = $SQL;}
                     $SQLresults = Query($SQL, true);
                     foreach($SQLresults as $menuitemID => $row){
                         $row["id"] = $row["menuid"];

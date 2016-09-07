@@ -1,5 +1,6 @@
 <?php
 $webroot = webroot();
+define("debugmode", true);
 
 function webroot($file = "") {
     $webroot = $_SERVER["REQUEST_URI"];
