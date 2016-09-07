@@ -12,6 +12,7 @@ var synonyms = [//multi-dimensional array of multi-word terms, the first term is
     ["extra large", "x-large"],
     ["anchovies", "anchovy"],
 
+    ["medium", "med"],
     ["2", "two"],
     ["cooked", "done"]
 ];
@@ -810,7 +811,7 @@ function generatereceipt(index, totaladdons){
     } else {//return 1 item
         var item = order[index];
         var tableterm = "123TABLE123";
-        var price = Number(item.price) + Number(totaladdons.price);
+        var price = (Number(item.price) + Number(totaladdons.price)).toFixed(2);
         text = '<TR><TD CLASS="item' + item.id + '" TITLE="' + item.integrity + '">' + index + '</TD><TD>' + item.name + '</TD><TD>' +
             '<BUTTON CLASS="minus" ONCLICK="itemdir(' + index + ', -1);">-</BUTTON><SPAN STYLE="float:right;">' + item.quantity + '<BUTTON CLASS="plus" ONCLICK="itemdir(' + index + ', 1);">+</BUTTON></SPAN></TD><TD ALIGN="right"><SPAN STYLE="float:left;">$</SPAN>' + price;
         if(item.quantity > 1){text += 'x' + item.quantity + '<HR>($' + (price * Number(item.quantity)).toFixed(2) + ')';}

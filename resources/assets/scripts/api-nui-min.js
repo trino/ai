@@ -1,4 +1,4 @@
-/* Generated at 1473271413 */ /*api*/ //Mini Jquery replacement
+/* Generated at 1473276365 */ /*api*/ //Mini Jquery replacement
 //get more functionality from http://youmightnotneedjquery.com/
 //Siblings, Prev, Prepend, Position Relative To Viewport, Position, Parent, Outer Width With Margin, Outer Width, Outer Height With Margin, Outer Height, Offset Parent, Offset, Next, Matches Selector, matches, Find Children, Filter, Contains Selector, Contains, Clone, Children, Append
 var debugmode = true;
@@ -742,6 +742,7 @@ var synonyms = [//multi-dimensional array of multi-word terms, the first term is
     ["extra large", "x-large"],
     ["anchovies", "anchovy"],
 
+    ["medium", "med"],
     ["2", "two"],
     ["cooked", "done"]
 ];
@@ -1540,7 +1541,7 @@ function generatereceipt(index, totaladdons){
     } else {//return 1 item
         var item = order[index];
         var tableterm = "123TABLE123";
-        var price = Number(item.price) + Number(totaladdons.price);
+        var price = (Number(item.price) + Number(totaladdons.price)).toFixed(2);
         text = '<TR><TD CLASS="item' + item.id + '" TITLE="' + item.integrity + '">' + index + '</TD><TD>' + item.name + '</TD><TD>' +
             '<BUTTON CLASS="minus" ONCLICK="itemdir(' + index + ', -1);">-</BUTTON><SPAN STYLE="float:right;">' + item.quantity + '<BUTTON CLASS="plus" ONCLICK="itemdir(' + index + ', 1);">+</BUTTON></SPAN></TD><TD ALIGN="right"><SPAN STYLE="float:left;">$</SPAN>' + price;
         if(item.quantity > 1){text += 'x' + item.quantity + '<HR>($' + (price * Number(item.quantity)).toFixed(2) + ')';}

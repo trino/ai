@@ -292,8 +292,9 @@
                     if(in_array($plural, $wordstoignore) || !$plural) {
                         unset($plurals[$index]); //discard words from $wordstoignore
                     } else if (strlen($plural) > 2 && right($plural, 1) == "s"){ //if the last letter of the word is an 's', remove it and add the result as a new word to handle plurals
-                        $plurals[$index] = $plural;
-                        $plurals[] = left($plural, strlen($plural)-1);
+                        $plurals[$index] = left($plural, strlen($plural)-1);
+                        //$plurals[$index] = $plural;
+                        //$plurals[] = left($plural, strlen($plural)-1);
                     }
                 }
 
@@ -310,6 +311,7 @@
                                 "words" => array("pepsi", "cola", "coke") //should contain entire list of drink names...
                         )
                 );
+
                 foreach($primarysynoynms as $primarykeyword => $parameters){
                     $all = get("all", false, $parameters);
                     $normalizationmode = get("normalizationmode", 0, $parameters);
@@ -383,6 +385,48 @@
                         }
                         //done
 
+                        function makesureonly1weight5($results, $WordsBefore, $data){
+                            $foundanother = false;
+                            $keywordids = $data["keywordids"];
+                            $primarykeyid = $data["primarykeyid"];
+                            $text = getsynonymsandweights($data["text"], $results["keywords"], false);
+                            $started = false;
+                            foreach($text as $ID => $word){
+                                if($word["synonymid"] > -1){
+                                    $keyword = $results["keywords"][$word["synonymid"]];
+                                    $text[$ID] = array_merge($text[$ID], $keyword);
+                                    if($primarykeyid == $word["synonymid"]){
+                                        $started = $ID;
+                                    } else if ($started !== false) {
+                                        if($keyword["weight"] == 5){
+                                            $foundanother = true;
+                                        }
+                                    }
+                                }
+                                if($foundanother){
+                                    unset($text[$ID]);
+                                }
+                            }
+                            if ($started !== false) {
+                                $dodelete = false;
+                                for($i = $started-1; $i > -1; $i--){
+                                    if($text[$i]["synonymid"] > -1){
+                                        if($text[$i]["weight"] == 5){
+                                            $dodelete = true;
+                                        }
+                                    }
+                                    if($dodelete){
+                                        unset($text[$i]);
+                                    }
+                                }
+                                for($i = 0; $i < ($started-$WordsBefore); $i++){
+                                    unset($text[$i]);
+                                }
+                            }
+                            $data["text"] = implode(" ", array_values(collapsearray($text, "word")));
+                            return $data;
+                        }
+
                         foreach($results["is5keywords"] as $keywordid => $primaryKeyID){
                             $keywordids = array_merge(array($primaryKeyID), $results["non5keywords"]);
                             $indexes = countsynonyms($newsearch, $primaryKeyID);
@@ -397,22 +441,22 @@
                                     $newtext = reassemble_text($newsearch, $results["keywords"], $startingIndex, $endingIndex);
                                     $keywordids = reassemble_keywordIDs($newsearch, $startingIndex, $endingIndex);
 
-                                    $results["searches"][] = array(
+                                    $results["searches"][] = makesureonly1weight5($results, $WordsBefore, array(
                                             "stage" => "1.4",
                                             "text" => $newtext,
                                             "keywordids" => $keywordids,
                                             "primarykeyid" => $primaryKeyID,
                                             "startingIndex" => $startingIndex,
                                             "endingIndex" => $endingIndex
-                                    );
+                                    ));
                                 }
                             } else { //only 1 weight-5 keyword
-                                $results["searches"][] = array(
+                                $results["searches"][] = makesureonly1weight5($results, $WordsBefore, array(
                                         "stage" => "1.w5",
                                         "text" => $_POST["search"],
                                         "keywordids" => $keywordids,
                                         "primarykeyid" => $primaryKeyID,
-                                );
+                                ));
                             }
                         }
                     } else if ($results["non5keywords"]){ //no weight-5 keywords found, run a single search of all the keywords
@@ -919,7 +963,7 @@
                 try {
                     var data = JSON.parse(result);
                 } catch (e){
-                    innerHTML("#searchresults", e + " NON-JSON DETECTED: " + result);
+                    innerHTML("#searchresults", e + " NON-JSON DETECTED: <BR>" + result);
                     return false;
                 }
                 var HTML = "TIME STAMP: " + Date.now(true) + "<BR>";
@@ -945,7 +989,14 @@
                     for( var i = 0; i < data.searches.length; i++ ){
                         var currentsearch = data.searches[i];
                         if(!isUndefined( currentsearch.primarykeyid )){
-                            HTML += "<BR>Item found: " + data.keywords[currentsearch.primarykeyid].word + "<BR>";
+                            HTML += '<BR>Item found: <SPAN TITLE="ID: ' + currentsearch.primarykeyid + ' Weight: 5 Type: 0)">' + data.keywords[currentsearch.primarykeyid].word + "<BR>All keywords: ";
+                            var keywordids = currentsearch.keywordids.split(",");
+                            for(var keywordid = 0; keywordid<keywordids.length; keywordid++){
+                                if(keywordid>0){HTML += ", ";}
+                                var keyword = data.keywords[keywordids[keywordid]];
+                                HTML += '<SPAN TITLE="ID: ' + keywordids[keywordid] + " Weight: " + keyword.weight + " Type: " + keyword.type + '">' + keyword.word + '</SPAN>';
+                            }
+                            HTML += "<BR>";
 
                             var ButtonHTML = '<BUTTON CLASS="assimilateall order123ID123" onclick="orderitem(this);" TYPE="' + data.keywords[currentsearch.primarykeyid].word + '" typeid="' + currentsearch.primarykeyid + '"';
 
@@ -977,7 +1028,7 @@
                                 }
                             }
 
-                            HTML += '<TABLE BORDER="1"><TR><TH>Item</TH><TH>Sub-total</TH><TH>Addons</TH><TH>Cost</TH><TH>Total</TH><TH>Edit</TH></TR>';
+                            HTML += '<TABLE BORDER="1" TITLE="' + data.keywords[currentsearch.primarykeyid].word + '"><TR><TH>Item</TH><TH>Sub-total</TH><TH>Addons</TH><TH>Cost</TH><TH>Total</TH><TH>Edit</TH></TR>';
                             for(var i2 = 0; i2 < currentsearch.menuitems.length; i2++){
                                 var quantity = 1;
                                 var itemtitle = i2;
@@ -1015,12 +1066,12 @@
                                 var addons = getaddonscost(currentItem, currentsearch.items);
                                 var total = Number(currentItem.price) + Number(addons.price);
 
-                                HTML += '<TR><TD>' + currentButtonHTML + ' TITLE="Item: ' + itemtitle + ' - ' + addons.summary + '">' + itemname + '</BUTTON></TD><TD CLASS="cost">' + itemprice + '</TD><TD>' + addons.count + 'x $' + addons.pertopping.toFixed(2) + '</TD><TD CLASS="cost">' + (addons.price*quantity).toFixed(2) + '</TD><TD CLASS="cost">' + (total*quantity).toFixed(2) + '</TD><TD><A CLASS="button editmenu" HREF="edit?id=' + currentItem.id + '" target="_new" TITLE="Edit: ' + currentItem.item + '">Edit</A></TD></TR>';
+                                HTML += '<TR><TD>' + currentButtonHTML + ' TITLE="Item: ' + itemtitle + ' - ' + addons.summary + '">' + itemname + '</BUTTON></TD><TD CLASS="cost">' + itemprice + '</TD><TD>' + addons.count + 'x $' + addons.pertopping.toFixed(2) + '</TD><TD CLASS="cost">' + (addons.price*quantity).toFixed(2) + '</TD><TD CLASS="cost">' + (total*quantity).toFixed(2) + '</TD><TD><A CLASS="button editmenu" HREF="edit?id=' + currentItem.id + '" target="_new" TITLE="Edit: ' + currentItem.item + '">Edit</A></TD><!--TD>' + JSON.stringify(currentItem) + '</TD--!></TR>';
                             }
+                            HTML += '</TABLE><HR>';
                         }
                     }
                     //HTML += '<BR><SPAN CLASS="blink">*Prices do not include addons, which will be calculated when you add the item to the order</SPAN><HR>';
-                    HTML += '</TABLE><HR>';
                 }
 
                 //innerHTML("#searchresults", HTML);

@@ -355,6 +355,17 @@
         var Weight = value("#weight");
         var keywordtype = value("#keywordtype");
         if(isUndefined(toCategory)){toCategory = false;}
+
+        var words = Name.split(" ");
+        for(var i = 0; i<words.length; i++){
+            if (words[i].right(1).isEqual("s")){
+                alert("ERROR: No plurals will be accepted. Singularize '" + words[i] + "' and try again");
+                return false;
+            } else if (words.indexOf(words[i]) < i){
+                alert("ERROR: '" + words[i] + "' is listed twice. Remove the duplicates and try again");
+                return false;
+            }
+        }
         hidecols();
 
         post(thisURL, {
