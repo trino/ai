@@ -1,4 +1,4 @@
-/* Generated at 1473171174 */ /*api*/ //Mini Jquery replacement
+/* Generated at 1473255425 */ /*api*/ //Mini Jquery replacement
 //get more functionality from http://youmightnotneedjquery.com/
 //Siblings, Prev, Prepend, Position Relative To Viewport, Position, Parent, Outer Width With Margin, Outer Width, Outer Height With Margin, Outer Height, Offset Parent, Offset, Next, Matches Selector, matches, Find Children, Filter, Contains Selector, Contains, Clone, Children, Append
 var debugmode = true;
@@ -1444,7 +1444,7 @@ function clearorder(){
 }
 
 function getaddonscost(currentItem, addons){
-    var testitem = {name: currentItem.item};
+    var testitem = {name: currentItem.item, size: currentItem.size};
     for(var i = 0; i < tables.length; i++) {
         testitem[tables[i]] = new Array;
     }
@@ -1453,6 +1453,7 @@ function getaddonscost(currentItem, addons){
         var item = JSON.parse(addon);
         testitem[ item.tablename ].push(item);
     }
+    alert(JSON.stringify(testitem));
     testitem = addoncost(testitem);
     return testitem;
 }
@@ -1465,8 +1466,9 @@ function addoncost(item){
     var Size = "";
     var text = new Array();
     var Sizes = Object.keys(freetoppings);
+    if(isUndefined(item.size)){item.size = "";}
     for (var i = 0; i < Sizes.length; i++) {
-        if( item.name.contains(Sizes[i]) ){
+        if( item.name.contains(Sizes[i]) || item.size.isEqual(Sizes[i]) ){
             Size = Sizes[i];
             toppingcost = Number( freetoppings[Size] );
         }

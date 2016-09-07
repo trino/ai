@@ -715,7 +715,7 @@ function clearorder(){
 }
 
 function getaddonscost(currentItem, addons){
-    var testitem = {name: currentItem.item};
+    var testitem = {name: currentItem.item, size: currentItem.size};
     for(var i = 0; i < tables.length; i++) {
         testitem[tables[i]] = new Array;
     }
@@ -736,8 +736,9 @@ function addoncost(item){
     var Size = "";
     var text = new Array();
     var Sizes = Object.keys(freetoppings);
+    if(isUndefined(item.size)){item.size = "";}
     for (var i = 0; i < Sizes.length; i++) {
-        if( item.name.contains(Sizes[i]) ){
+        if( item.name.contains(Sizes[i]) || item.size.isEqual(Sizes[i]) ){
             Size = Sizes[i];
             toppingcost = Number( freetoppings[Size] );
         }

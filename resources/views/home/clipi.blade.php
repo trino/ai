@@ -644,6 +644,13 @@
                         $row = removekeys($row, array("itemname", "menuid", "itemprice", "wordid", "keywordtype", "mkid", "menuitem_id", "keyword_id")); //just to clean up the results
                         unset($row["menuid"]);
 
+                        foreach($row["keywordids"] as $keywordid){
+                            $keyword = $results["keywords"][$keywordid];
+                            if($keyword["type"] == 2){
+                                $row["size"] = $keyword["word"];
+                            }
+                        }
+
                         $results["searches"][$SearchID]["menuitems"][] = $row;
                     }
                 }
@@ -958,7 +965,7 @@
                                     if( isInteger(qty) ) { quantity = qty; }//is a whole number
                                 }
 
-                                var currentButtonHTML = ButtonHTML + 'value="' + currentItem.id + '" itemname="' + currentItem.item + '" price="' + currentItem.price + '" quantity="' + quantity + '"';
+                                var currentButtonHTML = ButtonHTML + 'value="' + currentItem.id + '" itemname="' + currentItem.item + '" price="' + currentItem.price + '" quantity="' + quantity + '" size="' + currentItem.size  + '" ';
                                 currentButtonHTML = currentButtonHTML.replace("123ID123", i2);
                                 if(i2 == 0){
                                     currentButtonHTML = currentButtonHTML.replace('CLASS="', 'CLASS="selectedbutton ');
