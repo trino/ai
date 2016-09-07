@@ -72,6 +72,28 @@
         return left($Text, $Space);
     }
 
+    function error($message){
+        die("ERROR: " . $message);
+    }
+
+    //not sure of the purpose to this
+    function getaddons(&$menuitem, $Table){
+        if ($menuitem[$Table] > 0) {
+            $toppings_display = "";
+            $toppings = Query("SELECT * FROM " . $Table, true);
+            for ($i = 0; $i < $menuitem[$Table]; $i++) {
+                $toppings_display = $toppings_display . "<select>";
+                foreach ($toppings as $ID => $topping) {
+                    $toppings_display = $toppings_display . "<option>" . $topping["id"] . ' ' . $topping["name"] . "</option>";
+                }
+                $toppings_display = $toppings_display . "</select><br>";
+            }
+            $menuitem[$Table] = $toppings_display;
+        } else {
+            $menuitem[$Table] = "";
+        }
+    }
+
     $dieafter = true;
     switch ($_GET["action"]) {
         case "list":
@@ -92,47 +114,8 @@
             $firstresult = true;
             foreach ($menuitems as $menuitem) {
 
-
-                /*
-                 * TOPPINGS
-                 */
-                if ($menuitem['toppings'] > 0) {
-                    $toppings_display = "";
-
-                    $toppings = Query("SELECT * FROM toppings", true);
-                    for ($i = 0; $i < $menuitem['toppings']; $i++) {
-                        $toppings_display = $toppings_display . "<select>";
-                        foreach ($toppings as $ID => $topping) {
-                            $toppings_display = $toppings_display . "<option>" . $topping["id"] . ' ' . $topping["name"] . "</option>";
-                        }
-                        $toppings_display = $toppings_display . "</select><br>";
-                    }
-                    $menuitem["toppings"] = $toppings_display;
-                } else {
-                    $menuitem["toppings"] = "";
-
-                }
-
-                /*
-                 * WINGS
-                 */
-                if ($menuitem['wings_sauce'] > 0) {
-                    $wings_sauce = "";
-
-                    $toppings = Query("SELECT * FROM wings_sauce", true);
-                    for ($i = 0; $i < $menuitem['wings_sauce']; $i++) {
-                        $wings_sauce = $wings_sauce . "<select>";
-                        foreach ($toppings as $ID => $topping) {
-                            $wings_sauce = $wings_sauce . "<option>" . $topping["id"] . ' ' . $topping["name"] . "</option>";
-                        }
-                        $wings_sauce = $wings_sauce . "</select><br>";
-                    }
-                    $menuitem["wings_sauce"] = $wings_sauce;
-                } else {
-                    $menuitem["wings_sauce"] = "";
-
-                }
-
+                getaddons($menuitem, 'toppings');//TOPPINGS
+                getaddons($menuitem, 'wings_sauce');//WINGS
 
                 $keywords = Query("SELECT * FROM keywords, menukeywords WHERE menuitem_id = " . $menuitem["id"] . " OR -menuitem_id = " . $menuitem["category_id"] . " HAVING keywords.id = keyword_id", true);
                 //id, synonyms, weight, keywordtype, menuitem_id, keyword_id
@@ -227,14 +210,14 @@
             $_GET["synonyms"] = strtolower(trim(filterduplicates(filternonalphanumeric($_GET["synonyms"]))));
             $exists = keywordsexist($_GET["synonyms"]);
             if ($exists) {
-                die("ERROR: '" . $exists . "' already exists");
+                error("'" . $exists . "' already exists");
             }
             $synoynms = explode(" ", $_GET["synonyms"]);
             foreach ($synoynms as $synoynm) {
                 if (strlen($synoynm) < 3) {
-                    die("ERROR: '" . $synoynm . "' is too small");
+                    error("'" . $synoynm . "' is too small");
                 } else if (in_array($synoynm, $wordstoignore)) {
-                    die("ERROR: '" . $synoynm . "' is an ignored word");
+                    error("'" . $synoynm . "' is an ignored word");
                 }
             }
 
@@ -249,7 +232,7 @@
                 $mnukeyword = getkeyword($_GET["menuitem_id"], $keyword["keywordtype"]);
                 $keywordtypes = array("", "quantity", "size");
                 if($mnukeyword){
-                    die("ERROR: This item already has a '" . $keywordtypes[$keyword["keywordtype"]] . "' keyword-type assigned");
+                    error("This item already has a '" . $keywordtypes[$keyword["keywordtype"]] . "' keyword-type assigned");
                 }
             }
 
