@@ -1,7 +1,6 @@
 <?php
     $quantities = array("next", "first", "second", "third", "fourth", "then", "other");
-    $superquantities = array("all", "both");
-    $wordstoignore = array("the", "with", "and", "times", "on", "an", "of", "just"); //discard these words
+    $wordstoignore = array("the", "with", "and", "times", "on", "an", "of", "just", "both", "just"); //discard these words
     $defaultsizes = array("pizza" => "large");
     $otherdefaults = array(
             "drink" => array("regular", "diet")//adds regular to drinks if regular and diet are not found
@@ -652,7 +651,9 @@
                         }
                         if(!isset($row["size"])){
                             $Data = getkeyword($row["id"], 2, $row["category_id"]);
-                            $row["size"] = firstword($Data["synonyms"]);
+                            if($Data){
+                                $row["size"] = firstword($Data["synonyms"]);
+                            }
                         }
                         $results["searches"][$SearchID]["menuitems"][] = $row;
                     }
@@ -696,6 +697,9 @@
             float: right;
         }
         .selectedbutton{
+            background-color: #4CAF50; /* Green */
+        }
+        .testthis{
             background-color: #4CAF50; /* Green */
         }
 
@@ -755,7 +759,7 @@
             echo ' Direction: ' . printoptions("SortDirection", array("ASC", "DESC"), "DESC") . '</SPAN>';
             echo ' <LABEL><INPUT TYPE="checkbox" ID="showjson" ' . iif(isset($_GET["showjson"]) && $_GET["showjson"] == "true", 'checked="true" ')  . 'ONCLICK="handlejson();"> Show JSON</LABEL>';
             echo '<SPAN STYLE="float:right;">Test: ';
-            foreach(array("2 medium pepperoni pizza", "2 bacon pizza", "4 large pizzas", "1 large pizza with pepperoni bacon and ham", "2 medium pepperoni pizza with 2lbs chicken bbq sauce", "1 pizza plane, 1 cheddar dip and 2 cokes", "2 for 1 pizza combo with ice tea first pizza pepperni bacon and ham, second pizza just bacon", "tripple bacon pizza", "1 large pepperoni pizza and 1 medium pizza ham", "pizza with extra cheese", "2 large pizza 1 with bacon the next one with ham") as $INDEX => $teststring){
+            foreach(array("2 for 1 medium pizzas both with just pepperoni", "one larg pepperoni pizza", "1 large pepperoni pizza and 1 medium pizza just ham", "tripple bacon pizza", "tripple bacon pizza large and a medium pizza with olives", "2 medium pepperoni pizza with 2lbs chicken bbq sauce", "1 large pizza with pepperoni bacon and ham2", "2 mediums chicken pizza", "Hi, please give me 2 large pepperoni pizza", "Deliver a medium cheese pizza with 2 panzerotties.  Ham,  bacon and pepperoni on both the panzerotties.", "2 cans of sprite and a bottle of pepsi", "A pepperoni pizza and a Hawaiian pizza", "Bring two large pepperoni pizzas", "2 med pizza with tripple cheeese", "Pepperoni pizza large", "Hawaiian cheese 2l drink wings extra dip ", "2 medium pepperoni pizza with 2lbs wings BBQ. 2 cans of coke.", "give me a medium pepperoni with cheese", "can I order a large Hawaiian pizza with 2 creamy garlic sauce", "a small cheese pizza and two cokes", "can i get a large pepperoni pizze with cheese sticks and french fries", "I'd like to order a medium meat lovers pizza with cheese ", "make me a small vegetarian pizza with ranch and marinaraaa sauce on the side", "order me a party size pan pizza with 2L of coke and one of the ranch dip", "bake me a panzerotti with mozzarella sticks ", "get me a plain cheese pizza, with an order of salad and ranch dressing", "can you make myself a extra large pizza with all the toppings and one of each sauce", "2l bottle of 7up and 3 cans of pepsi", "3 pounds of wings, all bbq", "3 medium canadian pizzas and 2 onion rings", "1 small pepperoni pizza with Creamy Garlic Dip and a can of coke", "15 chicken wings spicy", "chicken salad and a bottle of water", "3 lbs wings, one with bbq the other 2 with honey garlic and a 2l bottle of pepsi") as $INDEX => $teststring){
                 echo '<BUTTON VALUE="' . $teststring . '" TITLE="Test with: ' . $teststring . '" ONCLICK="testwith(this);">' . $INDEX . '</BUTTON>';
             }
             echo '</SPAN>';
@@ -847,11 +851,24 @@
             return arr.slice(start, start+length);
         }
 
+        function removejunkwords(text, words){
+            text = text.split(" ");
+            for (var i = text.length-1; i > -1 ; i--){
+                if( words.indexOf(text[i].trim()) > -1 ){
+                    removeindex(text, i);
+                }
+            }
+            return text.join(" ");
+        }
+
         function gettheaddons(text){
             //check for presets
             assimilate_enabled = false;
+            text = removejunkwords(text, wordstoignore);
             var aftertext = replacemultiplewordsynonyms(text, presetnames, 1);
-            for(var i = 0; i < presets.length; i++){
+            for(i = 0; i < presets.length; i++){
+                var foundat = aftertext.indexOf(presets[i].name.toLowerCase());
+                console.log("PRESET: " + presets[i].name + " FOUND IN '" + text + "' AT " + foundat + " = ");
                 aftertext = aftertext.replaceAll(presets[i].name, presets[i].toppings);
             }
             text = stringifyaddons(assimilateaddons(0, aftertext), DoPerfectlyFormed);
@@ -910,7 +927,7 @@
                     var closestword = findsynonym(searchstring[searchindex], allkeywords, 1);
                     //[0=synonym parent ID, 1=synonym child ID of the closest match, 2=distance to the match, 3=closest parent word, 4=closest child word]
                     if(closestword[2] > 0 && wordstoignore.indexOf(closestword[3]) == -1 && !originalword.isEqual(closestword[4]) ){
-                        HTML += '<A onclick="typo(this);" originalword="' + originalword + '" suggestion="' + closestword[4].toLowerCase() + '" TITLE="' + closestword + '">' + "'" + searchstring[searchindex] + "' wasn't found, did you mean '" + closestword[4].toLowerCase() + "'?</A><BR>";
+                        HTML += '<A onclick="typo(this);" originalword="' + originalword + '" suggestion="' + closestword[4].toLowerCase() + '" TITLE="' + closestword + '">' + "'" + searchstring[searchindex] + "' is not a recognized word, did you mean '" + closestword[4].toLowerCase() + "' instead?</A> Or <A ONCLICK='typo(this);' originalword='" + originalword + "' suggestion=''>remove '" + searchstring[searchindex] + "' entirely?</A><BR>";
                     }
                 }
 
@@ -1052,6 +1069,8 @@
         }
 
         function testwith(element){
+            removeclass(".testthis", "testthis");
+            addclass(element, "testthis");
             order = new Array;
             value("#textsearch", value(element));
             submitform(function(){
@@ -1076,13 +1095,13 @@
 
         function typo(element){
             var originalword = element.getAttribute("originalword");
-            var searchstring = value("#textsearch").split(" ");
+            var searchstring = cleantext(value("#textsearch")).split(" ");
             for(var i=0; i<searchstring.length; i++){
                 if(searchstring[i].isEqual(originalword)){
                     searchstring[i] = element.getAttribute("suggestion");
                 }
             }
-            value("#textsearch", searchstring.join(" "));
+            value("#textsearch", removemultiples(searchstring.join(" "), "  ", " "));
             submitform();
         }
 

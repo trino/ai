@@ -1,4 +1,4 @@
-/* Generated at 1473255998 */ /*api*/ //Mini Jquery replacement
+/* Generated at 1473270267 */ /*api*/ //Mini Jquery replacement
 //get more functionality from http://youmightnotneedjquery.com/
 //Siblings, Prev, Prepend, Position Relative To Viewport, Position, Parent, Outer Width With Margin, Outer Width, Outer Height With Margin, Outer Height, Offset Parent, Offset, Next, Matches Selector, matches, Find Children, Filter, Contains Selector, Contains, Clone, Children, Append
 var debugmode = true;
@@ -57,9 +57,9 @@ String.prototype.middle = function(n, length) {
 String.prototype.between = function(left, right) {
     var start = this.indexOf(left);
     if(start > -1){
-        start += left.length;
+        start=start+left.length;
         var finish = this.indexOf(right, start);
-        return this.substring(start, finish);
+        if(finish > -1){return this.substring(start, finish);}
     }
 };
 
@@ -78,6 +78,8 @@ String.prototype.contains = function (str){
 };
 
 String.prototype.getbetween = function (left, right){
+    var start = this.indexOf(left);
+    var finish = this.indexOf(right, start);
     var subStr = this.match(left + "(.*)" + right);
     return subStr[1];
 };
@@ -727,6 +729,10 @@ function isRightClick(event){
     } else if ("button" in e) {
         return event.button == 2;// IE, Opera
     }
+}
+
+function cleantext(text){
+    return text.replace(/[^0-9a-z ]/gi, '')
 } /*nui*/ //natural user interface
 
 var synonyms = [//multi-dimensional array of multi-word terms, the first term is the primary terms, followed by the secondary terms
@@ -896,8 +902,8 @@ function get_toppings(originalsearchstring, thesearchstring){
             var tablename = GetAddonTable(closestword.word);
             var qualifier = getqualifier(originalsearchstring, searchstring[searchindex]);
             if (needsRemoving) {searchstring[searchindex - 1] = false;}
+            ret.push({searchindex: searchindex, qualifier: qualifier, label: closestword.word, needsRemoving: needsRemoving, tablename: tablename, originalword: searchstring[searchindex], distance: closestword.distance});
             searchstring[searchindex] = false;//remove it from the search, no need to check it twice
-            ret.push({searchindex: searchindex, qualifier: qualifier, label: closestword.word, needsRemoving: needsRemoving, tablename: tablename });
         }
     }
     /*
@@ -1192,7 +1198,7 @@ function gettoppingqualifier(table, qualifier, topping){
 //https://gist.github.com/doukremt/9473228
 function levenshteinWeighted (seq1,seq2) {
     var len1=seq1.length, len2=seq2.length, i, j, dist, ic, dc, rc, last, old, column;
-    if(len1==0 || len2==0 || !isString(seq1) || !isString(seq2)){return 100;}
+    if(len1==0 || len2==0 || !isString(seq1) || !isString(seq2) || !seq1 || !seq2){return 100;}
     seq1 = seq1.toLowerCase();
     seq2 = seq2.toLowerCase();
     if(seq1 == seq2){return 0;}
@@ -1450,8 +1456,12 @@ function getaddonscost(currentItem, addons){
     }
     for(i=0; i<addons.length; i++){
         var addon = addons[i].getbetween('<I TITLE="', '">').replaceAll("'", '"');
+        var index = addon.indexOf('">');
+        if(index > -1){addon = addon.left(index);}
         var item = JSON.parse(addon);
-        testitem[ item.tablename ].push(item);
+        if(!isUndefined(item.tablename)) {
+            testitem[item.tablename].push(item);
+        }
     }
     testitem = addoncost(testitem);
     return testitem;
@@ -1587,11 +1597,13 @@ function stringifyaddons(addons, istoppingslist){
     if(isUndefined(istoppingslist)){istoppingslist = false;}
     if(istoppingslist){delimiter=",";}
     for(var i=0; i<addons.length;i++){
-        if(i > 0){text += delimiter;}
-        if(istoppingslist){
-            text +=  addons[i].qualifier + "|" + addons[i].label;
-        } else {
-            text += '<I TITLE="' + JSON.stringify(addons[i]).replaceAll('"', "'") + '">' + addons[i].qualifier + "</I>  " + addons[i].label;
+        if(addons[i].label != "2") {
+            if (text) {text += delimiter;}
+            if (istoppingslist) {
+                text += addons[i].qualifier + "|" + addons[i].label;
+            } else {
+                text += '<I TITLE="' + JSON.stringify(addons[i]).replaceAll('"', "'") + '">' + addons[i].qualifier + "</I>  " + addons[i].label;
+            }
         }
     }
     return text;

@@ -57,9 +57,9 @@ String.prototype.middle = function(n, length) {
 String.prototype.between = function(left, right) {
     var start = this.indexOf(left);
     if(start > -1){
-        start += left.length;
+        start=start+left.length;
         var finish = this.indexOf(right, start);
-        return this.substring(start, finish);
+        if(finish > -1){return this.substring(start, finish);}
     }
 };
 
@@ -78,6 +78,8 @@ String.prototype.contains = function (str){
 };
 
 String.prototype.getbetween = function (left, right){
+    var start = this.indexOf(left);
+    var finish = this.indexOf(right, start);
     var subStr = this.match(left + "(.*)" + right);
     return subStr[1];
 };
@@ -727,4 +729,8 @@ function isRightClick(event){
     } else if ("button" in e) {
         return event.button == 2;// IE, Opera
     }
+}
+
+function cleantext(text){
+    return text.replace(/[^0-9a-z ]/gi, '')//removes anything that isnt a number, a letter, or a space
 }

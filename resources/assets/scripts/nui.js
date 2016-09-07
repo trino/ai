@@ -167,8 +167,8 @@ function get_toppings(originalsearchstring, thesearchstring){
             var tablename = GetAddonTable(closestword.word);
             var qualifier = getqualifier(originalsearchstring, searchstring[searchindex]);
             if (needsRemoving) {searchstring[searchindex - 1] = false;}
+            ret.push({searchindex: searchindex, qualifier: qualifier, label: closestword.word, needsRemoving: needsRemoving, tablename: tablename, originalword: searchstring[searchindex], distance: closestword.distance});
             searchstring[searchindex] = false;//remove it from the search, no need to check it twice
-            ret.push({searchindex: searchindex, qualifier: qualifier, label: closestword.word, needsRemoving: needsRemoving, tablename: tablename });
         }
     }
     /*
@@ -463,7 +463,7 @@ function gettoppingqualifier(table, qualifier, topping){
 //https://gist.github.com/doukremt/9473228
 function levenshteinWeighted (seq1,seq2) {
     var len1=seq1.length, len2=seq2.length, i, j, dist, ic, dc, rc, last, old, column;
-    if(len1==0 || len2==0 || !isString(seq1) || !isString(seq2)){return 100;}
+    if(len1==0 || len2==0 || !isString(seq1) || !isString(seq2) || !seq1 || !seq2){return 100;}
     seq1 = seq1.toLowerCase();
     seq2 = seq2.toLowerCase();
     if(seq1 == seq2){return 0;}
@@ -721,8 +721,12 @@ function getaddonscost(currentItem, addons){
     }
     for(i=0; i<addons.length; i++){
         var addon = addons[i].getbetween('<I TITLE="', '">').replaceAll("'", '"');
+        var index = addon.indexOf('">');
+        if(index > -1){addon = addon.left(index);}
         var item = JSON.parse(addon);
-        testitem[ item.tablename ].push(item);
+        if(!isUndefined(item.tablename)) {
+            testitem[item.tablename].push(item);
+        }
     }
     testitem = addoncost(testitem);
     return testitem;
@@ -858,11 +862,13 @@ function stringifyaddons(addons, istoppingslist){
     if(isUndefined(istoppingslist)){istoppingslist = false;}
     if(istoppingslist){delimiter=",";}
     for(var i=0; i<addons.length;i++){
-        if(i > 0){text += delimiter;}
-        if(istoppingslist){
-            text +=  addons[i].qualifier + "|" + addons[i].label;
-        } else {
-            text += '<I TITLE="' + JSON.stringify(addons[i]).replaceAll('"', "'") + '">' + addons[i].qualifier + "</I>  " + addons[i].label;
+        if(addons[i].label != "2") {
+            if (text) {text += delimiter;}
+            if (istoppingslist) {
+                text += addons[i].qualifier + "|" + addons[i].label;
+            } else {
+                text += '<I TITLE="' + JSON.stringify(addons[i]).replaceAll('"', "'") + '">' + addons[i].qualifier + "</I>  " + addons[i].label;
+            }
         }
     }
     return text;
