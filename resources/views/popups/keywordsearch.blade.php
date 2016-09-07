@@ -37,7 +37,7 @@
     <P>Instructions on how to make a new keyword:
     <UL>
         <LI>If you search for a keyword and it is not found, you are given the option to create it</LI>
-        <LI>When searching, only search for one keyword and not all it's synonyms</LI>
+        <LI>When searching, only search for one keyword and not all it's synonyms.</LI>
         <LI>This step is important because you cannot add the same keyword multiple times as it will conflict with itself (the system will attempt to prevent this)</LI>
         <LI>Before clicking the 'Create' button, add all the synonyms for the keyword, separating them with spaces (punctuation and double spaces will be removed)</LI>
         <LI>Then set the weight, the higher the number means the keyword is more specific to that item. 5 being 100% specific, and will act as a new search term (if a search has multiple weight-5 keywords, each one will trigger a new search)</LI>
@@ -47,7 +47,6 @@
     <P>Notes:
     <UL>
         <LI>The system will only allow you to assign one quantity-type or size-type keyword to a menu item</LI>
-        <LI>Creating a keyword will automatically assign it to the <I>Item</I></LI>
         <LI>Assigning a keyword to the <I>Category</I> will assign it to every item in that category</LI>
         <LI>Likewise, unassigning a keyword from the <I>Category</I> will unassign it from every item in that category</LI>
     </UL>

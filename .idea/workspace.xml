@@ -56,10 +56,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="editor.blade.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="editor.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/home/editor.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.62286687">
+            <state vertical-scroll-proportion="-5.7115383">
               <caret line="242" column="40" selection-start-line="242" selection-start-column="40" selection-end-line="242" selection-end-column="40" />
               <folding>
                 <marker date="1473260228837" expanded="true" signature="2249:2278" placeholder="SELECT synon..keywords..." />
@@ -127,11 +127,21 @@
       <file leaf-file-name="addons.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/popups/addons.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
+            <state vertical-scroll-proportion="-0.0">
               <caret line="59" column="165" selection-start-line="59" selection-start-column="140" selection-end-line="59" selection-end-column="165" />
               <folding>
                 <marker date="1472664619794" expanded="true" signature="222:274" placeholder="SELECT DISTI..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="keywordsearch.blade.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resources/views/popups/keywordsearch.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.7369281">
+              <caret line="48" column="111" selection-start-line="48" selection-start-column="111" selection-end-line="48" selection-end-column="111" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -190,8 +200,8 @@
         <option value="$PROJECT_DIR$/resources/assets/scripts/nui.js" />
         <option value="$PROJECT_DIR$/app/Http/api.php" />
         <option value="$PROJECT_DIR$/resources/views/home/clipi.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/popups/keywordsearch.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/home/editor.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/popups/keywordsearch.blade.php" />
       </list>
     </option>
   </component>
@@ -1211,16 +1221,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/popups/addons.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="59" column="165" selection-start-line="59" selection-start-column="140" selection-end-line="59" selection-end-column="165" />
-          <folding>
-            <marker date="1472664619794" expanded="true" signature="222:274" placeholder="SELECT DISTI..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/scripts/nui.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1240,18 +1240,6 @@
           <caret line="80" column="51" selection-start-line="80" selection-start-column="51" selection-end-line="80" selection-end-column="51" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/popups/keywordsearch.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.75">
-          <caret line="27" column="50" selection-start-line="27" selection-start-column="50" selection-end-line="27" selection-end-column="50" />
-          <folding>
-            <element signature="n#STYLE#0;n#INPUT#0;n#TD#2;n#TR#1;n#THEAD#0;n#TABLE#0;n#DIV#0;n#!!top" expanded="true" />
-            <element signature="n#STYLE#0;n#BUTTON#0;n#TD#4;n#TR#1;n#THEAD#0;n#TABLE#0;n#DIV#0;n#!!top" expanded="true" />
-            <marker date="1473259711936" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1298,7 +1286,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/home/editor.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.62286687">
+        <state vertical-scroll-proportion="-5.7115383">
           <caret line="242" column="40" selection-start-line="242" selection-start-column="40" selection-end-line="242" selection-end-column="40" />
           <folding>
             <marker date="1473260228837" expanded="true" signature="2249:2278" placeholder="SELECT synon..keywords..." />
@@ -1312,6 +1300,24 @@
             <marker date="1473260228837" expanded="true" signature="10923:10956" placeholder="SELECT * FRO..keywords..." />
             <marker date="1473260228837" expanded="true" signature="10923:10957" placeholder="SELECT * FRO..keywords..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/popups/addons.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="59" column="165" selection-start-line="59" selection-start-column="140" selection-end-line="59" selection-end-column="165" />
+          <folding>
+            <marker date="1472664619794" expanded="true" signature="222:274" placeholder="SELECT DISTI..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/popups/keywordsearch.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7369281">
+          <caret line="48" column="111" selection-start-line="48" selection-start-column="111" selection-end-line="48" selection-end-column="111" />
+          <folding />
         </state>
       </provider>
     </entry>
