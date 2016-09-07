@@ -1,4 +1,4 @@
-/* Generated at 1473270267 */ /*api*/ //Mini Jquery replacement
+/* Generated at 1473271413 */ /*api*/ //Mini Jquery replacement
 //get more functionality from http://youmightnotneedjquery.com/
 //Siblings, Prev, Prepend, Position Relative To Viewport, Position, Parent, Outer Width With Margin, Outer Width, Outer Height With Margin, Outer Height, Offset Parent, Offset, Next, Matches Selector, matches, Find Children, Filter, Contains Selector, Contains, Clone, Children, Append
 var debugmode = true;
@@ -54,14 +54,16 @@ String.prototype.middle = function(n, length) {
 };
 
 //gets the text between left and right
-String.prototype.between = function(left, right) {
+String.prototype.between = function (left, right){
     var start = this.indexOf(left);
     if(start > -1){
         start=start+left.length;
         var finish = this.indexOf(right, start);
         if(finish > -1){return this.substring(start, finish);}
     }
+    return "";
 };
+
 
 //trims any occurences of $str off the right end of a string
 String.prototype.trimright = function (str){
@@ -75,13 +77,6 @@ String.prototype.trimright = function (str){
 //returns if str is contained in this
 String.prototype.contains = function (str){
     return this.indexOf(str) > -1;
-};
-
-String.prototype.getbetween = function (left, right){
-    var start = this.indexOf(left);
-    var finish = this.indexOf(right, start);
-    var subStr = this.match(left + "(.*)" + right);
-    return subStr[1];
 };
 
 //gets the typename of an object
@@ -732,7 +727,7 @@ function isRightClick(event){
 }
 
 function cleantext(text){
-    return text.replace(/[^0-9a-z ]/gi, '')
+    return text.replace(/[^0-9a-z ]/gi, '')//removes anything that isnt a number, a letter, or a space
 } /*nui*/ //natural user interface
 
 var synonyms = [//multi-dimensional array of multi-word terms, the first term is the primary terms, followed by the secondary terms
@@ -1455,12 +1450,12 @@ function getaddonscost(currentItem, addons){
         testitem[tables[i]] = new Array;
     }
     for(i=0; i<addons.length; i++){
-        var addon = addons[i].getbetween('<I TITLE="', '">').replaceAll("'", '"');
-        var index = addon.indexOf('">');
-        if(index > -1){addon = addon.left(index);}
-        var item = JSON.parse(addon);
-        if(!isUndefined(item.tablename)) {
-            testitem[item.tablename].push(item);
+        var addon = addons[i].between('<I TITLE="', '">').replaceAll("'", '"');
+        if(addon) {
+            var index = addon.indexOf('">');
+            if (index > -1) {addon = addon.left(index);}
+            var item = JSON.parse(addon);
+            if (!isUndefined(item.tablename)) {testitem[item.tablename].push(item);}
         }
     }
     testitem = addoncost(testitem);

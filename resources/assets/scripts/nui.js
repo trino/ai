@@ -720,12 +720,12 @@ function getaddonscost(currentItem, addons){
         testitem[tables[i]] = new Array;
     }
     for(i=0; i<addons.length; i++){
-        var addon = addons[i].getbetween('<I TITLE="', '">').replaceAll("'", '"');
-        var index = addon.indexOf('">');
-        if(index > -1){addon = addon.left(index);}
-        var item = JSON.parse(addon);
-        if(!isUndefined(item.tablename)) {
-            testitem[item.tablename].push(item);
+        var addon = addons[i].between('<I TITLE="', '">').replaceAll("'", '"');
+        if(addon) {
+            var index = addon.indexOf('">');
+            if (index > -1) {addon = addon.left(index);}
+            var item = JSON.parse(addon);
+            if (!isUndefined(item.tablename)) {testitem[item.tablename].push(item);}
         }
     }
     testitem = addoncost(testitem);

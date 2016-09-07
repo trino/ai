@@ -1,6 +1,6 @@
 <?php
     $quantities = array("next", "first", "second", "third", "fourth", "then", "other");
-    $wordstoignore = array("the", "with", "and", "times", "on", "an", "of", "just", "both", "just"); //discard these words
+    $wordstoignore = array("the", "with", "and", "times", "on", "an", "of", "just", "both", "just", "me", "a"); //discard these words
     $defaultsizes = array("pizza" => "large");
     $otherdefaults = array(
             "drink" => array("regular", "diet")//adds regular to drinks if regular and diet are not found
@@ -575,7 +575,8 @@
 
                     if(isset($primaryword) && isset($otherdefaults[$primaryword])){
                         $found = false;
-                        $keywordids = explode(",", $results["searches"][$SearchID]["keywordids"]);
+                        $keywordids = $results["searches"][$SearchID]["keywordids"];
+                        if(!is_array($keywordids)){$keywordids = explode(",", $keywordids);}
                         foreach($keywordids as $keywordid){
                             $keyword = $results["keywords"][$keywordid];
                             if(in_array( $keyword["word"], $otherdefaults[$primaryword])){
@@ -868,8 +869,10 @@
             var aftertext = replacemultiplewordsynonyms(text, presetnames, 1);
             for(i = 0; i < presets.length; i++){
                 var foundat = aftertext.indexOf(presets[i].name.toLowerCase());
-                console.log("PRESET: " + presets[i].name + " FOUND IN '" + text + "' AT " + foundat + " = ");
-                aftertext = aftertext.replaceAll(presets[i].name, presets[i].toppings);
+                if(foundat > -1) {
+                    console.log("PRESET: " + presets[i].name + " FOUND IN '" + text + "' AT " + foundat + " = ");
+                    aftertext = aftertext.replaceAll(presets[i].name, presets[i].toppings);
+                }
             }
             text = stringifyaddons(assimilateaddons(0, aftertext), DoPerfectlyFormed);
             if(isNumeric(lastquantity) && DoPerfectlyFormed){text += ",quantity|" + lastquantity;}
@@ -922,13 +925,18 @@
                 var HTML = "TIME STAMP: " + Date.now(true) + "<BR>";
 
                 searchstring = data.stages.final.split(" ");
+                var madesuggestion = false;
                 for(var searchindex = 0; searchindex < searchstring.length; searchindex++){
                     var originalword = searchstring[searchindex];
                     var closestword = findsynonym(searchstring[searchindex], allkeywords, 1);
                     //[0=synonym parent ID, 1=synonym child ID of the closest match, 2=distance to the match, 3=closest parent word, 4=closest child word]
                     if(closestword[2] > 0 && wordstoignore.indexOf(closestword[3]) == -1 && !originalword.isEqual(closestword[4]) ){
                         HTML += '<A onclick="typo(this);" originalword="' + originalword + '" suggestion="' + closestword[4].toLowerCase() + '" TITLE="' + closestword + '">' + "'" + searchstring[searchindex] + "' is not a recognized word, did you mean '" + closestword[4].toLowerCase() + "' instead?</A> Or <A ONCLICK='typo(this);' originalword='" + originalword + "' suggestion=''>remove '" + searchstring[searchindex] + "' entirely?</A><BR>";
+                        madesuggestion=true;
                     }
+                }
+                if(madesuggestion){
+                    HTML += 'The system works better with proper spelling/whole words. Do not use slang or shortforms.<BR>';
                 }
 
                 if( data.is5keywords.length == 0 ){

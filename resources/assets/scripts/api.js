@@ -54,14 +54,16 @@ String.prototype.middle = function(n, length) {
 };
 
 //gets the text between left and right
-String.prototype.between = function(left, right) {
+String.prototype.between = function (left, right){
     var start = this.indexOf(left);
     if(start > -1){
         start=start+left.length;
         var finish = this.indexOf(right, start);
         if(finish > -1){return this.substring(start, finish);}
     }
+    return "";
 };
+
 
 //trims any occurences of $str off the right end of a string
 String.prototype.trimright = function (str){
@@ -75,13 +77,6 @@ String.prototype.trimright = function (str){
 //returns if str is contained in this
 String.prototype.contains = function (str){
     return this.indexOf(str) > -1;
-};
-
-String.prototype.getbetween = function (left, right){
-    var start = this.indexOf(left);
-    var finish = this.indexOf(right, start);
-    var subStr = this.match(left + "(.*)" + right);
-    return subStr[1];
 };
 
 //gets the typename of an object
