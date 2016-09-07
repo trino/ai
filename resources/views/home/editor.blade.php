@@ -238,6 +238,15 @@
 
             $_GET["keyword_id"] = insertdb("keywords", array("synonyms" => $_GET["synonyms"], "weight" => $_GET["weight"], "keywordtype" => $_GET["keywordtype"]));
         case "assignkeyword":
+            $keyword = first("SELECT * FROM keywords WHERE id = " . $_GET["keyword_id"]);//$keyword["keywordtype"] 1=quantity, 2=size
+            if($keyword["keywordtype"] > 0){
+                $mnukeyword = getkeyword($_GET["menuitem_id"], $keyword["keywordtype"]);
+                $keywordtypes = array("", "quantity", "size");
+                if($mnukeyword){
+                    die("ERROR: This item already has a '" . $keywordtypes[$keyword["keywordtype"]] . "' keyword-type assigned");
+                }
+            }
+
             if (!select_field_where("menukeywords", "menuitem_id = " . $_GET["menuitem_id"] . " AND keyword_id = " . $_GET["keyword_id"], "COUNT()")) {
                 $ID = insertdb("menukeywords", array("menuitem_id" => $_GET["menuitem_id"], "keyword_id" => $_GET["keyword_id"]));
                 $keyword = select_field_where("keywords", "id = " . $_GET["keyword_id"]);
@@ -291,9 +300,9 @@
                 itemid: menuitem_id,
                 _token: token
             }, function (result) {
-                fadeoutanddelete("#keywordsrow" + ID);
-                if (result) {
-                    alert(result);
+                if (isnotanerror(result)) {
+                    fadeoutanddelete("#keywordsrow" + ID);
+                    if (result) {alert(result);}
                 }
             });
         }
@@ -311,11 +320,13 @@
             text: value("#searchtext"),
             _token: token
         }, function (result) {
-            innerHTML("#searchbody", result);
-            if (result.indexOf("create();") == -1) {
-                hidecols();
-            } else {
-                showcols();
+            if (isnotanerror(result)) {
+                innerHTML("#searchbody", result);
+                if (result.indexOf("create();") == -1) {
+                    hidecols();
+                } else {
+                    showcols();
+                }
             }
         });
     }
@@ -330,10 +341,12 @@
             _token: token
         }, function (result) {
             if (result) {
-                console.log(result);
-                append("#keywords", result);
-                fadeoutanddelete("#keywordsfoundrow" + ID);
-                fadeoutanddelete("#suggestionsrow" + ID);
+                if (isnotanerror(result)) {
+                    console.log(result);
+                    append("#keywords", result);
+                    fadeoutanddelete("#keywordsfoundrow" + ID);
+                    fadeoutanddelete("#suggestionsrow" + ID);
+                }
             } else {
                 alert("Error, unable to add '" + Name + "'. It possibly exists in '" + itemName + "' already");
             }
@@ -362,13 +375,19 @@
             menuitem_id: itemID,
             _token: token
         }, function (result) {
-            if (result.startswith("ERROR:")) {
-                alert(result);
-            } else {
+            if (isnotanerror(result)){
                 append("#keywords", result);
                 fadeoutanddelete("#create");
             }
         });
+    }
+
+    function isnotanerror(result){
+        if (result.startswith("ERROR:")) {
+            alert(result);
+            return false;
+        }
+        return true;
     }
 
     function hidecols() {

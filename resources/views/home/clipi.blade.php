@@ -429,10 +429,6 @@
                     return str_replace("\n", '<BR>', print_r($arr, true));
                 }
 
-                function getkeyword($MenuItemID, $KeywordType, $Only1 = true){
-                    return first("SELECT * FROM keywords, menukeywords WHERE keywordtype = " . $KeywordType . " HAVING keyword_id = keywords.id AND menuitem_id = " . $MenuItemID, $Only1);
-                }
-
                 foreach($results["searches"] as $SearchID => $VALUE){
                     $keywordids = $VALUE["keywordids"];
                     $text = $VALUE["text"];
@@ -655,7 +651,7 @@
                             }
                         }
                         if(!isset($row["size"])){
-                            $Data = getkeyword($row["id"], 2);
+                            $Data = getkeyword($row["id"], 2, $row["category_id"]);
                             $row["size"] = firstword($Data["synonyms"]);
                         }
                         $results["searches"][$SearchID]["menuitems"][] = $row;
@@ -751,12 +747,12 @@
         <input type="text" id="textsearch" name="search" style="width:100%" on_old_input="submitform();" onKeyUp="handlebutton(event);" value="<?= $_POST["search"]; ?>" TITLE="Press 'Space' or 'Enter' to search">
         <input type="button" id="startspeech" style="display:none;" value="Click to Speak" onclick="startButton(event);" TITLE="Use voice recognition">
         <input type="button" id="clearform" value="Clear Search" onclick="clearform();">
-        <BR>
+        <SPAN STYLE="display:none;">
         Sorting by:
         <?php
             $Columns = array("restaurant_id", "itemprice", "weight", "keywords");
             echo printoptions("SortColumn", $Columns, "weight");
-            echo ' Direction: ' . printoptions("SortDirection", array("ASC", "DESC"), "DESC");
+            echo ' Direction: ' . printoptions("SortDirection", array("ASC", "DESC"), "DESC") . '</SPAN>';
             echo ' <LABEL><INPUT TYPE="checkbox" ID="showjson" ' . iif(isset($_GET["showjson"]) && $_GET["showjson"] == "true", 'checked="true" ')  . 'ONCLICK="handlejson();"> Show JSON</LABEL>';
             echo '<SPAN STYLE="float:right;">Test: ';
             foreach(array("2 medium pepperoni pizza", "2 bacon pizza", "4 large pizzas", "1 large pizza with pepperoni bacon and ham", "2 medium pepperoni pizza with 2lbs chicken bbq sauce", "1 pizza plane, 1 cheddar dip and 2 cokes", "2 for 1 pizza combo with ice tea first pizza pepperni bacon and ham, second pizza just bacon", "tripple bacon pizza", "1 large pepperoni pizza and 1 medium pizza ham", "pizza with extra cheese", "2 large pizza 1 with bacon the next one with ham") as $INDEX => $teststring){
