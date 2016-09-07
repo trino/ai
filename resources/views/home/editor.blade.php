@@ -217,7 +217,7 @@
                     keywordresult($keyword, "keywordsfound");
                 }
             } else {
-                echo '<TR><TD COLSPAN="4">No results found for: ' . $_GET["text"] . '</TD><TD><BUTTON ONCLICK="create();" STYLE="width:100%;" ID="create">Create</BUTTON></TD></TR>';
+                echo '<TR><TD COLSPAN="4">No results found for: ' . $_GET["text"] . '</TD><TD><BUTTON ONCLICK="create();" STYLE="width:100%;" ID="create">Create and assign to: Item</BUTTON><BUTTON ONCLICK="create(true);" STYLE="width:100%;" ID="create">Create and assign to: Category</BUTTON></TD></TR>';
             }
             break;
 
@@ -239,6 +239,10 @@
             }
 
             $_GET["keyword_id"] = insertdb("keywords", array("synonyms" => $_GET["synonyms"], "weight" => $_GET["weight"], "keywordtype" => $_GET["keywordtype"]));
+            if($_GET["toCategory"] == "true"){//is assigning to category, not menuitem
+                $_GET["menuitem_id"] = -select_field_where("menu", "id=" . $_GET["menuitem_id"], "category_id");
+            }
+
         case "assignkeyword":
             $keyword = first("SELECT * FROM keywords WHERE id = " . $_GET["keyword_id"]);//$keyword["keywordtype"] 1=quantity, 2=size
             if($keyword["keywordtype"] > 0){
@@ -363,10 +367,11 @@
         return loadUrl('<?= webroot("public/edit"); ?>');
     }
 
-    function create() {
+    function create(toCategory) {
         var Name = value("#searchtext").toLowerCase();
         var Weight = value("#weight");
         var keywordtype = value("#keywordtype");
+        if(isUndefined(toCategory)){toCategory = false;}
         hidecols();
 
         post(thisURL, {
@@ -375,6 +380,7 @@
             weight: Weight,
             keywordtype: keywordtype,
             menuitem_id: itemID,
+            toCategory: toCategory,
             _token: token
         }, function (result) {
             if (isnotanerror(result)){
