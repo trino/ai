@@ -429,6 +429,10 @@
                     return str_replace("\n", '<BR>', print_r($arr, true));
                 }
 
+                function getkeyword($MenuItemID, $KeywordType, $Only1 = true){
+                    return first("SELECT * FROM keywords, menukeywords WHERE keywordtype = " . $KeywordType . " HAVING keyword_id = keywords.id AND menuitem_id = " . $MenuItemID, $Only1);
+                }
+
                 foreach($results["searches"] as $SearchID => $VALUE){
                     $keywordids = $VALUE["keywordids"];
                     $text = $VALUE["text"];
@@ -611,6 +615,7 @@
                     if(is_array($keywordids)){$keywordids = implode(",", $keywordids);}
                     $SQL .= "AND keyword_id IN (" . $keywordids . ")"; //only return results from the keyword search
                     $SQL .= ") results GROUP BY menuid ORDER BY " . $results["SortColumn"] . " " . $results["SortDirection"] . " LIMIT " . $results["limit"];
+                    $results["SQL"] = $SQL;
 
                     $SQLresults = Query($SQL, true);
                     foreach($SQLresults as $menuitemID => $row){
@@ -650,7 +655,10 @@
                                 $row["size"] = $keyword["word"];
                             }
                         }
-
+                        if(!isset($row["size"])){
+                            $Data = getkeyword($row["id"], 2);
+                            $row["size"] = firstword($Data["synonyms"]);
+                        }
                         $results["searches"][$SearchID]["menuitems"][] = $row;
                     }
                 }

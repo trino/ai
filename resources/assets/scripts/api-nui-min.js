@@ -1,4 +1,4 @@
-/* Generated at 1473255425 */ /*api*/ //Mini Jquery replacement
+/* Generated at 1473255998 */ /*api*/ //Mini Jquery replacement
 //get more functionality from http://youmightnotneedjquery.com/
 //Siblings, Prev, Prepend, Position Relative To Viewport, Position, Parent, Outer Width With Margin, Outer Width, Outer Height With Margin, Outer Height, Offset Parent, Offset, Next, Matches Selector, matches, Find Children, Filter, Contains Selector, Contains, Clone, Children, Append
 var debugmode = true;
@@ -1453,7 +1453,6 @@ function getaddonscost(currentItem, addons){
         var item = JSON.parse(addon);
         testitem[ item.tablename ].push(item);
     }
-    alert(JSON.stringify(testitem));
     testitem = addoncost(testitem);
     return testitem;
 }
