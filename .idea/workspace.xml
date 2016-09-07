@@ -62,18 +62,18 @@
       <file leaf-file-name="editor.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/home/editor.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.58536583">
-              <caret line="241" column="42" selection-start-line="241" selection-start-column="42" selection-end-line="241" selection-end-column="42" />
+            <state vertical-scroll-proportion="0.41585365">
+              <caret line="21" column="47" selection-start-line="21" selection-start-column="47" selection-end-line="21" selection-end-column="47" />
               <folding>
-                <marker date="1473258684136" expanded="true" signature="2158:2187" placeholder="SELECT synon..keywords..." />
-                <marker date="1473258684136" expanded="true" signature="3328:3346" placeholder="SELECT * FRO..menu..." />
-                <marker date="1473258684136" expanded="true" signature="3677:3699" placeholder="SELECT * FRO..toppings..." />
-                <marker date="1473258684136" expanded="true" signature="4535:4560" placeholder="SELECT * FRO..wings_sauce..." />
-                <marker date="1473258684136" expanded="true" signature="5211:5374" placeholder="SELECT * FRO..keywords..." />
-                <marker date="1473258684136" expanded="true" signature="6613:6782" placeholder="SELECT *, me..menukeywords..." />
-                <marker date="1473258684136" expanded="true" signature="9393:9404" placeholder="..." />
-                <marker date="1473258684136" expanded="true" signature="10494:10527" placeholder="SELECT * FRO..keywords..." />
-                <marker date="1473258684136" expanded="true" signature="10494:10528" placeholder="SELECT * FRO..keywords..." />
+                <marker date="1473259187461" expanded="true" signature="2249:2278" placeholder="SELECT synon..keywords..." />
+                <marker date="1473259187461" expanded="true" signature="3419:3437" placeholder="SELECT * FRO..menu..." />
+                <marker date="1473259187461" expanded="true" signature="3768:3790" placeholder="SELECT * FRO..toppings..." />
+                <marker date="1473259187461" expanded="true" signature="4626:4651" placeholder="SELECT * FRO..wings_sauce..." />
+                <marker date="1473259187461" expanded="true" signature="5302:5465" placeholder="SELECT * FRO..keywords..." />
+                <marker date="1473259187461" expanded="true" signature="6704:6873" placeholder="SELECT *, me..menukeywords..." />
+                <marker date="1473259187461" expanded="true" signature="9484:9495" placeholder="..." />
+                <marker date="1473259187461" expanded="true" signature="10585:10618" placeholder="SELECT * FRO..keywords..." />
+                <marker date="1473259187461" expanded="true" signature="10585:10619" placeholder="SELECT * FRO..keywords..." />
               </folding>
             </state>
           </provider>
@@ -1300,18 +1300,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/home/editor.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.58536583">
-          <caret line="241" column="42" selection-start-line="241" selection-start-column="42" selection-end-line="241" selection-end-column="42" />
+        <state vertical-scroll-proportion="0.41585365">
+          <caret line="21" column="47" selection-start-line="21" selection-start-column="47" selection-end-line="21" selection-end-column="47" />
           <folding>
-            <marker date="1473258684136" expanded="true" signature="2158:2187" placeholder="SELECT synon..keywords..." />
-            <marker date="1473258684136" expanded="true" signature="3328:3346" placeholder="SELECT * FRO..menu..." />
-            <marker date="1473258684136" expanded="true" signature="3677:3699" placeholder="SELECT * FRO..toppings..." />
-            <marker date="1473258684136" expanded="true" signature="4535:4560" placeholder="SELECT * FRO..wings_sauce..." />
-            <marker date="1473258684136" expanded="true" signature="5211:5374" placeholder="SELECT * FRO..keywords..." />
-            <marker date="1473258684136" expanded="true" signature="6613:6782" placeholder="SELECT *, me..menukeywords..." />
-            <marker date="1473258684136" expanded="true" signature="9393:9404" placeholder="..." />
-            <marker date="1473258684136" expanded="true" signature="10494:10527" placeholder="SELECT * FRO..keywords..." />
-            <marker date="1473258684136" expanded="true" signature="10494:10528" placeholder="SELECT * FRO..keywords..." />
+            <marker date="1473259187461" expanded="true" signature="2249:2278" placeholder="SELECT synon..keywords..." />
+            <marker date="1473259187461" expanded="true" signature="3419:3437" placeholder="SELECT * FRO..menu..." />
+            <marker date="1473259187461" expanded="true" signature="3768:3790" placeholder="SELECT * FRO..toppings..." />
+            <marker date="1473259187461" expanded="true" signature="4626:4651" placeholder="SELECT * FRO..wings_sauce..." />
+            <marker date="1473259187461" expanded="true" signature="5302:5465" placeholder="SELECT * FRO..keywords..." />
+            <marker date="1473259187461" expanded="true" signature="6704:6873" placeholder="SELECT *, me..menukeywords..." />
+            <marker date="1473259187461" expanded="true" signature="9484:9495" placeholder="..." />
+            <marker date="1473259187461" expanded="true" signature="10585:10618" placeholder="SELECT * FRO..keywords..." />
+            <marker date="1473259187461" expanded="true" signature="10585:10619" placeholder="SELECT * FRO..keywords..." />
           </folding>
         </state>
       </provider>

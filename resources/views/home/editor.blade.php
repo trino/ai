@@ -18,6 +18,8 @@
             case "keywordsfound":
                 $keyword["Assign"] = '<BUTTON STYLE="width:100%;" VALUE="' . $keyword["id"] . '" ONCLICK="assign(this, false);" CLASS="assign">To Item</BUTTON>';
                 $keyword["Assign"] .= '<BUTTON STYLE="width:100%;" VALUE="' . $keyword["id"] . '" ONCLICK="assign(this, true);" CLASS="assign">To Category</BUTTON>';
+                unset($keyword["weight"]);
+                unset($keyword["keywordtype"]);
                 break;
             case "keywords":
                 $keywordtype = "Unknown";
