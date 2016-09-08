@@ -38,6 +38,13 @@
         .menuitem.disabled:hover{
             text-decoration: none !important;
         }
+
+        .addtoorder{
+            margin-top:.5rem;margin-bottom:.5rem;
+        }
+        .addtoorder:before{
+            content: "ADD TO ORDER";
+        }
     </style>
 
 
@@ -56,22 +63,42 @@
                     <div class="row">
                         <div class="col-md-4">
                             <?php
-                                function getaddons($Table){
+                                $tables = array("toppings", "wings_sauce");
+
+                                function getaddons($Table, &$isfree){
                                     $toppings = Query("SELECT * FROM " . $Table . " ORDER BY name ASC", true);
                                     $toppings_display = '<datalist id="addons-' . $Table . '">';
+                                    $isfree[$Table] = array();
                                     foreach ($toppings as $ID => $topping) {
                                         $toppings_display .= '<option value="' . $topping["name"] . '" type="' . $topping["type"] . '">' . $topping["id"] . '</option>';
+                                        $addons[$Table][$topping["type"]][$topping["name"]] = explodetrim($topping["qualifiers"]);
+                                        if($topping["isfree"]){
+                                            $isfree[$Table][] = $topping["name"];
+                                        }
                                     }
                                     return $toppings_display . '</datalist>';
                                 }
-                                echo getaddons("toppings");
-                                echo getaddons("wings_sauce");
+
+                                function explodetrim($text, $delimiter = ",", $dotrim = true){
+                                    if(is_array($text)){return $text;}
+                                    $text = explode($delimiter, $text);
+                                    if(!$dotrim){return $text;}
+                                    foreach($text as $ID => $Word){
+                                        $text[$ID] = trim($Word);
+                                    }
+                                    return $text;
+                                }
+
+                                $isfree = collapsearray(Query("SELECT * FROM additional_toppings", true), "price", "size");
+                                foreach($tables as $table){
+                                    echo getaddons($table, $isfree);
+                                }
 
                                 function addaddons(&$menuitem, $Table){
-                                    $Cache = '<input type="text" list="addons-' . $Table . '">';
+                                    $Cache = '<input type="text" list="addons-' . $Table . '" class="addon" menuitem="' . $menuitem["id"] . '" table="' . $Table . '"';
                                     $toppings_display = "";
                                     for ($i = 0; $i < $menuitem[$Table]; $i++) {
-                                        $toppings_display .= $Cache;
+                                        $toppings_display .= $Cache . ' PLACEHOLDER="Item: ' . ($i+1) . '">';
                                     }
                                     $menuitem[$Table] = $toppings_display;
                                 }
@@ -92,9 +119,11 @@
                                             $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
                                             foreach ($menuitems as $menuitem) {
                                                 //these should not be inside the loop since they return the same results they should be cached
-                                                addaddons($menuitem, 'toppings');//TOPPINGS
-                                                addaddons($menuitem, 'wings_sauce');//WINGS
-
+                                                $span = "";
+                                                foreach($tables as $table){
+                                                    $span .= $table . '=' . $menuitem[$table] . ' ';
+                                                    addaddons($menuitem, $table);
+                                                }
                                                 // KEYWORDS
                                                 $keywords = Query("SELECT * FROM keywords, menukeywords WHERE menuitem_id = " . $menuitem["id"] . " OR -menuitem_id = " . $menuitem["category_id"] . " HAVING keywords.id = keyword_id", true);
                                                 foreach ($keywords as $ID => $keyword) {
@@ -105,22 +134,21 @@
                                                 $menuitem["Actions"] = '<A HREF="?id=' . $menuitem["id"] . '">Edit</A>';
 
                                                 ?>
+                                                <SPAN CLASS="menuparent" menuitem="{{$menuitem["id"]}}" {{$span}}>
+                                                    <a class="text-xs-left clearfix menuitem" data-toggle="collapse" href="#collapse{{$menuitem["id"]}}">
+                                                        <i class="fa fa-pie-chart text-warning"></i>
+                                                        <SPAN CLASS="itemname">{{$menuitem['item']}}</SPAN>
+                                                        <span class="pull-right itemcost"> ${{$menuitem['price']}}</span>
+                                                    </a>
 
-                                                <a class="text-xs-left clearfix menuitem" data-toggle="collapse" href="#collapse{{$menuitem["id"]}}">
-                                                    <i class="fa fa-pie-chart text-warning"></i>
-                                                    <SPAN CLASS="itemname">{{$menuitem['item']}}</SPAN>
-                                                    <span class="pull-right"> ${{$menuitem['price']}}</span>
-                                                </a>
-
-                                                <div class="collapse" id="collapse{{$menuitem['id']}}">
-                                                    <?
-                                                        echo $menuitem['toppings'];
-                                                        echo $menuitem['wings_sauce'];
-                                                    ?>
-                                                    <button class="btn btn-block btn-sm btn-warning" style="margin-top:.5rem;margin-bottom:.5rem;" data-toggle="collapse" href="#collapse{{$menuitem["id"]}}">
-                                                        ADD TO ORDER
-                                                    </button>
-                                                </div>
+                                                    <div class="collapse addons" id="collapse{{$menuitem['id']}}">
+                                                        <?
+                                                            echo $menuitem['toppings'];
+                                                            echo $menuitem['wings_sauce'];
+                                                        ?>
+                                                        <button class="btn btn-block btn-sm btn-warning addtoorder" data-toggle="collapse" href="#collapse{{$menuitem["id"]}}" onclick="addtoorder(this);"></button>
+                                                    </div>
+                                                </SPAN>
                                                 <?php
                                             }
                                             $a++;
@@ -192,6 +220,9 @@
     </div>
 
     <SCRIPT>
+        var tables = <?= json_encode($tables); ?>;
+        var freetoppings = <?= json_encode($isfree); ?>;
+
         function search(element){
             var searchtext = element.value.toLowerCase();
             $(".menuitem").each(function( index ) {
@@ -211,6 +242,24 @@
                     $(this).addClass("disabled");
                 }
             });
+        }
+
+        function addtoorder(element){
+            var root = $(element).parent().parent();
+            var menuitemroot = $(root).find(".menuitem");
+            var toppingslist = new Array;
+            var menuitem = $(root).attr("menuitem");
+            var itemtext = $(menuitemroot).find(".itemname").text();
+            var itemcost = Number($(menuitemroot).find(".itemcost").text().toLowerCase().trim().replace("$", ""));
+
+            var addons = $(root).find(".addons").find(".addon");
+            $(addons).each(function(index){
+                var thiselement = $(this)[index];
+                toppingslist.push( thiselement.value );
+            });
+
+
+            alert(menuitem + ": " + itemtext + " for " + itemcost + "\r\n" + toppingslist);
         }
 
         //force datalist validation
