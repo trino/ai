@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 31, 2016 at 05:12 PM
+-- Generation Time: Sep 08, 2016 at 09:17 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -41,7 +41,7 @@ INSERT INTO `additional_toppings` (`id`, `size`, `price`) VALUES
 (1, 'Small', 1),
 (2, 'Medium', 1.25),
 (3, 'Large', 1.5),
-(4, 'Extra Large', 2);
+(4, 'X-Large', 2);
 
 -- --------------------------------------------------------
 
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `keywords` (
   `weight` int(11) NOT NULL,
   `keywordtype` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=61 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=62 ;
 
 --
 -- Dumping data for table `keywords`
@@ -88,8 +88,6 @@ CREATE TABLE IF NOT EXISTS `keywords` (
 INSERT INTO `keywords` (`id`, `synonyms`, `weight`, `keywordtype`) VALUES
 (1, 'italian', 1, 0),
 (2, 'pizza', 5, 0),
-(3, 'pastry', 1, 0),
-(4, 'donuts timbits', 2, 0),
 (6, '2 two', 1, 1),
 (7, 'chicken', 1, 0),
 (8, 'wing', 5, 0),
@@ -103,7 +101,7 @@ INSERT INTO `keywords` (`id`, `synonyms`, `weight`, `keywordtype`) VALUES
 (16, 'parmesan', 1, 0),
 (17, 'honey', 1, 0),
 (18, 'hot', 1, 0),
-(19, 'medium', 1, 0),
+(19, 'medium med', 1, 0),
 (20, 'mild', 1, 0),
 (21, 'ranch', 1, 0),
 (22, 'buffalo', 1, 0),
@@ -115,7 +113,7 @@ INSERT INTO `keywords` (`id`, `synonyms`, `weight`, `keywordtype`) VALUES
 (28, 'large lg', 1, 2),
 (29, 'extra xl ex', 1, 2),
 (30, 'lbl pound lb', 1, 2),
-(32, 'drink beverage soda pop', 5, 0),
+(32, 'drink beverage soda pop can', 5, 0),
 (33, 'coke cola', 1, 0),
 (34, 'diet', 1, 0),
 (35, 'liter litre lt bottle ltr', 1, 0),
@@ -133,13 +131,14 @@ INSERT INTO `keywords` (`id`, `synonyms`, `weight`, `keywordtype`) VALUES
 (48, 'garden', 1, 0),
 (49, 'side', 1, 0),
 (50, 'poutine', 5, 0),
-(51, 'french fry fries', 5, 0),
+(51, 'french fry frie', 5, 0),
 (52, 'wedges potato potatoe', 5, 0),
 (53, 'ring', 5, 0),
 (54, 'veggie', 5, 0),
 (55, 'stick', 1, 0),
 (56, 'bread', 5, 0),
-(60, 'regular classic', 1, 0);
+(60, 'regular classic', 1, 0),
+(61, 'panzerotti calzone pocket panzerottie', 5, 0);
 
 -- --------------------------------------------------------
 
@@ -174,7 +173,7 @@ CREATE TABLE IF NOT EXISTS `menu` (
   `toppings` tinyint(1) NOT NULL,
   `wings_sauce` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=69 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=70 ;
 
 --
 -- Dumping data for table `menu`
@@ -240,7 +239,8 @@ INSERT INTO `menu` (`id`, `category_id`, `category`, `item`, `price`, `toppings`
 (65, 7, 'Drinks', '2L Crush Orange', 2.99, 0, 0),
 (66, 7, 'Drinks', '2L Dr. Pepper', 2.99, 0, 0),
 (67, 7, 'Drinks', '2L Ginger Ale', 2.99, 0, 0),
-(68, 7, 'Drinks', '2L Iced Tea', 2.99, 0, 0);
+(68, 7, 'Drinks', '2L Iced Tea', 2.99, 0, 0),
+(69, 8, 'Panzerotti', 'Panzerotti', 5.99, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -253,7 +253,7 @@ CREATE TABLE IF NOT EXISTS `menukeywords` (
   `menuitem_id` int(11) NOT NULL,
   `keyword_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=117 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=120 ;
 
 --
 -- Dumping data for table `menukeywords`
@@ -356,7 +356,8 @@ INSERT INTO `menukeywords` (`id`, `menuitem_id`, `keyword_id`) VALUES
 (110, 25, 55),
 (111, 26, 15),
 (112, 26, 56),
-(116, 51, 60);
+(116, 51, 60),
+(119, -8, 61);
 
 -- --------------------------------------------------------
 
@@ -437,14 +438,14 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1472586486');
+(1, 'lastSQL', '1472656374');
 
 -- --------------------------------------------------------
 
@@ -458,6 +459,7 @@ CREATE TABLE IF NOT EXISTS `toppings` (
   `type` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `isfree` tinyint(1) NOT NULL,
   `qualifiers` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'comma delimited list of the names for 1/2,x1,x2 if applicable',
+  `isall` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=39 ;
 
@@ -465,44 +467,44 @@ CREATE TABLE IF NOT EXISTS `toppings` (
 -- Dumping data for table `toppings`
 --
 
-INSERT INTO `toppings` (`id`, `name`, `type`, `isfree`, `qualifiers`) VALUES
-(1, 'Anchovies', 'Meat', 0, ''),
-(2, 'Artichoke Hearts', 'Vegetable', 0, ''),
-(3, 'Bacon', 'Meat', 0, ''),
-(4, 'Beef Salami', 'Meat', 0, ''),
-(5, 'Black Olives', 'Vegetable', 0, ''),
-(6, 'Broccoli', 'Vegetable', 0, ''),
-(7, 'Cheddar', 'Cheese', 0, ''),
-(8, 'Cheese', 'Cheese', 0, ''),
-(9, 'Chicken', 'Meat', 0, ''),
-(11, 'Feta Cheese', 'Cheese', 0, ''),
-(12, 'Fresh Mushrooms', 'Vegetable', 0, ''),
-(13, 'Green Olives', 'Vegetable', 0, ''),
-(14, 'Green Peppers', 'Vegetable', 0, ''),
-(15, 'Ground Beef', 'Meat', 0, ''),
-(16, 'Ham', 'Meat', 0, ''),
-(17, 'Hot Banana Peppers', 'Vegetable', 0, ''),
-(18, 'Hot Italian Sausage', 'Meat', 0, ''),
-(19, 'Hot Peppers', 'Vegetable', 0, ''),
-(20, 'Hot Sausage', 'Meat', 0, ''),
-(21, 'Italian Sausage', 'Meat', 0, ''),
-(22, 'Tomato Sauce', 'Preparation', 1, ''),
-(23, 'Jalapeno Peppers', 'Vegetable', 0, ''),
-(24, 'Mild Sausage', 'Meat', 0, ''),
-(25, 'Mixed Cheese', 'Cheese', 0, ''),
-(26, 'Mozzarella Cheese', 'Cheese', 0, ''),
-(27, 'Mushrooms', 'Vegetable', 0, ''),
-(28, 'Onions', 'Vegetable', 0, ''),
-(29, 'Parmesan Cheese', 'Cheese', 0, ''),
-(30, 'Pepperoni', 'Meat', 0, ''),
-(31, 'Pineapple', 'Vegetable', 0, ''),
-(32, 'Red Onions', 'Vegetable', 0, ''),
-(33, 'Red Peppers', 'Vegetable', 0, ''),
-(34, 'Salami', 'Meat', 0, ''),
-(35, 'Spinach', 'Vegetable', 0, ''),
-(36, 'Sundried Tomatoes', 'Vegetable', 0, ''),
-(37, 'Tomatoes', 'Vegetable', 0, ''),
-(38, 'Cooked', 'Preparation', 1, 'Lightly done, Regular, Well done');
+INSERT INTO `toppings` (`id`, `name`, `type`, `isfree`, `qualifiers`, `isall`) VALUES
+(1, 'Anchovies', 'Meat', 0, '', 0),
+(2, 'Artichoke Heart', 'Vegetable', 0, '', 0),
+(3, 'Bacon', 'Meat', 0, '', 0),
+(4, 'Beef Salami', 'Meat', 0, '', 0),
+(5, 'Black Olives', 'Vegetable', 0, '', 0),
+(6, 'Broccoli', 'Vegetable', 0, '', 0),
+(7, 'Cheddar', 'Cheese', 0, '', 0),
+(8, 'Cheese', 'Cheese', 0, '', 0),
+(9, 'Chicken', 'Meat', 0, '', 0),
+(11, 'Feta Cheese', 'Cheese', 0, '', 0),
+(12, 'Fresh Mushroom', 'Vegetable', 0, '', 0),
+(13, 'Green Olives', 'Vegetable', 0, '', 0),
+(14, 'Green Peppers', 'Vegetable', 0, '', 0),
+(15, 'Ground Beef', 'Meat', 0, '', 0),
+(16, 'Ham', 'Meat', 0, '', 0),
+(17, 'Hot Banana Peppers', 'Vegetable', 0, '', 0),
+(18, 'Hot Italian Sausage', 'Meat', 0, '', 0),
+(19, 'Hot Peppers', 'Vegetable', 0, '', 0),
+(20, 'Hot Sausage', 'Meat', 0, '', 0),
+(21, 'Italian Sausage', 'Meat', 0, '', 0),
+(22, 'Tomato Sauce', 'Preparation', 1, '', 0),
+(23, 'Jalapeno Peppers', 'Vegetable', 0, '', 0),
+(24, 'Mild Sausage', 'Meat', 0, '', 0),
+(25, 'Mixed Cheese', 'Cheese', 0, '', 0),
+(26, 'Mozzarella Cheese', 'Cheese', 0, '', 0),
+(27, 'Mushrooms', 'Vegetable', 0, '', 0),
+(28, 'Onions', 'Vegetable', 0, '', 0),
+(29, 'Parmesan Cheese', 'Cheese', 0, '', 0),
+(30, 'Pepperoni', 'Meat', 0, '', 0),
+(31, 'Pineapple', 'Vegetable', 0, '', 0),
+(32, 'Red Onions', 'Vegetable', 0, '', 0),
+(33, 'Red Peppers', 'Vegetable', 0, '', 0),
+(34, 'Salami', 'Meat', 0, '', 0),
+(35, 'Spinach', 'Vegetable', 0, '', 0),
+(36, 'Sundried Tomatoes', 'Vegetable', 0, '', 0),
+(37, 'Tomatoes', 'Vegetable', 0, '', 0),
+(38, 'Cooked', 'Preparation', 1, 'Lightly done, Regular, Well done', 1);
 
 -- --------------------------------------------------------
 
@@ -534,6 +536,7 @@ CREATE TABLE IF NOT EXISTS `wings_sauce` (
   `type` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `isfree` tinyint(1) NOT NULL,
   `qualifiers` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'comma delimited list of the names for 1/2,x1,x2 if applicable',
+  `isall` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=8 ;
 
@@ -541,14 +544,14 @@ CREATE TABLE IF NOT EXISTS `wings_sauce` (
 -- Dumping data for table `wings_sauce`
 --
 
-INSERT INTO `wings_sauce` (`id`, `name`, `type`, `isfree`, `qualifiers`) VALUES
-(1, 'Mild', 'Sauce', 0, ''),
-(2, 'Medium', 'Sauce', 0, ''),
-(3, 'Hot', 'Sauce', 0, ''),
-(4, 'Suicide', 'Sauce', 0, ''),
-(5, 'BBQ', 'Sauce', 0, ''),
-(6, 'Honey Garlic', 'Sauce', 0, ''),
-(7, 'Cooked', 'Preparation', 1, 'Lightly done, Regular, Well done');
+INSERT INTO `wings_sauce` (`id`, `name`, `type`, `isfree`, `qualifiers`, `isall`) VALUES
+(1, 'Mild', 'Sauce', 0, '', 1),
+(2, 'Medium', 'Sauce', 0, '', 1),
+(3, 'Hot', 'Sauce', 0, '', 1),
+(4, 'Suicide', 'Sauce', 0, '', 1),
+(5, 'BBQ', 'Sauce', 0, '', 1),
+(6, 'Honey Garlic', 'Sauce', 0, '', 1),
+(7, 'Cooked', 'Preparation', 1, 'Lightly done, Regular, Well done', 1);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

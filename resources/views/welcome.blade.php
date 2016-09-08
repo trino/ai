@@ -45,6 +45,34 @@
         .addtoorder:before{
             content: "ADD TO ORDER";
         }
+
+        input[type=text][list]{
+            width: 100%;
+            height: 23px;
+            position: relative;
+            top: -1px;
+        }
+
+        .plusbtn{
+            width: 100%;
+            height: 23px;
+            padding-top: 0px;
+        }
+
+        hr{
+            margin-top: 2px;
+            margin-bottom: 2px;
+        }
+
+        .invalid{
+            outline: none;
+            border-color: red;
+            box-shadow: 0 0 10px red;
+        }
+
+        select{
+            width: 100%;
+        }
     </style>
 
 
@@ -64,17 +92,38 @@
                         <div class="col-md-4">
                             <?php
                                 $tables = array("toppings", "wings_sauce");
+                                $qualifiers = array("DEFAULT" => array("1/2", "1x", "2x", "3x"));
+                                function makedatalist($name, $items){
+                                    if(!is_array($items)){$items = explode(",", $items);}
+                                    $ret = '<datalist id="' . $name . '">';
+                                    foreach($items as $index => $item){
+                                        $ret .= '<OPTION VALUE="' . $item . '"';
+                                        if($index == 1){
+                                            $ret .= ' SELECTED';
+                                        }
+                                        $ret .= '></OPTION>';
+                                    }
+                                    return $ret . '</datalist>';
+                                }
 
-                                function getaddons($Table, &$isfree){
+                                function getaddons($Table, &$isfree, &$qualifiers){
                                     $toppings = Query("SELECT * FROM " . $Table . " ORDER BY name ASC", true);
                                     $toppings_display = '<datalist id="addons-' . $Table . '">';
                                     $isfree[$Table] = array();
                                     foreach ($toppings as $ID => $topping) {
-                                        $toppings_display .= '<option value="' . $topping["name"] . '" type="' . $topping["type"] . '">' . $topping["id"] . '</option>';
+                                        $rightside = "";
                                         $addons[$Table][$topping["type"]][$topping["name"]] = explodetrim($topping["qualifiers"]);
                                         if($topping["isfree"]){
                                             $isfree[$Table][] = $topping["name"];
+                                            $rightside = "FREE";
                                         }
+                                        if($topping["qualifiers"]){
+                                            $qualifiers[$Table][$topping["name"]] = explodetrim($topping["qualifiers"]);
+                                        }
+                                        if($topping["isall"]){
+                                            $isfree["isall"][$Table][] = $topping["name"];
+                                        }
+                                        $toppings_display .= '<option value="' . $topping["name"] . '" type="' . $topping["type"] . '" ID=' . $topping["id"] . '>' . $rightside . '</option>';
                                     }
                                     return $toppings_display . '</datalist>';
                                 }
@@ -91,16 +140,34 @@
 
                                 $isfree = collapsearray(Query("SELECT * FROM additional_toppings", true), "price", "size");
                                 foreach($tables as $table){
-                                    echo getaddons($table, $isfree);
+                                    echo getaddons($table, $isfree, $qualifiers);
                                 }
 
-                                function addaddons(&$menuitem, $Table){
-                                    $Cache = '<input type="text" list="addons-' . $Table . '" class="addon" menuitem="' . $menuitem["id"] . '" table="' . $Table . '"';
+                                function addaddons(&$menuitem, $Table, $toppingcost, $qualifiers){
+                                    $Cache = '<TABLE CLASS="alladdons"><TR class="firstitem"><TD WIDTH="50%"><input type="text" list="addons-' . $Table . '" class="addon" menuitem="' . $menuitem["id"] . '" table="' . $Table . '" oninput="addonchanged(this);"';
                                     $toppings_display = "";
                                     for ($i = 0; $i < $menuitem[$Table]; $i++) {
-                                        $toppings_display .= $Cache . ' PLACEHOLDER="Item: ' . ($i+1) . '">';
+                                        if($i){$toppings_display .= '<HR>';}
+                                        $toppings_display .= $Cache . ' item="' . $i . '" PLACEHOLDER="Item: ' . ($i+1) . " $" . number_format($toppingcost, 2) . '"></TD>';
+                                        $toppings_display .= '<TD WIDTH="22%">' . printoptions("qualifiers", $qualifiers, $qualifiers[1], true) . '</TD>';
+                                        $toppings_display .= '<TD WIDTH="22%">' . printoptions("sides", array("LEFT", "ALL", "RIGHT"), "ALL") . '</TD>';
+                                        $toppings_display .= '<TD WIDTH="5%"><BUTTON CLASS="plusbtn" ONCLICK="additem(this);">+</BUTTON></TD></TR></TABLE>';
                                     }
                                     $menuitem[$Table] = $toppings_display;
+                                }
+
+                                function textcontains($text, $searchfor){
+                                    return strpos(strtolower($text), strtolower($searchfor)) !== false;
+                                }
+
+                                function getsize($itemname, &$isfree){
+                                    foreach($isfree as $size => $cost){
+                                        if(!is_array($cost)){
+                                            if( textcontains($itemname, $size) ){
+                                                return $size;
+                                            }
+                                        }
+                                    }
                                 }
 
                                 $con = connectdb("ai");
@@ -120,21 +187,22 @@
                                             foreach ($menuitems as $menuitem) {
                                                 //these should not be inside the loop since they return the same results they should be cached
                                                 $span = "";
+                                                $size = getsize($menuitem['item'], $isfree);
+                                                $toppingcost = 0;
+                                                if($size){$toppingcost = $isfree[$size];}
                                                 foreach($tables as $table){
                                                     $span .= $table . '=' . $menuitem[$table] . ' ';
-                                                    addaddons($menuitem, $table);
+                                                    addaddons($menuitem, $table, $toppingcost, $qualifiers["DEFAULT"]);
                                                 }
-                                                // KEYWORDS
-                                                $keywords = Query("SELECT * FROM keywords, menukeywords WHERE menuitem_id = " . $menuitem["id"] . " OR -menuitem_id = " . $menuitem["category_id"] . " HAVING keywords.id = keyword_id", true);
-                                                foreach ($keywords as $ID => $keyword) {
-                                                    $keywords[$ID] = '<SPAN TITLE="Weight: ' . $keyword["weight"] . '">' . ($keyword["synonyms"]) . '</SPAN>';
-                                                }
-                                                $menuitem["keywords"] = implode(", ", $keywords);
-                                                $menuitem["price"] = number_format($menuitem["price"], 2);
-                                                $menuitem["Actions"] = '<A HREF="?id=' . $menuitem["id"] . '">Edit</A>';
 
+                                                $keywords = Query("SELECT * FROM menukeywords WHERE menuitem_id = " . $menuitem["id"] . " OR -menuitem_id = " . $menuitem["category_id"], true);
+                                                foreach ($keywords as $ID => $keyword) {
+                                                    $keywords[$ID] = $keyword["keyword_id"];
+                                                }
+                                                $keywords = implode(",", $keywords);
+                                                $menuitem["price"] = number_format($menuitem["price"], 2);
                                                 ?>
-                                                <SPAN CLASS="menuparent" menuitem="{{$menuitem["id"]}}" {{$span}}>
+                                                <SPAN CLASS="menuparent" menuitem="{{$menuitem["id"]}}" {{$span}} keywords="{{ $keywords }}">
                                                     <a class="text-xs-left clearfix menuitem" data-toggle="collapse" href="#collapse{{$menuitem["id"]}}">
                                                         <i class="fa fa-pie-chart text-warning"></i>
                                                         <SPAN CLASS="itemname">{{$menuitem['item']}}</SPAN>
@@ -222,6 +290,21 @@
     <SCRIPT>
         var tables = <?= json_encode($tables); ?>;
         var freetoppings = <?= json_encode($isfree); ?>;
+        var qualifiers = <?= json_encode($qualifiers); ?>;
+
+        String.prototype.isEqual = function (str){
+            if(isUndefined(str)){return false;}
+            return this.toUpperCase()==str.toUpperCase();
+        };
+        function isUndefined(variable){
+            return typeof variable === 'undefined';
+        }
+        function isArray(variable){
+            return Array.isArray(variable);
+        }
+        String.prototype.contains = function (str){
+            return this.toLowerCase().indexOf(str.toLowerCase()) > -1;
+        };
 
         function search(element){
             var searchtext = element.value.toLowerCase();
@@ -232,7 +315,6 @@
                     if (itemtext.indexOf(searchtext) > -1){
                         ismatch = true;
                     }
-
                 } else {
                     ismatch = true;
                 }
@@ -244,6 +326,26 @@
             });
         }
 
+        function getsize(Itemname) {
+            var sizes = Object.keys(freetoppings);
+            var size = "";
+            for(var i=0; i<sizes.length; i++){
+                if(!isArray(freetoppings[sizes[i]])){
+                    if(Itemname.contains(sizes[i]) && sizes[i].length > size.length){
+                        size = sizes[i];
+                    }
+                }
+            }
+            return size;
+        }
+
+        function isaddon_free(Table, Addon){
+            return freetoppings[Table].indexOf(Addon) > -1;
+        }
+        function isaddon_onall(Table, Addon){
+            return freetoppings["isall"][Table].indexOf(Addon) > -1;
+        }
+
         function addtoorder(element){
             var root = $(element).parent().parent();
             var menuitemroot = $(root).find(".menuitem");
@@ -251,38 +353,99 @@
             var menuitem = $(root).attr("menuitem");
             var itemtext = $(menuitemroot).find(".itemname").text();
             var itemcost = Number($(menuitemroot).find(".itemcost").text().toLowerCase().trim().replace("$", ""));
+            var toppings = 0;
+            var size = getsize(itemtext);
+            var addoncost = 0;
+            if(size){
+                addoncost = freetoppings[size];
+            }
 
-            var addons = $(root).find(".addons").find(".addon");
-            $(addons).each(function(index){
-                var thiselement = $(this)[index];
-                toppingslist.push( thiselement.value );
-            });
-
-
-            alert(menuitem + ": " + itemtext + " for " + itemcost + "\r\n" + toppingslist);
-        }
-
-        //force datalist validation
-        var inputs = document.querySelectorAll('input[list]');
-        for (var i = 0; i < inputs.length; i++) {
-            // When the value of the input changes...
-            inputs[i].addEventListener('change', function() {
-                var optionFound = false, datalist = this.list;
-                // Determine whether an option exists with the current value of the input.
-                for (var j = 0; j < datalist.options.length; j++) {
-                    if (this.value == datalist.options[j].value) {
-                        optionFound = true;
-                        break;
+            $(root).find(".addons").find(".addon").each(function(index){
+                var thiselement = $(this)[0];
+                var parent = $(thiselement).parent().parent();
+                var qualifier = $(parent).find("select[name=qualifiers]").val();
+                if(qualifier == 0){qualifier = 0.5;}//half topping
+                var sides = $(parent).find("select[name=sides]").val();
+                if(list_hasoption(thiselement)) {
+                    var itemid = $(thiselement).attr("item");
+                    var table = $(thiselement).attr("table");
+                    var isfree = isaddon_free(table, thiselement.value);
+                    if(isUndefined(toppingslist[itemid])){toppingslist.push(new Array);}
+                    toppingslist[itemid].push({
+                        addon: thiselement.value,
+                        table: table,
+                        qualifier: qualifier,
+                        sides: sides,
+                        isfree: isfree
+                    });
+                    if(!isfree){
+                        if(!sides.isEqual("ALL")){qualifier = qualifier * 0.5;}
+                        toppings += Number(qualifier);
                     }
                 }
-                // use the setCustomValidity function of the Validation API
-                // to provide an user feedback if the value does not exist in the datalist
-                if (optionFound) {
-                    this.setCustomValidity('');
-                } else {
-                    this.setCustomValidity('Please select a valid value.');
-                }
             });
+            toppings = Math.round(toppings);
+            var totalcost = (Number(itemcost) + (toppings * Number(addoncost))).toFixed(2);
+
+            var thisitem = {id: menuitem, quantity: 1, item: itemtext, basecost: itemcost, addon_list: toppingslist, addon_quantity: toppings, addon_cost: addoncost, size: size, totalcost: totalcost};
+
+            alert(JSON.stringify(thisitem));
+
+            $(".cloneitem").remove();
+        }
+
+        function addonchanged(element){
+            var table = element.getAttribute("table");
+            var addon = element.value;
+            var optionexists = list_hasoption(element);
+            var thequalifiers = qualifiers["DEFAULT"];
+            if(optionexists) {
+                if (qualifiers[table].hasOwnProperty(addon)) {
+                    thequalifiers = qualifiers[table][addon];
+                }
+                var HTML = "";
+
+                var select = $(element).parent().parent().find("select[name=qualifiers]");
+                var selected = $(select).val();
+                for(var i = 0; i < thequalifiers.length; i++){
+                    HTML += '<OPTION VALUE="' + i + '"';
+                    if(i == selected){HTML += ' SELECTED';}
+                    HTML += '>' + thequalifiers[i] + '</OPTION>';
+                }
+                $(select).html(HTML);
+
+                select = $(element).parent().parent().find("select[name=sides]");
+                $(select).removeAttr("DISABLED");
+                if(isaddon_onall(table, addon)){
+                    $(select).attr("DISABLED", true);
+                    $(select).val("ALL");
+                }
+            }
+            $(element).removeClass("invalid");
+            if(element.value && !optionexists && !$(element).hasClass("invalid")) {
+                $(element).addClass("invalid");
+            }
+        }
+
+        function additem(element){
+            var row = $(element).parent().parent();
+            var HTML = $(row)[0].outerHTML;
+            HTML = HTML.replace('additem(this)', 'removeitem(this)').replace('>+<', '>-<').replace('"firstitem"', '"cloneitem"');
+            $(row).after(HTML);
+        }
+        function removeitem(element){
+            $(element).parent().parent().remove();
+        }
+
+        function list_hasoption(element, value){
+            var datalist = element.list;
+            if(isUndefined(value)){value = element.value;}
+            for (var j = 0; j < datalist.options.length; j++) {
+                if (value.isEqual(datalist.options[j].value)) {
+                    return true;
+                }
+            }
+            return false;
         }
     </SCRIPT>
 @endsection

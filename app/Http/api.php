@@ -181,7 +181,7 @@
 
     function printoption($option, $selected = "", $value = ""){
         $tempstr = "";
-        if ($option == $selected || $value == $selected) {$tempstr = " selected";}
+        if ($option === $selected || $value === $selected) {$tempstr = " selected";}
         if (strlen($value) > 0) {$value = " value='" . $value . "'";}
         return '<option' . $value . $tempstr . ">" . $option . "</option>";
     }
@@ -190,7 +190,12 @@
         $tempstr = '<SELECT ' . $isdisabled . ' name="' . $name . '" id="' . $name . '">';
         if(!$optionarray){$optionarray = $valuearray;}
         for ($temp = 0; $temp < count($valuearray); $temp += 1) {
-            $tempstr .= printoption($valuearray[$temp], $selected, $optionarray[$temp]);
+            if(is_array($optionarray)) {
+                $value = $optionarray[$temp];
+            } else {
+                $value = $temp;
+            }
+            $tempstr .= printoption($valuearray[$temp], $selected, $value);
         }
         $tempstr .= '</SELECT>';
         return $tempstr;
