@@ -163,6 +163,7 @@
                                     switch(table){
                                         case "users":
                                             tempHTML += '<A CLASS="btn btn-sm btn-primary" href="' + baseURL + 'useraddresses?user_id=' + ID + '">Addresses</A> ';
+                                            tempHTML += '<A CLASS="btn btn-sm btn-secondary" href="{{ webroot("public/user/info/") }}' + ID + '">Edit</A> ';
                                             break;
                                         case "useraddresses":
                                             tempHTML += '<A CLASS="btn btn-sm btn-primary" onclick="editaddress(' + ID + ');">Edit</A> ';
@@ -317,16 +318,6 @@
                         }
                     });
                 }
-
-                function getform(ID){
-                    var data = $("#googleaddress").serializeArray();
-                    var ret = {};
-                    for(var i=0; i<data.length; i++){
-                        ret[ data[i].name ] = data[i].value;
-                    }
-                    return ret;
-                }
-
             </SCRIPT>
         @endsection
         <?php

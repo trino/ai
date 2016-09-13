@@ -32,3 +32,12 @@ function createCookieValue(cname, cvalue) {
 function log(text){
     console.log(text);
 }
+
+function getform(ID){
+    var data = $(ID).serializeArray();
+    var ret = {};
+    for(var i=0; i<data.length; i++){
+        ret[ data[i].name ] = data[i].value;
+    }
+    return ret;
+}

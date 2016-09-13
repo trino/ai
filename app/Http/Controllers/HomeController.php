@@ -26,6 +26,9 @@ class HomeController extends Controller {
     public function tablelist($table) {
         return view('home.list', array("table" => $table));
     }
+    public function edituser($user_id) {
+        return view('home.edituser', array("user_id" => $user_id));
+    }
 
     public function edit(Request $request) {
         return view('home.editor');

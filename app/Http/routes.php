@@ -44,7 +44,10 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::get('/getjs',                'HomeController@getjs');
     Route::any('/test',                 'HomeController@index');
+
     Route::any('/list/{table}',         'HomeController@tablelist');
+    Route::any('/user/info/{id}',       'HomeController@edituser');
+
     Route::any('/clipi',                'HomeController@clipi');
     Route::any('/edit',                 'HomeController@edit');
     Route::any('/edittable',            'HomeController@edittable');
