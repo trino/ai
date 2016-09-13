@@ -144,7 +144,8 @@
                                 }
 
                                 function addaddons(&$menuitem, $Table, $toppingcost, $qualifiers){
-                                    $Cache = '<TABLE CLASS="alladdons"><TR class="firstitem"><TD WIDTH="50%"><input type="text" list="addons-' . $Table . '" class="addon" menuitem="' . $menuitem["id"] . '" table="' . $Table . '" oninput="addonchanged(this);"';
+                                    $Cache = '<TABLE CLASS="alladdons"><TR class="firstitem">
+<TD WIDTH="50%"><input type="text" list="addons-' . $Table . '" class="addon" menuitem="' . $menuitem["id"] . '" table="' . $Table . '" oninput="addonchanged(this);"';
                                     $toppings_display = "";
                                     for ($i = 0; $i < $menuitem[$Table]; $i++) {
                                         if($i){$toppings_display .= '<HR>';}
@@ -448,4 +449,5 @@
             return false;
         }
     </SCRIPT>
+
 @endsection
