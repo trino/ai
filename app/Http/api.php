@@ -88,7 +88,8 @@
      *  $OrderBy/$Dir/$GroupBy = order by column/direction (ASC/DESC)/group by column
     */
     function select_field_where($Table, $Where, $getcol = "", $OrderBy = "", $Dir = "ASC", $GroupBy = "", $LimitBy = 0, $Start = 0){
-        $query = "SELECT * FROM " . $Table . " WHERE " . $Where;
+        $query = "SELECT * FROM " . $Table;
+        if($Where) { $query .= " WHERE " . $Where;}
         if($OrderBy){$query .= " ORDER BY " . $OrderBy . " " . $Dir;}
         if($GroupBy){$query .= " GROUP BY " . $GroupBy;}
         if($LimitBy){

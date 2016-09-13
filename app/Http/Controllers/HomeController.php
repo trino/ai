@@ -23,6 +23,10 @@ class HomeController extends Controller {
         return view('home.getjs');
     }
 
+    public function tablelist($table) {
+        return view('home.list', array("table" => $table));
+    }
+
     public function edit(Request $request) {
         return view('home.editor');
     }
