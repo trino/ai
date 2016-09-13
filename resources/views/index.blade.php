@@ -17,7 +17,10 @@
         .select2-container-multi .select2-choices .select2-search-field input {
             margin: 0 !important;
         }
-        input{border-top:0 !important;}
+
+        input {
+            border-top: 0 !important;
+        }
 
         .list-group-item {
             padding: 0rem;
@@ -59,7 +62,7 @@
         h1, h2, h3, h4, h5, h6 {
             font-family: 'Roboto Slab', serif;
             font-weight: 600;
-        }
+0        }
 
         a {
             color: #373a3c;
@@ -166,7 +169,8 @@
                                                     </button>
                                                     <div class="form-group">
 
-                                                        <h4 class="modal-title" id="myModalLabel">{{$menuitem['item']}}  ${{$menuitem['price']}}</h4>
+                                                        <h4 class="modal-title" id="myModalLabel">{{$menuitem['item']}}
+                                                            ${{$menuitem['price']}}</h4>
                                                     </div>
                                                     @if($menuitem['wings_sauce']>0)
                                                         <div class="form-group">
@@ -189,7 +193,8 @@
                                                         @for ($i = 0; $i < $menuitem['toppings']; $i++)
                                                             <div class="form-group">
                                                                 <div class="text-muted">Pizza #{{$i+1}}</div>
-                                                                <select class="form-control select2"  data-placeholder="Add Toppings: $0.79"
+                                                                <select class="form-control select2"
+                                                                        data-placeholder="Add Toppings: $0.79"
                                                                         multiple="multiple">
                                                                     <option></option>
                                                                     <optgroup label="Toppings">
