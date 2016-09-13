@@ -111,6 +111,10 @@
         return $result;
     }
 
+    function describe($table){
+        return Query("DESCRIBE " . $table, true);
+    }
+
     function deleterow($Table, $Where){
         Query("DELETE FROM $Table WHERE $Where");
     }

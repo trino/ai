@@ -1,6 +1,10 @@
 <?php
     $namefield = "name";
-    if(!isset($table)){$table = $_POST["table"];}
+    $where = "";
+    $inlineedit = true;
+    if(isset($_POST["query"])){
+        $_GET = $_POST["query"];
+    }
     switch($table){
         case "users":
             $faicon = "user";
@@ -12,27 +16,42 @@
         case "orders":
             $faicon = "dollar";
             break;
+        case "useraddresses":
+            $inlineedit = false;
+            $fields=true;//all fields
+            if(isset($_GET["user_id"])){
+                $where = "user_id = " . $_GET["user_id"];
+            }
+            break;
         default: die("This table is not whitelisted");
+    }
+    if(isset($fields) && !is_array($fields)){
+        $fields = collapsearray(describe($table), "Field");
     }
     if(isset($_POST["action"])){
         $results = array();
         switch($_POST["action"]){
             case "getpage":
                 if(!isset($fields)){$fields[] = "id";}
-                $results["SQL"] = "SELECT " . implode(", ", $fields) . " FROM " . $_POST["table"] . " LIMIT " . $_POST["itemsperpage"] . " OFFSET " . ($_POST["itemsperpage"] * $_POST["page"]);
+                if($where){$where = " WHERE " . $where;}
+                $results["SQL"] = "SELECT " . implode(", ", $fields) . " FROM " . $table . $where . " LIMIT " . $_POST["itemsperpage"] . " OFFSET " . ($_POST["itemsperpage"] * $_POST["page"]);
                 $results["table"] = Query($results["SQL"], true);
-                $results["count"] = first("SELECT COUNT(*) as count FROM " . $_POST["table"])["count"];
+                $results["count"] = first("SELECT COUNT(*) as count FROM " . $table)["count"];
                 break;
 
             case "deleteitem":
-                deleterow($_POST["table"], "id=" . $_POST["id"]);
+                deleterow($table, "id=" . $_POST["id"]);
                 break;
 
-            case "edititem":
-                insertdb($_POST["table"], array("id" => $_POST["id"], $_POST["key"] => $_POST["value"]));
+            case "edititem"://single column
+                insertdb($table, array("id" => $_POST["id"], $_POST["key"] => $_POST["value"]));
                 break;
 
-            default: die("'" . $_POST["action"] . "' is unhandled");
+            case "saveitem"://all columns
+                insertdb($table, $_POST["value"]);
+                break;
+
+            default: die("'" . $_POST["action"] . "' is unhandled \r\n" . print_r($_POST, true));
         }
         if($results){echo json_encode($results);}
         die();
@@ -71,7 +90,17 @@
                                         <TBODY></TBODY>
                                         <TFOOT><TR><TD COLSPAN="{{ count($fields)+1 }}" ALIGN="right" ID="pages"></TD></TR></TFOOT>
                                     </TABLE>
-                                    <DIV ID="body"></DIV>
+                                    <DIV ID="body">
+                                        <?php
+                                            switch($table){
+                                                case "useraddresses":
+                                                    echo '<A ONCLICK="saveaddress(0);" CLASS="btn btn-sm btn-primary">New</A> ';
+                                                    echo '<A ONCLICK="saveaddress(selecteditem);" CLASS="btn btn-sm btn-secondary" id="saveaddress" DISABLED>Save</A>';
+                                                    echo view("popups.address", $_GET);
+                                                    break;
+                                            }
+                                        ?>
+                                    </DIV>
                                 </div>
                             </div>
                         </div>
@@ -86,25 +115,36 @@
                 .textfield{
                     width:100%;
                 }
+
+                a[disabled]{
+                    cursor: not-allowed;
+                    opacity: 0.5;
+                }
             </STYLE>
             <SCRIPT>
+                var selecteditem = 0;
                 var itemsperpage = 25;
+                var currentpage = 0;
+                var lastpage = 0;
                 var table = "{{ $table }}";
                 var currentURL = "<?= Request::url(); ?>";
+                var baseURL = currentURL.replace(table, "");
                 var token = "<?= csrf_token(); ?>";
                 var namefield = "{{ $namefield }}";
                 var items = 0;
+                var inlineedit = "{{ $inlineedit }}".length > 0;
 
                 $(document).ready(function() {
                     getpage(0);
                 });
 
                 function getpage(index){
+                    if(index<0){index = currentpage;}
                     $.post(currentURL, {
                         action: "getpage",
                         _token: token,
-                        table: table,
                         itemsperpage: itemsperpage,
+                        query: <?= json_encode($_GET); ?>,
                         page: index
                     }, function (result) {
                         try {
@@ -119,13 +159,22 @@
                                     for (var v = 0; v < fields.length; v++) {
                                         tempHTML += '<TD ID="' + table + "_" + ID + "_" + fields[v] + '" class="field" field="' + fields[v] + '" index="' + ID + '">' + data.table[i][fields[v]] + '</TD>';
                                     }
-                                    tempHTML += '<TD><A CLASS="btn btn-sm btn-danger" onclick="deleteitem(' + ID + ');">Delete</A></TD>';
-                                    HTML += tempHTML + '</TR>';
+                                    tempHTML += '<TD>';
+                                    switch(table){
+                                        case "users":
+                                            tempHTML += '<A CLASS="btn btn-sm btn-primary" href="' + baseURL + 'useraddresses?user_id=' + ID + '">Addresses</A> ';
+                                            break;
+                                        case "useraddresses":
+                                            tempHTML += '<A CLASS="btn btn-sm btn-primary" onclick="editaddress(' + ID + ');">Edit</A> ';
+                                            break;
+                                    }
+                                    HTML += tempHTML + '<A CLASS="btn btn-sm btn-danger" onclick="deleteitem(' + ID + ');">Delete</A></TD></TR>';
                                     items++;
                                 }
                             } else {
                                 HTML = '<TR><TD COLSPAN="100">No results found</TD></TR>';
                             }
+                            currentpage=index;
                             $("#data > TBODY").html(HTML);
                             generatepagelist(data.count, index);
 
@@ -133,10 +182,11 @@
                                 var field = $(this).attr("field");
                                 if(field != "id"){//primary key can't be edited
                                     var ID = $(this).attr("index");
+                                    selecteditem = ID;
                                     var HTML = $(this).html();
                                     var isHTML = containsHTML(HTML);
                                     var isText = false;
-                                    if(!isHTML){
+                                    if(!isHTML && inlineedit){
                                         switch(table + "." + field){
 
                                             default://simple text
@@ -169,6 +219,7 @@
                 function generatepagelist(itemcount, currentpage){
                     currentpage = Number(currentpage);
                     var pages = Math.ceil(Number(itemcount) / itemsperpage);
+                    lastpage = pages-1;
                     var HTML = '<TABLE BORDER="1"><TR>';
                     var printpages = 10;
                     if(pages > 1){
@@ -202,12 +253,14 @@
                         $.post(currentURL, {
                             action: "deleteitem",
                             _token: token,
-                            table: table,
                             id: ID
                         }, function (result) {
                             if(result) {
                                 alert(result);
                             } else {
+                                selecteditem=0;
+                                $("#saveaddress").addAttr("disabled");
+
                                 $("#" + table + "_" + ID).fadeOut(1000, function(){
                                     $("#" + table + "_" + ID).remove();
                                 });
@@ -224,7 +277,6 @@
                     $.post(currentURL, {
                         action: "edititem",
                         _token: token,
-                        table: table,
                         id: ID,
                         key: field,
                         value: data
@@ -236,6 +288,45 @@
                         }
                     });
                 }
+
+                function editaddress(ID){
+                    selecteditem = ID;
+                    var streetformat = "[number] [street], [city]";
+                    $("#useraddresses_" + ID + " > TD").each(function(){
+                        var field = $(this).attr("field");
+                        var value = $(this).text();
+                        streetformat = streetformat.replace("[" + field + "]", value);
+                        $("#add_" + field).val( value );
+                    });
+                    $("#formatted_address").val(streetformat);
+                    $("#saveaddress").removeAttr("disabled");
+                }
+
+                function saveaddress(ID){
+                    var formdata = getform("#googleaddress");
+                    if(ID){formdata.id = ID;}
+                    $.post(currentURL, {
+                        action: "saveitem",
+                        _token: token,
+                        value: formdata
+                    }, function (result) {
+                        if(result) {
+                            alert(result);
+                        } else {
+                            getpage(lastpage);
+                        }
+                    });
+                }
+
+                function getform(ID){
+                    var data = $("#googleaddress").serializeArray();
+                    var ret = {};
+                    for(var i=0; i<data.length; i++){
+                        ret[ data[i].name ] = data[i].value;
+                    }
+                    return ret;
+                }
+
             </SCRIPT>
         @endsection
         <?php

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 08, 2016 at 09:17 PM
+-- Generation Time: Sep 13, 2016 at 08:57 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -438,14 +438,14 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1472656374');
+(1, 'lastSQL', '1473362272');
 
 -- --------------------------------------------------------
 
@@ -509,6 +509,35 @@ INSERT INTO `toppings` (`id`, `name`, `type`, `isfree`, `qualifiers`, `isall`) V
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `useraddresses`
+--
+
+CREATE TABLE IF NOT EXISTS `useraddresses` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `number` int(11) NOT NULL,
+  `unit` varchar(16) NOT NULL,
+  `buzzcode` varchar(16) NOT NULL,
+  `street` varchar(255) NOT NULL,
+  `postalcode` varchar(16) NOT NULL,
+  `city` varchar(64) NOT NULL,
+  `province` varchar(32) NOT NULL,
+  `latitude` varchar(16) NOT NULL,
+  `longitude` varchar(16) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `useraddresses`
+--
+
+INSERT INTO `useraddresses` (`id`, `user_id`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`) VALUES
+(1, 1, 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999'),
+(3, 1, 183, '', '', 'Lottridge Street', 'L8L 6V6', 'Hamilton', 'Ontario', '43.2557729', '-79.831154999999');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -520,9 +549,17 @@ CREATE TABLE IF NOT EXISTS `users` (
   `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
+  `phone` varchar(16) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `phone`) VALUES
+(1, 'Roy Hodson', 'roy@trinoweb.com', '', NULL, NULL, NULL, '');
 
 -- --------------------------------------------------------
 
