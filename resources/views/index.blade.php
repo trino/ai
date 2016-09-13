@@ -17,6 +17,7 @@
         .select2-container-multi .select2-choices .select2-search-field input {
             margin: 0 !important;
         }
+        input{border-top:0 !important;}
 
         .list-group-item {
             padding: 0rem;
@@ -169,6 +170,7 @@
                                                     </div>
                                                     @if($menuitem['wings_sauce']>0)
                                                         <div class="form-group">
+
                                                             <select class="form-control select2" multiple="multiple"
                                                                     data-placeholder="Wings Sauce">
                                                                 <option></option>
@@ -182,13 +184,12 @@
                                                             </select></div>
                                                     @endif
 
-
                                                     @if($menuitem['toppings']>0)
 
                                                         @for ($i = 0; $i < $menuitem['toppings']; $i++)
                                                             <div class="form-group">
-                                                                <div class="text-muted"></div>
-                                                                <select class="form-control select2"  data-placeholder="Pizza Toppings #{{$i+1}}"
+                                                                <div class="text-muted">Pizza #{{$i+1}}</div>
+                                                                <select class="form-control select2"  data-placeholder="Add Toppings: $0.79"
                                                                         multiple="multiple">
                                                                     <option></option>
                                                                     <optgroup label="Toppings">
