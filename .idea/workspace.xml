@@ -68,12 +68,12 @@
       <file leaf-file-name="list.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/home/list.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.011904762">
-              <caret line="32" column="48" selection-start-line="32" selection-start-column="48" selection-end-line="32" selection-end-column="48" />
+            <state vertical-scroll-proportion="0.53125">
+              <caret line="30" column="28" selection-start-line="30" selection-start-column="28" selection-end-line="30" selection-end-column="28" />
               <folding>
-                <element signature="e#1610#1681#0#HTML" expanded="true" />
-                <marker date="1473780128454" expanded="true" signature="689:800" placeholder="SELECT FROM ..." />
-                <marker date="1473780128454" expanded="true" signature="956:986" placeholder="SELECT COUNT..fooTable..." />
+                <element signature="e#1769#1840#0#HTML" expanded="true" />
+                <marker date="1473781632846" expanded="true" signature="689:800" placeholder="SELECT FROM ..." />
+                <marker date="1473781632846" expanded="true" signature="956:986" placeholder="SELECT COUNT..fooTable..." />
               </folding>
             </state>
           </provider>
@@ -102,8 +102,8 @@
       <file leaf-file-name="api.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/api.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.1346154">
-              <caret line="113" column="22" selection-start-line="113" selection-start-column="13" selection-end-line="113" selection-end-column="22" />
+            <state vertical-scroll-proportion="-2.5">
+              <caret line="38" column="40" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="40" />
               <folding>
                 <marker date="1473775652899" expanded="true" signature="1763:1887" placeholder="INSERT INTO ..." />
                 <marker date="1473775652899" expanded="true" signature="3693:3707" placeholder="SELECT * FRO..." />
@@ -1265,8 +1265,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/api.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.1346154">
-          <caret line="113" column="22" selection-start-line="113" selection-start-column="13" selection-end-line="113" selection-end-column="22" />
+        <state vertical-scroll-proportion="-2.5">
+          <caret line="38" column="40" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="40" />
           <folding>
             <marker date="1473775652899" expanded="true" signature="1763:1887" placeholder="INSERT INTO ..." />
             <marker date="1473775652899" expanded="true" signature="3693:3707" placeholder="SELECT * FRO..." />
@@ -1282,12 +1282,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/home/list.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.011904762">
-          <caret line="32" column="48" selection-start-line="32" selection-start-column="48" selection-end-line="32" selection-end-column="48" />
+        <state vertical-scroll-proportion="0.53125">
+          <caret line="30" column="28" selection-start-line="30" selection-start-column="28" selection-end-line="30" selection-end-column="28" />
           <folding>
-            <element signature="e#1610#1681#0#HTML" expanded="true" />
-            <marker date="1473780128454" expanded="true" signature="689:800" placeholder="SELECT FROM ..." />
-            <marker date="1473780128454" expanded="true" signature="956:986" placeholder="SELECT COUNT..fooTable..." />
+            <element signature="e#1769#1840#0#HTML" expanded="true" />
+            <marker date="1473781632846" expanded="true" signature="689:800" placeholder="SELECT FROM ..." />
+            <marker date="1473781632846" expanded="true" signature="956:986" placeholder="SELECT COUNT..fooTable..." />
           </folding>
         </state>
       </provider>

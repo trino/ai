@@ -28,6 +28,10 @@
                 deleterow($_POST["table"], "id=" . $_POST["id"]);
                 break;
 
+            case "edititem":
+                insertdb($_POST["table"], array("id" => $_POST["id"], $_POST["key"] => $_POST["value"]));
+                break;
+
             default: die("'" . $_POST["action"] . "' is unhandled");
         }
         if($results){echo json_encode($results);}
@@ -78,6 +82,10 @@
                 .page{
                     cursor: pointer;
                 }
+
+                .textfield{
+                    width:100%;
+                }
             </STYLE>
             <SCRIPT>
                 var itemsperpage = 25;
@@ -109,7 +117,7 @@
                                     var ID = data.table[i]["id"];
                                     var tempHTML = '<TR ID="' + table + "_" + ID + '">';
                                     for (var v = 0; v < fields.length; v++) {
-                                        tempHTML += '<TD ID="' + table + "_" + ID + "_" + fields[v] + '">' + data.table[i][fields[v]] + '</TD>';
+                                        tempHTML += '<TD ID="' + table + "_" + ID + "_" + fields[v] + '" class="field" field="' + fields[v] + '" index="' + ID + '">' + data.table[i][fields[v]] + '</TD>';
                                     }
                                     tempHTML += '<TD><A CLASS="btn btn-sm btn-danger" onclick="deleteitem(' + ID + ');">Delete</A></TD>';
                                     HTML += tempHTML + '</TR>';
@@ -120,11 +128,42 @@
                             }
                             $("#data > TBODY").html(HTML);
                             generatepagelist(data.count, index);
+
+                            $(".field").dblclick(function() {
+                                var field = $(this).attr("field");
+                                if(field != "id"){//primary key can't be edited
+                                    var ID = $(this).attr("index");
+                                    var HTML = $(this).html();
+                                    var isHTML = containsHTML(HTML);
+                                    var isText = false;
+                                    if(!isHTML){
+                                        switch(table + "." + field){
+
+                                            default://simple text
+                                                isText=true;
+                                                HTML = '<INPUT TYPE="TEXT" ID="' + ID + "_" + field + '" VALUE="' + HTML + '" CLASS="textfield">';
+                                        }
+                                        $(this).html(HTML);
+                                        if(isText) {
+                                            $("#" + ID + "_" + field).focus().select().keypress(function (ev) {
+                                                var keycode = (ev.keyCode ? ev.keyCode : ev.which);
+                                                if (keycode == '13') {
+                                                    edititem(ID, field, $(this).val());
+                                                }
+                                            })
+                                        }
+                                    }
+                                }
+                            });
                         } catch (e){
                             $("#body").html(e + " NON-JSON DETECTED: <BR>" + result);
                             return false;
                         }
                     });
+                }
+
+                function containsHTML(text){
+                    return text.indexOf("<") > -1 && text.indexOf(">") > -1;
                 }
 
                 function generatepagelist(itemcount, currentpage){
@@ -179,6 +218,23 @@
                             }
                         });
                     }
+                }
+
+                function edititem(ID, field, data){
+                    $.post(currentURL, {
+                        action: "edititem",
+                        _token: token,
+                        table: table,
+                        id: ID,
+                        key: field,
+                        value: data
+                    }, function (result) {
+                        if(result) {
+                            alert(result);
+                        } else {
+                            $("#" + table + "_" + ID + "_" + field).html(data);
+                        }
+                    });
                 }
             </SCRIPT>
         @endsection
