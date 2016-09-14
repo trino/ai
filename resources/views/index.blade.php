@@ -68,7 +68,7 @@
         h1, h2, h3, h4, h5, h6 {
             font-family: 'Roboto Slab', serif;
             font-weight: 600;
-0        }
+        }
 
         a {
             color: #373a3c;
@@ -91,6 +91,30 @@
 
         .fa-close{
             cursor: pointer;
+        }
+
+        #loadingmodal{
+            display:    none;
+            position:   fixed;
+            z-index:    1000;
+            top:        0;
+            left:       0;
+            height:     100%;
+            width:      100%;
+            background: rgba( 255, 255, 255, .8 )
+                url('<?= webroot("resources/assets/images/slice.gif"); ?>')
+                50% 50%
+                no-repeat;
+        }
+
+        /* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
+        body.loading {
+            overflow: hidden;
+        }
+
+        /* Anytime the body has the loading class, our modal element will be visible */
+        body.loading #loadingmodal {
+            display: block;
         }
     </style>
     <script src="{{ webroot("resources/assets/scripts/api2.js") }}"></script>
@@ -242,7 +266,7 @@
 
                         <?= view("popups.address", array("user_id" => 1, "dontincludeAPI" => true, "style" => 1)); //must update the user_id once login is possible ?>
 
-                        <button class="btn btn-warning btn-block">PLACE ORDER</button>
+                        <button class="btn btn-warning btn-block" onclick="placeorder();">PLACE ORDER</button>
                     </div>
 
                 </div>
@@ -307,6 +331,8 @@
         var qualifiers = <?= json_encode($qualifiers); ?>;
         var theorder = new Array;
         var toppingsouterhtml, wingsauceouterhtml;
+        var currentURL = "<?= Request::url(); ?>";
+        var token = "<?= csrf_token(); ?>";
         var deliveryfee = 3.50;
 
         function search(element) {
@@ -507,6 +533,18 @@
             generatereceipt();
         }
 
+        function placeorder(){
+            $.post(currentURL, {
+                action: "saveorder",
+                _token: token,
+                order: theorder
+            }, function (result) {
+                if(result) {
+                    alert(result);
+                }
+            });
+        }
+
         $(document).ready(function() {
             toppingsouterhtml = outerHTML("#modal-toppings-original").replace('form-control select2', 'form-control select2 select2clones');
             wingsauceouterhtml = outerHTML("#modal-wings-original").replace('form-control select2', 'form-control select2 select2clones');
@@ -516,7 +554,13 @@
                 }
             }
             generatereceipt();
+
+            $body = $("body");
+            $(document).on({
+                ajaxStart: function() { $body.addClass("loading"); },
+                ajaxStop: function() { $body.removeClass("loading"); }
+            });
         });
     </script>
-
+    <div class="modal loading" ID="loadingmodal"><!-- Place at bottom of page --></div>
 @endsection
