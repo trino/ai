@@ -1,4 +1,19 @@
-<DIV CLASS="row"><DIV CLASS="col-md-2">Address:</DIV><DIV CLASS="col-md-10"><INPUT TYPE="text" ID="formatted_address"></div></DIV>
+<?php
+    if(!isset($style)){$style = 0;}
+    switch($style){
+        case 0:
+            echo '<DIV CLASS="row"><DIV CLASS="col-md-2">Address:</DIV><DIV CLASS="col-md-10"><INPUT TYPE="text" ID="formatted_address"></div></DIV>';
+            break;
+        case 1:
+            echo '<INPUT TYPE="text" ID="formatted_address" PLACEHOLDER="Address" class="form-control">';
+            break;
+    }
+?>
+<STYLE>
+    .address.form-control:focus{
+        z-index: 999;
+    }
+</STYLE>
 <FORM ID="googleaddress">
     <?php
         $fields = array(
@@ -16,13 +31,18 @@
             $fields["user_id"] = array("type" => "hidden", "name" => "user_id", "value" => $user_id);
         }
         foreach($fields as $Name => $field){
-            if($field["type"] != "hidden"){echo '<DIV CLASS="row"><DIV CLASS="col-md-2">' . $Name . ':</DIV><DIV CLASS="col-md-10">';}
+            if($style == 0 && $field["type"] != "hidden"){echo '<DIV CLASS="row"><DIV CLASS="col-md-2">' . $Name . ':</DIV><DIV CLASS="col-md-10">';}
             echo '<INPUT TYPE="' . $field["type"] . '" NAME="' . $field["name"] . '" ID="add_' . $field["name"] . '"';
+            if($style == 1){
+                echo ' PLACEHOLDER="' . $Name . '"';
+                if(!isset($field["class"])){$field["class"] = "";}
+                $field["class"] .= " address form-control";
+            }
             if(isset($field["class"])){echo ' CLASS="' . $field["class"] . '" ';}
             if(isset($field["value"])){echo ' value="' . $field["value"] . '" ';}
             if(isset($field["readonly"])){echo ' readonly';}
             echo '>';
-            if($field["type"] != "hidden"){echo '</DIV></DIV>';}
+            if($style == 0 && $field["type"] != "hidden"){echo '</DIV></DIV>';}
         }
     ?>
 </FORM>
@@ -76,5 +96,11 @@
         return place;
     }
 </SCRIPT>
-<script src="https://maps.googleapis.com/maps/api/js?signed_in=true&libraries=places&callback=initAutocomplete&key=AIzaSyBWSUc8EbZYVKF37jWVCb3lpBQwWqXUZw8"></script>
-<script src="{{ webroot("resources/assets/scripts/api2.js") }}"></script>
+<?php
+    if(!isset($dontincludeGoogle)){
+        echo '<script src="https://maps.googleapis.com/maps/api/js?signed_in=true&libraries=places&callback=initAutocomplete&key=AIzaSyBWSUc8EbZYVKF37jWVCb3lpBQwWqXUZw8"></script>';
+    }
+    if(!isset($dontincludeAPI)){
+        echo '<script src="' . webroot("resources/assets/scripts/api2.js") . '"></script>';
+    }
+?>

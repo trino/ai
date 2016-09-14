@@ -1,6 +1,12 @@
 @extends('layouts.app')
 @section('content')
     <style>
+        .searchbox {
+            position: absolute;
+            right: 13px;
+            top: 13px;
+        }
+
         .select2-results {
             max-height: 500px;
         }
@@ -83,8 +89,11 @@
             }
         }
 
-
+        .fa-close{
+            cursor: pointer;
+        }
     </style>
+    <script src="{{ webroot("resources/assets/scripts/api2.js") }}"></script>
     <div class="row">
         <div class="col-md-8">
             <div class="card ">
@@ -212,35 +221,14 @@
             <div class="card">
                 <div class="card-block bg-danger"
                      style="padding-top:.75rem !important;padding-bottom:.75rem !important;">
-                    <h4 class="pull-left"> My Order <label class="m-y-0">$45.66</label></h4>
+                    <h4 class="pull-left"> My Order </h4>
                     <h4 class="pull-right"><i class="fa fa-user no-padding-margin"></i></h4>
                 </div>
                 <div class="card-block">
-
-                    <div>
-                        <span class="pull-left"> <i class="fa fa-pie-chart text-warning"></i> 2 Small Pizza</span>
-                        <span class="pull-right"> $9.99 <i class="fa fa-close"></i></span>
-                        <div class="clearfix"></div>
-
-                        Pizza 1st: Ham, Bacon<br>
-                        Pizza 2nd: Extra Cheese, Bacon<br>
-                        <span class="pull-left"> <i class="fa fa-pie-chart text-warning"></i>  2 lbs Wings </span>
-                        <span class="pull-right"> $9.99 <i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
-                        <div class="clearfix"></div>
-                        1st lb - hot
-                        <br>
-                        2nd lb - mild
-                        <br>
-                        <br>
-                        <span class="pull-right"> <strong>Subtotal: $34.99</strong></span><br>
-                        <span class="pull-right"> <strong>HST: $4.99</strong></span><br>
-                        <span class="pull-right"> <strong>Delivery: $4.99</strong></span><br>
-                        <span class="pull-right"> <strong>Total: $44.99</strong></span>
-
-                    </div>
+                    <div id="myorder"></div>
                     <div class="clearfix p-t-1"></div>
-                    <button data-toggle="collapse" class="btn btn-block btn-warning"
-                            href="#collapseCheckout">CHECKOUT
+                    <button data-toggle="collapse" class="btn btn-block btn-warning" id="checkout" href="#collapseCheckout">
+                        CHECKOUT
                     </button>
                     <div class="collapse" id="collapseCheckout">
                         <input type="text" class="form-control" placeholder="name"/>
@@ -251,6 +239,9 @@
                         <input type="text" class="form-control" placeholder="Restaurant select"/>
                         <input type="text" class="form-control" placeholder="payment"/>
                         <input type="text" class="form-control" placeholder="notes"/>
+
+                        <?= view("popups.address", array("user_id" => 1, "dontincludeAPI" => true, "style" => 1)); //must update the user_id once login is possible ?>
+
                         <button class="btn btn-warning btn-block">PLACE ORDER</button>
                     </div>
 
@@ -269,12 +260,16 @@
                     </button>
                     <div class="form-group">
                         <h4 class="modal-title" id="myModalLabel"><SPAN ID="modal-itemname"></SPAN> $<SPAN ID="modal-itemprice"></SPAN></h4>
-                        <SPAN ID="modal-itemid" style="display:none;"></SPAN>
-                        <SPAN ID="modal-toppingcost" style="display:none;"></SPAN>
                     </div>
 
-                    <div class="form-group" ID="modal-wings-sauce">
-                        <select class="form-control select2" multiple="multiple" data-placeholder="Wings Sauce" type="wings_sauce">
+                    <DIV style="display: none;" id="modal-hiddendata">
+                        <SPAN ID="modal-itemid"></SPAN>
+                        <SPAN ID="modal-toppingcost"></SPAN>
+                        <SPAN ID="modal-itemsize"></SPAN>
+                    </div>
+
+                    <div class="form-group" ID="modal-wings-original">
+                        <select class="form-control select2 wings_sauce" multiple="multiple" data-placeholder="Pound #1" type="wings_sauce">
                             <option value="blank"></option>
                             <?= $wings_display; ?>
                             <optgroup label="Options">
@@ -283,6 +278,7 @@
                             </optgroup>
                         </select>
                     </div>
+                    <DIV ID="modal-wings-clones"></DIV>
 
                     <div class="form-group" ID="modal-toppings-original">
                         <DIV class="text-muted">Pizza #<span class="index">1</span></div>
@@ -309,37 +305,9 @@
         var tables = <?= json_encode($tables); ?>;
         var freetoppings = <?= json_encode($isfree); ?>;
         var qualifiers = <?= json_encode($qualifiers); ?>;
-        var toppingsouterhtml;
-
-        String.prototype.isEqual = function (str){
-            if(isUndefined(str)){return false;}
-            return this.toUpperCase()==str.toUpperCase();
-        };
-        function isUndefined(variable){
-            return typeof variable === 'undefined';
-        }
-        function isArray(variable){
-            return Array.isArray(variable);
-        }
-        String.prototype.contains = function (str){
-            return this.toLowerCase().indexOf(str.toLowerCase()) > -1;
-        };
-
-        //replaces all instances of $search within a string with $replacement
-        String.prototype.replaceAll = function (search, replacement) {
-            var target = this;
-            if(isArray(search)){
-                for(var i=0; i<search.length; i++){
-                    if(isArray(replacement)){
-                        target = target.replaceAll( search[i], replacement[i] );
-                    } else {
-                        target = target.replaceAll( search[i], replacement );
-                    }
-                }
-                return target;
-            }
-            return target.replace(new RegExp(search, 'g'), replacement);
-        };
+        var theorder = new Array;
+        var toppingsouterhtml, wingsauceouterhtml;
+        var deliveryfee = 3.50;
 
         function search(element) {
             var searchtext = element.value.toLowerCase();
@@ -366,6 +334,7 @@
             $("#modal-itemname").text($(element).attr("itemname"));
             $("#modal-itemprice").text($(element).attr("itemprice"));
             $("#modal-itemid").text($(element).attr("itemid"));
+            $("#modal-itemsize").text($(element).attr("itemsize"));
 
             var size = $(element).attr("itemsize");
             var toppingcost = 0.00;
@@ -378,7 +347,7 @@
 
             initSelect2(".select2", true);
 
-            visible("#modal-wings-sauce", $(element).attr("wings_sauce") > 0);
+            sendintheclones("#modal-wings-clones", "#modal-wings-original", $(element).attr("wings_sauce"), wingsauceouterhtml);
             sendintheclones("#modal-toppings-clones", "#modal-toppings-original", $(element).attr("toppings"), toppingsouterhtml.replace('[price]', toppingcost));
             initSelect2(".select2clones");
         }
@@ -396,15 +365,6 @@
             }
         }
 
-        function visible(selector, status){
-            if(isUndefined(status)){status = false;}
-            if(status){
-                $(selector).show();
-            } else {
-                $(selector).hide();
-            }
-        }
-
         function sendintheclones(destinationID, sourceID, count, sourceHTML){
             var HTML = "";
             visible(sourceID, count>0);
@@ -413,49 +373,109 @@
                     var sourceHTML = outerHTML(sourceID).replace('form-control select2', 'form-control select2 select2clones');
                 }
                 for (var index=2; index<= count; index++){
-                    HTML += sourceHTML.replace('<span class="index">1</span>', '<SPAN CLASS="index">' + index + '</SPAN>');
+                    HTML += sourceHTML.replace('<span class="index">1</span>', '<SPAN CLASS="index">' + index + '</SPAN>').replaceAll("#1", "#" + index);
                 }
             }
             $(destinationID).html(HTML);
         }
 
-        function outerHTML(selector){
-            return $(selector)[0].outerHTML;
-        }
-
         function additemtoorder(element){
-            var itemid = 0, itemname = "", itemprice = 0.00, itemaddons = new Array, itemtype = "";
+            var itemid = 0, itemname = "", itemprice = 0.00, itemaddons = new Array, itemsize = "", toppingcost = 0.00, toppingscount = 0;
             if(isUndefined(element)){//modal with addons
-                itemtype = "modal";
                 itemid = $("#modal-itemid").text();
                 itemname = $("#modal-itemname").text();
                 itemprice = $("#modal-itemprice").text();
+                itemsize = $("#modal-itemsize").text();
                 itemaddons = getaddons();
+                if(itemsize) {toppingcost = Number(freetoppings[itemsize]).toFixed(2);}
+                for(var i=0; i<itemaddons.length; i++){
+                    toppingscount += itemaddons[i]["count"];
+                }
             } else {//direct link, no addons
-                itemtype = "direct";
                 element = $(element).parent();
                 itemid = $(element).attr("itemid");
                 itemname = $(element).attr("itemname");
                 itemprice = $(element).attr("itemprice");
             }
-            alert(itemid + " " + itemtype + ": " + itemname + " = $" + itemprice + " - " + JSON.stringify(itemaddons));
+
+            theorder.push({
+                quantity:       1,
+                itemid:         itemid,
+                itemname:       itemname,
+                itemprice:      itemprice,
+                itemsize:       itemsize,
+                toppingcost:    toppingcost,
+                toppingcount:  toppingscount,
+                itemaddons:     itemaddons
+            });
+            generatereceipt();
+        }
+
+        function generatereceipt(){
+            var HTML = '', tempHTML = "", subtotal = 0;
+            for(var itemid = 0; itemid<theorder.length; itemid++){
+                var item = theorder[itemid];
+                var totalcost = (Number(item["itemprice"]) + (Number(item["toppingcost"]) * Number(item["toppingcount"]))).toFixed(2);
+                subtotal += Number(totalcost);
+                tempHTML = '<span class="pull-left"> <i class="fa fa-pie-chart text-warning"></i> ' + item["itemname"] + '</span>';
+                tempHTML += '<span class="pull-right" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '"> $' + totalcost + ' <i class="fa fa-close" onclick="removeorderitem(' + itemid + ');"></i></span><div class="clearfix"></div>';
+
+                var itemname = "";
+                //alert(JSON.stringify(item["itemaddons"]));
+                if (item["itemaddons"].length > 1){
+                    switch(item["itemaddons"][0]["tablename"]){
+                        case "toppings": itemname = "Pizza"; break;
+                        case "wings_sauce": itemname = "Pound"; break;
+                    }
+                }
+                for(var currentitem = 0; currentitem<item["itemaddons"].length; currentitem++){
+                    var addons = item["itemaddons"][currentitem];
+                    if(itemname){
+                        tempHTML += itemname + " #" + (currentitem+1) + ": ";
+                    }
+                    for(var addonid = 0; addonid< addons["addons"].length; addonid++){
+                        if(addonid>0){tempHTML += ", ";}
+                        tempHTML += addons["addons"][addonid]["text"];
+                    }
+                    tempHTML += '<BR>';
+                }
+                HTML += tempHTML;
+            }
+
+            var taxes = (subtotal + deliveryfee) * 0.13;//ontario only
+            totalcost = subtotal + deliveryfee + taxes;
+            $("#checkout").show();
+            createCookieValue("theorder", JSON.stringify(theorder));
+            if(theorder.length == 0){
+                taxes = 0;
+                totalcost = 0;
+                HTML = '<span class="pull-left">Order is empty</SPAN><BR>';
+                $("#checkout").hide();
+                removeCookie("theorder");
+            }
+            tempHTML = '<span class="pull-right"> <strong>Subtotal: $' + subtotal.toFixed(2) + '</strong></span><br>';
+            tempHTML += '<span class="pull-right"> <strong>Delivery: $' + deliveryfee.toFixed(2) + '</strong></span><br>';
+            tempHTML += '<span class="pull-right"> <strong>HST: $' + taxes.toFixed(2) + '</strong></span><br>';
+            tempHTML += '<span class="pull-right"> <strong>Total: $' + totalcost.toFixed(2) + '</strong></span>';
+            $("#myorder").html(HTML + tempHTML);
         }
 
         function getaddons(){
             var itemaddons = new Array;
             for(var tableid = 0; tableid < tables.length; tableid++){
                 var table = tables[tableid];
-                console.log("TESTING: " + table);
-                $('.select2.' + table).each(function(index){
+                $('.select2.' + table + ":visible").each(function(index){
                     if(!$(this).hasClass("select2-offscreen")) {
                         var addons = $(this).select2('data');
+                        var toppings = 0;
                         for(var addid = 0; addid < addons.length; addid++){
                             delete addons[addid]["element"];
                             delete addons[addid]["locked"];
                             delete addons[addid]["disabled"];
                             addons[addid]["isfree"] = isaddon_free(table, addons[addid]["text"]);
+                            if(!addons[addid]["isfree"]){toppings++;}
                         }
-                        itemaddons.push({tablename: table, addons: addons});
+                        itemaddons.push({tablename: table, addons: addons, count: toppings});
                     }
                 });
             }
@@ -482,8 +502,20 @@
             return freetoppings["isall"][Table].indexOf(Addon) > -1;
         }
 
+        function removeorderitem(index){
+            removeindex(theorder, index);
+            generatereceipt();
+        }
+
         $(document).ready(function() {
             toppingsouterhtml = outerHTML("#modal-toppings-original").replace('form-control select2', 'form-control select2 select2clones');
+            wingsauceouterhtml = outerHTML("#modal-wings-original").replace('form-control select2', 'form-control select2 select2clones');
+            if(getCookie("theorder")){
+                if(confirm("The remants of an order were saved, would you like to resume the order?")){
+                    theorder = JSON.parse(getCookie("theorder"));
+                }
+            }
+            generatereceipt();
         });
     </script>
 
