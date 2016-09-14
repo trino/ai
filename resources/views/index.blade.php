@@ -117,11 +117,18 @@
                                 return strpos(strtolower($text), strtolower($searchfor)) !== false;
                             }
 
-                            function getaddons($Table, $CategoryName, &$isfree, &$qualifiers){
-                                $toppings = Query("SELECT * FROM " . $Table . " ORDER BY name ASC", true);
-                                $toppings_display = '<optgroup label="' . $CategoryName . '">';
+                            function getaddons($Table, &$isfree, &$qualifiers){
+                                $toppings = Query("SELECT * FROM " . $Table . " ORDER BY type ASC, name ASC", true);
+                                $toppings_display = '';
+                                $currentsection = "";
                                 $isfree[$Table] = array();
                                 foreach ($toppings as $ID => $topping) {
+                                    if($currentsection != $topping["type"]){
+                                        if($toppings_display){$toppings_display .= '</optgroup>';}
+                                        $toppings_display .= '<optgroup label="' . $topping["type"] . '">';
+                                        $currentsection = $topping["type"];
+                                    }
+
                                     $addons[$Table][$topping["type"]][$topping["name"]] = explodetrim($topping["qualifiers"]);
                                     $topping["displayname"] = $topping["name"];
                                     if($topping["isfree"]){
@@ -134,7 +141,7 @@
                                     if($topping["isall"]){
                                         $isfree["isall"][$Table][] = $topping["name"];
                                     }
-                                    $toppings_display .= '<option value="' . $topping["name"] . '" type="' . $topping["type"] . '" ID=' . $topping["id"] . '>' . $topping["displayname"] . '</option>';
+                                    $toppings_display .= '<option value="' . $topping["id"] . '" type="' . $topping["type"] . '">' . $topping["displayname"] . '</option>';
                                 }
                                 return $toppings_display . '</optgroup>';
                             }
@@ -149,8 +156,8 @@
                                 return $text;
                             }
 
-                            $toppings_display = getaddons("toppings", "Toppings", $isfree, $qualifiers);
-                            $wings_display = getaddons("wings_sauce", "Sauce", $isfree, $qualifiers);
+                            $toppings_display = getaddons("toppings", $isfree, $qualifiers);
+                            $wings_display = getaddons("wings_sauce", $isfree, $qualifiers);
 
                             foreach ($categories as $category) {
                             if($a == 3) {
@@ -267,8 +274,8 @@
                     </div>
 
                     <div class="form-group" ID="modal-wings-sauce">
-                        <select class="form-control select2" multiple="multiple" data-placeholder="Wings Sauce">
-                            <option></option>
+                        <select class="form-control select2" multiple="multiple" data-placeholder="Wings Sauce" type="wings_sauce">
+                            <option value="blank"></option>
                             <?= $wings_display; ?>
                             <optgroup label="Options">
                                 <option value="AZ">Well Done</option>
@@ -279,8 +286,8 @@
 
                     <div class="form-group" ID="modal-toppings-original">
                         <DIV class="text-muted">Pizza #<span class="index">1</span></div>
-                        <select class="form-control select2 toppings" data-placeholder="Add Toppings: $[price]" multiple="multiple">
-                            <option></option>
+                        <select class="form-control select2 toppings" data-placeholder="Add Toppings: $[price]" multiple="multiple" type="toppings">
+                            <option value="blank"></option>
                             <?= $toppings_display; ?>
                             <optgroup label="Options">
                                 <option value="AZ">Well Done</option>
@@ -365,24 +372,42 @@
             if(size){
                 toppingcost = Number(freetoppings[size]).toFixed(2);
                 $(".toppings").attr("data-placeholder", "Add Toppings: $" + toppingcost);
+                $(".toppings_price").text(toppingcost);
             }
             $("#modal-toppingcost").text(toppingcost);
-            initSelect2(".select2");
 
+            initSelect2(".select2", true);
+
+            visible("#modal-wings-sauce", $(element).attr("wings_sauce") > 0);
             sendintheclones("#modal-toppings-clones", "#modal-toppings-original", $(element).attr("toppings"), toppingsouterhtml.replace('[price]', toppingcost));
             initSelect2(".select2clones");
         }
 
-        function initSelect2(selector){
-            $('select' + selector).select2({
-                maximumSelectionSize: 4, placeholder: function () {
-                    $(this).data('placeholder');
-                }
-            });
+        function initSelect2(selector, reset){
+            if(!isUndefined(reset)){
+                $('select').select2("val", null);
+            }
+            if(!isUndefined(selector)){
+                $('select' + selector).select2({
+                    maximumSelectionSize: 4,
+                    placeholder: function () {$(this).data('placeholder');},
+                    allowClear: true
+                }).change();
+            }
+        }
+
+        function visible(selector, status){
+            if(isUndefined(status)){status = false;}
+            if(status){
+                $(selector).show();
+            } else {
+                $(selector).hide();
+            }
         }
 
         function sendintheclones(destinationID, sourceID, count, sourceHTML){
             var HTML = "";
+            visible(sourceID, count>0);
             if(count){
                 if(isUndefined(sourceHTML)) {
                     var sourceHTML = outerHTML(sourceID).replace('form-control select2', 'form-control select2 select2clones');
@@ -399,18 +424,62 @@
         }
 
         function additemtoorder(element){
-            var itemid = 0, itemname = "", itemprice = 0.00;
-            if(isUndefined(element)){//a direct link
+            var itemid = 0, itemname = "", itemprice = 0.00, itemaddons = new Array, itemtype = "";
+            if(isUndefined(element)){//modal with addons
+                itemtype = "modal";
                 itemid = $("#modal-itemid").text();
                 itemname = $("#modal-itemname").text();
                 itemprice = $("#modal-itemprice").text();
-            } else {//the modal
+                itemaddons = getaddons();
+            } else {//direct link, no addons
+                itemtype = "direct";
                 element = $(element).parent();
                 itemid = $(element).attr("itemid");
                 itemname = $(element).attr("itemname");
                 itemprice = $(element).attr("itemprice");
             }
-            alert(itemid + ": " + itemname + " = $" + itemprice);
+            alert(itemid + " " + itemtype + ": " + itemname + " = $" + itemprice + " - " + JSON.stringify(itemaddons));
+        }
+
+        function getaddons(){
+            var itemaddons = new Array;
+            for(var tableid = 0; tableid < tables.length; tableid++){
+                var table = tables[tableid];
+                console.log("TESTING: " + table);
+                $('.select2.' + table).each(function(index){
+                    if(!$(this).hasClass("select2-offscreen")) {
+                        var addons = $(this).select2('data');
+                        for(var addid = 0; addid < addons.length; addid++){
+                            delete addons[addid]["element"];
+                            delete addons[addid]["locked"];
+                            delete addons[addid]["disabled"];
+                            addons[addid]["isfree"] = isaddon_free(table, addons[addid]["text"]);
+                        }
+                        itemaddons.push({tablename: table, addons: addons});
+                    }
+                });
+            }
+            return itemaddons;
+        }
+
+        function getsize(Itemname) {
+            var sizes = Object.keys(freetoppings);
+            var size = "";
+            for(var i=0; i<sizes.length; i++){
+                if(!isArray(freetoppings[sizes[i]])){
+                    if(Itemname.contains(sizes[i]) && sizes[i].length > size.length){
+                        size = sizes[i];
+                    }
+                }
+            }
+            return size;
+        }
+
+        function isaddon_free(Table, Addon){
+            return freetoppings[Table].indexOf(Addon) > -1;
+        }
+        function isaddon_onall(Table, Addon){
+            return freetoppings["isall"][Table].indexOf(Addon) > -1;
         }
 
         $(document).ready(function() {
