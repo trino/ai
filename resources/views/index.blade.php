@@ -88,144 +88,107 @@
     <div class="row">
         <div class="col-md-8">
             <div class="card ">
-                <div class="card-block bg-danger"
-                     style="padding-top:.75rem !important;padding-bottom:.75rem !important;">
-                    <h4 class="pull-left"><i class="fa fa-home" aria-hidden="true"></i> Pizza Delivery
-                        <input type="TEXT" id="search" class="searchbox" placeholder="Search"
-                               oninput="search(this, event);"></h4>
-
+                <div class="card-block bg-danger" style="padding-top:.75rem !important;padding-bottom:.75rem !important;">
+                    <h4 class="pull-left"><i class="fa fa-home" aria-hidden="true"></i> Pizza Delivery<input type="TEXT" id="search" class="searchbox" placeholder="Search" oninput="search(this, event);"></h4>
                 </div>
                 <div class="card-block">
                     <div class="row">
                         <div class="col-md-4">
                             <?php
-                            $con = connectdb("ai");
-                            $categories = Query("select * from menu group by category order by id", true);
+                            $tables = array("toppings", "wings_sauce");
+                            $qualifiers = array("DEFAULT" => array("1/2", "1x", "2x", "3x"));
+                            $categories = Query("SELECT * FROM menu GROUP BY category ORDER BY id", true);
+                            $isfree = collapsearray(Query("SELECT * FROM additional_toppings", true), "price", "size");
                             $a = 0;
+
+                            function getsize($itemname, &$isfree){
+                                $currentsize = "";
+                                foreach($isfree as $size => $cost){
+                                    if(!is_array($cost)){
+                                        if( textcontains($itemname, $size) && strlen($size) > strlen($currentsize)){
+                                            $currentsize = $size;
+                                        }
+                                    }
+                                }
+                                return $currentsize;
+                            }
+
+                            function textcontains($text, $searchfor){
+                                return strpos(strtolower($text), strtolower($searchfor)) !== false;
+                            }
+
+                            function getaddons($Table, $CategoryName, &$isfree, &$qualifiers){
+                                $toppings = Query("SELECT * FROM " . $Table . " ORDER BY name ASC", true);
+                                $toppings_display = '<optgroup label="' . $CategoryName . '">';
+                                $isfree[$Table] = array();
+                                foreach ($toppings as $ID => $topping) {
+                                    $addons[$Table][$topping["type"]][$topping["name"]] = explodetrim($topping["qualifiers"]);
+                                    $topping["displayname"] = $topping["name"];
+                                    if($topping["isfree"]){
+                                        $isfree[$Table][] = $topping["name"];
+                                        $topping["displayname"] .= " (free)";
+                                    }
+                                    if($topping["qualifiers"]){
+                                        $qualifiers[$Table][$topping["name"]] = explodetrim($topping["qualifiers"]);
+                                    }
+                                    if($topping["isall"]){
+                                        $isfree["isall"][$Table][] = $topping["name"];
+                                    }
+                                    $toppings_display .= '<option value="' . $topping["name"] . '" type="' . $topping["type"] . '" ID=' . $topping["id"] . '>' . $topping["displayname"] . '</option>';
+                                }
+                                return $toppings_display . '</optgroup>';
+                            }
+
+                            function explodetrim($text, $delimiter = ",", $dotrim = true){
+                                if(is_array($text)){return $text;}
+                                $text = explode($delimiter, $text);
+                                if(!$dotrim){return $text;}
+                                foreach($text as $ID => $Word){
+                                    $text[$ID] = trim($Word);
+                                }
+                                return $text;
+                            }
+
+                            $toppings_display = getaddons("toppings", "Toppings", $isfree, $qualifiers);
+                            $wings_display = getaddons("wings_sauce", "Sauce", $isfree, $qualifiers);
 
                             foreach ($categories as $category) {
-                            if($a == 3)
-                            {
-                            $a = 0;
-                            ?>
-                        </div>
-                        <div class="col-md-4">
+                            if($a == 3) {
+                                $a = 0;
+                                ?>
+                                </div>
+                                <div class="col-md-4">
                             <? } ?>
 
-                            <h5 class="text-danger" data-toggle="collapse"
-                                href="#collapse{{$category["id"]}}_cat">{{$category['category']}}</h5>
+                            <h5 class="text-danger" data-toggle="collapse" href="#collapse{{$category["id"]}}_cat">{{$category['category']}}</h5>
                             <div class="collapse list-group in m-b-1" id="collapse{{$category['id']}}_cat">
                                 <?
-
-
-                                $toppings_display = "";
-                                $toppings = Query("SELECT * FROM toppings", true);
-                                foreach ($toppings as $ID => $topping) {
-                                    $toppings_display = $toppings_display . "  <option value='" . $topping["name"] . "''>" . $topping["name"] . "</option> ";
-                                }
-                                $wings_display = "";
-                                $sauces = Query("SELECT * FROM wings_sauce", true);
-                                foreach ($sauces as $ID => $sauce) {
-                                    $wings_display = $wings_display . "  <option value='" . $sauce["name"] . "''>" . $sauce["name"] . "</option> ";
-                                }
-                                ?>
-                                <?
-
                                 $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
                                 foreach ($menuitems as $menuitem) {
-                                /*
-                                * KEYWORDS
-                                */
-                                /*
-                                $keywords = Query("SELECT * FROM keywords, menukeywords WHERE menuitem_id = " . $menuitem["id"] . " OR -menuitem_id = " . $menuitem["category_id"] . " HAVING keywords.id = keyword_id", true);
-                                foreach ($keywords as $ID => $keyword) {
-                                    $keywords[$ID] = '<SPAN TITLE="Weight: ' . $keyword["weight"] . '">' . ($keyword["synonyms"]) . '</SPAN>';
-                                }
-                                $menuitem["keywords"] = implode(", ", $keywords);
-                                //$menuitem["Actions"] = '<A HREF="?id=' . $menuitem["id"] . '">Edit</A>';
-                                */
-                                $menuitem["price"] = number_format($menuitem["price"], 2);
-                                ?>
-                                <div class="clearfix"></div>
-                                <div class="menuitem" menuitem="{{$menuitem["id"]}}">
-
-                                    <a class="text-xs-left btn-block" data-toggle="modal"
-                                       data-target="#myModal{{$menuitem['id']}}">
-                                        <i class="pull-left fa fa-pie-chart text-warning"></i>
-                                        <span class="pull-left itemname">{{$menuitem['item']}}</span>
-                                        <span class="pull-right"> ${{$menuitem['price']}}</span>
-                                        <div class="clearfix"></div>
-                                    </a>
-
-                                    <!-- Modal -->
-                                    <div class="modal" id="myModal{{$menuitem['id']}}" tabindex="-1" role="dialog"
-                                         aria-labelledby="myModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-body">
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                    <div class="form-group">
-
-                                                        <h4 class="modal-title" id="myModalLabel">{{$menuitem['item']}}
-                                                            ${{$menuitem['price']}}</h4>
-                                                    </div>
-                                                    @if($menuitem['wings_sauce']>0)
-                                                        <div class="form-group">
-
-                                                            <select class="form-control select2" multiple="multiple"
-                                                                    data-placeholder="Wings Sauce">
-                                                                <option></option>
-                                                                <optgroup label="Sauce">
-                                                                    <?php echo $wings_display; ?>
-                                                                </optgroup>
-                                                                <optgroup label="Options">
-                                                                    <option value="AZ">Well Done</option>
-                                                                    <option value="CO">Lightly Done</option>
-                                                                </optgroup>
-                                                            </select></div>
-                                                    @endif
-
-                                                    @if($menuitem['toppings']>0)
-
-                                                        @for ($i = 0; $i < $menuitem['toppings']; $i++)
-                                                            <div class="form-group">
-                                                                <div class="text-muted">Pizza #{{$i+1}}</div>
-                                                                <select class="form-control select2"
-                                                                        data-placeholder="Add Toppings: $0.79"
-                                                                        multiple="multiple">
-                                                                    <option></option>
-                                                                    <optgroup label="Toppings">
-                                                                        <?php echo $toppings_display; ?>
-                                                                    </optgroup>
-                                                                    <optgroup label="Options">
-                                                                        <option value="AZ">Well Done</option>
-                                                                        <option value="CO">Lightly Done</option>
-                                                                    </optgroup>
-                                                                </select>
-                                                            </div>
-                                                        @endfor
-
-                                                    @endif
-
-                                                    <button data-dismiss="modal" class="btn btn-block  btn-warning"
-                                                            data-toggle="collapse"
-                                                            href="#collapse{{$menuitem["id"]}}">
-                                                        ADD TO ORDER
-                                                    </button>
-
-
-                                                </div>
-                                            </div>
-                                        </div>
+                                    $menuitem["price"] = number_format($menuitem["price"], 2);
+                                    ?>
+                                    <div class="clearfix"></div>
+                                    <div class="menuitem" itemid="{{$menuitem["id"]}}" itemname="{{$menuitem['item']}}" itemprice="{{$menuitem['price']}}" itemsize="{{ getsize($menuitem['item'], $isfree) }}"                                           <?php
+                                            $total = 0;
+                                            foreach($tables as $table){
+                                                echo $table . '="' . $menuitem[$table] . '" ';
+                                                $total += $menuitem[$table];
+                                            }
+                                            if($total){
+                                                $HTML = 'data-toggle="modal" data-target="#menumodal" onclick="loadmodal(this);"';
+                                            } else {
+                                                $HTML = 'onclick="additemtoorder(this);"';
+                                            }
+                                        ?>
+                                    >
+                                        <a class="text-xs-left btn-block" <?= $HTML; ?> >
+                                            <i class="pull-left fa fa-pie-chart text-warning"></i>
+                                            <span class="pull-left itemname">{{$menuitem['item']}}</span>
+                                            <span class="pull-right"> ${{$menuitem['price']}}</span>
+                                            <div class="clearfix"></div>
+                                        </a>
                                     </div>
-
-                                <!--div class="collapse" id="collapse{{$menuitem['id']}}">
-                                    </div-->
-                                </div>
-                                <?php
+                                    <?php
                                 }
                                 ?>
                             </div>
@@ -248,17 +211,14 @@
                 <div class="card-block">
 
                     <div>
-                        <span class="pull-left"> <i class="fa fa-pie-chart text-warning"></i> 2 Small Pizza</span><span
-                                class="pull-right"> $9.99 <i
-                                    class="fa fa-close"></i></span>
+                        <span class="pull-left"> <i class="fa fa-pie-chart text-warning"></i> 2 Small Pizza</span>
+                        <span class="pull-right"> $9.99 <i class="fa fa-close"></i></span>
                         <div class="clearfix"></div>
 
                         Pizza 1st: Ham, Bacon<br>
                         Pizza 2nd: Extra Cheese, Bacon<br>
-                        <span class="pull-left"> <i class="fa fa-pie-chart text-warning"></i>  2 lbs Wings </span><span
-                                class="pull-right"> $9.99 <i
-                                    class="fa fa-pencil"></i><i
-                                    class="fa fa-close"></i></span>
+                        <span class="pull-left"> <i class="fa fa-pie-chart text-warning"></i>  2 lbs Wings </span>
+                        <span class="pull-right"> $9.99 <i class="fa fa-pencil"></i><i class="fa fa-close"></i></span>
                         <div class="clearfix"></div>
                         1st lb - hot
                         <br>
@@ -292,20 +252,94 @@
         </div>
     </div>
 
-    <script>
+    <!-- Modal -->
+    <div class="modal" id="menumodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="form-group">
+                        <h4 class="modal-title" id="myModalLabel"><SPAN ID="modal-itemname"></SPAN> $<SPAN ID="modal-itemprice"></SPAN></h4>
+                        <SPAN ID="modal-itemid" style="display:none;"></SPAN>
+                        <SPAN ID="modal-toppingcost" style="display:none;"></SPAN>
+                    </div>
 
-        $(".select2").select2({
-            maximumSelectionSize: 4, placeholder: function () {
-                $(this).data('placeholder')
+                    <div class="form-group" ID="modal-wings-sauce">
+                        <select class="form-control select2" multiple="multiple" data-placeholder="Wings Sauce">
+                            <option></option>
+                            <?= $wings_display; ?>
+                            <optgroup label="Options">
+                                <option value="AZ">Well Done</option>
+                                <option value="CO">Lightly Done</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div class="form-group" ID="modal-toppings-original">
+                        <DIV class="text-muted">Pizza #<span class="index">1</span></div>
+                        <select class="form-control select2 toppings" data-placeholder="Add Toppings: $[price]" multiple="multiple">
+                            <option></option>
+                            <?= $toppings_display; ?>
+                            <optgroup label="Options">
+                                <option value="AZ">Well Done</option>
+                                <option value="CO">Lightly Done</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <DIV ID="modal-toppings-clones"></DIV>
+
+                    <button data-dismiss="modal" class="btn btn-block  btn-warning" onclick="additemtoorder();">
+                        ADD TO ORDER
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var tables = <?= json_encode($tables); ?>;
+        var freetoppings = <?= json_encode($isfree); ?>;
+        var qualifiers = <?= json_encode($qualifiers); ?>;
+        var toppingsouterhtml;
+
+        String.prototype.isEqual = function (str){
+            if(isUndefined(str)){return false;}
+            return this.toUpperCase()==str.toUpperCase();
+        };
+        function isUndefined(variable){
+            return typeof variable === 'undefined';
+        }
+        function isArray(variable){
+            return Array.isArray(variable);
+        }
+        String.prototype.contains = function (str){
+            return this.toLowerCase().indexOf(str.toLowerCase()) > -1;
+        };
+
+        //replaces all instances of $search within a string with $replacement
+        String.prototype.replaceAll = function (search, replacement) {
+            var target = this;
+            if(isArray(search)){
+                for(var i=0; i<search.length; i++){
+                    if(isArray(replacement)){
+                        target = target.replaceAll( search[i], replacement[i] );
+                    } else {
+                        target = target.replaceAll( search[i], replacement );
+                    }
+                }
+                return target;
             }
-        });
+            return target.replace(new RegExp(search, 'g'), replacement);
+        };
 
         function search(element) {
             var searchtext = element.value.toLowerCase();
             $(".menuitem").each(function (index) {
                 var ismatch = false;
                 if (searchtext) {
-                    var itemtext = $(this).find(".itemname").text().toLowerCase();
+                    var itemtext = $(this).attr("itemname").toLowerCase();
                     if (itemtext.indexOf(searchtext) > -1) {
                         ismatch = true;
                     }
@@ -313,25 +347,75 @@
                     ismatch = true;
                 }
                 if (ismatch) {
-                    //    $(this).removeClass("disabled");
+                    $(this).removeClass("disabled");
                 } else {
                     $(this).addClass("disabled");
                 }
             });
         }
 
+        function loadmodal(element){
+            element = $(element).parent();
+            $("#modal-itemname").text($(element).attr("itemname"));
+            $("#modal-itemprice").text($(element).attr("itemprice"));
+            $("#modal-itemid").text($(element).attr("itemid"));
 
-        /*
-         $( ":checkbox" ).on( "click", function() {
-         $( this ).parent().nextAll( "select" ).select2( "enable", this.checked );
-         });
-         $( "#demonstrations" ).select2( { placeholder: "Select2 version", minimumResultsForSearch: -1 } ).on( "change", function() {
-         document.location = $( this ).find( ":selected" ).val();
-         } );
-         $( "button[data-select2-open]" ).click( function() {
-         $( "#" + $( this ).data( "select2-open" ) ).select2( "open" );
-         });
-         */
+            var size = $(element).attr("itemsize");
+            var toppingcost = 0.00;
+            if(size){
+                toppingcost = Number(freetoppings[size]).toFixed(2);
+                $(".toppings").attr("data-placeholder", "Add Toppings: $" + toppingcost);
+            }
+            $("#modal-toppingcost").text(toppingcost);
+            initSelect2(".select2");
+
+            sendintheclones("#modal-toppings-clones", "#modal-toppings-original", $(element).attr("toppings"), toppingsouterhtml.replace('[price]', toppingcost));
+            initSelect2(".select2clones");
+        }
+
+        function initSelect2(selector){
+            $('select' + selector).select2({
+                maximumSelectionSize: 4, placeholder: function () {
+                    $(this).data('placeholder');
+                }
+            });
+        }
+
+        function sendintheclones(destinationID, sourceID, count, sourceHTML){
+            var HTML = "";
+            if(count){
+                if(isUndefined(sourceHTML)) {
+                    var sourceHTML = outerHTML(sourceID).replace('form-control select2', 'form-control select2 select2clones');
+                }
+                for (var index=2; index<= count; index++){
+                    HTML += sourceHTML.replace('<span class="index">1</span>', '<SPAN CLASS="index">' + index + '</SPAN>');
+                }
+            }
+            $(destinationID).html(HTML);
+        }
+
+        function outerHTML(selector){
+            return $(selector)[0].outerHTML;
+        }
+
+        function additemtoorder(element){
+            var itemid = 0, itemname = "", itemprice = 0.00;
+            if(isUndefined(element)){//a direct link
+                itemid = $("#modal-itemid").text();
+                itemname = $("#modal-itemname").text();
+                itemprice = $("#modal-itemprice").text();
+            } else {//the modal
+                element = $(element).parent();
+                itemid = $(element).attr("itemid");
+                itemname = $(element).attr("itemname");
+                itemprice = $(element).attr("itemprice");
+            }
+            alert(itemid + ": " + itemname + " = $" + itemprice);
+        }
+
+        $(document).ready(function() {
+            toppingsouterhtml = outerHTML("#modal-toppings-original").replace('form-control select2', 'form-control select2 select2clones');
+        });
     </script>
 
 @endsection
