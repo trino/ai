@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 15, 2016 at 05:52 PM
+-- Generation Time: Sep 15, 2016 at 07:12 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -438,14 +438,14 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1473793036');
+(1, 'lastSQL', '1473954758');
 
 -- --------------------------------------------------------
 
@@ -562,7 +562,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `phone`, `lastlogin`, `loginattempts`, `profiletype`) VALUES
-(1, 'Roy Hodson', 'roy@trinoweb.com', '$2y$10$8yPv24E.RrHgcWAsBRju6.LfywEP5fMYfdHLSJhlDBljasRlaHZXe', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '9055123067', 1473953004, 2, 1);
+(1, 'Roy Hodson', 'roy@trinoweb.com', '$2y$10$XqUn.RNhx0YbcZUQXWYP0eHIz0aLK8xX00cd.PLVRQsafF9Frod6K', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '9055123067', 1473953004, 2, 1);
 
 -- --------------------------------------------------------
 
