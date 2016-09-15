@@ -13,3 +13,4 @@ Homestead.json
 .idea/workspace.xml
 *.iml
 *.xml
+public/royslog.txt

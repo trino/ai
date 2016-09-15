@@ -94,7 +94,12 @@
                             $ret["Reason"] = "Password reset";
                             $user["password"] = $newpassword;
                             $user["mail_subject"] = "Forgot password";
-                            $this->sendEMail("email.forgotpassword", $user);
+                            debugprint("Changed password to " . $newpassword);//MUST NOT MAKE IT TO POST-PRODUCTION!!!!
+                            $text = $this->sendEMail("email.forgotpassword", $user);
+                            if($text){
+                                $ret["Status"] = false;
+                                $ret["Reason"] = $text;
+                            }
                             break;
                     }
                 } else {

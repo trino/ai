@@ -24,11 +24,13 @@ class Controller extends BaseController {
             }
         } else if($array['email']) {
             try {
-                \Mail::queue($template_name, $array, function ($messages) use ($array, $template_name) {
+                \Mail::send($template_name, $array, function ($messages) use ($array, $template_name) {
                     $messages->to($array['email'])->subject($array['mail_subject']);
                 });
             } catch (\Swift_TransportException $e) {
-                return $e->getMessage();
+                $text = $e->getMessage();
+                debugprint($template_name . " EMAIL TO " . $array['email'] . " FAILED: " . $text);
+                return $text;
             }
         }
     }
