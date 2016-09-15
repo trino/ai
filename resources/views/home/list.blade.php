@@ -21,6 +21,8 @@
             $fields=true;//all fields
             if(isset($_GET["user_id"])){
                 $where = "user_id = " . $_GET["user_id"];
+            } else {
+                $where = "user_id = " . read("id");
             }
             break;
         default: die("This table is not whitelisted");
@@ -133,6 +135,7 @@
                 var namefield = "{{ $namefield }}";
                 var items = 0;
                 var inlineedit = "{{ $inlineedit }}".length > 0;
+                redirectonlogout = true;
 
                 $(document).ready(function() {
                     getpage(0);

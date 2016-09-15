@@ -62,7 +62,14 @@ function getCookie(cname) {
 
 //deletes a cookie value
 function removeCookie(cname) {
-    setCookie(cname, '', -10);
+    if(isUndefined(cname)){//erase all cookies
+        var cookies = document.cookie.split(";");
+        for (var i = 0; i < cookies.length; i++) {
+            removeCookie(cookies[i].split("=")[0]);
+        }
+    } else {
+        setCookie(cname, '', -10);
+    }
 }
 
 //creates a cookie value that expires in 1 year

@@ -35,17 +35,14 @@ Route::group(['middleware' => ['web']], function () {
         return view('index');
     })->middleware('guest');
 
-
-    Route::get('/auth/gettoken',        'Auth\AuthController@gettoken');
-
-    Route::get('/tasks',                'TaskController@index');
-    Route::post('/task',                'TaskController@store');
-    Route::delete('/task/{task}',       'TaskController@destroy');
+    Route::post('/auth/login',          'Auth\AuthController@login');
+    Route::any('/auth/gettoken',        'Auth\AuthController@gettoken');
 
     Route::get('/getjs',                'HomeController@getjs');
     Route::any('/test',                 'HomeController@index');
 
     Route::any('/list/{table}',         'HomeController@tablelist');
+    Route::any('/user/info',            'HomeController@edituser');
     Route::any('/user/info/{id}',       'HomeController@edituser');
 
     Route::any('/clipi',                'HomeController@clipi');

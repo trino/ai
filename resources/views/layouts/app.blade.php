@@ -1,4 +1,10 @@
-<?php $start_loading_time = microtime(true); ?>
+<?php
+    $start_loading_time = microtime(true);
+    if(read("id")){
+        $user = first("SELECT * FROM users WHERE id = " . read("id"));
+        unset($user["password"]);
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -57,17 +63,75 @@
         body.loading #loadingmodal {
             display: block;
         }
+
+        @if(read("id"))
+            .loggedin { display: block; }
+            .loggedout{ display: none; }
+        @else
+            .loggedin { display: none; }
+            .loggedout{ display: block; }
+        @endif
+
+        .hyperlink{
+            cursor: pointer;
+        }
     </STYLE>
     <DIV CLASS="header-cont">
         <DIV CLASS="header card-block bg-danger">
             London Pizza
             <SPAN STYLE="float:right;">
-                @if(!read("user_id"))
-                    <A data-toggle="modal" data-target="#loginmodal">Login</A>
-                @endif
+                <SPAN CLASS="loggedin">
+                    Welcome <SPAN CLASS="session_name"></SPAN>
+                    <A HREF="<?= webroot("public/list/useraddresses"); ?>">[Addressess]</A>
+                    <A HREF="<?= webroot("public/user/info"); ?>">[Profile]</A>
+                    <A ONCLICK="handlelogin('logout');" CLASS="hyperlink">[Log out]</A>
+                </SPAN>
+                <A CLASS="loggedout" data-toggle="modal" data-target="#loginmodal">Log In</A>
             </SPAN>
         </DIV>
     </DIV>
+    <SCRIPT>
+        var currentURL = "<?= Request::url(); ?>";
+        var token = "<?= csrf_token(); ?>";
+        var webroot = "<?= webroot("public/"); ?>";
+        var redirectonlogout = false;
+
+        (function() {
+            var proxied = window.alert;
+            window.alert = function() {
+                var title = "Alert";
+                if(arguments.length > 1){title = arguments[1];}
+                $("#alertmodalbody").html(arguments[0]);
+                $("#alertmodallabel").text(title);
+                $("#alertmodal").modal('show');
+            };
+        })();
+
+        $(document).ready(function () {
+            $body = $("body");
+            $(document).on({
+                ajaxStart: function () {$body.addClass("loading");},
+                ajaxStop: function () {$body.removeClass("loading");}
+            });
+        });
+
+        function login(user){
+            var keys = Object.keys(user);
+            for(var i=0; i<keys.length; i++){
+                var key = keys[i];
+                var val = user[key];
+                createCookieValue("session_" + key, val);
+                $(".session_" + key).text(val);
+                $(".session_" + key + "_val").val(val);
+            }
+            $(".loggedin").show();
+            $(".loggedout").hide();
+        }
+
+        @if(isset($user))
+            login(<?= json_encode($user); ?>);
+        @endif
+    </SCRIPT>
     <body>
         <div class="container p-a-0 m-t-1 bodycontainer">
             @yield('content')
@@ -93,26 +157,6 @@
         </div>
         <div class="modal loading" ID="loadingmodal"></div>
     </body>
-    <SCRIPT>
-        (function() {
-            var proxied = window.alert;
-            window.alert = function() {
-                var title = "Alert";
-                if(arguments.length > 1){title = arguments[1];}
-                $("#alertmodalbody").text(arguments[0]);
-                $("#alertmodallabel").text(title);
-                $("#alertmodal").modal('show');
-            };
-        })();
-
-        $(document).ready(function () {
-            $body = $("body");
-            $(document).on({
-                ajaxStart: function () {$body.addClass("loading");},
-                ajaxStop: function () {$body.removeClass("loading");}
-            });
-        });
-    </SCRIPT>
     <DIV CLASS="footer-cont">
         <DIV CLASS="footer card-block bg-danger">
             <?php

@@ -260,7 +260,8 @@
                         <input type="text" class="form-control" placeholder="payment"/>
                         <input type="text" class="form-control" placeholder="notes"/>
 
-                        <?= view("popups.address", array("user_id" => 1, "dontincludeAPI" => true, "style" => 1)); //must update the user_id once login is possible ?>
+
+                        <?= view("popups.address", array("dontincludeAPI" => true, "style" => 1)); //must update the user_id once login is possible ?>
 
                         <button class="btn btn-warning btn-block" onclick="placeorder();">PLACE ORDER</button>
                     </div>
@@ -327,8 +328,6 @@
         var qualifiers = <?= json_encode($qualifiers); ?>;
         var theorder = new Array;
         var toppingsouterhtml, wingsauceouterhtml;
-        var currentURL = "<?= Request::url(); ?>";
-        var token = "<?= csrf_token(); ?>";
         var deliveryfee = 3.50;
 
         function search(element) {

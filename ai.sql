@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 13, 2016 at 08:57 PM
+-- Generation Time: Sep 15, 2016 at 05:52 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -438,14 +438,14 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1473362272');
+(1, 'lastSQL', '1473793036');
 
 -- --------------------------------------------------------
 
@@ -550,16 +550,19 @@ CREATE TABLE IF NOT EXISTS `users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `phone` varchar(16) COLLATE utf8_unicode_ci NOT NULL,
+  `lastlogin` bigint(20) NOT NULL,
+  `loginattempts` int(11) NOT NULL,
+  `profiletype` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `phone`) VALUES
-(1, 'Roy Hodson', 'roy@trinoweb.com', '', NULL, NULL, NULL, '');
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `phone`, `lastlogin`, `loginattempts`, `profiletype`) VALUES
+(1, 'Roy Hodson', 'roy@trinoweb.com', '$2y$10$8yPv24E.RrHgcWAsBRju6.LfywEP5fMYfdHLSJhlDBljasRlaHZXe', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '9055123067', 1473953004, 2, 1);
 
 -- --------------------------------------------------------
 

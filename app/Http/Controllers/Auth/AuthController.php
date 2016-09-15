@@ -53,4 +53,52 @@
         public function gettoken(){
             return csrf_token();
         }
+
+
+        public function login() {
+            $now = now(true);//seconds from epoch date
+            $ret = array("Status" => true);
+            if ($_POST["action"] == "logout") {
+                foreach(array("id", "name", "email", "phone") as $Key){
+                    write($Key, '');
+                }
+                \Session::save();
+            } else {
+                $user = first("SELECT * FROM users WHERE email = '" . trim($_POST["email"]) . "'");
+                if ($user) {
+                    switch ($_POST["action"]) {
+                        case "login":
+                            if ($user["lastlogin"] >= ($now - 300) && $user["loginattempts"] > 3) {
+                                $ret["Status"] = false;
+                                $ret["Reason"] = "Too many login attempts";
+                            } else if (\Hash::check($_POST["password"], $user["password"])) {
+                                unset($user["password"]);//do not send this to the user!
+                                $ret["User"] = $user;
+                                foreach ($user as $Key => $Value) {
+                                    write($Key, $Value);
+                                }
+                                \Session::save();
+                                $ret["Token"] = csrf_token();
+                            } else {
+                                $ret["Status"] = false;
+                                $ret["Reason"] = "Password mismatch";
+                                $user["lastlogin"] = $now;
+                                $user["loginattempts"]++;
+                                insertdb("users", $user);
+                            }
+                            break;
+                        case "forgotpassword":
+                            $newpassword = generateRandomString(6);
+                            $user["password"] = Hash::make($newpassword);
+                            insertdb("users", $user);
+                            $ret["Reason"] = "Password reset: " . $newpassword;//send new password to customer instead!!!!
+                            break;
+                    }
+                } else {
+                    $ret["Status"] = false;
+                    $ret["Reason"] = "Email address not found.";
+                }
+            }
+            die(json_encode($ret));
+        }
     }

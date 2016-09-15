@@ -442,4 +442,22 @@
             \Session::save();
         }
     }
+
+    //returns the current date/time
+    function now($totime = false, $now = false) {
+        if (!$now) {$now = time();}
+        if ($totime === true) {return $now;}
+        if ($totime !== false && $totime !== true) {return date($totime, $now);}
+        return date("Y-m-d H:i:s", $now);
+    }
+
+    function generateRandomString($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
 ?>

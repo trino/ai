@@ -12,6 +12,7 @@
 ?>
 <FORM ID="googleaddress">
     <?php
+        if(!isset($user_id)){$user_id = read("id");}
         $fields = array(
             "Number" => array("type" => "text", "name" => "number", "class" => "street_number", "readonly" => true),
             "Street" => array("type" => "text", "name" => "street", "class" => "route", "readonly" => true),
@@ -22,10 +23,8 @@
             "Postal Code" => array("type" => "text", "name" => "postalcode", "class" => "postal_code", "readonly" => true),
             "Latitude" => array("type" => "text", "name" => "latitude", "class" => "latitude", "readonly" => true),
             "Longitude" => array("type" => "text", "name" => "longitude", "class" => "longitude", "readonly" => true),
+            "user_id" => array("type" => "hidden", "name" => "user_id", "value" => $user_id, "class" => "session_id_val")
         );
-        if(isset($user_id)){
-            $fields["user_id"] = array("type" => "hidden", "name" => "user_id", "value" => $user_id);
-        }
         foreach($fields as $Name => $field){
             if($style == 0 && $field["type"] != "hidden"){echo '<DIV CLASS="row"><DIV CLASS="col-md-2">' . $Name . ':</DIV><DIV CLASS="col-md-10">';}
             echo '<INPUT TYPE="' . $field["type"] . '" NAME="' . $field["name"] . '" ID="add_' . $field["name"] . '"';

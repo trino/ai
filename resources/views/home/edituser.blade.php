@@ -1,4 +1,5 @@
 <?php
+    if(!isset($user_id) || !$user_id){$user_id = read("id");}
     if(isset($_POST["action"])){
         switch($_POST["action"]){
             case "testemail":
@@ -88,6 +89,7 @@
         var currentURL = "<?= Request::url(); ?>";
         var minlength = 5;
         var token = "<?= csrf_token(); ?>";
+        redirectonlogout = true;
 
         $.validator.addMethod('phonenumber', function (Data, element) {
             Data = Data.replace(/\D/g, "");
