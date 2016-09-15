@@ -11,6 +11,18 @@ function isArray(variable){
 String.prototype.contains = function (str){
     return this.toLowerCase().indexOf(str.toLowerCase()) > -1;
 };
+String.prototype.endswith = function(str) {
+    return this.right(str.length).isEqual(str);
+};
+//returns the left $n characters of a string
+String.prototype.left = function(n) {
+    return this.substring(0, n);
+};
+
+//returns the right $n characters of a string
+String.prototype.right = function(n) {
+    return this.substring(this.length-n);
+};
 
 //replaces all instances of $search within a string with $replacement
 String.prototype.replaceAll = function (search, replacement) {
@@ -48,9 +60,9 @@ function getCookie(cname) {
     return "";
 }
 
-//deletes a cookie valie
+//deletes a cookie value
 function removeCookie(cname) {
-    $.removeCookie(cname);
+    setCookie(cname, '', -10);
 }
 
 //creates a cookie value that expires in 1 year

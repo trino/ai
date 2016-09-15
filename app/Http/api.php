@@ -428,4 +428,18 @@
         if(!$CategoryID){$CategoryID = select_field_where("menu", "id=" . $MenuItemID, "category_id");}
         return first("SELECT * FROM keywords, menukeywords WHERE keywordtype = " . $KeywordType . " HAVING keyword_id = keywords.id AND (menuitem_id = " . $MenuItemID . " OR menuitem_id = -" . $CategoryID . ")", $Only1);
     }
+
+    function read($Name) {
+        if (\Session::has('session_' . $Name)) {
+            return \Session::get('session_' . $Name);
+        }
+    }
+
+    //write to session
+    function write($Name, $Value, $Save = false) {
+        \Session::put('session_' . $Name, $Value);
+        if ($Save) {
+            \Session::save();
+        }
+    }
 ?>

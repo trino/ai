@@ -6,14 +6,10 @@
             break;
         case 1:
             echo '<INPUT TYPE="text" ID="formatted_address" PLACEHOLDER="Address" class="form-control">';
+            echo '<STYLE>.address.form-control:focus{z-index: 999;}</STYLE>';
             break;
     }
 ?>
-<STYLE>
-    .address.form-control:focus{
-        z-index: 999;
-    }
-</STYLE>
 <FORM ID="googleaddress">
     <?php
         $fields = array(
