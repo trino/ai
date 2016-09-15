@@ -1,6 +1,10 @@
 @extends('layouts.app')
 @section('content')
     <style>
+        .fa {
+            color: #dadada;
+        }
+
         .searchbox {
             position: absolute;
             right: 13px;
@@ -24,10 +28,6 @@
             margin: 0 !important;
         }
 
-        input {
-            border-top: 0 !important;
-        }
-
         .list-group-item {
             padding: 0rem;
         }
@@ -40,7 +40,9 @@
         * {
             box-shadow: none !important;
             border-radius: 0 !important;
+
         }
+
 
         .clearfix {
             clear: both !important;
@@ -72,13 +74,15 @@
 
         a {
             color: #373a3c;
+            padding: .25rem 0;
         }
 
         body {
             font-family: 'Roboto', serif;
+            line-height: 1 !important;
         }
 
-        .card {
+        .card,.card-block {
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .26), 0 5px 10px 0 rgba(0, 0, 0, .12) !important;
         }
 
@@ -89,22 +93,19 @@
             }
         }
 
-        .fa-close{
+        .fa-close {
             cursor: pointer;
         }
 
-        #loadingmodal{
-            display:    none;
-            position:   fixed;
-            z-index:    1000;
-            top:        0;
-            left:       0;
-            height:     100%;
-            width:      100%;
-            background: rgba( 255, 255, 255, .8 )
-                url('<?= webroot("resources/assets/images/slice.gif"); ?>')
-                50% 50%
-                no-repeat;
+        #loadingmodal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: rgba(255, 255, 255, .8) url('<?= webroot("resources/assets/images/slice.gif"); ?>') 50% 50% no-repeat;
         }
 
         /* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
@@ -121,8 +122,14 @@
     <div class="row">
         <div class="col-md-8">
             <div class="card ">
-                <div class="card-block bg-danger" style="padding-top:.75rem !important;padding-bottom:.75rem !important;">
-                    <h4 class="pull-left"><i class="fa fa-home" aria-hidden="true"></i> Pizza Delivery<input type="TEXT" id="search" class="searchbox" placeholder="Search" oninput="search(this, event);"></h4>
+                <div class="card-block bg-danger"
+                     style="padding-top:.75rem !important;padding-bottom:.75rem !important;">
+                    <h4 class="pull-left"><i class="fa fa-home" aria-hidden="true"></i> Pizza Delivery<input type="TEXT"
+                                                                                                             id="search"
+                                                                                                             class="searchbox"
+                                                                                                             placeholder="Search"
+                                                                                                             oninput="search(this, event);">
+                    </h4>
                 </div>
                 <div class="card-block">
                     <div class="row">
@@ -134,11 +141,12 @@
                             $isfree = collapsearray(Query("SELECT * FROM additional_toppings", true), "price", "size");
                             $a = 0;
 
-                            function getsize($itemname, &$isfree){
+                            function getsize($itemname, &$isfree)
+                            {
                                 $currentsize = "";
-                                foreach($isfree as $size => $cost){
-                                    if(!is_array($cost)){
-                                        if( textcontains($itemname, $size) && strlen($size) > strlen($currentsize)){
+                                foreach ($isfree as $size => $cost) {
+                                    if (!is_array($cost)) {
+                                        if (textcontains($itemname, $size) && strlen($size) > strlen($currentsize)) {
                                             $currentsize = $size;
                                         }
                                     }
@@ -146,32 +154,36 @@
                                 return $currentsize;
                             }
 
-                            function textcontains($text, $searchfor){
+                            function textcontains($text, $searchfor)
+                            {
                                 return strpos(strtolower($text), strtolower($searchfor)) !== false;
                             }
 
-                            function getaddons($Table, &$isfree, &$qualifiers){
+                            function getaddons($Table, &$isfree, &$qualifiers)
+                            {
                                 $toppings = Query("SELECT * FROM " . $Table . " ORDER BY type ASC, name ASC", true);
                                 $toppings_display = '';
                                 $currentsection = "";
                                 $isfree[$Table] = array();
                                 foreach ($toppings as $ID => $topping) {
-                                    if($currentsection != $topping["type"]){
-                                        if($toppings_display){$toppings_display .= '</optgroup>';}
+                                    if ($currentsection != $topping["type"]) {
+                                        if ($toppings_display) {
+                                            $toppings_display .= '</optgroup>';
+                                        }
                                         $toppings_display .= '<optgroup label="' . $topping["type"] . '">';
                                         $currentsection = $topping["type"];
                                     }
 
                                     $addons[$Table][$topping["type"]][$topping["name"]] = explodetrim($topping["qualifiers"]);
                                     $topping["displayname"] = $topping["name"];
-                                    if($topping["isfree"]){
+                                    if ($topping["isfree"]) {
                                         $isfree[$Table][] = $topping["name"];
                                         $topping["displayname"] .= " (free)";
                                     }
-                                    if($topping["qualifiers"]){
+                                    if ($topping["qualifiers"]) {
                                         $qualifiers[$Table][$topping["name"]] = explodetrim($topping["qualifiers"]);
                                     }
-                                    if($topping["isall"]){
+                                    if ($topping["isall"]) {
                                         $isfree["isall"][$Table][] = $topping["name"];
                                     }
                                     $toppings_display .= '<option value="' . $topping["id"] . '" type="' . $topping["type"] . '">' . $topping["displayname"] . '</option>';
@@ -179,11 +191,16 @@
                                 return $toppings_display . '</optgroup>';
                             }
 
-                            function explodetrim($text, $delimiter = ",", $dotrim = true){
-                                if(is_array($text)){return $text;}
+                            function explodetrim($text, $delimiter = ",", $dotrim = true)
+                            {
+                                if (is_array($text)) {
+                                    return $text;
+                                }
                                 $text = explode($delimiter, $text);
-                                if(!$dotrim){return $text;}
-                                foreach($text as $ID => $Word){
+                                if (!$dotrim) {
+                                    return $text;
+                                }
+                                foreach ($text as $ID => $Word) {
                                     $text[$ID] = trim($Word);
                                 }
                                 return $text;
@@ -194,41 +211,50 @@
 
                             foreach ($categories as $category) {
                             if($a == 3) {
-                                $a = 0;
-                                ?>
-                                </div>
-                                <div class="col-md-4">
+                            $a = 0;
+                            ?>
+                        </div>
+                        <div class="col-md-4">
                             <? } ?>
 
-                            <h5 class="text-danger" data-toggle="collapse" href="#collapse{{$category["id"]}}_cat">{{$category['category']}}</h5>
+                            <h5 class="text-danger" data-toggle="collapse"
+                                href="#collapse{{$category["id"]}}_cat">{{$category['category']}}</h5>
                             <div class="collapse list-group in m-b-1" id="collapse{{$category['id']}}_cat">
                                 <?
                                 $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
                                 foreach ($menuitems as $menuitem) {
-                                    $menuitem["price"] = number_format($menuitem["price"], 2);
-                                    ?>
-                                    <div class="clearfix"></div>
-                                    <div class="menuitem" itemid="{{$menuitem["id"]}}" itemname="{{$menuitem['item']}}" itemprice="{{$menuitem['price']}}" itemsize="{{ getsize($menuitem['item'], $isfree) }}"                                           <?php
-                                            $total = 0;
-                                            foreach($tables as $table){
-                                                echo $table . '="' . $menuitem[$table] . '" ';
-                                                $total += $menuitem[$table];
-                                            }
-                                            if($total){
-                                                $HTML = 'data-toggle="modal" data-target="#menumodal" onclick="loadmodal(this);"';
-                                            } else {
-                                                $HTML = 'onclick="additemtoorder(this);"';
-                                            }
+                                $menuitem["price"] = number_format($menuitem["price"], 2);
+                                ?>
+                                <div class="clearfix"></div>
+                                <div class="menuitem" itemid="{{$menuitem["id"]}}" itemname="{{$menuitem['item']}}"
+                                     itemprice="{{$menuitem['price']}}"
+                                     itemsize="{{ getsize($menuitem['item'], $isfree) }}" <?php
+                                        $total = 0;
+                                        foreach ($tables as $table) {
+                                            echo $table . '="' . $menuitem[$table] . '" ';
+                                            $total += $menuitem[$table];
+                                        }
+                                        if ($total) {
+                                            $HTML = 'data-toggle="modal" data-target="#menumodal" onclick="loadmodal(this);"';
+                                            $icon = '<i class="fa fa-chevron-down pull-right"></i>';
+                                        } else {
+                                            $HTML = 'onclick="additemtoorder(this);"';
+                                            $icon = '';
+
+                                        }
                                         ?>
-                                    >
-                                        <a class="text-xs-left btn-block" <?= $HTML; ?> >
-                                            <i class="pull-left fa fa-pie-chart text-warning"></i>
-                                            <span class="pull-left itemname">{{$menuitem['item']}}</span>
-                                            <span class="pull-right"> ${{$menuitem['price']}}</span>
-                                            <div class="clearfix"></div>
-                                        </a>
-                                    </div>
-                                    <?php
+                                >
+                                    <a class="text-xs-left btn-block" <?= $HTML; ?> >
+                                        <?=$icon?>
+
+                                        <i class="pull-left fa fa-pie-chart text-warning"></i>
+                                        <span class="pull-left itemname">{{$menuitem['item']}}</span>
+
+                                        <span class="pull-right"> ${{$menuitem['price']}}</span>
+                                        <div class="clearfix"></div>
+                                    </a>
+                                </div>
+                                <?php
                                 }
                                 ?>
                             </div>
@@ -251,7 +277,8 @@
                 <div class="card-block">
                     <div id="myorder"></div>
                     <div class="clearfix p-t-1"></div>
-                    <button data-toggle="collapse" class="btn btn-block btn-warning" id="checkout" href="#collapseCheckout">
+                    <button data-toggle="collapse" class="btn btn-block btn-warning" id="checkout"
+                            href="#collapseCheckout">
                         CHECKOUT
                     </button>
                     <div class="collapse" id="collapseCheckout">
@@ -283,7 +310,8 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <div class="form-group">
-                        <h4 class="modal-title" id="myModalLabel"><SPAN ID="modal-itemname"></SPAN> $<SPAN ID="modal-itemprice"></SPAN></h4>
+                        <h4 class="modal-title" id="myModalLabel"><SPAN ID="modal-itemname"></SPAN> $<SPAN
+                                    ID="modal-itemprice"></SPAN></h4>
                     </div>
 
                     <DIV style="display: none;" id="modal-hiddendata">
@@ -293,7 +321,8 @@
                     </div>
 
                     <div class="form-group" ID="modal-wings-original">
-                        <select class="form-control select2 wings_sauce" multiple="multiple" data-placeholder="Pound #1" type="wings_sauce">
+                        <select class="form-control select2 wings_sauce" multiple="multiple" data-placeholder="Pound #1"
+                                type="wings_sauce">
                             <option value="blank"></option>
                             <?= $wings_display; ?>
                             <optgroup label="Options">
@@ -306,7 +335,8 @@
 
                     <div class="form-group" ID="modal-toppings-original">
                         <DIV class="text-muted">Pizza #<span class="index">1</span></div>
-                        <select class="form-control select2 toppings" data-placeholder="Add Toppings: $[price]" multiple="multiple" type="toppings">
+                        <select class="form-control select2 toppings" data-placeholder="Add Toppings: $[price]"
+                                multiple="multiple" type="toppings">
                             <option value="blank"></option>
                             <?= $toppings_display; ?>
                             <optgroup label="Options">
@@ -355,7 +385,7 @@
             });
         }
 
-        function loadmodal(element){
+        function loadmodal(element) {
             element = $(element).parent();
             $("#modal-itemname").text($(element).attr("itemname"));
             $("#modal-itemprice").text($(element).attr("itemprice"));
@@ -364,7 +394,7 @@
 
             var size = $(element).attr("itemsize");
             var toppingcost = 0.00;
-            if(size){
+            if (size) {
                 toppingcost = Number(freetoppings[size]).toFixed(2);
                 $(".toppings").attr("data-placeholder", "Add Toppings: $" + toppingcost);
                 $(".toppings_price").text(toppingcost);
@@ -378,43 +408,47 @@
             initSelect2(".select2clones");
         }
 
-        function initSelect2(selector, reset){
-            if(!isUndefined(reset)){
+        function initSelect2(selector, reset) {
+            if (!isUndefined(reset)) {
                 $('select').select2("val", null);
             }
-            if(!isUndefined(selector)){
+            if (!isUndefined(selector)) {
                 $('select' + selector).select2({
                     maximumSelectionSize: 4,
-                    placeholder: function () {$(this).data('placeholder');},
+                    placeholder: function () {
+                        $(this).data('placeholder');
+                    },
                     allowClear: true
                 }).change();
             }
         }
 
-        function sendintheclones(destinationID, sourceID, count, sourceHTML){
+        function sendintheclones(destinationID, sourceID, count, sourceHTML) {
             var HTML = "";
-            visible(sourceID, count>0);
-            if(count){
-                if(isUndefined(sourceHTML)) {
+            visible(sourceID, count > 0);
+            if (count) {
+                if (isUndefined(sourceHTML)) {
                     var sourceHTML = outerHTML(sourceID).replace('form-control select2', 'form-control select2 select2clones');
                 }
-                for (var index=2; index<= count; index++){
+                for (var index = 2; index <= count; index++) {
                     HTML += sourceHTML.replace('<span class="index">1</span>', '<SPAN CLASS="index">' + index + '</SPAN>').replaceAll("#1", "#" + index);
                 }
             }
             $(destinationID).html(HTML);
         }
 
-        function additemtoorder(element){
+        function additemtoorder(element) {
             var itemid = 0, itemname = "", itemprice = 0.00, itemaddons = new Array, itemsize = "", toppingcost = 0.00, toppingscount = 0;
-            if(isUndefined(element)){//modal with addons
+            if (isUndefined(element)) {//modal with addons
                 itemid = $("#modal-itemid").text();
                 itemname = $("#modal-itemname").text();
                 itemprice = $("#modal-itemprice").text();
                 itemsize = $("#modal-itemsize").text();
                 itemaddons = getaddons();
-                if(itemsize) {toppingcost = Number(freetoppings[itemsize]).toFixed(2);}
-                for(var i=0; i<itemaddons.length; i++){
+                if (itemsize) {
+                    toppingcost = Number(freetoppings[itemsize]).toFixed(2);
+                }
+                for (var i = 0; i < itemaddons.length; i++) {
                     toppingscount += itemaddons[i]["count"];
                 }
             } else {//direct link, no addons
@@ -425,21 +459,21 @@
             }
 
             theorder.push({
-                quantity:       1,
-                itemid:         itemid,
-                itemname:       itemname,
-                itemprice:      itemprice,
-                itemsize:       itemsize,
-                toppingcost:    toppingcost,
-                toppingcount:  toppingscount,
-                itemaddons:     itemaddons
+                quantity: 1,
+                itemid: itemid,
+                itemname: itemname,
+                itemprice: itemprice,
+                itemsize: itemsize,
+                toppingcost: toppingcost,
+                toppingcount: toppingscount,
+                itemaddons: itemaddons
             });
             generatereceipt();
         }
 
-        function generatereceipt(){
+        function generatereceipt() {
             var HTML = '', tempHTML = "", subtotal = 0;
-            for(var itemid = 0; itemid<theorder.length; itemid++){
+            for (var itemid = 0; itemid < theorder.length; itemid++) {
                 var item = theorder[itemid];
                 var totalcost = (Number(item["itemprice"]) + (Number(item["toppingcost"]) * Number(item["toppingcount"]))).toFixed(2);
                 subtotal += Number(totalcost);
@@ -448,19 +482,25 @@
 
                 var itemname = "";
                 //alert(JSON.stringify(item["itemaddons"]));
-                if (item["itemaddons"].length > 1){
-                    switch(item["itemaddons"][0]["tablename"]){
-                        case "toppings": itemname = "Pizza"; break;
-                        case "wings_sauce": itemname = "Pound"; break;
+                if (item["itemaddons"].length > 1) {
+                    switch (item["itemaddons"][0]["tablename"]) {
+                        case "toppings":
+                            itemname = "Pizza";
+                            break;
+                        case "wings_sauce":
+                            itemname = "Pound";
+                            break;
                     }
                 }
-                for(var currentitem = 0; currentitem<item["itemaddons"].length; currentitem++){
+                for (var currentitem = 0; currentitem < item["itemaddons"].length; currentitem++) {
                     var addons = item["itemaddons"][currentitem];
-                    if(itemname){
-                        tempHTML += itemname + " #" + (currentitem+1) + ": ";
+                    if (itemname) {
+                        tempHTML += itemname + " #" + (currentitem + 1) + ": ";
                     }
-                    for(var addonid = 0; addonid< addons["addons"].length; addonid++){
-                        if(addonid>0){tempHTML += ", ";}
+                    for (var addonid = 0; addonid < addons["addons"].length; addonid++) {
+                        if (addonid > 0) {
+                            tempHTML += ", ";
+                        }
                         tempHTML += addons["addons"][addonid]["text"];
                     }
                     tempHTML += '<BR>';
@@ -472,7 +512,7 @@
             totalcost = subtotal + deliveryfee + taxes;
             $("#checkout").show();
             createCookieValue("theorder", JSON.stringify(theorder));
-            if(theorder.length == 0){
+            if (theorder.length == 0) {
                 taxes = 0;
                 totalcost = 0;
                 HTML = '<span class="pull-left">Order is empty</SPAN><BR>';
@@ -486,20 +526,22 @@
             $("#myorder").html(HTML + tempHTML);
         }
 
-        function getaddons(){
+        function getaddons() {
             var itemaddons = new Array;
-            for(var tableid = 0; tableid < tables.length; tableid++){
+            for (var tableid = 0; tableid < tables.length; tableid++) {
                 var table = tables[tableid];
-                $('.select2.' + table + ":visible").each(function(index){
-                    if(!$(this).hasClass("select2-offscreen")) {
+                $('.select2.' + table + ":visible").each(function (index) {
+                    if (!$(this).hasClass("select2-offscreen")) {
                         var addons = $(this).select2('data');
                         var toppings = 0;
-                        for(var addid = 0; addid < addons.length; addid++){
+                        for (var addid = 0; addid < addons.length; addid++) {
                             delete addons[addid]["element"];
                             delete addons[addid]["locked"];
                             delete addons[addid]["disabled"];
                             addons[addid]["isfree"] = isaddon_free(table, addons[addid]["text"]);
-                            if(!addons[addid]["isfree"]){toppings++;}
+                            if (!addons[addid]["isfree"]) {
+                                toppings++;
+                            }
                         }
                         itemaddons.push({tablename: table, addons: addons, count: toppings});
                     }
@@ -511,9 +553,9 @@
         function getsize(Itemname) {
             var sizes = Object.keys(freetoppings);
             var size = "";
-            for(var i=0; i<sizes.length; i++){
-                if(!isArray(freetoppings[sizes[i]])){
-                    if(Itemname.contains(sizes[i]) && sizes[i].length > size.length){
+            for (var i = 0; i < sizes.length; i++) {
+                if (!isArray(freetoppings[sizes[i]])) {
+                    if (Itemname.contains(sizes[i]) && sizes[i].length > size.length) {
                         size = sizes[i];
                     }
                 }
@@ -521,35 +563,35 @@
             return size;
         }
 
-        function isaddon_free(Table, Addon){
+        function isaddon_free(Table, Addon) {
             return freetoppings[Table].indexOf(Addon) > -1;
         }
-        function isaddon_onall(Table, Addon){
+        function isaddon_onall(Table, Addon) {
             return freetoppings["isall"][Table].indexOf(Addon) > -1;
         }
 
-        function removeorderitem(index){
+        function removeorderitem(index) {
             removeindex(theorder, index);
             generatereceipt();
         }
 
-        function placeorder(){
+        function placeorder() {
             $.post(currentURL, {
                 action: "saveorder",
                 _token: token,
                 order: theorder
             }, function (result) {
-                if(result) {
+                if (result) {
                     alert(result);
                 }
             });
         }
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             toppingsouterhtml = outerHTML("#modal-toppings-original").replace('form-control select2', 'form-control select2 select2clones');
             wingsauceouterhtml = outerHTML("#modal-wings-original").replace('form-control select2', 'form-control select2 select2clones');
-            if(getCookie("theorder")){
-                if(confirm("The remants of an order were saved, would you like to resume the order?")){
+            if (getCookie("theorder")) {
+                if (confirm("The remants of an order were saved, would you like to resume the order?")) {
                     theorder = JSON.parse(getCookie("theorder"));
                 }
             }
@@ -557,8 +599,12 @@
 
             $body = $("body");
             $(document).on({
-                ajaxStart: function() { $body.addClass("loading"); },
-                ajaxStop: function() { $body.removeClass("loading"); }
+                ajaxStart: function () {
+                    $body.addClass("loading");
+                },
+                ajaxStop: function () {
+                    $body.removeClass("loading");
+                }
             });
         });
     </script>
