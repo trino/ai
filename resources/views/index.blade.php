@@ -241,7 +241,7 @@
                 <div class="card-block bg-danger"
                      style="padding-top:.75rem !important;padding-bottom:.75rem !important;">
                     <h4 class="pull-left"> My Order </h4>
-                    <h4 class="pull-right"><i class="fa fa-user no-padding-margin"></i></h4>
+                    <h4 class="pull-right" ONCLICK="if(confirm('Are you sure you want to clear your order?')){clearorder();}"><i class="fa fa-close no-padding-margin"></i></h4>
                 </div>
                 <div class="card-block">
                     <div id="myorder"></div>
@@ -492,6 +492,11 @@
             $("#myorder").html(HTML + tempHTML);
         }
 
+        function clearorder(){
+            theorder = new Array;
+            generatereceipt();
+        }
+
         function getaddons() {
             var itemaddons = new Array;
             for (var tableid = 0; tableid < tables.length; tableid++) {
@@ -552,6 +557,7 @@
             }, function (result) {
                 if (result) {
                     alert(result);
+                    clearorder();
                 }
             });
         }

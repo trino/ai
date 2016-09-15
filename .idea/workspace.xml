@@ -75,10 +75,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Controller.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Controller.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Controller.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5417349">
+            <state vertical-scroll-proportion="-12.730769">
               <caret line="25" column="17" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
               <folding />
             </state>
@@ -98,16 +98,16 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.blade.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/index.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.5961537">
-              <caret line="331" column="23" selection-start-line="331" selection-start-column="12" selection-end-line="331" selection-end-column="23" />
+            <state vertical-scroll-proportion="0.53504276">
+              <caret line="243" column="147" selection-start-line="243" selection-start-column="147" selection-end-line="243" selection-end-column="147" />
               <folding>
-                <marker date="1473967164480" expanded="true" signature="3079:3127" placeholder="SELECT * FRO..menu..." />
-                <marker date="1473967164480" expanded="true" signature="3200:3233" placeholder="SELECT * FRO..additional_toppings..." />
-                <marker date="1473967164480" expanded="true" signature="4328:4384" placeholder="SELECT * FRO..." />
-                <marker date="1473967164480" expanded="true" signature="7980:8047" placeholder="SELECT * FRO..menu..." />
+                <marker date="1473969615780" expanded="true" signature="3079:3127" placeholder="SELECT * FRO..menu..." />
+                <marker date="1473969615780" expanded="true" signature="3200:3233" placeholder="SELECT * FRO..additional_toppings..." />
+                <marker date="1473969615780" expanded="true" signature="4328:4384" placeholder="SELECT * FRO..." />
+                <marker date="1473969615780" expanded="true" signature="7980:8047" placeholder="SELECT * FRO..menu..." />
               </folding>
             </state>
           </provider>
@@ -215,10 +215,10 @@
         <option value="$PROJECT_DIR$/resources/views/layouts/app.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/home/list.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/api.php" />
-        <option value="$PROJECT_DIR$/resources/views/index.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/popups/receipt.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/email/receipt.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" />
+        <option value="$PROJECT_DIR$/resources/views/index.blade.php" />
       </list>
     </option>
   </component>
@@ -1281,19 +1281,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/index.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.5961537">
-          <caret line="331" column="23" selection-start-line="331" selection-start-column="12" selection-end-line="331" selection-end-column="23" />
-          <folding>
-            <marker date="1473967164480" expanded="true" signature="3079:3127" placeholder="SELECT * FRO..menu..." />
-            <marker date="1473967164480" expanded="true" signature="3200:3233" placeholder="SELECT * FRO..additional_toppings..." />
-            <marker date="1473967164480" expanded="true" signature="4328:4384" placeholder="SELECT * FRO..." />
-            <marker date="1473967164480" expanded="true" signature="7980:8047" placeholder="SELECT * FRO..menu..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/layouts/app.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.2692308">
@@ -1362,9 +1349,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Controller.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5417349">
+        <state vertical-scroll-proportion="-12.730769">
           <caret line="25" column="17" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/index.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.53504276">
+          <caret line="243" column="147" selection-start-line="243" selection-start-column="147" selection-end-line="243" selection-end-column="147" />
+          <folding>
+            <marker date="1473969615780" expanded="true" signature="3079:3127" placeholder="SELECT * FRO..menu..." />
+            <marker date="1473969615780" expanded="true" signature="3200:3233" placeholder="SELECT * FRO..additional_toppings..." />
+            <marker date="1473969615780" expanded="true" signature="4328:4384" placeholder="SELECT * FRO..." />
+            <marker date="1473969615780" expanded="true" signature="7980:8047" placeholder="SELECT * FRO..menu..." />
+          </folding>
         </state>
       </provider>
     </entry>
