@@ -97,7 +97,6 @@
             cursor: pointer;
         }
     </style>
-    <script src="{{ webroot("resources/assets/scripts/api2.js") }}"></script>
     <div class="row">
         <div class="col-md-8">
             <div class="card ">

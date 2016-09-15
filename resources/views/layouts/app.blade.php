@@ -19,6 +19,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js"></script>
         <script src="//select2.github.io/select2/select2-3.4.2/select2.js"></script>
+        <script src="{{ webroot("resources/assets/scripts/api2.js") }}"></script>
     </head>
     <STYLE>
         .header-cont {
@@ -71,6 +72,9 @@
             .loggedin { display: none; }
             .loggedout{ display: block; }
         @endif
+        .profiletype{
+            display: none;
+        }
 
         .hyperlink{
             cursor: pointer;
@@ -78,10 +82,11 @@
     </STYLE>
     <DIV CLASS="header-cont">
         <DIV CLASS="header card-block bg-danger">
-            London Pizza
+            <A HREF="<?= webroot("public/index"); ?>">London Pizza</A>
             <SPAN STYLE="float:right;">
                 <SPAN CLASS="loggedin">
                     Welcome <SPAN CLASS="session_name"></SPAN>
+                    <A HREF="<?= webroot("public/list/all"); ?>" CLASS="profiletype profiletype1">[Admin]</A>
                     <A HREF="<?= webroot("public/list/useraddresses"); ?>">[Addressess]</A>
                     <A HREF="<?= webroot("public/user/info"); ?>">[Profile]</A>
                     <A ONCLICK="handlelogin('logout');" CLASS="hyperlink">[Log out]</A>
@@ -126,6 +131,8 @@
             }
             $(".loggedin").show();
             $(".loggedout").hide();
+            $(".profiletype").hide();
+            $(".profiletype" + user["profiletype"]).show();
         }
 
         @if(isset($user))

@@ -84,7 +84,6 @@
         </div>
     </div>
     <SCRIPT SRC="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></SCRIPT>
-    <script src="{{ webroot("resources/assets/scripts/api2.js") }}"></script>
     <SCRIPT>
         var currentURL = "<?= Request::url(); ?>";
         var minlength = 5;

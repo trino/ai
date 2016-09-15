@@ -59,6 +59,7 @@
                             $(".loggedin").hide();
                             $(".loggedout").show();
                             $(".clear_loggedout").html("");
+                            $(".profiletype").hide();
                             if(redirectonlogout){
                                 window.location = "<?= webroot("public/index"); ?>";
                             }

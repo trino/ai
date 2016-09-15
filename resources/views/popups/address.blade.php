@@ -95,7 +95,4 @@
     if(!isset($dontincludeGoogle)){
         echo '<script src="https://maps.googleapis.com/maps/api/js?signed_in=true&libraries=places&callback=initAutocomplete&key=AIzaSyBWSUc8EbZYVKF37jWVCb3lpBQwWqXUZw8"></script>';
     }
-    if(!isset($dontincludeAPI)){
-        echo '<script src="' . webroot("resources/assets/scripts/api2.js") . '"></script>';
-    }
 ?>
