@@ -89,9 +89,12 @@
                             break;
                         case "forgotpassword":
                             $newpassword = generateRandomString(6);
-                            $user["password"] = Hash::make($newpassword);
+                            $user["password"] = \Hash::make($newpassword);
                             insertdb("users", $user);
-                            $ret["Reason"] = "Password reset: " . $newpassword;//send new password to customer instead!!!!
+                            $ret["Reason"] = "Password reset";
+                            $user["password"] = $newpassword;
+                            $user["mail_subject"] = "Forgot password";
+                            $this->sendEMail("email.forgotpassword", $user);
                             break;
                     }
                 } else {

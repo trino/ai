@@ -6,7 +6,7 @@
         $_GET = $_POST["query"];
     }
     switch($table){
-        case "all": break;//system value
+        case "all":case "debug": break;//system value
         case "users":
             $faicon = "user";
             $fields = array("id", "name", "phone", "email");
@@ -82,6 +82,14 @@
                                                 echo '<A HREF="' . webroot("public/list/" . $table) . '">' . ucfirst($table) . ' list</A><BR>';
                                             }
                                         ?>
+                                        <HR>
+                                        <A HREF="<?= webroot("public/list/debug"); ?>">Debug log</A>
+                                    @elseif($table == "debug")
+                                        <PRE><?php
+                                            if (file_exists("royslog.txt")){
+                                                echo file_get_contents("royslog.txt");
+                                            }
+                                        ?></PRE>
                                     @else
                                         <TABLE WIDTH="100%" BORDER="1" ID="data">
                                             <THEAD>

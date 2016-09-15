@@ -460,4 +460,31 @@
         }
         return $randomString;
     }
+
+    //write text to royslog.txt
+    function debugprint($text, $path = "royslog.txt", $DeleteFirst = false) {
+        $todaytime = date("Y-m-d") . " " . date("h:i:s a");
+        $dashes = "----------------------------------------------------------------------------------------------\r\n";
+        if (is_array($text)) {
+            $text = print_r($text, true);
+        }
+        $dir = getdirectory($path);
+        if (!is_dir($dir) && $dir){mkdir($dir, 0777, true);}
+        $ID = read("id");
+        $Name = iif($ID, read("name"), "[NOT LOGGED IN]");
+        $text = $dashes . $todaytime . ' (USER: ' . $ID . ": " . $Name .  ")  --  " . str_replace(array("%dashes%", "<BR>", "%20"), array($dashes, "\r\n", " "), $text) . "\r\n";
+        file_put_contents($path, $text, iif($DeleteFirst, 0, FILE_APPEND));
+        return $text;
+    }
+
+    function getdirectory($path) {
+        return pathinfo(str_replace("\\", "/", $path), PATHINFO_DIRNAME);
+    }
+    function getfilename($path, $WithExtension = false) {
+        if ($WithExtension) {
+            return pathinfo($path, PATHINFO_BASENAME); //filename only, with extension
+        } else {
+            return pathinfo($path, PATHINFO_FILENAME); //filename only, no extension
+        }
+    }
 ?>
