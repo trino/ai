@@ -15,6 +15,7 @@
             $fields = array("id", "name", "phone", "email");
             break;
         case "orders":
+            $fields=true;
             $faicon = "dollar";
             break;
         case "useraddresses":
@@ -52,6 +53,10 @@
 
             case "saveitem"://all columns
                 insertdb($table, $_POST["value"]);
+                break;
+
+            case "getreceipt":
+                die(view("popups.receipt", $_POST));
                 break;
 
             default: die("'" . $_POST["action"] . "' is unhandled \r\n" . print_r($_POST, true));
@@ -99,7 +104,7 @@
                                                         if(isset($fields)){
                                                             foreach($fields as $field){
                                                                 if($field != "id"){
-                                                                    echo '<TH>' . ucfirst($field) . '</TH>';
+                                                                    echo '<TH>' . ucfirst(str_replace("_", " ", $field)) . '</TH>';
                                                                 }
                                                             }
                                                         }
@@ -190,6 +195,9 @@
                                                 break;
                                             case "useraddresses":
                                                 tempHTML += '<A CLASS="btn btn-sm btn-primary" onclick="editaddress(' + ID + ');">Edit</A> ';
+                                                break;
+                                            case "orders":
+                                                tempHTML += '<A CLASS="btn btn-sm btn-primary" onclick="vieworder(' + ID + ');">View</A> ';
                                                 break;
                                         }
                                         HTML += tempHTML + '<A CLASS="btn btn-sm btn-danger" onclick="deleteitem(' + ID + ');">Delete</A></TD></TR>';
@@ -338,6 +346,18 @@
                                 alert(result);
                             } else {
                                 getpage(lastpage);
+                            }
+                        });
+                    }
+
+                    function vieworder(ID){
+                        $.post(currentURL, {
+                            action: "getreceipt",
+                            _token: token,
+                            orderid: ID
+                        }, function (result) {
+                            if(result) {
+                                $("#body").html(result);
                             }
                         });
                     }

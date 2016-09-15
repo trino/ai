@@ -26,6 +26,7 @@ class HomeController extends Controller {
     public function tablelist($table) {
         return view('home.list', array("table" => $table));
     }
+
     public function edituser($user_id = false) {
         if(!$user_id){$user_id = read("id");}
         return view('home.edituser', array("user_id" => $user_id));
@@ -37,5 +38,28 @@ class HomeController extends Controller {
 
     public function edittable(Request $request){
         return view('home.edittable');
+    }
+
+    public function placeorder(){
+        $info = $_POST["info"];
+        $info["placed_at"] = now();
+
+        $order = $_POST["order"];
+
+        $OrderID = insertdb("orders", $info);
+        $dir = resource_path("orders");//no / at the end
+        if(!is_dir($dir)){
+            mkdir($dir, 0777, true);
+        }
+
+        file_put_contents($dir . "/" . $OrderID . ".json", json_encode($order, JSON_PRETTY_PRINT));
+
+        $user = first("SELECT * FROM users WHERE id = " . read("id"));
+        $user["orderid"] = $OrderID;
+        $user["mail_subject"] = "Receipt";
+        $text = $this->sendEMail("email.receipt", $user);
+        //send emails to customer and store
+
+        return $OrderID;
     }
 }

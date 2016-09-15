@@ -135,6 +135,12 @@
             $(".profiletype" + user["profiletype"]).show();
         }
 
+        $( document ).ajaxComplete(function( event,request, settings ) {
+            if(request.status != 200){
+                alert(request.statusText + "<P>URL: " + settings.url, "AJAX error code: " + request.status);
+            }
+        });
+
         @if(isset($user))
             login(<?= json_encode($user); ?>);
         @endif

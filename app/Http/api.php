@@ -1,6 +1,7 @@
 <?php
     $webroot = webroot();
     define("debugmode", true);
+    define("deliveryfee", 3.50);
 
     function webroot($file = "") {
         $webroot = $_SERVER["REQUEST_URI"];

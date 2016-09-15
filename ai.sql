@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 15, 2016 at 07:12 PM
+-- Generation Time: Sep 15, 2016 at 08:34 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -362,6 +362,32 @@ INSERT INTO `menukeywords` (`id`, `menuitem_id`, `keyword_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `orders`
+--
+
+CREATE TABLE IF NOT EXISTS `orders` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `placed_at` timestamp NOT NULL,
+  `number` int(11) NOT NULL,
+  `unit` varchar(16) NOT NULL,
+  `buzzcode` varchar(16) NOT NULL,
+  `street` varchar(255) NOT NULL,
+  `postalcode` varchar(16) NOT NULL,
+  `city` varchar(64) NOT NULL,
+  `province` varchar(32) NOT NULL,
+  `latitude` varchar(16) NOT NULL,
+  `longitude` varchar(16) NOT NULL,
+  `accepted_at` timestamp NOT NULL,
+  `restaurant_id` int(11) NOT NULL,
+  `type` tinyint(4) NOT NULL,
+  `payment_type` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `password_resets`
 --
 
@@ -438,14 +464,14 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1473954758');
+(1, 'lastSQL', '1473959557');
 
 -- --------------------------------------------------------
 

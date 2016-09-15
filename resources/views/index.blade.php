@@ -250,19 +250,21 @@
                         CHECKOUT
                     </button>
                     <div class="collapse" id="collapseCheckout">
-                        <input type="text" class="form-control" placeholder="name"/>
-                        <input type="text" class="form-control" placeholder="address"/>
-                        <input type="text" class="form-control" placeholder="email"/>
-                        <input type="text" class="form-control" placeholder="cell"/>
-                        <input type="text" class="form-control" placeholder="delivery time"/>
-                        <input type="text" class="form-control" placeholder="Restaurant select"/>
-                        <input type="text" class="form-control" placeholder="payment"/>
-                        <input type="text" class="form-control" placeholder="notes"/>
+                        <FORM ID="orderinfo">
+                            <input type="text" class="form-control" placeholder="name"/>
+                            <input type="text" class="form-control" placeholder="address"/>
+                            <input type="text" class="form-control" placeholder="email"/>
+                            <input type="text" class="form-control" placeholder="cell"/>
+                            <input type="text" class="form-control" placeholder="delivery time"/>
+                            <input type="text" class="form-control" placeholder="Restaurant select"/>
+                            <input type="text" class="form-control" placeholder="payment"/>
+                            <input type="text" class="form-control" placeholder="notes"/>
 
 
-                        <?= view("popups.address", array("dontincludeAPI" => true, "style" => 1)); //must update the user_id once login is possible ?>
+                            <?= view("popups.address", array("dontincludeAPI" => true, "style" => 1)); //must update the user_id once login is possible ?>
 
-                        <button class="btn btn-warning btn-block" onclick="placeorder();">PLACE ORDER</button>
+                            <button class="btn btn-warning btn-block" onclick="placeorder();">PLACE ORDER</button>
+                        </FORM>
                     </div>
 
                 </div>
@@ -327,7 +329,7 @@
         var qualifiers = <?= json_encode($qualifiers); ?>;
         var theorder = new Array;
         var toppingsouterhtml, wingsauceouterhtml;
-        var deliveryfee = 3.50;
+        var deliveryfee = <?= deliveryfee; ?>;
 
         function search(element) {
             var searchtext = element.value.toLowerCase();
@@ -543,9 +545,9 @@
         }
 
         function placeorder() {
-            $.post(currentURL, {
-                action: "saveorder",
+            $.post(webroot + "placeorder", {
                 _token: token,
+                info: getform("#orderinfo"),
                 order: theorder
             }, function (result) {
                 if (result) {
@@ -560,6 +562,8 @@
             if (getCookie("theorder")) {
                 if (confirm("The remants of an order were saved, would you like to resume the order?")) {
                     theorder = JSON.parse(getCookie("theorder"));
+                } else if (confirm("Would you like to delete the saved order?")) {
+                    removeCookie("theorder");
                 }
             }
             generatereceipt();

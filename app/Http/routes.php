@@ -37,6 +37,7 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::post('/auth/login',          'Auth\AuthController@login');
     Route::any('/auth/gettoken',        'Auth\AuthController@gettoken');
+    Route::post('/placeorder',          'HomeController@placeorder');
 
     Route::get('/getjs',                'HomeController@getjs');
     Route::any('/test',                 'HomeController@index');
