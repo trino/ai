@@ -22,10 +22,62 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="edituser.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/home/edituser.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-8.653846">
+              <caret line="85" column="0" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
+              <folding>
+                <marker date="1474379306604" expanded="true" signature="197:292" placeholder="SELECT * FRO..users..." />
+                <marker date="1474379306604" expanded="true" signature="443:472" placeholder="SELECT * FRO..users..." />
+                <marker date="1474379306604" expanded="true" signature="996:1082" placeholder="SELECT * FRO..users..." />
+                <marker date="1474379306604" expanded="true" signature="2344:2373" placeholder="SELECT * FRO..users..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="address.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/popups/address.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-17.653847">
+              <caret line="83" column="16" selection-start-line="83" selection-start-column="16" selection-end-line="83" selection-end-column="82" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AuthController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-7.8461537">
+              <caret line="75" column="32" selection-start-line="75" selection-start-column="32" selection-end-line="75" selection-end-column="127" />
+              <folding>
+                <element signature="e#52#65#0#PHP" expanded="true" />
+                <marker date="1474380746477" expanded="true" signature="2078:2143" placeholder="SELECT * FRO..users..." />
+                <marker date="1474380746477" expanded="true" signature="2737:2781" placeholder="SELECT * FRO..useraddresses..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.blade.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resources/views/layouts/app.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.70989764">
+              <caret line="172" column="52" selection-start-line="172" selection-start-column="52" selection-end-line="172" selection-end-column="52" />
+              <folding>
+                <marker date="1474383054946" expanded="true" signature="92:123" placeholder="SELECT * FRO..users..." />
+                <marker date="1474383054946" expanded="true" signature="210:254" placeholder="SELECT * FRO..useraddresses..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="HomeController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/HomeController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-18.923077">
+            <state vertical-scroll-proportion="-28.26923">
               <caret line="59" column="57" selection-start-line="59" selection-start-column="57" selection-end-line="59" selection-end-column="57" />
               <folding>
                 <marker date="1473969300703" expanded="true" signature="1391:1422" placeholder="SELECT * FRO..users..." />
@@ -34,102 +86,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AuthController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php">
+      <file leaf-file-name="login.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/popups/login.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.692307">
-              <caret line="95" column="47" selection-start-line="95" selection-start-column="35" selection-end-line="95" selection-end-column="47" />
+            <state vertical-scroll-proportion="-7.1923075">
+              <caret line="84" column="34" selection-start-line="84" selection-start-column="28" selection-end-line="84" selection-end-column="34" />
               <folding>
-                <element signature="e#52#65#0#PHP" expanded="true" />
-                <marker date="1473962585563" expanded="true" signature="2078:2143" placeholder="SELECT * FRO..users..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="list.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/home/list.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.076923">
-              <caret line="359" column="56" selection-start-line="359" selection-start-column="56" selection-end-line="359" selection-end-column="56" />
-              <folding>
-                <marker date="1473965499181" expanded="true" signature="1573:1603" placeholder="SELECT COUNT..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="receipt.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/popups/receipt.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.423077">
-              <caret line="74" column="52" selection-start-line="74" selection-start-column="52" selection-end-line="74" selection-end-column="52" />
-              <folding>
-                <marker date="1473968592960" expanded="true" signature="1430:1443" placeholder="SELECT * FRO..." />
-                <marker date="1473968592960" expanded="true" signature="1430:1444" placeholder="SELECT * FRO..." />
-                <marker date="1473968592960" expanded="true" signature="1847:1878" placeholder="SELECT * FRO..menus..." />
-                <marker date="1473968592960" expanded="true" signature="1847:1895" placeholder="SELECT * FRO..menu..." />
-                <marker date="1473968592960" expanded="true" signature="1847:1896" placeholder="SELECT * FRO..menus..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Controller.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Controller.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.730769">
-              <caret line="25" column="17" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="receipt.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/email/receipt.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.3076923">
-              <caret line="2" column="63" selection-start-line="2" selection-start-column="55" selection-end-line="2" selection-end-column="63" />
-              <folding>
-                <marker date="1473969300691" expanded="true" signature="54:85" placeholder="SELECT * FRO..orders..." />
-                <marker date="1473969300691" expanded="true" signature="54:86" placeholder="SELECT * FRO..orders..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.blade.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/resources/views/index.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.53504276">
-              <caret line="243" column="147" selection-start-line="243" selection-start-column="147" selection-end-line="243" selection-end-column="147" />
-              <folding>
-                <marker date="1473969615780" expanded="true" signature="3079:3127" placeholder="SELECT * FRO..menu..." />
-                <marker date="1473969615780" expanded="true" signature="3200:3233" placeholder="SELECT * FRO..additional_toppings..." />
-                <marker date="1473969615780" expanded="true" signature="4328:4384" placeholder="SELECT * FRO..." />
-                <marker date="1473969615780" expanded="true" signature="7980:8047" placeholder="SELECT * FRO..menu..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="api2.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/assets/scripts/api2.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="63" column="21" selection-start-line="63" selection-start-column="9" selection-end-line="63" selection-end-column="21" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="app.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/layouts/app.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.2692308">
-              <caret line="5" column="5" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
-              <folding>
-                <marker date="1473964765935" expanded="true" signature="92:123" placeholder="SELECT * FRO..users..." />
+                <element signature="n#STYLE#0;n#DIV#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#STYLE#0;n#DIV#0;n#FORM#0;n#div#0;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -138,17 +102,42 @@
       <file leaf-file-name="api.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/api.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.9615384">
-              <caret line="3" column="23" selection-start-line="3" selection-start-column="12" selection-end-line="3" selection-end-column="23" />
+            <state vertical-scroll-proportion="-7.8461537">
+              <caret line="24" column="45" selection-start-line="24" selection-start-column="45" selection-end-line="24" selection-end-column="45" />
               <folding>
-                <marker date="1473967164460" expanded="true" signature="1796:1920" placeholder="INSERT INTO ..." />
-                <marker date="1473967164460" expanded="true" signature="3726:3740" placeholder="SELECT * FRO..." />
-                <marker date="1473967164460" expanded="true" signature="4670:4695" placeholder="DELETE FROM ..." />
-                <marker date="1473967164460" expanded="true" signature="6346:6418" placeholder="SELECT TABLE..TABLES..." />
-                <marker date="1473967164460" expanded="true" signature="14473:14528" placeholder="SELECT value..settings..." />
-                <marker date="1473967164460" expanded="true" signature="14919:14940" placeholder="DROP TABLE I..." />
-                <marker date="1473967164460" expanded="true" signature="16301:16488" placeholder="SELECT * FRO..keywords..." />
+                <marker date="1474380363571" expanded="true" signature="2272:2396" placeholder="INSERT INTO ..." />
+                <marker date="1474380363571" expanded="true" signature="4202:4216" placeholder="SELECT * FRO..." />
+                <marker date="1474380363571" expanded="true" signature="5146:5171" placeholder="DELETE FROM ..." />
+                <marker date="1474380363571" expanded="true" signature="6822:6894" placeholder="SELECT TABLE..TABLES..." />
+                <marker date="1474380363571" expanded="true" signature="14949:15004" placeholder="SELECT value..settings..." />
+                <marker date="1474380363571" expanded="true" signature="15395:15416" placeholder="DROP TABLE I..." />
+                <marker date="1474380363571" expanded="true" signature="16777:16964" placeholder="SELECT * FRO..keywords..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/index.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-10.288462">
+              <caret line="419" column="38" selection-start-line="419" selection-start-column="35" selection-end-line="419" selection-end-column="38" />
+              <folding>
+                <marker date="1474382078264" expanded="true" signature="3079:3127" placeholder="SELECT * FRO..menu..." />
+                <marker date="1474382078264" expanded="true" signature="3200:3233" placeholder="SELECT * FRO..additional_toppings..." />
+                <marker date="1474382078264" expanded="true" signature="4328:4384" placeholder="SELECT * FRO..." />
+                <marker date="1474382078264" expanded="true" signature="7980:8047" placeholder="SELECT * FRO..menu..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="api2.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/assets/scripts/api2.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="15.692307">
+              <caret line="82" column="6" selection-start-line="82" selection-start-column="6" selection-end-line="82" selection-end-column="6" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -202,23 +191,23 @@
         <option value="$PROJECT_DIR$/resources/views/home/clipi.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/welcome.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Auth/PasswordController.php" />
-        <option value="$PROJECT_DIR$/resources/assets/scripts/api2.js" />
-        <option value="$PROJECT_DIR$/resources/views/home/edituser.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/popups/address.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/popups/login.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/email/forgotpassword.blade.php" />
         <option value="$PROJECT_DIR$/bootstrap/autoload.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Controller.php" />
         <option value="$PROJECT_DIR$/config/mail.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php" />
         <option value="$PROJECT_DIR$/app/Http/routes.php" />
-        <option value="$PROJECT_DIR$/resources/views/layouts/app.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/home/list.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/api.php" />
         <option value="$PROJECT_DIR$/resources/views/popups/receipt.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/email/receipt.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" />
+        <option value="$PROJECT_DIR$/resources/views/home/edituser.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/api.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php" />
+        <option value="$PROJECT_DIR$/resources/views/popups/login.blade.php" />
+        <option value="$PROJECT_DIR$/resources/assets/scripts/api2.js" />
         <option value="$PROJECT_DIR$/resources/views/index.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/popups/address.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/layouts/app.blade.php" />
       </list>
     </option>
   </component>
@@ -892,9 +881,10 @@
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19166666" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3309788" sideWeight="0.5703125" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32996973" sideWeight="0.57708335" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32996973" sideWeight="0.42291668" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -905,7 +895,6 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3309788" sideWeight="0.4296875" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
     </layout>
@@ -928,22 +917,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/Http/api.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="464" column="23" selection-start-line="464" selection-start-column="13" selection-end-line="464" selection-end-column="23" />
-          <folding>
-            <marker date="1473967164460" expanded="true" signature="1796:1920" placeholder="INSERT INTO ..." />
-            <marker date="1473967164460" expanded="true" signature="3726:3740" placeholder="SELECT * FRO..." />
-            <marker date="1473967164460" expanded="true" signature="4670:4695" placeholder="DELETE FROM ..." />
-            <marker date="1473967164460" expanded="true" signature="6346:6418" placeholder="SELECT TABLE..TABLES..." />
-            <marker date="1473967164460" expanded="true" signature="14473:14528" placeholder="SELECT value..settings..." />
-            <marker date="1473967164460" expanded="true" signature="14919:14940" placeholder="DROP TABLE I..." />
-            <marker date="1473967164460" expanded="true" signature="16301:16488" placeholder="SELECT * FRO..keywords..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/database/migrations/2016_02_04_041533_create_tasks_table.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1107,14 +1080,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/home/getjs.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="42" selection-start-line="24" selection-start-column="42" selection-end-line="24" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/scripts/api-nui-min.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1171,41 +1136,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/scripts/api.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="11.769231">
-          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/home/clipi.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-13.769231">
           <caret line="967" column="17" selection-start-line="962" selection-start-column="16" selection-end-line="967" selection-end-column="17" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/popups/address.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="96" column="5" selection-start-line="96" selection-start-column="5" selection-end-line="96" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/home/edituser.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="85" column="100" selection-start-line="85" selection-start-column="100" selection-end-line="85" selection-end-column="100" />
-          <folding>
-            <marker date="1473954993137" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..users..." />
-            <marker date="1473954993137" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..users..." />
-            <marker date="1473954993137" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..users..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1241,14 +1176,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/popups/login.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.346154">
-          <caret line="50" column="48" selection-start-line="50" selection-start-column="48" selection-end-line="50" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-11.423077">
@@ -1257,92 +1184,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/scripts/api2.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="63" column="21" selection-start-line="63" selection-start-column="9" selection-end-line="63" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/api.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.9615384">
-          <caret line="3" column="23" selection-start-line="3" selection-start-column="12" selection-end-line="3" selection-end-column="23" />
-          <folding>
-            <marker date="1473967164460" expanded="true" signature="1796:1920" placeholder="INSERT INTO ..." />
-            <marker date="1473967164460" expanded="true" signature="3726:3740" placeholder="SELECT * FRO..." />
-            <marker date="1473967164460" expanded="true" signature="4670:4695" placeholder="DELETE FROM ..." />
-            <marker date="1473967164460" expanded="true" signature="6346:6418" placeholder="SELECT TABLE..TABLES..." />
-            <marker date="1473967164460" expanded="true" signature="14473:14528" placeholder="SELECT value..settings..." />
-            <marker date="1473967164460" expanded="true" signature="14919:14940" placeholder="DROP TABLE I..." />
-            <marker date="1473967164460" expanded="true" signature="16301:16488" placeholder="SELECT * FRO..keywords..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/layouts/app.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.2692308">
-          <caret line="5" column="5" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
-          <folding>
-            <marker date="1473964765935" expanded="true" signature="92:123" placeholder="SELECT * FRO..users..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/home/list.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.076923">
-          <caret line="359" column="56" selection-start-line="359" selection-start-column="56" selection-end-line="359" selection-end-column="56" />
-          <folding>
-            <marker date="1473965499181" expanded="true" signature="1573:1603" placeholder="SELECT COUNT..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/popups/receipt.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.423077">
-          <caret line="74" column="52" selection-start-line="74" selection-start-column="52" selection-end-line="74" selection-end-column="52" />
-          <folding>
-            <marker date="1473968592960" expanded="true" signature="1430:1443" placeholder="SELECT * FRO..." />
-            <marker date="1473968592960" expanded="true" signature="1430:1444" placeholder="SELECT * FRO..." />
-            <marker date="1473968592960" expanded="true" signature="1847:1878" placeholder="SELECT * FRO..menus..." />
-            <marker date="1473968592960" expanded="true" signature="1847:1895" placeholder="SELECT * FRO..menu..." />
-            <marker date="1473968592960" expanded="true" signature="1847:1896" placeholder="SELECT * FRO..menus..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/email/receipt.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-1.3076923">
           <caret line="2" column="63" selection-start-line="2" selection-start-column="55" selection-end-line="2" selection-end-column="63" />
           <folding>
-            <marker date="1473969300691" expanded="true" signature="54:85" placeholder="SELECT * FRO..orders..." />
-            <marker date="1473969300691" expanded="true" signature="54:86" placeholder="SELECT * FRO..orders..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.692307">
-          <caret line="95" column="47" selection-start-line="95" selection-start-column="35" selection-end-line="95" selection-end-column="47" />
-          <folding>
-            <element signature="e#52#65#0#PHP" expanded="true" />
-            <marker date="1473962585563" expanded="true" signature="2078:2143" placeholder="SELECT * FRO..users..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/HomeController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-18.923077">
-          <caret line="59" column="57" selection-start-line="59" selection-start-column="57" selection-end-line="59" selection-end-column="57" />
-          <folding>
-            <marker date="1473969300703" expanded="true" signature="1391:1422" placeholder="SELECT * FRO..users..." />
+            <marker date="1473969300691" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..orders..." />
+            <marker date="1473969300691" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..orders..." />
           </folding>
         </state>
       </provider>
@@ -1355,15 +1203,151 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/scripts/api.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="107" column="0" selection-start-line="107" selection-start-column="0" selection-end-line="111" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/home/getjs.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.018104367">
+          <caret line="24" column="42" selection-start-line="24" selection-start-column="42" selection-end-line="24" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/popups/receipt.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-48.384617">
+          <caret line="74" column="52" selection-start-line="74" selection-start-column="52" selection-end-line="74" selection-end-column="52" />
+          <folding>
+            <marker date="1473968592960" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..." />
+            <marker date="1473968592960" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..menu..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/scripts/jquery.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/home/edituser.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.653846">
+          <caret line="85" column="0" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
+          <folding>
+            <marker date="1474379306604" expanded="true" signature="197:292" placeholder="SELECT * FRO..users..." />
+            <marker date="1474379306604" expanded="true" signature="443:472" placeholder="SELECT * FRO..users..." />
+            <marker date="1474379306604" expanded="true" signature="996:1082" placeholder="SELECT * FRO..users..." />
+            <marker date="1474379306604" expanded="true" signature="2344:2373" placeholder="SELECT * FRO..users..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/HomeController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-28.26923">
+          <caret line="59" column="57" selection-start-line="59" selection-start-column="57" selection-end-line="59" selection-end-column="57" />
+          <folding>
+            <marker date="1473969300703" expanded="true" signature="1391:1422" placeholder="SELECT * FRO..users..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/home/list.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.44444445">
+          <caret line="329" column="90" selection-start-line="329" selection-start-column="28" selection-end-line="329" selection-end-column="90" />
+          <folding>
+            <marker date="1473965499181" expanded="true" signature="-1:-1" placeholder="SELECT COUNT..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/scripts/api2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="15.692307">
+          <caret line="82" column="6" selection-start-line="82" selection-start-column="6" selection-end-line="82" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/api.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.8461537">
+          <caret line="24" column="45" selection-start-line="24" selection-start-column="45" selection-end-line="24" selection-end-column="45" />
+          <folding>
+            <marker date="1474380363571" expanded="true" signature="2272:2396" placeholder="INSERT INTO ..." />
+            <marker date="1474380363571" expanded="true" signature="4202:4216" placeholder="SELECT * FRO..." />
+            <marker date="1474380363571" expanded="true" signature="5146:5171" placeholder="DELETE FROM ..." />
+            <marker date="1474380363571" expanded="true" signature="6822:6894" placeholder="SELECT TABLE..TABLES..." />
+            <marker date="1474380363571" expanded="true" signature="14949:15004" placeholder="SELECT value..settings..." />
+            <marker date="1474380363571" expanded="true" signature="15395:15416" placeholder="DROP TABLE I..." />
+            <marker date="1474380363571" expanded="true" signature="16777:16964" placeholder="SELECT * FRO..keywords..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.8461537">
+          <caret line="75" column="32" selection-start-line="75" selection-start-column="32" selection-end-line="75" selection-end-column="127" />
+          <folding>
+            <element signature="e#52#65#0#PHP" expanded="true" />
+            <marker date="1474380746477" expanded="true" signature="2078:2143" placeholder="SELECT * FRO..users..." />
+            <marker date="1474380746477" expanded="true" signature="2737:2781" placeholder="SELECT * FRO..useraddresses..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/popups/login.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.1923075">
+          <caret line="84" column="34" selection-start-line="84" selection-start-column="28" selection-end-line="84" selection-end-column="34" />
+          <folding>
+            <element signature="n#STYLE#0;n#DIV#1;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#STYLE#0;n#DIV#0;n#FORM#0;n#div#0;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/index.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.53504276">
-          <caret line="243" column="147" selection-start-line="243" selection-start-column="147" selection-end-line="243" selection-end-column="147" />
+        <state vertical-scroll-proportion="-10.288462">
+          <caret line="419" column="38" selection-start-line="419" selection-start-column="35" selection-end-line="419" selection-end-column="38" />
           <folding>
-            <marker date="1473969615780" expanded="true" signature="3079:3127" placeholder="SELECT * FRO..menu..." />
-            <marker date="1473969615780" expanded="true" signature="3200:3233" placeholder="SELECT * FRO..additional_toppings..." />
-            <marker date="1473969615780" expanded="true" signature="4328:4384" placeholder="SELECT * FRO..." />
-            <marker date="1473969615780" expanded="true" signature="7980:8047" placeholder="SELECT * FRO..menu..." />
+            <marker date="1474382078264" expanded="true" signature="3079:3127" placeholder="SELECT * FRO..menu..." />
+            <marker date="1474382078264" expanded="true" signature="3200:3233" placeholder="SELECT * FRO..additional_toppings..." />
+            <marker date="1474382078264" expanded="true" signature="4328:4384" placeholder="SELECT * FRO..." />
+            <marker date="1474382078264" expanded="true" signature="7980:8047" placeholder="SELECT * FRO..menu..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/popups/address.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-17.653847">
+          <caret line="83" column="16" selection-start-line="83" selection-start-column="16" selection-end-line="83" selection-end-column="82" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/app.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.70989764">
+          <caret line="172" column="52" selection-start-line="172" selection-start-column="52" selection-end-line="172" selection-end-column="52" />
+          <folding>
+            <marker date="1474383054946" expanded="true" signature="92:123" placeholder="SELECT * FRO..users..." />
+            <marker date="1474383054946" expanded="true" signature="210:254" placeholder="SELECT * FRO..useraddresses..." />
           </folding>
         </state>
       </provider>

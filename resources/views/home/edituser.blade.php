@@ -83,29 +83,16 @@
             </div>
         </div>
     </div>
-    <SCRIPT SRC="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></SCRIPT>
+
     <SCRIPT>
-        var currentURL = "<?= Request::url(); ?>";
         var minlength = 5;
-        var token = "<?= csrf_token(); ?>";
         redirectonlogout = true;
 
-        $.validator.addMethod('phonenumber', function (Data, element) {
-            Data = Data.replace(/\D/g, "");
-            if(Data.substr(0,1)=="0"){return false;}
-            return Data.length == 10;
-        }, "Please enter a valid phone number");
+        addvalidator('phonenumber');
 
-        // Wait for the DOM to be ready
         $(function() {
-            // Initialize form validation on the registration form.
-            // It has the name attribute "registration"
             $("form[name='user']").validate({
-                // Specify validation rules
                 rules: {
-                    // The key name on the left side is the name attribute
-                    // of an input field. Validation rules are defined
-                    // on the right side
                     name: "required",
                     phone: "phonenumber",
                     email: {
@@ -134,7 +121,6 @@
                         minlength: minlength
                     }
                 },
-                // Specify validation error messages
                 messages: {
                     name: "Please enter your name",
                     oldpassword: {

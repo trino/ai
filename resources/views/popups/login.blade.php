@@ -15,17 +15,51 @@
                 <DIV ID="loginmessage"></DIV>
 
                 <DIV STYLE="margin-top: 15px;">
-                    <DIV CLASS="col-md-6">
+                    <DIV CLASS="col-md-4">
                         <button class="btn btn-block btn-warning" onclick="handlelogin('login');">
-                            LOGIN
+                            Login
                         </button>
                     </DIV>
-                    <DIV CLASS="col-md-6">
+                    <DIV CLASS="col-md-4">
                         <button class="btn btn-block btn-danger" onclick="handlelogin('forgotpassword');">
-                            FORGOT PASSWORD
+                            Forgot Password
+                        </button>
+                    </DIV>
+                    <DIV CLASS="col-md-4">
+                        <button class="btn btn-block btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#registermodal">
+                            Register
                         </button>
                     </DIV>
                 </DIV>
+                <DIV CLASS="clearfix"></DIV>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="registermodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="form-group">
+                    <h4 class="modal-title" id="myModalLabel">Register</h4>
+                </div>
+                <FORM ID="registration">
+                    <INPUT TYPE="TEXT" ID="name" PlACEHOLDER="Name" CLASS="form-control">
+                    <INPUT TYPE="TEXT" ID="email" PlACEHOLDER="Email Address" CLASS="form-control">
+
+
+                    <DIV STYLE="margin-top: 15px;">
+                        <DIV CLASS="col-md-12">
+                            <button class="btn btn-block btn-primary">
+                                Register
+                            </button>
+                        </DIV>
+                    </DIV>
+                </FORM>
                 <DIV CLASS="clearfix"></DIV>
             </div>
         </div>
@@ -60,6 +94,7 @@
                             $(".loggedout").show();
                             $(".clear_loggedout").html("");
                             $(".profiletype").hide();
+
                             if(redirectonlogout){
                                 window.location = "<?= webroot("public/index"); ?>";
                             }

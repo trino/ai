@@ -14,6 +14,7 @@
     <?php
         if(!isset($user_id)){$user_id = read("id");}
         $fields = array(
+            "Phone Number" => array("type" => "text", "name" => "phone"),
             "Number" => array("type" => "text", "name" => "number", "class" => "street_number", "readonly" => true),
             "Street" => array("type" => "text", "name" => "street", "class" => "route", "readonly" => true),
             "Unit/Apt" => array("type" => "text", "name" => "unit"),
@@ -44,14 +45,12 @@
 <SCRIPT>
     function initAutocomplete(){
         formatted_address = new google.maps.places.Autocomplete(
-                /** @type {!HTMLInputElement} */(document.getElementById('formatted_address')),
-                {
+                /** @type {!HTMLInputElement} */(document.getElementById('formatted_address')), {
                     types: ['geocode'],
                     componentRestrictions: {country: "ca"}
                 });
         formatted_address.addListener('place_changed', fillInAddress);
     }
-
 
     function fillInAddress() {
         // Get the place details from the formatted_address object.
@@ -72,7 +71,7 @@
             postal_code: 'short_name'
         };
         $('#city').val('');
-        $('#formatted_address').val('');
+        //$('#formatted_address').val('');
         $('#postal_code').val('');
         $("#province").val('');
         var streetformat = "[street_number] [route], [locality]";

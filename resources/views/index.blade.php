@@ -260,7 +260,7 @@
                             <input type="text" class="form-control" placeholder="payment"/>
                             <input type="text" class="form-control" placeholder="notes"/>
 
-
+                            <DIV ID="addressdropdown" class2="clear_loggedout"></DIV>
                             <?= view("popups.address", array("dontincludeAPI" => true, "style" => 1)); //must update the user_id once login is possible ?>
 
                             <button class="btn btn-warning btn-block" onclick="placeorder();">PLACE ORDER</button>

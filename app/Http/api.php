@@ -10,6 +10,21 @@
         if ($_SERVER["SERVER_NAME"] != "localhost") {$webroot = str_replace("application/", "", $webroot);}
         return 'http://' . $_SERVER['HTTP_HOST'] . $webroot . $file;
     }
+
+    function cacheexternal($URL){
+        $Filename = getfilename($URL, true);
+        switch(getextension($Filename)){
+            case "js": $Type = "scripts"; break;
+            default: return $URL;
+        }
+        $Path = "assets/" . $Type . "/" . $Filename;
+        $LocalPath = resource_path($Path);
+        if(file_size($LocalPath)){
+            file_put_contents($LocalPath, file_get_contents($URL));
+        }
+        return webroot("resources/" . $Path);
+    }
+
     $dirroot = getcwd();
 
     error_reporting(E_ERROR | E_PARSE);//suppress warnings
@@ -487,5 +502,15 @@
         } else {
             return pathinfo($path, PATHINFO_FILENAME); //filename only, no extension
         }
+    }
+    //get the lower-cased extension of a file path
+    //HOME/WINDOWS/TEST.JPG returns jpg
+    function getextension($path) {
+        return strtolower(pathinfo($path, PATHINFO_EXTENSION)); // extension only, no period
+    }
+
+    function file_size($path){
+        if(file_exists($path)) {return filesize($path);}
+        return 0;
     }
 ?>

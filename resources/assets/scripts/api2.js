@@ -24,6 +24,12 @@ String.prototype.right = function(n) {
     return this.substring(this.length-n);
 };
 
+//returns true if $variable appears to be a valid function
+function isFunction(variable) {
+    var getType = {};
+    return variable && getType.toString.call(variable) === '[object Function]';
+}
+
 //replaces all instances of $search within a string with $replacement
 String.prototype.replaceAll = function (search, replacement) {
     var target = this;
@@ -74,7 +80,7 @@ function removeCookie(cname) {
 
 //creates a cookie value that expires in 1 year
 function createCookieValue(cname, cvalue) {
-    log("Creating cookie value: '" + cname + "' with: " + cvalue);
+    //log("Creating cookie value: '" + cname + "' with: " + cvalue);
     setCookie(cname, cvalue, 365);
 }
 
@@ -115,5 +121,17 @@ function visible(selector, status){
         $(selector).show();
     } else {
         $(selector).hide();
+    }
+}
+
+function addvalidator(rule){
+    switch(rule){
+        case "phonenumber":
+            $.validator.addMethod('phonenumber', function (Data, element) {
+                Data = Data.replace(/\D/g, "");
+                if(Data.substr(0,1)=="0"){return false;}
+                return Data.length == 10;
+            }, "Please enter a valid phone number");
+            break;
     }
 }
