@@ -81,6 +81,7 @@
 
         .hyperlink{
             cursor: pointer;
+            color: blue !important;
         }
 
         .error{

@@ -65,6 +65,7 @@
 
 <SCRIPT>
     function handlelogin(action){
+        if(isUndefined(action)){action="verify";}
         $.post(webroot + "auth/login", {
             action: action,
             _token: token,
@@ -73,8 +74,9 @@
         }, function (result) {
             try {
                 var data = JSON.parse(result);
-                if(data["Status"] == "false" || action == "forgotpassword") {
-                    alert(data["Reason"]);
+                if(data["Status"] == "false" || !data["Status"]) {
+                    data["Reason"] = data["Reason"].replace('[verify]', '<A onclick="handlelogin();" CLASS="hyperlink" TITLE="Click here to resend the email">verify</A>');
+                    alert(data["Reason"], "Login");
                 } else {
                     switch (action) {
                         case "login":
@@ -83,7 +85,7 @@
                             $("#loginmodal").modal("hide");
                             break;
                         case "forgotpassword": case "verify":
-                            alert(data["Reason"]);
+                            alert(data["Reason"], "Login");
                             break;
                         case "logout":
                             removeCookie();
@@ -99,7 +101,7 @@
                     }
                 }
             } catch (e){
-                alert(result);
+                alert(result, "Login");
             }
         });
     }
@@ -146,9 +148,9 @@
                     if(result) {
                         try {
                             var data = JSON.parse(result);
-                            alert(data["Reason"]);
+                            alert(data["Reason"], "Registration");
                         } catch (e){
-                            alert(result);
+                            alert(result, "Registration");
                         }
                     }
                 });

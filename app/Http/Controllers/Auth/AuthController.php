@@ -81,7 +81,7 @@ class AuthController extends Controller {
                             $ret["Reason"] = "Too many login attempts. Please wait 5 minutes";
                         } else if($user["authcode"]) {
                             $ret["Status"] = false;
-                            $ret["Reason"] = 'Email address not verified. Please click the <A ONCLICK="handlelogin(' . "'verify'" . ');" TITLE="Click to resend the verification email">verify</A> button in your email';
+                            $ret["Reason"] = 'Email address not verified. Please click the [verify] button in your email';
                         } else if (\Hash::check($_POST["password"], $user["password"])) {
                             unset($user["password"]);//do not send this to the user!
                             $user["Addresses"] = Query("SELECT * FROM useraddresses WHERE user_id = " . $user["id"], true);
