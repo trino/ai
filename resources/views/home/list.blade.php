@@ -88,6 +88,7 @@
                                             }
                                         ?>
                                         <HR>
+                                        <A HREF="<?= webroot("public/editmenu"); ?>">Edit Menu</A><BR>
                                         <A HREF="<?= webroot("public/list/debug"); ?>">Debug log</A>
                                     @elseif($table == "debug")
                                         <PRE><?php

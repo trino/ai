@@ -40,6 +40,10 @@ class HomeController extends Controller {
         return view('home.edittable');
     }
 
+    public function editmenu(Request $request){
+        return view('home.editmenu');
+    }
+
     public function placeorder(){
         $info = $_POST["info"];
         $info["placed_at"] = now();

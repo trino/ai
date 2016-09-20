@@ -82,6 +82,11 @@
         .hyperlink{
             cursor: pointer;
             color: blue !important;
+            text-decoration:underline;
+        }
+        .hyperlink:hover {
+            text-decoration:none;
+            text-shadow: 1px 1px 1px #555;
         }
 
         .error{

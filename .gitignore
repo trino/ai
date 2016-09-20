@@ -14,3 +14,4 @@ Homestead.json
 *.iml
 *.xml
 public/royslog.txt
+config/mail.php
