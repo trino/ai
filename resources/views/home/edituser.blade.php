@@ -3,7 +3,11 @@
     if(isset($_POST["action"])){
         switch($_POST["action"]){
             case "testemail":
-                $found = first("SELECT * FROM users WHERE id != " . $_POST["user_id"] . " AND email = '" . $_POST["email"] . "'");
+                if(!isset($_POST["user_id"])){$_POST["user_id"]=0;}
+                $found = false;
+                if(isset($_POST["email"]) && $_POST["email"]){
+                    $found = first("SELECT * FROM users WHERE id != " . $_POST["user_id"] . " AND email = '" . $_POST["email"] . "'");
+                }
                 if($found){echo "false";} else { echo "true"; }
                 break;
             case "saveitem":
@@ -24,6 +28,7 @@
 
                 $user["name"] = $_POST["name"];
                 $user["phone"] = $_POST["phone"];
+                $user["updated_at"] = now();
 
                 insertdb("users", $user);//save
                 echo "Data saved";
@@ -52,25 +57,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <FORM NAME="user" id="userform">
-                                <?php
-                                    $user = first("SELECT * FROM users WHERE id=" . $user_id);
-                                    function printarow($Name, $field){
-                                        if($field["type"] != "hidden"){echo '<DIV CLASS="row"><DIV CLASS="col-md-2">' . $Name . ':</DIV><DIV CLASS="col-md-10">';}
-                                        echo '<INPUT TYPE="' . $field["type"] . '" NAME="' . $field["name"] . '" ID="user_' . $field["name"] . '"';
-                                        if(isset($field["class"])){echo ' CLASS="' . $field["class"] . '" ';}
-                                        if(isset($field["value"])){echo ' value="' . $field["value"] . '" ';}
-                                        if(isset($field["readonly"])){echo ' readonly';}
-                                        echo '>';
-                                        if($field["type"] != "hidden"){echo '</DIV></DIV>';}
-                                    }
-
-                                    echo '<INPUT TYPE="HIDDEN" NAME="id" VALUE="' . $user_id  . '">';
-                                    printarow("Your Name", array("name" => "name", "value" => $user["name"], "type" => "text", "class" => "form-control"));
-                                    printarow("Cell Phone", array("name" => "phone", "value" => $user["phone"], "type" => "tel", "class" => "form-control"));
-                                    printarow("Email Address", array("name" => "email", "value" => $user["email"], "type" => "email", "class" => "form-control"));
-                                    printarow("Old Password", array("name" => "oldpassword", "type" => "password", "class" => "form-control"));
-                                    printarow("New Password", array("name" => "newpassword", "type" => "password", "class" => "form-control"));
-                                ?>
+                                <?= view("popups.edituser", array("user_id" => $user_id)); ?>
                                 <DIV CLASS="row">
                                     <DIV CLASS="col-md-12" align="center">
                                         <BUTTON CLASS="btn btn-primary">Save</BUTTON>
@@ -87,8 +74,6 @@
     <SCRIPT>
         var minlength = 5;
         redirectonlogout = true;
-
-        addvalidator('phonenumber');
 
         $(function() {
             $("form[name='user']").validate({

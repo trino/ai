@@ -124,14 +124,9 @@ function visible(selector, status){
     }
 }
 
-function addvalidator(rule){
-    switch(rule){
-        case "phonenumber":
-            $.validator.addMethod('phonenumber', function (Data, element) {
-                Data = Data.replace(/\D/g, "");
-                if(Data.substr(0,1)=="0"){return false;}
-                return Data.length == 10;
-            }, "Please enter a valid phone number");
-            break;
-    }
-}
+
+$.validator.addMethod('phonenumber', function (Data, element) {
+    Data = Data.replace(/\D/g, "");
+    if(Data.substr(0,1)=="0"){return false;}
+    return Data.length == 10;
+}, "Please enter a valid phone number");

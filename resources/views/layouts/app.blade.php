@@ -82,6 +82,10 @@
         .hyperlink{
             cursor: pointer;
         }
+
+        .error{
+            color:red;
+        }
     </STYLE>
     <DIV CLASS="header-cont">
         <DIV CLASS="header card-block bg-danger">
@@ -175,7 +179,7 @@
         }
 
         $( document ).ajaxComplete(function( event,request, settings ) {
-            if(request.status != 200){
+            if(request.status != 200 && request.status > 0){//not OK, or aborted
                 alert(request.statusText + "<P>URL: " + settings.url, "AJAX error code: " + request.status);
             }
         });

@@ -47,11 +47,8 @@
                 <div class="form-group">
                     <h4 class="modal-title" id="myModalLabel">Register</h4>
                 </div>
-                <FORM ID="registration">
-                    <INPUT TYPE="TEXT" ID="name" PlACEHOLDER="Name" CLASS="form-control">
-                    <INPUT TYPE="TEXT" ID="email" PlACEHOLDER="Email Address" CLASS="form-control">
-
-
+                <FORM Name="regform" id="regform">
+                    <?= view("popups.edituser"); ?>
                     <DIV STYLE="margin-top: 15px;">
                         <DIV CLASS="col-md-12">
                             <button class="btn btn-block btn-primary">
@@ -85,7 +82,7 @@
                             login(data["User"]);
                             $("#loginmodal").modal("hide");
                             break;
-                        case "forgotpassword":
+                        case "forgotpassword": case "verify":
                             alert(data["Reason"]);
                             break;
                         case "logout":
@@ -106,4 +103,58 @@
             }
         });
     }
+
+    var minlength = 5;
+
+    $(function() {
+        $("form[name='regform']").validate({
+            rules: {
+                name: "required",
+                phone: "phonenumber",
+                email: {
+                    required: true,
+                    email: true,
+                    remote: {
+                        url: '<?= webroot('public/user/info'); ?>',
+                        type: "post",
+                        data: {
+                            action: "testemail",
+                            email: function() {
+                                return $('#reg_email').val();
+                            },
+                            user_id: "0"
+                        }
+                    }
+                },
+                password: {
+                    minlength: minlength
+                }
+            },
+            messages: {
+                name: "Please enter your name",
+                password: {
+                    required: "Please provide a password",
+                    minlength: "Your new password must be at least " + minlength + " characters long"
+                },
+                email: "Please enter a valid and unique email address"
+            },
+            submitHandler: function(form) {
+                var formdata = getform("#regform");
+                formdata["action"] = "registration";
+                formdata["_token"] = token;
+                $.post(webroot + "auth/login", formdata, function (result) {
+                    if(result) {
+                        try {
+                            var data = JSON.parse(result);
+                            alert(data["Reason"]);
+                        } catch (e){
+                            alert(result);
+                        }
+                    }
+                });
+                return false;
+            }
+        });
+    });
+
 </SCRIPT>

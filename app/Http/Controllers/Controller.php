@@ -23,6 +23,7 @@ class Controller extends BaseController {
                 $this->sendEMail($template_name, $array);
             }
         } else if($array['email']) {
+            if(!isset($array['mail_subject'])){$array['mail_subject'] = "[NO mail_subject SET!]";}
             try {
                 \Mail::send($template_name, $array, function ($messages) use ($array, $template_name) {
                     $messages->to($array['email'])->subject($array['mail_subject']);
