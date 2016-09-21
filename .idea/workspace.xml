@@ -25,15 +25,17 @@
       <file leaf-file-name="editmenu.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/home/editmenu.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.59385663">
-              <caret line="376" column="18" selection-start-line="376" selection-start-column="18" selection-end-line="376" selection-end-column="18" />
+            <state vertical-scroll-proportion="0.21672355">
+              <caret line="168" column="17" selection-start-line="168" selection-start-column="17" selection-end-line="168" selection-end-column="17" />
               <folding>
-                <element signature="e#2996#3017#0#HTML" expanded="true" />
-                <element signature="e#3173#3194#0#HTML" expanded="true" />
-                <marker date="1474479908270" expanded="true" signature="2475:2523" placeholder="SELECT categ..." />
-                <marker date="1474479908270" expanded="true" signature="4143:7792" placeholder="..." />
-                <marker date="1474479908270" expanded="true" signature="8018:8063" placeholder="SELECT type ..." />
-                <marker date="1474479908270" expanded="true" signature="8299:8313" placeholder="SELECT * FRO..." />
+                <element signature="e#3018#3039#0#HTML" expanded="true" />
+                <element signature="e#3195#3216#0#HTML" expanded="true" />
+                <marker date="1474480154573" expanded="true" signature="2475:2523" placeholder="SELECT categ..." />
+                <marker date="1474480154573" expanded="true" signature="2475:2545" placeholder="SELECT categ..." />
+                <marker date="1474480154573" expanded="true" signature="4165:7814" placeholder="..." />
+                <marker date="1474480154573" expanded="true" signature="8040:8085" placeholder="SELECT type ..." />
+                <marker date="1474480154573" expanded="true" signature="8040:8103" placeholder="SELECT type ..." />
+                <marker date="1474480154573" expanded="true" signature="8339:8353" placeholder="SELECT * FRO..." />
               </folding>
             </state>
           </provider>
@@ -1270,15 +1272,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/home/editmenu.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.59385663">
-          <caret line="376" column="18" selection-start-line="376" selection-start-column="18" selection-end-line="376" selection-end-column="18" />
+        <state vertical-scroll-proportion="0.21672355">
+          <caret line="168" column="17" selection-start-line="168" selection-start-column="17" selection-end-line="168" selection-end-column="17" />
           <folding>
-            <element signature="e#2996#3017#0#HTML" expanded="true" />
-            <element signature="e#3173#3194#0#HTML" expanded="true" />
-            <marker date="1474479908270" expanded="true" signature="2475:2523" placeholder="SELECT categ..." />
-            <marker date="1474479908270" expanded="true" signature="4143:7792" placeholder="..." />
-            <marker date="1474479908270" expanded="true" signature="8018:8063" placeholder="SELECT type ..." />
-            <marker date="1474479908270" expanded="true" signature="8299:8313" placeholder="SELECT * FRO..." />
+            <element signature="e#3018#3039#0#HTML" expanded="true" />
+            <element signature="e#3195#3216#0#HTML" expanded="true" />
+            <marker date="1474480154573" expanded="true" signature="2475:2523" placeholder="SELECT categ..." />
+            <marker date="1474480154573" expanded="true" signature="2475:2545" placeholder="SELECT categ..." />
+            <marker date="1474480154573" expanded="true" signature="4165:7814" placeholder="..." />
+            <marker date="1474480154573" expanded="true" signature="8040:8085" placeholder="SELECT type ..." />
+            <marker date="1474480154573" expanded="true" signature="8040:8103" placeholder="SELECT type ..." />
+            <marker date="1474480154573" expanded="true" signature="8339:8353" placeholder="SELECT * FRO..." />
           </folding>
         </state>
       </provider>

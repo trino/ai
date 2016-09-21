@@ -57,7 +57,7 @@
                                         Menu:
                                         <LI class="category hyperlink" onclick="newcategory();">[New Category]</LI>
                                         <?php
-                                            $categories = collapsearray(Query('SELECT category FROM `menu` GROUP BY category_id', true), "category");
+                                            $categories = collapsearray(Query('SELECT category FROM `menu` GROUP BY category_id ORDER BY category ASC', true), "category");
                                             foreach($categories as $category){
                                                 echo '<LI class="category hyperlink" onclick="cat_click(this);">' . $category . '</LI>';
                                             }
@@ -170,7 +170,7 @@
                 $CRLF = ";\r\n\t\t";
                 echo 'categories["menu"] = ' . json_encode($categories) . $CRLF;
                 foreach($addon_tables as $table){
-                    echo 'categories["' . $table . '"] = ' . json_encode(collapsearray(Query('SELECT type FROM ' . $table . ' GROUP BY type', true), "type")) . $CRLF;
+                    echo 'categories["' . $table . '"] = ' . json_encode(collapsearray(Query('SELECT type FROM ' . $table . ' GROUP BY type ORDER BY type ASC', true), "type")) . $CRLF;
                     echo 'makecategories("' . $table . '")' . $CRLF;
                 }
                 foreach($tables as $table){
@@ -261,10 +261,11 @@
             }
 
             function getmenuitems(category){
+                category=category.trim();
                 var HTML = '<button class="btn btn-block btn-warning" onclick="newitem(' + "'menu', '" + category + "'" + ');">New</button><BR>';
                 for(var index = 0; index< alldata["menu"].length; index++){
                     var data = alldata["menu"][index];
-                    if(data["category"].isEqual(category)){
+                    if(data["category"].trim().isEqual(category)){
                         HTML += makeHTML(data, "menu");
                     }
                 }
@@ -374,7 +375,6 @@
             function makeinput(table, primarykeyID, text, column, type, value, title, newddata){
                 if(isUndefined(newddata)){newddata = value;}
                 var HTML = ' onchange="autoupdate(this);" class="autoupdate form-control';
-                //if(!isNumeric(primarykeyID)){HTML += " isnewitem";}
                 HTML += '" table="' + table + '" keyid="' + primarykeyID + '" column="' + column + '" NAME="' + table + '[' +  primarykeyID + "][" + column + ']" TITLE="' + title + '"';
                 switch(type){
                     case "price":
