@@ -85,11 +85,12 @@
         <SCRIPT>
             var changes = {};
             var deleted = new Array;
-            var haschanges = false;
+            var haschanges = 0;
             var newsitems = 0;
 
             function deleteitem(table, keyid){
                 var name = $("input[table=" + table + "][keyid=" + keyid + "]").first().val();
+                if(!name){name = "UNNAMED";}
                 var type = "";
                 switch(table){
                     case "additional_toppings":     type = "size"; break;
@@ -111,13 +112,33 @@
                 }
             }
 
+            function undo(table, keyid){
+                index = findwhere(alldata[table], "id", keyid);
+                if (index > -1) {removeindex(alldata[table], index);}//remove from all data
+                $("input[table=" + table + "][keyid=" + keyid + "]").each(function(){
+                    var type = $(this).attr("type").toLocaleLowerCase();
+                    var original = $(this).attr("original");
+                    switch(type){
+                        case "checkbox":
+                            $(this).prop("checked", original.length>0);
+                            break;
+                        default:
+                            if(!original.isEqual($(this).val())){
+                                $(this).val(original);
+                                //haschanges--;
+                            }
+                    }
+                });
+                $("." + table + "_" + keyid + "undo").hide();
+            }
+
             function savechanges(){
                 $.post(currentURL, {
                     _token: token,
                     changes: changes,
                     deleted: deleted
                 }, function (result) {
-                    haschanges = false;
+                    haschanges = 0;
                     if(result){
                         alert(result);
                     } else {
@@ -134,9 +155,10 @@
                         changes[tables[tableindex]] = new Array;
                     }
                     deleted = new Array;
-                    haschanges = false;
+                    haschanges = 0;
                     $(".changes").hide();
                     newsitems = 0;
+                    $(".isnewitem").remove();
                 }
             }
 
@@ -208,9 +230,8 @@
                     value = "you need to finish the code for this!";
                 }
                 console.log(type + ": " + name + " = " + value);
-
+                $("." + table + "_" + keyid + "undo").show();
                 haschanged();
-
                 var index = findwhere(changes[table], "id", keyid);
                 if(index == -1){
                     var data = {id: keyid};
@@ -219,13 +240,15 @@
                 } else {
                     changes[table][index][column] = value;
                 }
+                /*
+                index = findwhere(alldata[table], "id", keyid);
+                if(index > -1){alldata[table][index][column] = value;}
+                */
             }
 
             function haschanged(){
-                if(!haschanges) {
-                    haschanges = true;
-                    $(".changes").show();
-                }
+                if(haschanges==0) {$(".changes").show();}
+                haschanges++;
             }
 
             function findwhere(data, key, value){
@@ -296,6 +319,21 @@
             function makeHTML(data, table_name){
                 var HTML = '';
                 var HTMLclass = " " + table_name + "_" + data["id"];
+                var undostyle = ' STYLE="display:none"';
+                if(!isNumeric(data["id"])){HTMLclass += " isnewitem";}
+                if(changes.hasOwnProperty(table_name)) {
+                    var changeID = findwhere(changes[table_name], "id", data["id"]);
+                    if (changeID > -1) {
+                        var changedata = changes[table_name][changeID];
+                        var keys = Object.keys(changedata);
+                        for(var keyid=0; keyid<keys.length; keyid++){
+                            var key = keys[keyid];
+                            data[key + "_change"] = changedata[key];
+                            undostyle="";
+                        }
+                    }
+                }
+
                 switch(table_name){
                     case 'additional_toppings':
                         HTML = makeinput2(table_name, data, "Size", "size", "text", "This word must be inside the name of the item for it to be detected as this size");
@@ -319,25 +357,37 @@
                         HTML = table_name + " is unhandled";
                 }
 
-                return '<DIV CLASS="col-md-11' + HTMLclass +  '">' + HTML + '</DIV><DIV CLASS="col-md-1' + HTMLclass +  '"><BUTTON class="btn btn-danger" TITLE="Delete this item" onclick="deleteitem(' + "'" + table_name + "', " + data["id"] + ');"><i class="fa fa-times"></i></BUTTON></DIV><DIV CLASS="col-md-12' + HTMLclass +  '"><HR></DIV>';
+                HTML = '<DIV CLASS="col-md-11' + HTMLclass +  '">' + HTML + '</DIV><DIV CLASS="col-md-1' + HTMLclass +  '">';
+                HTML += '<BUTTON class="btn btn-danger" TITLE="Delete this item" onclick="deleteitem(' + "'" + table_name + "', '" + data["id"] + "'" + ');"><i class="fa fa-times"></i></BUTTON><BR>';
+                HTML += '<BUTTON class="btn btn-warning' + HTMLclass + 'undo" TITLE="Undo all changes to this item" onclick="undo(' + "'" + table_name + "', '" + data["id"] + "'" + ');"' + undostyle + '><i class="fa fa-undo"></i></BUTTON>';
+                return HTML + '</DIV><DIV CLASS="col-md-12' + HTMLclass +  '"><HR></DIV>';
             }
 
             function makeinput2(table, data, text, column, type, title){
                 if(isUndefined(title)){title = "";}
-                return makeinput(table, data["id"], text, column, type, data[column], title);
+                var newddata = data[column];
+                if(data.hasOwnProperty(column + "_change")){
+                    newddata = data[column + "_change"];
+                }
+                return makeinput(table, data["id"], text, column, type, data[column], title, newddata);
             }
-            function makeinput(table, primarykeyID, text, column, type, value, title){
-                var HTML = ' onchange="autoupdate(this);" class="autoupdate form-control" table="' + table + '" keyid="' + primarykeyID + '" column="' + column + '" NAME="' + table + '[' +  primarykeyID + "][" + column + ']" TITLE="' + title + '"';
+            function makeinput(table, primarykeyID, text, column, type, value, title, newddata){
+                if(isUndefined(newddata)){newddata = value;}
+                var HTML = ' onchange="autoupdate(this);" class="autoupdate form-control';
+                //if(!isNumeric(primarykeyID)){HTML += " isnewitem";}
+                HTML += '" table="' + table + '" keyid="' + primarykeyID + '" column="' + column + '" NAME="' + table + '[' +  primarykeyID + "][" + column + ']" TITLE="' + title + '"';
                 switch(type){
                     case "price":
-                        HTML = '<INPUT TYPE="NUMBER"' + HTML + 'VALUE="' + Number(value).toFixed(2) + '" min="0.01" step="0.05" max="2500.00">';
+                        value = Number(value).toFixed(2);
+                        HTML = '<INPUT TYPE="NUMBER"' + HTML + 'VALUE="' + newddata + '" ORIGINAL="' + value + '" min="0.01" step="0.05" max="2500.00">';
                         break;
                     case "category":
-                        HTML = '<INPUT TYPE="TEXT"' + HTML + 'VALUE="' + value + '" list="categories_' + table + '">';
+                        HTML = '<INPUT TYPE="TEXT"' + HTML + 'VALUE="' + newddata + '" ORIGINAL="' + value + '" list="categories_' + table + '">';
                         break;
                     case "checkbox":
                         HTML = '<INPUT TYPE="CHECKBOX"' + HTML;
-                        if(value.length > 0 && value != "0"){HTML += 'CHECKED';}
+                        if(newddata.length > 0 && newddata != "0"){HTML += ' CHECKED';}
+                        if(value.length > 0 && value != "0"){HTML += ' ORIGINAL="CHECKED"';} else {HTML += ' ORIGINAL=""';}
                         HTML += '>';
                         break;
                     default:
@@ -346,7 +396,7 @@
                                 HTML += ' MIN="0"';
                                 break;
                         }
-                        HTML = '<INPUT TYPE="' + type + '"' + HTML + 'VALUE="' + value + '">';
+                        HTML = '<INPUT TYPE="' + type + '"' + HTML + 'VALUE="' + newddata + '" ORIGINAL="' + value + '">';
                 }
                 return '<DIV CLASS="col-md-2">' + text + ':</DIV><DIV CLASS="col-md-10">' + HTML + '</DIV>';
             }
@@ -372,7 +422,7 @@
             })(jQuery);
 
             window.onbeforeunload = function (e) {
-                if (haschanges) {
+                if (haschanges>0) {
                     var message = "You have unsaved changes, are you sure you want to leave?", e = e || window.event;
                     if (e) {
                         e.returnValue = message;
