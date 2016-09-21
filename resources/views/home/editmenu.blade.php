@@ -33,6 +33,11 @@
         .currenttable{
             font-weight: bold;
         }
+
+        .stayhere{
+            position:fixed;
+
+        }
     </STYLE>
     <div class="row m-t-1">
         <div class="col-md-12">
@@ -49,22 +54,25 @@
                                 You are not authorized to view this page
                             @else
                                 <div class="col-md-2">
-                                    <UL ID="catlist">
-                                        <LI class="main hyperlink" onclick="main_click(this);" table="additional_toppings">Size costs</LI>
-                                        <LI class="main hyperlink" onclick="main_click(this);" table="toppings">Pizza Toppings</LI>
-                                        <LI class="main hyperlink" onclick="main_click(this);" table="wings_sauce">Wing Sauces</LI>
-                                        <HR>
-                                        Menu:
-                                        <LI class="category hyperlink" onclick="newcategory();">[New Category]</LI>
-                                        <?php
-                                            $categories = collapsearray(Query('SELECT category FROM `menu` GROUP BY category_id ORDER BY category ASC', true), "category");
-                                            foreach($categories as $category){
-                                                echo '<LI class="category hyperlink" onclick="cat_click(this);">' . $category . '</LI>';
-                                            }
-                                        ?>
-                                    </UL>
-                                    <button ID="savechanges" class="btn btn-block btn-primary changes" style="display:none;" onclick="savechanges();">Save Changes</button>
-                                    <button ID="discardchanges" class="btn btn-block btn-secondary changes" style="display:none;" onclick="discard(false);">Discard Changes</button>
+                                    <DIV CLASS="stayhere">
+                                        <UL ID="catlist">
+                                            <LI class="main hyperlink" onclick="main_click(this);" table="additional_toppings">Size costs</LI>
+                                            <LI class="main hyperlink" onclick="main_click(this);" table="toppings">Pizza Toppings</LI>
+                                            <LI class="main hyperlink" onclick="main_click(this);" table="wings_sauce">Wing Sauces</LI>
+                                            <HR>
+                                            Menu:
+                                            <LI class="category hyperlink" onclick="newcategory();">[New Category]</LI>
+                                            <?php
+                                                $categories = collapsearray(Query('SELECT category FROM `menu` GROUP BY category_id ORDER BY category ASC', true), "category");
+                                                foreach($categories as $category){
+                                                    echo '<LI class="category hyperlink" onclick="cat_click(this);">' . $category . '</LI>';
+                                                }
+                                            ?>
+                                        </UL>
+                                        <button class="btn btn-block btn-warning" onclick="$('.newitembtn').trigger('click');">New</button>
+                                        <button ID="savechanges" class="btn btn-block btn-primary changes" style="display:none;" onclick="savechanges();">Save Changes</button>
+                                        <button ID="discardchanges" class="btn btn-block btn-secondary changes" style="display:none;" onclick="discard(false);">Discard Changes</button>
+                                    </div>
                                 </DIV>
                                 <?php
                                     $addon_tables = array("toppings", "wings_sauce");
@@ -208,7 +216,7 @@
                 for(var tableindex = 0; tableindex < tables.length; tableindex++){
                     var table_name = tables[tableindex];
                     var table_data = alldata[table_name];
-                    var HTML = '<button class="btn btn-block btn-warning" onclick="newitem(' + "'" + table_name + "'" + ');">New</button><BR>';
+                    var HTML = '<button class="btn btn-block btn-warning newitembtn" onclick="newitem(' + "'" + table_name + "'" + ');">New</button><BR>';
                     for(var dataindex = 0; dataindex < table_data.length; dataindex++){
                         HTML += makeHTML(table_data[dataindex], table_name);
                     }
@@ -314,7 +322,8 @@
                 var HTML = makeHTML(data, table_name);
                 $("#table_" + table_name).append(HTML);
                 newsitems++;
-                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
+                $("html, body").stop().animate({ scrollTop: $(document).height() }, "slow");
+                $("#discardchanges").show();
             }
 
             function makeHTML(data, table_name){
