@@ -290,6 +290,7 @@
                 var HTML = makeHTML(data, table_name);
                 $("#table_" + table_name).append(HTML);
                 newsitems++;
+                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
             }
 
             function makeHTML(data, table_name){
