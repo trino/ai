@@ -133,6 +133,7 @@
                     for (var tableindex = 0; tableindex < tables.length; tableindex++) {
                         changes[tables[tableindex]] = new Array;
                     }
+                    deleted = new Array;
                     haschanges = false;
                     $(".changes").hide();
                     newsitems = 0;
@@ -316,7 +317,7 @@
                     default:
                         HTML = table_name + " is unhandled";
                 }
-                
+
                 return '<DIV CLASS="col-md-11' + HTMLclass +  '">' + HTML + '</DIV><DIV CLASS="col-md-1' + HTMLclass +  '"><BUTTON class="btn btn-danger" TITLE="Delete this item" onclick="deleteitem(' + "'" + table_name + "', " + data["id"] + ');"><i class="fa fa-times"></i></BUTTON></DIV><DIV CLASS="col-md-12' + HTMLclass +  '"><HR></DIV>';
             }
 
