@@ -81,12 +81,12 @@
 
         .hyperlink{
             cursor: pointer;
-            color: blue !important;
-            text-decoration:underline;
+            color: #0275d8 !important;
+            text-decoration:none;
         }
         .hyperlink:hover {
-            text-decoration:none;
-            text-shadow: 1px 1px 1px #555;
+            text-decoration: underline !important;
+            color: #154C8C !important;
         }
 
         .error{
@@ -104,7 +104,7 @@
                     <A HREF="<?= webroot("public/user/info"); ?>">[Profile]</A>
                     <A ONCLICK="handlelogin('logout');" CLASS="hyperlink">[Log out]</A>
                 </SPAN>
-                <A CLASS="loggedout" data-toggle="modal" data-target="#loginmodal">Log In</A>
+                <A CLASS="loggedout hyperlink" data-toggle="modal" data-target="#loginmodal">Log In</A>
             </SPAN>
         </DIV>
     </DIV>

@@ -56,7 +56,7 @@
         global $con;
         if (is_object($con)){$DataArray = escapearray($DataArray);}
         $query = "INSERT INTO " . $Table . " (" . getarrayasstring($DataArray, True) . ") VALUES (" . getarrayasstring($DataArray, False) . ")";
-        if($PrimaryKey) {
+        if($PrimaryKey && isset($DataArray[$PrimaryKey])) {
             $query.= " ON DUPLICATE KEY UPDATE";
             $delimeter = " ";
             foreach($DataArray as $Key => $Value){

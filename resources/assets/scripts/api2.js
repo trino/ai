@@ -1,5 +1,6 @@
 String.prototype.isEqual = function (str){
     if(isUndefined(str)){return false;}
+    if(isNumeric(str) || isNumeric(this)){return this == str;}
     return this.toUpperCase()==str.toUpperCase();
 };
 function isUndefined(variable){
@@ -8,6 +9,11 @@ function isUndefined(variable){
 function isArray(variable){
     return Array.isArray(variable);
 }
+//returns true if $variable appears to be a valid number
+function isNumeric(variable){
+    return !isNaN(Number(variable));
+}
+
 String.prototype.contains = function (str){
     return this.toLowerCase().indexOf(str.toLowerCase()) > -1;
 };
