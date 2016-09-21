@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 15, 2016 at 08:34 PM
+-- Generation Time: Sep 22, 2016 at 01:54 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `additional_toppings` (
   `size` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `price` double NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `additional_toppings`
@@ -383,7 +383,15 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `type` tinyint(4) NOT NULL,
   `payment_type` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `user_id`, `placed_at`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `accepted_at`, `restaurant_id`, `type`, `payment_type`) VALUES
+(1, 1, '2016-09-15 22:40:55', 0, '', '', '', '', '', '', '', '', '0000-00-00 00:00:00', 0, 0, 0),
+(2, 1, '2016-09-15 23:12:06', 0, '', '', '', '', '', '', '', '', '0000-00-00 00:00:00', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -464,14 +472,14 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1473959557');
+(1, 'lastSQL', '1473964470');
 
 -- --------------------------------------------------------
 
@@ -550,6 +558,7 @@ CREATE TABLE IF NOT EXISTS `useraddresses` (
   `province` varchar(32) NOT NULL,
   `latitude` varchar(16) NOT NULL,
   `longitude` varchar(16) NOT NULL,
+  `phone` varchar(16) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
@@ -557,9 +566,9 @@ CREATE TABLE IF NOT EXISTS `useraddresses` (
 -- Dumping data for table `useraddresses`
 --
 
-INSERT INTO `useraddresses` (`id`, `user_id`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`) VALUES
-(1, 1, 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999'),
-(3, 1, 183, '', '', 'Lottridge Street', 'L8L 6V6', 'Hamilton', 'Ontario', '43.2557729', '-79.831154999999');
+INSERT INTO `useraddresses` (`id`, `user_id`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `phone`) VALUES
+(1, 1, 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', ''),
+(3, 1, 183, '', '', 'Lottridge Street', 'L8L 6V6', 'Hamilton', 'Ontario', '43.2557729', '-79.831154999999', '');
 
 -- --------------------------------------------------------
 
@@ -579,16 +588,18 @@ CREATE TABLE IF NOT EXISTS `users` (
   `lastlogin` bigint(20) NOT NULL,
   `loginattempts` int(11) NOT NULL,
   `profiletype` tinyint(4) NOT NULL,
+  `authcode` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `phone`, `lastlogin`, `loginattempts`, `profiletype`) VALUES
-(1, 'Roy Hodson', 'roy@trinoweb.com', '$2y$10$XqUn.RNhx0YbcZUQXWYP0eHIz0aLK8xX00cd.PLVRQsafF9Frod6K', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '9055123067', 1473953004, 2, 1);
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `phone`, `lastlogin`, `loginattempts`, `profiletype`, `authcode`) VALUES
+(1, 'Roy Hodson', 'roy@trinoweb.com', '$2y$10$XqUn.RNhx0YbcZUQXWYP0eHIz0aLK8xX00cd.PLVRQsafF9Frod6K', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '9055123067', 1473953004, 2, 1, ''),
+(11, 'Van Trinh', 'info@trinoweb.com', '$2y$10$2yAesihK6otSPNnVtnpnIOEO3Ec.6n2mrN1VWoL3qoETP1.T66PcC', '', '2016-09-20 21:19:32', '0000-00-00 00:00:00', '9055123067', 0, 0, 0, '48F3FE05-F161-40AA-857F-729051960297');
 
 -- --------------------------------------------------------
 
