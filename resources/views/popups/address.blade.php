@@ -14,20 +14,20 @@
     <?php
         if(!isset($user_id)){$user_id = read("id");}
         $fields = array(
-            "Phone Number" => array("type" => "text", "name" => "phone"),
-            "Number" => array("type" => "text", "name" => "number", "class" => "street_number", "readonly" => true),
-            "Street" => array("type" => "text", "name" => "street", "class" => "route", "readonly" => true),
-            "Unit/Apt" => array("type" => "text", "name" => "unit"),
-            "Buzz code" => array("type" => "text", "name" => "buzzcode"),
-            "City" => array("type" => "text", "name" => "city", "class" => "locality", "readonly" => true),
-            "Province" => array("type" => "text", "name" => "province", "class" => "administrative_area_level_1", "readonly" => true),
-            "Postal Code" => array("type" => "text", "name" => "postalcode", "class" => "postal_code", "readonly" => true),
-            "Latitude" => array("type" => "text", "name" => "latitude", "class" => "latitude", "readonly" => true),
-            "Longitude" => array("type" => "text", "name" => "longitude", "class" => "longitude", "readonly" => true),
-            "user_id" => array("type" => "hidden", "name" => "user_id", "value" => $user_id, "class" => "session_id_val")
+            "Phone Number" =>   array("type" => "text", "name" => "phone"),
+            "Street Number" =>  array("type" => "text", "name" => "number", "class" => "street_number", "readonly" => true),
+            "Street" =>         array("type" => "text", "name" => "street", "class" => "route", "readonly" => true),
+            "Unit/Apt" =>       array("type" => "text", "name" => "unit"),
+            "Buzz code" =>      array("type" => "text", "name" => "buzzcode"),
+            "City" =>           array("type" => "text", "name" => "city", "class" => "locality", "readonly" => true),
+            "Province" =>       array("type" => "text", "name" => "province", "class" => "administrative_area_level_1", "readonly" => true),
+            "Postal Code" =>    array("type" => "text", "name" => "postalcode", "class" => "postal_code", "readonly" => true),
+            "Latitude" =>       array("type" => "text", "name" => "latitude", "class" => "latitude", "readonly" => true),
+            "Longitude" =>      array("type" => "text", "name" => "longitude", "class" => "longitude", "readonly" => true),
+            "user_id" =>        array("type" => "hidden", "name" => "user_id", "value" => $user_id, "class" => "session_id_val")
         );
         foreach($fields as $Name => $field){
-            if($style == 0 && $field["type"] != "hidden"){echo '<DIV CLASS="row"><DIV CLASS="col-md-2">' . $Name . ':</DIV><DIV CLASS="col-md-10">';}
+            if($style == 0 && $field["type"] != "hidden"){echo '<DIV CLASS="row"><DIV CLASS="col-md-2 data_' . $field["name"] . '">' . $Name . ':</DIV><DIV CLASS="col-md-10">';}
             echo '<INPUT TYPE="' . $field["type"] . '" NAME="' . $field["name"] . '" ID="add_' . $field["name"] . '"';
             if($style == 1){
                 echo ' PLACEHOLDER="' . $Name . '"';

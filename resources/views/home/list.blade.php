@@ -33,7 +33,7 @@
         $fields = collapsearray(describe($table), "Field");
     }
     if(isset($_POST["action"])){
-        $results = array();
+        $results = array("Status" => true);
         switch($_POST["action"]){
             case "getpage":
                 if(!isset($fields)){$fields[] = "id";}
@@ -45,6 +45,7 @@
 
             case "deleteitem":
                 deleterow($table, "id=" . $_POST["id"]);
+
                 break;
 
             case "edititem"://single column
@@ -59,9 +60,11 @@
                 die(view("popups.receipt", $_POST));
                 break;
 
-            default: die("'" . $_POST["action"] . "' is unhandled \r\n" . print_r($_POST, true));
+            default:
+                $results["Status"] = false;
+                $results["Reason"] = "'" . $_POST["action"] . "' is unhandled \r\n" . print_r($_POST, true);
         }
-        if($results){echo json_encode($results);}
+        echo json_encode($results);//must return something
         die();
     } else {
         if(!isset($faicon)){$faicon = "home";}
@@ -288,11 +291,9 @@
                                 _token: token,
                                 id: ID
                             }, function (result) {
-                                if(result) {
-                                    alert(result);
-                                } else {
+                                if(handleresult(result)) {
                                     selecteditem=0;
-                                    $("#saveaddress").addAttr("disabled");
+                                    $("#saveaddress").attr("disabled", true);
 
                                     $("#" + table + "_" + ID).fadeOut(1000, function(){
                                         $("#" + table + "_" + ID).remove();
@@ -337,15 +338,26 @@
 
                     function saveaddress(ID){
                         var formdata = getform("#googleaddress");
+                        var keys = Object.keys(formdata);
+                        for(var i = 0; i<keys.length;i++){
+                            var key = keys[i];
+                            switch(key) {
+                                case "unit": case "buzzcode": break;
+                                default:
+                                    if(formdata[key].trim().length == 0){
+                                        alert($(".data_" + key).text().replace(":", "") + " can not be empty");
+                                        return false;
+                                    }
+                            }
+                        }
+
                         if(ID){formdata.id = ID;}
                         $.post(currentURL, {
                             action: "saveitem",
                             _token: token,
                             value: formdata
                         }, function (result) {
-                            if(result) {
-                                alert(result);
-                            } else {
+                            if(handleresult(result)) {
                                 getpage(lastpage);
                             }
                         });
@@ -361,6 +373,20 @@
                                 $("#body").html(result);
                             }
                         });
+                    }
+
+                    function handleresult(result, title){
+                        try {
+                            var data = JSON.parse(result);
+                            if(data["Status"] == "false" || !data["Status"]) {
+                                alert(data["Reason"], title);
+                            } else {
+                                return true;
+                            }
+                        } catch (e){
+                            alert(result, title);
+                        }
+                        return false;
                     }
                 </SCRIPT>
             @else

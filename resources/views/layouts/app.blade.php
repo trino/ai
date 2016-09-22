@@ -115,6 +115,7 @@
         var redirectonlogout = false;
         var addresskeys = new Array;
         var userdetails = false;
+        var currentRoute = "<?= Route::getCurrentRoute()->getPath(); ?>";
 
         (function() {
             var proxied = window.alert;

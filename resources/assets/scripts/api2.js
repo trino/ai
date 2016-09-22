@@ -139,7 +139,6 @@ function visible(selector, status){
     }
 }
 
-
 $.validator.addMethod('phonenumber', function (Data, element) {
     Data = Data.replace(/\D/g, "");
     if(Data.substr(0,1)=="0"){return false;}

@@ -96,6 +96,14 @@
                             userdetails=false;
                             if(redirectonlogout){
                                 window.location = "<?= webroot("public/index"); ?>";
+                            } else {
+                                switch(currentRoute){
+                                    case "index"://resave order as it's deleted in removeCookie();
+                                        if (theorder.length > 0) {
+                                            createCookieValue("theorder", JSON.stringify(theorder));
+                                        }
+                                        break;
+                                }
                             }
                             break;
                     }
