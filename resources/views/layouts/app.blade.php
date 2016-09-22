@@ -114,6 +114,7 @@
         var webroot = "<?= webroot("public/"); ?>";
         var redirectonlogout = false;
         var addresskeys = new Array;
+        var userdetails = false;
 
         (function() {
             var proxied = window.alert;
@@ -138,6 +139,7 @@
         });
 
         function login(user){
+            userdetails=user;
             var keys = Object.keys(user);
             for(var i=0; i<keys.length; i++){
                 var key = keys[i];

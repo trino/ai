@@ -93,7 +93,7 @@
                             $(".loggedout").show();
                             $(".clear_loggedout").html("");
                             $(".profiletype").hide();
-
+                            userdetails=false;
                             if(redirectonlogout){
                                 window.location = "<?= webroot("public/index"); ?>";
                             }

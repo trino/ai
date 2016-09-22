@@ -252,7 +252,6 @@
                     <div class="collapse" id="collapseCheckout">
                         <FORM ID="orderinfo">
                             <input type="text" class="form-control" placeholder="name"/>
-                            <input type="text" class="form-control" placeholder="address"/>
                             <input type="text" class="form-control" placeholder="email"/>
                             <input type="text" class="form-control" placeholder="cell"/>
                             <input type="text" class="form-control" placeholder="delivery time"/>
@@ -550,16 +549,20 @@
         }
 
         function placeorder() {
-            $.post(webroot + "placeorder", {
-                _token: token,
-                info: getform("#orderinfo"),
-                order: theorder
-            }, function (result) {
-                if (result) {
-                    alert(result);
-                    clearorder();
-                }
-            });
+            if(isObject(userdetails)) {
+                $.post(webroot + "placeorder", {
+                    _token: token,
+                    info: getform("#orderinfo"),
+                    order: theorder
+                }, function (result) {
+                    if (result) {
+                        alert(result);
+                        clearorder();
+                    }
+                });
+            } else {
+                $("#loginmodal").modal("show");
+            }
         }
 
         $(document).ready(function () {

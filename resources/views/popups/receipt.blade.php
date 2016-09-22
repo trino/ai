@@ -17,6 +17,8 @@
         </TR>
     </THEAD>
     <?php
+        $integrity=true;
+
         function findkey($arr, $key, $value){
             return array_search($value, array_column($arr, $key));
         }
@@ -100,8 +102,12 @@
 
             $toppingscost = $addonscost*$paidtoppings;
             $itemtotal = $menuitem["price"] + $toppingscost;
-            echo '</TD><TD>' . $paidtoppings . ' paid, ' . $freetoppings . ' free</TD><TD>' . $size . '</TD><TD ALIGN="RIGHT">$' . number_format($addonscost, 2) . '</TD><TD ALIGN="RIGHT">$' . number_format($itemtotal, 2) . '</TD></TR>';
-
+            echo '</TD><TD>' . $paidtoppings . ' paid, ' . $freetoppings . ' free</TD><TD>' . $size . '</TD><TD ALIGN="RIGHT">$' . number_format($addonscost, 2) . '</TD><TD ALIGN="RIGHT" TITLE="User side: $' . $item->itemprice . '"';
+            if (number_format($item->itemprice,2) <> number_format($itemtotal, 2)){
+                echo ' STYLE="COLOR: red;"';
+                $integrity = false;
+            }
+            echo '>$' . number_format($itemtotal, 2) . '</TD></TR>';
             $subtotal += $itemtotal;
         }
 
@@ -112,5 +118,8 @@
         echo '<TR><TD COLSPAN="7" ALIGN="RIGHT">Delivery fee</TD><TD ALIGN="RIGHT">$' . number_format(deliveryfee, 2) . '</TD></TR>';
         echo '<TR><TD COLSPAN="7" ALIGN="RIGHT">HST</TD><TD ALIGN="RIGHT">$' . number_format($tax, 2) . '</TD></TR>';
         echo '<TR><TD COLSPAN="7" ALIGN="RIGHT">Total</TD><TD ALIGN="RIGHT">$' . number_format($total, 2) . '</TD></TR>';
+        if(!$integrity){
+            echo '<TR><TD COLSPAN="7" ALIGN="RIGHT">Integrity check</TD><TD ALIGN="RIGHT" STYLE="color:red;">FAIL</TD></TR>';
+        }
     ?>
 </TABLE>

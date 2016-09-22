@@ -13,6 +13,15 @@ function isArray(variable){
 function isNumeric(variable){
     return !isNaN(Number(variable));
 }
+//returns true if $variable appears to be a valid object
+//typename (optional): the $variable would also need to be of the same object type (case-sensitive)
+function isObject(variable, typename){
+    if (typeof variable == "object"){
+        if(isUndefined(typename)) {return true;}
+        return variable.getName().toLowerCase() == typename.toLowerCase();
+    }
+    return false;
+}
 
 String.prototype.contains = function (str){
     return this.toLowerCase().indexOf(str.toLowerCase()) > -1;
