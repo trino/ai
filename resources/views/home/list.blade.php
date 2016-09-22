@@ -82,6 +82,10 @@
                 die(view("popups.receipt", $_POST));
                 break;
 
+            case "deletedebug":
+                if (file_exists("royslog.txt")){unlink("royslog.txt");}
+                break;
+
             default:
                 $results["Status"] = false;
                 $results["Reason"] = "'" . $_POST["action"] . "' is unhandled \r\n" . print_r($_POST, true);
@@ -93,6 +97,35 @@
         ?>
         @extends('layouts.app')
         @section('content')
+            <STYLE>
+                #pages > table > tbody > tr > td:nth-child(odd) {
+                    border: 2px solid white;
+                    background-color: #d9534f;
+                    color: white;
+                }
+                #pages > table > tbody > tr > td:nth-child(even) {
+                    border: 2px solid #d9534f;
+                    background-color: white;
+                    color: #d9534f;
+                }
+
+                .spacing * {
+                    margin-left: 10px;
+                }
+
+                .page{
+                    cursor: pointer;
+                }
+
+                .textfield{
+                    width:100%;
+                }
+
+                a[disabled]{
+                    cursor: not-allowed;
+                    opacity: 0.5;
+                }
+            </STYLE>
             <div class="row m-t-1">
                 <div class="col-md-12">
                     <div class="card">
@@ -100,9 +133,14 @@
                             <h4 class="pull-left">
                                 <i class="fa fa-{{ $faicon }}" aria-hidden="true"></i> {{ ucfirst($table) }} list
                             </h4>
-                            @if($table != "all")
-                            <H4 CLASS="pull-right"><A HREF="{{ webroot("public/list/all") }}" TITLE="Back"><i class="fa fa-arrow-left"></i></A></H4>
-                            @endif
+                            <H4 CLASS="pull-right spacing">
+                                @if($table != "all")
+                                    @if($table == "debug")
+                                        <A onclick="deletedebug();" TITLE="Delete the debug log" class="hyperlink" id="deletedebug"><i class="fa fa-trash-o"></i></A>
+                                    @endif
+                                    <A HREF="{{ webroot("public/list/all") }}" TITLE="Back"><i class="fa fa-arrow-left"></i></A>
+                                @endif
+                            </H4>
                         </div>
                         <div class="card-block">
                             <div class="row">
@@ -119,21 +157,25 @@
                                         <A HREF="<?= webroot("public/editmenu"); ?>">Edit Menu</A><BR>
                                         <A HREF="<?= webroot("public/list/debug"); ?>">Debug log</A>
                                     @elseif($table == "debug")
-                                        <PRE><?php
+                                        <PRE id="debuglogcontents"><?php
+                                            $Contents = "";
                                             if (file_exists("royslog.txt")){
-                                                echo file_get_contents("royslog.txt");
+                                                $Contents = file_get_contents("royslog.txt");
                                             }
+                                            if(!$Contents) {$Contents = "The debug log is empty";}
+                                            echo $Contents;
                                         ?></PRE>
                                     @else
                                         <TABLE WIDTH="100%" BORDER="1" ID="data">
                                             <THEAD>
                                                 <TR>
-                                                    <TH>ID</TH>
+                                                    <TH CLASS="th-left">ID</TH>
                                                     <?php
                                                         if(isset($fields)){
+                                                            $last = lastkey($fields);
                                                             foreach($fields as $field){
                                                                 if($field != "id"){
-                                                                    echo '<TH>' . ucfirst(str_replace("_", " ", $field)) . '</TH>';
+                                                                    echo '<TH CLASS="th-left">' . ucfirst(str_replace("_", " ", $field)) . '</TH>';
                                                                 }
                                                             }
                                                         }
@@ -163,20 +205,6 @@
                 </div>
             </div>
             @if(read("profiletype") == 1)
-                <STYLE>
-                    .page{
-                        cursor: pointer;
-                    }
-
-                    .textfield{
-                        width:100%;
-                    }
-
-                    a[disabled]{
-                        cursor: not-allowed;
-                        opacity: 0.5;
-                    }
-                </STYLE>
                 <SCRIPT>
                     var selecteditem = 0;
                     var itemsperpage = 25;
@@ -279,8 +307,11 @@
                                                     break;
                                                 default://simple text
                                                     HTML = '<INPUT TYPE="TEXT" ID="' + ID + "_" + field + '" VALUE="' + HTML + '" CLASS="textfield" COLNAME="' + colname;
-                                                    HTML += '" maxlength="' + column["Len"] + '" TITLE="' + title + '>';
+                                                    HTML += '" maxlength="' + column["Len"] + '" TITLE="' + title + '">';
                                             }
+
+                                            log(HTML);
+
                                             $(this).html(HTML);
                                             if(isText) {
                                                 $("#" + ID + "_" + field).focus().select().keypress(function (ev) {
@@ -355,6 +386,20 @@
                                     if(items == 0){
                                         location.reload();
                                     }
+                                }
+                            });
+                        }
+                    }
+
+                    function deletedebug(){
+                        if(confirm("Are you sure you want to delete the debug log?")){
+                            $.post(currentURL, {
+                                action: "deletedebug",
+                                _token: token
+                            }, function (result) {
+                                if(handleresult(result)) {
+                                    $("#deletedebug").hide();
+                                    $("#debuglogcontents").html("The debug log is empty");
                                 }
                             });
                         }

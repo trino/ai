@@ -55,7 +55,7 @@
         }
 
         body{
-            margin: 60px 0px;
+            margin: 70px 0px;
         }
 
         /* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
@@ -91,6 +91,18 @@
 
         .error{
             color:red;
+        }
+
+        table, th, td {
+            border: 2px solid #d9534f;
+            border-collapse: collapse;
+        }
+        th {
+            background-color: #d9534f;
+            color: white;
+        }
+        .th-left{
+            border-right: 2px solid white;
         }
     </STYLE>
     <DIV CLASS="header-cont">
