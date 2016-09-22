@@ -178,18 +178,23 @@
                                     return $text;
                                 }
 
+                                function toclass($text){
+                                    return strtolower(str_replace(" ", "_", $text));
+                                }
+
                                 $toppings_display = getaddons("toppings", $isfree, $qualifiers);
                                 $wings_display = getaddons("wings_sauce", $isfree, $qualifiers);
-
+                                $classlist = array();
                                 foreach ($categories as $category) {
                                     if($a == 3) {
-                                    $a = 0;
-                            ?>
-                        </div>
-                        <div class="col-md-4">
-                            <? } ?>
+                                        $a = 0;
+                                        echo '</div><div class="col-md-4">';//start a new column
+                                    }
+                                    $catclass = toclass($category['category']);
+                                    $classlist[] = $catclass;
+                                ?>
 
-                            <h5 class="text-danger" data-toggle="collapse" href="#collapse{{$category["id"]}}_cat">{{$category['category']}}</h5>
+                            <h5 class="text-danger head_{{ $catclass }}" data-toggle="collapse" href="#collapse{{$category["id"]}}_cat">{{$category['category']}}</h5>
                             <div class="collapse list-group in m-b-1" id="collapse{{$category['id']}}_cat">
                                 <?
                                 $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
@@ -197,7 +202,7 @@
                                     $menuitem["price"] = number_format($menuitem["price"], 2);
                                     ?>
                                     <div class="clearfix"></div>
-                                    <div class="menuitem" itemid="{{$menuitem["id"]}}" itemname="{{$menuitem['item']}}"
+                                    <div class="menuitem item_{{ $catclass }}" itemid="{{$menuitem["id"]}}" itemname="{{$menuitem['item']}}"
                                          itemprice="{{$menuitem['price']}}"
                                          itemsize="{{ getsize($menuitem['item'], $isfree) }}" <?php
                                             $total = 0;
@@ -329,6 +334,7 @@
         var theorder = new Array;
         var toppingsouterhtml, wingsauceouterhtml;
         var deliveryfee = <?= deliveryfee; ?>;
+        var classlist = <?= json_encode($classlist); ?>;
 
         function search(element) {
             var searchtext = element.value.toLowerCase();
@@ -348,6 +354,15 @@
                     $(this).addClass("disabled");
                 }
             });
+            for(var i=0; i< classlist.length; i++){
+                var classname = classlist[i];
+                var visible = $(".item_" + classname + ":visible").length;
+                if(visible){
+                    $(".head_" + classname).show();
+                } else {
+                    $(".head_" + classname).hide();
+                }
+            }
         }
 
         function loadmodal(element) {
