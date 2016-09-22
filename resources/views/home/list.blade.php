@@ -10,6 +10,17 @@
     function remove_brackets($text){
         return preg_replace('/\(([^()]*+|(?R))*\)\s*/', '', $text);
     }
+    function deletefile($file){
+        if(file_exists($file)){unlink($file);}
+    }
+    function formatfield($field){
+        $field = explode(" ", str_replace("code", " code", str_replace("_", " ", $field)));
+        foreach($field as $ID => $text){
+            $field[$ID] = ucfirst($text);
+            if($text == "id"){$field[$ID] = "ID";}
+        }
+        return implode(" ", $field);
+    }
 
     $namefield = "name";
     $where = "";
@@ -17,7 +28,9 @@
     if(isset($_POST["query"])){
         $_GET = $_POST["query"];
     }
+    $adminsonly=true;
     $datafields=true;
+    $SQL=false;
     switch($table){
         case "all":case "debug"://system value
             $datafields=false;
@@ -27,13 +40,18 @@
             $fields = array("id", "name", "phone", "profiletype", "email");
             break;
         case "restaurants":
-            $fields = array("id", "name", "phone", "email");
+            $fields = array("id", "name", "phone", "email", "address_id", "number", "street", "postalcode", "city", "province", "latitude", "longitude", "user_phone");
+            $SQL='SELECT  restaurants.id, restaurants.name, restaurants.phone, restaurants.email, restaurants.address_id, useraddresses.number, useraddresses.street, useraddresses.postalcode, useraddresses.city, useraddresses.province, useraddresses.latitude, useraddresses.longitude, useraddresses.phone as user_phone FROM useraddresses AS useraddresses RIGHT JOIN restaurants ON restaurants.address_id = useraddresses.id';
             break;
         case "orders":
             $fields=true;
             $faicon = "dollar";
+            if(isset($_GET["user_id"])){
+                $where = "user_id = " . $_GET["user_id"];
+            }
             break;
         case "useraddresses":
+            $adminsonly=false;
             $inlineedit = false;
             $fields=true;//all fields
             if(isset($_GET["user_id"])){
@@ -56,18 +74,35 @@
     }
 
     if(isset($_POST["action"])){
-        $results = array("Status" => true);
+        $results = array("Status" => true, "POST" => $_POST);
         switch($_POST["action"]){
             case "getpage":
+                if($_POST["makenew"] == "true"){
+                    Query("INSERT INTO " . $table . " () VALUES();");
+                    debugprint("Inserted into " . $table );
+                }
                 if(!isset($fields)){$fields[] = "id";}
                 if($where){$where = " WHERE " . $where;}
-                $results["SQL"] = "SELECT " . implode(", ", $fields) . " FROM " . $table . $where . " LIMIT " . $_POST["itemsperpage"] . " OFFSET " . ($_POST["itemsperpage"] * $_POST["page"]);
+                if(!$SQL){$SQL= "SELECT " . implode(", ", $fields) . " FROM " . $table;}
+                $results["SQL"] =   $SQL . $where . " LIMIT " . $_POST["itemsperpage"] . " OFFSET " . ($_POST["itemsperpage"] * $_POST["page"]);
                 $results["table"] = Query($results["SQL"], true);
                 $results["count"] = first("SELECT COUNT(*) as count FROM " . $table)["count"];
                 break;
 
             case "deleteitem":
+                switch($table){
+                    case "orders":
+                        deletefile(resource_path("orders") . "/" . $_POST["id"] . ".json");//deletes the order file
+                        break;
+                    case "useraddresses":
+                        Query("UPDATE restaurants SET address_id = 0 WHERE address_id = " . $_POST["id"]);//unbinds any restaurant from this address
+                        break;
+                }
                 deleterow($table, "id=" . $_POST["id"]);
+                break;
+
+            case "deletetable":
+                Query("TRUNCATE " . $table);
                 break;
 
             case "edititem"://single column
@@ -83,14 +118,14 @@
                 break;
 
             case "deletedebug":
-                if (file_exists("royslog.txt")){unlink("royslog.txt");}
+                deletefile("royslog.txt");
                 break;
 
             default:
                 $results["Status"] = false;
                 $results["Reason"] = "'" . $_POST["action"] . "' is unhandled \r\n" . print_r($_POST, true);
         }
-        echo json_encode($results);//must return something
+        echo str_replace(":null", ':""', json_encode($results));//must return something
         die();
     } else {
         if(!isset($faicon)){$faicon = "home";}
@@ -134,9 +169,11 @@
                                 <i class="fa fa-{{ $faicon }}" aria-hidden="true"></i> {{ ucfirst($table) }} list
                             </h4>
                             <H4 CLASS="pull-right spacing">
-                                @if($table != "all")
+                                @if($table != "all" && read("profiletype") == 1)
                                     @if($table == "debug")
                                         <A onclick="deletedebug();" TITLE="Delete the debug log" class="hyperlink" id="deletedebug"><i class="fa fa-trash-o"></i></A>
+                                    @else
+                                        <A onclick="deletetable();" TITLE="Delete the table data" class="hyperlink" id="deletetable"><i class="fa fa-trash-o"></i></A>
                                     @endif
                                     <A HREF="{{ webroot("public/list/all") }}" TITLE="Back"><i class="fa fa-arrow-left"></i></A>
                                 @endif
@@ -145,7 +182,7 @@
                         <div class="card-block">
                             <div class="row">
                                 <div class="col-md-12">
-                                    @if(read("profiletype") != 1)
+                                    @if(read("profiletype") != 1 && $adminsonly)
                                         You are not authorized to view this page
                                     @elseif($table == "all")
                                         <?php
@@ -175,7 +212,7 @@
                                                             $last = lastkey($fields);
                                                             foreach($fields as $field){
                                                                 if($field != "id"){
-                                                                    echo '<TH CLASS="th-left">' . ucfirst(str_replace("_", " ", $field)) . '</TH>';
+                                                                    echo '<TH CLASS="th-left">' . formatfield($field) . '</TH>';
                                                                 }
                                                             }
                                                         }
@@ -184,7 +221,7 @@
                                                 </TR>
                                             </THEAD>
                                             <TBODY></TBODY>
-                                            <TFOOT><TR><TD COLSPAN="{{ count($fields)+1 }}" ALIGN="right" ID="pages"></TD></TR></TFOOT>
+                                            <TFOOT><TR><TD COLSPAN="{{ count($fields)+1 }}" ID="pages"></TD></TR></TFOOT>
                                         </TABLE>
                                         <DIV ID="body">
                                             <?php
@@ -193,6 +230,9 @@
                                                         echo '<A ONCLICK="saveaddress(0);" CLASS="btn btn-sm btn-primary">New</A> ';
                                                         echo '<A ONCLICK="saveaddress(selecteditem);" CLASS="btn btn-sm btn-secondary" id="saveaddress" DISABLED>Save</A>';
                                                         echo view("popups.address", $_GET);
+                                                        break;
+                                                    case "restaurants":
+                                                        echo '<DIV ID="addressdropdown" STYLE="display: none;"></DIV>';
                                                         break;
                                                 }
                                             ?>
@@ -222,8 +262,8 @@
                     var intranges = {
                         tinyint: {min: -128, max: 127}, tinyintunsigned: {min: 0, max: 255},
                         smallint: {min: -32768, max: 32767}, smallintunsigned: {min: 0, max: 65535},
-                        mediumint: {min: -8388608, max: 2147483647}, mediumintunsigned: {min: 0, max: 16777215},
-                        int: {min: -2147483648, max: 127}, intunsigned: {min: 0, max: 4294967295},
+                        mediumint: {min: -8388608, max: 8388607}, mediumintunsigned: {min: 0, max: 16777215},
+                        int: {min: -2147483648, max: 2147483647}, intunsigned: {min: 0, max: 4294967295},
                         bigint: {min: -9223372036854775808, max: 9223372036854775807}, bigintunsigned: {min: 0, max: 18446744073709551615}
                     };
 
@@ -231,14 +271,17 @@
                         getpage(0);
                     });
 
-                    function getpage(index){
+                    function getpage(index, makenew){
+                        if(index==-1){index = lastpage;}
+                        if(isUndefined(makenew)){makenew = false;}
                         if(index<0){index = currentpage;}
                         $.post(currentURL, {
                             action: "getpage",
                             _token: token,
                             itemsperpage: itemsperpage,
                             query: <?= json_encode($_GET); ?>,
-                            page: index
+                            page: index,
+                            makenew: makenew
                         }, function (result) {
                             try {
                                 var data = JSON.parse(result);
@@ -279,15 +322,31 @@
                                     var field = $(this).attr("field");
                                     var columnindex = findwhere(datafields, "Field", field);
                                     var column = datafields[columnindex];
-                                    if(column["Key"] != "PRI"){//primary key can't be edited
-                                        var ID = $(this).attr("index");
+                                    var ID = $(this).attr("index");
+                                    if (isUndefined(column)) {
+                                        switch(table){
+                                            case "restaurants":
+                                                if(confirm("The restaurant address can not be edited directly from here. Would you like to go to the address editor?")){
+                                                    ID = $("#restaurants_" + ID + "_address_id").text();
+                                                    window.location = webroot + "list/useraddresses?key=id&value=" + ID;
+                                                }
+                                                break;
+                                            default: alert(table + "." + field + " can not be edited");
+                                        }
+                                    } else if(column["Key"] != "PRI"){//primary key can't be edited
                                         selecteditem = ID;
                                         var HTML = $(this).html();
                                         var isHTML = containsHTML(HTML);
                                         var isText = false;
                                         var colname = table + "." + field;
+                                        switch(colname){
+                                            case "orders.latitude": case "orders.longitude":
+                                                column["Type"] = "int";
+                                                break;
+                                        }
                                         if(!isHTML && inlineedit){
                                             isText=true;
+                                            var isSelect=false;
                                             var title="";
                                             switch(column["Type"]){
                                                 //timestamp (date)
@@ -297,23 +356,40 @@
                                                     var max = intranges[column["Type"]]["max"];
                                                     switch(colname){
                                                         case "users.profiletype":
-                                                            title="0=user, 1=admin";
-                                                            min=0;
-                                                            max=1;
+                                                            isSelect=true;
+                                                            HTML = makeselect(ID + "_" + field, "selectfield form-control", colname, HTML, [{value: 0, text: "user"}, {value: 1, text: "admin"}]);
                                                             break;
+                                                        case "restaurants.address_id":
+                                                            isSelect=true;
+                                                            console.log(HTML + " was selected");
+                                                            HTML = $("#addressdropdown").html().replace('class="form-control" id="saveaddresses"', 'CLASS="selectfield form-control" ID="' + ID + "_" + field + '" COLNAME="' + colname + '"').replace('value="' + HTML + '"', 'value="' + HTML + '" SELECTED');
+                                                            break;
+                                                        default:
+                                                            HTML = '<INPUT TYPE="NUMBER" ID="' + ID + "_" + field + '" VALUE="' + HTML + '" CLASS="textfield" TITLE="' + title + '" MIN="';
+                                                            HTML += min + '" MAX="' + max + '" COLNAME="' + colname + '">';
                                                     }
-                                                    HTML = '<INPUT TYPE="NUMBER" ID="' + ID + "_" + field + '" VALUE="' + HTML + '" CLASS="textfield" TITLE="' + title + '" MIN="';
-                                                    HTML += min + '" MAX="' + max + '" COLNAME="' + colname + '">';
                                                     break;
                                                 default://simple text
                                                     HTML = '<INPUT TYPE="TEXT" ID="' + ID + "_" + field + '" VALUE="' + HTML + '" CLASS="textfield" COLNAME="' + colname;
                                                     HTML += '" maxlength="' + column["Len"] + '" TITLE="' + title + '">';
                                             }
-
-                                            log(HTML);
-
+                                            console.log(HTML);
                                             $(this).html(HTML);
-                                            if(isText) {
+                                           if(isSelect){
+                                                $("#" + ID + "_" + field).focus().change(function () {
+                                                    if(table == "restaurants"){
+                                                        var Selected = $("#" + ID + "_" + field + " option:selected");
+                                                        for(var keyID = 0; keyID < addresskeys.length; keyID++){
+                                                            var keyname = addresskeys[keyID];
+                                                            var keyvalue= $(Selected).attr(keyname);
+                                                            if(keyname == "phone"){keyname="user_phone";}
+                                                            var elementID = "#" + table + "_" + ID + "_" + keyname;
+                                                            $(elementID).text(keyvalue);
+                                                        }
+                                                    }
+                                                    edititem(ID, field, $(this).val());
+                                                });
+                                           } else if(isText) {
                                                 $("#" + ID + "_" + field).focus().select().keypress(function (ev) {
                                                     var keycode = (ev.keyCode ? ev.keyCode : ev.which);
                                                     if (keycode == '13') {
@@ -322,6 +398,12 @@
                                                 }).blur(function(){
                                                     edititem(ID, field, $(this).val());
                                                 });
+                                           }
+                                        } else if (!isHTML) {
+                                            switch(table){
+                                                case "useraddresses":
+                                                    editaddress(ID);
+                                                    break;
                                             }
                                         }
                                     }
@@ -333,6 +415,27 @@
                         });
                     }
 
+                    function makeselect(ID, classnames, colname, selected, kvps){
+                        var HTML = '<SELECT ID="' + ID + '" CLASS="'  + classnames + '" COLNAME="' + colname + '">';
+                        for(var keyID = 0; keyID<kvps.length; keyID++){
+                            var isselected = false;
+                            var text = "";
+                            var kvp = kvps[keyID];
+                            HTML += '<OPTION';
+                            if(isObject(kvp)){
+                                HTML += ' VALUE="' + kvp["value"] + '"';
+                                isselected = selected.isEqual(kvp["value"]);
+                                text = kvp["text"];
+                            } else {
+                                text = kvp;
+                            }
+                            if(selected.isEqual(text)){isselected = true;}
+                            if(isselected){HTML += ' SELECTED';}
+                            HTML += '>' + text + '</OPTION>';
+                        }
+                        return HTML + '</SELECT>';
+                    }
+
                     function containsHTML(text){
                         return text.indexOf("<") > -1 && text.indexOf(">") > -1;
                     }
@@ -341,7 +444,7 @@
                         currentpage = Number(currentpage);
                         var pages = Math.ceil(Number(itemcount) / itemsperpage);
                         lastpage = pages-1;
-                        var HTML = '<TABLE BORDER="1"><TR>';
+                        var HTML = '<BUTTON CLASS="btn btn-sm btn-primary" onclick="newitem();">New</BUTTON><TABLE BORDER="1" CLASS="pull-right"><TR>';
                         var printpages = 10;
                         if(pages > 1){
                             if(currentpage > 0){HTML += '<TD><A CLASS="page" page="0" title="Page 1 of ' + pages + '"> First </A></TD>';}
@@ -368,6 +471,21 @@
                         });
                     }
 
+                    function deletetable(){
+                        if(confirm("Are you sure you want to delete the entire " + table + " table?")){
+                            if(confirm("Are you really REALLY sure?")){
+                                $.post(currentURL, {
+                                    action: "deletetable",
+                                    _token: token,
+                                }, function (result) {
+                                    if (handleresult(result)) {
+                                        location.reload();
+                                    }
+                                });
+                            }
+                        }
+                    }
+
                     function deleteitem(ID){
                         var name = $("#" + table + "_" + ID + "_" + namefield).text();
                         if(confirm("Are you sure you want to delete item ID: " + ID + " (" + name + ") ?")){
@@ -391,6 +509,10 @@
                         }
                     }
 
+                    function newitem(){
+                        getpage(-1, true);
+                    }
+
                     function deletedebug(){
                         if(confirm("Are you sure you want to delete the debug log?")){
                             $.post(currentURL, {
@@ -411,7 +533,7 @@
                             var newdata="";
                             var datatype="";
                             switch (colname) {
-                                case "users.phone":
+                                case "users.phone":case "restaurants.phone":
                                     newdata = clean_data(data, "phone");
                                     datatype="phone number";
                                     break;
@@ -419,7 +541,7 @@
                                     if(data == "0" || data == "1"){newdata = data;}
                                     datatype="profile type. 0=user, 1=admin";
                                     break;
-                                case "users.email":
+                                case "users.email":case "restaurants.email":
                                     if(validate_data(data, "email")){newdata = clean_data(data, "email");}
                                     datatype="email address";
                                     break;
@@ -521,7 +643,6 @@
 
                     function validate_data(Data, DataType){
                         if(Data) {
-                            //alert("Testing: " + Data + " for " + DataType);
                             switch (DataType.toLowerCase()) {
                                 case "email":
                                     var re = /\S+@\S+\.\S+/;
@@ -593,7 +714,7 @@
                                     if(Data2.length == 10) {
                                         Data = Data2.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3");
                                     } else {
-                                        Data = Data.replace(/[^0-9+]/g, "");
+                                        Data = "";//Data.replace(/[^0-9+]/g, "");
                                     }
                                     break;
                                 case "sin":

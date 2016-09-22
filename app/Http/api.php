@@ -131,8 +131,9 @@
         return Query("DESCRIBE " . $table, true);
     }
 
-    function deleterow($Table, $Where){
-        Query("DELETE FROM $Table WHERE $Where");
+    function deleterow($Table, $Where = false){
+        if($Where){$Where = " WHERE " . $Where;}
+        Query("DELETE FROM " . $Table . $Where);
     }
 
     function first($query, $Only1 = true) {

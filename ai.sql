@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 22, 2016 at 02:01 AM
+-- Generation Time: Sep 22, 2016 at 09:53 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -384,15 +384,16 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `payment_type` tinyint(4) NOT NULL,
   `phone` varchar(16) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `orders`
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `placed_at`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `accepted_at`, `restaurant_id`, `type`, `payment_type`, `phone`) VALUES
-(1, 1, '2016-09-15 22:40:55', 0, '', '', '', '', '', '', '', '', '0000-00-00 00:00:00', 0, 0, 0, ''),
-(2, 1, '2016-09-15 23:12:06', 0, '', '', '', '', '', '', '', '', '0000-00-00 00:00:00', 0, 0, 0, '');
+(1, 1, '2016-09-15 22:40:55', 0, '', '', '', '', '', '', '0', '', '0000-00-00 00:00:00', 0, 0, 0, ''),
+(2, 1, '2016-09-15 23:12:06', 0, '', '', '', '', '', '', '', '', '0000-00-00 00:00:00', 0, 0, 0, ''),
+(3, 1, '2016-09-22 17:34:18', 0, '', '', '', '', '', '', '', '', '0000-00-00 00:00:00', 0, 0, 0, '');
 
 -- --------------------------------------------------------
 
@@ -445,7 +446,7 @@ CREATE TABLE IF NOT EXISTS `restaurants` (
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `phone` int(11) NOT NULL,
+  `phone` varchar(16) COLLATE utf8_unicode_ci NOT NULL,
   `cuisine` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `website` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL,
@@ -458,8 +459,16 @@ CREATE TABLE IF NOT EXISTS `restaurants` (
   `is_complete` int(11) NOT NULL,
   `lastorder_id` int(11) NOT NULL,
   `franchise` int(11) NOT NULL,
+  `address_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `restaurants`
+--
+
+INSERT INTO `restaurants` (`id`, `name`, `slug`, `email`, `phone`, `cuisine`, `website`, `description`, `logo`, `is_delivery`, `is_pickup`, `max_delivery_distance`, `delivery_fee`, `minimum`, `is_complete`, `lastorder_id`, `franchise`, `address_id`) VALUES
+(1, 'Home', '', '', '(905) 512-3067', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -473,14 +482,14 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1473964470');
+(1, 'lastSQL', '1474502476');
 
 -- --------------------------------------------------------
 
@@ -561,7 +570,7 @@ CREATE TABLE IF NOT EXISTS `useraddresses` (
   `longitude` varchar(16) NOT NULL,
   `phone` varchar(16) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `useraddresses`
@@ -599,8 +608,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `phone`, `lastlogin`, `loginattempts`, `profiletype`, `authcode`) VALUES
-(1, 'Roy Hodson', 'roy@trinoweb.com', '$2y$10$XqUn.RNhx0YbcZUQXWYP0eHIz0aLK8xX00cd.PLVRQsafF9Frod6K', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '9055123067', 1473953004, 2, 1, ''),
-(11, 'Van Trinh', 'info@trinoweb.com', '$2y$10$2yAesihK6otSPNnVtnpnIOEO3Ec.6n2mrN1VWoL3qoETP1.T66PcC', '', '2016-09-20 21:19:32', '0000-00-00 00:00:00', '9055123067', 0, 0, 0, '48F3FE05-F161-40AA-857F-729051960297');
+(1, 'Roy Hodson', 'roy@trinoweb.com', '$2y$10$XqUn.RNhx0YbcZUQXWYP0eHIz0aLK8xX00cd.PLVRQsafF9Frod6K', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '(905) 512-3067', 1473953004, 2, 1, ''),
+(11, 'Van Trinh', 'info@trinoweb.com', '$2y$10$2yAesihK6otSPNnVtnpnIOEO3Ec.6n2mrN1VWoL3qoETP1.T66PcC', '', '2016-09-20 21:19:32', '0000-00-00 00:00:00', '(905) 512-3067', 0, 0, 0, '48F3FE05-F161-40AA-857F-729051960297');
 
 -- --------------------------------------------------------
 
