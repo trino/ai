@@ -1,15 +1,30 @@
 <?php
+    function get_string_between($string, $start, $end){
+        $string = ' ' . $string;
+        $ini = strpos($string, $start);
+        if ($ini == 0) return '';
+        $ini += strlen($start);
+        $len = strpos($string, $end, $ini) - $ini;
+        return substr($string, $ini, $len);
+    }
+    function remove_brackets($text){
+        return preg_replace('/\(([^()]*+|(?R))*\)\s*/', '', $text);
+    }
+
     $namefield = "name";
     $where = "";
     $inlineedit = true;
     if(isset($_POST["query"])){
         $_GET = $_POST["query"];
     }
+    $datafields=true;
     switch($table){
-        case "all":case "debug": break;//system value
+        case "all":case "debug"://system value
+            $datafields=false;
+            break;
         case "users":
             $faicon = "user";
-            $fields = array("id", "name", "phone", "email");
+            $fields = array("id", "name", "phone", "profiletype", "email");
             break;
         case "restaurants":
             $fields = array("id", "name", "phone", "email");
@@ -29,9 +44,17 @@
             break;
         default: die("This table is not whitelisted");
     }
-    if(isset($fields) && !is_array($fields)){
-        $fields = collapsearray(describe($table), "Field");
+    if($datafields){
+        $datafields = describe($table);
+        foreach($datafields as $ID => $datafield){
+            $datafields[$ID]["Len"] = get_string_between($datafield["Type"], "(", ")");
+            $datafields[$ID]["Type"] = remove_brackets($datafield["Type"]);
+        }
+        if(isset($fields) && !is_array($fields)){
+            $fields = collapsearray($datafields, "Field");
+        }
     }
+
     if(isset($_POST["action"])){
         $results = array("Status" => true);
         switch($_POST["action"]){
@@ -45,7 +68,6 @@
 
             case "deleteitem":
                 deleterow($table, "id=" . $_POST["id"]);
-
                 break;
 
             case "edititem"://single column
@@ -78,6 +100,9 @@
                             <h4 class="pull-left">
                                 <i class="fa fa-{{ $faicon }}" aria-hidden="true"></i> {{ ucfirst($table) }} list
                             </h4>
+                            @if($table != "all")
+                            <H4 CLASS="pull-right"><A HREF="{{ webroot("public/list/all") }}" TITLE="Back"><i class="fa fa-arrow-left"></i></A></H4>
+                            @endif
                         </div>
                         <div class="card-block">
                             <div class="row">
@@ -165,6 +190,14 @@
                     var items = 0;
                     var inlineedit = "{{ $inlineedit }}".length > 0;
                     redirectonlogout = true;
+                    var datafields = <?= json_encode($datafields); ?>;
+                    var intranges = {
+                        tinyint: {min: -128, max: 127}, tinyintunsigned: {min: 0, max: 255},
+                        smallint: {min: -32768, max: 32767}, smallintunsigned: {min: 0, max: 65535},
+                        mediumint: {min: -8388608, max: 2147483647}, mediumintunsigned: {min: 0, max: 16777215},
+                        int: {min: -2147483648, max: 127}, intunsigned: {min: 0, max: 4294967295},
+                        bigint: {min: -9223372036854775808, max: 9223372036854775807}, bigintunsigned: {min: 0, max: 18446744073709551615}
+                    };
 
                     $(document).ready(function() {
                         getpage(0);
@@ -216,18 +249,37 @@
 
                                 $(".field").dblclick(function() {
                                     var field = $(this).attr("field");
-                                    if(field != "id"){//primary key can't be edited
+                                    var columnindex = findwhere(datafields, "Field", field);
+                                    var column = datafields[columnindex];
+                                    if(column["Key"] != "PRI"){//primary key can't be edited
                                         var ID = $(this).attr("index");
                                         selecteditem = ID;
                                         var HTML = $(this).html();
                                         var isHTML = containsHTML(HTML);
                                         var isText = false;
+                                        var colname = table + "." + field;
                                         if(!isHTML && inlineedit){
-                                            switch(table + "." + field){
-
+                                            isText=true;
+                                            var title="";
+                                            switch(column["Type"]){
+                                                //timestamp (date)
+                                                case "tinyint": case "smallint": case "mediumint": case "bigint": case "int":
+                                                case "tinyintunsigned": case "smallintunsigned": case "mediumintunsigned": case "bigintunsigned": case "intunsigned":
+                                                    var min = intranges[column["Type"]]["min"];
+                                                    var max = intranges[column["Type"]]["max"];
+                                                    switch(colname){
+                                                        case "users.profiletype":
+                                                            title="0=user, 1=admin";
+                                                            min=0;
+                                                            max=1;
+                                                            break;
+                                                    }
+                                                    HTML = '<INPUT TYPE="NUMBER" ID="' + ID + "_" + field + '" VALUE="' + HTML + '" CLASS="textfield" TITLE="' + title + '" MIN="';
+                                                    HTML += min + '" MAX="' + max + '" COLNAME="' + colname + '">';
+                                                    break;
                                                 default://simple text
-                                                    isText=true;
-                                                    HTML = '<INPUT TYPE="TEXT" ID="' + ID + "_" + field + '" VALUE="' + HTML + '" CLASS="textfield">';
+                                                    HTML = '<INPUT TYPE="TEXT" ID="' + ID + "_" + field + '" VALUE="' + HTML + '" CLASS="textfield" COLNAME="' + colname;
+                                                    HTML += '" maxlength="' + column["Len"] + '" TITLE="' + title + '>';
                                             }
                                             $(this).html(HTML);
                                             if(isText) {
@@ -236,7 +288,9 @@
                                                     if (keycode == '13') {
                                                         edititem(ID, field, $(this).val());
                                                     }
-                                                })
+                                                }).blur(function(){
+                                                    edititem(ID, field, $(this).val());
+                                                });
                                             }
                                         }
                                     }
@@ -294,7 +348,6 @@
                                 if(handleresult(result)) {
                                     selecteditem=0;
                                     $("#saveaddress").attr("disabled", true);
-
                                     $("#" + table + "_" + ID).fadeOut(1000, function(){
                                         $("#" + table + "_" + ID).remove();
                                     });
@@ -308,6 +361,34 @@
                     }
 
                     function edititem(ID, field, data){
+                        var colname = $("#" + ID + "_" + field).attr("COLNAME").toLowerCase();
+                        if(data) {
+                            var newdata="";
+                            var datatype="";
+                            switch (colname) {
+                                case "users.phone":
+                                    newdata = clean_data(data, "phone");
+                                    datatype="phone number";
+                                    break;
+                                case "users.profiletype":
+                                    if(data == "0" || data == "1"){newdata = data;}
+                                    datatype="profile type. 0=user, 1=admin";
+                                    break;
+                                case "users.email":
+                                    if(validate_data(data, "email")){newdata = clean_data(data, "email");}
+                                    datatype="email address";
+                                    break;
+                            }
+                            log("Verifying: " + colname + " = '" + data + "' (" + datatype + ")");
+                            if(datatype) {
+                                if (newdata) {
+                                    data = newdata;
+                                } else {
+                                    alert("'" + data + "' is not a valid " + datatype);
+                                    return false;
+                                }
+                            }
+                        }
                         $.post(currentURL, {
                             action: "edititem",
                             _token: token,
@@ -315,9 +396,7 @@
                             key: field,
                             value: data
                         }, function (result) {
-                            if(result) {
-                                alert(result);
-                            } else {
+                            if(handleresult(result)) {
                                 $("#" + table + "_" + ID + "_" + field).html(data);
                             }
                         });
@@ -387,6 +466,98 @@
                             alert(result, title);
                         }
                         return false;
+                    }
+
+
+
+
+
+
+
+                    function validate_data(Data, DataType){
+                        if(Data) {
+                            //alert("Testing: " + Data + " for " + DataType);
+                            switch (DataType.toLowerCase()) {
+                                case "email":
+                                    var re = /\S+@\S+\.\S+/;
+                                    return re.test(Data);
+                                    break;
+                                case "postalzip":
+                                    return validate_data(Data, "postalcode") || validate_data(Data, "zipcode");
+                                    break;
+                                case "zipcode"://99577-0727
+                                    Data = clean_data(Data, "number");
+                                    return Data.length == 5 || Data.length == 9;
+                                    break;
+                                case "postalcode":
+                                    Data = Data.replace(/ /g, '').toUpperCase(); //Postal codes do not include the letters D, F, I, O, Q or U, and the first position also does not make use of the letters W or Z.
+                                    var regex = new RegExp(/^[ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ]?\d[ABCEGHJKLMNPRSTVWXYZ]\d$/i);
+                                    return regex.test(Data);
+                                    break;
+                                case "phone":
+                                    return true;//skipping validation for now
+                                    var phoneRe = /^[2-9]\d{2}[2-9]\d{2}\d{4}$/;
+                                    var regex = /[^\d+]/;
+                                    var Data2 = clean_data(Data, "number");
+                                    return (Data2.match(phoneRe) !== null || Data2.length > 0);
+                                    break;
+                                case "sin":
+                                    Data = clean_data(Data, "number");
+                                    return Data.length == 9;
+                                    break;
+                                case "number":
+                                    Data = clean_data(Data, "number");
+                                    return Data && !isNaN(Data);
+                                default:
+                                    alert("'" + DataType + "' is unhandled");
+                            }
+                        }
+                        return true;
+                    }
+
+                    function clean_data(Data, DataType){
+                        Data = Data.trim();
+                        if(Data) {
+                            switch (DataType.toLowerCase()) {
+                                case "alphabetic":
+                                    Data = Data.replace( /[^a-zA-Z]/, "");
+                                    break;
+                                case "alphanumeric":
+                                    Data = Data.replace(/\W/g, '');
+                                    break;
+                                case "number":
+                                    Data = Data.replace(/\D/g, "");
+                                    break;
+                                case "email":
+                                    Data = Data.toLowerCase().trim();
+                                    break;
+                                case "postalzip":
+                                    if (validate_data(Data, "postalcode")){Data = clean_data(Data, "postalcode");}
+                                    if (validate_data(Data, "zipcode")){Data = clean_data(Data, "zipcode");}
+                                    break;
+                                case "zipcode":
+                                    Data = clean_data(Data, "number");
+                                    if(Data.length == 9){Data = Data.substring(0,5) + "-" + Data.substring(5,9);}
+                                    break;
+                                case "postalcode":
+                                    Data = clean_data(replaceAll(" ", "", Data.toUpperCase()), "alphanumeric");
+                                    Data = Data.substring(0,3) + " " + Data.substring(3);
+                                    break;
+                                case "phone":
+                                    var Data2 = clean_data(Data, "number");
+                                    if(Data2.length == 10) {
+                                        Data = Data2.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3");
+                                    } else {
+                                        Data = Data.replace(/[^0-9+]/g, "");
+                                    }
+                                    break;
+                                case "sin":
+                                    Data = clean_data(Data, "number");
+                                    Data = Data.substring(0,3) + "-" + Data.substring(3,6)  + "-" + Data.substring(6,9) ;
+                                    break;
+                            }
+                        }
+                        return Data;
                     }
                 </SCRIPT>
             @else

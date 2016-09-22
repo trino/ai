@@ -163,3 +163,11 @@ var decodeEntities = (function() {
     return decodeHTMLEntities;
 })();
 
+function findwhere(data, key, value){
+    for(var i=0; i<data.length; i++){
+        if(data[i][key].isEqual(value)){
+            return i;
+        }
+    }
+    return -1
+}

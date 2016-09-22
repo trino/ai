@@ -259,15 +259,6 @@
                 haschanges++;
             }
 
-            function findwhere(data, key, value){
-                for(var i=0; i<data.length; i++){
-                    if(data[i][key].isEqual(value)){
-                        return i;
-                    }
-                }
-                return -1
-            }
-
             function getmenuitems(category){
                 category=category.trim();
                 var HTML = '<button class="btn btn-block btn-warning" onclick="newitem(' + "'menu', '" + category + "'" + ');">New</button><BR>';

@@ -195,7 +195,7 @@
         global $con;//use while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) { to get results
         if($all){
             $result = $con->query($query);
-            return mysqli_fetch_all($result, MYSQLI_ASSOC);
+            return mysqli_fetch_all($result, MYSQLI_ASSOC);// or die ('Unable to execute query. '. mysqli_error($con) . "<P>Query: " . $query);
         }
         return $con->query($query);
     }
