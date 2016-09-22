@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 22, 2016 at 01:54 AM
+-- Generation Time: Sep 22, 2016 at 02:01 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -382,6 +382,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `restaurant_id` int(11) NOT NULL,
   `type` tinyint(4) NOT NULL,
   `payment_type` tinyint(4) NOT NULL,
+  `phone` varchar(16) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
@@ -389,9 +390,9 @@ CREATE TABLE IF NOT EXISTS `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `user_id`, `placed_at`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `accepted_at`, `restaurant_id`, `type`, `payment_type`) VALUES
-(1, 1, '2016-09-15 22:40:55', 0, '', '', '', '', '', '', '', '', '0000-00-00 00:00:00', 0, 0, 0),
-(2, 1, '2016-09-15 23:12:06', 0, '', '', '', '', '', '', '', '', '0000-00-00 00:00:00', 0, 0, 0);
+INSERT INTO `orders` (`id`, `user_id`, `placed_at`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `accepted_at`, `restaurant_id`, `type`, `payment_type`, `phone`) VALUES
+(1, 1, '2016-09-15 22:40:55', 0, '', '', '', '', '', '', '', '', '0000-00-00 00:00:00', 0, 0, 0, ''),
+(2, 1, '2016-09-15 23:12:06', 0, '', '', '', '', '', '', '', '', '0000-00-00 00:00:00', 0, 0, 0, '');
 
 -- --------------------------------------------------------
 
