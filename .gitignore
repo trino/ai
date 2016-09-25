@@ -17,3 +17,5 @@ public/royslog.txt
 config/mail.php
 *.iml
 .idea/workspace.xml
+*.iml
+.idea/workspace.xml
