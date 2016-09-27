@@ -14,7 +14,7 @@
     <?php
         if(!isset($user_id)){$user_id = read("id");}
         $fields = array(
-            "Phone Number" =>   array("type" => "text", "name" => "phone"),
+
             "Street Number" =>  array("type" => "text", "name" => "number", "class" => "street_number", "readonly" => true),
             "Street" =>         array("type" => "text", "name" => "street", "class" => "route", "readonly" => true),
             "Unit/Apt" =>       array("type" => "text", "name" => "unit"),

@@ -1,0 +1,284 @@
+
+    /* CSS used here will be applied after bootstrap.css */
+.text-muted{
+    color: #dadada !important;
+}
+@media (min-width: 34em) {
+    .card-columns {
+        -webkit-column-count: 1;
+        -moz-column-count: 1;
+        column-count: 1;
+    }
+}
+
+@media (min-width: 48em) {
+    .card-columns {
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+    }
+}
+
+@media (min-width: 62em) {
+    .card-columns {
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+    }
+}
+
+@media (min-width: 75em) {
+    .card-columns {
+        -webkit-column-count: 3;
+        -moz-column-count: 3;
+        column-count: 3;
+    }
+}
+.card{
+    border:0 !important;
+}
+.btn {
+    position: relative;
+    overflow: hidden;
+    outline: none !important;
+}
+
+.btn:after {
+    content: "";
+    background: rgba(0, 0, 0, 0.2);
+    display: block;
+    position: absolute;
+    border-radius: 50%;
+    padding-top: 240%;
+    padding-left: 240%;
+    margin-top: -120%;
+    margin-left: -120%;
+    opacity: 0;
+    transition: all .75s;
+}
+
+.btn:active:after {
+    padding-top: 0;
+    padding-left: 0;
+    margin-top: 0;
+    margin-left: 0;
+    opacity: 1;
+    transition: 0s;
+}
+
+
+.select2-results {
+    max-height: 500px;
+}
+
+.menuitem.disabled {
+    display: none;
+    visibility: hidden;
+}
+
+.menuitem.disabled:hover {
+    text-decoration: none !important;
+}
+
+.select2-container-multi .select2-choices .select2-search-field input {
+    margin: 0 !important;
+}
+
+.
+
+a {
+    text-decoration: none !important;
+    cursor: pointer !important;
+}
+
+.clearfix {
+    clear: both !important;
+}
+
+.select2-container-multi .select2-choices {
+    background-image: none;
+    color: #55595c;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    border:0 !important;
+    box-shadow: none !important;
+}
+
+.select2-container-multi .select2-choices .select2-search-choice {
+    color: #555555;
+    background: white;
+}
+
+    .select2 {
+        border: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Roboto Slab', serif;
+        font-weight: 600;
+    }
+
+    a {
+        color: #373a3c;
+        padding: .25rem 0;
+    }
+
+    body {
+        font-family: 'Roboto', serif;
+        background: #f4f7f8;
+    }
+
+
+    @media (max-width: 978px) {
+        .modal-dialog {
+            padding: 0;
+            margin: 0;
+        }
+    }
+
+    .fa-close {
+        cursor: pointer;
+    }
+
+    #custom-search-input .search-query {
+        padding-right: 3px;
+        padding-right: 4px \9;
+        padding-left: 3px;
+        padding-left: 4px \9;
+        /* IE7-8 doesn't have border-radius, so don't indent the padding */
+
+        margin-bottom: 0;
+        -webkit-border-radius: 3px !important;
+        -moz-border-radius: 3px !important;;
+        border-radius: 3px !important;;
+    }
+
+    #custom-search-input button {
+        border: 0;
+        background: none;
+        /** belows styles are working good */
+        padding: 2px 5px;
+        margin-top: 2px;
+        position: relative;
+        left: -28px;
+        /* IE7-8 doesn't have border-radius, so don't indent the padding */
+        margin-bottom: 0;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        color: #D9230F;
+    }
+
+    .search-query:focus + button {
+        z-index: 3;
+    }
+
+    input, select {
+        border-radius: 0 !important;
+        border-top: 0 !important;
+        border-left: 0 !important;
+        border-right: 0 !important;
+padding-left:0 !important;
+padding-right:0 !important;
+    }
+
+    /*
+    .header-cont {
+        width:100%;
+        position:fixed;
+        top:0px;
+        z-index: 100;
+    }
+    .footer-cont {
+        width:100%;
+        position:fixed;
+        bottom:0px;
+    }
+    .header .footer {
+        height:50px;
+        background:#F0F0F0;
+        border:1px solid #CCC;
+        padding-top: 16px;
+        margin:0px auto;
+    }
+
+    */
+
+    @if(read("id"))
+
+    .loggedin {
+        display: block;
+    }
+
+    .loggedout {
+        display: none;
+    }
+
+    @else
+    .loggedin {
+        display: none;
+    }
+
+    .loggedout {
+        display: block;
+    }
+
+    @endif
+
+    #loadingmodal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background: rgba(255, 255, 255, .8) url('<?= webroot("resources/assets/images/slice.gif"); ?>') 50% 50% no-repeat;
+    }
+
+    /* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
+    body.loading {
+        overflow: hidden;
+    }
+
+    /* Anytime the body has the loading class, our modal element will be visible */
+    body.loading #loadingmodal {
+        display: block;
+    }
+
+    /*
+.profiletype{
+
+display: none;
+}
+
+.hyperlink{
+cursor: pointer;
+color: #0275d8 !important;
+text-decoration:none;
+}
+.hyperlink:hover {
+text-decoration: underline !important;
+color: #154C8C !important;
+}
+
+.error{
+color:red;
+}
+
+table, th, td {
+border: 2px solid #d9534f;
+border-collapse: collapse;
+}
+th {
+background-color: #d9534f;
+color: white;
+}
+.th-left{
+border-right: 2px solid white;
+}
+*/
+

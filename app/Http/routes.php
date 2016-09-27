@@ -28,7 +28,7 @@ View::composer('*', function($view){
 Route::group(['middleware' => ['web']], function () {
 
     Route::get('/', function () {
-        return view('welcome');
+        return view('index');
     })->middleware('guest');
 
     Route::get('/index', function () {

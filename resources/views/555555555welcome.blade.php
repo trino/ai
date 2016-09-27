@@ -272,6 +272,7 @@
                     </div>
 
                     <button data-toggle="collapse" class="btn btn-block btn-warning" href="#collapseCheckout">CHECKOUT</button>
+
                     <div class="collapse" id="collapseCheckout">
                         <input type="text" class="form-control" placeholder="name"/>
                         <input type="text" class="form-control" placeholder="address"/>
