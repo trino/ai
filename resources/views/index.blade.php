@@ -246,19 +246,10 @@
                     </SPAN>
 
                     <div class="collapse" id="collapseCheckout">
-                        <FORM ID="orderinfo">
+                        <FORM ID="orderinfo" name="orderinfo">
                             <div class="input-group">
                                 <span class="input-group-btn" style="width: 50% !important;">
-                                    <input type="text" class="form-control" placeholder="Name"/>
-                                </span>
-                                <span class="input-group-btn" style="width: 50% !important;">
-                                    <input type="text" class="form-control" placeholder="Cell"/>
-                                </span>
-                            </div>
-
-                            <div class="input-group">
-                                <span class="input-group-btn" style="width: 50% !important;">
-                                    <input type="text" class="form-control" placeholder="Email"/>
+                                    <input type="text" name="cell" class="form-control" placeholder="Cell"/>
                                 </span>
                                 <span class="input-group-btn" style="width: 50% !important;">
                                     <SELECT class="form-control" TITLE="Delivery Time"/>
@@ -636,58 +627,19 @@
             generatereceipt();
         });
 
-        /*
         $(function() {
             $("form[name='orderinfo']").validate({
                 rules: {
-                    name: "required",
-                    phone: "phonenumber",
-                    email: {
-                        required: true,
-                        email: true,
-                        remote: {
-                            url: '<?= webroot('public/user/info'); ?>',
-                            type: "post",
-                            data: {
-                                action: "testemail",
-                                email: function() {
-                                    return $('#reg_email').val();
-                                },
-                                user_id: "0"
-                            }
-                        }
-                    },
-                    password: {
-                        minlength: minlength
-                    }
+                    cell: "phonenumber",
                 },
                 messages: {
-                    name: "Please enter your name",
-                    password: {
-                        required: "Please provide a password",
-                        minlength: "Your new password must be at least " + minlength + " characters long"
-                    },
-                    email: "Please enter a valid and unique email address"
+
                 },
                 submitHandler: function(form) {
-                    var formdata = getform("#regform");
-                    formdata["action"] = "registration";
-                    formdata["_token"] = token;
-                    $.post(webroot + "auth/login", formdata, function (result) {
-                        if(result) {
-                            try {
-                                var data = JSON.parse(result);
-                                alert(data["Reason"], "Registration");
-                            } catch (e){
-                                alert(result, "Registration");
-                            }
-                        }
-                    });
-                    return false;
+                  //handled by placeorder
                 }
             });
         });
-        */
     </script>
 
 @endsection
