@@ -61,9 +61,13 @@
         </li>
     </ul>
     <SCRIPT>
+        var currentURL = "<?= Request::url(); ?>";
+        var token = "<?= csrf_token(); ?>";
+        var webroot = "<?= webroot("public/"); ?>";
         var redirectonlogout = false;
         var addresskeys = new Array;
         var userdetails = false;
+        var currentRoute = "<?= Route::getCurrentRoute()->getPath(); ?>";
 
         (function () {
             var proxied = window.alert;
