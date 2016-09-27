@@ -8,13 +8,9 @@
                      style="padding-top:.75rem !important;padding-bottom:.75rem !important;">
                     <div class="row">
                         <div class="col-md-6">
-
                             <h5 class="pull-left" style="margin-top: .5rem;">
                                 <i class="fa fa-home" aria-hidden="true"></i> London Pizza Delivery
-
                             </h5>
-
-
                         </div>
                         <!--div class="col-md-6" id="custom-search-input">
                             <div class="input-group m-t-0">
@@ -34,19 +30,14 @@
 
                 <div class="card-block card-columns">
 
-
                     <?php
-
                     $tables = array("toppings", "wings_sauce");
                     $qualifiers = array("DEFAULT" => array("1/2", "1x", "2x", "3x"));
                     $categories = Query("SELECT * FROM menu GROUP BY category ORDER BY id", true);
                     $isfree = collapsearray(Query("SELECT * FROM additional_toppings", true), "price", "size");
                     $a = 0;
 
-
-
-                    function getsize($itemname, &$isfree)
-                    {
+                    function getsize($itemname, &$isfree) {
                         $currentsize = "";
                         foreach ($isfree as $size => $cost) {
                             if (!is_array($cost)) {
@@ -57,12 +48,10 @@
                         }
                         return $currentsize;
                     }
-                    function textcontains($text, $searchfor)
-                    {
+                    function textcontains($text, $searchfor) {
                         return strpos(strtolower($text), strtolower($searchfor)) !== false;
                     }
-                    function getaddons($Table, &$isfree, &$qualifiers)
-                    {
+                    function getaddons($Table, &$isfree, &$qualifiers) {
                         $toppings = Query("SELECT * FROM " . $Table . " ORDER BY type ASC, name ASC", true);
                         $toppings_display = '';
                         $currentsection = "";
@@ -92,8 +81,7 @@
                         }
                         return $toppings_display . '</optgroup>';
                     }
-                    function explodetrim($text, $delimiter = ",", $dotrim = true)
-                    {
+                    function explodetrim($text, $delimiter = ",", $dotrim = true) {
                         if (is_array($text)) {
                             return $text;
                         }
@@ -106,8 +94,7 @@
                         }
                         return $text;
                     }
-                    function toclass($text)
-                    {
+                    function toclass($text) {
                         return strtolower(str_replace(" ", "_", $text));
                     }
 
@@ -121,10 +108,10 @@
 
                     foreach ($categories as $category) {
                     /*
-                if ($a == 999) {
-                    $a = 0;
-                    echo '</div><div class="col-md-4">';//start a new column
-                }
+                    if ($a == 999) {
+                        $a = 0;
+                        echo '</div><div class="col-md-4">';//start a new column
+                    }
                     */
                     $catclass = toclass($category['category']);
                     $classlist[] = $catclass;
@@ -135,54 +122,47 @@
 
                         <a class="head_{{ $catclass }}" data-toggle="collapse"
                            href="#collapse{{$category["id"]}}_cat">
-                            <h5 class="text-danger">{{$category['category']}}
-                            </h5>
+                            <h5 class="text-danger">{{$category['category']}}</h5>
                         </a>
                         <div class="collapse list-group in  " id="collapse{{$category['id']}}_cat">
                             <?
                             $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
                             foreach ($menuitems as $menuitem) {
-                            $menuitem["price"] = number_format($menuitem["price"], 2);
-                            ?>
-                            <div class="menuitem item_{{ $catclass }}" itemid="{{$menuitem["id"]}}"
-                                 itemname="{{$menuitem['item']}}"
-                                 itemprice="{{$menuitem['price']}}"
-                                 itemsize="{{ getsize($menuitem['item'], $isfree) }}" <?php
-                                    $total = 0;
-                                    foreach ($tables as $table) {
-                                        echo $table . '="' . $menuitem[$table] . '" ';
-                                        $total += $menuitem[$table];
-                                    }
-                                    if ($total) {
-                                        $HTML = 'data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
-                                        $icon = '<i class="fa fa-chevron-down pull-right text-muted"></i>';
-                                    } else {
-                                        $HTML = 'onclick="additemtoorder(this);"';
-                                        $icon = '';
-                                    }
-                                    ?>>
+                                $menuitem["price"] = number_format($menuitem["price"], 2);
+                                ?>
+                                <div class="menuitem item_{{ $catclass }}" itemid="{{$menuitem["id"]}}"
+                                     itemname="{{$menuitem['item']}}"
+                                     itemprice="{{$menuitem['price']}}"
+                                     itemsize="{{ getsize($menuitem['item'], $isfree) }}" <?php
+                                        $total = 0;
+                                        foreach ($tables as $table) {
+                                            echo $table . '="' . $menuitem[$table] . '" ';
+                                            $total += $menuitem[$table];
+                                        }
+                                        if ($total) {
+                                            $HTML = 'data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
+                                            $icon = '<i class="fa fa-chevron-down pull-right text-muted"></i>';
+                                        } else {
+                                            $HTML = 'onclick="additemtoorder(this);"';
+                                            $icon = '';
+                                        }
+                                        ?>>
+                                        <a class="btn btn-block" style="border:0 !important;padding:0 !important;line-height: 1.5rem !important;" <?= $HTML; ?> >
+                                        <?=$icon?>
+                                        <img class="pull-left " src="pizza.png" style="width:22px;margin-right:5px;"/>
 
+                                        <span class="pull-left itemname">{{$menuitem['item']}}</span>
 
-                                <a class="btn btn-block"
-                                   style="border:0 !important;padding:0 !important;line-height: 1.5rem !important;" <?= $HTML; ?> >
+                                        <span class="pull-right"> ${{$menuitem['price']}}</span>
 
+                                    </a>
 
-                                    <?=$icon?>
-                                    <img class="pull-left " src="pizza.png" style="width:22px;margin-right:5px;"/>
-
-                                    <span class="pull-left itemname">{{$menuitem['item']}}</span>
-
-                                    <span class="pull-right"> ${{$menuitem['price']}}</span>
-
-                                </a>
-
-                            </div>
-                            <?php
+                                </div>
+                                <?php
                             }
                             ?>
                         </div>
-                        <div class="">&nbsp;
-                        </div>
+                        <div>&nbsp;</div>
                     </div>
                     <?
                     $a++;
@@ -215,53 +195,37 @@
                                 <ul class="dropdown-menu  dropdown-menu-right">
 
 
-                                    <li>
+                                    <li class="loggedin profiletype profiletype1">
                                         <?php
-                                        foreach (array("users", "restaurants", "useraddresses", "orders") as $table) {
-                                            echo '<A HREF="' . webroot("public/list/" . $table) . '">' . ucfirst($table) . ' list</A><BR>';
-                                        }
+                                            foreach (array("users", "restaurants", "useraddresses", "orders") as $table) {
+                                                echo '<A HREF="' . webroot("public/list/" . $table) . '">' . ucfirst($table) . ' list</A><BR>';
+                                            }
                                         ?>
                                         <HR>
                                         <A HREF="<?= webroot("public/editmenu"); ?>">Edit Menu</A><BR>
                                         <A HREF="<?= webroot("public/list/debug"); ?>">Debug log</A>
-
                                     </li>
 
                                     <li>
-                                        <SPAN CLASS="session_name dropdown-item">
-                                            <i class="fa fa-home"></i></SPAN>
+                                        <SPAN CLASS="session_name dropdown-item"><i class="fa fa-home"></i></SPAN>
                                     </li>
-                                    <li>
-                                        <A HREF="<?= webroot("public/list/all"); ?>"
-                                           CLASS="profiletype  dropdown-item profiletype1"> <i class="fa fa-home"></i>
-                                            Admin</A>
+
+                                    <li class="loggedin profiletype profiletype1">
+                                        <A HREF="<?= webroot("public/list/all"); ?>" CLASS="dropdown-item"> <i class="fa fa-home"></i>Admin</A>
                                     </li>
-                                    <li>
 
-
-                                        <A HREF="<?= webroot("public/list/useraddresses"); ?>" class="dropdown-item"> <i
-                                                    class="fa fa-home"></i> Addressess</A>
+                                    <li class="loggedin">
+                                        <A HREF="<?= webroot("public/list/useraddresses"); ?>" class="dropdown-item"> <i class="fa fa-home"></i> Addressess</A>
                                     </li>
-                                    <li>
 
-                                        <A HREF="<?= webroot("public/user/info"); ?>" class="dropdown-item"> <i
-                                                    class="fa fa-home"></i>
-                                            Profile</A>
-
+                                    <li class="loggedin">
+                                        <A HREF="<?= webroot("public/user/info"); ?>" class="dropdown-item"> <i class="fa fa-home"></i>Profile</A>
                                     </li>
 
                                     <li>
-
-
-                                        <A ONCLICK="handlelogin('logout');" CLASS="hyperlink dropdown-item"> <i
-                                                    class="fa fa-home"></i> Log out</A>
-                                        <A CLASS="loggedout dropdown-item hyperlink" data-toggle="modal"
-                                           data-target="#loginmodal"> <i class="fa fa-home"></i> Log
-                                            In</A>
-
-
+                                        <A ONCLICK="handlelogin('logout');" CLASS="hyperlink dropdown-item loggedin"> <i class="fa fa-home"></i> Log out</A>
+                                        <A CLASS="loggedout dropdown-item hyperlink" data-toggle="modal" data-target="#loginmodal"> <i class="fa fa-home"></i> LogIn</A>
                                     </li>
-
 
                                 </ul>
                             </li>
@@ -342,8 +306,7 @@
                     </button>
 
                     <div class="form-group">
-                        <h5 class="modal-title" id="myModalLabel"><SPAN ID="modal-itemname"></SPAN> $<SPAN
-                                    ID="modal-itemprice"></SPAN></h5>
+                        <h5 class="modal-title" id="myModalLabel"><SPAN ID="modal-itemname"></SPAN> $<SPAN ID="modal-itemprice"></SPAN></h5>
                     </div>
 
                     <div style="display: none;" id="modal-hiddendata">
@@ -353,38 +316,31 @@
                     </div>
 
                     <ul class="list-group">
+                        <div ID="modal-wings-original">
+                            <select class="form-control select2 wings_sauce" multiple="multiple" data-placeholder="First Pound" type="wings_sauce">
+                                <option value="blank"></option>
+                                <?= $wings_display; ?>
+                                <optgroup label="Options">
+                                    <option value="AZ">Well Done</option>
+                                    <option value="CO">Lightly Done</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div ID="modal-wings-clones"></div>
 
 
-                    <div  ID="modal-wings-original">
-                        <select class="form-control select2 wings_sauce" multiple="multiple" data-placeholder="Pound #1"
-                                type="wings_sauce">
-                            <option value="blank"></option>
-                            <?= $wings_display; ?>
-                            <optgroup label="Options">
-                                <option value="AZ">Well Done</option>
-                                <option value="CO">Lightly Done</option>
-                            </optgroup>
-                        </select>
-                    </div>
-
-
-                    <div ID="modal-wings-clones"  ></div>
-
-
-                    <div  ID="modal-toppings-original" style="">
-                        <div style="margin-bottom:.1rem;">Pizza #<span class="index">1</span></div>
-                        <select style="border: 0 !important;" class="form-control select2 toppings" data-placeholder="Add Toppings: $[price]"
-                                multiple="multiple" type="toppings">
-                            <!--option value="blank"></option-->
-                            <?= $toppings_display; ?>
-                            <optgroup label="Options">
-                                <option value="AZ">Well Done</option>
-                                <option value="CO">Lightly Done</option>
-                            </optgroup>
-                        </select>
-                    </div>
-
-                    <div ID="modal-toppings-clones"  ></div>
+                        <div  ID="modal-toppings-original" style="">
+                            <div style="margin-bottom:.1rem;" ID="modal-toppings-original-ordinal">First Pizza</div>
+                            <select style="border: 0 !important;" class="form-control select2 toppings" data-placeholder="Add Toppings: $[price]" multiple="multiple" type="toppings">
+                                <!--option value="blank"></option-->
+                                <?= $toppings_display; ?>
+                                <optgroup label="Options">
+                                    <option value="AZ">Well Done</option>
+                                    <option value="CO">Lightly Done</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div ID="modal-toppings-clones"  ></div>
                     </ul>
 
                     <button data-dismiss="modal" class="btn btn-block m-t-1  btn-warning" onclick="additemtoorder();">
@@ -480,8 +436,13 @@
                 if (isUndefined(sourceHTML)) {
                     var sourceHTML = outerHTML(sourceID).replace('form-control select2', 'form-control select2 select2clones');
                 }
+                if(count == 1){
+                    $(sourceID + "-ordinal").hide();
+                } else {
+                    $(sourceID + "-ordinal").show();
+                }
                 for (var index = 2; index <= count; index++) {
-                    HTML += sourceHTML.replace('<span class="index">1</span>', '<SPAN CLASS="index">' + index + '</SPAN>').replaceAll("#1", "#" + index);
+                    HTML += sourceHTML.replace('First', getordinal(index-1));
                 }
             }
             $(destinationID).html(HTML);
@@ -520,6 +481,10 @@
             generatereceipt();
         }
 
+        function getordinal(index){
+            var ordinals = ["First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Eighth", "Ninth", "Tenth"];
+            return ordinals[index];
+        }
 
         function generatereceipt() {
             var HTML = '', tempHTML = "", subtotal = 0;
@@ -531,7 +496,6 @@
                 tempHTML += '<span class="pull-right" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '"> $' + totalcost + ' <i class="text-muted fa fa-close" onclick="removeorderitem(' + itemid + ');"></i></span><div class="clearfix"></div>';
 
                 var itemname = "";
-                //alert(JSON.stringify(item["itemaddons"]));
                 if (item["itemaddons"].length > 1) {
                     switch (item["itemaddons"][0]["tablename"]) {
                         case "toppings":
@@ -545,7 +509,7 @@
                 for (var currentitem = 0; currentitem < item["itemaddons"].length; currentitem++) {
                     var addons = item["itemaddons"][currentitem];
                     if (itemname) {
-                        tempHTML += itemname + " #" + (currentitem + 1) + ": ";
+                        tempHTML += getordinal(currentitem) + " " + itemname + " #" + ": ";
                     }
                     for (var addonid = 0; addonid < addons["addons"].length; addonid++) {
                         if (addonid > 0) {
@@ -568,14 +532,12 @@
                 HTML = '<span class="pull-left">Order is empty</SPAN><BR>';
                 $("#checkout").hide();
                 removeCookie("theorder");
+            } else {
+                tempHTML = '<span class="pull-right"> Sub-total: $' + subtotal.toFixed(2) + '</span><br>';
+                tempHTML += '<span class="pull-right"> Delivery: $' + deliveryfee.toFixed(2) + '</span><br>';
+                tempHTML += '<span class="pull-right"> Tax: $' + taxes.toFixed(2) + '</span><br>';
+                tempHTML += '<span class="pull-right"> Total: $' + totalcost.toFixed(2) + '</span>';
             }
-
-
-            tempHTML = '<span class="pull-right"> Sub-total: $' + subtotal.toFixed(2) + '</span><br>';
-            tempHTML += '<span class="pull-right"> Delivery: $' + deliveryfee.toFixed(2) + '</span><br>';
-            tempHTML += '<span class="pull-right"> Tax: $' + taxes.toFixed(2) + '</span><br>';
-            tempHTML += '<span class="pull-right"> Total: $' + totalcost.toFixed(2) + '</span>';
-
             $("#myorder").html(HTML + tempHTML);
         }
         function clearorder() {
