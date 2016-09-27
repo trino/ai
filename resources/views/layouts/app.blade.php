@@ -9,7 +9,7 @@
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://select2.github.io/select2/select2-3.5.2/select2.css">
-    <link rel="stylesheet" href="custom.css">
+    <link rel="stylesheet" href="<?= webroot("public/custom.css"); ?>">
 
     <link rel="icon" sizes="128x128" href="<?= webroot("resources/assets/images/pizza128.png"); ?>">
     <link rel="icon" sizes="192x192" href="<?= webroot("resources/assets/images/pizza192.png"); ?>">
@@ -53,12 +53,11 @@
 
 <body>
 <?php
-$start_loading_time = microtime(true);
-if(read("id")){
-    $user = first("SELECT * FROM users WHERE id = " . read("id"));
-    unset($user["password"]);
-    $user["Addresses"] = Query("SELECT * FROM useraddresses WHERE user_id = " . $user["id"], true);
-}
+    $start_loading_time = microtime(true);
+    if(read("id")){
+        $user = getuser(read("id"));
+        unset($user["password"]);
+    }
 ?>
 <div class="container p-a-0 m-t-1 bodycontainer">
     @yield('content')

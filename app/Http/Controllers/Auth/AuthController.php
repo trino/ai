@@ -65,7 +65,7 @@ class AuthController extends Controller {
             \Session::save();
         } else {
             if(!$email){$email= trim($_POST["email"]);}
-            $user = first("SELECT * FROM users WHERE email = '" . $email . "'");
+            $user = getuser($email);// first("SELECT * FROM users WHERE email = '" . $email . "'");
             $passwordmismatch = "Password and email address do not match a known account";
             if ($user) {
                 switch ($action) {
@@ -84,7 +84,6 @@ class AuthController extends Controller {
                             $ret["Reason"] = 'Email address not verified. Please click the [verify] button in your email';
                         } else if (\Hash::check($_POST["password"], $user["password"])) {
                             unset($user["password"]);//do not send this to the user!
-                            $user["Addresses"] = Query("SELECT * FROM useraddresses WHERE user_id = " . $user["id"], true);
                             $ret["User"] = $user;
                             foreach ($user as $Key => $Value) {
                                 write($Key, $Value);

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 27, 2016 at 10:03 PM
+-- Generation Time: Sep 27, 2016 at 11:11 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -476,14 +476,14 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1475001287');
+(1, 'lastSQL', '1475006624');
 
 -- --------------------------------------------------------
 
@@ -593,6 +593,13 @@ CREATE TABLE IF NOT EXISTS `users` (
   `loginattempts` int(11) NOT NULL,
   `profiletype` tinyint(4) NOT NULL,
   `authcode` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `cc_fname` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `cc_lname` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `cc_number` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `cc_xyear` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `cc_xmonth` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `cc_cc` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `cc_addressid` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=12 ;
@@ -601,9 +608,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `phone`, `lastlogin`, `loginattempts`, `profiletype`, `authcode`) VALUES
-(1, 'Roy Hodson', 'roy@trinoweb.com', '$2y$10$XqUn.RNhx0YbcZUQXWYP0eHIz0aLK8xX00cd.PLVRQsafF9Frod6K', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '(905) 512-3067', 1473953004, 2, 1, ''),
-(11, 'Van Trinh', 'info@trinoweb.com', '$2y$10$2yAesihK6otSPNnVtnpnIOEO3Ec.6n2mrN1VWoL3qoETP1.T66PcC', '', '2016-09-20 21:19:32', '0000-00-00 00:00:00', '(905) 512-3067', 0, 0, 0, '48F3FE05-F161-40AA-857F-729051960297');
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `phone`, `lastlogin`, `loginattempts`, `profiletype`, `authcode`, `cc_fname`, `cc_lname`, `cc_number`, `cc_xyear`, `cc_xmonth`, `cc_cc`, `cc_addressid`) VALUES
+(1, 'Roy Hodson', 'roy@trinoweb.com', '$2y$10$XqUn.RNhx0YbcZUQXWYP0eHIz0aLK8xX00cd.PLVRQsafF9Frod6K', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '(905) 512-3067', 1473953004, 2, 1, '', '', '', '', '', '', '', 1),
+(11, 'Van Trinh', 'info@trinoweb.com', '$2y$10$2yAesihK6otSPNnVtnpnIOEO3Ec.6n2mrN1VWoL3qoETP1.T66PcC', '', '2016-09-20 21:19:32', '0000-00-00 00:00:00', '(905) 512-3067', 0, 0, 0, '48F3FE05-F161-40AA-857F-729051960297', '', '', '', '', '', '', 0);
 
 -- --------------------------------------------------------
 

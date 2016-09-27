@@ -14,6 +14,8 @@
             echo '<INPUT TYPE="' . $field["type"] . '" NAME="' . $field["name"] . '" ID="' . $Prepend . '_' . $field["name"] . '"';
             if(isset($field["class"])){echo ' CLASS="' . $field["class"] . '" ';}
             if(isset($field["value"])){echo ' value="' . $field["value"] . '" ';}
+            if(isset($field["min"])){echo ' min="' . $field["min"] . '" ';}
+            if(isset($field["max"])){echo ' max="' . $field["max"] . '" ';}
             if(isset($field["readonly"])){echo ' readonly';}
             echo '>';
             if($field["type"] != "hidden"){echo '</DIV></DIV>';}

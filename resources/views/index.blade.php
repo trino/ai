@@ -601,6 +601,7 @@
             removeindex(theorder, index);
             generatereceipt();
         }
+
         function placeorder() {
             if (isObject(userdetails)) {
                 $.post(webroot + "placeorder", {
