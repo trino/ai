@@ -238,45 +238,35 @@
 
 
                     <div id="myorder"></div>
-                    <button data-toggle="collapse" class="btn btn-block btn-warning" id="checkout"
-                            href="#collapseCheckout">
+                    <button data-toggle="collapse" class="btn btn-block btn-warning" id="checkout" href="#collapseCheckout">
                         CHECKOUT
                     </button>
                     <div class="collapse" id="collapseCheckout">
                         <FORM ID="orderinfo">
-
-                        <div class="input-group">
-                        <span class="input-group-btn" style="width: 50% !important;">
-                        <input type="text" class="form-control" placeholder="Name"/>
-                        </span>
-                        <span class="input-group-btn" style="width: 50% !important;">
-                        <input type="text" class="form-control" placeholder="Cell"/>
-                        </span>
-                        </div>
-
-
-
                             <div class="input-group">
-                        <span class="input-group-btn" style="width: 50% !important;">
-                            <input type="text" class="form-control" placeholder="Email"/>
-                        </span>
                                 <span class="input-group-btn" style="width: 50% !important;">
-                        <input type="text" class="form-control" placeholder="Delivery Time"/>
-                        </span>
+                                    <input type="text" class="form-control" placeholder="Name"/>
+                                </span>
+                                <span class="input-group-btn" style="width: 50% !important;">
+                                    <input type="text" class="form-control" placeholder="Cell"/>
+                                </span>
                             </div>
 
+                            <div class="input-group">
+                                <span class="input-group-btn" style="width: 50% !important;">
+                                    <input type="text" class="form-control" placeholder="Email"/>
+                                </span>
+                                <span class="input-group-btn" style="width: 50% !important;">
+                                    <input type="text" class="form-control" placeholder="Delivery Time"/>
+                                </span>
+                            </div>
 
                             <input type="text" class="form-control" placeholder="Restaurant"/>
                             <input type="text" class="form-control" placeholder="Credit Card"/>
-
-
-
-
                             <input type="text" class="form-control" placeholder="Notes"/>
 
                             <div ID="addressdropdown" class="clear_loggedout"></div>
-                            <?= view("popups.address", array("dontincludeAPI" => true, "style" => 1)); //must update the user_id once login is possible ?>
-
+                            <?= view("popups.address", array("dontincludeAPI" => true, "style" => 1)); ?>
 
                             <button class="btn btn-warning btn-block m-t-1" onclick="placeorder();">PLACE ORDER</button>
                         </FORM>
@@ -532,6 +522,7 @@
                 HTML = '<span class="pull-left">Order is empty</SPAN><BR>';
                 $("#checkout").hide();
                 removeCookie("theorder");
+                collapsecheckout();
             } else {
                 tempHTML = '<span class="pull-right"> Sub-total: $' + subtotal.toFixed(2) + '</span><br>';
                 tempHTML += '<span class="pull-right"> Delivery: $' + deliveryfee.toFixed(2) + '</span><br>';
@@ -540,6 +531,13 @@
             }
             $("#myorder").html(HTML + tempHTML);
         }
+
+        function collapsecheckout(){
+            if($("#collapseCheckout").attr("aria-expanded") == "true"){
+                $("#checkout").trigger("click");
+            }
+        }
+
         function clearorder() {
             theorder = new Array;
             generatereceipt();
@@ -629,9 +627,5 @@
             generatereceipt();
         });
     </script>
-
-
-
-
 
 @endsection
