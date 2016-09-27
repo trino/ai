@@ -11,14 +11,27 @@
         <link rel="stylesheet" href="https://select2.github.io/select2/select2-3.5.2/select2.css">
         <link rel="stylesheet" href="custom.css">
 
-        <script src="http://localhost/ai/resources/assets/scripts/jquery.min.js"></script>
+        <link rel="icon" sizes="128x128" href="<?= webroot("resources/assets/images/pizza128.png"); ?>">
+        <link rel="icon" sizes="192x192" href="<?= webroot("resources/assets/images/pizza192.png"); ?>">
+        <meta name="mobile-web-app-capable" content="yes">
+        <link rel="manifest" href="<?= webroot("resources/assets/manifest.json"); ?>">
+
+        <script src="<?= webroot("resources/assets/scripts/jquery.min.js"); ?>"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/js/bootstrap.min.js"></script>
         <script src="http://select2.github.io/select2/select2-3.4.2/select2.js"></script>
         <SCRIPT SRC="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></SCRIPT>
-        <script src="http://localhost/ai/resources/assets/scripts/api2.js"></script>
+        <script src="<?= webroot("resources/assets/scripts/api2.js"); ?>"></script>
     </head>
 
     <body>
+        <?php
+            $start_loading_time = microtime(true);
+            if(read("id")){
+                $user = first("SELECT * FROM users WHERE id = " . read("id"));
+                unset($user["password"]);
+                $user["Addresses"] = Query("SELECT * FROM useraddresses WHERE user_id = " . $user["id"], true);
+            }
+        ?>
         <div class="container p-a-0 m-t-1 bodycontainer">
             @yield('content')
         </div>
@@ -27,36 +40,38 @@
     </body>
     <!--nav class="navbar-default navbar-fixed-top navbar navbar-full navbar-dark bg-danger dont-print" style="z-index: 1;padding:.1rem !important;"></nav-->
 
-    <a style="color:white;margin-top:.25rem;" href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-user no-padding-margin"></i></a>
+    <a style="color:white;margin-top:.25rem;" href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        <i class="fa fa-user no-padding-margin"></i>
+    </a>
     <ul class="dropdown-menu  dropdown-menu-right">
-        <li>
-            <A HREF="http://localhost/ai/public/list/users">Users list</A><BR><A
-                    HREF="http://localhost/ai/public/list/restaurants">Restaurants list</A><BR><A
-                    HREF="http://localhost/ai/public/list/useraddresses">Useraddresses list</A><BR><A
-                    HREF="http://localhost/ai/public/list/orders">Orders list</A><BR>
+        <li class="loggedin profiletype profiletype1">
+            <A HREF="http://localhost/ai/public/list/users">Users list</A><BR>
+            <A HREF="http://localhost/ai/public/list/restaurants">Restaurants list</A><BR>
+            <A HREF="http://localhost/ai/public/list/useraddresses">Useraddresses list</A><BR>
+            <A HREF="http://localhost/ai/public/list/orders">Orders list</A><BR>
             <HR>
             <A HREF="http://localhost/ai/public/editmenu">Edit Menu</A><BR>
             <A HREF="http://localhost/ai/public/list/debug">Debug log</A>
         </li>
 
-        <li>
-            <SPAN CLASS="session_name dropdown-item"><i class="fa fa-home"></i></SPAN>
+        <li class="loggedin">
+            <i class="fa fa-home"></i> <SPAN CLASS="session_name dropdown-item"></SPAN>
         </li>
 
-        <li>
-            <A HREF="http://localhost/ai/public/list/all" CLASS="profiletype  dropdown-item profiletype1"> <i class="fa fa-home"></i>Admin</A>
+        <li class="loggedin">
+            <A HREF="http://localhost/ai/public/list/all" CLASS="profiletype dropdown-item profiletype1"> <i class="fa fa-home"></i>Admin</A>
         </li>
 
-        <li>
-            <A HREF="http://localhost/ai/public/list/useraddresses" class="dropdown-item"> <i class="fa fa-home"></i> Addressess</A>
+        <li class="loggedin">
+            <A HREF="http://localhost/ai/public/list/useraddresses" class="dropdown-item"> <i class="fa fa-home"></i>Addressess</A>
         </li>
 
-        <li>
+        <li class="loggedin">
             <A HREF="http://localhost/ai/public/user/info" class="dropdown-item"> <i class="fa fa-home"></i>Profile</A>
         </li>
 
         <li>
-            <A ONCLICK="handlelogin('logout');" CLASS="hyperlink dropdown-item"> <i class="fa fa-home"></i> Log out</A>
+            <A ONCLICK="handlelogin('logout');" CLASS="hyperlink dropdown-item loggedin"> <i class="fa fa-home"></i> Log out</A>
             <A CLASS="loggedout dropdown-item hyperlink" data-toggle="modal" data-target="#loginmodal"> <i class="fa fa-home"></i> LogIn</A>
         </li>
     </ul>
@@ -92,6 +107,10 @@
                     $body.removeClass("loading");
                 }
             });
+
+            @if(isset($user))
+                login(<?= json_encode($user); ?>);
+            @endif
         });
 
         function login(user) {
