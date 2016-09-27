@@ -106,6 +106,9 @@
                                         break;
                                 }
                             }
+                            if(!isUndefined(collapsecheckout)) {
+                                collapsecheckout();
+                            }
                             break;
                     }
                 }

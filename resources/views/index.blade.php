@@ -238,12 +238,14 @@
 
 
                     <div id="myorder"></div>
-                    <button class="btn btn-block btn-warning" id="checkloggedout" style="display:none;" onclick="checklogin();">
-                        LOGIN
-                    </button>
-                    <button data-toggle="collapse" class="btn btn-block btn-warning" id="checkout" href="#collapseCheckout">
-                        CHECKOUT
-                    </button>
+                    <SPAN ID="checkoutbutton">
+                        <button class="btn btn-block btn-warning loggedout" id="checkloggedout" data-toggle="modal" data-target="#loginmodal">
+                            LOGIN
+                        </button>
+                        <button data-toggle="collapse" class="btn btn-block btn-warning loggedin" id="checkout" href="#collapseCheckout">
+                            CHECKOUT
+                        </button>
+                    </SPAN>
                     <div class="collapse" id="collapseCheckout">
                         <FORM ID="orderinfo">
                             <div class="input-group">
@@ -518,13 +520,7 @@
             var taxes = (subtotal + deliveryfee) * 0.13;//ontario only
             totalcost = subtotal + deliveryfee + taxes;
 
-            if(userdetails) {
-                $("#checkout").show();
-                $("#checkloggedout").hide();
-            } else {
-                $("#checkloggedout").show();
-                $("#checkout").hide();
-            }
+            $("#checkoutbutton").show();
 
             createCookieValue("theorder", JSON.stringify(theorder));
             if (theorder.length == 0) {
@@ -532,7 +528,7 @@
                 totalcost = 0;
                 HTML = '<span class="pull-left">Order is empty</SPAN><BR>';
                 $("#checkout").hide();
-                $("#checkloggedout").hide();
+                $("#checkoutbutton").hide();
                 removeCookie("theorder");
                 collapsecheckout();
             } else {
@@ -631,10 +627,6 @@
             }
             generatereceipt();
         });
-
-        function checklogin(){
-            alert("TEST");
-        }
 
         /*
         $(function() {
