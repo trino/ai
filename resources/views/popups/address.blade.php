@@ -17,8 +17,8 @@
 
             "Street Number" =>  array("type" => "text", "name" => "number", "class" => "street_number", "readonly" => true),
             "Street" =>         array("type" => "text", "name" => "street", "class" => "route", "readonly" => true),
-            "Unit/Apt" =>       array("type" => "text", "name" => "unit"),
-            "Buzz code" =>      array("type" => "text", "name" => "buzzcode"),
+            "Unit/Apt" =>       array("type" => "text", "name" => "unit", "half" => "start"),
+            "Buzz code" =>      array("type" => "text", "name" => "buzzcode", "half" => "end"),
             "City" =>           array("type" => "text", "name" => "city", "class" => "locality", "readonly" => true),
             "Province" =>       array("type" => "text", "name" => "province", "class" => "administrative_area_level_1", "readonly" => true),
             "Postal Code" =>    array("type" => "text", "name" => "postalcode", "class" => "postal_code", "readonly" => true),
@@ -28,6 +28,10 @@
         );
         foreach($fields as $Name => $field){
             if($style == 0 && $field["type"] != "hidden"){echo '<DIV CLASS="row"><DIV CLASS="col-md-2 data_' . $field["name"] . '">' . $Name . ':</DIV><DIV CLASS="col-md-10">';}
+            if($style == 1 && isset($field["half"])){
+                //if($field("half") == "start"){echo '<div class="input-group">';}
+                echo '<span class="input-group-btn" style="width: 50% !important;">';
+            }
             echo '<INPUT TYPE="' . $field["type"] . '" NAME="' . $field["name"] . '" ID="add_' . $field["name"] . '"';
             if($style == 1){
                 echo ' PLACEHOLDER="' . $Name . '"';
@@ -39,6 +43,10 @@
             if(isset($field["readonly"])){echo ' readonly';}
             echo '>';
             if($style == 0 && $field["type"] != "hidden"){echo '</DIV></DIV>';}
+            if($style == 1 && isset($field["half"])){
+                echo '</span>';
+                //if($field("half") == "end"){echo '</div>';}
+            }
         }
     ?>
 </FORM>

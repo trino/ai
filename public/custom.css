@@ -181,8 +181,8 @@ a {
         border-top: 0 !important;
         border-left: 0 !important;
         border-right: 0 !important;
-padding-left:0 !important;
-padding-right:0 !important;
+        padding-left:0 !important;
+        padding-right:0 !important;
     }
 
     /*
@@ -207,37 +207,6 @@ padding-right:0 !important;
 
     */
 
-    @if(read("id"))
-
-    .loggedin {
-        display: block;
-    }
-
-    .loggedout {
-        display: none;
-    }
-
-    @else
-    .loggedin {
-        display: none;
-    }
-
-    .loggedout {
-        display: block;
-    }
-
-    @endif
-
-    #loadingmodal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        background: rgba(255, 255, 255, .8) url('<?= webroot("resources/assets/images/slice.gif"); ?>') 50% 50% no-repeat;
-    }
 
     /* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
     body.loading {
@@ -249,36 +218,32 @@ padding-right:0 !important;
         display: block;
     }
 
-    /*
-.profiletype{
+    .profiletype{
+        display: none;
+    }
 
-display: none;
-}
+    .hyperlink{
+        cursor: pointer;
+        color: #0275d8 !important;
+        text-decoration:none;
+    }
+    .hyperlink:hover {
+        text-decoration: underline !important;
+        color: #154C8C !important;
+    }
 
-.hyperlink{
-cursor: pointer;
-color: #0275d8 !important;
-text-decoration:none;
-}
-.hyperlink:hover {
-text-decoration: underline !important;
-color: #154C8C !important;
-}
+    .error{
+        color:red;
+    }
 
-.error{
-color:red;
-}
-
-table, th, td {
-border: 2px solid #d9534f;
-border-collapse: collapse;
-}
-th {
-background-color: #d9534f;
-color: white;
-}
-.th-left{
-border-right: 2px solid white;
-}
-*/
-
+    table, th, td {
+        border: 2px solid #d9534f;
+        border-collapse: collapse;
+    }
+    th {
+        background-color: #d9534f;
+        color: white;
+    }
+    .th-left{
+        border-right: 2px solid white;
+    }

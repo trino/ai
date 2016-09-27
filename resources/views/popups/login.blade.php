@@ -89,6 +89,7 @@
                             break;
                         case "logout":
                             removeCookie();
+                            $('[class^="session_"]').text("");
                             $(".loggedin").hide();
                             $(".loggedout").show();
                             $(".clear_loggedout").html("");
