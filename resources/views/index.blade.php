@@ -195,23 +195,23 @@
                                 <ul class="dropdown-menu  dropdown-menu-right">
 
 
-                                    <li class="loggedin profiletype profiletype1">
+                                    <SPAN class="loggedin profiletype profiletype1">
                                         <?php
                                             foreach (array("users", "restaurants", "useraddresses", "orders") as $table) {
-                                                echo '<A HREF="' . webroot("public/list/" . $table) . '">' . ucfirst($table) . ' list</A><BR>';
+                                                echo '<LI><A HREF="' . webroot("public/list/" . $table) . '" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> ' . ucfirst($table) . ' list</A></LI>';
                                             }
                                         ?>
+                                        <li><A HREF="<?= webroot("public/editmenu"); ?>" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> Edit Menu</A></li>
+                                        <li><A HREF="<?= webroot("public/list/debug"); ?>" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> Debug log</A></li>
                                         <HR>
-                                        <A HREF="<?= webroot("public/editmenu"); ?>">Edit Menu</A><BR>
-                                        <A HREF="<?= webroot("public/list/debug"); ?>">Debug log</A>
-                                    </li>
+                                    </SPAN>
 
                                     <li>
-                                        <SPAN CLASS="session_name dropdown-item"><i class="fa fa-home"></i></SPAN>
+                                        <SPAN class="dropdown-item"><i class="fa fa-home"></i> <SPAN CLASS="session_name"></SPAN></SPAN>
                                     </li>
 
                                     <li class="loggedin profiletype profiletype1">
-                                        <A HREF="<?= webroot("public/list/all"); ?>" CLASS="dropdown-item"> <i class="fa fa-home"></i>Admin</A>
+                                        <A HREF="<?= webroot("public/list/all"); ?>" CLASS="dropdown-item"> <i class="fa fa-home"></i> Admin</A>
                                     </li>
 
                                     <li class="loggedin">
@@ -219,12 +219,12 @@
                                     </li>
 
                                     <li class="loggedin">
-                                        <A HREF="<?= webroot("public/user/info"); ?>" class="dropdown-item"> <i class="fa fa-home"></i>Profile</A>
+                                        <A HREF="<?= webroot("public/user/info"); ?>" class="dropdown-item"> <i class="fa fa-home"></i> Profile</A>
                                     </li>
 
                                     <li>
                                         <A ONCLICK="handlelogin('logout');" CLASS="hyperlink dropdown-item loggedin"> <i class="fa fa-home"></i> Log out</A>
-                                        <A CLASS="loggedout dropdown-item hyperlink" data-toggle="modal" data-target="#loginmodal"> <i class="fa fa-home"></i> LogIn</A>
+                                        <A CLASS="loggedout dropdown-item hyperlink" data-toggle="modal" data-target="#loginmodal"> <i class="fa fa-home"></i> Log In</A>
                                     </li>
 
                                 </ul>

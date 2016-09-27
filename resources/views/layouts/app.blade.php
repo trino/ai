@@ -60,38 +60,7 @@
     <a style="color:white;margin-top:.25rem;" href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
         <i class="fa fa-user no-padding-margin"></i>
     </a>
-    <ul class="dropdown-menu  dropdown-menu-right">
-        <li class="loggedin profiletype profiletype1">
-            <A HREF="http://localhost/ai/public/list/users">Users list</A><BR>
-            <A HREF="http://localhost/ai/public/list/restaurants">Restaurants list</A><BR>
-            <A HREF="http://localhost/ai/public/list/useraddresses">Useraddresses list</A><BR>
-            <A HREF="http://localhost/ai/public/list/orders">Orders list</A><BR>
-            <HR>
-            <A HREF="http://localhost/ai/public/editmenu">Edit Menu</A><BR>
-            <A HREF="http://localhost/ai/public/list/debug">Debug log</A>
-        </li>
 
-        <li class="loggedin">
-            <i class="fa fa-home"></i> <SPAN CLASS="session_name dropdown-item"></SPAN>
-        </li>
-
-        <li class="loggedin">
-            <A HREF="http://localhost/ai/public/list/all" CLASS="profiletype dropdown-item profiletype1"> <i class="fa fa-home"></i>Admin</A>
-        </li>
-
-        <li class="loggedin">
-            <A HREF="http://localhost/ai/public/list/useraddresses" class="dropdown-item"> <i class="fa fa-home"></i>Addressess</A>
-        </li>
-
-        <li class="loggedin">
-            <A HREF="http://localhost/ai/public/user/info" class="dropdown-item"> <i class="fa fa-home"></i>Profile</A>
-        </li>
-
-        <li>
-            <A ONCLICK="handlelogin('logout');" CLASS="hyperlink dropdown-item loggedin"> <i class="fa fa-home"></i> Log out</A>
-            <A CLASS="loggedout dropdown-item hyperlink" data-toggle="modal" data-target="#loginmodal"> <i class="fa fa-home"></i> LogIn</A>
-        </li>
-    </ul>
     <SCRIPT>
         var currentURL = "<?= Request::url(); ?>";
         var token = "<?= csrf_token(); ?>";
