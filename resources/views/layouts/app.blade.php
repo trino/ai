@@ -22,7 +22,7 @@
         <SCRIPT SRC="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></SCRIPT>
         <script src="<?= webroot("resources/assets/scripts/api2.js"); ?>"></script>
     </head>
-    <STYLE>
+    <STYLE TITLE="These can not be moved to a CSS file!!!">
         @if(read("id"))
             .loggedin {
                 display: block;
@@ -38,6 +38,17 @@
                 display: block;
             }
         @endif
+
+        #loadingmodal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: rgba(255, 255, 255, .8) url('<?= webroot("resources/assets/images/slice.gif"); ?>') 50% 50% no-repeat;
+        }
     </STYLE>
 
     <body>
@@ -156,4 +167,24 @@
             }
         });
     </SCRIPT>
+
+    <div class="modal" id="alertmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="form-group">
+                        <h4 class="modal-title" id="alertmodallabel">Title</h4>
+                    </div>
+                    <DIV ID="alertmodalbody"></DIV>
+                    <button class="btn btn-block btn-warning" data-dismiss="modal" STYLE="margin-top: 15px;">
+                        Ok
+                    </button>
+                </div>
+            </div>
+        </div>
+    </DIV>
+    <div class="modal loading" ID="loadingmodal"></div>
 </html>

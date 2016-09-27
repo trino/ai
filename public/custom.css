@@ -181,8 +181,8 @@ a {
         border-top: 0 !important;
         border-left: 0 !important;
         border-right: 0 !important;
-padding-left:0 !important;
-padding-right:0 !important;
+        padding-left:0 !important;
+        padding-right:0 !important;
     }
 
     /*
@@ -207,16 +207,6 @@ padding-right:0 !important;
 
     */
 
-    #loadingmodal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        background: rgba(255, 255, 255, .8) url('<?= webroot("resources/assets/images/slice.gif"); ?>') 50% 50% no-repeat;
-    }
 
     /* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
     body.loading {

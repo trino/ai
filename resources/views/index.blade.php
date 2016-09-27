@@ -238,6 +238,9 @@
 
 
                     <div id="myorder"></div>
+                    <button class="btn btn-block btn-warning" id="checkloggedout" style="display:none;" onclick="checklogin();">
+                        LOGIN
+                    </button>
                     <button data-toggle="collapse" class="btn btn-block btn-warning" id="checkout" href="#collapseCheckout">
                         CHECKOUT
                     </button>
@@ -514,13 +517,22 @@
 
             var taxes = (subtotal + deliveryfee) * 0.13;//ontario only
             totalcost = subtotal + deliveryfee + taxes;
-            $("#checkout").show();
+
+            if(userdetails) {
+                $("#checkout").show();
+                $("#checkloggedout").hide();
+            } else {
+                $("#checkloggedout").show();
+                $("#checkout").hide();
+            }
+
             createCookieValue("theorder", JSON.stringify(theorder));
             if (theorder.length == 0) {
                 taxes = 0;
                 totalcost = 0;
                 HTML = '<span class="pull-left">Order is empty</SPAN><BR>';
                 $("#checkout").hide();
+                $("#checkloggedout").hide();
                 removeCookie("theorder");
                 collapsecheckout();
             } else {
@@ -616,16 +628,66 @@
             wingsauceouterhtml = outerHTML("#modal-wings-original").replace('form-control select2', 'form-control select2 select2clones');
             if (getCookie("theorder")) {
                 theorder = JSON.parse(getCookie("theorder"));
-
-                /*
-                 if (confirm("The remants of an order were saved, would you like to resume the order?")) {
-                 } else if (confirm("Would you like to delete the saved order?")) {
-                 removeCookie("theorder");
-                 }
-                 */
             }
             generatereceipt();
         });
+
+        function checklogin(){
+            alert("TEST");
+        }
+
+        /*
+        $(function() {
+            $("form[name='orderinfo']").validate({
+                rules: {
+                    name: "required",
+                    phone: "phonenumber",
+                    email: {
+                        required: true,
+                        email: true,
+                        remote: {
+                            url: '<?= webroot('public/user/info'); ?>',
+                            type: "post",
+                            data: {
+                                action: "testemail",
+                                email: function() {
+                                    return $('#reg_email').val();
+                                },
+                                user_id: "0"
+                            }
+                        }
+                    },
+                    password: {
+                        minlength: minlength
+                    }
+                },
+                messages: {
+                    name: "Please enter your name",
+                    password: {
+                        required: "Please provide a password",
+                        minlength: "Your new password must be at least " + minlength + " characters long"
+                    },
+                    email: "Please enter a valid and unique email address"
+                },
+                submitHandler: function(form) {
+                    var formdata = getform("#regform");
+                    formdata["action"] = "registration";
+                    formdata["_token"] = token;
+                    $.post(webroot + "auth/login", formdata, function (result) {
+                        if(result) {
+                            try {
+                                var data = JSON.parse(result);
+                                alert(data["Reason"], "Registration");
+                            } catch (e){
+                                alert(result, "Registration");
+                            }
+                        }
+                    });
+                    return false;
+                }
+            });
+        });
+        */
     </script>
 
 @endsection

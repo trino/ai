@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 22, 2016 at 09:53 PM
+-- Generation Time: Sep 27, 2016 at 08:34 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `additional_toppings` (
   `size` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `price` double NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `additional_toppings`
@@ -41,7 +41,8 @@ INSERT INTO `additional_toppings` (`id`, `size`, `price`) VALUES
 (1, 'Small', 1),
 (2, 'Medium', 1.25),
 (3, 'Large', 1.5),
-(4, 'X-Large', 2);
+(4, 'X-Large', 2),
+(6, 'Panzerotti', 1);
 
 -- --------------------------------------------------------
 
@@ -482,14 +483,14 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1474502476');
+(1, 'lastSQL', '1474574026');
 
 -- --------------------------------------------------------
 
