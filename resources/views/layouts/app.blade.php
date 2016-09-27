@@ -22,6 +22,23 @@
         <SCRIPT SRC="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></SCRIPT>
         <script src="<?= webroot("resources/assets/scripts/api2.js"); ?>"></script>
     </head>
+    <STYLE>
+        @if(read("id"))
+            .loggedin {
+                display: block;
+            }
+            .loggedout {
+                display: none;
+            }
+        @else
+            .loggedin {
+                display: none;
+            }
+            .loggedout {
+                display: block;
+            }
+        @endif
+    </STYLE>
 
     <body>
         <?php

@@ -207,27 +207,6 @@ padding-right:0 !important;
 
     */
 
-    @if(read("id"))
-
-    .loggedin {
-        display: block;
-    }
-
-    .loggedout {
-        display: none;
-    }
-
-    @else
-    .loggedin {
-        display: none;
-    }
-
-    .loggedout {
-        display: block;
-    }
-
-    @endif
-
     #loadingmodal {
         display: none;
         position: fixed;
@@ -249,36 +228,32 @@ padding-right:0 !important;
         display: block;
     }
 
-    /*
-.profiletype{
+    .profiletype{
+        display: none;
+    }
 
-display: none;
-}
+    .hyperlink{
+        cursor: pointer;
+        color: #0275d8 !important;
+        text-decoration:none;
+    }
+    .hyperlink:hover {
+        text-decoration: underline !important;
+        color: #154C8C !important;
+    }
 
-.hyperlink{
-cursor: pointer;
-color: #0275d8 !important;
-text-decoration:none;
-}
-.hyperlink:hover {
-text-decoration: underline !important;
-color: #154C8C !important;
-}
+    .error{
+        color:red;
+    }
 
-.error{
-color:red;
-}
-
-table, th, td {
-border: 2px solid #d9534f;
-border-collapse: collapse;
-}
-th {
-background-color: #d9534f;
-color: white;
-}
-.th-left{
-border-right: 2px solid white;
-}
-*/
-
+    table, th, td {
+        border: 2px solid #d9534f;
+        border-collapse: collapse;
+    }
+    th {
+        background-color: #d9534f;
+        color: white;
+    }
+    .th-left{
+        border-right: 2px solid white;
+    }

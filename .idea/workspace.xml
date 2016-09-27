@@ -25,14 +25,24 @@
       <file leaf-file-name="app.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/layouts/app.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.44468784">
-              <caret line="116" column="31" selection-start-line="116" selection-start-column="31" selection-end-line="116" selection-end-column="31" />
+            <state vertical-scroll-proportion="0.72617745">
+              <caret line="39" column="8" selection-start-line="39" selection-start-column="8" selection-end-line="39" selection-end-column="8" />
               <folding>
                 <element signature="n#style#0;n#a#0;n#html#0;n#!!top" expanded="true" />
-                <marker date="1474999166788" expanded="true" signature="1810:1841" placeholder="SELECT * FRO..users..." />
-                <marker date="1474999166788" expanded="true" signature="1944:1988" placeholder="SELECT * FRO..useraddresses..." />
-                <marker date="1474999166788" expanded="true" signature="6137:6163" placeholder="..." />
+                <marker date="1475000529552" expanded="true" signature="2168:2199" placeholder="SELECT * FRO..users..." />
+                <marker date="1475000529552" expanded="true" signature="2302:2346" placeholder="SELECT * FRO..useraddresses..." />
+                <marker date="1475000529552" expanded="true" signature="6495:6521" placeholder="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="custom.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/custom.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-30.884615">
+              <caret line="257" column="8" selection-start-line="257" selection-start-column="8" selection-end-line="257" selection-end-column="8" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -60,8 +70,8 @@
       <file leaf-file-name="login.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/popups/login.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-26.0">
-              <caret line="100" column="98" selection-start-line="100" selection-start-column="98" selection-end-line="100" selection-end-column="98" />
+            <state vertical-scroll-proportion="-20.76923">
+              <caret line="92" column="40" selection-start-line="92" selection-start-column="32" selection-end-line="92" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -197,18 +207,18 @@
         <option value="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" />
         <option value="$PROJECT_DIR$/resources/views/popups/receipt.blade.php" />
         <option value="$PROJECT_DIR$/resources/assets/scripts/additional-method.js" />
-        <option value="$PROJECT_DIR$/resources/views/popups/login.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/home/editmenu.blade.php" />
         <option value="$PROJECT_DIR$/resources/assets/scripts/api2.js" />
         <option value="$PROJECT_DIR$/app/Http/api.php" />
         <option value="$PROJECT_DIR$/resources/views/home/list.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/routes.php" />
         <option value="$PROJECT_DIR$/storage/framework/views/a5d9dec5a2adc3fff8f75c163130bcc9bc410c90.php" />
-        <option value="$PROJECT_DIR$/public/custom.css" />
         <option value="$PROJECT_DIR$/resources/views/popups/address.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/index.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Controller.php" />
         <option value="$PROJECT_DIR$/resources/assets/manifest.json" />
+        <option value="$PROJECT_DIR$/resources/views/popups/login.blade.php" />
+        <option value="$PROJECT_DIR$/public/custom.css" />
         <option value="$PROJECT_DIR$/resources/views/layouts/app.blade.php" />
       </list>
     </option>
@@ -838,14 +848,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/custom.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="49" column="23" selection-start-line="49" selection-start-column="23" selection-end-line="49" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/home/editmenu.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -923,14 +925,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/popups/login.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-26.0">
-          <caret line="100" column="98" selection-start-line="100" selection-start-column="98" selection-end-line="100" selection-end-column="98" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/index.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-62.076923">
@@ -976,15 +970,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/popups/login.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-20.76923">
+          <caret line="92" column="40" selection-start-line="92" selection-start-column="32" selection-end-line="92" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/custom.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-30.884615">
+          <caret line="257" column="8" selection-start-line="257" selection-start-column="8" selection-end-line="257" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/layouts/app.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.44468784">
-          <caret line="116" column="31" selection-start-line="116" selection-start-column="31" selection-end-line="116" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.72617745">
+          <caret line="39" column="8" selection-start-line="39" selection-start-column="8" selection-end-line="39" selection-end-column="8" />
           <folding>
             <element signature="n#style#0;n#a#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1474999166788" expanded="true" signature="1810:1841" placeholder="SELECT * FRO..users..." />
-            <marker date="1474999166788" expanded="true" signature="1944:1988" placeholder="SELECT * FRO..useraddresses..." />
-            <marker date="1474999166788" expanded="true" signature="6137:6163" placeholder="..." />
+            <marker date="1475000529552" expanded="true" signature="2168:2199" placeholder="SELECT * FRO..users..." />
+            <marker date="1475000529552" expanded="true" signature="2302:2346" placeholder="SELECT * FRO..useraddresses..." />
+            <marker date="1475000529552" expanded="true" signature="6495:6521" placeholder="..." />
           </folding>
         </state>
       </provider>
