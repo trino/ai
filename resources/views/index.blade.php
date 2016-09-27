@@ -35,6 +35,7 @@
                     $qualifiers = array("DEFAULT" => array("1/2", "1x", "2x", "3x"));
                     $categories = Query("SELECT * FROM menu GROUP BY category ORDER BY id", true);
                     $isfree = collapsearray(Query("SELECT * FROM additional_toppings", true), "price", "size");
+                    $deliveryfee = $isfree["Delivery"];
                     $a = 0;
 
                     function getsize($itemname, &$isfree) {
@@ -197,7 +198,7 @@
 
                                     <SPAN class="loggedin profiletype profiletype1">
                                         <?php
-                                            foreach (array("users", "restaurants", "useraddresses", "orders") as $table) {
+                                            foreach (array("users", "restaurants", "useraddresses", "orders", "additional_toppings") as $table) {
                                                 echo '<LI><A HREF="' . webroot("public/list/" . $table) . '" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> ' . ucfirst($table) . ' list</A></LI>';
                                             }
                                         ?>
@@ -231,12 +232,9 @@
                             </li>
                         </ul>
                     </div>
-
-
                 </div>
+
                 <div class="card-block">
-
-
                     <div id="myorder"></div>
                     <SPAN ID="checkoutbutton">
                         <button class="btn btn-block btn-warning loggedout" id="checkloggedout" data-toggle="modal" data-target="#loginmodal">
@@ -246,6 +244,7 @@
                             CHECKOUT
                         </button>
                     </SPAN>
+
                     <div class="collapse" id="collapseCheckout">
                         <FORM ID="orderinfo">
                             <div class="input-group">
@@ -262,7 +261,21 @@
                                     <input type="text" class="form-control" placeholder="Email"/>
                                 </span>
                                 <span class="input-group-btn" style="width: 50% !important;">
-                                    <input type="text" class="form-control" placeholder="Delivery Time"/>
+                                    <SELECT class="form-control" TITLE="Delivery Time"/>
+                                        <?php
+                                            function rounduptoseconds($time, $seconds){
+                                                $r = $time % $seconds;
+                                                return $time + ($seconds-$r);
+                                            }
+                                            $mindeliverytime=30*60;//30 minutes
+                                            $now = rounduptoseconds(time()+$mindeliverytime, 900);
+                                            echo '<OPTION>ASAP</OPTION>';
+                                            for($i = 0; $i < 10; $i++){//what is the end time?
+                                                echo '<OPTION VALUE="' . $now . '">' . date('g:ia', $now) . '</OPTION>';
+                                                $now+=15*60;
+                                            }
+                                        ?>
+                                    </SELECT>
                                 </span>
                             </div>
 
@@ -281,14 +294,7 @@
             </div>
             <div class=" m-b-3 p-t-3"></div>
         </div>
-
-
     </div>
-
-
-
-
-
 
 
     <!-- Modal -->
@@ -353,7 +359,7 @@
         var qualifiers = <?= json_encode($qualifiers); ?>;
         var theorder = new Array;
         var toppingsouterhtml, wingsauceouterhtml;
-        var deliveryfee = <?= deliveryfee; ?>;
+        var deliveryfee = <?= $deliveryfee; ?>;
         var classlist = <?= json_encode($classlist); ?>;
 
         function search(element) {
@@ -521,6 +527,8 @@
             totalcost = subtotal + deliveryfee + taxes;
 
             $("#checkoutbutton").show();
+            visible("#checkout", userdetails);
+            visible("#checkloggedout", !userdetails);
 
             createCookieValue("theorder", JSON.stringify(theorder));
             if (theorder.length == 0) {

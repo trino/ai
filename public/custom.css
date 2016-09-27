@@ -207,6 +207,9 @@ a {
 
     */
 
+    select.form-control{
+        height: 37px !important;
+    }
 
     /* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
     body.loading {

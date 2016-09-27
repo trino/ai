@@ -47,6 +47,7 @@
             $tables[$table] = Query("SELECT * FROM " . $table, true);
             unset($tables[$ID]);
         }
+        $deliveryfee = getsize("Delivery", $tables["additional_toppings"]);
 
         $items = json_decode(file_get_contents(resource_path("orders") . "/" . $orderid . ".json"));
         $itemIDs = array();
@@ -112,10 +113,10 @@
         }
 
         $tax_percent = 0.13;
-        $tax = ($subtotal + deliveryfee) * $tax_percent;
-        $total = $subtotal + deliveryfee + $tax;
+        $tax = ($subtotal + $deliveryfee) * $tax_percent;
+        $total = $subtotal + $deliveryfee + $tax;
         echo '<TR><TD COLSPAN="7" ALIGN="RIGHT">Sub-total</TD><TD ALIGN="RIGHT">$' . number_format($subtotal, 2) . '</TD></TR>';
-        echo '<TR><TD COLSPAN="7" ALIGN="RIGHT">Delivery fee</TD><TD ALIGN="RIGHT">$' . number_format(deliveryfee, 2) . '</TD></TR>';
+        echo '<TR><TD COLSPAN="7" ALIGN="RIGHT">Delivery fee</TD><TD ALIGN="RIGHT">$' . number_format($deliveryfee, 2) . '</TD></TR>';
         echo '<TR><TD COLSPAN="7" ALIGN="RIGHT">HST</TD><TD ALIGN="RIGHT">$' . number_format($tax, 2) . '</TD></TR>';
         echo '<TR><TD COLSPAN="7" ALIGN="RIGHT">Total</TD><TD ALIGN="RIGHT">$' . number_format($total, 2) . '</TD></TR>';
         if(!$integrity){

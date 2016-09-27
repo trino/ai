@@ -50,6 +50,9 @@
                 $where = "user_id = " . $_GET["user_id"];
             }
             break;
+        case "additional_toppings":
+            $fields = array("id", "size", "price");
+            break;
         case "useraddresses":
             $adminsonly=false;
             $inlineedit = false;
@@ -260,6 +263,7 @@
                     redirectonlogout = true;
                     var datafields = <?= json_encode($datafields); ?>;
                     var intranges = {
+                        double: {min: 0, max: 999999},
                         tinyint: {min: -128, max: 127}, tinyintunsigned: {min: 0, max: 255},
                         smallint: {min: -32768, max: 32767}, smallintunsigned: {min: 0, max: 65535},
                         mediumint: {min: -8388608, max: 8388607}, mediumintunsigned: {min: 0, max: 16777215},
@@ -350,7 +354,7 @@
                                             var title="";
                                             switch(column["Type"]){
                                                 //timestamp (date)
-                                                case "tinyint": case "smallint": case "mediumint": case "bigint": case "int":
+                                                case "tinyint": case "smallint": case "mediumint": case "bigint":case "int":case "double":
                                                 case "tinyintunsigned": case "smallintunsigned": case "mediumintunsigned": case "bigintunsigned": case "intunsigned":
                                                     var min = intranges[column["Type"]]["min"];
                                                     var max = intranges[column["Type"]]["max"];

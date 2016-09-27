@@ -1,7 +1,6 @@
 <?php
     $webroot = webroot();
     define("debugmode", true);
-    define("deliveryfee", 3.50);
 
     function webroot($file = "") {
         $webroot = $_SERVER["REQUEST_URI"];
@@ -530,5 +529,22 @@
     function lastkey($array){
         $keys = array_keys($array);
         return last($keys);
+    }
+
+    function getiterator($arr, $key, $value, $retValue = true){
+        foreach($arr as $index => $item){
+            var_dump($item);
+            if(is_array($item)){
+                if(isset($item[$key]) && $item[$key] == $value){
+                    if($retValue){return $value;}
+                    return $index;
+                }
+            } else if (is_object($item)){
+                if(isset($item->$key) && $item->$key == $value){
+                    if($retValue){return $value;}
+                    return $index;
+                }
+            }
+        }
     }
 ?>
