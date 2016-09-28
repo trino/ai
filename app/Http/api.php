@@ -553,6 +553,24 @@
         if(!$IDorEmail){$IDorEmail = read("id");}
         if(is_numeric($IDorEmail)){$field = "id";} else {$IDorEmail = "'" . $IDorEmail . "'";}
         $user = first("SELECT * FROM users WHERE " . $field . " = " . $IDorEmail);
+
+        $cc = array();
+        $ccisvalid = false;
+        foreach(array("cc_number", "cc_xyear", "cc_xmonth", "cc_cc") as $field){
+            $cc[$field] = filter_var(isencrypted($user[$field]), FILTER_SANITIZE_NUMBER_INT);
+            if(!$cc[$field]){$ccisvalid = "missing " . $field;}
+        }
+        $currentdate = date("nY");
+        if($currentdate >= ($cc["cc_xmonth"] . $cc["cc_xyear"])){
+            $ccisvalid = "expired";
+        } else {
+            $digits = 16;
+            if (left($cc["cc_number"],1) == "3"){$digits=15;}
+            if($digits != strlen($cc["cc_number"])){
+                $ccisvalid = "invalid length";
+            }
+        }
+        $user["cc_integrity"] = $ccisvalid;//check card now since it'll be removed
         if($RemoveCC && is_array($user)) {//do not send credit card info to the user
             foreach ($user as $key => $value) {
                 if (left($key, 3) == "cc_" && $key != "cc_addressid") {
