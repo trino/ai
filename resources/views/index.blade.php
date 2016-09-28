@@ -273,7 +273,7 @@
                             <input type="text" class="form-control" placeholder="Credit Card"/>
                             <input type="text" class="form-control" placeholder="Notes"/>
 
-                            <div ID="addressdropdown" class="clear_loggedout"></div>
+                            <div class="clear_loggedout addressdropdown"></div>
                             <?= view("popups.address", array("dontincludeAPI" => true, "style" => 1)); ?>
 
                             <button class="btn btn-warning btn-block m-t-1" onclick="placeorder();">PLACE ORDER</button>
@@ -654,7 +654,7 @@
                 }
             });
             if(AddNew){
-                HTML += '<A ONCLICK="deleteaddress(-1);" CLASS="hyperlink">Add currently-entered address to the list</A>'
+                HTML += '<A ONCLICK="deleteaddress(-1);" CLASS="hyperlink">Add ' + "'" + number + " " + street + ", " + city + "' to the list</A>";
             } else {
                 HTML += 'Enter a new address in the checkout form if you want to add it to your profile';
             }
@@ -668,7 +668,6 @@
                     _token: token,
                     info: address
                 }, function (result) {
-                    console.log("result: " + result);
                     address["id"] = result;
                     var HTML = AddressToOption(address);
                     $("#saveaddresses").append(HTML);
@@ -713,5 +712,7 @@
             });
         });
     </script>
-
+    <?php
+     //echo view("home.edituser");//doesn't work
+    ?>
 @endsection

@@ -133,7 +133,7 @@
             }
             HTML += '</SELECT>';
         }
-        $("#addressdropdown").html(HTML);
+        $(".addressdropdown").html(HTML);
     }
 
     function AddressToOption(address, addresskeys){
