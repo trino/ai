@@ -622,8 +622,8 @@
                     info: getform("#orderinfo"),
                     order: theorder
                 }, function (result) {
-                    if (handleresult(result)) {
-                        alert(result);
+                    if (handleresult(result, "Order Status")) {
+                        alert(result, "Order Status");
                         clearorder();
                     }
                 });

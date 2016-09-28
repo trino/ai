@@ -6,39 +6,40 @@
             </TD>
         </TR>
         <TR>
-            <TH>#</TH>
-            <TH>Name</TH>
-            <TH>Sub-total</TH>
-            <TH>Addons</TH>
-            <TH>Addon Count</TH>
-            <TH>Size</TH>
-            <TH>Addon Cost</TH>
+            <TH class="th-left">#</TH>
+            <TH class="th-left">Name</TH>
+            <TH class="th-left">Sub-total</TH>
+            <TH class="th-left">Addons</TH>
+            <TH class="th-left">Addon Count</TH>
+            <TH class="th-left">Size</TH>
+            <TH class="th-left">Addon Cost</TH>
             <TH>Total</TH>
         </TR>
     </THEAD>
     <?php
         $integrity=true;
+        if(!function_exists("findkey")){
+            function findkey($arr, $key, $value){
+                return array_search($value, array_column($arr, $key));
+            }
 
-        function findkey($arr, $key, $value){
-            return array_search($value, array_column($arr, $key));
-        }
-
-        function getsize($itemname, $isfree){
-            $currentsize = "";
-            foreach ($isfree as $value) {
-                $size = $value["size"];
-                $cost = $value["price"];
-                if (!is_array($cost)) {
-                    if (textcontains($itemname, $size) && strlen($size) > strlen($currentsize)) {
-                        $currentsize = $size;
+            function getsize($itemname, $isfree){
+                $currentsize = "";
+                foreach ($isfree as $value) {
+                    $size = $value["size"];
+                    $cost = $value["price"];
+                    if (!is_array($cost)) {
+                        if (textcontains($itemname, $size) && strlen($size) > strlen($currentsize)) {
+                            $currentsize = $size;
+                        }
                     }
                 }
+                return $currentsize;
             }
-            return $currentsize;
-        }
 
-        function textcontains($text, $searchfor){
-            return strpos(strtolower($text), strtolower($searchfor)) !== false;
+            function textcontains($text, $searchfor){
+                return strpos(strtolower($text), strtolower($searchfor)) !== false;
+            }
         }
 
         //check all data again, do not trust the prices from the user!!
@@ -47,7 +48,9 @@
             $tables[$table] = Query("SELECT * FROM " . $table, true);
             unset($tables[$ID]);
         }
-        $deliveryfee = getsize("Delivery", $tables["additional_toppings"]);
+
+        $deliveryfee = findkey($tables["additional_toppings"], "size", "Delivery");
+        $deliveryfee = $tables["additional_toppings"][$deliveryfee]["price"];
 
         $items = json_decode(file_get_contents(resource_path("orders") . "/" . $orderid . ".json"));
         $itemIDs = array();

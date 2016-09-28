@@ -59,7 +59,7 @@ class HomeController extends Controller {
             $user["orderid"] = $orderid;
             $user["mail_subject"] = "Receipt";
             $text = $this->sendEMail("email.receipt", $user);//send emails to customer and store
-            if ($text) {return $text;}
+            //if ($text) {return $text;}
             return view("popups.receipt", array("orderid" => $orderid));
         } else {
             return $addressID;

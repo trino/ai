@@ -235,7 +235,7 @@
                                                         echo view("popups.address", $_GET);
                                                         break;
                                                     case "restaurants":
-                                                        echo '<DIV ID="addressdropdown" STYLE="display: none;"></DIV>';
+                                                        echo '<DIV ID="addressdropdown" STYLE="display: none;" class="addressdropdown"></DIV>';
                                                         break;
                                                 }
                                             ?>
@@ -367,6 +367,7 @@
                                                             isSelect=true;
                                                             console.log(HTML + " was selected");
                                                             HTML = $("#addressdropdown").html().replace('class="form-control" id="saveaddresses"', 'CLASS="selectfield form-control" ID="' + ID + "_" + field + '" COLNAME="' + colname + '"').replace('value="' + HTML + '"', 'value="' + HTML + '" SELECTED');
+                                                            console.log(HTML + " was edited");
                                                             break;
                                                         default:
                                                             HTML = '<INPUT TYPE="NUMBER" ID="' + ID + "_" + field + '" VALUE="' + HTML + '" CLASS="textfield" TITLE="' + title + '" MIN="';
