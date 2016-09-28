@@ -565,6 +565,12 @@
     }
 
     function isencrypted($text){
-        return left($text, 9) == "eyJpdiI6I";
+        if (left($text, 9) == "eyJpdiI6I"){
+            try{
+                $value = decrypt($text);
+                $text=$value;
+            } catch (\Exception $e){}
+        }
+        return $text;
     }
 ?>

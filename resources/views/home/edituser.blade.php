@@ -182,9 +182,7 @@
         <?php
             //"fname", "lname", "number", "xyear", "xmonth", "cc"
             foreach($encryptedfields as $field => $name){
-                if(isencrypted($user["cc_" . $field])){
-                    $user["cc_" . $field] = decrypt($user["cc_" . $field]);
-                }
+                $user["cc_" . $field] = isencrypted($user["cc_" . $field]);
                 switch($field){
                     case "xmonth":
                         startfield($name);
