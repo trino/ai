@@ -551,9 +551,9 @@
     function getuser($IDorEmail = false, $RemoveCC = true){
         $field="email";
         if(!$IDorEmail){$IDorEmail = read("id");}
-        if(is_numeric($IDorEmail)){$field = "id";}
+        if(is_numeric($IDorEmail)){$field = "id";} else {$IDorEmail = "'" . $IDorEmail . "'";}
         $user = first("SELECT * FROM users WHERE " . $field . " = " . $IDorEmail);
-        if($RemoveCC) {//do not send credit card info to the user
+        if($RemoveCC && is_array($user)) {//do not send credit card info to the user
             foreach ($user as $key => $value) {
                 if (left($key, 3) == "cc_") {
                     unset($user[$key]);
