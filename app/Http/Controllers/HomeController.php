@@ -46,7 +46,7 @@ class HomeController extends Controller {
 
     public function placeorder(){
         if(!read("id")){return array("Status" => false, "Reason" => "You are not logged in");}
-        $info = $_POST["info"];
+        $info = $this->processCC($_POST["info"]);
         $addressID = $this->processaddress($info);
         if(isset($_POST["order"])) {
             $info["placed_at"] = now();
@@ -60,16 +60,30 @@ class HomeController extends Controller {
             $user["mail_subject"] = "Receipt";
             $text = $this->sendEMail("email.receipt", $user);//send emails to customer and store
             //if ($text) {return $text;}
+            //$charged = $this->stripepayment();
 
-            $charged = $this->stripepayment();
-
-            return view("popups.receipt", array("orderid" => $orderid));
+            return 'Your order has been placed<BR CLASS="ordersuccess">' . view("popups.receipt", array("orderid" => $orderid));
         } else {
             return $addressID;
         }
     }
 
-
+    function processCC($info){
+        //saves credit card info if it's not blank, returns the user info without the credit card info for saving as an order
+        $fields = array("cc_fname", "cc_lname", "cc_number", "cc_xyear", "cc_xmonth", "cc_cc");
+        $cardnumber = filter_var($info["cc_number"], FILTER_SANITIZE_NUMBER_INT);
+        $docard = strlen($cardnumber)>14;
+        $ccinfo = array("id" => $info["user_id"], "cc_addressid" => $info["cc_addressid"]);
+        foreach($fields as $field){
+            $ccinfo = encrypt($info[$field]);
+            unset($info[$field]);
+        }
+        unset($info["cc_addressid"]);
+        if($docard){
+            insertdb("users", $ccinfo);
+        }
+        return $info;
+    }
 
 
     function processaddress($info){

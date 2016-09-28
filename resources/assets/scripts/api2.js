@@ -145,6 +145,20 @@ $.validator.addMethod('phonenumber', function (Data, element) {
     return Data.length == 10;
 }, "Please enter a valid phone number");
 
+$.validator.addMethod('creditcard', function (value, element) {
+    var nCheck = 0, nDigit = 0, bEven = false, desiredlength = 16;
+    value = value.replace(/\D/g, "");
+    if (value.left(1) == 3){desiredlength=15;}//amex
+    if (value.length != desiredlength){return false;}
+    for (var n = value.length - 1; n >= 0; n--) {
+        var cDigit = value.charAt(n), nDigit = parseInt(cDigit, 10);
+        if (bEven) {if ((nDigit *= 2) > 9) nDigit -= 9;}
+        nCheck += nDigit;
+        bEven = !bEven;
+    }
+    return (nCheck % 10) == 0;
+}, "Please enter a valid credit card number");
+
 var decodeEntities = (function() {
     // this prevents any overhead from creating the object each time
     var element = document.createElement('div');

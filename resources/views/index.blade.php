@@ -235,7 +235,7 @@
                         <button class="btn btn-block btn-warning loggedout" id="checkloggedout" data-toggle="modal" data-target="#loginmodal">
                             LOGIN
                         </button>
-                        <button data-toggle="modal" data-target="#checkoutmodal" class="btn btn-block btn-warning loggedin" id="checkout" href="#collapseCheckout">
+                        <button class="btn btn-block btn-warning loggedin" id="checkout" onclick="showcheckout();">
                             CHECKOUT
                         </button>
                     </SPAN>
@@ -579,16 +579,20 @@
         }
 
         function placeorder() {
+            if(!$("#add_number").val().trim() || !$("#add_street").val().trim() || !$("#add_city").val().trim()){
+                alert("Address is incomplete");
+                return false;
+            }
+
             if (isObject(userdetails)) {
                 $.post(webroot + "placeorder", {
                     _token: token,
                     info: getform("#orderinfo"),
                     order: theorder
                 }, function (result) {
-                    if (handleresult(result, "Order Status")) {
-                        alert(result, "Order Status");
-                        clearorder();
-                    }
+                    $("#checkoutmodal").modal("hide");
+                    if(result.contains("ordersuccess")){clearorder();}
+                    handleresult(result, "Order Status");
                 });
             } else {
                 $("#loginmodal").modal("show");

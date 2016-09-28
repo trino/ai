@@ -200,7 +200,7 @@
                         startfield();
                         break;
                     case "cc":
-                        printarow($name, "user", array("name" => "cc_cc", "value" => $user["cc_cc"], "type" => "number", "class" => "form-control", "min" => 0, "max" => 999));
+                        printarow($name, "user", array("name" => "cc_cc", "value" => $user["cc_cc"], "type" => "number", "class" => "form-control", "min" => 0, "max" => 99999));
                         break;
                     default://fname, lname, number
                         printarow($name, "user", array("name" => "cc_" . $field, "value" => $user["cc_" . $field], "type" => "text", "class" => "form-control"));
@@ -241,20 +241,6 @@
                 }, 100 );
             });
         @endif
-
-        $.validator.addMethod('creditcard', function (value, element) {
-            var nCheck = 0, nDigit = 0, bEven = false, desiredlength = 16;
-            value = value.replace(/\D/g, "");
-            if (value.left(1) == 3){desiredlength=15;}//amex
-            if (value.length != desiredlength){return false;}
-            for (var n = value.length - 1; n >= 0; n--) {
-                var cDigit = value.charAt(n), nDigit = parseInt(cDigit, 10);
-                if (bEven) {if ((nDigit *= 2) > 9) nDigit -= 9;}
-                nCheck += nDigit;
-                bEven = !bEven;
-            }
-            return (nCheck % 10) == 0;
-        }, "Please enter a valid credit card number");
 
         $(function() {
             $("form[name='user']").validate({
