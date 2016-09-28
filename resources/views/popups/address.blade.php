@@ -28,7 +28,7 @@
         foreach($fields as $Name => $field){
             if($style == 0 && $field["type"] != "hidden"){echo '<DIV CLASS="row"><DIV CLASS="col-md-2 data_' . $field["name"] . '">' . $Name . ':</DIV><DIV CLASS="col-md-10">';}
             if($style == 1 && isset($field["half"])){
-                //if($field("half") == "start"){echo '<div class="input-group">';}
+                if($field["half"] == "start"){echo '<div class="input-group">';}
                 echo '<span class="input-group-btn" style="width: 50% !important;">';
             }
             echo '<INPUT TYPE="' . $field["type"] . '" NAME="' . $field["name"] . '" ID="add_' . $field["name"] . '"';
@@ -44,7 +44,7 @@
             if($style == 0 && $field["type"] != "hidden"){echo '</DIV></DIV>';}
             if($style == 1 && isset($field["half"])){
                 echo '</span>';
-                //if($field("half") == "end"){echo '</div>';}
+                if($field["half"] == "end"){echo '</div>';}
             }
         }
     ?>

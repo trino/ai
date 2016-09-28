@@ -210,10 +210,6 @@
                                         <SPAN class="dropdown-item"><i class="fa fa-home"></i> <SPAN CLASS="session_name"></SPAN></SPAN>
                                     </li>
 
-                                    <li class="loggedin profiletype profiletype1">
-                                        <A HREF="<?= webroot("public/list/all"); ?>" CLASS="dropdown-item"> <i class="fa fa-home"></i> Admin</A>
-                                    </li>
-
                                     <li class="loggedin">
                                         <A ONCLICK="addresses();" oldHREF="<?= webroot("public/list/useraddresses"); ?>" class="dropdown-item"> <i class="fa fa-home"></i> Addresses</A>
                                     </li>
@@ -239,46 +235,12 @@
                         <button class="btn btn-block btn-warning loggedout" id="checkloggedout" data-toggle="modal" data-target="#loginmodal">
                             LOGIN
                         </button>
-                        <button data-toggle="collapse" class="btn btn-block btn-warning loggedin" id="checkout" href="#collapseCheckout">
+                        <button data-toggle="modal" data-target="#checkoutmodal" class="btn btn-block btn-warning loggedin" id="checkout" href="#collapseCheckout">
                             CHECKOUT
                         </button>
                     </SPAN>
 
-                    <div class="collapse" id="collapseCheckout">
-                        <FORM ID="orderinfo" name="orderinfo">
-                            <div class="input-group">
-                                <span class="input-group-btn" style="width: 50% !important;">
-                                    <input type="text" name="cell" class="form-control" placeholder="Cell"/>
-                                </span>
-                                <span class="input-group-btn" style="width: 50% !important;">
-                                    <SELECT class="form-control" TITLE="Delivery Time"/>
-                                        <?php
-                                            function rounduptoseconds($time, $seconds){
-                                                $r = $time % $seconds;
-                                                return $time + ($seconds-$r);
-                                            }
-                                            $mindeliverytime=30*60;//30 minutes
-                                            $now = rounduptoseconds(time()+$mindeliverytime, 900);
-                                            echo '<OPTION>ASAP</OPTION>';
-                                            for($i = 0; $i < 10; $i++){//what is the end time?
-                                                echo '<OPTION VALUE="' . $now . '">' . date('g:ia', $now) . '</OPTION>';
-                                                $now+=15*60;
-                                            }
-                                        ?>
-                                    </SELECT>
-                                </span>
-                            </div>
-
-                            <input type="text" class="form-control" placeholder="Restaurant"/>
-                            <input type="text" class="form-control" placeholder="Credit Card"/>
-                            <input type="text" class="form-control" placeholder="Notes"/>
-
-                            <div class="clear_loggedout addressdropdown"></div>
-                            <?= view("popups.address", array("dontincludeAPI" => true, "style" => 1)); ?>
-
-                            <button class="btn btn-warning btn-block m-t-1" onclick="placeorder();">PLACE ORDER</button>
-                        </FORM>
-                    </div>
+                    @include("popups.checkout")
 
                 </div>
             </div>
@@ -320,7 +282,7 @@
                         <div ID="modal-wings-clones"></div>
 
 
-                        <div  ID="modal-toppings-original" style="">
+                        <div ID="modal-toppings-original" style="">
                             <div style="margin-bottom:.1rem;" ID="modal-toppings-original-ordinal">First Pizza</div>
                             <select style="border: 0 !important;" class="form-control select2 toppings" data-placeholder="Add Toppings: $[price]" multiple="multiple" type="toppings">
                                 <!--option value="blank"></option-->
@@ -342,6 +304,7 @@
             </div>
         </div>
     </div>
+
 
     <script>
         var tables = <?= json_encode($tables); ?>;
