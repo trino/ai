@@ -14,16 +14,15 @@
     <?php
         if(!isset($user_id)){$user_id = read("id");}
         $fields = array(
-
             "Street Number" =>  array("type" => "text", "name" => "number", "class" => "street_number", "readonly" => true),
             "Street" =>         array("type" => "text", "name" => "street", "class" => "route", "readonly" => true),
-            "Unit/Apt" =>       array("type" => "text", "name" => "unit", "half" => "start"),
-            "Buzz code" =>      array("type" => "text", "name" => "buzzcode", "half" => "end"),
-            "City" =>           array("type" => "text", "name" => "city", "class" => "locality", "readonly" => true),
-            "Province" =>       array("type" => "text", "name" => "province", "class" => "administrative_area_level_1", "readonly" => true),
-            "Postal Code" =>    array("type" => "text", "name" => "postalcode", "class" => "postal_code", "readonly" => true),
-            "Latitude" =>       array("type" => "text", "name" => "latitude", "class" => "latitude", "readonly" => true),
-            "Longitude" =>      array("type" => "text", "name" => "longitude", "class" => "longitude", "readonly" => true),
+            "Unit/Apt & Buzz Code" => array("type" => "text", "name" => "unit"),
+            //"Buzz code" =>      array("type" => "text", "name" => "buzzcode", "half" => "end"),
+            "City" =>           array("type" => "text", "name" => "city", "class" => "locality", "readonly" => true, "half" => "start"),
+            "Province" =>       array("type" => "text", "name" => "province", "class" => "administrative_area_level_1", "readonly" => true, "half" => "end"),
+            "Postal Code" =>    array("type" => "hidden", "name" => "postalcode", "class" => "postal_code", "readonly" => true, "half" => "end"),
+            "Latitude" =>       array("type" => "hidden", "name" => "latitude", "class" => "latitude", "readonly" => true, "half" => "start"),
+            "Longitude" =>      array("type" => "hidden", "name" => "longitude", "class" => "longitude", "readonly" => true, "half" => "end"),
             "user_id" =>        array("type" => "hidden", "name" => "user_id", "value" => $user_id, "class" => "session_id_val")
         );
         foreach($fields as $Name => $field){

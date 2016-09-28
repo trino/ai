@@ -634,22 +634,47 @@
 
         function addresses(){
             var HTML = '';
+            var number = $("#add_number").val();
+            var street = $("#add_street").val();
+            var city = $("#add_city").val();
+            var AddNew = number && street && city;
+
             $("#saveaddresses option").each(function(){
                 var ID = $(this).val();
                 if(ID > 0) {
                     if(userdetails["cc_addressid"] == ID){
-                        HTML += '<A><i class="fa fa-fw fa-credit-card"></i> ';
+                        HTML += '<A TITLE="This address is used for your credit card and cannot be deleted"><i class="fa fa-fw fa-credit-card"></i> ';
                     } else {
                         HTML += '<A ID="add_' + ID + '" TITLE="Delete this address" onclick="deleteaddress(' + ID + ');" class="hyperlink"><i style="color:red" class="fa fa-fw fa-times"></i> ';
                     }
                     HTML += $(this).text() + '</A><BR>';
+                    if(number.isEqual($(this).attr("number")) && street.isEqual($(this).attr("street")) && city.isEqual($(this).attr("city"))){
+                        AddNew = false;
+                    }
                 }
             });
+            if(AddNew){
+                HTML += '<A ONCLICK="deleteaddress(-1);" CLASS="hyperlink">Add currently-entered address to the list</A>'
+            } else {
+                HTML += 'Enter a new address in the checkout form if you want to add it to your profile';
+            }
             alert(HTML, "Addresses");
         }
 
         function deleteaddress(ID){
-            if(confirm("Are you sure you want to delete '" + $("#add_" + ID).text().trim() + "'?")) {
+            if(ID == -1){//add new address
+                var address = getform("#orderinfo");
+                $.post(webroot + "placeorder", {
+                    _token: token,
+                    info: address
+                }, function (result) {
+                    console.log("result: " + result);
+                    address["id"] = result;
+                    var HTML = AddressToOption(address);
+                    $("#saveaddresses").append(HTML);
+                    addresses();
+                });
+            } else if(confirm("Are you sure you want to delete '" + $("#add_" + ID).text().trim() + "'?")) {
                 $.post("<?= webroot("public/list/useraddresses"); ?>", {
                     _token: token,
                     action: "deleteitem",

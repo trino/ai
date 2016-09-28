@@ -1,7 +1,7 @@
 String.prototype.isEqual = function (str){
     if(isUndefined(str)){return false;}
     if(isNumeric(str) || isNumeric(this)){return this == str;}
-    return this.toUpperCase()==str.toUpperCase();
+    return this.toUpperCase().trim() == str.toUpperCase().trim();
 };
 function isUndefined(variable){
     return typeof variable === 'undefined';

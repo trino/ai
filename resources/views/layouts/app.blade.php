@@ -129,22 +129,29 @@
             HTML += '<SELECT style="border-top: 0 !important; " class="form-control" id="saveaddresses" onchange="addresschanged();"><OPTION VALUE="0">Select a saved address</OPTION>';
             addresskeys = Object.keys(user["Addresses"][0]);
             for (i = 0; i < user["Addresses"].length; i++) {
-                var tempHTML = '<OPTION';
-                var streetformat = "[number] [street], [city]";
-                for (var keyID = 0; keyID < addresskeys.length; keyID++) {
-                    var keyname = addresskeys[keyID];
-                    var value = user["Addresses"][i][keyname];
-                    streetformat = streetformat.replace("[" + keyname + "]", value);
-                    if (keyname == "id") {
-                        keyname = "value";
-                    }
-                    tempHTML += ' ' + keyname + '="' + value + '"'
-                }
-                HTML += tempHTML + '>' + streetformat + '</OPTION>';
+                HTML += AddressToOption(user["Addresses"][i], addresskeys);
             }
             HTML += '</SELECT>';
         }
         $("#addressdropdown").html(HTML);
+    }
+
+    function AddressToOption(address, addresskeys){
+        if(isUndefined(addresskeys)){addresskeys=["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];}
+        var tempHTML = '<OPTION';
+        var streetformat = "[number] [street], [city]";
+        for (var keyID = 0; keyID < addresskeys.length; keyID++) {
+            var keyname = addresskeys[keyID];
+            if(address.hasOwnProperty(keyname)) {
+                var value = address[keyname];
+                streetformat = streetformat.replace("[" + keyname + "]", value);
+                if (keyname == "id") {
+                    keyname = "value";
+                }
+                tempHTML += ' ' + keyname + '="' + value + '"'
+            }
+        }
+        return tempHTML + '>' + streetformat + '</OPTION>';
     }
 
     function addresschanged() {
