@@ -60,11 +60,17 @@ class HomeController extends Controller {
             $user["mail_subject"] = "Receipt";
             $text = $this->sendEMail("email.receipt", $user);//send emails to customer and store
             //if ($text) {return $text;}
+
+            $charged = $this->stripepayment();
+
             return view("popups.receipt", array("orderid" => $orderid));
         } else {
             return $addressID;
         }
     }
+
+
+
 
     function processaddress($info){
         //autosave address changes
@@ -88,5 +94,60 @@ class HomeController extends Controller {
             $address["unit"] = $info["unit"];
             return insertdb("useraddresses", $address);
         }
+    }
+
+
+
+
+    //return app('App\Http\Controllers\CreditCardsController')->stripepayment();
+    public function stripepayment($OrderID = false, $StripeToken = false, $description = false, $amount = false, $currency = "cad") {
+        /*
+        if (!$OrderID && !$StripeToken && !$description && !$amount) {
+            $post = \Input::all();
+            if (isset($post) && count($post) > 0 && !is_null($post)) {
+                $OrderID = $post['orderID'];
+                $StripeToken = $post['stripeToken'];
+                $description = $post['description'];
+                $amount = $post['chargeamt'];
+                $currency = $post['currencyType'];
+            }
+        }
+        if ($OrderID && $StripeToken && $amount) {
+            if (strpos($amount, ".")) {
+                $amount = $amount * 100;
+            }//remove the period, make it in cents
+
+            // Set secret key: remember to change this to live secret key in production
+            if(!islive()) {
+                \Stripe\Stripe::setApiKey("BJi8zV1i3D90vmaaBoLKywL84HlstXEg"); //test
+            } else {
+                \Stripe\Stripe::setApiKey("3qL9w2o6A0xePqv8C6ufRKbAqkKTDJAW"); //live
+            }
+            // Create the charge on Stripe's servers - this will charge the user's card
+            try {
+                $charge = \Stripe\Charge::create(array(
+                    "amount" => $amount,
+                    "currency" => $currency,
+                    "source" => $StripeToken,
+                    "description" => $description
+                ));
+            } catch (\Stripe\Error\Card $e) {
+                return false;// The card has been declined
+            }
+
+            if (isset($charge)) {
+
+                //die($StripeToken."::".$OrderID);
+                // if credit card payment test, save data to users table
+                $stripeConf['orderID'] = $OrderID;
+                $stripeConf['stripeToken'] = $StripeToken;
+                // $stripeConf['status'] = 'approved';
+                $stripeConf['user_id'] = \Session::get('session_id');
+
+                edit_database("orders", "id", $OrderID, array("paid" => 1, "stripeToken" => $StripeToken));
+            }
+        }
+        return false;
+        */
     }
 }

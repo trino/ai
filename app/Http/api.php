@@ -573,4 +573,8 @@
         }
         return $text;
     }
+
+    function islive(){
+        return false;
+    }
 ?>

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 28, 2016 at 07:46 PM
+-- Generation Time: Sep 28, 2016 at 08:38 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -386,17 +386,31 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `payment_type` tinyint(4) NOT NULL,
   `phone` varchar(16) NOT NULL,
   `cell` varchar(16) NOT NULL,
+  `paid` tinyint(4) NOT NULL,
+  `stripeToken` varchar(64) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `user_id`, `placed_at`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `accepted_at`, `restaurant_id`, `type`, `payment_type`, `phone`, `cell`) VALUES
-(5, 1, '2016-09-28 05:12:54', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', ''),
-(13, 1, '2016-09-28 18:07:33', 197, 'basement', '', 'Yonge Street', 'M5B 1M4', 'Toronto', 'Ontario', '43.6533455999999', '-79.379373100000', '0000-00-00 00:00:00', 0, 0, 0, '', ''),
-(14, 1, '2016-09-28 18:07:47', 197, 'basement', '', 'Yonge Street', 'M5B 1M4', 'Toronto', 'Ontario', '43.6533455999999', '-79.379373100000', '0000-00-00 00:00:00', 0, 0, 0, '', '');
+INSERT INTO `orders` (`id`, `user_id`, `placed_at`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `accepted_at`, `restaurant_id`, `type`, `payment_type`, `phone`, `cell`, `paid`, `stripeToken`) VALUES
+(5, 1, '2016-09-28 05:12:54', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '', 0, ''),
+(13, 1, '2016-09-28 18:07:33', 197, 'basement', '', 'Yonge Street', 'M5B 1M4', 'Toronto', 'Ontario', '43.6533455999999', '-79.379373100000', '0000-00-00 00:00:00', 0, 0, 0, '', '', 0, ''),
+(14, 1, '2016-09-28 18:07:47', 197, 'basement', '', 'Yonge Street', 'M5B 1M4', 'Toronto', 'Ontario', '43.6533455999999', '-79.379373100000', '0000-00-00 00:00:00', 0, 0, 0, '', '', 0, ''),
+(15, 1, '2016-09-28 21:48:27', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '9055123067', 0, ''),
+(16, 1, '2016-09-28 21:49:11', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '9055123067', 0, ''),
+(17, 1, '2016-09-28 21:50:07', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '9055123067', 0, ''),
+(18, 1, '2016-09-28 21:50:45', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '9055123067', 0, ''),
+(19, 1, '2016-09-28 21:52:00', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '9055123067', 0, ''),
+(20, 1, '2016-09-28 21:52:27', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '9055123067', 0, ''),
+(21, 1, '2016-09-28 21:54:05', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '9055123067', 0, ''),
+(22, 1, '2016-09-28 21:54:15', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '9055123067', 0, ''),
+(23, 1, '2016-09-28 21:54:27', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '9055123067', 0, ''),
+(24, 1, '2016-09-28 21:54:50', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '9055123067', 0, ''),
+(25, 1, '2016-09-28 21:55:41', 4, '', '', 'King Street West', 'M5H 1A1', 'Toronto', 'Ontario', '43.6493592', '-79.3784645', '0000-00-00 00:00:00', 0, 0, 0, '', '', 0, ''),
+(26, 1, '2016-09-28 21:57:23', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '', 0, '');
 
 -- --------------------------------------------------------
 
@@ -471,7 +485,7 @@ CREATE TABLE IF NOT EXISTS `restaurants` (
 --
 
 INSERT INTO `restaurants` (`id`, `name`, `slug`, `email`, `phone`, `cuisine`, `website`, `description`, `logo`, `is_delivery`, `is_pickup`, `max_delivery_distance`, `delivery_fee`, `minimum`, `is_complete`, `lastorder_id`, `franchise`, `address_id`) VALUES
-(1, 'Home', '', '', '(905) 512-3067', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 0);
+(1, 'Home', '', '', '(905) 512-3067', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -485,14 +499,14 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1475010696');
+(1, 'lastSQL', '1475084803');
 
 -- --------------------------------------------------------
 

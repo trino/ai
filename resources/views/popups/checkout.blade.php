@@ -12,27 +12,27 @@
 
                 <FORM ID="orderinfo" name="orderinfo">
                     <div class="input-group">
-                                <span class="input-group-btn" style="width: 50% !important;">
-                                    <input type="text" name="cell" class="form-control" placeholder="Cell"/>
-                                </span>
-                                <span class="input-group-btn" style="width: 50% !important;">
-                                    <SELECT class="form-control" TITLE="Delivery Time"/>
-                                    <?php
-                                    //<div class="collapse" id="collapseCheckout"></div>
-                                    function rounduptoseconds($time, $seconds){
-                                        $r = $time % $seconds;
-                                        return $time + ($seconds-$r);
-                                    }
-                                    $mindeliverytime=30*60;//30 minutes
-                                    $now = rounduptoseconds(time()+$mindeliverytime, 900);
-                                    echo '<OPTION>ASAP</OPTION>';
-                                    for($i = 0; $i < 10; $i++){//what is the end time?
-                                        echo '<OPTION VALUE="' . $now . '">' . date('g:ia', $now) . '</OPTION>';
-                                        $now+=15*60;
-                                    }
-                                    ?>
-                                    </SELECT>
-                                </span>
+                        <span class="input-group-btn" style="width: 50% !important;">
+                            <input type="text" name="cell" class="form-control" placeholder="Cell"/>
+                        </span>
+                        <span class="input-group-btn" style="width: 50% !important;">
+                            <SELECT class="form-control" TITLE="Delivery Time"/>
+                            <?php
+                            //<div class="collapse" id="collapseCheckout"></div>
+                            function rounduptoseconds($time, $seconds){
+                                $r = $time % $seconds;
+                                return $time + ($seconds-$r);
+                            }
+                            $mindeliverytime=30*60;//30 minutes
+                            $now = rounduptoseconds(time()+$mindeliverytime, 900);
+                            echo '<OPTION>ASAP</OPTION>';
+                            for($i = 0; $i < 10; $i++){//what is the end time?
+                                echo '<OPTION VALUE="' . $now . '">' . date('g:ia', $now) . '</OPTION>';
+                                $now+=15*60;
+                            }
+                            ?>
+                            </SELECT>
+                        </span>
                     </div>
 
                     <input type="text" class="form-control" placeholder="Restaurant"/>
@@ -42,9 +42,11 @@
                     <div class="clear_loggedout addressdropdown"></div>
                     <?= view("popups.address", array("dontincludeAPI" => true, "style" => 1)); ?>
 
-                    <button class="btn btn-warning btn-block m-t-1" onclick="placeorder();">PLACE ORDER</button>
+                    <DIV align="center">
+                        <button class="btn btn-warning btn-block m-t-1" onclick="placeorder();" style="width: 50% !important;">PLACE ORDER</button>
+                    </DIV>
+                    <P>
                 </FORM>
-
             </div>
         </div>
     </div>
