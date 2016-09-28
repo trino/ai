@@ -195,7 +195,6 @@
                                     <i class="fa fa-user no-padding-margin"></i></a>
                                 <ul class="dropdown-menu  dropdown-menu-right">
 
-
                                     <SPAN class="loggedin profiletype profiletype1">
                                         <?php
                                             foreach (array("users", "restaurants", "useraddresses", "orders", "additional_toppings") as $table) {
@@ -216,7 +215,7 @@
                                     </li>
 
                                     <li class="loggedin">
-                                        <A HREF="<?= webroot("public/list/useraddresses"); ?>" class="dropdown-item"> <i class="fa fa-home"></i> Addressess</A>
+                                        <A ONCLICK="addresses();" oldHREF="<?= webroot("public/list/useraddresses"); ?>" class="dropdown-item"> <i class="fa fa-home"></i> Addresses</A>
                                     </li>
 
                                     <li class="loggedin">
@@ -602,6 +601,20 @@
             generatereceipt();
         }
 
+        function handleresult(result, title){
+            try {
+                var data = JSON.parse(result);
+                if(data["Status"] == "false" || !data["Status"]) {
+                    alert(data["Reason"], title);
+                } else {
+                    return true;
+                }
+            } catch (e){
+                alert(result, title);
+            }
+            return false;
+        }
+
         function placeorder() {
             if (isObject(userdetails)) {
                 $.post(webroot + "placeorder", {
@@ -609,13 +622,46 @@
                     info: getform("#orderinfo"),
                     order: theorder
                 }, function (result) {
-                    if (result) {
+                    if (handleresult(result)) {
                         alert(result);
                         clearorder();
                     }
                 });
             } else {
                 $("#loginmodal").modal("show");
+            }
+        }
+
+        function addresses(){
+            var HTML = '';
+            $("#saveaddresses option").each(function(){
+                var ID = $(this).val();
+                if(ID > 0) {
+                    if(userdetails["cc_addressid"] == ID){
+                        HTML += '<A><i class="fa fa-fw fa-credit-card"></i> ';
+                    } else {
+                        HTML += '<A ID="add_' + ID + '" TITLE="Delete this address" onclick="deleteaddress(' + ID + ');" class="hyperlink"><i style="color:red" class="fa fa-fw fa-times"></i> ';
+                    }
+                    HTML += $(this).text() + '</A><BR>';
+                }
+            });
+            alert(HTML, "Addresses");
+        }
+
+        function deleteaddress(ID){
+            if(confirm("Are you sure you want to delete '" + $("#add_" + ID).text().trim() + "'?")) {
+                $.post("<?= webroot("public/list/useraddresses"); ?>", {
+                    _token: token,
+                    action: "deleteitem",
+                    id: ID
+                }, function (result) {
+                    if (handleresult(result)) {
+                        $("#add_" + ID).fadeOut(1000, function () {
+                            $("#add_" + ID).remove();
+                        });
+                        $("#saveaddresses option[value=" + ID + "]").remove();
+                    }
+                });
             }
         }
 

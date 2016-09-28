@@ -31,7 +31,7 @@ class Controller extends BaseController {
             } catch (\Swift_TransportException $e) {
                 $text = $e->getMessage();
                 debugprint($template_name . " EMAIL TO " . $array['email'] . " FAILED: " . $text);
-                return $text;
+                return "Email error: " . $text;
             }
         }
     }

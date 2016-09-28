@@ -57,7 +57,7 @@
             $adminsonly=false;
             $inlineedit = false;
             $fields=true;//all fields
-            if(isset($_GET["user_id"])){
+            if(isset($_GET["user_id"]) && read("profiletype") == 1){
                 $where = "user_id = " . $_GET["user_id"];
             } else {
                 $where = "user_id = " . read("id");

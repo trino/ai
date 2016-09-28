@@ -555,7 +555,7 @@
         $user = first("SELECT * FROM users WHERE " . $field . " = " . $IDorEmail);
         if($RemoveCC && is_array($user)) {//do not send credit card info to the user
             foreach ($user as $key => $value) {
-                if (left($key, 3) == "cc_") {
+                if (left($key, 3) == "cc_" && $key != "cc_addressid") {
                     unset($user[$key]);
                 }
             }
