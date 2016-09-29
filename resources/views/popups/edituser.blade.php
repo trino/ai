@@ -1,4 +1,6 @@
 <?php
+    $currentURL = webroot("public/user/info");
+
     if(isset($user_id)){
         $user = first("SELECT * FROM users WHERE id=" . $user_id);
         echo '<INPUT TYPE="HIDDEN" NAME="id" VALUE="' . $user_id  . '">';
@@ -23,13 +25,94 @@
         }
     }
 
-    printarow("Name", $name, array("name" => "name", "value" => $user["name"], "type" => "text", "class" => "form-control"));
-    printarow("Phone", $name, array("name" => "phone", "value" => $user["phone"], "type" => "tel", "class" => "form-control"));
-    printarow("Email", $name, array("name" => "email", "value" => $user["email"], "type" => "email", "class" => "form-control"));
-    if(isset($user_id)){
+    printarow("Name", $name, array("name" => "name", "value" => $user["name"], "type" => "text", "class" => "form-control session_name_val"));
+    printarow("Phone", $name, array("name" => "phone", "value" => $user["phone"], "type" => "tel", "class" => "form-control session_phone_val"));
+    printarow("Email", $name, array("name" => "email", "value" => $user["email"], "type" => "email", "class" => "form-control session_email_val"));
+    if(isset($user_id) || isset($showpass)){
         printarow("Old Password", $name, array("name" => "oldpassword", "type" => "password", "class" => "form-control"));
         printarow("New Password", $name, array("name" => "newpassword", "type" => "password", "class" => "form-control"));
     } else {
         printarow("Password", $name, array("name" => "password", "type" => "password", "class" => "form-control"));
     }
 ?>
+<SCRIPT>
+    var minlength = 5;
+    redirectonlogout = true;
+
+    function userform_submit(){
+        var formdata = getform("#userform");
+        var keys = ["name", "email", "phone"];
+        for(var keyid=0; keyid<keys.length; keyid++){
+            var key = keys[keyid];
+            var val = formdata[key];
+            createCookieValue("session_" + key, val);
+            $(".session_" + key).text(val);
+            $(".session_" + key + "_val").val(val);
+        }
+        $.post("<?= $currentURL; ?>", {
+            action: "saveitem",
+            _token: token,
+            value: formdata
+        }, function (result) {
+            if(result) {
+                alert(result);
+            }
+        });
+        return false;
+    }
+
+    @if(isset($user_id) && $user["cc_addressid"])
+        $(document).ready(function () {
+                setTimeout( function () {
+                    $("#saveaddresses").val(<?= $user["cc_addressid"]; ?>);
+                }, 100 );
+            });
+    @endif
+
+    $(function() {
+                $("form[name='user']").validate({
+                    rules: {
+                        name: "required",
+                        phone: "phonenumber",
+                        cc_number: "creditcard",
+                        email: {
+                            required: true,
+                            email: true,
+                            remote: {
+                                url: "<?= $currentURL; ?>",
+                                type: "post",
+                                data: {
+                                    action: "testemail",
+                                    email: function() {
+                                        return $('#user_email').val();
+                                    },
+                                    user_id: userdetails["id"]
+                                }
+                            }
+                        },
+                        oldpassword: {
+                            //required: function(element){return $("#user_newpassword").val()!="";},
+                            minlength: minlength
+                        },
+                        newpassword: {
+                            required: function(element){
+                                return $("#user_oldpassword").val()!="";
+                            },
+                            minlength: minlength
+                        }
+                    },
+                    messages: {
+                        name: "Please enter your name",
+                        oldpassword: {
+                            required: "Please provide your old password",
+                            minlength: "Your old password is at least " + minlength + " characters long"
+                        },
+                        newpassword: {
+                            required: "Please provide a new password",
+                            minlength: "Your new password must be at least " + minlength + " characters long"
+                        },
+                        email: "Please enter a valid and unique email address"
+                    }
+                });
+            });
+</SCRIPT>

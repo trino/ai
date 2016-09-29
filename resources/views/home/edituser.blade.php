@@ -182,7 +182,11 @@
         <?php
             //"fname", "lname", "number", "xyear", "xmonth", "cc"
             foreach($encryptedfields as $field => $name){
-                $user["cc_" . $field] = isencrypted($user["cc_" . $field]);
+                if($field == "number"){
+                    $user["cc_number"] = obfuscate(isencrypted($user["cc_number"]));
+                } else {
+                    $user["cc_" . $field] = "";
+                }
                 switch($field){
                     case "xmonth":
                         startfield($name);
@@ -217,78 +221,6 @@
         </DIV>
     </FORM>
 
-    <SCRIPT>
-        var minlength = 5;
-        redirectonlogout = true;
-
-        function userform_submit(){
-            $.post("<?= $currentURL; ?>", {
-                action: "saveitem",
-                _token: token,
-                value: getform("#userform")
-            }, function (result) {
-                if(result) {
-                    alert(result);
-                }
-            });
-            return false;
-        }
-
-        @if($user["cc_addressid"])
-            $(document).ready(function () {
-                setTimeout( function () {
-                    $("#saveaddresses").val(<?= $user["cc_addressid"]; ?>);
-                }, 100 );
-            });
-        @endif
-
-        $(function() {
-            $("form[name='user']").validate({
-                rules: {
-                    name: "required",
-                    phone: "phonenumber",
-                    cc_number: "creditcard",
-                    email: {
-                        required: true,
-                        email: true,
-                        remote: {
-                            url: "<?= $currentURL; ?>",
-                            type: "post",
-                            data: {
-                                action: "testemail",
-                                email: function() {
-                                    return $('#user_email').val();
-                                },
-                                user_id: "{{ $user_id }}"
-                            }
-                        }
-                    },
-                    oldpassword: {
-                        //required: function(element){return $("#user_newpassword").val()!="";},
-                        minlength: minlength
-                    },
-                    newpassword: {
-                        required: function(element){
-                            return $("#user_oldpassword").val()!="";
-                        },
-                        minlength: minlength
-                    }
-                },
-                messages: {
-                    name: "Please enter your name",
-                    oldpassword: {
-                        required: "Please provide your old password",
-                        minlength: "Your old password is at least " + minlength + " characters long"
-                    },
-                    newpassword: {
-                        required: "Please provide a new password",
-                        minlength: "Your new password must be at least " + minlength + " characters long"
-                    },
-                    email: "Please enter a valid and unique email address"
-                }
-            });
-        });
-    </SCRIPT>
 @if($includesection)
                             </div>
                         </div>

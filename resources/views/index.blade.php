@@ -215,7 +215,7 @@
                                     </li>
 
                                     <li class="loggedin">
-                                        <A HREF="<?= webroot("public/user/info"); ?>" class="dropdown-item"> <i class="fa fa-home"></i> Profile</A>
+                                        <A data-toggle="modal" data-target="#profilemodal" oldHREF="<?= webroot("public/user/info"); ?>" class="dropdown-item"> <i class="fa fa-home"></i> Profile</A>
                                     </li>
 
                                     <li>
@@ -305,6 +305,32 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal" id="profilemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                    <div class="form-group">
+                        <h5 class="modal-title" id="myModalLabel">Edit Profile</h5>
+                    </div>
+
+                    <FORM NAME="user" id="userform">
+                        @include("popups.edituser", array("showpass" => true))
+                    </FORM>
+
+                    <DIV CLASS="row">
+                        <DIV CLASS="col-md-12" align="center">
+                            <BUTTON CLASS="btn btn-primary" onclick="userform_submit();">Save</BUTTON>
+                        </DIV>
+                    </DIV>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         var tables = <?= json_encode($tables); ?>;
