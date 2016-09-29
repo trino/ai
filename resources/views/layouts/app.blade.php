@@ -126,7 +126,7 @@
 
         var HTML = '';
         if (user["Addresses"].length > 0) {
-            HTML += '<SELECT style="border-top: 0 !important; " class="form-control" id="saveaddresses" onchange="addresschanged();"><OPTION VALUE="0">Select a saved address</OPTION>';
+            HTML += '<SELECT style="border-top: 0 !important; " class="form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION VALUE="0">Select a saved address</OPTION>';
             addresskeys = Object.keys(user["Addresses"][0]);
             for (i = 0; i < user["Addresses"].length; i++) {
                 HTML += AddressToOption(user["Addresses"][i], addresskeys);
@@ -140,6 +140,10 @@
         if(isUndefined(addresskeys)){addresskeys=["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];}
         var tempHTML = '<OPTION';
         var streetformat = "[number] [street], [city]";
+        if(address["unit"]){
+            streetformat += " - Apt/Unit: [unit]";
+            if(address["buzzcode"]) {streetformat += ", Buzz code: [buzzcode]";}
+        }
         for (var keyID = 0; keyID < addresskeys.length; keyID++) {
             var keyname = addresskeys[keyID];
             if(address.hasOwnProperty(keyname)) {

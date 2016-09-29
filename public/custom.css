@@ -250,3 +250,8 @@ a {
     .th-left{
         border-right: 2px solid white;
     }
+
+    /* puts the google places autocomplete dropdown results above the bootstrap modal 1050 zindex. */
+   .pac-container {
+       z-index: 1151 !important;
+   }

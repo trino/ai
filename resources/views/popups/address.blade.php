@@ -47,9 +47,55 @@
                 if($field["half"] == "end"){echo '</div>';}
             }
         }
+
+        if(isset($saveaddress)){
+            echo '<DIV CLASS="col-md-12"><button class="btn btn-secondary btn-sm" onclick="addresses();" title="Edit the addresses saved to your profile" style="width: 25% !important;">EDIT ADDRESSES</button> <button ID="saveaddressbtn" class="btn btn-primary btn-sm pull-right" disabled onclick="deleteaddress(-2);" title="Save this address to your profile" style="width: 25% !important;">SAVE ADDRESS</button></DIV>';
+        }
     ?>
+    <DIV CLASS="clearfix"></DIV>
 </FORM>
 <SCRIPT>
+    function isnewaddress(number, street, city){
+        var AddNew = number && street && city;
+        $("#saveaddresses option").each(function(){
+            var ID = $(this).val();
+            if(ID > 0) {
+                if(number.isEqual($(this).attr("number")) && street.isEqual($(this).attr("street")) && city.isEqual($(this).attr("city"))){
+                    return false;
+                }
+            }
+        });
+        return AddNew;
+    }
+
+    function deleteaddress(ID){
+        if(ID<0){//add new address
+            var address = getform("#orderinfo");
+            $.post(webroot + "placeorder", {
+                _token: token,
+                info: address
+            }, function (result) {
+                address["id"] = result;
+                var HTML = AddressToOption(address);
+                $(".saveaddresses").append(HTML);
+                if(ID==-1){addresses();}
+            });
+        } else if(confirm("Are you sure you want to delete '" + $("#add_" + ID).text().trim() + "'?")) {
+            $.post("<?= webroot("public/list/useraddresses"); ?>", {
+                _token: token,
+                action: "deleteitem",
+                id: ID
+            }, function (result) {
+                if (handleresult(result)) {
+                    $("#add_" + ID).fadeOut(1000, function () {
+                        $("#add_" + ID).remove();
+                    });
+                    $(".saveaddresses option[value=" + ID + "]").remove();
+                }
+            });
+        }
+    }
+
     function initAutocomplete(){
         formatted_address = new google.maps.places.Autocomplete(
                 /** @type {!HTMLInputElement} */(document.getElementById('formatted_address')), {
@@ -65,6 +111,8 @@
         var lat = place.geometry.location.lat();
         var lng = place.geometry.location.lng();
 
+        var addressdata = {};
+
         $('.formatted_fordb').val(place.formatted_address); // this formatted_address is a google maps object
         $('.latitude').val(lat);
         $('.longitude').val(lng);
@@ -77,20 +125,22 @@
             country: 'long_name',
             postal_code: 'short_name'
         };
-        $('#city').val('');
-        //$('#formatted_address').val('');
-        $('#postal_code').val('');
-        $("#province").val('');
         var streetformat = "[street_number] [route], [locality]";
-
         for (var i = 0; i < place.address_components.length; i++) {
             var addressType = place.address_components[i].types[0];
             if (componentForm[addressType]) {
                 var val = place.address_components[i][componentForm[addressType]];
+                addressdata[addressType] = val;
                 log(addressType + " = " + val);
                 streetformat = streetformat.replace("[" + addressType + "]", val);
                 $('.' + addressType).val(val);
             }
+        }
+
+        if(isnewaddress(addressdata["street_number"], addressdata["route"], addressdata["locality"])){
+            $("#saveaddressbtn").removeAttr("disabled");
+        } else {
+            $("#saveaddressbtn").attr("disabled", true);
         }
 
         $('.formatted_address').val(streetformat);

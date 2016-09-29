@@ -558,12 +558,12 @@
         $ccisvalid = false;
         foreach(array("cc_number", "cc_xyear", "cc_xmonth", "cc_cc") as $field){
             $cc[$field] = filter_var(isencrypted($user[$field]), FILTER_SANITIZE_NUMBER_INT);
-            if(!$cc[$field]){$ccisvalid = "missing";}
+            if(!$cc[$field]){$ccisvalid = "missing data";}
         }
         $digits = 16;
         if (left($cc["cc_number"],1) == "3"){$digits=15;}
-        $currentdate = date("nY");
-        if($currentdate >= ($cc["cc_xmonth"] . $cc["cc_xyear"])){
+        $currentdate = date("Yn");
+        if($currentdate >= ($cc["cc_xyear"] . $cc["cc_xmonth"])){
             $ccisvalid = "expired";
         } else if($digits != strlen($cc["cc_number"])){
             $ccisvalid = "invalid";

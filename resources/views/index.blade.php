@@ -628,34 +628,6 @@
             alert(HTML, "Addresses");
         }
 
-        function deleteaddress(ID){
-            if(ID == -1){//add new address
-                var address = getform("#orderinfo");
-                $.post(webroot + "placeorder", {
-                    _token: token,
-                    info: address
-                }, function (result) {
-                    address["id"] = result;
-                    var HTML = AddressToOption(address);
-                    $("#saveaddresses").append(HTML);
-                    addresses();
-                });
-            } else if(confirm("Are you sure you want to delete '" + $("#add_" + ID).text().trim() + "'?")) {
-                $.post("<?= webroot("public/list/useraddresses"); ?>", {
-                    _token: token,
-                    action: "deleteitem",
-                    id: ID
-                }, function (result) {
-                    if (handleresult(result)) {
-                        $("#add_" + ID).fadeOut(1000, function () {
-                            $("#add_" + ID).remove();
-                        });
-                        $("#saveaddresses option[value=" + ID + "]").remove();
-                    }
-                });
-            }
-        }
-
         $(document).ready(function () {
             toppingsouterhtml = outerHTML("#modal-toppings-original").replace('form-control select2', 'form-control select2 select2clones');
             wingsauceouterhtml = outerHTML("#modal-wings-original").replace('form-control select2', 'form-control select2 select2clones');
@@ -663,20 +635,6 @@
                 theorder = JSON.parse(getCookie("theorder"));
             }
             generatereceipt();
-        });
-
-        $(function() {
-            $("form[name='orderinfo']").validate({
-                rules: {
-                    cell: "phonenumber",
-                },
-                messages: {
-
-                },
-                submitHandler: function(form) {
-                  //handled by placeorder
-                }
-            });
         });
     </script>
     <?php

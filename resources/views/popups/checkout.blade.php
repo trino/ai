@@ -78,8 +78,9 @@
 
                     <input type="text" class="form-control" placeholder="Notes"/>
 
+                    <BR>
                     <div class="clear_loggedout addressdropdown" id="checkoutaddress"></div>
-                    <?= view("popups.address", array("dontincludeAPI" => true, "style" => 1)); ?>
+                    <?= view("popups.address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true)); ?>
 
                     <DIV align="center">
                         <button class="btn btn-warning btn-block m-t-1" onclick="placeorder();" style="width: 50% !important;">PLACE ORDER</button>
@@ -91,21 +92,51 @@
     </div>
 </div>
 <SCRIPT>
-    // data-toggle="modal" data-target="#checkoutmodal"  href="#collapseCheckout"
     function showcheckout(){
         var ccmessage = "";
+        $("#cc_number").attr("allowblank", true);
         if(userdetails["cc_integrity"].length > 0){
-            switch(userdetails["cc_integrity"]) {
-                case "missing": ccmessage = "Missing data"; break;
-                case "expired": ccmessage = "Card is expired"; break;
-                case "invalid": ccmessage = "Card is invalid"; break;
-            }
+            ccmessage = 'Your credit card is ' + userdetails["cc_integrity"] + ". Please enter a new credit card.";
+            $("#cc_number").removeAttr("allowblank");
         }
         $("#cc_number").val(userdetails["cc_number"]);
         $("#cc_integrity").text(ccmessage);
         var HTML = $("#checkoutaddress").html().replace('id="saveaddresses"', 'name="cc_addressid"').replace("onchange", 'offchange').replace('Select a saved address', 'Billing Address');
         $("#billingaddress").html(HTML);
         $("#checkoutmodal").modal("show");
+
+        clearValidation("#orderinfo");
+        $(function() {
+            $("#orderinfo").validate({
+                rules: {
+                    cell: "phonenumber",
+                    cc_number: "creditcard",
+                    cc_xyear: "cc_expirydate",
+                    cc_xmonth: "cc_validate"
+                },
+                messages: {
+
+                },
+                submitHandler: function(form) {
+                    //handled by placeorder
+                }
+            });
+        });
+
+        if(ccmessage){
+            $('#cc_collapse').collapse('show');
+            $("#orderinfo").validate().element("#cc_number");
+        }
     }
 
+    //validate month and year together
+    $.validator.addMethod('cc_validate', function (Data, element) {
+        $("#orderinfo").validate().element("#cc_xyear");
+        return true;
+    });
+    $.validator.addMethod('cc_expirydate', function (Data, element) {
+        var currentdate = Number(<?= date("Yn"); ?>);
+        var entereddate = Number(Data + "" + $("#cc_xmonth").val());
+        return entereddate > currentdate;
+    }, "Please enter a valid expiry date");
 </SCRIPT>
