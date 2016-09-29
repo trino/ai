@@ -139,6 +139,10 @@ function visible(selector, status){
     }
 }
 
+$.fn.hasAttr = function(name) {
+    return this.attr(name) !== undefined;
+};
+
 $.validator.addMethod('phonenumber', function (Data, element) {
     Data = Data.replace(/\D/g, "");
     if(Data.substr(0,1)=="0"){return false;}

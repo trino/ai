@@ -579,11 +579,7 @@
         }
 
         function placeorder() {
-            if(!$("#add_number").val().trim() || !$("#add_street").val().trim() || !$("#add_city").val().trim()){
-                alert("Address is incomplete");
-                return false;
-            }
-
+            if(!isCCcomplete()){return false;}
             if (isObject(userdetails)) {
                 $.post(webroot + "placeorder", {
                     _token: token,

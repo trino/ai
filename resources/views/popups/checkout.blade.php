@@ -12,8 +12,8 @@
 
                 <FORM ID="orderinfo" name="orderinfo">
                     <div class="input-group">
-                        <span class="input-group-btn" style="width: 50% !important;">
-                            <input type="text" name="cell" class="form-control" placeholder="Cell"/>
+                        <span class="input-group-btn" style="width: 50% !important;" title="Phone numbers cannot start with the number zero">
+                            <input type="text" name="cell" id="add_cell" class="form-control" placeholder="Cell"/>
                         </span>
                         <span class="input-group-btn" style="width: 50% !important;">
                             <?php
@@ -76,12 +76,15 @@
                         ?>
                     </div>
 
-                    <input type="text" class="form-control" placeholder="Notes"/>
+                    <input type="text" class="form-control" placeholder="Deliver Notes" title="ie: Side door (These will not be seen by the chef)"/>
 
                     <BR>
                     <div class="clear_loggedout addressdropdown" id="checkoutaddress"></div>
                     <?= view("popups.address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true)); ?>
 
+                    <DIV CLASS="col-md-12">
+                        <DIV ID="form_integrity" style="color:red;"></DIV>
+                    </DIV>
                     <DIV align="center">
                         <button class="btn btn-warning btn-block m-t-1" onclick="placeorder();" style="width: 50% !important;">PLACE ORDER</button>
                     </DIV>
@@ -101,7 +104,7 @@
         }
         $("#cc_number").val(userdetails["cc_number"]);
         $("#cc_integrity").text(ccmessage);
-        var HTML = $("#checkoutaddress").html().replace('id="saveaddresses"', 'name="cc_addressid"').replace("onchange", 'offchange').replace('Select a saved address', 'Billing Address');
+        var HTML = $("#checkoutaddress").html().replace('id="saveaddresses"', 'name="cc_addressid" ID="cc_addressid" ').replace("onchange", 'offchange').replace('Select a saved address', 'Billing Address');
         $("#billingaddress").html(HTML);
         $("#checkoutmodal").modal("show");
 
@@ -109,10 +112,14 @@
         $(function() {
             $("#orderinfo").validate({
                 rules: {
-                    cell: "phonenumber",
+                    cell: {required: true, phonenumber: true},
                     cc_number: "creditcard",
                     cc_xyear: "cc_expirydate",
-                    cc_xmonth: "cc_validate"
+                    cc_xmonth: "cc_validate",
+                    cc_fname: {required: function(){return isCCRequired()}},
+                    cc_lname: {required: function(){return isCCRequired()}},
+                    cc_cc: {required: function(){return isCCRequired()}},
+                    cc_addressid: {required: function(){return isCCRequired()}}
                 },
                 messages: {
 
@@ -127,6 +134,31 @@
             $('#cc_collapse').collapse('show');
             $("#orderinfo").validate().element("#cc_number");
         }
+    }
+
+    function isCCcomplete(){
+        var text = "";
+        if($(".error:visible").length>0){
+            text = "There are errors in your checkout form. Please recheck the fields in red";
+        } else if(!$("#add_number").val().trim() || !$("#add_street").val().trim() || !$("#add_city").val().trim()) {
+            text = "Address is incomplete";
+        } else if($("#add_cell").val().replace(/\D/g, "").length != 10){
+            text = "Phone number is missing or invalid";
+        } else if(isCCRequired()){
+            if(!$("#user_cc_fname").val().trim() || !$("#user_cc_lname").val().trim() || !$("#user_cc_cc").val().trim() || $("#cc_addressid").val() == 0){
+                text = "Credit card info is incomplete";
+            } else if(!isNumeric($("#user_cc_cc").val())){
+                text = "Credit card info is invalid";
+            }
+        }
+        $("#form_integrity").text(text);
+        return text.length==0;
+    }
+
+    function isCCRequired(){
+        var CCnumber = $("#cc_number").val();
+        if(CCnumber.contains("-XXXX-XXXX-")){return !$("#cc_number").hasAttr("allowblank");}
+        return CCnumber.length > 0;
     }
 
     //validate month and year together
