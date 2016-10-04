@@ -1,6 +1,6 @@
 <?php
     $Order = Query("SELECT * FROM orders WHERE id=" . $orderid);
-    var_dump($Order);
+    var_dump($Order);//show address info
 ?>
 
 <TABLE BORDER="1" WIDTH="100%">
