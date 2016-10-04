@@ -494,7 +494,7 @@
                     for (var currentitem = 0; currentitem < item["itemaddons"].length; currentitem++) {
                         var addons = item["itemaddons"][currentitem];
                         if (itemname) {
-                            tempHTML += getordinal(currentitem) + " " + itemname + " #" + ": ";
+                            tempHTML += getordinal(currentitem) + " " + itemname + ": ";
                         }
                         for (var addonid = 0; addonid < addons["addons"].length; addonid++) {
                             if (addonid > 0) {
