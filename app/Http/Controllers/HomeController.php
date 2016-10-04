@@ -46,7 +46,7 @@ class HomeController extends Controller {
 
     public function placeorder(){
         if(!read("id")){return array("Status" => false, "Reason" => "You are not logged in");}
-        $info = $this->processCC($_POST["info"]);
+        $info = $_POST["info"];
         $addressID = $this->processaddress($info);
         if(isset($_POST["order"])) {
             $info["placed_at"] = now();

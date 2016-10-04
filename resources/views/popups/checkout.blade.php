@@ -37,7 +37,7 @@
 
                     <input type="text" class="form-control" placeholder="Restaurant"/>
 
-                    <DIV ID="cc_integrity" style="color:red;"></DIV>
+                    <!--DIV ID="cc_integrity" style="color:red;"></DIV>
                     <input type="text" class="form-control" name="cc_number" id="cc_number" placeholder="Credit Card" onclick="$('#cc_collapse').collapse('show');"/>
                     <div class="collapse list-group out" id="cc_collapse" title="For security purposes, to change ANY part of the credit info you must re-enter all of it again">
                         <?php
@@ -74,7 +74,7 @@
                             printarow2("Security Number", "user", array("name" => "cc_cc", "value" => "", "type" => "number", "class" => "form-control", "min" => 0, "max" => 99999));
                             echo '</DIV><DIV CLASS="col-md-12" ID="billingaddress"></DIV>';
                         ?>
-                    </div>
+                    </div-->
 
                     <input type="text" class="form-control" placeholder="Deliver Notes" title="ie: Side door (These will not be seen by the chef)"/>
 

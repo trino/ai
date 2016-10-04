@@ -19,3 +19,4 @@ config/mail.php
 .idea/workspace.xml
 *.iml
 .idea/workspace.xml
+*.xml

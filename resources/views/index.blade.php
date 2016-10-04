@@ -605,7 +605,7 @@
         }
 
         function placeorder() {
-            if(!isCCcomplete()){return false;}
+          //  if(!isCCcomplete()){return false;}
             if (isObject(userdetails)) {
                 $.post(webroot + "placeorder", {
                     _token: token,
