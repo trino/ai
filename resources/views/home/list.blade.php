@@ -48,6 +48,7 @@
             $faicon = "dollar";
             if(isset($_GET["user_id"])){
                 $where = "user_id = " . $_GET["user_id"];
+                if($_GET["user_id"] == read("id")){$adminsonly=false;}
             }
             break;
         case "additional_toppings":

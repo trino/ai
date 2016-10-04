@@ -1,4 +1,11 @@
 <?php
+    $filename = resource_path("orders") . "/" . $orderid . ".json";
+    if(isset($JSON) && $JSON != "false"){
+        if(file_exists($filename)){
+            die(file_get_contents($filename));
+        }
+        die("FILE NOT FOUND");
+    }
     $Order = first("SELECT orders.*, users.name, users.id as userid, users.email FROM orders, users WHERE orders.id = " . $orderid . " HAVING user_id = users.id");
     if(!$Order){ echo 'Order not found'; return false; }
 ?>
@@ -55,8 +62,6 @@
 
         $deliveryfee = findkey($tables["additional_toppings"], "size", "Delivery");
         $deliveryfee = $tables["additional_toppings"][$deliveryfee]["price"];
-
-        $filename = resource_path("orders") . "/" . $orderid . ".json";
         if(file_exists($filename)){
             $items = json_decode(file_get_contents($filename));
             $itemIDs = array();
@@ -145,7 +150,11 @@
             <TR>
                 <TD COLSPAN="8">
                     <?php
-                        echo $Order["name"] . " - " . $Order["email"] . "<BR>" . $Order["phone"] . " " . $Order["cell"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . ", " . $Order["province"] . "<BR>" . $Order["postalcode"]
+                        if(isset($JSON)){
+                            echo '<BUTTON CLASS="btn btn-secondary form-control" ONCLICK="orders(' . $orderid . ', true);">Load Order</BUTTON>';
+                        } else {
+                            echo $Order["name"] . " - " . $Order["email"] . "<BR>" . $Order["phone"] . " " . $Order["cell"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . ", " . $Order["province"] . "<BR>" . $Order["postalcode"];
+                        }
                     ?>
                 </TD>
             </TR>

@@ -210,13 +210,17 @@
                                         <SPAN class="dropdown-item"><i class="fa fa-home"></i> <SPAN CLASS="session_name"></SPAN></SPAN>
                                     </li>
 
-                                    <li class="loggedin">
-                                        <A ONCLICK="addresses();" oldHREF="<?= webroot("public/list/useraddresses"); ?>" class="dropdown-item"> <i class="fa fa-home"></i> Addresses</A>
-                                    </li>
-
-                                    <li class="loggedin">
-                                        <A data-toggle="modal" data-target="#profilemodal" oldHREF="<?= webroot("public/user/info"); ?>" class="dropdown-item"> <i class="fa fa-home"></i> Profile</A>
-                                    </li>
+                                    <SPAN class="loggedin">
+                                        <li>
+                                            <A ONCLICK="addresses();" oldHREF="<?= webroot("public/list/useraddresses"); ?>" class="dropdown-item"> <i class="fa fa-home"></i> Addresses</A>
+                                        </li>
+                                        <li>
+                                            <A ONCLICK="orders();" class="dropdown-item"> <i class="fa fa-home"></i> Past Orders</A>
+                                        </li>
+                                        <li>
+                                            <A data-toggle="modal" data-target="#profilemodal" oldHREF="<?= webroot("public/user/info"); ?>" class="dropdown-item"> <i class="fa fa-home"></i> Profile</A>
+                                        </li>
+                                    </SPAN>
 
                                     <li>
                                         <A ONCLICK="handlelogin('logout');" CLASS="hyperlink dropdown-item loggedin"> <i class="fa fa-home"></i> Log out</A>
@@ -476,28 +480,30 @@
                 tempHTML += '<span class="pull-right" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '"> $' + totalcost + ' <i class="text-muted fa fa-close" onclick="removeorderitem(' + itemid + ');"></i></span><div class="clearfix"></div>';
 
                 var itemname = "";
-                if (item["itemaddons"].length > 1) {
-                    switch (item["itemaddons"][0]["tablename"]) {
-                        case "toppings":
-                            itemname = "Pizza";
-                            break;
-                        case "wings_sauce":
-                            itemname = "Pound";
-                            break;
-                    }
-                }
-                for (var currentitem = 0; currentitem < item["itemaddons"].length; currentitem++) {
-                    var addons = item["itemaddons"][currentitem];
-                    if (itemname) {
-                        tempHTML += getordinal(currentitem) + " " + itemname + " #" + ": ";
-                    }
-                    for (var addonid = 0; addonid < addons["addons"].length; addonid++) {
-                        if (addonid > 0) {
-                            tempHTML += ", ";
+                if(item.hasOwnProperty("itemaddons")) {
+                    if (item["itemaddons"].length > 1) {
+                        switch (item["itemaddons"][0]["tablename"]) {
+                            case "toppings":
+                                itemname = "Pizza";
+                                break;
+                            case "wings_sauce":
+                                itemname = "Pound";
+                                break;
                         }
-                        tempHTML += addons["addons"][addonid]["text"];
                     }
-                    tempHTML += '<BR>';
+                    for (var currentitem = 0; currentitem < item["itemaddons"].length; currentitem++) {
+                        var addons = item["itemaddons"][currentitem];
+                        if (itemname) {
+                            tempHTML += getordinal(currentitem) + " " + itemname + " #" + ": ";
+                        }
+                        for (var addonid = 0; addonid < addons["addons"].length; addonid++) {
+                            if (addonid > 0) {
+                                tempHTML += ", ";
+                            }
+                            tempHTML += addons["addons"][addonid]["text"];
+                        }
+                        tempHTML += '<BR>';
+                    }
                 }
                 HTML += tempHTML;
             }
@@ -605,7 +611,7 @@
         }
 
         function placeorder() {
-          //  if(!isCCcomplete()){return false;}
+            //if(!isCCcomplete()){return false;}
             if (isObject(userdetails)) {
                 $.post(webroot + "placeorder", {
                     _token: token,
@@ -650,6 +656,34 @@
             alert(HTML, "Addresses");
         }
 
+        function orders(ID, getJSON){
+            if(isUndefined(ID)) {
+                var HTML = '';
+                for (var i = 0; i < userdetails["Orders"].length; i++) {
+                    ID = userdetails["Orders"][i];
+                    HTML += '<BUTTON CLASS="btn btn-primary" ONCLICK="orders(' + ID + ');">' + ID + '</BUTTON>';
+                }
+                HTML += '<BR><DIV ID="pastreceipt" CLASS="pastreceipt"></DIV>';
+                alert(HTML, "Orders");
+            } else {
+                if (isUndefined(getJSON)) {getJSON = false;}
+                $.post("<?= webroot('public/list/orders'); ?>", {
+                    _token: token,
+                    action: "getreceipt",
+                    orderid: ID,
+                    JSON: getJSON
+                }, function (result) {
+                    if(getJSON){
+                        theorder = JSON.parse(result);
+                        generatereceipt();
+                        $("#alertmodal").modal('hide');
+                    } else {
+                        $("#pastreceipt").html(result);
+                    }
+                });
+            }
+        }
+
         $(document).ready(function () {
             toppingsouterhtml = outerHTML("#modal-toppings-original").replace('form-control select2', 'form-control select2 select2clones');
             wingsauceouterhtml = outerHTML("#modal-wings-original").replace('form-control select2', 'form-control select2 select2clones');
@@ -659,7 +693,4 @@
             generatereceipt();
         });
     </script>
-    <?php
-     //echo view("home.edituser");//doesn't work
-    ?>
 @endsection
