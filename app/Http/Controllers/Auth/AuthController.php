@@ -56,13 +56,23 @@ class AuthController extends Controller {
 
     public function login($action= false, $email = false) {
         $now = now(true);//seconds from epoch date
+        if(!count($_POST)){$_POST = $_GET;}
         if(!$action){$action = $_POST["action"];}
         $ret = array("Status" => true, "Action" => $action);
         if ($action == "logout") {
-            foreach(array("id", "name", "email", "phone") as $Key){
+            foreach (array("id", "name", "email", "phone") as $Key) {
                 write($Key, '');
             }
             \Session::save();
+        } else if ($action == "verify" && isset($_POST["code"])){
+            $user = first("SELECT * FROM users WHERE authcode = '" . $_POST["code"] . "'");
+            if($user){
+                $user["authcode"] = "";
+                insertdb("users", $user);
+                die("Your account has been verified");
+            } else {
+                die("Code not found");
+            }
         } else {
             if(!$email){$email= trim($_POST["email"]);}
             $user = getuser($email);// first("SELECT * FROM users WHERE email = '" . $email . "'");
