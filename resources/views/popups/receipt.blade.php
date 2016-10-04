@@ -1,3 +1,8 @@
+<?php
+    $Order = Query("SELECT * FROM orders WHERE id=" . $orderid);
+    var_dump($Order);
+?>
+
 <TABLE BORDER="1" WIDTH="100%">
     <THEAD>
         <TR>
