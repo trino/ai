@@ -1,14 +1,19 @@
 <?php
     $filename = resource_path("orders") . "/" . $orderid . ".json";
-    if(isset($JSON) && $JSON != "false"){
-        if(file_exists($filename)){
-            die(file_get_contents($filename));
+    if(isset($JSON)){
+        $style = 2;
+        if($JSON && $JSON != "false"){
+            if(file_exists($filename)){
+                die(file_get_contents($filename));
+            }
+            echo json_encode(array("Status" => false, "Reason" => "File not found"));
+            die();
         }
-        die("FILE NOT FOUND");
+    } else if(!isset($style)) {
+        $style=1;
     }
     $Order = first("SELECT orders.*, users.name, users.id as userid, users.email FROM orders, users WHERE orders.id = " . $orderid . " HAVING user_id = users.id");
     if(!$Order){ echo 'Order not found'; return false; }
-    if(!isset($style)){$style = 2;}
     switch($style){
         case 1: $colspan = 8; break;
         case 2:
@@ -76,7 +81,8 @@
         $deliveryfee = findkey($tables["additional_toppings"], "size", "Delivery");
         $deliveryfee = $tables["additional_toppings"][$deliveryfee]["price"];
         if(file_exists($filename)){
-            $items = json_decode(file_get_contents($filename));
+            $filename = file_get_contents($filename);
+            $items = json_decode($filename);
             $itemIDs = array();
             foreach($items as $item){
                 $itemIDs[] = $item->itemid;
@@ -117,7 +123,7 @@
                 }
                 $HTML="";
                 if(isset($item->itemaddons)){
-                    if($style==1){$HTML = '<TABLE BORDER="1" WIDTH="100%"><THEAD><TR><TH>#</TH><TH>Addons</TH></THEAD></TR>';}
+                    if($style==1){$HTML = '<TABLE BORDER="1" WIDTH="100%"><THEAD><TR><TH WIDTH="5%">#</TH><TH>Addons</TH></THEAD></TR>';}
                     $addoncount = count($item->itemaddons);
                     foreach($item->itemaddons as $addonID => $addon){
                         $tablename = $addon->tablename;
@@ -139,8 +145,8 @@
                         }
 
                         if($style==1){
-                            $itemtitle = $itemtype . '#' . ($addonID+1);
-                            $HTML .= '<TR><TD>' . $itemtitle . '</TD><TD>' . implode(", ", $newtoppings) . '</TD></TR>';
+                            $itemtitle = $itemtype . ' #' . ($addonID+1);
+                            $HTML .= '<TR><TD NOWRAP>' . $itemtitle . '</TD><TD>' . implode(", ", $newtoppings) . '</TD></TR>';
                         } else {
                             $itemtitle = "";
                             if($addoncount > 1){$itemtitle = $ordinals[$addonID] . " " . $itemtype . ": ";}
@@ -182,7 +188,7 @@
                 echo '<TR><TD COLSPAN="7" ALIGN="RIGHT">Integrity check</TD><TD ALIGN="RIGHT" STYLE="color:red;">FAIL</TD></TR>';
             }
         ?>
-        <TFOOT>
+        <TFOOT TITLE="{{ $filename }}">
             <TR>
                 <TD COLSPAN="{{ $colspan }}">
                     <?php
