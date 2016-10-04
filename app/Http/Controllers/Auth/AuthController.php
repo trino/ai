@@ -99,17 +99,16 @@ class AuthController extends Controller {
                         }
                         break;
                     case "forgotpassword":
-                        $newpassword = generateRandomString(6);
-                        $user["password"] = \Hash::make($newpassword);
-                        insertdb("users", $user);
-                        $ret["Reason"] = "Password reset";
-                        $user["password"] = $newpassword;
+                        $user["password"] = generateRandomString(6);
                         $user["mail_subject"] = "Forgot password";
-                        debugprint("Changed password to " . $newpassword);//MUST NOT MAKE IT TO POST-PRODUCTION!!!!
                         $text = $this->sendEMail("email.forgotpassword", $user);
                         if($text){
                             $ret["Status"] = false;
                             $ret["Reason"] = $text;
+                        } else {//only save change if email was sent
+                            $ret["Reason"] = "Password reset";
+                            $user["password"] = \Hash::make($user["password"]);
+                            insertdb("users", $user);
                         }
                         break;
                 }
