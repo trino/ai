@@ -587,6 +587,7 @@
         }
         $user["cc_integrity"] = $ccisvalid;//check card now since it'll be removed
         $user["Addresses"] = Query("SELECT * FROM useraddresses WHERE user_id = " . $user["id"], true);
+        $user["Orders"] = flattenarray(Query("SELECT id FROM `orders` WHERE user_id = " . $user["id"] . " ORDER BY id DESC LIMIT 5", true), "id");
         return $user;
     }
 

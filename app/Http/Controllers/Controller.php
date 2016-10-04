@@ -30,7 +30,8 @@ class Controller extends BaseController {
                 });
             } catch (\Swift_TransportException $e) {
                 $text = $e->getMessage();
-                debugprint($template_name . " EMAIL TO " . $array['email'] . " FAILED: " . $text);
+                $email = view($template_name, $array);
+                debugprint($template_name . " EMAIL TO " . $array['email'] . " FAILED: " . $text . "<P>" . $email);
                 return "Email error: " . $text;
             }
         }

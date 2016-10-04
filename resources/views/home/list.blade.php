@@ -187,6 +187,7 @@
                                 <div class="col-md-12">
                                     @if(read("profiletype") != 1 && $adminsonly)
                                         You are not authorized to view this page
+                                        <a class="loggedout dropdown-item hyperlink" data-toggle="modal" data-target="#loginmodal"> <i class="fa fa-home"></i> Log In</a>
                                     @elseif($table == "all")
                                         <?php
                                             foreach(array("users", "restaurants", "useraddresses", "orders") as $table){
