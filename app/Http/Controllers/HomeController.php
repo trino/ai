@@ -61,7 +61,6 @@ class HomeController extends Controller {
             $text = $this->sendEMail("email.receipt", $user);//send emails to customer and store
             //if ($text) {return $text;}
             //$charged = $this->stripepayment();
-
             return 'Your order has been placed<BR CLASS="ordersuccess">' . view("popups.receipt", array("orderid" => $orderid));
         } else {
             return $addressID;

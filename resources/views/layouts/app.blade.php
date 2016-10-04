@@ -80,6 +80,7 @@
     var userdetails = false;
     var currentRoute = "<?= Route::getCurrentRoute()->getPath(); ?>";
 
+    //overwrites javascript's alert and use the modal popup
     (function () {
         var proxied = window.alert;
         window.alert = function () {
@@ -94,6 +95,7 @@
     })();
 
     $(document).ready(function () {
+        //make every AJAX request show the loading animation
         $body = $("body");
         $(document).on({
             ajaxStart: function () {
@@ -105,27 +107,28 @@
         });
 
         @if(isset($user))
-            login(<?= json_encode($user); ?>);
+            login(<?= json_encode($user); ?>);//user is already logged in, use the data
         @endif
     });
 
+    //handle a user login
     function login(user) {
         userdetails = user;
         var keys = Object.keys(user);
         for (var i = 0; i < keys.length; i++) {
             var key = keys[i];
             var val = user[key];
-            createCookieValue("session_" + key, val);
-            $(".session_" + key).text(val);
-            $(".session_" + key + "_val").val(val);
+            createCookieValue("session_" + key, val);//save data to cookie
+            $(".session_" + key).text(val);//set elements text to data
+            $(".session_" + key + "_val").val(val);//set elements value to data
         }
-        $(".loggedin").show();
-        $(".loggedout").hide();
-        $(".profiletype").hide();
-        $(".profiletype" + user["profiletype"]).show();
+        $(".loggedin").show();//show loggedin class
+        $(".loggedout").hide();//hide loggedout class
+        $(".profiletype").hide();//hide all profile type clasdses
+        $(".profiletype" + user["profiletype"]).show();//show classes for this profile type
 
         var HTML = '';
-        if (user["Addresses"].length > 0) {
+        if (user["Addresses"].length > 0) {//generate address dropdown
             HTML += '<SELECT style="border-top: 0 !important; " class="form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION VALUE="0">Select a saved address</OPTION>';
             addresskeys = Object.keys(user["Addresses"][0]);
             for (i = 0; i < user["Addresses"].length; i++) {
@@ -136,6 +139,7 @@
         $(".addressdropdown").html(HTML);
     }
 
+    //convert an address to a dropdown option
     function AddressToOption(address, addresskeys){
         if(isUndefined(addresskeys)){addresskeys=["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];}
         var tempHTML = '<OPTION';
@@ -158,6 +162,7 @@
         return tempHTML + '>' + streetformat + '</OPTION>';
     }
 
+    //address dropdown changed
     function addresschanged() {
         var Selected = $("#saveaddresses option:selected");
         for (var keyID = 0; keyID < addresskeys.length; keyID++) {
@@ -171,6 +176,7 @@
         $("#formatted_address").val(keyname);
     }
 
+    //universal AJAX error handling
     $(document).ajaxComplete(function (event, request, settings) {
         if (request.status != 200 && request.status > 0) {//not OK, or aborted
             alert(request.statusText + "<P>URL: " + settings.url, "AJAX error code: " + request.status);

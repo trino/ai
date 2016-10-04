@@ -54,8 +54,10 @@ class AuthController extends Controller {
         return csrf_token();
     }
 
+    //handles all authentication actions (login, logout, register, verify, forgot password)
     public function login($action= false, $email = false) {
         $now = now(true);//seconds from epoch date
+        $attempttime = 300;//5 minutes
         if(!count($_POST)){$_POST = $_GET;}
         if(!$action){$action = $_POST["action"];}
         $ret = array("Status" => true, "Action" => $action);
@@ -64,7 +66,7 @@ class AuthController extends Controller {
                 write($Key, '');
             }
             \Session::save();
-        } else if ($action == "verify" && isset($_POST["code"])){
+        } else if ($action == "verify" && isset($_POST["code"])){//verification code URL clicked
             $user = first("SELECT * FROM users WHERE authcode = '" . $_POST["code"] . "'");
             if($user){
                 $user["authcode"] = "";
@@ -73,7 +75,7 @@ class AuthController extends Controller {
             } else {
                 die("Code not found");
             }
-        } else {
+        } else {//actions which require a user
             if(!$email){$email= trim($_POST["email"]);}
             $user = getuser($email);// first("SELECT * FROM users WHERE email = '" . $email . "'");
             $passwordmismatch = "Password and email address do not match a known account";
@@ -86,13 +88,13 @@ class AuthController extends Controller {
                     case "verify":
                         $this->sendverifemail($email);
                     case "login":
-                        if ($user["lastlogin"] >= ($now - 300) && $user["loginattempts"] > 5) {
-                            $ret["Status"] = false;
+                        if ($user["lastlogin"] >= ($now - $attempttime) && $user["loginattempts"] > 5) {
+                            $ret["Status"] = false;//brute-force prevention
                             $ret["Reason"] = "Too many login attempts. Please wait 5 minutes";
                         } else if($user["authcode"]) {
-                            $ret["Status"] = false;
+                            $ret["Status"] = false;//require the user to be verified
                             $ret["Reason"] = 'Email address not verified. Please click the [verify] button in your email';
-                        } else if (\Hash::check($_POST["password"], $user["password"])) {
+                        } else if (\Hash::check($_POST["password"], $user["password"])) {//login successful
                             unset($user["password"]);//do not send this to the user!
                             $ret["User"] = $user;
                             foreach ($user as $Key => $Value) {
@@ -100,11 +102,15 @@ class AuthController extends Controller {
                             }
                             \Session::save();
                             $ret["Token"] = csrf_token();
-                        } else {
+                        } else {//login failed
                             $ret["Status"] = false;
                             $ret["Reason"] = $passwordmismatch;//"Password mismatch";
                             $user["lastlogin"] = $now;
-                            $user["loginattempts"]++;
+                            if ($user["lastlogin"] >= ($now - $attempttime)) {
+                                $user["loginattempts"]++;
+                            } else {
+                                $user["loginattempts"]=1;
+                            }
                             insertdb("users", $user);
                         }
                         break;
@@ -112,7 +118,7 @@ class AuthController extends Controller {
                         $user["password"] = generateRandomString(6);
                         $user["mail_subject"] = "Forgot password";
                         $text = $this->sendEMail("email.forgotpassword", $user);
-                        if($text){
+                        if($text){//email failed to send
                             $ret["Status"] = false;
                             $ret["Reason"] = $text;
                         } else {//only save change if email was sent
@@ -144,6 +150,7 @@ class AuthController extends Controller {
         die(json_encode($ret));
     }
 
+    //sends the verification email to the user
     function sendverifemail($email){
         $user = first("SELECT * FROM users WHERE email = '" . $email . "'");
         $user["mail_subject"] = "Please click the verify button";

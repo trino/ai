@@ -4,7 +4,7 @@
         $style = 2;
         if($JSON && $JSON != "false"){
             if(file_exists($filename)){
-                die(file_get_contents($filename));
+                die(file_get_contents($filename));//only the JSON is desired, send it
             }
             echo json_encode(array("Status" => false, "Reason" => "File not found"));
             die();
@@ -52,6 +52,7 @@
                 return array_search($value, array_column($arr, $key));
             }
 
+            //finds the size of the item
             function getsize($itemname, $isfree){
                 $currentsize = "";
                 foreach ($isfree as $value) {
@@ -92,6 +93,7 @@
 
             $menu = Query("SELECT * FROM menu WHERE id IN(" . $itemIDs . ")", true);
 
+            //convert the JSON into an HTML receipt, using only item/addon IDs, reobtaining cost/names from the database for security
             $subtotal = 0;
             foreach($items as $ID => $item){
                 $menukey = findkey($menu, "id", $item->itemid);
@@ -193,9 +195,9 @@
                 <TD COLSPAN="{{ $colspan }}">
                     <?php
                         if(isset($JSON)){
-                            echo '<BUTTON CLASS="btn btn-secondary form-control" ONCLICK="orders(' . $orderid . ', true);">Load Order</BUTTON>';
+                            echo '<BUTTON CLASS="btn btn-secondary form-control" ONCLICK="orders(' . $orderid . ', true);">Load Order</BUTTON>';//viewing order from user's order list popup
                         } else {
-                            echo $Order["name"] . " - " . $Order["email"] . "<BR>" . $Order["phone"] . " " . $Order["cell"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . ", " . $Order["province"] . "<BR>" . $Order["postalcode"];
+                            echo $Order["name"] . " - " . $Order["email"] . "<BR>" . $Order["phone"] . " " . $Order["cell"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . ", " . $Order["province"] . "<BR>" . $Order["postalcode"];//viewing order from anywhere else
                         }
                     ?>
                 </TD>

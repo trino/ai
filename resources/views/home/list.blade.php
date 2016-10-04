@@ -1,4 +1,5 @@
 <?php
+    //gets text between $start and $end in $string
     function get_string_between($string, $start, $end){
         $string = ' ' . $string;
         $ini = strpos($string, $start);
@@ -7,12 +8,14 @@
         $len = strpos($string, $end, $ini) - $ini;
         return substr($string, $ini, $len);
     }
+    //removes (this text) from $text
     function remove_brackets($text){
         return preg_replace('/\(([^()]*+|(?R))*\)\s*/', '', $text);
     }
     function deletefile($file){
         if(file_exists($file)){unlink($file);}
     }
+    //change a field name into a column name (upper case first letter of each word, switch underscores to a space, add a space before "code")
     function formatfield($field){
         $field = explode(" ", str_replace("code", " code", str_replace("_", " ", $field)));
         foreach($field as $ID => $text){
@@ -22,13 +25,12 @@
         return implode(" ", $field);
     }
 
-    $namefield = "name";
+    //sets permissions, SQL, fields for each whitelisted table
+    $namefield = "name";//which field acts as the name for the confirm delete popup
     $where = "";
-    $inlineedit = true;
-    if(isset($_POST["query"])){
-        $_GET = $_POST["query"];
-    }
-    $adminsonly=true;
+    $inlineedit = true;//allow inline editing of a row
+    if(isset($_POST["query"])){$_GET = $_POST["query"];}
+    $adminsonly=true;//sets if you must be an admin to access the table
     $datafields=true;
     $SQL=false;
     switch($table){
@@ -41,10 +43,11 @@
             break;
         case "restaurants":
             $fields = array("id", "name", "phone", "email", "address_id", "number", "street", "postalcode", "city", "province", "latitude", "longitude", "user_phone");
-            $SQL='SELECT  restaurants.id, restaurants.name, restaurants.phone, restaurants.email, restaurants.address_id, useraddresses.number, useraddresses.street, useraddresses.postalcode, useraddresses.city, useraddresses.province, useraddresses.latitude, useraddresses.longitude, useraddresses.phone as user_phone FROM useraddresses AS useraddresses RIGHT JOIN restaurants ON restaurants.address_id = useraddresses.id';
+            $SQL='SELECT restaurants.id, restaurants.name, restaurants.phone, restaurants.email, restaurants.address_id, useraddresses.number, useraddresses.street, useraddresses.postalcode, useraddresses.city, useraddresses.province, useraddresses.latitude, useraddresses.longitude, useraddresses.phone as user_phone FROM useraddresses AS useraddresses RIGHT JOIN restaurants ON restaurants.address_id = useraddresses.id';
             break;
         case "orders":
             $fields=true;
+            $namefield="placed_at";
             $faicon = "dollar";
             if(isset($_GET["user_id"])){
                 $where = "user_id = " . $_GET["user_id"];
@@ -52,9 +55,11 @@
             }
             break;
         case "additional_toppings":
+            $namefield="size";
             $fields = array("id", "size", "price");
             break;
         case "useraddresses":
+            $namefield="street";
             $adminsonly=false;
             $inlineedit = false;
             $fields=true;//all fields
@@ -66,7 +71,7 @@
             break;
         default: die("This table is not whitelisted");
     }
-    if($datafields){
+    if($datafields){//get all fields
         $datafields = describe($table);
         foreach($datafields as $ID => $datafield){
             $datafields[$ID]["Len"] = get_string_between($datafield["Type"], "(", ")");
@@ -80,7 +85,7 @@
     if(isset($_POST["action"])){
         $results = array("Status" => true, "POST" => $_POST);
         switch($_POST["action"]){
-            case "getpage":
+            case "getpage"://get a page of data via AJAX
                 if($_POST["makenew"] == "true"){
                     Query("INSERT INTO " . $table . " () VALUES();");
                     debugprint("Inserted into " . $table );
@@ -93,7 +98,7 @@
                 $results["count"] = first("SELECT COUNT(*) as count FROM " . $table)["count"];
                 break;
 
-            case "deleteitem":
+            case "deleteitem"://delete a row
                 switch($table){
                     case "orders":
                         deletefile(resource_path("orders") . "/" . $_POST["id"] . ".json");//deletes the order file
@@ -105,27 +110,27 @@
                 deleterow($table, "id=" . $_POST["id"]);
                 break;
 
-            case "deletetable":
+            case "deletetable"://delete all rows
                 Query("TRUNCATE " . $table);
                 break;
 
-            case "edititem"://single column
+            case "edititem"://edit a single column in a row
                 insertdb($table, array("id" => $_POST["id"], $_POST["key"] => $_POST["value"]));
                 break;
 
-            case "saveitem"://all columns
+            case "saveitem"://edit all columns in a row
                 insertdb($table, $_POST["value"]);
                 break;
 
-            case "getreceipt":
+            case "getreceipt"://get an order receipt
                 die(view("popups.receipt", $_POST));
                 break;
 
-            case "deletedebug":
+            case "deletedebug"://delete the debug file
                 deletefile("royslog.txt");
                 break;
 
-            default:
+            default://unhandled, error
                 $results["Status"] = false;
                 $results["Reason"] = "'" . $_POST["action"] . "' is unhandled \r\n" . print_r($_POST, true);
         }
@@ -191,6 +196,7 @@
                                         <a class="loggedout dropdown-item hyperlink" data-toggle="modal" data-target="#loginmodal"> <i class="fa fa-home"></i> Log In</a>
                                     @elseif($table == "all")
                                         <?php
+                                            //show all administratable tables
                                             foreach(array("users", "restaurants", "useraddresses", "orders") as $table){
                                                 echo '<A HREF="' . webroot("public/list/" . $table) . '">' . ucfirst($table) . ' list</A><BR>';
                                             }
@@ -200,6 +206,7 @@
                                         <A HREF="<?= webroot("public/list/debug"); ?>">Debug log</A>
                                     @elseif($table == "debug")
                                         <PRE id="debuglogcontents"><?php
+                                            //show debug file
                                             $Contents = "";
                                             if (file_exists("royslog.txt")){
                                                 $Contents = file_get_contents("royslog.txt");
@@ -277,6 +284,7 @@
                         getpage(0);
                     });
 
+                    //gets a page of data from the server, convert it to HTML
                     function getpage(index, makenew){
                         if(index==-1){index = lastpage;}
                         if(isUndefined(makenew)){makenew = false;}
@@ -324,7 +332,7 @@
                                 $("#data > TBODY").html(HTML);
                                 generatepagelist(data.count, index);
 
-                                $(".field").dblclick(function() {
+                                $(".field").dblclick(function() {//set field double click handler
                                     var field = $(this).attr("field");
                                     var columnindex = findwhere(datafields, "Field", field);
                                     var column = datafields[columnindex];
@@ -350,7 +358,7 @@
                                                 column["Type"] = "int";
                                                 break;
                                         }
-                                        if(!isHTML && inlineedit){
+                                        if(!isHTML && inlineedit){//check what datatype the column is, and switch the text with the appropriate input type
                                             isText=true;
                                             var isSelect=false;
                                             var title="";
@@ -422,6 +430,7 @@
                         });
                     }
 
+                    //make a SELECT dropdown
                     function makeselect(ID, classnames, colname, selected, kvps){
                         var HTML = '<SELECT ID="' + ID + '" CLASS="'  + classnames + '" COLNAME="' + colname + '">';
                         for(var keyID = 0; keyID<kvps.length; keyID++){
@@ -443,10 +452,12 @@
                         return HTML + '</SELECT>';
                     }
 
+                    //checks if a field contains HTML (so we know if it's being edited) or not
                     function containsHTML(text){
                         return text.indexOf("<") > -1 && text.indexOf(">") > -1;
                     }
 
+                    //generates a list of page links
                     function generatepagelist(itemcount, currentpage){
                         currentpage = Number(currentpage);
                         var pages = Math.ceil(Number(itemcount) / itemsperpage);
@@ -478,6 +489,7 @@
                         });
                     }
 
+                    //delete everything in a table, confirm twice
                     function deletetable(){
                         if(confirm("Are you sure you want to delete the entire " + table + " table?")){
                             if(confirm("Are you really REALLY sure?")){
@@ -493,6 +505,7 @@
                         }
                     }
 
+                    //delete a single item in a table
                     function deleteitem(ID){
                         var name = $("#" + table + "_" + ID + "_" + namefield).text();
                         if(confirm("Are you sure you want to delete item ID: " + ID + " (" + name + ") ?")){
@@ -516,10 +529,12 @@
                         }
                     }
 
+                    //add a new item to the table, load the last page
                     function newitem(){
                         getpage(-1, true);
                     }
 
+                    //delete the debug file
                     function deletedebug(){
                         if(confirm("Are you sure you want to delete the debug log?")){
                             $.post(currentURL, {
@@ -534,6 +549,7 @@
                         }
                     }
 
+                    //edit a single column in a row, verifying the data
                     function edititem(ID, field, data){
                         var colname = $("#" + ID + "_" + field).attr("COLNAME").toLowerCase();
                         if(data) {
@@ -576,6 +592,7 @@
                         });
                     }
 
+                    //edit a restaurant address
                     function editaddress(ID){
                         selecteditem = ID;
                         var streetformat = "[number] [street], [city]";
@@ -589,6 +606,7 @@
                         $("#saveaddress").removeAttr("disabled");
                     }
 
+                    //save an address
                     function saveaddress(ID){
                         var formdata = getform("#googleaddress");
                         var keys = Object.keys(formdata);
@@ -616,6 +634,7 @@
                         });
                     }
 
+                    //view an order receipt
                     function vieworder(ID){
                         $.post(currentURL, {
                             action: "getreceipt",
@@ -628,6 +647,7 @@
                         });
                     }
 
+                    //universal AJAX error handling
                     function handleresult(result, title){
                         try {
                             var data = JSON.parse(result);
@@ -644,10 +664,7 @@
 
 
 
-
-
-
-
+                    //data vealidation handling
                     function validate_data(Data, DataType){
                         if(Data) {
                             switch (DataType.toLowerCase()) {

@@ -4,8 +4,7 @@
     <div class="row">
         <div class="col-md-8 ">
             <div class="card" style="background: white">
-                <div class="card-block bg-danger"
-                     style="padding-top:.75rem !important;padding-bottom:.75rem !important;">
+                <div class="card-block bg-danger" style="padding-top:.75rem !important;padding-bottom:.75rem !important;">
                     <div class="row">
                         <div class="col-md-6">
                             <h5 class="pull-left" style="margin-top: .5rem;">
@@ -14,9 +13,7 @@
                         </div>
                         <!--div class="col-md-6" id="custom-search-input">
                             <div class="input-group m-t-0">
-                                <input type="text" class="  search-query form-control" id="search"
-                                       style="padding:4px !important;"
-                                       oninput="search(this, event);" autocomplete="off"/>
+                                <input type="text" class="  search-query form-control" id="search" style="padding:4px !important;" oninput="search(this, event);" autocomplete="off"/>
                                 <span class="input-group-btn">
                                     <button class="btn btn-danger" type="button">
                                         <span class="fa fa-search"></span>
@@ -29,7 +26,6 @@
 
 
                 <div class="card-block card-columns">
-
                     <?php
                     $tables = array("toppings", "wings_sauce");
                     $qualifiers = array("DEFAULT" => array("1/2", "1x", "2x", "3x"));
@@ -38,6 +34,7 @@
                     $deliveryfee = $isfree["Delivery"];
                     $a = 0;
 
+                    //gets the size of the pizza
                     function getsize($itemname, &$isfree) {
                         $currentsize = "";
                         foreach ($isfree as $size => $cost) {
@@ -49,9 +46,12 @@
                         }
                         return $currentsize;
                     }
+                    //checks if $text contains $searchfor, case insensitive
                     function textcontains($text, $searchfor) {
                         return strpos(strtolower($text), strtolower($searchfor)) !== false;
                     }
+
+                    //process addons, generating the option group dropdown HTML, enumerating free toppings and qualifiers
                     function getaddons($Table, &$isfree, &$qualifiers) {
                         $toppings = Query("SELECT * FROM " . $Table . " ORDER BY type ASC, name ASC", true);
                         $toppings_display = '';
@@ -82,6 +82,8 @@
                         }
                         return $toppings_display . '</optgroup>';
                     }
+
+                    //same as explode, but makes sure each cell is trimmed
                     function explodetrim($text, $delimiter = ",", $dotrim = true) {
                         if (is_array($text)) {
                             return $text;
@@ -95,89 +97,76 @@
                         }
                         return $text;
                     }
+
+                    //converts a string to a class name (lowercase, replace spaces with underscores)
                     function toclass($text) {
                         return strtolower(str_replace(" ", "_", $text));
                     }
-
-
-
 
                     $toppings_display = getaddons("toppings", $isfree, $qualifiers);
                     $wings_display = getaddons("wings_sauce", $isfree, $qualifiers);
                     $classlist = array();
 
-
                     foreach ($categories as $category) {
-                    /*
-                    if ($a == 999) {
-                        $a = 0;
-                        echo '</div><div class="col-md-4">';//start a new column
-                    }
-                    */
-                    $catclass = toclass($category['category']);
-                    $classlist[] = $catclass;
-                    ?>
+                        $catclass = toclass($category['category']);
+                        $classlist[] = $catclass;
+                        ?>
 
-                    <div class="card card-block p-a-0 m-a-0">
+                        <div class="card card-block p-a-0 m-a-0">
+                            <a class="head_{{ $catclass }}" data-toggle="collapse" href="#collapse{{$category["id"]}}_cat">
+                                <h5 class="text-danger">{{$category['category']}}</h5>
+                            </a>
+                            <div class="collapse list-group in  " id="collapse{{$category['id']}}_cat">
+                                <? //print the menu
+                                    $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
+                                    foreach ($menuitems as $menuitem) {
+                                        $menuitem["price"] = number_format($menuitem["price"], 2);
+                                        ?>
+                                        <div class="menuitem item_{{ $catclass }}" itemid="{{$menuitem["id"]}}"
+                                             itemname="{{$menuitem['item']}}"
+                                             itemprice="{{$menuitem['price']}}"
+                                             itemsize="{{ getsize($menuitem['item'], $isfree) }}" <?php
+                                                $total = 0;
+                                                foreach ($tables as $table) {
+                                                    echo $table . '="' . $menuitem[$table] . '" ';
+                                                    $total += $menuitem[$table];
+                                                }
+                                                if ($total) {
+                                                    $HTML = 'data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
+                                                    $icon = '<i class="fa fa-chevron-down pull-right text-muted"></i>';
+                                                } else {
+                                                    $HTML = 'onclick="additemtoorder(this);"';
+                                                    $icon = '';
+                                                }
+                                                ?>>
+                                                <a class="btn btn-block" style="border:0 !important;padding:0 !important;line-height: 1.5rem !important;" <?= $HTML; ?> >
+                                                <?=$icon?>
+                                                <img class="pull-left " src="pizza.png" style="width:22px;margin-right:5px;"/>
 
+                                                <span class="pull-left itemname">{{$menuitem['item']}}</span>
 
-                        <a class="head_{{ $catclass }}" data-toggle="collapse"
-                           href="#collapse{{$category["id"]}}_cat">
-                            <h5 class="text-danger">{{$category['category']}}</h5>
-                        </a>
-                        <div class="collapse list-group in  " id="collapse{{$category['id']}}_cat">
-                            <?
-                            $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
-                            foreach ($menuitems as $menuitem) {
-                                $menuitem["price"] = number_format($menuitem["price"], 2);
+                                                <span class="pull-right"> ${{$menuitem['price']}}</span>
+
+                                            </a>
+
+                                        </div>
+                                        <?php
+                                    }
                                 ?>
-                                <div class="menuitem item_{{ $catclass }}" itemid="{{$menuitem["id"]}}"
-                                     itemname="{{$menuitem['item']}}"
-                                     itemprice="{{$menuitem['price']}}"
-                                     itemsize="{{ getsize($menuitem['item'], $isfree) }}" <?php
-                                        $total = 0;
-                                        foreach ($tables as $table) {
-                                            echo $table . '="' . $menuitem[$table] . '" ';
-                                            $total += $menuitem[$table];
-                                        }
-                                        if ($total) {
-                                            $HTML = 'data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
-                                            $icon = '<i class="fa fa-chevron-down pull-right text-muted"></i>';
-                                        } else {
-                                            $HTML = 'onclick="additemtoorder(this);"';
-                                            $icon = '';
-                                        }
-                                        ?>>
-                                        <a class="btn btn-block" style="border:0 !important;padding:0 !important;line-height: 1.5rem !important;" <?= $HTML; ?> >
-                                        <?=$icon?>
-                                        <img class="pull-left " src="pizza.png" style="width:22px;margin-right:5px;"/>
-
-                                        <span class="pull-left itemname">{{$menuitem['item']}}</span>
-
-                                        <span class="pull-right"> ${{$menuitem['price']}}</span>
-
-                                    </a>
-
-                                </div>
-                                <?php
-                            }
-                            ?>
+                            </div>
+                            <div>&nbsp;</div>
                         </div>
-                        <div>&nbsp;</div>
-                    </div>
-                    <?
-                    $a++;
-                    } ?>
-
+                        <?
+                          $a++;
+                        }
+                    ?>
                 </div>
             </div>
         </div>
 
-
         <div class="col-md-4 ">
             <div class="card">
-                <div class="card-block bg-danger"
-                     style="padding-top:.75rem !important;padding-bottom:.75rem !important;">
+                <div class="card-block bg-danger" style="padding-top:.75rem !important;padding-bottom:.75rem !important;">
                     <h5 class="pull-left" style="margin-top: .5rem;">
                         My Order
                         <a ONCLICK="if(confirm('Are you sure you want to clear your order?')){clearorder();}">
@@ -197,6 +186,7 @@
 
                                     <SPAN class="loggedin profiletype profiletype1">
                                         <?php
+                                            //administration lists
                                             foreach (array("users", "restaurants", "useraddresses", "orders", "additional_toppings") as $table) {
                                                 echo '<LI><A HREF="' . webroot("public/list/" . $table) . '" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> ' . ucfirst($table) . ' list</A></LI>';
                                             }
@@ -253,7 +243,7 @@
     </div>
 
 
-    <!-- Modal -->
+    <!-- order menu item Modal -->
     <div class="modal" id="menumodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -309,7 +299,7 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- edit profile Modal -->
     <div class="modal" id="profilemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -345,6 +335,7 @@
         var deliveryfee = <?= $deliveryfee; ?>;
         var classlist = <?= json_encode($classlist); ?>;
 
+        //handles the search text box
         function search(element) {
             var searchtext = element.value.toLowerCase();
             $(".menuitem").each(function (index) {
@@ -374,6 +365,7 @@
             }
         }
 
+        //generates the order menu item modal
         function loadmodal(element) {
             element = $(element).parent();
             $("#modal-itemname").text($(element).attr("itemname"));
@@ -390,8 +382,8 @@
             }
             $("#modal-toppingcost").text(toppingcost);
 
+            //clones the addon dropdowns
             initSelect2(".select2", true);
-
             sendintheclones("#modal-wings-clones", "#modal-wings-original", $(element).attr("wings_sauce"), wingsauceouterhtml);
             sendintheclones("#modal-toppings-clones", "#modal-toppings-original", $(element).attr("toppings"), toppingsouterhtml.replace('[price]', toppingcost));
             initSelect2(".select2clones");
@@ -413,6 +405,8 @@
                 }).change();
             }
         }
+
+        //makes HTML clones of a dropdown
         function sendintheclones(destinationID, sourceID, count, sourceHTML) {
             var HTML = "";
             visible(sourceID, count > 0);
@@ -431,6 +425,8 @@
             }
             $(destinationID).html(HTML);
         }
+
+        //get the data from the modal and add it to the order
         function additemtoorder(element) {
             var itemid = 0, itemname = "", itemprice = 0.00, itemaddons = new Array, itemsize = "", toppingcost = 0.00, toppingscount = 0;
             if (isUndefined(element)) {//modal with addons
@@ -465,11 +461,13 @@
             generatereceipt();
         }
 
+        //convert numbers to their names, 0 indexed (0=first, 1=second...)
         function getordinal(index){
             var ordinals = ["First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Eighth", "Ninth", "Tenth"];
             return ordinals[index];
         }
 
+        //convert the order to an HTML receipt
         function generatereceipt() {
             var HTML = '', tempHTML = "", subtotal = 0;
             for (var itemid = 0; itemid < theorder.length; itemid++) {
@@ -533,6 +531,7 @@
             $("#myorder").html(HTML + tempHTML);
         }
 
+        //hides the checkout form
         function collapsecheckout(){
             if($("#collapseCheckout").attr("aria-expanded") == "true"){
                 $("#checkout").trigger("click");
@@ -543,6 +542,8 @@
             theorder = new Array;
             generatereceipt();
         }
+
+        //gets the addons from each dropdown
         function getaddons() {
             var itemaddons = new Array;
             for (var tableid = 0; tableid < tables.length; tableid++) {
@@ -570,6 +571,7 @@
             return itemaddons;
         }
 
+        //get the size of a pizza
         function getsize(Itemname) {
             var sizes = Object.keys(freetoppings);
             var size = "";
@@ -583,19 +585,23 @@
             return size;
         }
 
+        //checks if an addon is free
         function isaddon_free(Table, Addon) {
             return freetoppings[Table].indexOf(Addon) > -1;
         }
 
+        //checks if an addon is on the whole pizza (for when we implement halves)
         function isaddon_onall(Table, Addon) {
             return freetoppings["isall"][Table].indexOf(Addon) > -1;
         }
 
+        //remove an item from the order
         function removeorderitem(index) {
             removeindex(theorder, index);
             generatereceipt();
         }
 
+        //checks if the result is JSON, and processes the Status and Reasons
         function handleresult(result, title){
             try {
                 var data = JSON.parse(result);
@@ -610,6 +616,7 @@
             return false;
         }
 
+        //send an order to the server
         function placeorder() {
             //if(!isCCcomplete()){return false;}
             if (isObject(userdetails)) {
@@ -627,6 +634,7 @@
             }
         }
 
+        //generate a list of addresses and send it to the alert modal
         function addresses(){
             var HTML = '';
             var number = $("#add_number").val();
@@ -656,8 +664,9 @@
             alert(HTML, "Addresses");
         }
 
+        //handles the orders list modal
         function orders(ID, getJSON){
-            if(isUndefined(ID)) {
+            if(isUndefined(ID)) {//no ID specified, get a list of order IDs from the user's profile and make buttons
                 var HTML = '';
                 for (var i = 0; i < userdetails["Orders"].length; i++) {
                     ID = userdetails["Orders"][i];
@@ -673,11 +682,11 @@
                     orderid: ID,
                     JSON: getJSON
                 }, function (result) {
-                    if(getJSON){
+                    if(getJSON){//JSON recieved, put it in the order
                         theorder = JSON.parse(result);
                         generatereceipt();
                         $("#alertmodal").modal('hide');
-                    } else {
+                    } else {//HTML recieved, put it in the pastreceipt element
                         $("#pastreceipt").html(result);
                     }
                 });
