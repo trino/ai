@@ -1,67 +1,72 @@
-<div class="modal" id="loginmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <div class="form-group">
-                    <h4 class="modal-title" id="myModalLabel">Login</h4>
-                </div>
-
-                <INPUT TYPE="TEXT" ID="login_email" PlACEHOLDER="Email Address" CLASS="form-control">
-                <INPUT TYPE="PASSWORD" ID="login_password" PLACEHOLDER="Password" CLASS="form-control">
-
-                <DIV ID="loginmessage"></DIV>
-
-                <DIV STYLE="margin-top: 15px;">
-                    <DIV CLASS="col-md-4">
-                        <button class="btn btn-block btn-warning" onclick="handlelogin('login');">
-                            Login
+<?php
+    if(!isset($GLOBALS["currentview"])){$GLOBALS["currentview"] = "unknown";}
+    if($GLOBALS["currentview"] != "welcome"){
+        ?>
+        <div class="modal" id="loginmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
                         </button>
-                    </DIV>
-                    <DIV CLASS="col-md-4">
-                        <button class="btn btn-block btn-danger" onclick="handlelogin('forgotpassword');">
-                            Forgot Password
-                        </button>
-                    </DIV>
-                    <DIV CLASS="col-md-4">
-                        <button class="btn btn-block btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#registermodal">
-                            Register
-                        </button>
-                    </DIV>
-                </DIV>
-                <DIV CLASS="clearfix"></DIV>
-            </div>
-        </div>
-    </div>
-</div>
+                        <div class="form-group">
+                            <h4 class="modal-title" id="myModalLabel">Login</h4>
+                        </div>
 
-<div class="modal" id="registermodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <div class="form-group">
-                    <h4 class="modal-title" id="myModalLabel">Register</h4>
-                </div>
-                <FORM Name="regform" id="regform">
-                    <?= view("popups.edituser"); ?>
-                    <DIV STYLE="margin-top: 15px;">
-                        <DIV CLASS="col-md-12">
-                            <button class="btn btn-block btn-primary">
-                                Register
-                            </button>
+                        <INPUT TYPE="TEXT" ID="login_email" PlACEHOLDER="Email Address" CLASS="form-control">
+                        <INPUT TYPE="PASSWORD" ID="login_password" PLACEHOLDER="Password" CLASS="form-control">
+
+                        <DIV ID="loginmessage"></DIV>
+
+                        <DIV STYLE="margin-top: 15px;">
+                            <DIV CLASS="col-md-4">
+                                <button class="btn btn-block btn-warning" onclick="handlelogin('login');">
+                                    Login
+                                </button>
+                            </DIV>
+                            <DIV CLASS="col-md-4">
+                                <button class="btn btn-block btn-danger" onclick="handlelogin('forgotpassword');">
+                                    Forgot Password
+                                </button>
+                            </DIV>
+                            <DIV CLASS="col-md-4">
+                                <button class="btn btn-block btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#registermodal">
+                                    Register
+                                </button>
+                            </DIV>
                         </DIV>
-                    </DIV>
-                </FORM>
-                <DIV CLASS="clearfix"></DIV>
+                        <DIV CLASS="clearfix"></DIV>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
+
+        <div class="modal" id="registermodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="form-group">
+                            <h4 class="modal-title" id="myModalLabel">Register</h4>
+                        </div>
+                        <FORM Name="regform" id="regform">
+                            <?= view("popups.edituser"); ?>
+                            <DIV STYLE="margin-top: 15px;">
+                                <DIV CLASS="col-md-12">
+                                    <button class="btn btn-block btn-primary">
+                                        Register
+                                    </button>
+                                </DIV>
+                            </DIV>
+                        </FORM>
+                        <DIV CLASS="clearfix"></DIV>
+                    </div>
+                </div>
+            </div>
+        </div>
+<?php } ?>
 
 <SCRIPT>
     function handlelogin(action){
@@ -83,6 +88,7 @@
                             token = data["Token"];
                             login(data["User"]);
                             $("#loginmodal").modal("hide");
+                            if(redirectonlogin){location.reload();}
                             break;
                         case "forgotpassword": case "verify":
                             alert(data["Reason"], "Login");

@@ -1,7 +1,13 @@
+<?php
+    if(!read("id")){
+        echo view("welcome");
+        die();
+    }
+?>
+
 @extends('layouts.app')
 @section('content')
-
-    <div class="row">
+        <div class="row">
         <div class="col-md-8 ">
             <div class="card" style="background: white">
                 <div class="card-block bg-danger" style="padding-top:.75rem !important;padding-bottom:.75rem !important;">

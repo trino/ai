@@ -265,7 +265,6 @@
                     var table = "{{ $table }}";
                     var currentURL = "<?= Request::url(); ?>";
                     var baseURL = currentURL.replace(table, "");
-                    var token = "<?= csrf_token(); ?>";
                     var namefield = "{{ $namefield }}";
                     var items = 0;
                     var inlineedit = "{{ $inlineedit }}".length > 0;

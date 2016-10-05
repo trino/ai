@@ -22,6 +22,16 @@
     <SCRIPT SRC="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></SCRIPT>
     <script src="<?= webroot("resources/assets/scripts/api2.js"); ?>"></script>
 </head>
+<SCRIPT>
+    var currentURL = "<?= Request::url(); ?>";
+    var token = "<?= csrf_token(); ?>";
+    var webroot = "<?= webroot("public/"); ?>";
+    var redirectonlogout = false;
+    var redirectonlogin = false;
+    var addresskeys = new Array;
+    var userdetails = false;
+    var currentRoute = "<?= Route::getCurrentRoute()->getPath(); ?>";
+</SCRIPT>
 <STYLE TITLE="These can not be moved to a CSS file!!!">
     @if(read("id"))
             .loggedin {
@@ -72,14 +82,6 @@
 </a>
 
 <SCRIPT>
-    var currentURL = "<?= Request::url(); ?>";
-    var token = "<?= csrf_token(); ?>";
-    var webroot = "<?= webroot("public/"); ?>";
-    var redirectonlogout = false;
-    var addresskeys = new Array;
-    var userdetails = false;
-    var currentRoute = "<?= Route::getCurrentRoute()->getPath(); ?>";
-
     //overwrites javascript's alert and use the modal popup
     (function () {
         var proxied = window.alert;
