@@ -26,18 +26,20 @@
 
     $dirroot = getcwd();
 
-    error_reporting(E_ERROR | E_PARSE);//suppress warnings
-    include("../veritas3-1/config/app.php");//config file is not meant to be run without cake, thus error reporting needs to be suppressed
-    error_reporting(E_ALL);//re-enable warnings
+    //error_reporting(E_ERROR | E_PARSE);//suppress warnings
+    //include("../veritas3-1/config/app.php");//config file is not meant to be run without cake, thus error reporting needs to be suppressed
+    //error_reporting(E_ALL);//re-enable warnings
     $con = "";//connectdb();
-
-    function connectdb($Database = "") {
-        global $con, $config;
+    function connectdb($database = "ai", $username = "root", $password = "") {
+        global $con;
         $localhost = "localhost";
-        if ( $_SERVER["SERVER_NAME"] == "localhost"){$localhost.= ":3306";}
-        if(!$Database){$Database = $config['Datasources']['default']['database'];}
-        //$con = mysqli_connect($localhost, $config['Datasources']['default']['username'], $config['Datasources']['default']['password'], $Database) or die("Error " . mysqli_connect_error($con));
-        $con = mysqli_connect($localhost, "root", "", "ai") or die("Error " . mysqli_connect_error($con));
+        if ($_SERVER["SERVER_NAME"] == "localhost"){$localhost.= ":3306";}
+        if(islive()){
+            $database = "bringpiz_db";
+            $username = "bringpizza";
+            $password = "clarisse2";
+        }
+        $con = mysqli_connect($localhost, $username, $password, $database) or die("Error " . mysqli_connect_error($con));
         return $con;
     }
 
@@ -189,6 +191,16 @@
 
     function enum_tables($table = ""){
         return flattenarray(Query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='ai'" . iif($table, "AND TABLE_NAME='" . $table . "'"), true), "TABLE_NAME");
+    }
+
+    if(!function_exists("mysqli_fetch_all")) {
+        function mysqli_fetch_all($result){
+            $data = [];
+            while ($row = $result->fetch_assoc()) {
+                $data[] = $row;
+            }
+            return $data;
+        }
     }
 
     function Query($query, $all=false){
@@ -428,7 +440,7 @@
         }
     }
 
-    $con = connectdb("keywordtest");
+    $con = connectdb();
     $Filename = base_path() . "/ai.sql";
     if(file_exists($Filename)){
         $lastSQLupdate = getsetting("lastSQL", "0");
@@ -602,6 +614,6 @@
     }
 
     function islive(){
-        return false;
+        return $_SERVER["SERVER_NAME"] == "bringpizza.ca";
     }
 ?>
