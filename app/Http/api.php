@@ -6,7 +6,10 @@
         $webroot = $_SERVER["REQUEST_URI"];
         $start = strpos($webroot, "/", 1) + 1;
         $webroot = substr($webroot, 0, $start);
-        if ($_SERVER["SERVER_NAME"] != "localhost") {$webroot = str_replace("application/", "", $webroot);}
+        if ($_SERVER["SERVER_NAME"] != "localhost") {
+            $webroot = str_replace("application/", "", $webroot);
+            $webroot = str_replace("public/", "", $webroot);
+        }
         return 'http://' . $_SERVER['HTTP_HOST'] . $webroot . $file;
     }
 
@@ -39,6 +42,7 @@
             $username = "bringpizza";
             $password = "clarisse2";
         }
+        $GLOBALS["database"] = $database;
         $con = mysqli_connect($localhost, $username, $password, $database) or die("Error " . mysqli_connect_error($con));
         return $con;
     }
@@ -190,7 +194,7 @@
     }
 
     function enum_tables($table = ""){
-        return flattenarray(Query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='ai'" . iif($table, "AND TABLE_NAME='" . $table . "'"), true), "TABLE_NAME");
+        return flattenarray(Query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='" . $GLOBALS["database"] . "'" . iif($table, "AND TABLE_NAME='" . $table . "'"), true), "TABLE_NAME");
     }
 
     if(!function_exists("mysqli_fetch_all")) {
@@ -448,7 +452,7 @@
         if($lastFILupdate > $lastSQLupdate){
             importSQL($Filename);
             setsetting("lastSQL", $lastFILupdate);
-            echo '<DIV CLASS="red">SQL was out of date, imported AI.sql</DIV>';
+            echo '<DIV CLASS="red">' . $lastSQLupdate . ' SQL was out of date, imported AI.sql on ' . $lastFILupdate . '</DIV>';
         }
     }
 
