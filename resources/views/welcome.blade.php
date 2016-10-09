@@ -82,7 +82,7 @@
             <DIV CLASS="col-md-6">
                 <div class="v-wrap">
                     <article class="v-box">
-                        <FORM Name="regform" id="regform">
+                        <FORM Name="regform" id="regform">234234324234
                             <?= view("popups.edituser"); ?>
                             <DIV STYLE="margin-top: 15px;">
                                 <DIV CLASS="col-md-4">

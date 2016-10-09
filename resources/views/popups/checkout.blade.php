@@ -9,12 +9,11 @@
                 <div class="form-group">
                     <h5 class="modal-title" id="myModalLabel">Checkout</h5>
                 </div>
+                <?= view("popups.edituser"); ?>
 
                 <FORM ID="orderinfo" name="orderinfo">
                     <div class="input-group">
-                        <span class="input-group-btn" style="width: 50% !important;" title="Phone numbers cannot start with the number zero">
-                            <input type="text" name="cell" id="add_cell" class="form-control" placeholder="Cell"/>
-                        </span>
+
                         <span class="input-group-btn" style="width: 50% !important;">
                             <?php
                                 echo '<SELECT class="form-control" TITLE="Delivery Time"/>';
@@ -35,13 +34,14 @@
                         </span>
                     </div>
 
+
                     <input type="text" class="form-control" placeholder="Restaurant"/>
 
                     <!--DIV ID="cc_integrity" style="color:red;"></DIV>
                     <input type="text" class="form-control" name="cc_number" id="cc_number" placeholder="Credit Card" onclick="$('#cc_collapse').collapse('show');"/>
                     <div class="collapse list-group out" id="cc_collapse" title="For security purposes, to change ANY part of the credit info you must re-enter all of it again">
                         <?php
-                            if(!function_exists("printarow")){
+                           // if(!function_exists("printarow")){
                                 function printarow2($Name, $Prepend, $field){
                                     echo '<INPUT TYPE="' . $field["type"] . '" NAME="' . $field["name"] . '" ID="' . $Prepend . '_' . $field["name"] . '" PLACEHOLDER="' . $Name . '"';
                                     if(isset($field["class"])){echo ' CLASS="' . $field["class"] . '" ';}
@@ -52,7 +52,7 @@
                                     if(isset($field["readonly"])){echo ' readonly';}
                                     echo '>';
                                 }
-                            }
+                          //  }
 
                             echo '<DIV CLASS="col-md-6">';
                             printarow2("First Name", "user", array("name" => "cc_fname", "value" => "", "type" => "text", "class" => "form-control"));
@@ -78,7 +78,6 @@
 
                     <input type="text" class="form-control" placeholder="Deliver Notes" title="ie: Side door (These will not be seen by the chef)"/>
 
-                    <BR>
                     <div class="clear_loggedout addressdropdown" id="checkoutaddress"></div>
                     <?= view("popups.address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true)); ?>
 

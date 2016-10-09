@@ -51,6 +51,7 @@ class HomeController extends Controller {
         if(isset($_POST["order"])) {
             $info["placed_at"] = now();
             $order = $_POST["order"];
+            //dd($order);
             $orderid = insertdb("orders", $info);
             $dir = resource_path("orders");//no / at the end
             if (!is_dir($dir)) {mkdir($dir, 0777, true);}
@@ -61,7 +62,7 @@ class HomeController extends Controller {
             $text = $this->sendEMail("email.receipt", $user);//send emails to customer and store
             //if ($text) {return $text;}
             //$charged = $this->stripepayment();
-            return 'Your order has been placed<BR CLASS="ordersuccess">' . view("popups.receipt", array("orderid" => $orderid));
+            return '<div class="alert alert-success">Your order will be arriving soon.</div><div CLASS="ordersuccess"></div>' . view("popups.receipt", array("orderid" => $orderid));
         } else {
             return $addressID;
         }

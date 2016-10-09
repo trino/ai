@@ -181,6 +181,7 @@
         <H2>Credit Card info</H2><BR>
         <?php
             //"fname", "lname", "number", "xyear", "xmonth", "cc"
+            if(false){
             foreach($encryptedfields as $field => $name){
                 if($field == "number"){
                     $user["cc_number"] = obfuscate(isencrypted($user["cc_number"]));
@@ -209,7 +210,7 @@
                     default://fname, lname, number
                         printarow($name, "user", array("name" => "cc_" . $field, "value" => $user["cc_" . $field], "type" => "text", "class" => "form-control"));
                 }
-            }
+            }}
 
             startfield("Billing Address");
             echo '<div CLASS="addressdropdown"></div></div></div>';
