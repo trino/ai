@@ -11,11 +11,9 @@
     }
 
     if(!function_exists("printarow")){
-
-
         function printarow($Name, $Prepend, $field){
             if($field["type"] != "hidden"){echo '<DIV CLASS="row"><DIV CLASS="col-md-12">';}
-            echo '<INPUT TYPE="' . $field["type"] . '" NAME="' . $field["name"] . '" ID="' . $Prepend . '_' . $field["name"] . '"';
+            echo '<INPUT  TYPE="' . $field["type"] . '" NAME="' . $field["name"] . '" ID="' . $Prepend . '_' . $field["name"] . '"';
             if(isset($field["class"])){echo ' CLASS="' . $field["class"] . '" ';}
             if(isset($field["value"])){echo ' value="' . $field["value"] . '" ';}
             if(isset($field["min"])){echo ' min="' . $field["min"] . '" ';}
@@ -25,8 +23,6 @@
             echo '>';
             if($field["type"] != "hidden"){echo '</DIV></DIV>';}
         }
-
-
     }
 
     printarow("Name", $name, array("name" => "name", "value" => $user["name"], "type" => "text", "class" => "form-control session_name_val"));

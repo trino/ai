@@ -139,7 +139,7 @@
                                                 }
                                                 if ($total) {
                                                     $HTML = 'data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
-                                                    $icon = '<i class="fa fa-chevron-down pull-right text-muted"></i>';
+                                                    $icon = '<i class="fa fa-chevron-right pull-right text-muted"></i>';
                                                 } else {
                                                     $HTML = 'onclick="additemtoorder(this);"';
                                                     $icon = '';
@@ -469,7 +469,7 @@
 
         //convert numbers to their names, 0 indexed (0=first, 1=second...)
         function getordinal(index){
-            var ordinals = ["First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Eighth", "Ninth", "Tenth"];
+            var ordinals = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "Tenth"];
             return ordinals[index];
         }
 

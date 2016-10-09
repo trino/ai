@@ -101,7 +101,6 @@ class HomeController extends Controller {
                 "province"      => $info["province"],
                 "latitude"      => $info["latitude"],
                 "longitude"     => $info["longitude"],
-                "phone"         => $info["cell"]
             );
             return insertdb("useraddresses", $address);
         } else if($info["unit"] != $address["unit"]){
