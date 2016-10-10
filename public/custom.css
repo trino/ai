@@ -1,12 +1,6 @@
 input,select{
-    border-radius:0 !important;
-    padding:0 !important;
-    height: 2rem !important;
-    margin-top:-1px;
 }
 input{
-    padding:0 .25rem !important;
-
 }
 .form-group{
     margin-bottom: 0rem !important;
@@ -20,7 +14,7 @@ h1, h2, h3, h4, h5, h6 {
 
 body {
     font-family: 'Roboto', serif;
-    background: #f4f7f8;
+    background: #f4f7f8;line-height: 1 !important;
 }
 
 
@@ -74,9 +68,7 @@ body {
 .select2-results .select2-result-label, .select2-results-dept-1 {
     padding:0 !important;
 }
-/* move close cross [x] from left to right on the selected value (tag) */
-#s2id_e2_2.select2-container-multi .select2-choices .select2-search-choice {
-}
+
 #s2id_e2_2.select2-container-multi .select2-search-choice-close {
     left: auto;
 }
@@ -196,5 +188,45 @@ body.loading #loadingmodal {
 /* puts the google places autocomplete dropdown results above the bootstrap modal 1050 zindex. */
 .pac-container {
     z-index: 1151 !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.input-group-vertical {
+    margin-bottom: 10px;
+}
+.form-control {
+    border-radius: 0;
+}
+.form-group {
+    margin-bottom: 0;
+}
+.form-group:not(:last-child) .form-control:not(:focus) {
+    border-bottom-color: transparent;
+}
+.form-group:first-child .form-control {
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+.form-group:last-child .form-control {
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    top: -2px;
 }
 

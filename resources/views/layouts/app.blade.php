@@ -89,11 +89,25 @@
 ?>
 <div class="container p-a-0 m-t-1 bodycontainer">
     @yield('content')
+
+
 </div>
+<nav class="navbar-default navbar-fixed-bottom navbar navbar-full navbar-dark bg-danger dont-print" style="z-index: 1;">
+
+
+    <button class="btn btn-warning loggedin  pull-right" id="checkout" onclick="showcheckout();" style="display: block;">
+        CHECKOUT
+    </button>
+
+</nav>
+
 <?= view("popups.login"); ?>
+
 <div class="modal loading" ID="loadingmodal"></div>
+
 </body>
-<nav class="navbar-default navbar-fixed-bottom navbar navbar-full navbar-dark bg-danger dont-print" style="z-index: 1;">678</nav>
+
+
 
 <!--a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
     <i class="fa fa-user no-padding-margin"></i>
@@ -149,7 +163,7 @@
 
         var HTML = '';
         if (user["Addresses"].length > 0) {//generate address dropdown
-            HTML += '<SELECT class="form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION VALUE="0">Select address</OPTION>';
+            HTML += '<SELECT class="form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION VALUE="0">Select Address</OPTION>';
             addresskeys = Object.keys(user["Addresses"][0]);
             for (i = 0; i < user["Addresses"].length; i++) {
                 HTML += AddressToOption(user["Addresses"][i], addresskeys);
@@ -216,7 +230,7 @@
                 </div>
                 <DIV ID="alertmodalbody"></DIV>
                 <button class="btn btn-block btn-warning" data-dismiss="modal">
-                    Ok
+                    OK
                 </button>
             </div>
         </div>

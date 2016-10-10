@@ -18,6 +18,7 @@ if (!read("id")) {
                                 <i class="fa fa-home" aria-hidden="true"></i> London Pizza Delivery
                             </h5>
                         </div>
+
                         <!--div class="col-md-6" id="custom-search-input">
                             <div class="input-group m-t-0">
                                 <input type="text" class="  search-query form-control" id="search" style="padding:4px !important;" oninput="search(this, event);" autocomplete="off"/>
@@ -164,9 +165,7 @@ if (!read("id")) {
                                 </a>
 
                             </div>
-
                         @endforeach
-
                     </div>
                     <div>&nbsp;
                     </div>
