@@ -215,7 +215,7 @@
                                             echo $Contents;
                                         ?></PRE>
                                     @else
-                                        <TABLE WIDTH="100%" BORDER="1" ID="data">
+                                        <TABLE WIDTH="100%" class="table table-bordered" ID="data">
                                             <THEAD>
                                                 <TR>
                                                     <TH CLASS="th-left">ID</TH>

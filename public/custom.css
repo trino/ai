@@ -1,7 +1,31 @@
-/* CSS used here will be applied after bootstrap.css */
-.text-muted{
-    color: #dadada !important;
+input,select{
+    border-radius:0 !important;
+    padding:0 !important;
+    height: 2rem !important;
+    margin-top:-1px;
 }
+input{
+    padding:0 .25rem !important;
+
+}
+.form-group{
+    margin-bottom: 0rem !important;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Roboto Slab', serif;
+    font-weight: 600;
+}
+
+body {
+    font-family: 'Roboto', serif;
+    background: #f4f7f8;
+}
+
+
+
+
 @media (min-width: 34em) {
     .card-columns {
         -webkit-column-count: 1;
@@ -33,279 +57,144 @@
         column-count: 3;
     }
 }
-.card{
-    border:0 !important;
-}
-.btn {
-    position: relative;
-    overflow: hidden;
-    outline: none !important;
-}
-
-.btn:after {
-    content: "";
-    background: rgba(0, 0, 0, 0.2);
-    display: block;
-    position: absolute;
-    border-radius: 50%;
-    padding-top: 240%;
-    padding-left: 240%;
-    margin-top: -120%;
-    margin-left: -120%;
-    opacity: 0;
-    transition: all .75s;
-}
-
-.btn:active:after {
-    padding-top: 0;
-    padding-left: 0;
-    margin-top: 0;
-    margin-left: 0;
-    opacity: 1;
-    transition: 0s;
-}
-
-
-.select2-results {
-    max-height: 500px;
-}
 
 .menuitem.disabled {
     display: none;
     visibility: hidden;
 }
 
-.menuitem.disabled:hover {
-    text-decoration: none !important;
-}
-
-
-
-a {
-    text-decoration: none !important;
-    cursor: pointer !important;
-}
-
 .clearfix {
     clear: both !important;
 }
 
-    .select2-container .select2-choice {
-        height: 34px;
-        -webkit-box-shadow: none;
-        -moz-box-shadow: none;
-        box-shadow: none;
-        background-color: #fff;
-        background-image: none;
-        background: #fff;
-    }
+.select2-results-dept-0 { /* do the columns */
+    float: left;
+}
 
-    .select2-container .select2-choice .select2-chosen { margin-top: 4px }
-    .select2-container .select2-choice abbr { top: 13px }
-    .select2-container .select2-choice,
-    .select2-container .select2-choice .select2-arrow {
-        -webkit-border-radius: 0;
-        border-radius: 0;
-        border-color: #ccc;
-    }
+.select2-results .select2-result-label, .select2-results-dept-1 {
+    padding:0 !important;
+}
+/* move close cross [x] from left to right on the selected value (tag) */
+#s2id_e2_2.select2-container-multi .select2-choices .select2-search-choice {
+}
+#s2id_e2_2.select2-container-multi .select2-search-choice-close {
+    left: auto;
+}
 
-    .select2-container .select2-choice .select2-arrow {
-        background-color: #fafafa;
-        background-image: none;
-        background: #fafafa;
-        width: 22px;
-    }
+.select2-container .select2-choice {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    background-color: #fff;
+    background-image: none;
+    background: #fff;
+}
 
-    .select2-container .select2-choice .select2-arrow b>span { margin: 4px 0 0 6px }
-    .select2-container.select2-container-active .select2-choice { border-color: #91acce }
-    .select2-container.select2-dropdown-open .select2-choice { border-bottom-color: #ccc }
-    .select2-drop {
-        -webkit-border-radius: 0 !important;
-        border-radius: 0 !important;
-    }
+.select2-container .select2-choice,
+.select2-container .select2-choice .select2-arrow {
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    border-color: #ccc;
+}
 
-    .select2-drop:not(.select2-drop-above) { margin-top: -3px }
-    .select2-drop .select2-results { max-height: 300px }
-    .select2-drop .select2-results li {
-        line-height: inherit;
-        margin: 0;
-        padding: 0;
-    }
+.select2-container .select2-choice .select2-arrow {
+    background-color: #fafafa;
+    background-image: none;
+    background: #fafafa;
+}
+.select2-drop {
+    -webkit-border-radius: 0 !important;
+    border-radius: 0 !important;
+}
 
-    .select2-search { margin: 4px 0 }
-    .select2-search input,
-    .select2-search input:focus {
-        background-color: #fff;
-        background-image: none;
-        background: #fff;
-        -webkit-box-shadow: none;
-        -moz-box-shadow: none;
-        box-shadow: none;
-        border: none;
-    }
+.select2-drop .select2-results {
+    max-height: 600px
+}
+.select2-drop .select2-results li {
+    line-height: inherit;
+    margin: 0;
+    padding: 0;
+}
 
-    .select2-container.form-control {
-        border: none;
-        -webkit-box-shadow: none;
-        -moz-box-shadow: none;
-        box-shadow: none;
-        padding: 0;
-    }
+.select2-search {
+    margin: 4px 0
+}
 
+.select2-search input,
+.select2-search input:focus {
+    background-color: #fff;
+    background-image: none;
+    background: #fff;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border: none;
+}
 
-    .select2-container-multi .select2-choices {
+.select2-container.form-control {
+    border: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+.select2-container-multi .select2-choices {
     background-image: none;
     color: #55595c;
     box-shadow: none !important;
 
-    }
+}
+
+
+
+.search-query:focus + button {
+    z-index: 3;
+}
+
+/* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
+body.loading {
+    overflow: hidden;
+}
+
+/* Anytime the body has the loading class, our modal element will be visible */
+body.loading #loadingmodal {
+    display: block;
+    z-index: 999999;
+}
+
+
+.error {
+     color: red;
+ }
 
 
 
 
-    h1, h2, h3, h4, h5, h6 {
-        font-family: 'Roboto Slab', serif;
-        font-weight: 600;
-    }
 
-    a {
-        color: #373a3c;
-        padding: .25rem 0;
-    }
+/*
+.profiletype {
+    display: none;
+}
 
-    body {
-        font-family: 'Roboto', serif;
-        background: #f4f7f8;
-    }
+.hyperlink {
+    cursor: pointer;
+    color: #0275d8 !important;
+    text-decoration: none;
+}
+
+.hyperlink:hover {
+    text-decoration: underline !important;
+    color: #154C8C !important;
+}
+.noborder, .noborder th, .noborder td, .noborder .th-left {
+    border: none !important;
+}
+*/
 
 
-    @media (max-width: 978px) {
-        .modal-dialog {
-            padding: 0;
-            margin: 0;
-        }
-    }
+/* puts the google places autocomplete dropdown results above the bootstrap modal 1050 zindex. */
+.pac-container {
+    z-index: 1151 !important;
+}
 
-    .fa-close {
-        cursor: pointer;
-    }
-
-    #custom-search-input .search-query {
-        padding-right: 3px;
-        padding-right: 4px \9;
-        padding-left: 3px;
-        padding-left: 4px \9;
-        /* IE7-8 doesn't have border-radius, so don't indent the padding */
-
-        margin-bottom: 0;
-        -webkit-border-radius: 3px !important;
-        -moz-border-radius: 3px !important;;
-        border-radius: 3px !important;;
-    }
-
-    #custom-search-input button {
-        border: 0;
-        background: none;
-        /** belows styles are working good */
-        padding: 2px 5px;
-        margin-top: 2px;
-        position: relative;
-        left: -28px;
-        /* IE7-8 doesn't have border-radius, so don't indent the padding */
-        margin-bottom: 0;
-        -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-        border-radius: 3px;
-        color: #D9230F;
-    }
-
-    .search-query:focus + button {
-        z-index: 3;
-    }
-
-    input, select {
-        border-radius: 0 !important;
-        border-top: 0 !important;
-        border-left: 0 !important;
-        border-right: 0 !important;
-        /*
-        padding-left:0 !important;
-        padding-right:0 !important;
-        */
-    }
-
-    /*
-    .header-cont {
-        width:100%;
-        position:fixed;
-        top:0px;
-        z-index: 100;
-    }
-    .footer-cont {
-        width:100%;
-        position:fixed;
-        bottom:0px;
-    }
-    .header .footer {
-        height:50px;
-        background:#F0F0F0;
-        border:1px solid #CCC;
-        padding-top: 16px;
-        margin:0px auto;
-    }
-
-    */
-
-    select.form-control{
-        height: 37px !important;
-    }
-
-    /* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
-    body.loading {
-        overflow: hidden;
-    }
-
-    /* Anytime the body has the loading class, our modal element will be visible */
-    body.loading #loadingmodal {
-        display: block;
-        z-index: 999999;
-    }
-
-    .profiletype{
-        display: none;
-    }
-
-    .hyperlink{
-        cursor: pointer;
-        color: #0275d8 !important;
-        text-decoration:none;
-    }
-    .hyperlink:hover {
-        text-decoration: underline !important;
-        color: #154C8C !important;
-    }
-
-    .error{
-        color:red;
-    }
-
-    table, th, td {
-        border: 2px solid #d9534f;
-        border-collapse: collapse;
-    }
-    th {
-        background-color: #d9534f;
-        color: white;
-    }
-    .th-left{
-        border-right: 2px solid white;
-    }
-
-    .noborder, .noborder th, .noborder td, .noborder .th-left{
-        border: none !important;
-    }
-
-    /* puts the google places autocomplete dropdown results above the bootstrap modal 1050 zindex. */
-   .pac-container {
-       z-index: 1151 !important;
-   }

@@ -24,21 +24,24 @@
     }
 ?>
 @if($style==1)
-    <TABLE BORDER="1" WIDTH="100%">
+
+    Order #: {{ $orderid }}
+    <br>
+    Ordered On: {{ $Order["placed_at"] }}
+
+
+
+    <TABLE WIDTH="100%" class="table table-sm table-bordered">
         <THEAD>
+
             <TR>
-                <TD COLSPAN="8" ALIGN="center">
-                   <B>Order ID: {{ $orderid }} - Placed at: {{ $Order["placed_at"] }}</B>
-                </TD>
-            </TR>
-            <TR>
-                <TH class="th-left">#</TH>
-                <TH class="th-left">Name</TH>
-                <TH class="th-left">Sub-total</TH>
-                <TH class="th-left">Addons</TH>
-                <TH class="th-left">Addon Count</TH>
-                <TH class="th-left">Size</TH>
-                <TH class="th-left">Addon Cost</TH>
+                <TH>#</TH>
+                <TH>Name</TH>
+                <TH>Sub-total</TH>
+                <TH>Addons</TH>
+                <TH>Addon Count</TH>
+                <TH>Size</TH>
+                <TH>Addon Cost</TH>
                 <TH>Total</TH>
             </TR>
         </THEAD>
@@ -133,7 +136,11 @@
                             case "toppings":    $itemtype = "Pizza"; break;
                             case "wings_sauce": $itemtype = "Pound"; break;
                         }
-                        $toppings = $addon->addons;
+                        if(isset($addon->addons)){
+                            $toppings = $addon->addons;
+                        }else{
+                            $toppings=array();
+                        }
                         $newtoppings = array();
                         foreach($toppings as $topping){
                             $toppingkey = findkey($tables[$tablename], "id", $topping->id);

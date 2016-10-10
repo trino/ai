@@ -20,6 +20,7 @@
             if(isset($field["maxlen"])){echo ' min="' . $field["maxlen"] . '" ';}
             if(isset($field["max"])){echo ' max="' . $field["max"] . '" ';}
             if(isset($field["readonly"])){echo ' readonly';}
+            if(isset($field["placeholder"])){echo 'placeholder="' . $field["placeholder"] . '" ';}
             echo '>';
             if($field["type"] != "hidden"){echo '</DIV></DIV>';}
         }
@@ -31,10 +32,10 @@
 
 
     if(isset($user_id) || isset($showpass)){
-        printarow("Old Password", $name, array("name" => "oldpassword", "type" => "password", "class" => "form-control"));
+        printarow("Old Password", $name, array("name" => "oldpassword", "type" => "password", "class" => "form-control", "placeholder"=>"234"));
         printarow("New Password", $name, array("name" => "newpassword", "type" => "password", "class" => "form-control"));
     } else {
-      //  printarow("Password", $name, array("name" => "password", "type" => "password", "class" => "form-control"));
+        printarow("Password", $name, array("name" => "password", "type" => "password", "class" => "form-control"));
     }
 ?>
 <SCRIPT>

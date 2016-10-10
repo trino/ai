@@ -1,16 +1,17 @@
 <?php
-    if(!read("id")){
-        echo view("welcome");
-        die();
-    }
+if (!read("id")) {
+    echo view("welcome");
+    die();
+}
 ?>
-
 @extends('layouts.app')
 @section('content')
-        <div class="row">
+    <div class="row">
+
         <div class="col-md-8 ">
             <div class="card" style="background: white">
-                <div class="card-block bg-danger" style="padding-top:.75rem !important;padding-bottom:.75rem !important;">
+                <div class="card-block bg-danger"
+                     style="padding-top:.75rem !important;padding-bottom:.75rem !important;">
                     <div class="row">
                         <div class="col-md-6">
                             <h5 class="pull-left" style="margin-top: .5rem;">
@@ -41,7 +42,8 @@
                     $a = 0;
 
                     //gets the size of the pizza
-                    function getsize($itemname, &$isfree) {
+                    function getsize($itemname, &$isfree)
+                    {
                         $currentsize = "";
                         foreach ($isfree as $size => $cost) {
                             if (!is_array($cost)) {
@@ -53,12 +55,14 @@
                         return $currentsize;
                     }
                     //checks if $text contains $searchfor, case insensitive
-                    function textcontains($text, $searchfor) {
+                    function textcontains($text, $searchfor)
+                    {
                         return strpos(strtolower($text), strtolower($searchfor)) !== false;
                     }
 
                     //process addons, generating the option group dropdown HTML, enumerating free toppings and qualifiers
-                    function getaddons($Table, &$isfree, &$qualifiers) {
+                    function getaddons($Table, &$isfree, &$qualifiers)
+                    {
                         $toppings = Query("SELECT * FROM " . $Table . " ORDER BY type ASC, name ASC", true);
                         $toppings_display = '';
                         $currentsection = "";
@@ -90,7 +94,8 @@
                     }
 
                     //same as explode, but makes sure each cell is trimmed
-                    function explodetrim($text, $delimiter = ",", $dotrim = true) {
+                    function explodetrim($text, $delimiter = ",", $dotrim = true)
+                    {
                         if (is_array($text)) {
                             return $text;
                         }
@@ -105,7 +110,8 @@
                     }
 
                     //converts a string to a class name (lowercase, replace spaces with underscores)
-                    function toclass($text) {
+                    function toclass($text)
+                    {
                         return strtolower(str_replace(" ", "_", $text));
                     }
 
@@ -114,57 +120,59 @@
                     $classlist = array();
 
                     foreach ($categories as $category) {
-                        $catclass = toclass($category['category']);
-                        $classlist[] = $catclass;
-                        ?>
+                    $catclass = toclass($category['category']);
+                    $classlist[] = $catclass;
+                    ?>
 
-                        <div class="card card-block p-a-0 m-a-0">
-                            <a class="head_{{ $catclass }}" data-toggle="collapse" href="#collapse{{$category["id"]}}_cat">
-                                <h5 class="text-danger">{{$category['category']}}</h5>
-                            </a>
-                            <div class="collapse list-group in  " id="collapse{{$category['id']}}_cat">
-                                <? //print the menu
-                                    $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
-                                    foreach ($menuitems as $menuitem) {
-                                        $menuitem["price"] = number_format($menuitem["price"], 2);
-                                        ?>
-                                        <div class="menuitem item_{{ $catclass }}" itemid="{{$menuitem["id"]}}"
-                                             itemname="{{$menuitem['item']}}"
-                                             itemprice="{{$menuitem['price']}}"
-                                             itemsize="{{ getsize($menuitem['item'], $isfree) }}" <?php
-                                                $total = 0;
-                                                foreach ($tables as $table) {
-                                                    echo $table . '="' . $menuitem[$table] . '" ';
-                                                    $total += $menuitem[$table];
-                                                }
-                                                if ($total) {
-                                                    $HTML = 'data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
-                                                    $icon = '<i class="fa fa-chevron-right pull-right text-muted"></i>';
-                                                } else {
-                                                    $HTML = 'onclick="additemtoorder(this);"';
-                                                    $icon = '';
-                                                }
-                                                ?>>
-                                                <a class="btn btn-block" style="border:0 !important;padding:0 !important;line-height: 1.5rem !important;" <?= $HTML; ?> >
-                                                <?=$icon?>
-                                                <img class="pull-left " src="pizza.png" style="width:22px;margin-right:5px;"/>
-
-                                                <span class="pull-left itemname">{{$menuitem['item']}}</span>
-
-                                                <span class="pull-right"> ${{$menuitem['price']}}</span>
-
-                                            </a>
-
-                                        </div>
-                                        <?php
-                                    }
-                                ?>
-                            </div>
-                            <div>&nbsp;</div>
-                        </div>
+                    <a class="head_{{ $catclass }}" data-toggle="collapse" href="#collapse{{$category["id"]}}_cat">
+                        <h5 class="text-danger">{{$category['category']}}</h5>
+                    </a>
+                    <div class="collapse in" id="collapse{{$category['id']}}_cat">
                         <?
-                          $a++;
-                        }
+                        $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
+                        ?>
+                        @foreach ($menuitems as $menuitem)
+
+                            <div class="menuitem item_{{ $catclass }}" itemid="{{$menuitem["id"]}}"
+                                 itemname="{{$menuitem['item']}}"
+                                 itemprice="{{$menuitem['price']}}"
+                                 itemsize="{{ getsize($menuitem['item'], $isfree) }}"
+
+                            <?php
+                                    $total = 0;
+                                    foreach ($tables as $table) {
+                                        echo $table . '="' . $menuitem[$table] . '" ';
+                                        $total += $menuitem[$table];
+                                    }
+                                    ?>>
+                                <?php
+                                if ($total) {
+                                    $HTML = 'data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
+                                    $icon = '<i class="fa fa-chevron-right pull-right text-muted"></i>';
+                                } else {
+                                    $HTML = 'onclick="additemtoorder(this);"';
+                                    $icon = '';
+                                }
+                                ?>
+
+                                <a <?= $HTML; ?> >
+                                    <?=$icon?>
+                                    <img class="pull-left " src="pizza.png" style="width:22px;margin-right:5px;"/>
+                                    <span class="pull-left itemname">{{$menuitem['item']}}</span>
+                                    <span class="pull-right"> ${{number_format($menuitem["price"], 2)}}</span>
+                                    <div class="clearfix"></div>
+                                </a>
+
+                            </div>
+
+                        @endforeach
+
+                    </div>
+                    <div>&nbsp;
+                    </div>
+                    <?
+                    $a++;
+                    }
                     ?>
                 </div>
             </div>
@@ -172,14 +180,14 @@
 
         <div class="col-md-4 ">
             <div class="card">
-                <div class="card-block bg-danger" style="padding-top:.75rem !important;padding-bottom:.75rem !important;">
+                <div class="card-block bg-danger"
+                     style="padding-top:.75rem !important;padding-bottom:.75rem !important;">
                     <h5 class="pull-left" style="margin-top: .5rem;">
                         My Order
                         <a ONCLICK="if(confirm('Are you sure you want to clear your order?')){clearorder();}">
                             <i class="fa fa-close"></i>
                         </a>
                     </h5>
-
                     <div class="pull-right">
                         <ul class="nav navbar-nav pull-lg-right">
                             <li class="nav-item dropdown">
@@ -192,35 +200,44 @@
 
                                     <SPAN class="loggedin profiletype profiletype1">
                                         <?php
-                                            //administration lists
-                                            foreach (array("users", "restaurants", "useraddresses", "orders", "additional_toppings") as $table) {
-                                                echo '<LI><A HREF="' . webroot("public/list/" . $table) . '" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> ' . ucfirst($table) . ' list</A></LI>';
-                                            }
+                                        //administration lists
+                                        foreach (array("users", "restaurants", "useraddresses", "orders", "additional_toppings") as $table) {
+                                            echo '<LI><A HREF="' . webroot("public/list/" . $table) . '" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> ' . ucfirst($table) . ' list</A></LI>';
+                                        }
                                         ?>
-                                        <li><A HREF="<?= webroot("public/editmenu"); ?>" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> Edit Menu</A></li>
-                                        <li><A HREF="<?= webroot("public/list/debug"); ?>" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> Debug log</A></li>
+                                        <li><A HREF="<?= webroot("public/editmenu"); ?>" CLASS="dropdown-item"><i
+                                                        class="fa fa-user-plus"></i> Edit Menu</A></li>
+                                        <li><A HREF="<?= webroot("public/list/debug"); ?>" CLASS="dropdown-item"><i
+                                                        class="fa fa-user-plus"></i> Debug log</A></li>
                                         <HR>
                                     </SPAN>
 
                                     <li>
-                                        <SPAN class="dropdown-item"><i class="fa fa-home"></i> <SPAN CLASS="session_name"></SPAN></SPAN>
+                                        <SPAN class="dropdown-item"><i class="fa fa-home"></i> <SPAN
+                                                    CLASS="session_name"></SPAN></SPAN>
                                     </li>
 
                                     <SPAN class="loggedin">
                                         <li>
-                                            <A ONCLICK="addresses();" oldHREF="<?= webroot("public/list/useraddresses"); ?>" class="dropdown-item"> <i class="fa fa-home"></i> Addresses</A>
+                                            <A ONCLICK="addresses();"
+                                               oldHREF="<?= webroot("public/list/useraddresses"); ?>"
+                                               class="dropdown-item"> <i class="fa fa-home"></i> Addresses</A>
                                         </li>
                                         <li>
                                             <A ONCLICK="orders();" class="dropdown-item"> <i class="fa fa-home"></i> Past Orders</A>
                                         </li>
                                         <li>
-                                            <A data-toggle="modal" data-target="#profilemodal" oldHREF="<?= webroot("public/user/info"); ?>" class="dropdown-item"> <i class="fa fa-home"></i> Profile</A>
+                                            <A data-toggle="modal" data-target="#profilemodal"
+                                               oldHREF="<?= webroot("public/user/info"); ?>" class="dropdown-item"> <i
+                                                        class="fa fa-home"></i> Profile</A>
                                         </li>
                                     </SPAN>
 
                                     <li>
-                                        <A ONCLICK="handlelogin('logout');" CLASS="hyperlink dropdown-item loggedin"> <i class="fa fa-home"></i> Log out</A>
-                                        <A CLASS="loggedout dropdown-item hyperlink" data-toggle="modal" data-target="#loginmodal"> <i class="fa fa-home"></i> Log In</A>
+                                        <A ONCLICK="handlelogin('logout');" CLASS="hyperlink dropdown-item loggedin"> <i
+                                                    class="fa fa-home"></i> Log out</A>
+                                        <A CLASS="loggedout dropdown-item hyperlink" data-toggle="modal"
+                                           data-target="#loginmodal"> <i class="fa fa-home"></i> Log In</A>
                                     </li>
 
                                 </ul>
@@ -228,13 +245,13 @@
                         </ul>
                     </div>
                 </div>
-
                 <div class="card-block">
                     <div id="myorder"></div>
                     <SPAN ID="checkoutbutton">
-                        <button class="btn btn-block btn-warning loggedout" id="checkloggedout" data-toggle="modal" data-target="#loginmodal">
+                        <!--button class="btn btn-block btn-warning loggedout" id="checkloggedout" data-toggle="modal"
+                                data-target="#loginmodal">
                             LOGIN
-                        </button>
+                        </button-->
                         <button class="btn btn-block btn-warning loggedin" id="checkout" onclick="showcheckout();">
                             CHECKOUT
                         </button>
@@ -248,7 +265,6 @@
         </div>
     </div>
 
-
     <!-- order menu item Modal -->
     <div class="modal" id="menumodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -258,9 +274,9 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
 
-                    <div class="form-group">
-                        <h5 class="modal-title" id="myModalLabel"><SPAN ID="modal-itemname"></SPAN> $<SPAN ID="modal-itemprice"></SPAN></h5>
-                    </div>
+                        <h5 class="modal-title" id="myModalLabel"><SPAN ID="modal-itemname"></SPAN> $<SPAN
+                                    ID="modal-itemprice"></SPAN></h5>
+
 
                     <div style="display: none;" id="modal-hiddendata">
                         <SPAN ID="modal-itemid"></SPAN>
@@ -270,7 +286,8 @@
 
                     <ul class="list-group">
                         <div ID="modal-wings-original">
-                            <select class="form-control select2 wings_sauce" multiple="multiple" data-placeholder="First Pound" type="wings_sauce">
+                            <select class="form-control select2 wings_sauce" multiple="multiple"
+                                    data-placeholder="First Pound" type="wings_sauce">
                                 <option value="blank"></option>
                                 <?= $wings_display; ?>
                                 <optgroup label="Options">
@@ -284,7 +301,8 @@
 
                         <div ID="modal-toppings-original" style="">
                             <div style="margin-bottom:.1rem;" ID="modal-toppings-original-ordinal">First Pizza</div>
-                            <select style="border: 0 !important;" class="form-control select2 toppings" data-placeholder="Add Toppings: $[price]" multiple="multiple" type="toppings">
+                            <select style="border: 0 !important;" class="form-control select2 toppings"
+                                    data-placeholder="Add Toppings: $[price]" multiple="multiple" type="toppings">
                                 <!--option value="blank"></option-->
                                 <?= $toppings_display; ?>
                                 <optgroup label="Options">
@@ -293,17 +311,18 @@
                                 </optgroup>
                             </select>
                         </div>
-                        <div ID="modal-toppings-clones"  ></div>
+                        <div ID="modal-toppings-clones"></div>
                     </ul>
 
-                    <button data-dismiss="modal" class="btn btn-block m-t-1  btn-warning" onclick="additemtoorder();">
+                    <button data-dismiss="modal" class="m-t-1 btn-secondary btn pull-right" onclick="additemtoorder();">
                         ADD TO ORDER
                     </button>
-
+<div class="clearfix"></div>
                 </div>
             </div>
         </div>
     </div>
+    <!-- end order menu item Modal -->
 
     <!-- edit profile Modal -->
     <div class="modal" id="profilemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -331,6 +350,7 @@
             </div>
         </div>
     </div>
+    <!-- end edit profile Modal -->
 
     <script>
         var tables = <?= json_encode($tables); ?>;
@@ -402,9 +422,9 @@
             if (!isUndefined(selector)) {
                 $('select' + selector).select2({
                     maximumSelectionSize: 4,
-                    minimumResultsForSearch : -1
-,
-                placeholder: function () {
+                    minimumResultsForSearch: -1
+                    ,
+                    placeholder: function () {
                         $(this).data('placeholder');
                     },
                     allowClear: true
@@ -420,13 +440,13 @@
                 if (isUndefined(sourceHTML)) {
                     var sourceHTML = outerHTML(sourceID).replace('form-control select2', 'form-control select2 select2clones');
                 }
-                if(count == 1){
+                if (count == 1) {
                     $(sourceID + "-ordinal").hide();
                 } else {
                     $(sourceID + "-ordinal").show();
                 }
                 for (var index = 2; index <= count; index++) {
-                    HTML += sourceHTML.replace('First', getordinal(index-1));
+                    HTML += sourceHTML.replace('First', getordinal(index - 1));
                 }
             }
             $(destinationID).html(HTML);
@@ -468,7 +488,7 @@
         }
 
         //convert numbers to their names, 0 indexed (0=first, 1=second...)
-        function getordinal(index){
+        function getordinal(index) {
             var ordinals = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "Tenth"];
             return ordinals[index];
         }
@@ -484,7 +504,7 @@
                 tempHTML += '<span class="pull-right" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '"> $' + totalcost + ' <i class="text-muted fa fa-close" onclick="removeorderitem(' + itemid + ');"></i></span><div class="clearfix"></div>';
 
                 var itemname = "";
-                if(item.hasOwnProperty("itemaddons")) {
+                if (item.hasOwnProperty("itemaddons")) {
                     if (item["itemaddons"].length > 1) {
                         switch (item["itemaddons"][0]["tablename"]) {
                             case "toppings":
@@ -517,7 +537,7 @@
 
             $("#checkoutbutton").show();
             visible("#checkout", userdetails);
-            visible("#checkloggedout", !userdetails);
+            //visible("#checkloggedout", !userdetails);
 
             createCookieValue("theorder", JSON.stringify(theorder));
             if (theorder.length == 0) {
@@ -538,8 +558,8 @@
         }
 
         //hides the checkout form
-        function collapsecheckout(){
-            if($("#collapseCheckout").attr("aria-expanded") == "true"){
+        function collapsecheckout() {
+            if ($("#collapseCheckout").attr("aria-expanded") == "true") {
                 $("#checkout").trigger("click");
             }
         }
@@ -608,15 +628,15 @@
         }
 
         //checks if the result is JSON, and processes the Status and Reasons
-        function handleresult(result, title){
+        function handleresult(result, title) {
             try {
                 var data = JSON.parse(result);
-                if(data["Status"] == "false" || !data["Status"]) {
+                if (data["Status"] == "false" || !data["Status"]) {
                     alert(data["Reason"], title);
                 } else {
                     return true;
                 }
-            } catch (e){
+            } catch (e) {
                 alert(result, title);
             }
             return false;
@@ -632,8 +652,10 @@
                     order: theorder
                 }, function (result) {
                     $("#checkoutmodal").modal("hide");
-                    if(result.contains("ordersuccess")){clearorder();}
-                    handleresult(result, "Order Status");
+                    if (result.contains("ordersuccess")) {
+                        clearorder();
+                    }
+                    handleresult(result, "Order Placed Successfully!");
                 });
             } else {
                 $("#loginmodal").modal("show");
@@ -641,28 +663,28 @@
         }
 
         //generate a list of addresses and send it to the alert modal
-        function addresses(){
+        function addresses() {
             var HTML = '';
             var number = $("#add_number").val();
             var street = $("#add_street").val();
             var city = $("#add_city").val();
             var AddNew = number && street && city;
 
-            $("#saveaddresses option").each(function(){
+            $("#saveaddresses option").each(function () {
                 var ID = $(this).val();
-                if(ID > 0) {
-                    if(userdetails["cc_addressid"] == ID){
+                if (ID > 0) {
+                    if (userdetails["cc_addressid"] == ID) {
                         HTML += '<A TITLE="This address is used for your credit card and cannot be deleted"><i class="fa fa-fw fa-credit-card"></i> ';
                     } else {
                         HTML += '<A ID="add_' + ID + '" TITLE="Delete this address" onclick="deleteaddress(' + ID + ');" class="hyperlink"><i style="color:red" class="fa fa-fw fa-times"></i> ';
                     }
                     HTML += $(this).text() + '</A><BR>';
-                    if(number.isEqual($(this).attr("number")) && street.isEqual($(this).attr("street")) && city.isEqual($(this).attr("city"))){
+                    if (number.isEqual($(this).attr("number")) && street.isEqual($(this).attr("street")) && city.isEqual($(this).attr("city"))) {
                         AddNew = false;
                     }
                 }
             });
-            if(AddNew){
+            if (AddNew) {
                 HTML += '<A ONCLICK="deleteaddress(-1);" CLASS="hyperlink">Add ' + "'" + number + " " + street + ", " + city + "' to the list</A>";
             } else {
                 HTML += 'Enter a new address in the checkout form if you want to add it to your profile';
@@ -671,8 +693,8 @@
         }
 
         //handles the orders list modal
-        function orders(ID, getJSON){
-            if(isUndefined(ID)) {//no ID specified, get a list of order IDs from the user's profile and make buttons
+        function orders(ID, getJSON) {
+            if (isUndefined(ID)) {//no ID specified, get a list of order IDs from the user's profile and make buttons
                 var HTML = '';
                 for (var i = 0; i < userdetails["Orders"].length; i++) {
                     ID = userdetails["Orders"][i];
@@ -681,14 +703,16 @@
                 HTML += '<BR><DIV ID="pastreceipt" CLASS="pastreceipt"></DIV>';
                 alert(HTML, "Orders");
             } else {
-                if (isUndefined(getJSON)) {getJSON = false;}
+                if (isUndefined(getJSON)) {
+                    getJSON = false;
+                }
                 $.post("<?= webroot('public/list/orders'); ?>", {
                     _token: token,
                     action: "getreceipt",
                     orderid: ID,
                     JSON: getJSON
                 }, function (result) {
-                    if(getJSON){//JSON recieved, put it in the order
+                    if (getJSON) {//JSON recieved, put it in the order
                         theorder = JSON.parse(result);
                         generatereceipt();
                         $("#alertmodal").modal('hide');

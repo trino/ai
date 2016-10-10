@@ -1,9 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#5cb85c">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta content="Didueat,didueat.ca,Online food delivery,Online food order,Canada online food,Canada Restaurants,Ontario Restaurants,Hamilton Restaurants | DiduEat" name="keywords">
+    <meta content="Didueat" name="author">
+    <meta name="content-language" content="en-CA">
+    <meta http-equiv="content-language" content="en-CA">
+    <meta content="Having great local food delivered helps us all keep up with our busy lives. By connecting you to local restaurants, Didueat makes great food more accessible, op" name="description">
+    <meta property="og:site_name" content="DiduEat">
+    <meta property="og:title" content="Local Food Delivery | DiduEat">
+    <meta property="og:description" content="Having great local food delivered helps us all keep up with our busy lives. By connecting you to local restaurants, Didueat makes great food more accessible, op">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="-CUSTOMER VALUE-">
+    <meta property="og:url" content="https://didueat.ca">
+
+
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
@@ -61,7 +79,7 @@
     }
 </STYLE>
 
-<body>
+<body  style="overflow-x: hidden !important;">
 <?php
     $start_loading_time = microtime(true);
     if(read("id")){
@@ -75,11 +93,11 @@
 <?= view("popups.login"); ?>
 <div class="modal loading" ID="loadingmodal"></div>
 </body>
-<!--nav class="navbar-default navbar-fixed-top navbar navbar-full navbar-dark bg-danger dont-print" style="z-index: 1;padding:.1rem !important;"></nav-->
+<nav class="navbar-default navbar-fixed-bottom navbar navbar-full navbar-dark bg-danger dont-print" style="z-index: 1;">678</nav>
 
-<a style="color:white;margin-top:.25rem;" href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+<!--a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
     <i class="fa fa-user no-padding-margin"></i>
-</a>
+</a-->
 
 <SCRIPT>
     //overwrites javascript's alert and use the modal popup
@@ -131,7 +149,7 @@
 
         var HTML = '';
         if (user["Addresses"].length > 0) {//generate address dropdown
-            HTML += '<SELECT style="" class="form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION VALUE="0">Select a saved address</OPTION>';
+            HTML += '<SELECT class="form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION VALUE="0">Select address</OPTION>';
             addresskeys = Object.keys(user["Addresses"][0]);
             for (i = 0; i < user["Addresses"].length; i++) {
                 HTML += AddressToOption(user["Addresses"][i], addresskeys);
@@ -197,7 +215,7 @@
                     <h4 class="modal-title" id="alertmodallabel">Title</h4>
                 </div>
                 <DIV ID="alertmodalbody"></DIV>
-                <button class="btn btn-block btn-warning" data-dismiss="modal" STYLE="margin-top: 15px;">
+                <button class="btn btn-block btn-warning" data-dismiss="modal">
                     Ok
                 </button>
             </div>
