@@ -728,7 +728,9 @@ if (!read("id")) {
                     JSON: getJSON
                 }, function (result) {
                     if (getJSON) {//JSON recieved, put it in the order
-                        theorder = JSON.parse(result);
+                        result = JSON.parse(result);
+                        theorder = result["Order"];
+                        $("#cookingnotes").val(result["cookingnotes"]);
                         generatereceipt();
                         $("#alertmodal").modal('hide');
                     } else {//HTML recieved, put it in the pastreceipt element

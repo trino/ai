@@ -1,10 +1,13 @@
 <?php
+    $Order = first("SELECT orders.*, users.name, users.id as userid, users.email FROM orders, users WHERE orders.id = " . $orderid . " HAVING user_id = users.id");
     $filename = resource_path("orders") . "/" . $orderid . ".json";
     if(isset($JSON)){
         $style = 2;
         if($JSON && $JSON != "false"){
             if(file_exists($filename)){
-                die(file_get_contents($filename));//only the JSON is desired, send it
+                $Order["Order"] = json_decode(file_get_contents($filename));
+                echo json_encode($Order);
+                die();//only the JSON is desired, send it
             }
             echo json_encode(array("Status" => false, "Reason" => "File not found"));
             die();
@@ -12,7 +15,6 @@
     } else if(!isset($style)) {
         $style=1;
     }
-    $Order = first("SELECT orders.*, users.name, users.id as userid, users.email FROM orders, users WHERE orders.id = " . $orderid . " HAVING user_id = users.id");
     if(!$Order){ echo 'Order not found'; return false; }
     switch($style){
         case 1: $colspan = 8; break;
@@ -200,7 +202,7 @@
                 echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Tax:&nbsp;</TD><TD ALIGN="RIGHT">$' . number_format($tax, 2) . '</TD></TR>';
                 echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Total:&nbsp;</TD><TD ALIGN="RIGHT">$' . number_format($total, 2) . '</TD></TR>';
                 if($Order["cookingnotes"]){
-                    echo '<TR><TD COLSPAN="' . $colspan . '" ALIGN="CENTER">' . $Order["cookingnotes"] . '</TD></TR>';
+                    echo '<TR><TD COLSPAN="' . $colspan . '"><B>Notes to cook: </B>' . $Order["cookingnotes"] . '</TD></TR>';
                 }
                 if(!$integrity){
                     //echo '<TR><TD COLSPAN="7" ALIGN="RIGHT">Integrity check</TD><TD ALIGN="RIGHT" STYLE="color:red;">FAIL</TD></TR>';
