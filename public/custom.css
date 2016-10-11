@@ -2,6 +2,7 @@ input,select{
 }
 input{
 }
+
 .form-group{
     margin-bottom: 0rem !important;
 }
@@ -16,9 +17,6 @@ body {
     font-family: 'Roboto', serif;
     background: #f4f7f8;line-height: 1 !important;
 }
-
-
-
 
 @media (min-width: 34em) {
     .card-columns {
@@ -138,8 +136,6 @@ body {
 
 }
 
-
-
 .search-query:focus + button {
     z-index: 3;
 }
@@ -155,7 +151,6 @@ body.loading #loadingmodal {
     z-index: 999999;
 }
 
-
 .error {
      color: red;
  }
@@ -168,6 +163,7 @@ body.loading #loadingmodal {
 .profiletype {
     display: none;
 }
+*/
 
 .hyperlink {
     cursor: pointer;
@@ -182,7 +178,7 @@ body.loading #loadingmodal {
 .noborder, .noborder th, .noborder td, .noborder .th-left {
     border: none !important;
 }
-*/
+
 
 
 /* puts the google places autocomplete dropdown results above the bootstrap modal 1050 zindex. */

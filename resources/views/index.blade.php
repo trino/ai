@@ -199,21 +199,18 @@ if (!read("id")) {
 
                                     <SPAN class="loggedin profiletype profiletype1">
                                         <?php
-                                        //administration lists
-                                        foreach (array("users", "restaurants", "useraddresses", "orders", "additional_toppings") as $table) {
-                                            echo '<LI><A HREF="' . webroot("public/list/" . $table) . '" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> ' . ucfirst($table) . ' list</A></LI>';
-                                        }
+                                            //administration lists
+                                            foreach (array("users", "restaurants", "useraddresses", "orders", "additional_toppings") as $table) {
+                                                echo '<LI><A HREF="' . webroot("public/list/" . $table) . '" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> ' . ucfirst($table) . ' list</A></LI>';
+                                            }
                                         ?>
-                                        <li><A HREF="<?= webroot("public/editmenu"); ?>" CLASS="dropdown-item"><i
-                                                        class="fa fa-user-plus"></i> Edit Menu</A></li>
-                                        <li><A HREF="<?= webroot("public/list/debug"); ?>" CLASS="dropdown-item"><i
-                                                        class="fa fa-user-plus"></i> Debug log</A></li>
+                                        <li><A HREF="<?= webroot("public/editmenu"); ?>" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> Edit Menu</A></li>
+                                        <li><A HREF="<?= webroot("public/list/debug"); ?>" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> Debug log</A></li>
                                         <HR>
                                     </SPAN>
 
                                     <li>
-                                        <SPAN class="dropdown-item"><i class="fa fa-home"></i> <SPAN
-                                                    CLASS="session_name"></SPAN></SPAN>
+                                        <SPAN class="dropdown-item"><i class="fa fa-home"></i> <SPAN CLASS="session_name"></SPAN></SPAN>
                                     </li>
 
                                     <SPAN class="loggedin">
