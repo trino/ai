@@ -178,7 +178,7 @@
                             if($totaladdons){ echo $paidtoppings . ' paid, ' . $freetoppings . ' free';}
                             echo '</TD><TD>' . $size . '</TD><TD ALIGN="RIGHT">$' . number_format($addonscost, 2) . '</TD><TD ALIGN="RIGHT" TITLE="User side: $' . $item->itemprice . '"';
                             if (number_format($item->itemprice,2) <> number_format($itemtotal, 2)){
-                                echo ' STYLE="COLOR: red;"';
+                                //echo ' STYLE="COLOR: red;"';
                                 $integrity = false;
                             }
                             echo '>';
@@ -203,7 +203,7 @@
                     echo '<TR><TD COLSPAN="' . $colspan . '" ALIGN="CENTER">' . $Order["cookingnotes"] . '</TD></TR>';
                 }
                 if(!$integrity){
-                    echo '<TR><TD COLSPAN="7" ALIGN="RIGHT">Integrity check</TD><TD ALIGN="RIGHT" STYLE="color:red;">FAIL</TD></TR>';
+                    //echo '<TR><TD COLSPAN="7" ALIGN="RIGHT">Integrity check</TD><TD ALIGN="RIGHT" STYLE="color:red;">FAIL</TD></TR>';
                 }
             } catch (exception $e){
                 echo 'Caught exception: ',  $e->getMessage() . " on line " . $e->getLine() . "<BR>";
