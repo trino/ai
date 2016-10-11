@@ -25,24 +25,23 @@
 
                             <input type="text" class="form-control" placeholder="Restaurant Select"/>
                             <?php
-                            echo '<SELECT class="form-control" TITLE="Delivery Time"/>';
-                            function rounduptoseconds($time, $seconds)
-                            {
-                                $r = $time % $seconds;
-                                return $time + ($seconds - $r);
-                            }
-                            $mindeliverytime = 30 * 60;//30 minutes
-                            $now = rounduptoseconds(time() + $mindeliverytime, 900);
+                                echo '<SELECT class="form-control" name="deliverytime" TITLE="Delivery Time"/>';
+                                function rounduptoseconds($time, $seconds) {
+                                    $r = $time % $seconds;
+                                    return $time + ($seconds - $r);
+                                }
+                                $mindeliverytime = 30 * 60;//30 minutes
+                                $now = rounduptoseconds(time() + $mindeliverytime, 900);
 
-                            echo '<OPTION>Deliver ASAP</OPTION>';
-                            for ($i = 0; $i < 10; $i++) {
-                                //what is the end time?
-                                echo '<OPTION VALUE="' . $now . '">Today at ' . date('g:ia', $now) . '</OPTION>';
-                                $now += 15 * 60;
-                            }
-                            echo '</SELECT>';
+                                echo '<OPTION>Deliver ASAP</OPTION>';
+                                for ($i = 0; $i < 10; $i++) {
+                                    //what is the end time?
+                                    echo '<OPTION VALUE="' . $now . '">Today at ' . date('g:ia', $now) . '</OPTION>';
+                                    $now += 15 * 60;
+                                }
+                                echo '</SELECT>';
                             ?>
-                            <input type="text" class="form-control" placeholder="Notes for the Cook"/>
+                            <input type="text" class="form-control" name="cookingnotes" placeholder="Notes for the Cook" maxlength="255"/>
 
                         </div>
 
@@ -72,8 +71,7 @@
                         submitHandler: function (form) {
                             //handled by placeorder
                         }
-                    }
-            );
+            });
         });
     }
 
