@@ -61,9 +61,12 @@ class HomeController extends Controller {
         }
         $addressID = $this->processaddress($info);
         if(isset($_POST["order"])) {
+            $restaurant = $this->closestrestaurant($info);
+            if(!isset($restaurant["id"])){return false;}
+
             $info["placed_at"] = now();
             $order = $_POST["order"];
-            //dd($order);
+            $order["restaurant_id"] = $restaurant["id"];
             $orderid = insertdb("orders", $info);
             $dir = resource_path("orders");//no / at the end
             if (!is_dir($dir)) {mkdir($dir, 0777, true);}

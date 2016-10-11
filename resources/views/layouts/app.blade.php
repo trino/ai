@@ -208,6 +208,7 @@
         }
         if ($(Selected).val() == 0) {Text = '';}
         $("#formatted_address").val(Text);
+        addresshaschanged();
     }
 
     //universal AJAX error handling
