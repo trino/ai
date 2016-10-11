@@ -569,7 +569,7 @@
         if(!$IDorEmail){$IDorEmail = read("id");}
         if(is_numeric($IDorEmail)){$field = "id";} else {$IDorEmail = "'" . $IDorEmail . "'";}
         $user = first("SELECT * FROM users WHERE " . $field . " = " . $IDorEmail);
-
+        if(!$user){return false;}
         $cc = array();
         $ccisvalid = false;
         foreach(array("cc_number", "cc_xyear", "cc_xmonth", "cc_cc") as $field){
