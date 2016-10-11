@@ -60,6 +60,8 @@
 
 
 <SCRIPT>
+    var canplaceorder = false;
+
     function addresshaschanged(){
         $.post(webroot + "placeorder", {
             _token: token,
@@ -69,7 +71,9 @@
             if (handleresult(result)){
                 var closest = JSON.parse(result)["closest"];
                 var restaurant = "No restaurant is within range";
+                canplaceorder = false;
                 if (closest.hasOwnProperty("id")){
+                    canplaceorder=true;
                     restaurant = "[number] [street], [city]";
                     var keys = Object.keys(closest);
                     for(var i=0; i<keys.length; i++){

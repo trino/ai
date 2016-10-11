@@ -637,7 +637,7 @@ if (!read("id")) {
 
         //send an order to the server
         function placeorder() {
-            //if(!isCCcomplete()){return false;}
+            if(!canplaceorder){return false;}
             if (isObject(userdetails)) {
                 $.post(webroot + "placeorder", {
                     _token: token,
