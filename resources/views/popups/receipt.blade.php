@@ -24,16 +24,15 @@
     }
 ?>
 @if($style==1)
-
     Order #: {{ $orderid }}
     <br>
     Ordered On: {{ $Order["placed_at"] }}
-
-
-
+    @if($Order["deliverytime"])
+        <br>
+        Delivery for: {{ now(false, $Order["deliverytime"]) }}
+    @endif
     <TABLE WIDTH="100%" class="table table-sm table-bordered">
         <THEAD>
-
             <TR>
                 <TH>#</TH>
                 <TH>Name</TH>
@@ -199,6 +198,9 @@
                 echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Delivery:&nbsp;</TD><TD ALIGN="RIGHT">$' . number_format($deliveryfee, 2) . '</TD></TR>';
                 echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Tax:&nbsp;</TD><TD ALIGN="RIGHT">$' . number_format($tax, 2) . '</TD></TR>';
                 echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Total:&nbsp;</TD><TD ALIGN="RIGHT">$' . number_format($total, 2) . '</TD></TR>';
+                if($Order["cookingnotes"]){
+                    echo '<TR><TD COLSPAN="' . $colspan . '" ALIGN="CENTER">' . $Order["cookingnotes"] . '</TD></TR>';
+                }
                 if(!$integrity){
                     echo '<TR><TD COLSPAN="7" ALIGN="RIGHT">Integrity check</TD><TD ALIGN="RIGHT" STYLE="color:red;">FAIL</TD></TR>';
                 }

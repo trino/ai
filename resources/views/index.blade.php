@@ -639,9 +639,13 @@ if (!read("id")) {
         function placeorder() {
             if(!canplaceorder){return false;}
             if (isObject(userdetails)) {
+                var addressinfo = getform("#orderinfo");//i don't know why the below 2 won't get included. this forces them to be
+                addressinfo["cookingnotes"] = $("#cookingnotes").val();
+                addressinfo["deliverytime"] = $("#deliverytime").val();
+
                 $.post(webroot + "placeorder", {
                     _token: token,
-                    info: getform("#orderinfo"),
+                    info: addressinfo,
                     order: theorder
                 }, function (result) {
                     $("#checkoutmodal").modal("hide");
