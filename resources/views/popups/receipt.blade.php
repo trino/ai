@@ -17,7 +17,7 @@
     switch($style){
         case 1: $colspan = 8; break;
         case 2:
-            $colspan = 2;
+            $colspan = 3;
             $imagefile = '<img class="pull-left" src="' . webroot("public/pizza.png") . '" style="width:22px;margin-right:5px;">';
             $ordinals = array("First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Eighth", "Ninth", "Tenth");
             break;
@@ -126,7 +126,7 @@
                                 echo '<TR><TD>' . ($ID+1) . '</TD><TD TITLE="' . var_export($item, true) . '">' . $item->itemname . '</TD><TD ALIGN="RIGHT" TITLE="' . print_r($menuitem, true) . '">$' . number_format($menuitem["price"], 2) . '</TD><TD>';
                                 break;
                             case 2:
-                                echo '<TR><TD>' . $imagefile . $item->itemname . '</TD><TD ALIGN="RIGHT" WIDTH="5%">';
+                                echo '<TR><TD width="1%">' . $imagefile . '</TD><TD valign="middle">' . $item->itemname . '</TD><TD ALIGN="RIGHT" WIDTH="5%">';
                                 break;
                         }
                         $HTML="";
