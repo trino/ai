@@ -15,8 +15,7 @@ if (isset($user_id)) {
 }
 
 if (!function_exists("printarow")) {
-    function printarow($Name, $Prepend, $field)
-    {
+    function printarow($Name, $Prepend, $field) {
         if ($field["type"] != "hidden") {
             echo '<DIV CLASS="row"><DIV CLASS="col-md-12">';
         }
@@ -60,15 +59,14 @@ if (!function_exists("printarow")) {
         {{printarow("Phone", $name, array("name" => "phone", "value" => $user["phone"], "type" => "tel", "class" => "form-control session_phone_val"))}}
     </div>
     <div class="form-group">
-
         {{printarow("Email", $name, array("name" => "email", "value" => $user["email"], "type" => "email", "class" => "form-control session_email_val"))}}
     </div>
     @if(isset($user_id) || isset($showpass))
         <div class="form-group">
-            {{printarow("Old Password", $name, array("name" => "oldpassword", "type" => "password", "class" => "form-control", "placeholder"=>"234"))}}
+            {{printarow("Old Password", $name, array("name" => "oldpassword", "type" => "password", "class" => "form-control", "placeholder"=>"Old Password"))}}
         </div>
         <div class="form-group">
-            {{printarow("New Password", $name, array("name" => "newpassword", "type" => "password", "class" => "form-control"))}}
+            {{printarow("New Password", $name, array("name" => "newpassword", "type" => "password", "class" => "form-control", "placeholder"=>"New Password"))}}
         </div>
     @else
         <div class="form-group">

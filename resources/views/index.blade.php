@@ -218,23 +218,15 @@ if (!read("id")) {
 
                                     <SPAN class="loggedin">
                                         <li>
-                                            <A ONCLICK="addresses();"
-                                               oldHREF="<?= webroot("public/list/useraddresses"); ?>"
-                                               class="dropdown-item"> <i class="fa fa-home"></i> Addresses</A>
-                                        </li>
-                                        <li>
                                             <A ONCLICK="orders();" class="dropdown-item"> <i class="fa fa-home"></i> Past Orders</A>
                                         </li>
                                         <li>
-                                            <A data-toggle="modal" data-target="#profilemodal"
-                                               oldHREF="<?= webroot("public/user/info"); ?>" class="dropdown-item"> <i
-                                                        class="fa fa-home"></i> Profile</A>
+                                            <A data-toggle="modal" data-target="#profilemodal" class="dropdown-item"><i class="fa fa-home"></i> Profile</A>
                                         </li>
                                     </SPAN>
 
                                     <li>
-                                        <A ONCLICK="handlelogin('logout');" CLASS="hyperlink dropdown-item loggedin"> <i
-                                                    class="fa fa-home"></i> Log out</A>
+                                        <A ONCLICK="handlelogin('logout');" CLASS="hyperlink dropdown-item loggedin"> <i class="fa fa-home"></i> Log out</A>
                                         <A CLASS="loggedout dropdown-item hyperlink" data-toggle="modal"
                                            data-target="#loginmodal"> <i class="fa fa-home"></i> Log In</A>
                                     </li>
@@ -339,6 +331,8 @@ if (!read("id")) {
                     <FORM NAME="user" id="userform">
                         @include("popups.edituser", array("showpass" => true))
                     </FORM>
+
+                    <DIV ID="addresslist"></DIV>
 
                     <DIV CLASS="row">
                         <DIV CLASS="col-md-12" align="center">
@@ -661,9 +655,16 @@ if (!read("id")) {
             }
         }
 
+        $(window).on('shown.bs.modal', function() {
+            var modalID = $(".modal:visible").attr("id");
+            if(modalID == "profilemodal"){
+                $("#addresslist").html(addresses());
+            }
+        });
+
         //generate a list of addresses and send it to the alert modal
         function addresses() {
-            var HTML = '';
+            var HTML = '<h5>Addresses</h5>';
             var number = $("#add_number").val();
             var street = $("#add_street").val();
             var city = $("#add_city").val();
@@ -688,7 +689,7 @@ if (!read("id")) {
             } else {
                 HTML += 'Enter a new address in the checkout form if you want to add it to your profile';
             }
-            alert(HTML, "Addresses");
+            return HTML;
         }
 
         //handles the orders list modal
