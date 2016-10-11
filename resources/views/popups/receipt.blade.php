@@ -151,6 +151,7 @@
                                     $topping = $tables[$tablename][$toppingkey];
                                     if($topping["isfree"]){
                                         $freetoppings++;
+                                        $topping["name"] = '<I>' . $topping["name"] . '</I>';
                                     } else {
                                         $paidtoppings++;
                                     }

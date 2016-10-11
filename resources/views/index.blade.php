@@ -498,8 +498,9 @@ if (!read("id")) {
 
                 var itemname = "";
                 if (item.hasOwnProperty("itemaddons")) {
+                    var tablename = item["itemaddons"][0]["tablename"];
                     if (item["itemaddons"].length > 1) {
-                        switch (item["itemaddons"][0]["tablename"]) {
+                        switch (tablename) {
                             case "toppings":
                                 itemname = "Pizza";
                                 break;
@@ -517,7 +518,14 @@ if (!read("id")) {
                             if (addonid > 0) {
                                 tempHTML += ", ";
                             }
-                            tempHTML += addons["addons"][addonid]["text"];
+                            var addonname = addons["addons"][addonid]["text"];
+                            var isfree = isaddon_free(tablename, addonname);
+                            log(isfree + " = " + addonname + " + " + tablename);
+                            if(isfree){
+                                tempHTML += '<I TITLE="Free addon">' + addonname + '</I>';
+                            } else {
+                                tempHTML += addonname;
+                            }
                         }
                         tempHTML += '<BR>';
                     }
@@ -606,7 +614,10 @@ if (!read("id")) {
 
         //checks if an addon is free
         function isaddon_free(Table, Addon) {
-            return freetoppings[Table].indexOf(Addon) > -1;
+            switch(Addon.toLowerCase()){
+                case "lightly done":case "well done": return true; break;
+                default: return freetoppings[Table].indexOf(Addon) > -1;
+            }
         }
 
         //checks if an addon is on the whole pizza (for when we implement halves)

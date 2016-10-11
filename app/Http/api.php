@@ -478,6 +478,7 @@
     //returns the current date/time
     function now($totime = false, $now = false) {
         if (!$now) {$now = time();}
+        if(!is_numeric($now)){return $now;}
         if ($totime === true) {return $now;}
         if ($totime !== false && $totime !== true) {return date($totime, $now);}
         return date("Y-m-d H:i:s", $now);
