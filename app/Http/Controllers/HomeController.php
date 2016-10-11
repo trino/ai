@@ -47,6 +47,18 @@ class HomeController extends Controller {
     public function placeorder(){
         if(!read("id")){return array("Status" => false, "Reason" => "You are not logged in");}
         $info = $_POST["info"];
+        if(isset($_POST["action"])){
+            $ret = array("Status" => true, "Reason" => "");
+            switch($_POST["action"]){
+                case "closestrestaurant":
+                    $ret["closest"] = $this->closestrestaurant($info);
+                    break;
+                default:
+                    $ret["Status"] = false;
+                    $ret["Reason"] = "'" . $info["action"] . "' is unhandled";
+            }
+            return json_encode($ret);
+        }
         $addressID = $this->processaddress($info);
         if(isset($_POST["order"])) {
             $info["placed_at"] = now();
@@ -85,25 +97,32 @@ class HomeController extends Controller {
         return $info;
     }
 
+    function closestrestaurant($data){
+        if(!isset($data['radius'])){$data['radius'] = 100;}
+        $owners = implode(",", collapsearray(Query("SELECT id FROM users WHERE profiletype = 1", true), "id"));
+        $where = "user_id IN (" . $owners . ")";
+        $SQL = "SELECT *, ( 6371 * acos( cos( radians('" . $data['latitude'] . "') ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians('" . $data['longitude']."') ) + sin( radians('" . $data['latitude']."') ) * sin( radians( latitude ) ) ) ) AS distance FROM useraddresses WHERE $where HAVING distance <= " . $data['radius'] . " ORDER BY distance ASC LIMIT 1";
+        return first($SQL);
+    }
 
     function processaddress($info){
         //autosave address changes
         $address = first("SELECT * FROM useraddresses WHERE user_id = " . $info["user_id"] . " AND number = '" . $info["number"] . "' AND street = '" . $info["street"] . "' AND city = '" . $info["city"] . "'");
-        if(!$address){
+        if (!$address) {
             $address = array(
-                "user_id"       => $info["user_id"],
-                "number"        => $info["number"],
-                "city"          => $info["city"],
-                "unit"          => $info["unit"],
+                "user_id" => $info["user_id"],
+                "number" => $info["number"],
+                "city" => $info["city"],
+                "unit" => $info["unit"],
                 //"buzzcode"      => $info["buzzcode"],
-                "street"        => $info["street"],
-                "postalcode"    => $info["postalcode"],
-                "province"      => $info["province"],
-                "latitude"      => $info["latitude"],
-                "longitude"     => $info["longitude"],
+                "street" => $info["street"],
+                "postalcode" => $info["postalcode"],
+                "province" => $info["province"],
+                "latitude" => $info["latitude"],
+                "longitude" => $info["longitude"],
             );
             return insertdb("useraddresses", $address);
-        } else if($info["unit"] != $address["unit"]){
+        } else if ($info["unit"] != $address["unit"]) {
             $address["unit"] = $info["unit"];
             return insertdb("useraddresses", $address);
         }

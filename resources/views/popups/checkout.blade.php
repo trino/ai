@@ -23,7 +23,7 @@
 
                         <DIV CLASS="input-group-vertical">
 
-                            <input type="text" class="form-control" placeholder="Restaurant Select"/>
+                            <input type="text" class="form-control" ID="restaurant" readonly placeholder="Restaurant Select" TITLE="Closest restaurant"/>
                             <?php
                                 echo '<SELECT class="form-control" name="deliverytime" TITLE="Delivery Time"/>';
                                 function rounduptoseconds($time, $seconds) {
@@ -42,9 +42,7 @@
                                 echo '</SELECT>';
                             ?>
                             <input type="text" class="form-control" name="cookingnotes" placeholder="Notes for the Cook" maxlength="255"/>
-
                         </div>
-
 
                         <button class="m-b-1 btn btn-warning btn-block" onclick="placeorder();">PLACE ORDER</button>
                         <DIV ID="form_integrity" style="color:red;"></DIV>
@@ -62,15 +60,38 @@
 
 
 <SCRIPT>
+    function addresshaschanged(){
+        $.post(webroot + "placeorder", {
+            _token: token,
+            info: getform("#orderinfo"),
+            action: "closestrestaurant"
+        }, function (result) {
+            if (handleresult(result)){
+                var closest = JSON.parse(result)["closest"];
+                var restaurant = "No restaurant is within range";
+                if (closest.hasOwnProperty("id")){
+                    restaurant = "[number] [street], [city]";
+                    var keys = Object.keys(closest);
+                    for(var i=0; i<keys.length; i++){
+                        var keyname = keys[i];
+                        var keyvalue = closest[keyname];
+                        restaurant = restaurant.replace("[" + keyname + "]", keyvalue);
+                    }
+                }
+                $("#restaurant").val(restaurant);
+            }
+        });
+    }
+
     function showcheckout() {
         var HTML = $("#checkoutaddress").html().replace('id="saveaddresses"', 'name="cc_addressid" ID="cc_addressid" ').replace("onchange", 'offchange').replace('Select a saved address', 'Billing Address');
         $("#billingaddress").html(HTML);
         $("#checkoutmodal").modal("show");
         $(function () {
             $("#orderinfo").validate({
-                        submitHandler: function (form) {
-                            //handled by placeorder
-                        }
+                submitHandler: function (form) {
+                    //handled by placeorder
+                }
             });
         });
     }

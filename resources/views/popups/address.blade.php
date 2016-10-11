@@ -1,16 +1,16 @@
 <?php
-if (!isset($style)) {
-    $style = 0;
-}
-switch ($style) {
-    case 0:
-        echo '<DIV CLASS="row"><DIV CLASS="col-md-2">Address:</DIV><DIV CLASS="col-md-10"><INPUT TYPE="text" ID="formatted_address"></div></DIV>';
-        break;
-    case 1:
-        echo '<INPUT TYPE="text" ID="formatted_address" PLACEHOLDER="Address" class="form-control">';
-        echo '<STYLE>.address.form-control:focus{z-index: 999;}</STYLE>';
-        break;
-}
+    if (!isset($style)) {
+        $style = 0;
+    }
+    switch ($style) {
+        case 0:
+            echo '<DIV CLASS="row"><DIV CLASS="col-md-2">Address:</DIV><DIV CLASS="col-md-10"><INPUT TYPE="text" ID="formatted_address"></div></DIV>';
+            break;
+        case 1:
+            echo '<INPUT TYPE="text" ID="formatted_address" PLACEHOLDER="Address" class="form-control">';
+            echo '<STYLE>.address.form-control:focus{z-index: 999;}</STYLE>';
+            break;
+    }
 ?>
 
 
@@ -35,41 +35,25 @@ switch ($style) {
         );
 
         foreach ($fields as $Name => $field) {
-            if ($style == 0 && $field["type"] != "hidden") {
-                echo '<DIV CLASS="row"><DIV CLASS="col-md-2 data_' . $field["name"] . '">' . $Name . ':</DIV><DIV CLASS="col-md-10">';
-            }
+            if ($style == 0 && $field["type"] != "hidden") {echo '<DIV CLASS="row"><DIV CLASS="col-md-2 data_' . $field["name"] . '">' . $Name . ':</DIV><DIV CLASS="col-md-10">';}
             if ($style == 1 && isset($field["half"])) {
-                if ($field["half"] == "start") {
-                    echo '<div class="input-group">';
-                }
+                if ($field["half"] == "start") {echo '<div class="input-group">';}
                 echo '<span class="input-group-btn" style="width: 50% !important;">';
             }
             echo '<INPUT TYPE="' . $field["type"] . '" NAME="' . $field["name"] . '" ID="add_' . $field["name"] . '"';
             if ($style == 1) {
                 echo ' PLACEHOLDER="' . $Name . '"';
-                if (!isset($field["class"])) {
-                    $field["class"] = "";
-                }
+                if (!isset($field["class"])) {$field["class"] = "";}
                 $field["class"] .= " address form-control";
             }
-            if (isset($field["class"])) {
-                echo ' CLASS="' . $field["class"] . '" ';
-            }
-            if (isset($field["value"])) {
-                echo ' value="' . $field["value"] . '" ';
-            }
-            if (isset($field["readonly"])) {
-                echo ' readonly';
-            }
+            if (isset($field["class"])) {echo ' CLASS="' . $field["class"] . '" ';}
+            if (isset($field["value"])) {echo ' value="' . $field["value"] . '" ';}
+            if (isset($field["readonly"])) {echo ' readonly';}
             echo '>';
-            if ($style == 0 && $field["type"] != "hidden") {
-                echo '</DIV></DIV>';
-            }
+            if ($style == 0 && $field["type"] != "hidden") {echo '</DIV></DIV>';}
             if ($style == 1 && isset($field["half"])) {
                 echo '</span>';
-                if ($field["half"] == "end") {
-                    echo '</div>';
-                }
+                if ($field["half"] == "end") {echo '</div>';}
             }
         }
         ?>
@@ -77,20 +61,15 @@ switch ($style) {
 
     @if (isset($saveaddress))
         <DIV CLASS="col-md-12">
-            <button class="btn btn-link btn-sm" onclick="addresses();"
-                    title="Edit the addresses saved to your profile">
+            <button class="btn btn-link btn-sm" onclick="addresses();" title="Edit the addresses saved to your profile">
                 EDIT ADDRESSES
             </button>
-            <button ID="saveaddressbtn" class="btn btn-link btn-sm" disabled onclick="deleteaddress(-2);"
-                    title="Save this address to your profile">
+            <button ID="saveaddressbtn" class="btn btn-link btn-sm" disabled onclick="deleteaddress(-2);" title="Save this address to your profile">
                 SAVE ADDRESS
             </button>
         </DIV>
     @endif
 </FORM>
-
-
-
 
 <SCRIPT>
     function isnewaddress(number, street, city) {
@@ -184,6 +163,8 @@ switch ($style) {
         }
 
         $('.formatted_address').val(streetformat);
+
+        if(isFunction(addresshaschanged)){addresshaschanged();}
         return place;
     }
 </SCRIPT>
