@@ -199,15 +199,16 @@
     //address dropdown changed
     function addresschanged() {
         var Selected = $("#saveaddresses option:selected");
+        var Text = '[number] [street], [city]';
         for (var keyID = 0; keyID < addresskeys.length; keyID++) {
             var keyname = addresskeys[keyID];
-            $("#add_" + keyname).val($(Selected).attr(keyname));
+            var keyvalue = $(Selected).attr(keyname);
+            Text = Text.replace("[" + keyname + "]", keyvalue);
+            $("#add_" + keyname).val(keyvalue);
         }
-        keyname = $(Selected).text();
-        if ($(Selected).val() == 0) {
-            keyname = '';
-        }
-        $("#formatted_address").val(keyname);
+        if ($(Selected).val() == 0) {Text = '';}
+        $("#formatted_address").val(Text);
+        addresshaschanged();
     }
 
     //universal AJAX error handling

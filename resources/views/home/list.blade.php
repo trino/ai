@@ -46,7 +46,7 @@
             $SQL='SELECT restaurants.id, restaurants.name, restaurants.phone, restaurants.email, restaurants.address_id, useraddresses.number, useraddresses.street, useraddresses.postalcode, useraddresses.city, useraddresses.province, useraddresses.latitude, useraddresses.longitude, useraddresses.phone as user_phone FROM useraddresses AS useraddresses RIGHT JOIN restaurants ON restaurants.address_id = useraddresses.id';
             break;
         case "orders":
-            $fields=true;
+            $fields=array("id", "user_id", "placed_at", "restaurant_id");
             $namefield="placed_at";
             $faicon = "dollar";
             if(isset($_GET["user_id"])){

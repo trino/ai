@@ -478,6 +478,7 @@
     //returns the current date/time
     function now($totime = false, $now = false) {
         if (!$now) {$now = time();}
+        if(!is_numeric($now)){return $now;}
         if ($totime === true) {return $now;}
         if ($totime !== false && $totime !== true) {return date($totime, $now);}
         return date("Y-m-d H:i:s", $now);
@@ -569,7 +570,7 @@
         if(!$IDorEmail){$IDorEmail = read("id");}
         if(is_numeric($IDorEmail)){$field = "id";} else {$IDorEmail = "'" . $IDorEmail . "'";}
         $user = first("SELECT * FROM users WHERE " . $field . " = " . $IDorEmail);
-
+        if(!$user){return false;}
         $cc = array();
         $ccisvalid = false;
         foreach(array("cc_number", "cc_xyear", "cc_xmonth", "cc_cc") as $field){

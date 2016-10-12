@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 28, 2016 at 08:38 PM
+-- Generation Time: Oct 11, 2016 at 04:15 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -388,29 +388,21 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `cell` varchar(16) NOT NULL,
   `paid` tinyint(4) NOT NULL,
   `stripeToken` varchar(64) NOT NULL,
+  `deliverytime` varchar(64) NOT NULL,
+  `cookingnotes` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=31 ;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `user_id`, `placed_at`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `accepted_at`, `restaurant_id`, `type`, `payment_type`, `phone`, `cell`, `paid`, `stripeToken`) VALUES
-(5, 1, '2016-09-28 05:12:54', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '', 0, ''),
-(13, 1, '2016-09-28 18:07:33', 197, 'basement', '', 'Yonge Street', 'M5B 1M4', 'Toronto', 'Ontario', '43.6533455999999', '-79.379373100000', '0000-00-00 00:00:00', 0, 0, 0, '', '', 0, ''),
-(14, 1, '2016-09-28 18:07:47', 197, 'basement', '', 'Yonge Street', 'M5B 1M4', 'Toronto', 'Ontario', '43.6533455999999', '-79.379373100000', '0000-00-00 00:00:00', 0, 0, 0, '', '', 0, ''),
-(15, 1, '2016-09-28 21:48:27', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '9055123067', 0, ''),
-(16, 1, '2016-09-28 21:49:11', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '9055123067', 0, ''),
-(17, 1, '2016-09-28 21:50:07', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '9055123067', 0, ''),
-(18, 1, '2016-09-28 21:50:45', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '9055123067', 0, ''),
-(19, 1, '2016-09-28 21:52:00', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '9055123067', 0, ''),
-(20, 1, '2016-09-28 21:52:27', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '9055123067', 0, ''),
-(21, 1, '2016-09-28 21:54:05', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '9055123067', 0, ''),
-(22, 1, '2016-09-28 21:54:15', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '9055123067', 0, ''),
-(23, 1, '2016-09-28 21:54:27', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '9055123067', 0, ''),
-(24, 1, '2016-09-28 21:54:50', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '9055123067', 0, ''),
-(25, 1, '2016-09-28 21:55:41', 4, '', '', 'King Street West', 'M5H 1A1', 'Toronto', 'Ontario', '43.6493592', '-79.3784645', '0000-00-00 00:00:00', 0, 0, 0, '', '', 0, ''),
-(26, 1, '2016-09-28 21:57:23', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '', 0, '');
+INSERT INTO `orders` (`id`, `user_id`, `placed_at`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `accepted_at`, `restaurant_id`, `type`, `payment_type`, `phone`, `cell`, `paid`, `stripeToken`, `deliverytime`, `cookingnotes`) VALUES
+(5, 1, '2016-09-28 05:12:54', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '', 0, '', '', ''),
+(13, 1, '2016-09-28 18:07:33', 197, 'basement', '', 'Yonge Street', 'M5B 1M4', 'Toronto', 'Ontario', '43.6533455999999', '-79.379373100000', '0000-00-00 00:00:00', 0, 0, 0, '', '', 0, '', '', ''),
+(14, 1, '2016-09-28 18:07:47', 197, 'basement', '', 'Yonge Street', 'M5B 1M4', 'Toronto', 'Ontario', '43.6533455999999', '-79.379373100000', '0000-00-00 00:00:00', 0, 0, 0, '', '', 0, '', '', ''),
+(15, 1, '2016-09-28 21:48:27', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '9055123067', 0, '', '', ''),
+(30, 1, '2016-10-04 19:15:26', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '9055123067', 0, '', '', '');
 
 -- --------------------------------------------------------
 
@@ -499,14 +491,14 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1475084803');
+(1, 'lastSQL', '1475087913');
 
 -- --------------------------------------------------------
 
@@ -587,7 +579,7 @@ CREATE TABLE IF NOT EXISTS `useraddresses` (
   `longitude` varchar(16) NOT NULL,
   `phone` varchar(16) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
 
 --
 -- Dumping data for table `useraddresses`
@@ -595,7 +587,7 @@ CREATE TABLE IF NOT EXISTS `useraddresses` (
 
 INSERT INTO `useraddresses` (`id`, `user_id`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `phone`) VALUES
 (1, 1, 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', ''),
-(15, 1, 4, '', '', 'King Street West', 'M5H 1A1', 'Toronto', 'Ontario', '43.6493592', '-79.3784645', '');
+(20, 1, 183, '', '', 'Lottridge Street', 'L8L 6V6', 'Hamilton', 'Ontario', '43.2557729', '-79.831154999999', '');
 
 -- --------------------------------------------------------
 
@@ -632,8 +624,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `phone`, `lastlogin`, `loginattempts`, `profiletype`, `authcode`, `cc_fname`, `cc_lname`, `cc_number`, `cc_xyear`, `cc_xmonth`, `cc_cc`, `cc_addressid`) VALUES
-(1, 'Roy Hodson', 'roy@trinoweb.com', '$2y$10$XqUn.RNhx0YbcZUQXWYP0eHIz0aLK8xX00cd.PLVRQsafF9Frod6K', '', '0000-00-00 00:00:00', '2016-09-28 21:46:30', '(905) 512-3067', 1473953004, 2, 1, '', 'eyJpdiI6IkRMdFBLcTJhZWpPZ0xCR05OWWtiUkE9PSIsInZhbHVlIjoiRnlxSUd2WTJaU0k2Ynh1MEdZaTFsUT09IiwibWFjIjoiYTljNzI4ZTY2NmZlYzlkNDk3NjcxNDI4MDA2OWI2Y2UyMTc3ZTc4NDIxM2E1YmYyNGI0M2IxY2VlZjc1YmRhZCJ9', 'eyJpdiI6IjRwY0pEWkdIaExwVTZIS3RjTEc1dkE9PSIsInZhbHVlIjoiMFVyb3RUOGZ3c0M4THMyZEc5U0RSUT09IiwibWFjIjoiNzQ1ZDdlMzQxYTY5OWI1ZjhhYjdhZTMwMTM3Mzc4YzBmMDljNjI5NDI2NmZlZmI0M2UwZjRkZmE3MzRhYjlhZSJ9', 'eyJpdiI6InVXM1ZHcnNjZ09uZlJLMFVGXC92M2lRPT0iLCJ2YWx1ZSI6InpGZVM0dXMrN2E2VUJ5dytcL1h0NTVtbVpaZmVYd3cycU1xN1wvWG5OREFYRT0iLCJtYWMiOiJkZWVhNzFkMjc3NjViMmVjZmY3NzczMDIxMjUzNTRlNjBkMTA2YzYyZTQ4YmJhZmMyODI4NGU1YTM3OTdmODBjIn0=', 'eyJpdiI6IlBYVUJjOTIwZEt3VlhyNWcrVWZhV3c9PSIsInZhbHVlIjoid3k3ZmcrU0NvYzROMTJpSEdUVDRTUT09IiwibWFjIjoiOGI5NDBlYzZkYTgyNTM5MzgyZjBlM2RkZjdlMzY0MzE4MWY2MzY4YmZmOGRmYTgxODFmNGNlOTBhMDhmZTAwYiJ9', 'eyJpdiI6ImRIeVZiVVwvQnhYcVZIZFwvS2JIMllSdz09IiwidmFsdWUiOiJcL2xEa3paYjFnRVA5RzVYZUEzRnU4Zz09IiwibWFjIjoiMzllMzExOTMyYjkxY2UzYmRlOTM4YWU1OGNkN2VkMDNiNDE3OWFkMDkxZjUyODc1MGMwOTQ0MDAwMTBiYjliNiJ9', 'eyJpdiI6IkNTemVmVjNuMmpHaGNKTkJOYUdmc3c9PSIsInZhbHVlIjoiXC9LUEd6UFlWNE1GOTdrR0txbEVxaHc9PSIsIm1hYyI6Ijg2ZjdkODYzY2EyMjQ0NDg4MTM5ZmI5ZTAwM2M4MTM1NDU0NzhhMTkzNzFiNThiYzI3MjVlNzRhMzJkYmNhODYifQ==', 1),
-(11, 'Van Trinh', 'info@trinoweb.com', '$2y$10$2yAesihK6otSPNnVtnpnIOEO3Ec.6n2mrN1VWoL3qoETP1.T66PcC', '', '2016-09-20 21:19:32', '0000-00-00 00:00:00', '(905) 512-3067', 0, 0, 0, '48F3FE05-F161-40AA-857F-729051960297', '', '', '', '', '', '', 0);
+(1, 'Roy Hodson', 'roy@trinoweb.com', '$2y$10$XqUn.RNhx0YbcZUQXWYP0eHIz0aLK8xX00cd.PLVRQsafF9Frod6K', '', '0000-00-00 00:00:00', '2016-10-11 17:58:05', '(905) 512-3067', 1473953004, 2, 1, '', 'eyJpdiI6Ikp2c3BNQjFONVhHSSsrZjhCQjJzV2c9PSIsInZhbHVlIjoiQ1puNVFJajUyMktKVlVGVXRnbDhLQT09IiwibWFjIjoiODZlODNlMzZlNWZlYTE5NmEyZGFkOGExZjY0ZmZkMDI1YTY5MjcwZDM3N2Y3ZTdjNmUxMDNjYTQ0ZTk2ZDljNiJ9', 'eyJpdiI6IjhKMEUrVmtpcXBnVlhuVzdXTk5vQ2c9PSIsInZhbHVlIjoiQ3N1bFVsQ2NLa1Y0SlFHNXpQU3JJQT09IiwibWFjIjoiOGZmMzc2MjJiYmE4YTYwZmJmMmY5YWNhMTFlNWE1MzgxM2E4OWEyZWYxZTQ2ZGFiOTI2YzRjYmUwMzUzYmJmYiJ9', 'eyJpdiI6ImlQWW81VTFFNGRpVVNFaytUZHcwWmc9PSIsInZhbHVlIjoiZExvajhPWjN1Y09lMEFWWGx0SHQxNjFsdG5Ea3BlcWdIenVtZ0J6Z0Facz0iLCJtYWMiOiI4MjBhMzNjZTE5OGUzYTYxZjM4NGRhYjM1MzgwMjMwNzUyODI3MDFmNGI1MzE3NjY4YTBiZjAzOTE0NTJjZDNiIn0=', 'eyJpdiI6IllIN3EyNFpJMzgxSEJSeTF4dEU2YkE9PSIsInZhbHVlIjoiWWQ5YTdpeldKdkROWjRndWRRcWRaUT09IiwibWFjIjoiZWU3MGVmZDNiNGZjMDY1NmVlNTg4MzY5MDcwNTA1YzE0MGRlNjhlODgzMmMzZTU0ZjFiNDQ1ZTFhOTFjM2IwNCJ9', 'eyJpdiI6IjZxMkVWZjBVNWdpUGx0Z013eG9Db1E9PSIsInZhbHVlIjoic1wvaWN3SzFjNXcyc1wvZGIzYUpvVXJ3PT0iLCJtYWMiOiJhZDZhOWI3NzRhZWVlNTNmMmRkODc1YWM4MjU4MDYyYzQwNWNkMzczZTllODBhYTExZWEwMTM5NjEwYjRkYmQ2In0=', 'eyJpdiI6InFDd3lFaHEwMFwveURuaGlKeTNNM2JRPT0iLCJ2YWx1ZSI6InEzVW1CXC9aOUo3TnF3cm53Mkdka2VRPT0iLCJtYWMiOiI4YTcyZGVhN2YxM2Y0ZTI1ZmY5NGJjNzY2MzhlOTU2ZDE0NTc1MTA1YWVhZmNiYWE1MTZkNTE2ZTNlOTgwMTU0In0=', 1),
+(11, 'Van Trinh', 'info@trinoweb.com', '$2y$10$2yAesihK6otSPNnVtnpnIOEO3Ec.6n2mrN1VWoL3qoETP1.T66PcC', '', '2016-09-20 21:19:32', '0000-00-00 00:00:00', '(905) 512-3067', 0, 0, 0, '', '', '', '', '', '', '', 0);
 
 -- --------------------------------------------------------
 

@@ -199,42 +199,31 @@ if (!read("id")) {
 
                                     <SPAN class="loggedin profiletype profiletype1">
                                         <?php
-                                        //administration lists
-                                        foreach (array("users", "restaurants", "useraddresses", "orders", "additional_toppings") as $table) {
-                                            echo '<LI><A HREF="' . webroot("public/list/" . $table) . '" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> ' . ucfirst($table) . ' list</A></LI>';
-                                        }
+                                            //administration lists
+                                            foreach (array("users", "restaurants", "useraddresses", "orders", "additional_toppings") as $table) {
+                                                echo '<LI><A HREF="' . webroot("public/list/" . $table) . '" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> ' . ucfirst($table) . ' list</A></LI>';
+                                            }
                                         ?>
-                                        <li><A HREF="<?= webroot("public/editmenu"); ?>" CLASS="dropdown-item"><i
-                                                        class="fa fa-user-plus"></i> Edit Menu</A></li>
-                                        <li><A HREF="<?= webroot("public/list/debug"); ?>" CLASS="dropdown-item"><i
-                                                        class="fa fa-user-plus"></i> Debug log</A></li>
+                                        <li><A HREF="<?= webroot("public/editmenu"); ?>" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> Edit Menu</A></li>
+                                        <li><A HREF="<?= webroot("public/list/debug"); ?>" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> Debug log</A></li>
                                         <HR>
                                     </SPAN>
 
                                     <li>
-                                        <SPAN class="dropdown-item"><i class="fa fa-home"></i> <SPAN
-                                                    CLASS="session_name"></SPAN></SPAN>
+                                        <SPAN class="dropdown-item"><i class="fa fa-home"></i> <SPAN CLASS="session_name"></SPAN></SPAN>
                                     </li>
 
                                     <SPAN class="loggedin">
                                         <li>
-                                            <A ONCLICK="addresses();"
-                                               oldHREF="<?= webroot("public/list/useraddresses"); ?>"
-                                               class="dropdown-item"> <i class="fa fa-home"></i> Addresses</A>
-                                        </li>
-                                        <li>
                                             <A ONCLICK="orders();" class="dropdown-item"> <i class="fa fa-home"></i> Past Orders</A>
                                         </li>
                                         <li>
-                                            <A data-toggle="modal" data-target="#profilemodal"
-                                               oldHREF="<?= webroot("public/user/info"); ?>" class="dropdown-item"> <i
-                                                        class="fa fa-home"></i> Profile</A>
+                                            <A data-toggle="modal" data-target="#profilemodal" class="dropdown-item"><i class="fa fa-home"></i> Profile</A>
                                         </li>
                                     </SPAN>
 
                                     <li>
-                                        <A ONCLICK="handlelogin('logout');" CLASS="hyperlink dropdown-item loggedin"> <i
-                                                    class="fa fa-home"></i> Log out</A>
+                                        <A ONCLICK="handlelogin('logout');" CLASS="hyperlink dropdown-item loggedin"> <i class="fa fa-home"></i> Log out</A>
                                         <A CLASS="loggedout dropdown-item hyperlink" data-toggle="modal"
                                            data-target="#loginmodal"> <i class="fa fa-home"></i> Log In</A>
                                     </li>
@@ -339,6 +328,8 @@ if (!read("id")) {
                     <FORM NAME="user" id="userform">
                         @include("popups.edituser", array("showpass" => true))
                     </FORM>
+
+                    <DIV ID="addresslist"></DIV>
 
                     <DIV CLASS="row">
                         <DIV CLASS="col-md-12" align="center">
@@ -504,8 +495,9 @@ if (!read("id")) {
 
                 var itemname = "";
                 if (item.hasOwnProperty("itemaddons")) {
+                    var tablename = item["itemaddons"][0]["tablename"];
                     if (item["itemaddons"].length > 1) {
-                        switch (item["itemaddons"][0]["tablename"]) {
+                        switch (tablename) {
                             case "toppings":
                                 itemname = "Pizza";
                                 break;
@@ -523,7 +515,14 @@ if (!read("id")) {
                             if (addonid > 0) {
                                 tempHTML += ", ";
                             }
-                            tempHTML += addons["addons"][addonid]["text"];
+                            var addonname = addons["addons"][addonid]["text"];
+                            var isfree = isaddon_free(tablename, addonname);
+                            log(isfree + " = " + addonname + " + " + tablename);
+                            if(isfree){
+                                tempHTML += '<I TITLE="Free addon">' + addonname + '</I>';
+                            } else {
+                                tempHTML += addonname;
+                            }
                         }
                         tempHTML += '<BR>';
                     }
@@ -612,7 +611,10 @@ if (!read("id")) {
 
         //checks if an addon is free
         function isaddon_free(Table, Addon) {
-            return freetoppings[Table].indexOf(Addon) > -1;
+            switch(Addon.toLowerCase()){
+                case "lightly done":case "well done": return true; break;
+                default: return freetoppings[Table].indexOf(Addon) > -1;
+            }
         }
 
         //checks if an addon is on the whole pizza (for when we implement halves)
@@ -643,11 +645,15 @@ if (!read("id")) {
 
         //send an order to the server
         function placeorder() {
-            //if(!isCCcomplete()){return false;}
+            if(!canplaceorder){return false;}
             if (isObject(userdetails)) {
+                var addressinfo = getform("#orderinfo");//i don't know why the below 2 won't get included. this forces them to be
+                addressinfo["cookingnotes"] = $("#cookingnotes").val();
+                addressinfo["deliverytime"] = $("#deliverytime").val();
+
                 $.post(webroot + "placeorder", {
                     _token: token,
-                    info: getform("#orderinfo"),
+                    info: addressinfo,
                     order: theorder
                 }, function (result) {
                     $("#checkoutmodal").modal("hide");
@@ -661,9 +667,16 @@ if (!read("id")) {
             }
         }
 
+        $(window).on('shown.bs.modal', function() {
+            var modalID = $(".modal:visible").attr("id");
+            if(modalID == "profilemodal"){
+                $("#addresslist").html(addresses());
+            }
+        });
+
         //generate a list of addresses and send it to the alert modal
         function addresses() {
-            var HTML = '';
+            var HTML = '<h5>Addresses</h5>';
             var number = $("#add_number").val();
             var street = $("#add_street").val();
             var city = $("#add_city").val();
@@ -688,7 +701,7 @@ if (!read("id")) {
             } else {
                 HTML += 'Enter a new address in the checkout form if you want to add it to your profile';
             }
-            alert(HTML, "Addresses");
+            return HTML;
         }
 
         //handles the orders list modal
@@ -712,7 +725,9 @@ if (!read("id")) {
                     JSON: getJSON
                 }, function (result) {
                     if (getJSON) {//JSON recieved, put it in the order
-                        theorder = JSON.parse(result);
+                        result = JSON.parse(result);
+                        theorder = result["Order"];
+                        $("#cookingnotes").val(result["cookingnotes"]);
                         generatereceipt();
                         $("#alertmodal").modal('hide');
                     } else {//HTML recieved, put it in the pastreceipt element

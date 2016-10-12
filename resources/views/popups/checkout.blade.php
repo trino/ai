@@ -23,35 +23,30 @@
 
                         <DIV CLASS="input-group-vertical">
 
-                            <input type="text" class="form-control" placeholder="Restaurant Select"/>
+                            <input type="text" class="form-control" ID="restaurant" readonly placeholder="Restaurant Select" TITLE="Closest restaurant"/>
                             <?php
-                            echo '<SELECT class="form-control" TITLE="Delivery Time"/>';
-                            function rounduptoseconds($time, $seconds)
-                            {
-                                $r = $time % $seconds;
-                                return $time + ($seconds - $r);
-                            }
-                            $mindeliverytime = 30 * 60;//30 minutes
-                            $now = rounduptoseconds(time() + $mindeliverytime, 900);
+                                echo '<SELECT class="form-control" id="deliverytime" TITLE="Delivery Time"/>';
+                                function rounduptoseconds($time, $seconds) {
+                                    $r = $time % $seconds;
+                                    return $time + ($seconds - $r);
+                                }
+                                $mindeliverytime = 30 * 60;//30 minutes
+                                $now = rounduptoseconds(time() + $mindeliverytime, 900);
 
-                            echo '<OPTION>Deliver ASAP</OPTION>';
-                            for ($i = 0; $i < 10; $i++) {
-                                //what is the end time?
-                                echo '<OPTION VALUE="' . $now . '">Today at ' . date('g:ia', $now) . '</OPTION>';
-                                $now += 15 * 60;
-                            }
-                            echo '</SELECT>';
+                                echo '<OPTION>Deliver ASAP</OPTION>';
+                                for ($i = 0; $i < 10; $i++) {
+                                    //what is the end time?
+                                    echo '<OPTION VALUE="' . $now . '">Today at ' . date('g:ia', $now) . '</OPTION>';
+                                    $now += 15 * 60;
+                                }
+                                echo '</SELECT>';
                             ?>
-                            <input type="text" class="form-control" placeholder="Notes for the Cook"/>
-
+                            <input type="text" class="form-control" id="cookingnotes" placeholder="Notes for the Cook" maxlength="255"/>
                         </div>
-
 
                         <button class="m-b-1 btn btn-warning btn-block" onclick="placeorder();">PLACE ORDER</button>
                         <DIV ID="form_integrity" style="color:red;"></DIV>
                     </DIV>
-
-
                 </FORM>
 
                 <div class="clearfix"></div>
@@ -63,17 +58,43 @@
 
 
 <SCRIPT>
+    var canplaceorder = false;
+
+    function addresshaschanged(){
+        $.post(webroot + "placeorder", {
+            _token: token,
+            info: getform("#orderinfo"),
+            action: "closestrestaurant"
+        }, function (result) {
+            if (handleresult(result)){
+                var closest = JSON.parse(result)["closest"];
+                var restaurant = "No restaurant is within range";
+                canplaceorder = false;
+                if (closest.hasOwnProperty("id")){
+                    canplaceorder=true;
+                    restaurant = "[number] [street], [city]";
+                    var keys = Object.keys(closest);
+                    for(var i=0; i<keys.length; i++){
+                        var keyname = keys[i];
+                        var keyvalue = closest[keyname];
+                        restaurant = restaurant.replace("[" + keyname + "]", keyvalue);
+                    }
+                }
+                $("#restaurant").val(restaurant);
+            }
+        });
+    }
+
     function showcheckout() {
         var HTML = $("#checkoutaddress").html().replace('id="saveaddresses"', 'name="cc_addressid" ID="cc_addressid" ').replace("onchange", 'offchange').replace('Select a saved address', 'Billing Address');
         $("#billingaddress").html(HTML);
         $("#checkoutmodal").modal("show");
         $(function () {
             $("#orderinfo").validate({
-                        submitHandler: function (form) {
-                            //handled by placeorder
-                        }
-                    }
-            );
+                submitHandler: function (form) {
+                    //handled by placeorder
+                }
+            });
         });
     }
 
