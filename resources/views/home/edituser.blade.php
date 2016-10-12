@@ -1,4 +1,3 @@
-<!-- Start user form -->
 <?php
     $currentURL = webroot("public/user/info");
     $includesection = Request::url() == $currentURL;
@@ -231,4 +230,3 @@
         </div>
     @endsection
 @endif
-<!-- End user form -->

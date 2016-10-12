@@ -131,14 +131,17 @@ class AuthController extends Controller {
             } else {
                 switch ($action) {
                     case "registration":
+                        $address = $_POST["address"];
                         unset($_POST["action"]);
                         unset($_POST["_token"]);
+                        unset($_POST["address"]);
                         $_POST["remember_token"]="";
                         $_POST["authcode"]=guidv4();
                         $_POST["created_at"] = now();
                         $_POST["updated_at"] = 0;
                         $_POST["password"] = \Hash::make($_POST["password"]);
-                        insertdb("users", $_POST);
+                        $address["user_id"] = insertdb("users", $_POST);
+                        insertdb("useraddresses", $address);
                         $this->sendverifemail($_POST["email"]);
                         break;
                     default:

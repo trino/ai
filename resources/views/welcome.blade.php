@@ -20,11 +20,14 @@
             <div class="p-y-1"></div>
             <p>Signup</p>
             <FORM Name="regform" id="regform">
-                <?= view("popups.edituser"); ?>
-                <button class="btn btn-primary">
-                    Register
-                </button>
+                <?= view("popups.edituser", array("phone" => false)); ?>
             </FORM>
+            <FORM id="addform">
+                <?= view("popups.address", array("style" => 1)); ?>
+            </FORM>
+            <button class="btn btn-primary" onclick="$('#regform').submit();">
+                Register
+            </button>
         </DIV>
     </div>
     <SCRIPT>

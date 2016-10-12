@@ -494,7 +494,7 @@ if (!read("id")) {
                 tempHTML += '<span class="pull-right" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '"> $' + totalcost + ' <i class="text-muted fa fa-close" onclick="removeorderitem(' + itemid + ');"></i></span><div class="clearfix"></div>';
 
                 var itemname = "";
-                if (item.hasOwnProperty("itemaddons")) {
+                if (item.hasOwnProperty("itemaddons") && item["itemaddons"].length > 0) {
                     var tablename = item["itemaddons"][0]["tablename"];
                     if (item["itemaddons"].length > 1) {
                         switch (tablename) {
@@ -511,17 +511,21 @@ if (!read("id")) {
                         if (itemname) {
                             tempHTML += getordinal(currentitem) + " " + itemname + ": ";
                         }
-                        for (var addonid = 0; addonid < addons["addons"].length; addonid++) {
-                            if (addonid > 0) {
-                                tempHTML += ", ";
-                            }
-                            var addonname = addons["addons"][addonid]["text"];
-                            var isfree = isaddon_free(tablename, addonname);
-                            log(isfree + " = " + addonname + " + " + tablename);
-                            if(isfree){
-                                tempHTML += '<I TITLE="Free addon">' + addonname + '</I>';
-                            } else {
-                                tempHTML += addonname;
+                        if(addons["addons"].length == 0){
+                            tempHTML += '[No addons]';
+                        } else {
+                            for (var addonid = 0; addonid < addons["addons"].length; addonid++) {
+                                if (addonid > 0) {
+                                    tempHTML += ", ";
+                                }
+                                var addonname = addons["addons"][addonid]["text"];
+                                var isfree = isaddon_free(tablename, addonname);
+                                log(isfree + " = " + addonname + " + " + tablename);
+                                if (isfree) {
+                                    tempHTML += '<I TITLE="Free addon">' + addonname + '</I>';
+                                } else {
+                                    tempHTML += addonname;
+                                }
                             }
                         }
                         tempHTML += '<BR>';

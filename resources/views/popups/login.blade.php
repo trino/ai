@@ -130,7 +130,7 @@
         $("form[name='regform']").validate({
             rules: {
                 name: "required",
-                phone: "phonenumber",
+                //phone: "phonenumber",
                 email: {
                     required: true,
                     email: true,
@@ -162,6 +162,7 @@
                 var formdata = getform("#regform");
                 formdata["action"] = "registration";
                 formdata["_token"] = token;
+                formdata["address"] = getform("#addform");
                 $.post(webroot + "auth/login", formdata, function (result) {
                     if(result) {
                         try {
