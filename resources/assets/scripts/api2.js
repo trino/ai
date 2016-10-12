@@ -112,6 +112,24 @@ function getform(ID){
     return ret;
 }
 
+function confirm2(){
+    var Title = "Confirm";
+    var action = function(){};
+    if (arguments.length > 1) {
+        for(var index = 0; index<arguments.length; index++){
+            if(isFunction(arguments[index])){
+                action = arguments[index];
+            } else {
+                Title = arguments[index];
+            }
+        }
+    }
+    alert(arguments[0], Title);
+    $("#alert-cancel").show();
+    $("#alert-confirm").css("width", "40%");
+    $("#alert-confirm").click(action);
+}
+
 function removeindex(arr, index, count, delimiter){
     if(!isArray(arr)){
         if(isUndefined(delimiter)){delimiter=" ";}

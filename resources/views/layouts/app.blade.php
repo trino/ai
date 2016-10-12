@@ -122,6 +122,9 @@
             if (arguments.length > 1) {
                 title = arguments[1];
             }
+            $("#alert-cancel").hide();
+            $("#alert-ok").click(function(){});
+            $("#alert-confirm").css("width", "100%");
             $("#alertmodalbody").html(arguments[0]);
             $("#alertmodallabel").text(title);
             $("#alertmodal").modal('show');
@@ -230,12 +233,18 @@
                     <h4 class="modal-title" id="alertmodallabel">Title</h4>
                 </div>
                 <DIV ID="alertmodalbody"></DIV>
-                <button class="btn btn-block btn-warning" data-dismiss="modal">
-                    OK
-                </button>
+                <DIV STYLE="margin-top: 15px;">
+                    <button class="btn btn-secondary" style="width:40%" id="alert-cancel" data-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button class="btn btn-warning pull-right" id="alert-confirm" data-dismiss="modal">
+                        OK
+                    </button>
+                </DIV>
             </div>
         </div>
     </div>
 </DIV>
+
 <div class="modal loading" ID="loadingmodal"></div>
 </html>
