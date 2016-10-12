@@ -34,7 +34,7 @@
     if (!isset($_GET["search"]) || !trim($_GET["search"])) {
         $_GET["search"] = "";
     } else {
-        include("../app/Http/api.php");
+        include("../resources/views/api.php");
         $con = connectdb("ai");
 
         $word = $_GET["search"];

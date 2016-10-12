@@ -47,7 +47,7 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 |
 */
 
-include "../app/Http/api.php";
+include "../resources/views/api.php";
 
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 
