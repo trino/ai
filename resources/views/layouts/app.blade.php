@@ -96,7 +96,7 @@
 
 
     <button class="btn btn-warning loggedin  pull-right" id="checkout" onclick="showcheckout();" style="display: block;">
-        CHECKOUT
+        <strong>$20.99</strong> CHECKOUT
     </button>
 
 </nav>
