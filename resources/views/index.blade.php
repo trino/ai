@@ -545,11 +545,13 @@
                 $("#checkoutbutton").hide();
                 removeCookie("theorder");
                 collapsecheckout();
+                $("#checkout-total").text('');
             } else {
                 tempHTML = '<span class="pull-right"> Sub-total: $' + subtotal.toFixed(2) + '</span><br>';
                 tempHTML += '<span class="pull-right"> Delivery: $' + deliveryfee.toFixed(2) + '</span><br>';
                 tempHTML += '<span class="pull-right"> Tax: $' + taxes.toFixed(2) + '</span><br>';
                 tempHTML += '<span class="pull-right"> Total: $' + totalcost.toFixed(2) + '</span>';
+                $("#checkout-total").text('$' + totalcost.toFixed(2));
             }
             $("#myorder").html(HTML + tempHTML);
         }

@@ -80,31 +80,25 @@
 </STYLE>
 
 <body  style="overflow-x: hidden !important;">
-<?php
-    $start_loading_time = microtime(true);
-    if(read("id")){
-        $user = getuser(read("id"));
-        unset($user["password"]);
-    }
-?>
-<div class="container p-a-0 m-t-1 bodycontainer">
-    @yield('content')
+    <?php
+        $start_loading_time = microtime(true);
+        if(read("id")){
+            $user = getuser(read("id"));
+            unset($user["password"]);
+        }
+    ?>
+    <div class="container p-a-0 m-t-1 bodycontainer">
+        @yield('content')
+    </div>
 
+    <nav class="navbar-default navbar-fixed-bottom navbar navbar-full navbar-dark bg-danger dont-print" style="z-index: 1;">
+        <button class="btn btn-warning loggedin pull-right" id="checkout" onclick="showcheckout();" style="display: block;">
+            <strong id="checkout-total"></strong> CHECKOUT
+        </button>
+    </nav>
 
-</div>
-<nav class="navbar-default navbar-fixed-bottom navbar navbar-full navbar-dark bg-danger dont-print" style="z-index: 1;">
-
-
-    <button class="btn btn-warning loggedin  pull-right" id="checkout" onclick="showcheckout();" style="display: block;">
-        <strong>$20.99</strong> CHECKOUT
-    </button>
-
-</nav>
-
-<?= view("popups.login"); ?>
-
-<div class="modal loading" ID="loadingmodal"></div>
-
+    <?= view("popups.login"); ?>
+    <div class="modal loading" ID="loadingmodal"></div>
 </body>
 
 
