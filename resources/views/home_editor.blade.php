@@ -183,7 +183,7 @@
                 echo '</TABLE>';
             }
 
-            echo view("popups_keywordsearch");
+            echo view("popups_keywordsearch")->render();
 
 
             break;

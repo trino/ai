@@ -46,7 +46,7 @@ if (!function_exists("printarow")) {
             printarow("Password", $name, array("name" => "password", "type" => "password", "class" => "form-control"));
         }
         if(isset($address) && $address){
-            echo view("popups_address", array("style" => 1));
+            echo view("popups_address", array("style" => 1))->render();
         }
     ?>
 </div>

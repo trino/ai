@@ -1,6 +1,6 @@
 <?php $GLOBALS["currentview"] = "welcome"; ?>
-@extends('layouts.app')
-@section('content')
+@extends("layouts_app")
+@section("content")
     <div class="row">
         <DIV CLASS="col-md-6">
             <h1>London Pizza Delivery</h1>
@@ -20,10 +20,10 @@
             <div class="p-y-1"></div>
             <p>Signup</p>
             <FORM Name="regform" id="regform">
-                <?= view("popups_edituser", array("phone" => false)); ?>
+                <?= view("popups_edituser", array("phone" => false))->render(); ?>
             </FORM>
             <FORM id="addform">
-                <?= view("popups_address", array("style" => 1)); ?>
+                <?= view("popups_address", array("style" => 1))->render(); ?>
             </FORM>
             <button class="btn btn-primary" onclick="$('#regform').submit();">
                 Register

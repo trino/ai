@@ -154,8 +154,8 @@
     $user = getuser(false, false);
 ?>
 @if($includesection)
-    @extends('layouts.app')
-    @section('content')
+    @extends("layouts_app")
+    @section("content")
         <div class="row m-t-1">
             <div class="col-md-12">
                 <div class="card">

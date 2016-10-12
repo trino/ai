@@ -12,28 +12,36 @@ use App\Repositories\TaskRepository;
 
 class HomeController extends Controller {
     public function index(Request $request) {
+        return view("home_keyword")->render();
     }
 
     public function clipi(Request $request) {
+        return view("home_clipi")->render();
     }
 
     public function getjs(Request $request) {
+        return view("home_getjs")->render();
     }
 
     public function tablelist($table) {
+        return view("home_list", array("table" => $table))->render();
     }
 
     public function edituser($user_id = false) {
         if(!$user_id){$user_id = read("id");}
+        return view("home_edituser", array("user_id" => $user_id))->render();
     }
 
     public function edit(Request $request) {
+        return view("home_editor")->render();
     }
 
     public function edittable(Request $request){
+        return view("home_edittable")->render();
     }
 
     public function editmenu(Request $request){
+        return view("home_editmenu")->render();
     }
 
     public function placeorder(){
@@ -69,7 +77,7 @@ class HomeController extends Controller {
             $text = $this->sendEMail("email_receipt", $user);//send emails to customer and store
             //if ($text) {return $text;}
             //$charged = $this->stripepayment();
-            return '<div CLASS="ordersuccess"></div>' . view("popups_receipt", array("orderid" => $orderid));
+            return '<div CLASS="ordersuccess"></div>' . view("popups_receipt", array("orderid" => $orderid))->render();
         } else {
             return $addressID;
         }

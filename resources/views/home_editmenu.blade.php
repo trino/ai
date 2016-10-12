@@ -18,8 +18,8 @@
         die();
     }
 ?>
-@extends('layouts.app')
-@section('content')
+@extends("layouts_app")
+@section("content")
     <STYLE>
         hr{
             margin-top: 2px;

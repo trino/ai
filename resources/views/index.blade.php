@@ -1,6 +1,6 @@
 <?php
     if (!read("id")) {
-        echo view("welcome");
+        echo view("welcome")->render();
         die();
     }
 ?>
