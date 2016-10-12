@@ -52,7 +52,7 @@
                             <h4 class="modal-title" id="myModalLabel">Register</h4>
                         </div>
                         <FORM Name="regform" id="regform">
-                            <?= view("popups.edituser"); ?>
+                            <?= view("popups_edituser"); ?>
                             <DIV STYLE="margin-top: 15px;">
                                 <DIV CLASS="col-md-12">
                                     <button class="btn btn-block btn-primary">

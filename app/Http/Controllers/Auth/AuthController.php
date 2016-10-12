@@ -117,7 +117,7 @@ class AuthController extends Controller {
                     case "forgotpassword":
                         $user["password"] = generateRandomString(6);
                         $user["mail_subject"] = "Forgot password";
-                        $text = $this->sendEMail("email.forgotpassword", $user);
+                        $text = $this->sendEMail("email_forgotpassword", $user);
                         if($text){//email failed to send
                             $ret["Status"] = false;
                             $ret["Reason"] = $text;
@@ -157,7 +157,7 @@ class AuthController extends Controller {
     function sendverifemail($email){
         $user = first("SELECT * FROM users WHERE email = '" . $email . "'");
         $user["mail_subject"] = "Please click the verify button";
-        $text = $this->sendEMail("email.verify", $user);
+        $text = $this->sendEMail("email_verify", $user);
         if($text){
             $ret["Status"] = false;
             $ret["Reason"] = $text;

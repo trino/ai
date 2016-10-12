@@ -4,7 +4,7 @@
         die();
     }
 ?>
-@extends('layouts.app')
+@extends('layouts_app')
 @section('content')
     <div class="row">
 
@@ -240,7 +240,7 @@
                         </button>
                     </SPAN>
 
-                    @include("popups.checkout")
+                    @include("popups_checkout")
 
                 </div>
             </div>
@@ -321,7 +321,7 @@
                     </div>
 
                     <FORM NAME="user" id="userform">
-                        @include("popups.edituser", array("showpass" => true))
+                        @include("popups_edituser", array("showpass" => true))
                     </FORM>
 
                     <DIV ID="addresslist"></DIV>

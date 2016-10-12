@@ -12,36 +12,28 @@ use App\Repositories\TaskRepository;
 
 class HomeController extends Controller {
     public function index(Request $request) {
-        return view('home.keyword');
     }
 
     public function clipi(Request $request) {
-        return view('home.clipi');
     }
 
     public function getjs(Request $request) {
-        return view('home.getjs');
     }
 
     public function tablelist($table) {
-        return view('home.list', array("table" => $table));
     }
 
     public function edituser($user_id = false) {
         if(!$user_id){$user_id = read("id");}
-        return view('home.edituser', array("user_id" => $user_id));
     }
 
     public function edit(Request $request) {
-        return view('home.editor');
     }
 
     public function edittable(Request $request){
-        return view('home.edittable');
     }
 
     public function editmenu(Request $request){
-        return view('home.editmenu');
     }
 
     public function placeorder(){
@@ -74,10 +66,10 @@ class HomeController extends Controller {
             $user = first("SELECT * FROM users WHERE id = " . $info["user_id"]);
             $user["orderid"] = $orderid;
             $user["mail_subject"] = "Receipt";
-            $text = $this->sendEMail("email.receipt", $user);//send emails to customer and store
+            $text = $this->sendEMail("email_receipt", $user);//send emails to customer and store
             //if ($text) {return $text;}
             //$charged = $this->stripepayment();
-            return '<div CLASS="ordersuccess"></div>' . view("popups.receipt", array("orderid" => $orderid));
+            return '<div CLASS="ordersuccess"></div>' . view("popups_receipt", array("orderid" => $orderid));
         } else {
             return $addressID;
         }

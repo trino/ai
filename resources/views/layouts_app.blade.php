@@ -97,7 +97,7 @@
         </button>
     </nav>
 
-    <?= view("popups.login"); ?>
+    <?= view("popups_login"); ?>
     <div class="modal loading" ID="loadingmodal"></div>
 </body>
 

@@ -10,13 +10,13 @@
                     <h5 class="modal-title" id="myModalLabel">Checkout</h5>
                 </div>
 
-                <?= view("popups.edituser"); ?>
+                <?= view("popups_edituser"); ?>
 
                 <FORM ID="orderinfo" name="orderinfo">
                     <div class="clear_loggedout addressdropdown" id="checkoutaddress"></div>
 
                     <DIV CLASS="input-group-vertical">
-                        <?= view("popups.address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true)); ?>
+                        <?= view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true)); ?>
                     </DIV>
 
                     <DIV CLASS="col-md-12">

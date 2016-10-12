@@ -325,7 +325,7 @@
         $results["SortColumn"] = get("SortColumn", "keywords");
         $results["SortDirection"] = get("SortDirection", "DESC");
         $results["words"] = "";
-        echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "isKeyword" => $isKeyword, "searchstring" => $_GET["search"], "wordstoignore" => $wordstoignore, "quantities" => $quantities));
+        echo view("popups_itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "isKeyword" => $isKeyword, "searchstring" => $_GET["search"], "wordstoignore" => $wordstoignore, "quantities" => $quantities));
     } else{
         //text found, reduce the search to keyword ID numbers
         echo '<DIV CLASS="red"><B>Stage 0.0: Pre-filtering</B>';
@@ -469,15 +469,15 @@
                             echo '<BR>Get words from: ' . $startingIndex . " to: " . $endingIndex;
                             echo '<BR>(AFTER) Search string: ' . $newtext;
 
-                            echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $keywordids, "text" => $newtext, "wordstoignore" => $wordstoignore, "primarykeyid" => $primaryKeyID, "is5keywords" => $results["is5keywords"], "keywords" => $results["keywords"], "limit" => $results["limit"], "quantities" => $quantities));
+                            echo view("popups_itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $keywordids, "text" => $newtext, "wordstoignore" => $wordstoignore, "primarykeyid" => $primaryKeyID, "is5keywords" => $results["is5keywords"], "keywords" => $results["keywords"], "limit" => $results["limit"], "quantities" => $quantities));
                             echo '</DIV>';
                         }
                     } else {
-                        echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $keywordids, "text" => $_GET["search"], "wordstoignore" => $wordstoignore, "primarykeyid" => $primaryKeyID, "is5keywords" => $results["is5keywords"], "keywords" => $results["keywords"], "limit" => $results["limit"], "quantities" => $quantities));
+                        echo view("popups_itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $keywordids, "text" => $_GET["search"], "wordstoignore" => $wordstoignore, "primarykeyid" => $primaryKeyID, "is5keywords" => $results["is5keywords"], "keywords" => $results["keywords"], "limit" => $results["limit"], "quantities" => $quantities));
                     }
                 }
             } else if ($results["non5keywords"]){//no weight-5 keywords found, run a single search of all the keywords
-                echo view("popups.itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $results["non5keywords"], "text" => $_GET["search"], "wordstoignore" => $wordstoignore, "keywords" => $results["keywords"], "limit" => $results["limit"], "quantities" => $quantities));
+                echo view("popups_itemsearch", array("SortColumn" => $results["SortColumn"], "SortDirection" => $results["SortDirection"], "keywordids" => $results["non5keywords"], "text" => $_GET["search"], "wordstoignore" => $wordstoignore, "keywords" => $results["keywords"], "limit" => $results["limit"], "quantities" => $quantities));
             }
         } else {
             die("SQL FAILED! " . $words);//no keywords found in the search
@@ -667,6 +667,6 @@
 </script>
 
 @if($results["words"])
-    @include("popups.addons", array("table" => "toppings"))
-    @include("popups.addons", array("table" => "wings_sauce"))
+    @include("popups_addons", array("table" => "toppings"))
+    @include("popups_addons", array("table" => "wings_sauce"))
 @endif

@@ -175,7 +175,7 @@
         }
     </STYLE>
     <FORM NAME="user" id="userform">
-        @include("popups.edituser")
+        @include("popups_edituser")
         <HR>
         <H2>Credit Card info</H2><BR>
         <?php

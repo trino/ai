@@ -123,7 +123,7 @@
                 break;
 
             case "getreceipt"://get an order receipt
-                die(view("popups.receipt", $_POST));
+                die(view("popups_receipt", $_POST));
                 break;
 
             case "deletedebug"://delete the debug file
@@ -241,7 +241,7 @@
                                                     case "useraddresses":
                                                         echo '<A ONCLICK="saveaddress(0);" CLASS="btn btn-sm btn-primary">New</A> ';
                                                         echo '<A ONCLICK="saveaddress(selecteditem);" CLASS="btn btn-sm btn-secondary" id="saveaddress" DISABLED>Save</A>';
-                                                        echo view("popups.address", $_GET);
+                                                        echo view("popups_address", $_GET);
                                                         break;
                                                     case "restaurants":
                                                         echo '<DIV ID="addressdropdown" STYLE="display: none;" class="addressdropdown"></DIV>';

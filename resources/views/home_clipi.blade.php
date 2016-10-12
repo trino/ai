@@ -1164,13 +1164,13 @@
             submitform();
         }
 
-        <?= view("home.getjs", array("files" => "api,nui")); ?>
+        <?= view("home_getjs", array("files" => "api,nui")); ?>
 
         <?php if(trim($_POST["search"])){echo ' doonload(function(){ submitform(); });';} ?>
     </SCRIPT>
 <?php
     foreach($Tables as $table){
-        echo "\r\n" . '<!-- BEGIN ' . $table . '--!>' . view("popups.addons", array("table" => $table)) . '<!-- END ' . $table . '--!>';
+        echo "\r\n" . '<!-- BEGIN ' . $table . '--!>' . view("popups_addons", array("table" => $table)) . '<!-- END ' . $table . '--!>';
         //makeaddons($table);
     }
 }
