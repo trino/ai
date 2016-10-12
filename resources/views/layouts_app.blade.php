@@ -92,7 +92,7 @@
     </div>
 
     <nav class="navbar-default navbar-fixed-bottom navbar navbar-full navbar-dark bg-danger dont-print" style="z-index: 1;">
-        <button class="btn btn-warning loggedin pull-right" id="checkout" onclick="showcheckout();" style="display: block;">
+        <button class="btn btn-warning loggedin pull-right" id="checkout-btn" onclick="showcheckout();" style="display: none;">
             <strong id="checkout-total"></strong> CHECKOUT
         </button>
     </nav>
