@@ -1,7 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
+    <?$time = microtime(true); // Gets microseconds
+    ?>
+    <script type="text/javascript">
+        var timerStart = Date.now();
+    </script>
 
     <meta charset="utf-8">
     <meta name="theme-color" content="#5cb85c">
@@ -99,7 +104,11 @@
 
     <?= view("popups_login")->render(); ?>
     <div class="modal loading" ID="loadingmodal"></div>
-</body>
+
+
+
+
+
 
 
 
@@ -160,7 +169,7 @@
 
         var HTML = '';
         if (user["Addresses"].length > 0) {//generate address dropdown
-            HTML += '<SELECT class="form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION VALUE="0">Select Address</OPTION>';
+            HTML += '<SELECT class="form-control saveaddresses" id="saveaddresses" onchange="addresschanged();">';
             addresskeys = Object.keys(user["Addresses"][0]);
             for (i = 0; i < user["Addresses"].length; i++) {
                 HTML += AddressToOption(user["Addresses"][i], addresskeys);
@@ -241,4 +250,36 @@
 </DIV>
 
 <div class="modal loading" ID="loadingmodal"></div>
+
+
+
+    <!-- put everything you need in here -->
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            console.log("Time until DOMready: ", Date.now()-timerStart);
+        });
+        $(window).load(function() {
+            console.log("Time until everything loaded: ", Date.now()-timerStart);
+        });
+    </script>
+<?    echo "Time Elapsed: ".round((microtime(true) - $time),5)."s"; ?>
+
+</body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

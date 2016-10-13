@@ -19,7 +19,6 @@
                         <?= view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true))->render(); ?>
                     </DIV>
 
-                    <DIV CLASS="col-md-12">
 
                         <DIV CLASS="input-group-vertical">
 
@@ -46,7 +45,6 @@
 
                         <button class="m-b-1 btn btn-warning btn-block" onclick="placeorder();">PLACE ORDER</button>
                         <DIV ID="form_integrity" style="color:red;"></DIV>
-                    </DIV>
                 </FORM>
 
                 <div class="clearfix"></div>
