@@ -21,15 +21,15 @@
             }
 
             $fields = array(
-                    "Unit / Apt / Buzz Code / Address Notes" => array("type" => "text", "name" => "unit"),
-                    "Street Number" => array("type" => "text", "name" => "number", "class" => "street_number", "readonly" => true),
-                    "Street" => array("type" => "text", "name" => "street", "class" => "route", "readonly" => true),
-                    "City" => array("type" => "text", "name" => "city", "class" => "locality", "readonly" => true, "half" => "start", "corner" => "bottom-left"),
-                    "Province" => array("type" => "text", "name" => "province", "class" => "administrative_area_level_1", "readonly" => true, "half" => "middle"),
-                    "Postal Code" => array("type" => "text", "name" => "postalcode", "class" => "postal_code", "readonly" => true, "half" => "end", "corner" => "bottom-right"),
-                    "Latitude" => array("type" => "hidden", "name" => "latitude", "class" => "latitude", "readonly" => true, "half" => "start"),
-                    "Longitude" => array("type" => "hidden", "name" => "longitude", "class" => "longitude", "readonly" => true, "half" => "end"),
-                    "user_id" => array("type" => "hidden", "name" => "user_id", "value" => $user_id, "class" => "session_id_val")
+                "Unit / Apt / Buzz Code / Address Notes" => array("type" => "text", "name" => "unit"),
+                "Street Number" => array("type" => "text", "name" => "number", "class" => "street_number", "readonly" => true),
+                "Street" => array("type" => "text", "name" => "street", "class" => "route", "readonly" => true),
+                "City" => array("type" => "text", "name" => "city", "class" => "locality", "readonly" => true, "half" => "start", "corner" => "bottom-left"),
+                "Province" => array("type" => "text", "name" => "province", "class" => "administrative_area_level_1", "readonly" => true, "half" => "middle"),
+                "Postal Code" => array("type" => "text", "name" => "postalcode", "class" => "postal_code", "readonly" => true, "half" => "end", "corner" => "bottom-right"),
+                "Latitude" => array("type" => "hidden", "name" => "latitude", "class" => "latitude", "readonly" => true, "half" => "start"),
+                "Longitude" => array("type" => "hidden", "name" => "longitude", "class" => "longitude", "readonly" => true, "half" => "end"),
+                "user_id" => array("type" => "hidden", "name" => "user_id", "value" => $user_id, "class" => "session_id_val")
             );
 
             $keys = array_keys($fields);
@@ -69,9 +69,8 @@
         ?>
     </div>
 
-    @if (isset($saveaddress))
+    @if(isset($saveaddress))
         <DIV CLASS="col-md-12">
-
             <button class="btn btn-link btn-sm" onclick="editaddresses();" title="Edit the addresses saved to your profile">
                 EDIT ADDRESSES
             </button>
@@ -133,10 +132,10 @@
 
     function initAutocomplete() {
         formatted_address = new google.maps.places.Autocomplete(
-                /** @type {!HTMLInputElement} */(document.getElementById('formatted_address')), {
-                    types: ['geocode'],
-                    componentRestrictions: {country: "ca"}
-                });
+            /** @type {!HTMLInputElement} */(document.getElementById('formatted_address')), {
+            types: ['geocode'],
+            componentRestrictions: {country: "ca"}
+        });
         formatted_address.addListener('place_changed', fillInAddress);
     }
 
@@ -166,26 +165,22 @@
             if (componentForm[addressType]) {
                 var val = place.address_components[i][componentForm[addressType]];
                 addressdata[addressType] = val;
-                log(addressType + " = " + val);
                 streetformat = streetformat.replace("[" + addressType + "]", val);
                 $('.' + addressType).val(val);
             }
         }
-
         if (isnewaddress(addressdata["street_number"], addressdata["route"], addressdata["locality"])) {
             $("#saveaddressbtn").removeAttr("disabled");
         } else {
             $("#saveaddressbtn").attr("disabled", true);
         }
-
         $('.formatted_address').val(streetformat);
-
         if(isFunction(addresshaschanged)){addresshaschanged();}
         return place;
     }
 </SCRIPT>
 <?php
-if (!isset($dontincludeGoogle)) {
-    echo '<script src="https://maps.googleapis.com/maps/api/js?signed_in=true&libraries=places&callback=initAutocomplete&key=AIzaSyBWSUc8EbZYVKF37jWVCb3lpBQwWqXUZw8"></script>';
-}
+    if (!isset($dontincludeGoogle)) {
+        echo '<script src="https://maps.googleapis.com/maps/api/js?signed_in=true&libraries=places&callback=initAutocomplete&key=AIzaSyBWSUc8EbZYVKF37jWVCb3lpBQwWqXUZw8"></script>';
+    }
 ?>

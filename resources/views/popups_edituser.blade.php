@@ -1,6 +1,5 @@
 <?php
     $currentURL = webroot("public/user/info");
-
     if (isset($user_id)) {
         $user = first("SELECT * FROM users WHERE id=" . $user_id);
         echo '<INPUT TYPE="HIDDEN" NAME="id" VALUE="' . $user_id . '">';
@@ -13,7 +12,6 @@
             $name = "reg";
         }
     }
-
     if (!function_exists("printarow")) {
         function printarow($Name, $Prepend, $field) {
             if ($field["type"] != "hidden")     {echo '<div class="form-group"><DIV CLASS="row"><DIV CLASS="col-md-12">';}
@@ -30,12 +28,9 @@
             if ($field["type"] != "hidden")     {echo '</DIV></DIV></DIV>';}
         }
     }
-
     if(!isset($password)){$password = true;}
     if(!isset($email)){$email = true;}
 ?>
-
-
 <div class="input-group-vertical">
     <?php
         printarow("Name", $name, array("name" => "name", "value" => $user["name"], "type" => "text", "class" => "form-control session_name_val"));
@@ -56,8 +51,6 @@
         }
     ?>
 </div>
-
-
 <SCRIPT>
     var minlength = 5;
     redirectonlogout = true;

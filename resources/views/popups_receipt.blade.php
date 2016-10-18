@@ -1,7 +1,7 @@
 <?php
     $Order = first("SELECT orders.*, users.name, users.id as userid, users.email FROM orders, users WHERE orders.id = " . $orderid . " HAVING user_id = users.id");
     $filename = resource_path("orders") . "/" . $orderid . ".json";
-    if(isset($JSON)){
+    if(isset($JSON)){//get raw JSON instead
         $style = 2;
         if($JSON && $JSON != "false"){
             if(file_exists($filename)){
@@ -15,7 +15,7 @@
     } else if(!isset($style)) {
         $style=1;
     }
-    if(!$Order){ echo 'Order not found'; return false; }
+    if(!$Order){echo 'Order not found'; return false;}
     switch($style){
         case 1: $colspan = 8; break;
         case 2:
@@ -25,12 +25,12 @@
     }
 ?>
 @if($style==1)
-    Order #: {{ $orderid }}
+    Order #: <?= $orderid; ?>
     <br>
-    Ordered On: {{ $Order["placed_at"] }}
+    Ordered On: <?=  $Order["placed_at"]; ?>
     @if($Order["deliverytime"])
         <br>
-        Delivery for: {{ now(false, $Order["deliverytime"]) }}
+        Delivery for: <?= now(false, $Order["deliverytime"]); ?>
     @endif
     <TABLE WIDTH="100%" class="table table-sm table-bordered">
         <THEAD>
@@ -215,9 +215,9 @@
                 echo $filename;
             }
         ?>
-        <TFOOT TITLE="{{ $filename }}">
+        <TFOOT TITLE="<?= $filename; ?>">
             <TR>
-                <TD COLSPAN="{{ $colspan }}">
+                <TD COLSPAN="<?= $colspan; ?>">
                     <?php
                         if(isset($JSON)){
                             echo '<BUTTON CLASS="btn btn-secondary form-control" ONCLICK="orders(' . $orderid . ', true);">Load Order</BUTTON>';//viewing order from user's order list popup

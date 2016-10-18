@@ -337,6 +337,7 @@
         var toppingsouterhtml, wingsauceouterhtml;
         var deliveryfee = <?= $deliveryfee; ?>;
         var classlist = <?= json_encode($classlist); ?>;
+        var ordinals = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th"];
 
         //handles the search text box
         function search(element) {
@@ -371,12 +372,10 @@
         //generates the order menu item modal
         function loadmodal(element) {
             element = $(element).parent();
-            $("#modal-itemname").text($(element).attr("itemname"));
-            $("#modal-itemprice").text($(element).attr("itemprice"));
-            $("#modal-itemid").text($(element).attr("itemid"));
-            $("#modal-itemsize").text($(element).attr("itemsize"));
-            $("#modal-itemcat").text($(element).attr("itemcat"));
-
+            var items = ["name", "price", "id", "size", "cat"];
+            for(var i=0; i<items.length; i++){
+                $("#modal-item" + items[i]).text($(element).attr("item" + items[i]));
+            }
             var size = $(element).attr("itemsize");
             var toppingcost = 0.00;
             if (size) {
@@ -394,17 +393,12 @@
         }
 
         function initSelect2(selector, reset) {
-            if (!isUndefined(reset)) {
-                $('select').select2("val", null);
-            }
+            if (!isUndefined(reset)) {$('select').select2("val", null);}
             if (!isUndefined(selector)) {
                 $('select' + selector).select2({
                     maximumSelectionSize: 4,
-                    minimumResultsForSearch: -1
-                    ,
-                    placeholder: function () {
-                        $(this).data('placeholder');
-                    },
+                    minimumResultsForSearch: -1,
+                    placeholder: function () {$(this).data('placeholder');},
                     allowClear: true
                 }).change();
             }
@@ -424,7 +418,7 @@
                     $(sourceID + "-ordinal").show();
                 }
                 for (var index = 2; index <= count; index++) {
-                    HTML += sourceHTML.replace('First', getordinal(index - 1));
+                    HTML += sourceHTML.replace('First', ordinals[index - 1]);
                 }
             }
             $(destinationID).html(HTML);
@@ -468,15 +462,10 @@
             generatereceipt();
         }
 
-        //convert numbers to their names, 0 indexed (0=first, 1=second...)
-        function getordinal(index) {
-            var ordinals = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th"];
-            return ordinals[index];
-        }
-
         //convert the order to an HTML receipt
         function generatereceipt() {
             var HTML = '', tempHTML = "", subtotal = 0;
+            var itemnames = {toppings: "Pizza", wings_sauce: "Pound"};
             for (var itemid = 0; itemid < theorder.length; itemid++) {
                 var item = theorder[itemid];
                 var totalcost = (Number(item["itemprice"]) + (Number(item["toppingcost"]) * Number(item["toppingcount"]))).toFixed(2);
@@ -493,31 +482,17 @@
                 var itemname = "";
                 if (item.hasOwnProperty("itemaddons") && item["itemaddons"].length > 0) {
                     var tablename = item["itemaddons"][0]["tablename"];
-                    if (item["itemaddons"].length > 1) {
-                        switch (tablename) {
-                            case "toppings":
-                                itemname = "Pizza";
-                                break;
-                            case "wings_sauce":
-                                itemname = "Pound";
-                                break;
-                        }
-                    }
+                    if (item["itemaddons"].length > 1) {itemname = itemnames[tablename];}
                     for (var currentitem = 0; currentitem < item["itemaddons"].length; currentitem++) {
                         var addons = item["itemaddons"][currentitem];
-                        if (itemname) {
-                            tempHTML += getordinal(currentitem) + " " + itemname + ": ";
-                        }
+                        if (itemname) {tempHTML += ordinals[currentitem] + " " + itemname + ": ";}
                         if(addons["addons"].length == 0){
                             tempHTML += '[No addons]';
                         } else {
                             for (var addonid = 0; addonid < addons["addons"].length; addonid++) {
-                                if (addonid > 0) {
-                                    tempHTML += ", ";
-                                }
+                                if (addonid > 0) {tempHTML += ", ";}
                                 var addonname = addons["addons"][addonid]["text"];
                                 var isfree = isaddon_free(tablename, addonname);
-                                log(isfree + " = " + addonname + " + " + tablename);
                                 if (isfree) {
                                     tempHTML += '<I TITLE="Free addon">' + addonname + '</I>';
                                 } else {
@@ -530,18 +505,14 @@
                 }
                 HTML += tempHTML;
             }
-
             var taxes = (subtotal + deliveryfee) * 0.13;//ontario only
             totalcost = subtotal + deliveryfee + taxes;
 
             $("#checkoutbutton").show();
             visible("#checkout", userdetails);
-            //visible("#checkloggedout", !userdetails);
 
             createCookieValue("theorder", JSON.stringify(theorder));
             if (theorder.length == 0) {
-                taxes = 0;
-                totalcost = 0;
                 HTML = '<span class="pull-left">Order is empty</SPAN><BR>';
                 $("#checkout").hide();
                 $("#checkoutbutton").hide();
@@ -561,9 +532,7 @@
 
         //hides the checkout form
         function collapsecheckout() {
-            if ($("#collapseCheckout").attr("aria-expanded") == "true") {
-                $("#checkout").trigger("click");
-            }
+            if ($("#collapseCheckout").attr("aria-expanded") == "true") {$("#checkout").trigger("click");}
         }
 
         function clearorder() {
@@ -588,9 +557,7 @@
                                 addons[addid]["text"] = addons[addid]["text"].left(addons[addid]["text"].length - 6).trim();
                             }
                             addons[addid]["isfree"] = isaddon_free(table, addons[addid]["text"]);
-                            if (!addons[addid]["isfree"]) {
-                                toppings++;
-                            }
+                            if (!addons[addid]["isfree"]) {toppings++;}
                         }
                         itemaddons.push({tablename: table, addons: addons, count: toppings});
                     }
@@ -605,9 +572,7 @@
             var size = "";
             for (var i = 0; i < sizes.length; i++) {
                 if (!isArray(freetoppings[sizes[i]])) {
-                    if (Itemname.contains(sizes[i]) && sizes[i].length > size.length) {
-                        size = sizes[i];
-                    }
+                    if (Itemname.contains(sizes[i]) && sizes[i].length > size.length) {size = sizes[i];}
                 }
             }
             return size;
@@ -654,7 +619,6 @@
                 var addressinfo = getform("#orderinfo");//i don't know why the below 2 won't get included. this forces them to be
                 addressinfo["cookingnotes"] = $("#cookingnotes").val();
                 addressinfo["deliverytime"] = $("#deliverytime").val();
-
                 $.post(webroot + "placeorder", {
                     _token: token,
                     info: addressinfo,
@@ -675,9 +639,7 @@
 
         $(window).on('shown.bs.modal', function() {
             var modalID = $(".modal:visible").attr("id");
-            if(modalID == "profilemodal"){
-                $("#addresslist").html(addresses());
-            }
+            if(modalID == "profilemodal"){$("#addresslist").html(addresses());}
         });
 
         //generate a list of addresses and send it to the alert modal
@@ -687,7 +649,6 @@
             var street = $("#add_street").val();
             var city = $("#add_city").val();
             var AddNew = number && street && city;
-
             $("#saveaddresses option").each(function () {
                 var ID = $(this).val();
                 if (ID > 0) {
