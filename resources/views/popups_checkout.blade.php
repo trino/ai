@@ -1,3 +1,11 @@
+<STYLE>
+    .corner-top{
+        border-radius: 5px 5px 0px 0px;
+    }
+    .corner-bottom{
+        border-radius: 0px 0px 5px 5px;
+    }
+</STYLE>
 <div class="modal" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -21,8 +29,7 @@
 
 
                         <DIV CLASS="input-group-vertical">
-
-                            <input type="text" class="form-control" ID="restaurant" readonly placeholder="Restaurant Select" TITLE="Closest restaurant"/>
+                            <input type="text" class="form-control corner-top" ID="restaurant" readonly placeholder="Restaurant Select" TITLE="Closest restaurant"/>
                             <?php
                                 echo '<SELECT class="form-control" id="deliverytime" TITLE="Delivery Time"/>';
                                 function rounduptoseconds($time, $seconds) {
@@ -40,7 +47,7 @@
                                 }
                                 echo '</SELECT>';
                             ?>
-                            <input type="text" class="form-control" id="cookingnotes" placeholder="Notes for the Cook" maxlength="255"/>
+                            <input type="text" class="form-control corner-bottom" id="cookingnotes" placeholder="Notes for the Cook" maxlength="255"/>
                         </div>
 
                         <button class="m-b-1 btn btn-warning btn-block" onclick="placeorder();">PLACE ORDER</button>
@@ -84,8 +91,11 @@
     }
 
     function showcheckout() {
-        var HTML = $("#checkoutaddress").html().replace('id="saveaddresses"', 'name="cc_addressid" ID="cc_addressid" ').replace("onchange", 'offchange').replace('Select a saved address', 'Billing Address');
-        $("#billingaddress").html(HTML);
+        var HTML = $("#checkoutaddress").html();
+        HTML = HTML.replace('class="', 'class="corner-top ');
+        $("#checkoutaddress").html(HTML);
+        //HTML = HTML.replace('id="saveaddresses"', 'name="cc_addressid" ID="cc_addressid" ').replace("onchange", 'offchange').replace('Select a saved address', 'Billing Address');
+        //$("#billingaddress").html(HTML);
         $("#checkoutmodal").modal("show");
         $(function () {
             $("#orderinfo").validate({

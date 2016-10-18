@@ -25,6 +25,7 @@
             if (isset($field["max"]))           {echo ' max="' . $field["max"] . '" ';}
             if (isset($field["readonly"]))      {echo ' readonly';}
             if (isset($field["placeholder"]))   {echo ' placeholder="' . $field["placeholder"] . '" ';}
+            if (isset($field["corner"]))        {echo ' STYLE="border-' . $field["corner"] . '-radius: 5px;"';}
             echo '>';
             if ($field["type"] != "hidden")     {echo '</DIV></DIV></DIV>';}
         }

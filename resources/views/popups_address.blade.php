@@ -24,9 +24,9 @@
                     "Unit / Apt / Buzz Code / Address Notes" => array("type" => "text", "name" => "unit"),
                     "Street Number" => array("type" => "text", "name" => "number", "class" => "street_number", "readonly" => true),
                     "Street" => array("type" => "text", "name" => "street", "class" => "route", "readonly" => true),
-                    "City" => array("type" => "text", "name" => "city", "class" => "locality", "readonly" => true, "half" => "start"),
+                    "City" => array("type" => "text", "name" => "city", "class" => "locality", "readonly" => true, "half" => "start", "corner" => "bottom-left"),
                     "Province" => array("type" => "text", "name" => "province", "class" => "administrative_area_level_1", "readonly" => true, "half" => "middle"),
-                    "Postal Code" => array("type" => "text", "name" => "postalcode", "class" => "postal_code", "readonly" => true, "half" => "end"),
+                    "Postal Code" => array("type" => "text", "name" => "postalcode", "class" => "postal_code", "readonly" => true, "half" => "end", "corner" => "bottom-right"),
                     "Latitude" => array("type" => "hidden", "name" => "latitude", "class" => "latitude", "readonly" => true, "half" => "start"),
                     "Longitude" => array("type" => "hidden", "name" => "longitude", "class" => "longitude", "readonly" => true, "half" => "end"),
                     "user_id" => array("type" => "hidden", "name" => "user_id", "value" => $user_id, "class" => "session_id_val")
@@ -55,9 +55,10 @@
                     if (!isset($field["class"])) {$field["class"] = "";}
                     $field["class"] .= " address form-control";
                 }
-                if (isset($field["class"])) {echo ' CLASS="' . $field["class"] . '" ';}
-                if (isset($field["value"])) {echo ' value="' . $field["value"] . '" ';}
-                if (isset($field["readonly"])) {echo ' readonly';}
+                if (isset($field["class"]))         {echo ' CLASS="' . $field["class"] . '" ';}
+                if (isset($field["value"]))         {echo ' value="' . $field["value"] . '" ';}
+                if (isset($field["readonly"]))      {echo ' readonly';}
+                if (isset($field["corner"]))        {echo ' STYLE="border-' . $field["corner"] . '-radius: 5px;"';}
                 echo '>';
                 if ($style == 0 && $field["type"] != "hidden") {echo '</DIV></DIV>';}
                 if ($style == 1 && isset($field["half"])) {
