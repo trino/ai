@@ -154,7 +154,7 @@
 
                 var HTML = '';
                 if (user["Addresses"].length > 0) {//generate address dropdown
-                    HTML += '<SELECT class="form-control saveaddresses" id="saveaddresses" onchange="addresschanged();">';
+                    HTML += '<SELECT class="form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION>Select a saved address</OPTION>';
                     addresskeys = Object.keys(user["Addresses"][0]);
                     for (i = 0; i < user["Addresses"].length; i++) {
                         HTML += AddressToOption(user["Addresses"][i], addresskeys);

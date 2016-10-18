@@ -10,7 +10,7 @@
                     <h5 class="modal-title" id="myModalLabel">Checkout</h5>
                 </div>
 
-                <?= view("popups_edituser")->render(); ?>
+                <?= view("popups_edituser", array("email" => false, "password" => false))->render(); ?>
 
                 <FORM ID="orderinfo" name="orderinfo">
                     <div class="clear_loggedout addressdropdown" id="checkoutaddress"></div>

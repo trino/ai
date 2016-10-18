@@ -1,34 +1,37 @@
 <?php
-$currentURL = webroot("public/user/info");
+    $currentURL = webroot("public/user/info");
 
-if (isset($user_id)) {
-    $user = first("SELECT * FROM users WHERE id=" . $user_id);
-    echo '<INPUT TYPE="HIDDEN" NAME="id" VALUE="' . $user_id . '">';
-    if (!isset($name)) {
-        $name = "user";
+    if (isset($user_id)) {
+        $user = first("SELECT * FROM users WHERE id=" . $user_id);
+        echo '<INPUT TYPE="HIDDEN" NAME="id" VALUE="' . $user_id . '">';
+        if (!isset($name)) {
+            $name = "user";
+        }
+    } else {
+        $user = array("name" => "", "phone" => "", "email" => "");
+        if (!isset($name)) {
+            $name = "reg";
+        }
     }
-} else {
-    $user = array("name" => "", "phone" => "", "email" => "");
-    if (!isset($name)) {
-        $name = "reg";
-    }
-}
 
-if (!function_exists("printarow")) {
-    function printarow($Name, $Prepend, $field) {
-        if ($field["type"] != "hidden")     {echo '<div class="form-group"><DIV CLASS="row"><DIV CLASS="col-md-12">';}
-        echo '<INPUT  TYPE="' . $field["type"] . '" NAME="' . $field["name"] . '" ID="' . $Prepend . '_' . $field["name"] . '"';
-        if (isset($field["class"]))         {echo ' CLASS="' . $field["class"] . '" ';}
-        if (isset($field["value"]))         {echo ' value="' . $field["value"] . '" ';}
-        if (isset($field["min"]))           {echo ' min="' . $field["min"] . '" ';}
-        if (isset($field["maxlen"]))        {echo ' min="' . $field["maxlen"] . '" ';}
-        if (isset($field["max"]))           {echo ' max="' . $field["max"] . '" ';}
-        if (isset($field["readonly"]))      {echo ' readonly';}
-        if (isset($field["placeholder"]))   {echo ' placeholder="' . $field["placeholder"] . '" ';}
-        echo '>';
-        if ($field["type"] != "hidden")     {echo '</DIV></DIV></DIV>';}
+    if (!function_exists("printarow")) {
+        function printarow($Name, $Prepend, $field) {
+            if ($field["type"] != "hidden")     {echo '<div class="form-group"><DIV CLASS="row"><DIV CLASS="col-md-12">';}
+            echo '<INPUT  TYPE="' . $field["type"] . '" NAME="' . $field["name"] . '" ID="' . $Prepend . '_' . $field["name"] . '"';
+            if (isset($field["class"]))         {echo ' CLASS="' . $field["class"] . '" ';}
+            if (isset($field["value"]))         {echo ' value="' . $field["value"] . '" ';}
+            if (isset($field["min"]))           {echo ' min="' . $field["min"] . '" ';}
+            if (isset($field["maxlen"]))        {echo ' min="' . $field["maxlen"] . '" ';}
+            if (isset($field["max"]))           {echo ' max="' . $field["max"] . '" ';}
+            if (isset($field["readonly"]))      {echo ' readonly';}
+            if (isset($field["placeholder"]))   {echo ' placeholder="' . $field["placeholder"] . '" ';}
+            echo '>';
+            if ($field["type"] != "hidden")     {echo '</DIV></DIV></DIV>';}
+        }
     }
-}
+
+    if(!isset($password)){$password = true;}
+    if(!isset($email)){$email = true;}
 ?>
 
 
@@ -38,11 +41,13 @@ if (!function_exists("printarow")) {
         if(!isset($phone) || $phone){
             printarow("Phone", $name, array("name" => "phone", "value" => $user["phone"], "type" => "tel", "class" => "form-control session_phone_val"));
         }
-        printarow("Email", $name, array("name" => "email", "value" => $user["email"], "type" => "email", "class" => "form-control session_email_val"));
+        if($email){
+            printarow("Email", $name, array("name" => "email", "value" => $user["email"], "type" => "email", "class" => "form-control session_email_val"));
+        }
         if(isset($user_id) || isset($showpass)){
             printarow("Old Password", $name, array("name" => "oldpassword", "type" => "password", "class" => "form-control", "placeholder"=>"Old Password"));
             printarow("New Password", $name, array("name" => "newpassword", "type" => "password", "class" => "form-control", "placeholder"=>"New Password"));
-        } else {
+        } else if($password) {
             printarow("Password", $name, array("name" => "password", "type" => "password", "class" => "form-control"));
         }
         if(isset($address) && $address){

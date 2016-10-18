@@ -13,60 +13,58 @@
     }
 ?>
 
-
 <FORM ID="googleaddress">
     <div class="input-group-vertical">
         <?php
+            if (!isset($user_id)) {
+                $user_id = read("id");
+            }
 
-        if (!isset($user_id)) {
-            $user_id = read("id");
-        }
+            $fields = array(
+                    "Unit / Apt / Buzz Code / Address Notes" => array("type" => "text", "name" => "unit"),
+                    "Street Number" => array("type" => "text", "name" => "number", "class" => "street_number", "readonly" => true),
+                    "Street" => array("type" => "text", "name" => "street", "class" => "route", "readonly" => true),
+                    "City" => array("type" => "text", "name" => "city", "class" => "locality", "readonly" => true, "half" => "start"),
+                    "Province" => array("type" => "text", "name" => "province", "class" => "administrative_area_level_1", "readonly" => true, "half" => "middle"),
+                    "Postal Code" => array("type" => "text", "name" => "postalcode", "class" => "postal_code", "readonly" => true, "half" => "end"),
+                    "Latitude" => array("type" => "hidden", "name" => "latitude", "class" => "latitude", "readonly" => true, "half" => "start"),
+                    "Longitude" => array("type" => "hidden", "name" => "longitude", "class" => "longitude", "readonly" => true, "half" => "end"),
+                    "user_id" => array("type" => "hidden", "name" => "user_id", "value" => $user_id, "class" => "session_id_val")
+            );
 
-        $fields = array(
-                "Unit / Apt / Buzz Code / Address Notes" => array("type" => "text", "name" => "unit"),
-                "Street Number" => array("type" => "text", "name" => "number", "class" => "street_number", "readonly" => true),
-                "Street" => array("type" => "text", "name" => "street", "class" => "route", "readonly" => true),
-                "City" => array("type" => "text", "name" => "city", "class" => "locality", "readonly" => true, "half" => "start"),
-                "Province" => array("type" => "text", "name" => "province", "class" => "administrative_area_level_1", "readonly" => true, "half" => "middle"),
-                "Postal Code" => array("type" => "text", "name" => "postalcode", "class" => "postal_code", "readonly" => true, "half" => "end"),
-                "Latitude" => array("type" => "hidden", "name" => "latitude", "class" => "latitude", "readonly" => true, "half" => "start"),
-                "Longitude" => array("type" => "hidden", "name" => "longitude", "class" => "longitude", "readonly" => true, "half" => "end"),
-                "user_id" => array("type" => "hidden", "name" => "user_id", "value" => $user_id, "class" => "session_id_val")
-        );
-
-        $keys = array_keys($fields);
-        foreach ($fields as $Name => $field) {
-            if ($style == 0 && $field["type"] != "hidden") {echo '<DIV CLASS="row"><DIV CLASS="col-md-2 data_' . $field["name"] . '">' . $Name . ':</DIV><DIV CLASS="col-md-10">';}
-            if ($style == 1 && isset($field["half"])) {
-                if ($field["half"] == "start") {
-                    $percent = 50;
-                    $index = array_search($Name, $keys);
-                    if($index < count($keys)){
-                        $next = $fields[$keys[$index+1]];
-                        if(isset($next["half"]) && $next["half"] == "middle"){
-                            $percent = 33;
+            $keys = array_keys($fields);
+            foreach ($fields as $Name => $field) {
+                if ($style == 0 && $field["type"] != "hidden") {echo '<DIV CLASS="row"><DIV CLASS="col-md-2 data_' . $field["name"] . '">' . $Name . ':</DIV><DIV CLASS="col-md-10">';}
+                if ($style == 1 && isset($field["half"])) {
+                    if ($field["half"] == "start") {
+                        $percent = 50;
+                        $index = array_search($Name, $keys);
+                        if($index < count($keys)){
+                            $next = $fields[$keys[$index+1]];
+                            if(isset($next["half"]) && $next["half"] == "middle"){
+                                $percent = 33;
+                            }
                         }
+                        echo '<div class="input-group">';
                     }
-                    echo '<div class="input-group">';
+                    echo '<span class="input-group-btn" style="width: ' . $percent . '% !important;">';
                 }
-                echo '<span class="input-group-btn" style="width: ' . $percent . '% !important;">';
+                echo '<INPUT TYPE="' . $field["type"] . '" NAME="' . $field["name"] . '" ID="add_' . $field["name"] . '"';
+                if ($style == 1) {
+                    echo ' PLACEHOLDER="' . $Name . '"';
+                    if (!isset($field["class"])) {$field["class"] = "";}
+                    $field["class"] .= " address form-control";
+                }
+                if (isset($field["class"])) {echo ' CLASS="' . $field["class"] . '" ';}
+                if (isset($field["value"])) {echo ' value="' . $field["value"] . '" ';}
+                if (isset($field["readonly"])) {echo ' readonly';}
+                echo '>';
+                if ($style == 0 && $field["type"] != "hidden") {echo '</DIV></DIV>';}
+                if ($style == 1 && isset($field["half"])) {
+                    echo '</span>';
+                    if ($field["half"] == "end") {echo '</div>';}
+                }
             }
-            echo '<INPUT TYPE="' . $field["type"] . '" NAME="' . $field["name"] . '" ID="add_' . $field["name"] . '"';
-            if ($style == 1) {
-                echo ' PLACEHOLDER="' . $Name . '"';
-                if (!isset($field["class"])) {$field["class"] = "";}
-                $field["class"] .= " address form-control";
-            }
-            if (isset($field["class"])) {echo ' CLASS="' . $field["class"] . '" ';}
-            if (isset($field["value"])) {echo ' value="' . $field["value"] . '" ';}
-            if (isset($field["readonly"])) {echo ' readonly';}
-            echo '>';
-            if ($style == 0 && $field["type"] != "hidden") {echo '</DIV></DIV>';}
-            if ($style == 1 && isset($field["half"])) {
-                echo '</span>';
-                if ($field["half"] == "end") {echo '</div>';}
-            }
-        }
         ?>
     </div>
 
