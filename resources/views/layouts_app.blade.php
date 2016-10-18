@@ -229,6 +229,7 @@
                                 OK
                             </button>
                         </DIV>
+                        <DIV CLASS="clearfix"></DIV>
                     </div>
                 </div>
             </div>
