@@ -93,7 +93,7 @@
 
         <nav class="navbar-default navbar-fixed-bottom navbar navbar-full navbar-dark bg-danger dont-print" style="z-index: 1;">
             <SPAN ID="navbar-text"></SPAN>
-            <button class="btn btn-warning loggedin pull-right" id="checkout-btn" onclick="showcheckout();" style="display: none;">
+            <button class="btn btn-warning pull-right" id="checkout-btn" onclick="showcheckout();" style="display: none;">
                 <strong id="checkout-total"></strong> CHECKOUT
             </button>
         </nav>
