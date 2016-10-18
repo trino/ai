@@ -20,8 +20,7 @@
         case 1: $colspan = 8; break;
         case 2:
             $colspan = 3;
-            $imagefile = '<img class="pull-left" src="' . webroot("public/pizza.png") . '" style="width:22px;margin-right:5px;">';
-            $ordinals = array("First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Eighth", "Ninth", "Tenth");
+            $ordinals = array("1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th");
             break;
     }
 ?>
@@ -128,6 +127,10 @@
                                 echo '<TR><TD>' . ($ID+1) . '</TD><TD TITLE="' . var_export($item, true) . '">' . $item->itemname . '</TD><TD ALIGN="RIGHT" TITLE="' . print_r($menuitem, true) . '">$' . number_format($menuitem["price"], 2) . '</TD><TD>';
                                 break;
                             case 2:
+                                $imagefile = str_replace(" ", "_", strtolower($menuitem["category"]));
+                                if(right($imagefile, 5) == "pizza" || !file_exists(public_path() . '/' . $imagefile . ".png")){$imagefile="pizza";}
+
+                                $imagefile = '<img class="pull-left" src="' . webroot("public/" . $imagefile . ".png") . '" style="width:22px;margin-right:5px;">';
                                 echo '<TR><TD width="1%">' . $imagefile . '</TD><TD valign="middle">' . $item->itemname . '</TD><TD ALIGN="RIGHT" WIDTH="5%">';
                                 break;
                         }

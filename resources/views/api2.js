@@ -95,7 +95,7 @@ function removeCookie(cname) {
 
 //creates a cookie value that expires in 1 year
 function createCookieValue(cname, cvalue) {
-    log("Creating cookie value: '" + cname + "' with: " + cvalue);
+    //log("Creating cookie value: '" + cname + "' with: " + cvalue);
     setCookie(cname, cvalue, 365);
 }
 

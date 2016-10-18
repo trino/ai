@@ -118,6 +118,8 @@
                         foreach ($categories as $category) {
                             $catclass = toclass($category['category']);
                             $classlist[] = $catclass;
+                            $imagefile = $catclass;
+                            if(right($imagefile, 5) == "pizza" || !file_exists(public_path() . '/' . $imagefile . ".png")){$imagefile="pizza";}
                             ?>
 
                     <a class="head_{{ $catclass }}" data-toggle="collapse" href="#collapse{{$category["id"]}}_cat">
@@ -133,15 +135,16 @@
                                  itemname="{{$menuitem['item']}}"
                                  itemprice="{{$menuitem['price']}}"
                                  itemsize="{{ getsize($menuitem['item'], $isfree) }}"
-
-                            <?php
+                                 itemcat="{{$menuitem['category']}}"
+                                <?php
                                     $total = 0;
                                     foreach ($tables as $table) {
                                         echo $table . '="' . $menuitem[$table] . '" ';
                                         $total += $menuitem[$table];
                                     }
-                                    ?>>
-                                <?php
+                                ?>
+                            >
+                            <?php
                                     if ($total) {
                                         $HTML = 'data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
                                         $icon = '<i class="fa fa-chevron-right pull-right text-muted"></i>';
@@ -149,11 +152,11 @@
                                         $HTML = 'onclick="additemtoorder(this);"';
                                         $icon = '';
                                     }
-                                ?>
+                            ?>
 
                                 <a <?= $HTML; ?> >
                                     <?=$icon?>
-                                    <img class="pull-left " src="pizza.png" style="width:22px;margin-right:5px;"/>
+                                    <img class="pull-left " src="<?= $imagefile; ?>.png" style="width:22px;margin-right:5px;"/>
                                     <span class="pull-left itemname">{{$menuitem['item']}}</span>
                                     <span class="pull-right"> ${{number_format($menuitem["price"], 2)}}</span>
                                     <div class="clearfix"></div>
@@ -185,11 +188,9 @@
                     <div class="pull-right">
                         <ul class="nav navbar-nav pull-lg-right">
                             <li class="nav-item dropdown">
-                                <a style="color:white;" href="#" class="dropdown-toggle nav-link"
-                                   data-toggle="dropdown"
-                                   aria-haspopup="true"
-                                   aria-expanded="true">
-                                    <i class="fa fa-user no-padding-margin"></i></a>
+                                <a style="color:white;" href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <i class="fa fa-user no-padding-margin"></i>
+                                </a>
                                 <ul class="dropdown-menu  dropdown-menu-right">
 
                                     <SPAN class="loggedin profiletype profiletype1">
@@ -219,8 +220,7 @@
 
                                     <li>
                                         <A ONCLICK="handlelogin('logout');" CLASS="hyperlink dropdown-item loggedin"> <i class="fa fa-home"></i> Log out</A>
-                                        <A CLASS="loggedout dropdown-item hyperlink" data-toggle="modal"
-                                           data-target="#loginmodal"> <i class="fa fa-home"></i> Log In</A>
+                                        <A CLASS="loggedout dropdown-item hyperlink" data-toggle="modal" data-target="#loginmodal"> <i class="fa fa-home"></i> Log In</A>
                                     </li>
 
                                 </ul>
@@ -231,17 +231,12 @@
                 <div class="card-block">
                     <div id="myorder"></div>
                     <SPAN ID="checkoutbutton">
-                        <!--button class="btn btn-block btn-warning loggedout" id="checkloggedout" data-toggle="modal"
-                                data-target="#loginmodal">
-                            LOGIN
-                        </button-->
                         <button class="btn btn-block btn-warning loggedin" id="checkout" onclick="showcheckout();">
                             CHECKOUT
                         </button>
                     </SPAN>
 
                     @include("popups_checkout")
-
                 </div>
             </div>
             <div class=" m-b-3 p-t-3"></div>
@@ -257,20 +252,18 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
 
-                        <h5 class="modal-title" id="myModalLabel"><SPAN ID="modal-itemname"></SPAN> $<SPAN
-                                    ID="modal-itemprice"></SPAN></h5>
-
+                    <h5 class="modal-title" id="myModalLabel"><SPAN ID="modal-itemname"></SPAN> $<SPAN ID="modal-itemprice"></SPAN></h5>
 
                     <div style="display: none;" id="modal-hiddendata">
                         <SPAN ID="modal-itemid"></SPAN>
                         <SPAN ID="modal-toppingcost"></SPAN>
                         <SPAN ID="modal-itemsize"></SPAN>
+                        <SPAN ID="modal-itemcat"></SPAN>
                     </div>
 
                     <ul class="list-group">
                         <div ID="modal-wings-original">
-                            <select class="form-control select2 wings_sauce" multiple="multiple"
-                                    data-placeholder="First Pound" type="wings_sauce">
+                            <select class="form-control select2 wings_sauce" multiple="multiple" data-placeholder="First Pound" type="wings_sauce">
                                 <option value="blank"></option>
                                 <?= $wings_display; ?>
                                 <optgroup label="Options">
@@ -284,8 +277,7 @@
 
                         <div ID="modal-toppings-original" style="">
                             <div style="margin-bottom:.1rem;" ID="modal-toppings-original-ordinal">First Pizza</div>
-                            <select style="border: 0 !important;" class="form-control select2 toppings"
-                                    data-placeholder="Add Toppings: $[price]" multiple="multiple" type="toppings">
+                            <select style="border: 0 !important;" class="form-control select2 toppings" data-placeholder="Add Toppings: $[price]" multiple="multiple" type="toppings">
                                 <!--option value="blank"></option-->
                                 <?= $toppings_display; ?>
                                 <optgroup label="Options">
@@ -300,7 +292,7 @@
                     <button data-dismiss="modal" class="m-t-1 btn-secondary btn pull-right" onclick="additemtoorder();">
                         ADD TO ORDER
                     </button>
-<div class="clearfix"></div>
+                    <div class="clearfix"></div>
                 </div>
             </div>
         </div>
@@ -383,6 +375,7 @@
             $("#modal-itemprice").text($(element).attr("itemprice"));
             $("#modal-itemid").text($(element).attr("itemid"));
             $("#modal-itemsize").text($(element).attr("itemsize"));
+            $("#modal-itemcat").text($(element).attr("itemcat"));
 
             var size = $(element).attr("itemsize");
             var toppingcost = 0.00;
@@ -439,12 +432,13 @@
 
         //get the data from the modal and add it to the order
         function additemtoorder(element) {
-            var itemid = 0, itemname = "", itemprice = 0.00, itemaddons = new Array, itemsize = "", toppingcost = 0.00, toppingscount = 0;
+            var itemid = 0, itemname = "", itemprice = 0.00, itemaddons = new Array, itemsize = "", toppingcost = 0.00, toppingscount = 0, itemcat = "";
             if (isUndefined(element)) {//modal with addons
                 itemid = $("#modal-itemid").text();
                 itemname = $("#modal-itemname").text();
                 itemprice = $("#modal-itemprice").text();
                 itemsize = $("#modal-itemsize").text();
+                itemcat = $("#modal-itemcat").text();
                 itemaddons = getaddons();
                 if (itemsize) {
                     toppingcost = Number(freetoppings[itemsize]).toFixed(2);
@@ -457,6 +451,7 @@
                 itemid = $(element).attr("itemid");
                 itemname = $(element).attr("itemname");
                 itemprice = $(element).attr("itemprice");
+                itemcat = $(element).attr("itemcat");
             }
 
             theorder.push({
@@ -465,6 +460,7 @@
                 itemname: itemname,
                 itemprice: itemprice,
                 itemsize: itemsize,
+                category: itemcat,
                 toppingcost: toppingcost,
                 toppingcount: toppingscount,
                 itemaddons: itemaddons
@@ -474,7 +470,7 @@
 
         //convert numbers to their names, 0 indexed (0=first, 1=second...)
         function getordinal(index) {
-            var ordinals = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "Tenth"];
+            var ordinals = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th"];
             return ordinals[index];
         }
 
@@ -484,8 +480,11 @@
             for (var itemid = 0; itemid < theorder.length; itemid++) {
                 var item = theorder[itemid];
                 var totalcost = (Number(item["itemprice"]) + (Number(item["toppingcost"]) * Number(item["toppingcount"]))).toFixed(2);
+                var category = item["category"].toLowerCase().replaceAll(" ", "_");
+                if(category.endswith("pizza")){category = "pizza";}
+
                 subtotal += Number(totalcost);
-                tempHTML = '<span class="pull-left"> <img class="pull-left " src="pizza.png" style="width:22px;margin-right:5px;"/> ' + item["itemname"] + '</span>';
+                tempHTML = '<span class="pull-left"> <img class="pull-left" onerror="this.src=' + "'pizza.png'" + '" src="' + category + '.png" style="width:22px;margin-right:5px;"/> ' + item["itemname"] + '</span>';
                 tempHTML += '<span class="pull-right" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '"> $' + totalcost + ' <i class="text-muted fa fa-close" onclick="removeorderitem(' + itemid + ');"></i></span><div class="clearfix"></div>';
 
                 var itemname = "";
