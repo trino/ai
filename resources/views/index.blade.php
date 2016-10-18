@@ -480,8 +480,11 @@
             for (var itemid = 0; itemid < theorder.length; itemid++) {
                 var item = theorder[itemid];
                 var totalcost = (Number(item["itemprice"]) + (Number(item["toppingcost"]) * Number(item["toppingcount"]))).toFixed(2);
-                var category = item["category"].toLowerCase().replaceAll(" ", "_");
-                if(category.endswith("pizza")){category = "pizza";}
+                var category = "pizza";
+                if(item.hasOwnProperty("category")) {
+                    category = item["category"].toLowerCase().replaceAll(" ", "_");
+                    if (category.endswith("pizza")) {category = "pizza";}
+                }
 
                 subtotal += Number(totalcost);
                 tempHTML = '<span class="pull-left"> <img class="pull-left" onerror="this.src=' + "'pizza.png'" + '" src="' + category + '.png" style="width:22px;margin-right:5px;"/> ' + item["itemname"] + '</span>';
