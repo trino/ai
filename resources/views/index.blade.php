@@ -655,7 +655,9 @@
                 $.post(webroot + "placeorder", {
                     _token: token,
                     info: addressinfo,
-                    order: theorder
+                    order: theorder,
+                    name: $("#reg_name").val(),
+                    phone: $("#reg_phone").val()
                 }, function (result) {
                     $("#checkoutmodal").modal("hide");
                     if (result.contains("ordersuccess")) {

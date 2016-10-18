@@ -72,6 +72,11 @@ class HomeController extends Controller {
             if (!is_dir($dir)) {mkdir($dir, 0777, true);}
             file_put_contents($dir . "/" . $orderid . ".json", json_encode($order, JSON_PRETTY_PRINT));
             $user = first("SELECT * FROM users WHERE id = " . $info["user_id"]);
+            if($user["name"] != $_POST["name"] || $user["phone"] != $_POST["phone"]){
+                $user["name"] = $_POST["name"];
+                $user["phone"] = $_POST["phone"];
+                insertdb("users", $user);
+            }
             $user["orderid"] = $orderid;
             $user["mail_subject"] = "Receipt";
             $text = $this->sendEMail("email_receipt", $user);//send emails to customer and store
