@@ -59,8 +59,8 @@
             .loggedout {
                 display: none;
             }
-            @else
-                    .loggedin {
+        @else
+            .loggedin {
                 display: none;
             }
             .loggedout {

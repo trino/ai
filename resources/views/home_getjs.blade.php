@@ -65,6 +65,10 @@
         echo $entirefile;
     }
 
+
+    function myself($view_name){
+        return resource_path() . "/views/" . str_replace(".", "/", $view_name) . ".blade.php";
+    }
     function minify_JS($code, $minimize = true){
         if(!$minimize){return $code;}
         $code = str_replace(array(";", "//"), array(" ; ", " // "), $code);//error handling

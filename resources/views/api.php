@@ -13,20 +13,6 @@
         return 'http://' . $_SERVER['HTTP_HOST'] . $webroot . $file;
     }
 
-    function cacheexternal($URL){
-        $Filename = getfilename($URL, true);
-        switch(getextension($Filename)){
-            case "js": $Type = "scripts"; break;
-            default: return $URL;
-        }
-        $Path = "assets/" . $Type . "/" . $Filename;
-        $LocalPath = resource_path($Path);
-        if(file_size($LocalPath)){
-            file_put_contents($LocalPath, file_get_contents($URL));
-        }
-        return webroot("resources/" . $Path);
-    }
-
     $dirroot = getcwd();
 
     //error_reporting(E_ERROR | E_PARSE);//suppress warnings
@@ -238,48 +224,6 @@
         return $tempstr;
     }
 
-    function cleanit($array){
-        foreach($array as $Key => $Value){
-            $array[$Key] = str_replace('"', "'", $Value);
-        }
-        return str_replace("\r\n", "", str_replace('\"', '"', addslashes(implode('", "',$array))));
-    }
-
-    function debug_string_backtrace() {
-        $BACK = debug_backtrace(0);
-        $BACK[2]["line"] = $BACK[1]["line"];
-        return $BACK[2];
-    }
-
-    function debug($Iterator, $DoStacktrace = true){
-        if($DoStacktrace) {
-            $Backtrace = debug_string_backtrace();
-            if(isset( $Backtrace["file"]) && isset($Backtrace["function"]) ) {
-                echo '<B>' . $Backtrace["file"] . ' (line ' . $Backtrace["line"] . ') From function: ' . $Backtrace["function"] . '();</B> ';
-            } else {
-                echo '<B>UNKNOWN FILE (line ' . $Backtrace["line"] . ') From function: UNKNOWN FUNCTION();</B> ';
-            }
-        }
-
-        if(is_array($Iterator)){
-            echo '(array)<BR>';
-            var_dump($Iterator);
-        } else if (is_object($Iterator)) {
-            if(is_iterable($Iterator)) {
-                echo '(object array)<BR>';
-                foreach ($Iterator as $It) {
-                    debug($It, false);
-                }
-            } else {
-                echo '(object)<BR>';
-                var_dump($Iterator);
-            }
-        } else {
-            echo '(value)<BR>';
-            echo $Iterator;
-        }
-    }
-
     function iif($value, $istrue, $isfalse = ""){
         if($value){return $istrue;}
         return $isfalse;
@@ -326,20 +270,8 @@
         echo '</TR>';
     }
 
-    function addtodelstring($keywordids, $stringtoadd, $delimiter = ","){
-        if(!is_array($keywordids)) {$keywordids = explode($delimiter, $keywordids);}
-        $keywordids[] = $stringtoadd;
-        return implode($delimiter, $keywordids);
-    }
-
     function printfile($filename){
         echo '<DIV CLASS="blue">' . $filename . '</DIV>';
-    }
-
-    function filternonnumeric($Text){
-        $Text = filter_var($Text, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION | FILTER_FLAG_ALLOW_THOUSAND);
-        if(!$Text){return 1;}
-        return $Text;
     }
 
     //explodes $text by space, checks if the cells contain $words and returns the indexes
@@ -405,10 +337,6 @@
         return ($value >> $start_pos) & $mask;
     }
 
-    function myself($view_name){
-        return resource_path() . "/views/" . str_replace(".", "/", $view_name) . ".blade.php";
-    }
-
     function setsetting($Key, $Value){
         return insertdb("settings", array("keyname" => $Key, "value" => $Value), "keyname");
     }
@@ -456,11 +384,6 @@
         }
     }
 
-    function getkeyword($MenuItemID, $KeywordType, $CategoryID = false, $Only1 = true){
-        if(!$CategoryID){$CategoryID = select_field_where("menu", "id=" . $MenuItemID, "category_id");}
-        return first("SELECT * FROM keywords, menukeywords WHERE keywordtype = " . $KeywordType . " HAVING keyword_id = keywords.id AND (menuitem_id = " . $MenuItemID . " OR menuitem_id = -" . $CategoryID . ")", $Only1);
-    }
-
     function read($Name) {
         if (\Session::has('session_' . $Name)) {
             return \Session::get('session_' . $Name);
@@ -482,16 +405,6 @@
         if ($totime === true) {return $now;}
         if ($totime !== false && $totime !== true) {return date($totime, $now);}
         return date("Y-m-d H:i:s", $now);
-    }
-
-    function generateRandomString($length = 10) {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
-        $randomString = '';
-        for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
-        }
-        return $randomString;
     }
 
     //write text to royslog.txt
@@ -571,38 +484,6 @@
         if(is_numeric($IDorEmail)){$field = "id";} else {$IDorEmail = "'" . $IDorEmail . "'";}
         $user = first("SELECT * FROM users WHERE " . $field . " = " . $IDorEmail);
         if(!$user){return false;}
-        $cc = array();
-        $ccisvalid = false;
-        foreach(array("cc_number", "cc_xyear", "cc_xmonth", "cc_cc") as $field){
-            $cc[$field] = filter_var(isencrypted($user[$field]), FILTER_SANITIZE_NUMBER_INT);
-            if(!$cc[$field]){$ccisvalid = "missing data";}
-        }
-        $digits = 16;
-        if (left($cc["cc_number"],1) == "3"){$digits=15;}
-        $currentdate = date("Yn");
-        if($currentdate >= ($cc["cc_xyear"] . $cc["cc_xmonth"])){
-            $ccisvalid = "expired";
-        } else if($digits != strlen($cc["cc_number"])){
-            $ccisvalid = "invalid";
-        }
-        if($RemoveCC && is_array($user)) {//do not send credit card info to the user
-            foreach ($user as $key => $value) {
-                if (left($key, 3) == "cc_") {
-                    switch($key){
-                        case "cc_addressid": break;
-                        case "cc_number":
-                            if($digits == 16){
-                                $user["cc_number"] = left($cc["cc_number"], 4) . "-XXXX-XXXX-" . right($cc["cc_number"], 4);
-                            } else {
-                                $user["cc_number"] = left($cc["cc_number"], 4) . "-XXXX-XXXX-" . right($cc["cc_number"], 3);
-                            }
-                            break;
-                        default: unset($user[$key]);
-                    }
-                }
-            }
-        }
-        $user["cc_integrity"] = $ccisvalid;//check card now since it'll be removed
         $user["Addresses"] = Query("SELECT * FROM useraddresses WHERE user_id = " . $user["id"], true);
         $user["Orders"] = flattenarray(Query("SELECT id FROM `orders` WHERE user_id = " . $user["id"] . " ORDER BY id DESC LIMIT 5", true), "id");
         return $user;

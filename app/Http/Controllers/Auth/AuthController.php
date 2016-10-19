@@ -115,7 +115,7 @@ class AuthController extends Controller {
                         }
                         break;
                     case "forgotpassword":
-                        $user["password"] = generateRandomString(6);
+                        $user["password"] = $this->generateRandomString(6);
                         $user["mail_subject"] = "Forgot password";
                         $text = $this->sendEMail("email_forgotpassword", $user);
                         if($text){//email failed to send
@@ -153,6 +153,15 @@ class AuthController extends Controller {
         die(json_encode($ret));
     }
 
+    function generateRandomString($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
     //sends the verification email to the user
     function sendverifemail($email){
         $user = first("SELECT * FROM users WHERE email = '" . $email . "'");

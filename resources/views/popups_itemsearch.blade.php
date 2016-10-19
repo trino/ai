@@ -5,7 +5,18 @@
     if(isset($keywordids) && is_array($keywordids)){$keywordids = implode(",", $keywordids);}
     if(!isset($isKeyword)){$isKeyword = true;}
     //if(!isset($wordstoignore)) {$wordstoignore = ["the", "with", "and", "times", "on", "one"];}//use copy from keyword.blade instead
-
+    if(!function_exists("filternonnumeric")){
+        function addtodelstring($keywordids, $stringtoadd, $delimiter = ","){
+            if(!is_array($keywordids)) {$keywordids = explode($delimiter, $keywordids);}
+            $keywordids[] = $stringtoadd;
+            return implode($delimiter, $keywordids);
+        }
+        function filternonnumeric($Text){
+            $Text = filter_var($Text, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION | FILTER_FLAG_ALLOW_THOUSAND);
+            if(!$Text){return 1;}
+            return $Text;
+        }
+    }
     $reduced = false;
     if($isKeyword && isset($is5keywords) && count($is5keywords) > 1){//is part of a multiple item search
         echo '<DIV CLASS="blue">';
