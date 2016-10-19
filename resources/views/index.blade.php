@@ -121,7 +121,8 @@
                             $catclass = toclass($category['category']);
                             $classlist[] = $catclass;
                             $imagefile = $catclass;
-                            if(right($imagefile, 5) == "pizza" || !file_exists(public_path() . '/' . $imagefile . ".png")){$imagefile="pizza";}
+                            //if(right($imagefile, 5) == "pizza" || !file_exists(public_path() . '/' . $imagefile . ".png")){$imagefile="pizza";}
+                            if(right($imagefile, 5) == "pizza"){$imagefile="pizza";}
                             ?>
 
                     <a class="head_{{ $catclass }}" data-toggle="collapse" href="#collapse{{$category["id"]}}_cat">
@@ -155,14 +156,16 @@
                                         $icon = '';
                                     }
                             ?>
-
+                            <SPAN>
                                 <a <?= $HTML; ?> >
+                                    <DIV CLASS="sprite sprite-<?= $imagefile; ?> sprite-tiny"></DIV>
                                     <?=$icon?>
-                                    <img class="pull-left " src="<?= $imagefile; ?>.png" style="width:22px;margin-right:5px;"/>
-                                    <span class="pull-left itemname">{{$menuitem['item']}}</span>
+                                    <!--img class="pull-left " src="<?= $imagefile; ?>.png" style="width:22px;margin-right:5px;"/-->
+                                    <span class="itemname">{{$menuitem['item']}}</span>
                                     <span class="pull-right"> ${{number_format($menuitem["price"], 2)}}</span>
                                     <div class="clearfix"></div>
                                 </a>
+                            </SPAN>
 
                             </div>
                         @endforeach
@@ -478,7 +481,8 @@
                 }
 
                 subtotal += Number(totalcost);
-                tempHTML = '<span class="pull-left"> <img class="pull-left" onerror="this.src=' + "'pizza.png'" + '" src="' + category + '.png" style="width:22px;margin-right:5px;"/> ' + item["itemname"] + '</span>';
+                //tempHTML = '<span class="pull-left"> <img class="pull-left" onerror="this.src=' + "'pizza.png'" + '" src="' + category + '.png" style="width:22px;margin-right:5px;"/> ' + item["itemname"] + '</span>';
+                tempHTML = '<span class="pull-left"> <DIV CLASS="sprite sprite-' + category + ' sprite-tiny"></DIV> ' + item["itemname"] + '</span>';
                 tempHTML += '<span class="pull-right" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '"> $' + totalcost + ' <i class="text-muted fa fa-close" onclick="removeorderitem(' + itemid + ');"></i></span><div class="clearfix"></div>';
 
                 var itemname = "";

@@ -1,3 +1,56 @@
+.sprite {
+    background-image: url('grid.png');
+    background-repeat: no-repeat;
+    width: 64px;
+    height: 64px;
+    display: inline-block;
+}
+
+.sprite-dips{
+    background-position: -0px -0px;
+}
+
+.sprite-wings{
+    background-position: -64px -0px;
+}
+
+.sprite-drinks{
+    background-position: -128px -0px;
+}
+
+.sprite-panzerotti{
+    background-position: 0px -64px;
+}
+
+.sprite-pizza{
+    background-position: -64px -64px;
+}
+
+.sprite-sides{
+    background-position: -128px -64px;
+}
+
+.sprite-medium{
+    zoom:0.60;
+    -moz-transform:scale(0.60);
+    -moz-transform-origin: 0 0;
+}
+
+.sprite-small{
+    zoom:0.29;
+    -moz-transform:scale(0.29);
+    -moz-transform-origin: 0 0;
+}
+
+.sprite-tiny{
+    zoom:0.20;
+    -moz-transform:scale(0.20);
+    -moz-transform-origin: 0 0;
+}
+
+
+
+
 input,select{
 }
 input{
