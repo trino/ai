@@ -1,8 +1,10 @@
 <?php
+    /*
     if (!read("id")) {
         echo view("welcome")->render();
         die();
     }
+    */
 ?>
 @extends('layouts_app')
 @section('content')
@@ -674,12 +676,14 @@
         //handles the orders list modal
         function orders(ID, getJSON) {
             if (isUndefined(ID)) {//no ID specified, get a list of order IDs from the user's profile and make buttons
-                var HTML = '';
+                var HTML = '<ul class="list-group">';
                 for (var i = 0; i < userdetails["Orders"].length; i++) {
-                    ID = userdetails["Orders"][i];
-                    HTML += '<BUTTON CLASS="btn btn-primary" ONCLICK="orders(' + ID + ');">' + ID + '</BUTTON>';
+                    var order = userdetails["Orders"][i];
+                    ID = order["id"];
+                    //HTML += '<BUTTON CLASS="btn btn-primary" ONCLICK="orders(' + ID + ');">' + ID + ": " + order["placed_at"] + '</BUTTON>';
+                    HTML += '<li class="list-group-item" ONCLICK="orders(' + ID + ');"><span class="tag tag-default tag-pill pull-xs-right">ID: ' + ID + '</span>' + order["placed_at"] + '</li>';
                 }
-                HTML += '<BR><DIV ID="pastreceipt" CLASS="pastreceipt"></DIV>';
+                HTML += '</ul><P><DIV ID="pastreceipt" CLASS="pastreceipt">Click an order to view the contents</DIV><P>';
                 alert(HTML, "Orders");
             } else {
                 if (isUndefined(getJSON)) {

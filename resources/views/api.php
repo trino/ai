@@ -485,7 +485,7 @@
         $user = first("SELECT * FROM users WHERE " . $field . " = " . $IDorEmail);
         if(!$user){return false;}
         $user["Addresses"] = Query("SELECT * FROM useraddresses WHERE user_id = " . $user["id"], true);
-        $user["Orders"] = flattenarray(Query("SELECT id FROM `orders` WHERE user_id = " . $user["id"] . " ORDER BY id DESC LIMIT 5", true), "id");
+        $user["Orders"] = Query("SELECT id, placed_at FROM `orders` WHERE user_id = " . $user["id"] . " ORDER BY id DESC LIMIT 5", true);
         return $user;
     }
 
