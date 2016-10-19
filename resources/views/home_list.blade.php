@@ -1,4 +1,5 @@
 <?php
+    $RestaurantID= "";
     //gets text between $start and $end in $string
     function get_string_between($string, $start, $end){
         $string = ' ' . $string;
@@ -46,12 +47,15 @@
             $SQL='SELECT restaurants.id, restaurants.name, restaurants.phone, restaurants.email, restaurants.address_id, useraddresses.number, useraddresses.street, useraddresses.postalcode, useraddresses.city, useraddresses.province, useraddresses.latitude, useraddresses.longitude, useraddresses.phone as user_phone FROM useraddresses AS useraddresses RIGHT JOIN restaurants ON restaurants.address_id = useraddresses.id';
             break;
         case "orders":
-            $fields=array("id", "user_id", "placed_at", "restaurant_id");
+            $fields=array("id", "user_id", "placed_at", "restaurant_id", "longitude", "latitude");
             $namefield="placed_at";
             $faicon = "dollar";
             if(isset($_GET["user_id"])){
                 $where = "user_id = " . $_GET["user_id"];
                 if($_GET["user_id"] == read("id")){$adminsonly=false;}
+            }
+            if(isset($_GET["restaurant"])){
+                $where = "restaurant_id = " . $_GET["restaurant"];
             }
             break;
         case "additional_toppings":
@@ -175,7 +179,7 @@
                     <div class="card">
                         <div class="card-block bg-danger" style="padding-top:.75rem !important;padding-bottom:.75rem !important;">
                             <h4 class="pull-left">
-                                <i class="fa fa-{{ $faicon }}" aria-hidden="true"></i> {{ ucfirst($table) }} list
+                                <A HREF="<?= webroot("public/list/all"); ?>"><i class="fa fa-{{ $faicon }}" aria-hidden="true"></i></A> {{ ucfirst($table) }} list
                             </h4>
                             <H4 CLASS="pull-right spacing">
                                 @if($table != "all" && read("profiletype") == 1)
@@ -246,6 +250,14 @@
                                                     case "restaurants":
                                                         echo '<DIV ID="addressdropdown" STYLE="display: none;" class="addressdropdown"></DIV>';
                                                         break;
+                                                    case "orders":
+                                                        if(isset($_GET["restaurant"]) && $_GET["restaurant"]){
+                                                            $RestaurantID = $_GET["restaurant"];
+                                                            $Restaurant = first("SELECT * FROM restaurants WHERE id=" . $_GET["restaurant"]);
+                                                            $Address = first("SELECT * FROM useraddresses WHERE id=" . $Restaurant["address_id"]);
+                                                            echo view("popups_googlemaps", $Address);
+                                                        }
+                                                        break;
                                                 }
                                             ?>
                                         </DIV>
@@ -278,6 +290,7 @@
                         int: {min: -2147483648, max: 2147483647}, intunsigned: {min: 0, max: 4294967295},
                         bigint: {min: -9223372036854775808, max: 9223372036854775807}, bigintunsigned: {min: 0, max: 18446744073709551615}
                     };
+                    var restaurantID = Number("<?= $RestaurantID; ?>");
 
                     $(document).ready(function() {
                         getpage(0);
@@ -319,11 +332,18 @@
                                                 break;
                                             case "orders":
                                                 tempHTML += '<A CLASS="btn btn-sm btn-primary" onclick="vieworder(' + ID + ');">View</A> ';
+                                                if(restaurantID){
+                                                    addmarker2("Order ID: " + ID, data.table[i]["latitude"], data.table[i]["longitude"]);
+                                                }
+                                                break;
+                                            case "restaurants":
+                                                tempHTML += '<A CLASS="btn btn-sm btn-primary" HREF="{{ webroot("public/list/orders?restaurant=") }}' + ID + '">View</A> ';
                                                 break;
                                         }
                                         HTML += tempHTML + '<A CLASS="btn btn-sm btn-danger" onclick="deleteitem(' + ID + ');">Delete</A></TD></TR>';
                                         items++;
                                     }
+                                    addmarker2();
                                 } else {
                                     HTML = '<TR><TD COLSPAN="100">No results found</TD></TR>';
                                 }

@@ -107,8 +107,9 @@ class HomeController extends Controller {
 
     function closestrestaurant($data){
         if(!isset($data['radius'])){$data['radius'] = 100;}
-        $owners = implode(",", collapsearray(Query("SELECT id FROM users WHERE profiletype = 1", true), "id"));
-        $where = "user_id IN (" . $owners . ")";
+        $owners = implode(",", collapsearray(Query("SELECT address_id FROM restaurants WHERE address_id > 0", true), "address_id"));
+        $where = "id IN (" . $owners . ")";
+
         $SQL = "SELECT *, ( 6371 * acos( cos( radians('" . $data['latitude'] . "') ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians('" . $data['longitude']."') ) + sin( radians('" . $data['latitude']."') ) * sin( radians( latitude ) ) ) ) AS distance FROM useraddresses WHERE $where HAVING distance <= " . $data['radius'] . " ORDER BY distance ASC LIMIT 1";
         return first($SQL);
     }
