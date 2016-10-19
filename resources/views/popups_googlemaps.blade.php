@@ -29,19 +29,22 @@
         });
     }
 
-    function addmarker2(Name, Latitude, Longitude){
+    function addmarker2(Name, Latitude, Longitude, Delimiter, Prepend, Append){
         if(isUndefined(Name)){
             for(var id = 0; id < markers.length; id++){
-                addmarker(markers[id]["Name"], markers[id]["Latitude"], markers[id]["Longitude"]);
+                addmarker(markers[id]["Prepend"] + markers[id]["Name"] + markers[id]["Append"], markers[id]["Latitude"], markers[id]["Longitude"]);
             }
         } else {
+            if(isUndefined(Prepend)){Prepend="";}
+            if(isUndefined(Append)){Append="";}
+            if(isUndefined(Delimiter)){Delimiter="<BR>";}
             for(var id = 0; id < markers.length; id++){
                 if(markers[id]["Latitude"] == Latitude && markers[id]["Longitude"] == Longitude){
-                    markers[id]["Name"] += "<BR>" + Name;
+                    markers[id]["Name"] += Delimiter + Name;
                     return id;
                 }
             }
-            markers.push({Name: Name, Latitude: Latitude, Longitude: Longitude});
+            markers.push({Name: Name, Latitude: Latitude, Longitude: Longitude, Prepend: Prepend, Append: Append});
         }
     }
 </script>

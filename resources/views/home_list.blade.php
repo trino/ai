@@ -47,7 +47,7 @@
             $SQL='SELECT restaurants.id, restaurants.name, restaurants.phone, restaurants.email, restaurants.address_id, useraddresses.number, useraddresses.street, useraddresses.postalcode, useraddresses.city, useraddresses.province, useraddresses.latitude, useraddresses.longitude, useraddresses.phone as user_phone FROM useraddresses AS useraddresses RIGHT JOIN restaurants ON restaurants.address_id = useraddresses.id';
             break;
         case "orders":
-            $fields=array("id", "user_id", "placed_at", "restaurant_id", "longitude", "latitude");
+            $fields=array("id", "user_id", "placed_at", "restaurant_id", "number", "unit", "street", "postalcode", "city", "province", "longitude", "latitude");
             $namefield="placed_at";
             $faicon = "dollar";
             if(isset($_GET["user_id"])){
@@ -316,10 +316,12 @@
                                     var fields = Object.keys(data.table[0]);
                                     items = 0;
                                     for (var i = 0; i < data.table.length; i++) {
+                                        var Address = "[number] [street]<BR>[city] [province]<BR>[postalcode]";
                                         var ID = data.table[i]["id"];
                                         var tempHTML = '<TR ID="' + table + "_" + ID + '">';
                                         for (var v = 0; v < fields.length; v++) {
                                             tempHTML += '<TD ID="' + table + "_" + ID + "_" + fields[v] + '" class="field" field="' + fields[v] + '" index="' + ID + '">' + data.table[i][fields[v]] + '</TD>';
+                                            Address = Address.replace("[" + fields[v] + "]", data.table[i][fields[v]]);
                                         }
                                         tempHTML += '<TD>';
                                         switch(table){
@@ -333,7 +335,11 @@
                                             case "orders":
                                                 tempHTML += '<A CLASS="btn btn-sm btn-primary" onclick="vieworder(' + ID + ');">View</A> ';
                                                 if(restaurantID){
-                                                    addmarker2("Order ID: " + ID, data.table[i]["latitude"], data.table[i]["longitude"]);
+                                                    var Name = ID;
+                                                    if(data.table[i]["unit"].length > 0){
+                                                        Name += " (" + data.table[i]["unit"] + ")";
+                                                    }
+                                                    addmarker2(Name, data.table[i]["latitude"], data.table[i]["longitude"], ", ", "Order ID: ", "<BR>" + Address);
                                                 }
                                                 break;
                                             case "restaurants":
