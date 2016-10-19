@@ -102,6 +102,7 @@
         <div class="modal loading" ID="loadingmodal"></div>
 
         <SCRIPT>
+            var skiploadingscreen=false;
             //overwrites javascript's alert and use the modal popup
             (function () {
                 var proxied = window.alert;
@@ -124,7 +125,11 @@
                 $body = $("body");
                 $(document).on({
                     ajaxStart: function () {
-                        $body.addClass("loading");
+                        if(skiploadingscreen){
+                            skiploadingscreen=false;
+                        } else {
+                            $body.addClass("loading");
+                        }
                     },
                     ajaxStop: function () {
                         $body.removeClass("loading");

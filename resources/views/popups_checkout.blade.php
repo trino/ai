@@ -66,6 +66,7 @@
     var canplaceorder = false;
 
     function addresshaschanged(){
+        skiploadingscreen=true;
         $.post(webroot + "placeorder", {
             _token: token,
             info: getform("#orderinfo"),
