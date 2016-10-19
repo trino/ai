@@ -11,23 +11,23 @@
 }
 
 .sprite-wings{
-    background-position: -64px -0px;
+    background-position: -66px -0px;
 }
 
 .sprite-drinks{
-    background-position: -128px -0px;
+    background-position: -132px -0px;
 }
 
 .sprite-panzerotti{
-    background-position: 0px -64px;
+    background-position: 0px -66px;
 }
 
 .sprite-pizza{
-    background-position: -64px -64px;
+    background-position: -66px -66px;
 }
 
 .sprite-sides{
-    background-position: -128px -64px;
+    background-position: -132px -66px;
 }
 
 .sprite-medium{
