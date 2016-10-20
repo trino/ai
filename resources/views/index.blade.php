@@ -133,7 +133,6 @@
                             $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
                         ?>
                         @foreach ($menuitems as $menuitem)
-
                             <div class="menuitem item_{{ $catclass }}" itemid="{{$menuitem["id"]}}"
                                  itemname="{{$menuitem['item']}}"
                                  itemprice="{{$menuitem['price']}}"
@@ -376,7 +375,7 @@
 
         //generates the order menu item modal
         function loadmodal(element) {
-            element = $(element).parent();
+            element = $(element).parent().parent();
             var items = ["name", "price", "id", "size", "cat"];
             for(var i=0; i<items.length; i++){
                 $("#modal-item" + items[i]).text($(element).attr("item" + items[i]));
@@ -446,14 +445,14 @@
                     toppingscount += itemaddons[i]["count"];
                 }
             } else {//direct link, no addons
-                element = $(element).parent();
+                element = $(element).parent().parent();
                 itemid = $(element).attr("itemid");
                 itemname = $(element).attr("itemname");
                 itemprice = $(element).attr("itemprice");
                 itemcat = $(element).attr("itemcat");
             }
 
-            theorder.push({
+            data = {
                 quantity: 1,
                 itemid: itemid,
                 itemname: itemname,
@@ -463,7 +462,8 @@
                 toppingcost: toppingcost,
                 toppingcount: toppingscount,
                 itemaddons: itemaddons
-            });
+            };
+            theorder.push(data);
             generatereceipt();
         }
 
