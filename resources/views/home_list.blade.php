@@ -25,6 +25,12 @@
         }
         return implode(" ", $field);
     }
+    function touch($table){
+        setsetting($table, now());
+        if(in_array($table, array("toppings", "wings_sauce", "menu", "additional_toppings"))){
+            setsetting("menucache", now());
+        }
+    }
 
     //sets permissions, SQL, fields for each whitelisted table
     $namefield = "name";//which field acts as the name for the confirm delete popup
@@ -103,6 +109,7 @@
                 break;
 
             case "deleteitem"://delete a row
+                touch($table);
                 switch($table){
                     case "orders":
                         deletefile(resource_path("orders") . "/" . $_POST["id"] . ".json");//deletes the order file
@@ -115,14 +122,17 @@
                 break;
 
             case "deletetable"://delete all rows
+                touch($table);
                 Query("TRUNCATE " . $table);
                 break;
 
             case "edititem"://edit a single column in a row
+                touch($table);
                 insertdb($table, array("id" => $_POST["id"], $_POST["key"] => $_POST["value"]));
                 break;
 
             case "saveitem"://edit all columns in a row
+                touch($table);
                 insertdb($table, $_POST["value"]);
                 break;
 
