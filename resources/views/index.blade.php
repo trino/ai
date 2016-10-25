@@ -1,10 +1,7 @@
 <?php
-    /*
     if (!read("id")) {
-        echo view("welcome")->render();
-        die();
+        $GLOBALS["currentview"] = "welcome";
     }
-    */
 ?>
 @extends('layouts_app')
 @section('content')
@@ -20,17 +17,6 @@
                                 <i class="fa fa-home" aria-hidden="true"></i> London Pizza Delivery
                             </h5>
                         </div>
-
-                        <!--div class="col-md-6" id="custom-search-input">
-                            <div class="input-group m-t-0">
-                                <input type="text" class="  search-query form-control" id="search" style="padding:4px !important;" oninput="search(this, event);" autocomplete="off"/>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-danger" type="button">
-                                        <span class="fa fa-search"></span>
-                                    </button>
-                                </span>
-                            </div>
-                        </div-->
                     </div>
                 </div>
 
@@ -123,54 +109,47 @@
                             $imagefile = $catclass;
                             //if(right($imagefile, 5) == "pizza" || !file_exists(public_path() . '/' . $imagefile . ".png")){$imagefile="pizza";}
                             if(right($imagefile, 5) == "pizza"){$imagefile="pizza";}
-                            ?>
-
-                    <a class="head_{{ $catclass }}" data-toggle="collapse" href="#collapse{{$category["id"]}}_cat">
-                        <h5 class="text-danger">{{$category['category']}}</h5>
-                    </a>
-                    <div class="collapse in" id="collapse{{$category['id']}}_cat">
-                        <?
                             $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
-                        ?>
-                        @foreach ($menuitems as $menuitem)
-                            <div class="menuitem item_{{ $catclass }}" itemid="{{$menuitem["id"]}}"
-                                 itemname="{{$menuitem['item']}}"
-                                 itemprice="{{$menuitem['price']}}"
-                                 itemsize="{{ getsize($menuitem['item'], $isfree) }}"
-                                 itemcat="{{$menuitem['category']}}"
-                                <?php
-                                    $total = 0;
-                                    foreach ($tables as $table) {
-                                        echo $table . '="' . $menuitem[$table] . '" ';
-                                        $total += $menuitem[$table];
-                                    }
-                                ?>
-                            >
-                            <?php
-                                    if ($total) {
-                                        $HTML = 'data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
-                                        $icon = '<i class="fa fa-chevron-right pull-right text-muted"></i>';
-                                    } else {
-                                        $HTML = 'onclick="additemtoorder(this);"';
-                                        $icon = '';
-                                    }
                             ?>
-                            <SPAN>
-                                <a <?= $HTML; ?> >
-                                    <DIV CLASS="sprite sprite-<?= $imagefile; ?> sprite-tiny"></DIV>
-                                    <?=$icon?>
-                                    <!--img class="pull-left " src="<?= $imagefile; ?>.png" style="width:22px;margin-right:5px;"/-->
-                                    <span class="itemname">{{$menuitem['item']}}</span>
-                                    <span class="pull-right"> ${{number_format($menuitem["price"], 2)}}</span>
-                                    <div class="clearfix"></div>
-                                </a>
-                            </SPAN>
 
-                            </div>
+                            <a class="head_{{ $catclass }}" data-toggle="collapse" href="#collapse{{$category["id"]}}_cat">
+                                <h5 class="text-danger">{{$category['category']}}</h5>
+                            </a>
+                            <div class="collapse in" id="collapse{{$category['id']}}_cat">
+                                @foreach ($menuitems as $menuitem)
+                                    <div class="menuitem item_{{ $catclass }}" itemid="{{$menuitem["id"]}}"
+                                         itemname="{{$menuitem['item']}}"
+                                         itemprice="{{$menuitem['price']}}"
+                                         itemsize="{{ getsize($menuitem['item'], $isfree) }}"
+                                         itemcat="{{$menuitem['category']}}"
+                                        <?php
+                                            $total = 0;
+                                            foreach ($tables as $table) {
+                                                echo $table . '="' . $menuitem[$table] . '" ';
+                                                $total += $menuitem[$table];
+                                            }
+                                            if ($total) {
+                                                $HTML = 'data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
+                                                $icon = '<i class="fa fa-chevron-right pull-right text-muted"></i>';
+                                            } else {
+                                                $HTML = 'onclick="additemtoorder(this);"';
+                                                $icon = '';
+                                            }
+                                        ?>
+                                    >
+                                        <SPAN>
+                                            <a <?= $HTML; ?> >
+                                                <DIV CLASS="sprite sprite-<?= $imagefile; ?> sprite-tiny"></DIV>
+                                                <?= $icon; ?>
+                                                <span class="itemname">{{$menuitem['item']}}</span>
+                                                <span class="pull-right"> ${{number_format($menuitem["price"], 2)}}</span>
+                                                <div class="clearfix"></div>
+                                            </a>
+                                        </SPAN>
+                                    </div>
                         @endforeach
                     </div>
-                    <div>&nbsp;
-                    </div>
+                    <div>&nbsp;</div>
                     <?
                       $a++;
                     }
@@ -332,7 +311,6 @@
         </div>
     </div>
     <!-- end edit profile Modal -->
-
     <script>
         var tables = <?= json_encode($tables); ?>;
         var freetoppings = <?= json_encode($isfree); ?>;
@@ -592,10 +570,10 @@
             }
         }
 
-        //checks if an addon is on the whole pizza (for when we implement halves)
+        /*checks if an addon is on the whole pizza (for when we implement halves)
         function isaddon_onall(Table, Addon) {
             return freetoppings["isall"][Table].indexOf(Addon) > -1;
-        }
+        }*/
 
         //remove an item from the order
         function removeorderitem(index) {
@@ -719,6 +697,9 @@
                 theorder = JSON.parse(getCookie("theorder"));
             }
             generatereceipt();
+            @if(!read("id"))
+                $("#modal_forcelogin").modal("show");
+            @endif
         });
     </script>
 @endsection
