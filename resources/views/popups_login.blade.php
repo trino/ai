@@ -71,10 +71,6 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <div class="form-group">
-                        <h4 class="modal-title" id="myModalLabel">Login</h4>
-                    </div>
-
                     <div class="row">
                         <DIV CLASS="col-md-12">
                             <h1>London Pizza Delivery</h1>
