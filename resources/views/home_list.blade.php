@@ -25,7 +25,7 @@
         }
         return implode(" ", $field);
     }
-    function touch($table){
+    function touchtable($table){
         setsetting($table, now(true));
         if(in_array($table, array("toppings", "wings_sauce", "menu", "additional_toppings"))){
             setsetting("menucache", now(true));
@@ -109,7 +109,7 @@
                 break;
 
             case "deleteitem"://delete a row
-                touch($table);
+                touchtable($table);
                 switch($table){
                     case "orders":
                         deletefile(resource_path("orders") . "/" . $_POST["id"] . ".json");//deletes the order file
@@ -122,17 +122,17 @@
                 break;
 
             case "deletetable"://delete all rows
-                touch($table);
+                touchtable($table);
                 Query("TRUNCATE " . $table);
                 break;
 
             case "edititem"://edit a single column in a row
-                touch($table);
+                touchtable($table);
                 insertdb($table, array("id" => $_POST["id"], $_POST["key"] => $_POST["value"]));
                 break;
 
             case "saveitem"://edit all columns in a row
-                touch($table);
+                touchtable($table);
                 insertdb($table, $_POST["value"]);
                 break;
 
