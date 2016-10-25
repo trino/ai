@@ -26,9 +26,9 @@
         return implode(" ", $field);
     }
     function touch($table){
-        setsetting($table, now());
+        setsetting($table, now(true));
         if(in_array($table, array("toppings", "wings_sauce", "menu", "additional_toppings"))){
-            setsetting("menucache", now());
+            setsetting("menucache", now(true));
         }
     }
 

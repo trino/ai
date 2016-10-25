@@ -385,7 +385,7 @@
 
     if(isFileUpToDate("lastSQL", $Filename)){
         importSQL($Filename);
-        setsetting("lastSQL", $lastFILupdate);
+        setsetting("lastSQL", filemtime($Filename));
         echo '<DIV CLASS="red">' . $lastSQLupdate . ' SQL was out of date, imported AI.sql on ' . $lastFILupdate . '</DIV>';
     }
 
