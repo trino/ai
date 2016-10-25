@@ -77,7 +77,7 @@ class AuthController extends Controller {
             }
         } else {//actions which require a user
             if(!$email){$email= trim($_POST["email"]);}
-            $user = getuser($email, false);// first("SELECT * FROM users WHERE email = '" . $email . "'");
+            $user = getuser($email);// first("SELECT * FROM users WHERE email = '" . $email . "'");
             $passwordmismatch = "Password and email address do not match a known account";
             if ($user) {
                 switch ($action) {
@@ -125,6 +125,8 @@ class AuthController extends Controller {
                             $ret["Reason"] = "Password reset";
                             $user["password"] = \Hash::make($user["password"]);
                             unset($user["mail_subject"]);
+                            unset($user["Addresses"]);
+                            unset($user["Others"]);
                             insertdb("users", $user);
                         }
                         break;

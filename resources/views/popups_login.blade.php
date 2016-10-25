@@ -121,7 +121,7 @@
                 var data = JSON.parse(result);
                 if(data["Status"] == "false" || !data["Status"]) {
                     data["Reason"] = data["Reason"].replace('[verify]', '<A onclick="handlelogin();" CLASS="hyperlink" TITLE="Click here to resend the email">verify</A>');
-                    alert(data["Reason"], "Login");
+                    alert(data["Reason"], "Error logging in");
                 } else {
                     switch (action) {
                         case "login":
@@ -146,8 +146,10 @@
                             } else {
                                 switch(currentRoute){
                                     case "index"://resave order as it's deleted in removeCookie();
-                                        if (theorder.length > 0) {
-                                            createCookieValue("theorder", JSON.stringify(theorder));
+                                        if(!isUndefined(theorder)) {
+                                            if (theorder.length > 0) {
+                                                createCookieValue("theorder", JSON.stringify(theorder));
+                                            }
                                         }
                                         break;
                                 }
@@ -158,8 +160,8 @@
                             break;
                     }
                 }
-            } catch (e){
-                alert(result, "Login");
+            } catch (err){
+                alert(err.message + "<BR>" + result, "Login Error");
             }
         });
     }
