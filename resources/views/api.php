@@ -68,6 +68,10 @@
     function escapearray($DataArray){
         global $con;
         foreach($DataArray as $Key => $Value) {
+            if(is_array($Value)){
+                var_dump($DataArray);
+                die();
+            }
             $DataArray[$Key] = mysqli_real_escape_string($con, $Value);
         }
         return $DataArray;
@@ -483,14 +487,16 @@
         }
     }
 
-    function getuser($IDorEmail = false, $RemoveCC = true){
+    function getuser($IDorEmail = false, $IncludeOther = true){
         $field="email";
         if(!$IDorEmail){$IDorEmail = read("id");}
         if(is_numeric($IDorEmail)){$field = "id";} else {$IDorEmail = "'" . $IDorEmail . "'";}
         $user = first("SELECT * FROM users WHERE " . $field . " = " . $IDorEmail);
         if(!$user){return false;}
-        $user["Addresses"] = Query("SELECT * FROM useraddresses WHERE user_id = " . $user["id"], true);
-        $user["Orders"] = Query("SELECT id, placed_at FROM `orders` WHERE user_id = " . $user["id"] . " ORDER BY id DESC LIMIT 5", true);
+        if($IncludeOther) {
+            $user["Addresses"] = Query("SELECT * FROM useraddresses WHERE user_id = " . $user["id"], true);
+            $user["Orders"] = Query("SELECT id, placed_at FROM `orders` WHERE user_id = " . $user["id"] . " ORDER BY id DESC LIMIT 5", true);
+        }
         return $user;
     }
 
