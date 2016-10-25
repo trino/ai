@@ -322,6 +322,7 @@
                             try {
                                 var data = JSON.parse(result);
                                 var HTML = "";
+                                var needsAddresses = false;
                                 if(data.table.length>0) {
                                     var fields = Object.keys(data.table[0]);
                                     items = 0;
@@ -350,6 +351,7 @@
                                                         Name += " (" + data.table[i]["unit"] + ")";
                                                     }
                                                     addmarker2(Name, data.table[i]["latitude"], data.table[i]["longitude"], ", ", "Order ID: ", "<BR>" + Address);
+                                                    needsAddresses=true;
                                                 }
                                                 break;
                                             case "restaurants":
@@ -359,7 +361,9 @@
                                         HTML += tempHTML + '<A CLASS="btn btn-sm btn-danger" onclick="deleteitem(' + ID + ');">Delete</A></TD></TR>';
                                         items++;
                                     }
-                                    addmarker2();
+                                    if(needsAddresses) {
+                                        addmarker2();
+                                    }
                                 } else {
                                     HTML = '<TR><TD COLSPAN="100">No results found</TD></TR>';
                                 }
