@@ -1,3 +1,4 @@
+<!-- menu cache saved from: {{ now() }} -->
 <div class="col-md-8 ">
     <div class="card" style="background: white">
         <div class="card-block bg-danger" style="padding-top:.75rem !important;padding-bottom:.75rem !important;">
@@ -215,3 +216,4 @@
     var classlist = <?= json_encode($classlist); ?>;
     var ordinals = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th"];
 </script>
+<!-- end menu cache -->

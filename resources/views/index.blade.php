@@ -4,18 +4,15 @@
 
         <?php
             //menu caching
-            $menucache_db = getsetting("menucache", 1);
             $menucache_filename = resource_path() . "/menucache.html";
-            $menucache_filedate = 0;
-            if(file_exists($menucache_filename)){$menucache_filedate = filemtime($menucache_filename);}
-            if($menucache_filedate < $menucache_db){
+            $menucache_uptodate = isFileUpToDate("menucache", $menucache_filename);
+            if($menucache_uptodate){
+                echo file_get_contents($menucache_filename);
+            } else {
                 $menu = view("popups_menu");
                 file_put_contents($menucache_filename, $menu);
-                echo '<!-- menu cache generated at : ' . now() . ' --> ';
-            } else {
-                $menu = '<!-- menu cache saved from: ' . $menucache_filedate . ' --> ' . file_get_contents($menucache_filename);
+                echo '<!-- menu cache generated at: ' . now() . ' --> ' . $menu;
             }
-            echo $menu . ' <!-- end menu cache -->';
         ?>
         <div class="col-md-4 ">
             <div class="card">

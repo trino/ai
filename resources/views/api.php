@@ -372,16 +372,21 @@
         }
     }
 
+    function isFileUpToDate($SettingKey, $Filename){
+        if (file_exists($Filename)) {
+            $lastSQLupdate = getsetting($SettingKey, "0");
+            $lastFILupdate = filemtime($Filename);
+            return $lastFILupdate > $lastSQLupdate;
+        }
+    }
+
     $con = connectdb();
     $Filename = base_path() . "/ai.sql";
-    if(file_exists($Filename)){
-        $lastSQLupdate = getsetting("lastSQL", "0");
-        $lastFILupdate = filemtime($Filename);
-        if($lastFILupdate > $lastSQLupdate){
-            importSQL($Filename);
-            setsetting("lastSQL", $lastFILupdate);
-            echo '<DIV CLASS="red">' . $lastSQLupdate . ' SQL was out of date, imported AI.sql on ' . $lastFILupdate . '</DIV>';
-        }
+
+    if(isFileUpToDate("lastSQL", $Filename)){
+        importSQL($Filename);
+        setsetting("lastSQL", $lastFILupdate);
+        echo '<DIV CLASS="red">' . $lastSQLupdate . ' SQL was out of date, imported AI.sql on ' . $lastFILupdate . '</DIV>';
     }
 
     function read($Name) {
