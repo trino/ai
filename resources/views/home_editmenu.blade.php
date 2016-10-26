@@ -106,7 +106,8 @@
                     case "wings_sauce":             type = "sauce"; break;
                     case "menu":                    type = "menu item"; break;
                 }
-                if(confirm("Are you sure you want to delete the '" + name + "' " + type + "?")) {
+
+                confirm2("Are you sure you want to delete the '" + name + "' " + type + "?", 'Delete Item', function(){
                     var index = findwhere(changes[table], "id", keyid);
                     if (index > -1) {removeindex(changes[table], index);}//remove from changes
                     if(!isNaN(keyid)) {
@@ -117,7 +118,7 @@
                         if (index > -1) {removeindex(alldata[table], index);}//remove from all data
                     }
                     $("." + table + "_" + keyid).remove();
-                }
+                );
             }
 
             function undo(table, keyid){
@@ -156,18 +157,18 @@
             }
 
             function discard(force){
-                if(!force) {force = confirm("Are you sure you want to discard all changes you've made?");}
-                if(force) {
-                    var tables = Object.keys(alldata);
-                    for (var tableindex = 0; tableindex < tables.length; tableindex++) {
-                        changes[tables[tableindex]] = new Array;
-                    }
-                    deleted = new Array;
-                    haschanges = 0;
-                    $(".changes").hide();
-                    newsitems = 0;
-                    $(".isnewitem").remove();
+                if(force) {force_discard();} else {confirm2("Are you sure you want to discard all changes you've made?", 'Discard Changes', function(){force_discard();});}
+            }
+            function force_discard(){
+                var tables = Object.keys(alldata);
+                for (var tableindex = 0; tableindex < tables.length; tableindex++) {
+                    changes[tables[tableindex]] = new Array;
                 }
+                deleted = new Array;
+                haschanges = 0;
+                $(".changes").hide();
+                newsitems = 0;
+                $(".isnewitem").remove();
             }
 
             var alldata = {};

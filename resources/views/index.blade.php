@@ -3,6 +3,13 @@
     <div class="row">
 
         <?php
+            if(islive()){
+                $allowedIPs = array("24.36.153.107", "45.58.85.42");
+                if(!in_array($_SERVER["REMOTE_ADDR"], $allowedIPs)){
+                    die("IP not recognized");
+                }
+            }
+
             //menu caching
             $menucache_filename = resource_path() . "/menucache.html";
             $menucache_uptodate = isFileUpToDate("menucache", $menucache_filename);

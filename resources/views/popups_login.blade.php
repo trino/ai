@@ -109,6 +109,9 @@
     </div>
 <?php } ?>
 <SCRIPT>
+    @if($style == 2)
+        redirectonlogin=true;
+    @endif
     function handlelogin(action){
         if(isUndefined(action)){action="verify";}
         $.post(webroot + "auth/login", {

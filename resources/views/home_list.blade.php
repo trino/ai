@@ -379,10 +379,10 @@
                                     if (isUndefined(column)) {
                                         switch(table){
                                             case "restaurants":
-                                                if(confirm("The restaurant address can not be edited directly from here. Would you like to go to the address editor?")){
+                                                confirm2('The restaurant address can not be edited directly from here. Would you like to go to the address editor?', 'Edit Address', function(){
                                                     ID = $("#restaurants_" + ID + "_address_id").text();
                                                     window.location = webroot + "list/useraddresses?key=id&value=" + ID;
-                                                }
+                                                });
                                                 break;
                                             default: alert(table + "." + field + " can not be edited");
                                         }
@@ -530,8 +530,8 @@
 
                     //delete everything in a table, confirm twice
                     function deletetable(){
-                        if(confirm("Are you sure you want to delete the entire " + table + " table?")){
-                            if(confirm("Are you really REALLY sure?")){
+                        confirm2("Are you sure you want to delete the entire " + table + " table?", 'Delete Table', function(){
+                            confirm2("Are you really REALLY sure you want to delete the entire " + table + " table?", 'Delete Table', function(){
                                 $.post(currentURL, {
                                     action: "deletetable",
                                     _token: token,
@@ -540,14 +540,14 @@
                                         location.reload();
                                     }
                                 });
-                            }
-                        }
+                            });
+                        });
                     }
 
                     //delete a single item in a table
                     function deleteitem(ID){
                         var name = $("#" + table + "_" + ID + "_" + namefield).text();
-                        if(confirm("Are you sure you want to delete item ID: " + ID + " (" + name + ") ?")){
+                        confirm2("Are you sure you want to delete item ID: " + ID + " (" + name + ") ?", "Delete Item", function(){
                             $.post(currentURL, {
                                 action: "deleteitem",
                                 _token: token,
@@ -565,7 +565,7 @@
                                     }
                                 }
                             });
-                        }
+                        });
                     }
 
                     //add a new item to the table, load the last page
@@ -575,7 +575,7 @@
 
                     //delete the debug file
                     function deletedebug(){
-                        if(confirm("Are you sure you want to delete the debug log?")){
+                        confirm2("Are you sure you want to delete the debug log?", "Delete Log", function(){
                             $.post(currentURL, {
                                 action: "deletedebug",
                                 _token: token
@@ -585,7 +585,7 @@
                                     $("#debuglogcontents").html("The debug log is empty");
                                 }
                             });
-                        }
+                        });
                     }
 
                     //edit a single column in a row, verifying the data

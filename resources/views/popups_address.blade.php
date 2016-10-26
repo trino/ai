@@ -114,18 +114,20 @@
                     addresses();
                 }
             });
-        } else if (confirm("Are you sure you want to delete '" + $("#add_" + ID).text().trim() + "'?")) {
-            $.post("<?= webroot("public/list/useraddresses"); ?>", {
-                _token: token,
-                action: "deleteitem",
-                id: ID
-            }, function (result) {
-                if (handleresult(result)) {
-                    $("#add_" + ID).fadeOut(1000, function () {
-                        $("#add_" + ID).remove();
-                    });
-                    $(".saveaddresses option[value=" + ID + "]").remove();
-                }
+        } else {
+            confirm2("Are you sure you want to delete '" + $("#add_" + ID).text().trim() + "'?", 'Delete Address', function(){
+                $.post("<?= webroot("public/list/useraddresses"); ?>", {
+                    _token: token,
+                    action: "deleteitem",
+                    id: ID
+                }, function (result) {
+                    if (handleresult(result)) {
+                        $("#add_" + ID).fadeOut(1000, function () {
+                            $("#add_" + ID).remove();
+                        });
+                        $(".saveaddresses option[value=" + ID + "]").remove();
+                    }
+                });
             });
         }
     }
