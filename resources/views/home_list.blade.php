@@ -40,6 +40,7 @@
     $adminsonly=true;//sets if you must be an admin to access the table
     $datafields=true;
     $SQL=false;
+    $specialformats = false;
     switch($table){
         case "all":case "debug"://system value
             $datafields=false;
@@ -53,7 +54,8 @@
             $SQL='SELECT restaurants.id, restaurants.name, restaurants.phone, restaurants.email, restaurants.address_id, useraddresses.number, useraddresses.street, useraddresses.postalcode, useraddresses.city, useraddresses.province, useraddresses.latitude, useraddresses.longitude, useraddresses.phone as user_phone FROM useraddresses AS useraddresses RIGHT JOIN restaurants ON restaurants.address_id = useraddresses.id';
             break;
         case "orders":
-            $fields=array("id", "user_id", "placed_at", "restaurant_id", "number", "unit", "street", "postalcode", "city", "province", "longitude", "latitude");
+            $fields=array("id", "user_id", "placed_at", "status", "restaurant_id", "number", "unit", "street", "postalcode", "city", "province", "longitude", "latitude");
+            $specialformats=array("placed_at" => "date");
             $namefield="placed_at";
             $faicon = "dollar";
             if(isset($_GET["user_id"])){
@@ -105,6 +107,17 @@
                 if(!$SQL){$SQL= "SELECT " . implode(", ", $fields) . " FROM " . $table;}
                 $results["SQL"] =   $SQL . $where . " LIMIT " . $_POST["itemsperpage"] . " OFFSET " . ($_POST["itemsperpage"] * $_POST["page"]);
                 $results["table"] = Query($results["SQL"], true);
+                if(is_array($specialformats)){
+                    foreach($results["table"] as $Index => $Data){
+                        foreach($specialformats as $Field => $Format){
+                            switch($Format){
+                                case "date":
+                                    $results["table"][$Index][$Field] = verbosedate($Data[$Field]);
+                                    break;
+                            }
+                        }
+                    }
+                }
                 $results["count"] = first("SELECT COUNT(*) as count FROM " . $table)["count"];
                 break;
 
@@ -323,6 +336,7 @@
                                 var data = JSON.parse(result);
                                 var HTML = "";
                                 var needsAddresses = false;
+                                var statuses = ["Pending", "Confirmed", "Declined", "Delivered", "Canceled"];
                                 if(data.table.length>0) {
                                     var fields = Object.keys(data.table[0]);
                                     items = 0;
@@ -331,8 +345,14 @@
                                         var ID = data.table[i]["id"];
                                         var tempHTML = '<TR ID="' + table + "_" + ID + '">';
                                         for (var v = 0; v < fields.length; v++) {
-                                            tempHTML += '<TD ID="' + table + "_" + ID + "_" + fields[v] + '" class="field" field="' + fields[v] + '" index="' + ID + '">' + data.table[i][fields[v]] + '</TD>';
-                                            Address = Address.replace("[" + fields[v] + "]", data.table[i][fields[v]]);
+                                            var field = data.table[i][fields[v]];
+                                            switch(table + "." + fields[v]){
+                                                case "orders.status":
+                                                    field = statuses[field];
+                                                    break;
+                                            }
+                                            tempHTML += '<TD ID="' + table + "_" + ID + "_" + fields[v] + '" class="field" field="' + fields[v] + '" index="' + ID + '">' + field + '</TD>';
+                                            Address = Address.replace("[" + fields[v] + "]", field);
                                         }
                                         tempHTML += '<TD>';
                                         switch(table){
@@ -361,9 +381,7 @@
                                         HTML += tempHTML + '<A CLASS="btn btn-sm btn-danger" onclick="deleteitem(' + ID + ');">Delete</A></TD></TR>';
                                         items++;
                                     }
-                                    if(needsAddresses) {
-                                        addmarker2();
-                                    }
+                                    if(needsAddresses) {addmarker2();}
                                 } else {
                                     HTML = '<TR><TD COLSPAN="100">No results found</TD></TR>';
                                 }
@@ -681,7 +699,9 @@
                             orderid: ID
                         }, function (result) {
                             if(result) {
-                                alert(result, "View Order");
+                                var HTML = '<button class="btn btn-primary" data-dismiss="modal" style="width: 45%;" onclick="changeorderstatus(' + ID + ', 1);">Confirm</button>';
+                                HTML += '<button class="btn btn-danger pull-right" data-dismiss="modal" style="width: 45%;" onclick="changeorderstatus(' + ID + ', 2);">Decline</button>';
+                                alert(result + HTML, "View Order");
                             }
                         });
                     }
@@ -701,7 +721,9 @@
                         return false;
                     }
 
-
+                    function changeorderstatus(ID, Status){
+                        log("Change order " + ID + " status to " + Status);
+                    }
 
                     //data vealidation handling
                     function validate_data(Data, DataType){

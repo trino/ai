@@ -23,7 +23,7 @@
             $ordinals = array("1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th");
             break;
     }
-    $Status = array("Pending", "Approved", "Denied", "Delivered", "Canceled");
+    $Status = array("Pending", "Confirmed", "Declined", "Delivered", "Canceled");
     $Status = $Status[$Order["status"]];
 ?>
 @if($style==1)
