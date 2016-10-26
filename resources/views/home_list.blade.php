@@ -47,7 +47,7 @@
             break;
         case "users":
             $faicon = "user";
-            $fields = array("id", "name", "phone", "profiletype", "email");
+            $fields = array("id", "name", "phone", "profiletype", "authcode", "email");
             break;
         case "restaurants":
             $fields = array("id", "name", "phone", "email", "address_id", "number", "street", "postalcode", "city", "province", "latitude", "longitude", "user_phone");
@@ -140,8 +140,15 @@
                 break;
 
             case "edititem"://edit a single column in a row
-                touchtable($table);
-                insertdb($table, array("id" => $_POST["id"], $_POST["key"] => $_POST["value"]));
+                if(isset($_POST["value"])){
+                    touchtable($table);
+                    switch($table . "." . $_POST["key"]){
+                        case "users.password":
+                            $_POST["value"] = \Hash::make($_POST["value"]);
+                            break;
+                    }
+                    insertdb($table, array("id" => $_POST["id"], $_POST["key"] => $_POST["value"]));
+                }
                 break;
 
             case "saveitem"://edit all columns in a row
@@ -294,12 +301,13 @@
             @if(read("profiletype") == 1)
                 <SCRIPT>
                     var statuses = ["Pending", "Confirmed", "Declined", "Delivered", "Canceled"];
-                    var currentTable = "<?= $table; ?>";
+                    var usertype = ["Customer", "Admin", "Restaurant"];
+
                     var selecteditem = 0;
                     var itemsperpage = 25;
                     var currentpage = 0;
                     var lastpage = 0;
-                    var table = "{{ $table }}";
+                    var table = "<?= $table; ?>"
                     var currentURL = "<?= Request::url(); ?>";
                     var baseURL = currentURL.replace(table, "");
                     var namefield = "{{ $namefield }}";
@@ -348,11 +356,17 @@
                                         for (var v = 0; v < fields.length; v++) {
                                             var field = data.table[i][fields[v]];
                                             switch(table + "." + fields[v]){
-                                                case "orders.status":
-                                                    field = statuses[field];
+                                                case "orders.status": field = statuses[field]; break;
+                                                case "users.profiletype": field = usertype[field]; break;
+                                                case "users.authcode":
+                                                    if(field){
+                                                        field = "Not Authorized";
+                                                    } else {
+                                                        field = "Authorized";
+                                                    }
                                                     break;
                                             }
-                                            tempHTML += '<TD ID="' + table + "_" + ID + "_" + fields[v] + '" class="field" field="' + fields[v] + '" index="' + ID + '">' + field + '</TD>';
+                                            tempHTML += '<TD NOWRAP ID="' + table + "_" + ID + "_" + fields[v] + '" class="field" field="' + fields[v] + '" index="' + ID + '">' + field + '</TD>';
                                             Address = Address.replace("[" + fields[v] + "]", field);
                                         }
                                         tempHTML += '<TD>';
@@ -360,6 +374,7 @@
                                             case "users":
                                                 tempHTML += '<A CLASS="btn btn-sm btn-primary" href="' + baseURL + 'useraddresses?user_id=' + ID + '">Addresses</A> ';
                                                 tempHTML += '<A CLASS="btn btn-sm btn-secondary" href="{{ webroot("public/user/info/") }}' + ID + '">Edit</A> ';
+                                                tempHTML += '<A CLASS="btn btn-sm btn-warning" ONCLICK="changepass(' + ID + ');" TITLE="Change their password">Password</A> ';
                                                 break;
                                             case "useraddresses":
                                                 tempHTML += '<A CLASS="btn btn-sm btn-primary" onclick="editaddress(' + ID + ');">Edit</A> ';
@@ -430,16 +445,14 @@
                                                         case "orders.placed_at": return; break;
                                                         case "orders.status":
                                                             isSelect=true;
-                                                            var options = new Array;
-                                                            for(min=0;min<statuses.length;min++){
-                                                                options.push({value: min, text: statuses[min]});
-                                                            }
-                                                            HTML = makeselect(ID + "_" + field, "selectfield form-control", colname, HTML, options);
+                                                            HTML = makeselect(ID + "_" + field, "selectfield form-control", colname, HTML, arraytooptions(statuses));
                                                             break;
+
                                                         case "users.profiletype":
                                                             isSelect=true;
-                                                            HTML = makeselect(ID + "_" + field, "selectfield form-control", colname, HTML, [{value: 0, text: "user"}, {value: 1, text: "admin"}]);
+                                                            HTML = makeselect(ID + "_" + field, "selectfield form-control", colname, HTML, arraytooptions(usertype));
                                                             break;
+
                                                         case "restaurants.address_id":
                                                             isSelect=true;
                                                             console.log(HTML + " was selected");
@@ -452,8 +465,16 @@
                                                     }
                                                     break;
                                                 default://simple text
-                                                    HTML = '<INPUT TYPE="TEXT" ID="' + ID + "_" + field + '" VALUE="' + HTML + '" CLASS="textfield" COLNAME="' + colname;
-                                                    HTML += '" maxlength="' + column["Len"] + '" TITLE="' + title + '">';
+                                                    switch(colname){
+                                                        case "users.authcode":
+                                                            edititem(ID, "authcode", "");
+                                                            alert("User is now authorized");
+                                                            return;
+                                                            break;
+                                                        default:
+                                                            HTML = '<INPUT TYPE="TEXT" ID="' + ID + "_" + field + '" VALUE="' + HTML + '" CLASS="textfield" COLNAME="' + colname;
+                                                            HTML += '" maxlength="' + column["Len"] + '" TITLE="' + title + '">';
+                                                    }
                                             }
                                             console.log(HTML);
                                             $(this).html(HTML);
@@ -522,6 +543,14 @@
                     //checks if a field contains HTML (so we know if it's being edited) or not
                     function containsHTML(text){
                         return text.indexOf("<") > -1 && text.indexOf(">") > -1;
+                    }
+
+                    function arraytooptions(arr){
+                        var options = new Array;
+                        for(var min=0;min<arr.length;min++){
+                            options.push({value: min, text: arr[min]});
+                        }
+                        return options;
                     }
 
                     //generates a list of page links
@@ -616,11 +645,18 @@
                         });
                     }
 
+                    function changepass(ID){
+                        inputbox2("What would you like this user's new password to be?", "Change Password", "123abc", function(response){
+                            edititem(ID, "password", response);
+                            log(ID + "'s password has been updated to " + response);
+                        });
+                    }
+
                     //edit a single column in a row, verifying the data
                     function edititem(ID, field, data){
-                        var colname = currentTable + "." + field;//$("#" + ID + "_" + field).attr("COLNAME").toLowerCase();
+                        var colname = table + "." + field;//$("#" + ID + "_" + field).attr("COLNAME").toLowerCase();
+                        var newdata=data;
                         if(data) {
-                            var newdata="";
                             var datatype="";
                             switch (colname) {
                                 case "users.phone":case "restaurants.phone":
@@ -628,8 +664,7 @@
                                     datatype="phone number";
                                     break;
                                 case "users.profiletype":
-                                    if(data == "0" || data == "1"){newdata = data;}
-                                    datatype="profile type. 0=user, 1=admin";
+                                    newdata = usertype[data];
                                     break;
                                 case "users.email":case "restaurants.email":
                                     if(validate_data(data, "email")){newdata = clean_data(data, "email");}
@@ -637,7 +672,6 @@
                                     break;
                                 case "orders.status":
                                     newdata = statuses[data];
-                                    datatype="status";
                                     break;
                             }
                             log("Verifying: " + colname + " = '" + data + "' (" + datatype + ")");
@@ -649,6 +683,12 @@
                                     return false;
                                 }
                             }
+                        } else {
+                            switch(colname){
+                                case "users.authcode":
+                                    newdata = "Authorized";
+                                    break;
+                            }
                         }
                         $.post(currentURL, {
                             action: "edititem",
@@ -658,7 +698,8 @@
                             value: data
                         }, function (result) {
                             if(handleresult(result)) {
-                                $("#" + table + "_" + ID + "_" + field).html(data);
+                                log(table + "." + field + " became " + newdata);
+                                $("#" + table + "_" + ID + "_" + field).html(newdata);
                             }
                         });
                     }

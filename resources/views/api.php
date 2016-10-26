@@ -389,10 +389,11 @@
 
     $con = connectdb();
     $Filename = base_path() . "/ai.sql";
-
     if(isFileUpToDate("lastSQL", $Filename)){
+        $lastSQLupdate = getsetting("lastSQL", "0");
+        $lastFILupdate = filemtime($Filename);
         importSQL($Filename);
-        setsetting("lastSQL", filemtime($Filename));
+        setsetting("lastSQL", $lastFILupdate);
         echo '<DIV CLASS="red">' . $lastSQLupdate . ' SQL was out of date, imported AI.sql on ' . $lastFILupdate . '</DIV>';
     }
 

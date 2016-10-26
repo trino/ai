@@ -112,9 +112,16 @@ function getform(ID){
     return ret;
 }
 
+function inputbox2(Text, Title, Default, retfnc){
+    Text += '<INPUT TYPE="TEXT" ID="modal_inputbox" CLASS="form-control" VALUE="' + Default + '" STYLE="margin-top: 15px;">';
+    confirm2(Text, Title, function(){
+        retfnc( $("#modal_inputbox").val() );
+    });
+}
 function confirm2(){
     var Title = "Confirm";
     var action = function(){};
+    $('#alert-confirm').unbind('click');
     if (arguments.length > 1) {
         for(var index = 0; index<arguments.length; index++){
             if(isFunction(arguments[index])){
