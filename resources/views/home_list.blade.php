@@ -681,7 +681,7 @@
                             orderid: ID
                         }, function (result) {
                             if(result) {
-                                $("#body").html(result);
+                                alert(result, "View Order");
                             }
                         });
                     }

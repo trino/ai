@@ -23,15 +23,18 @@
             $ordinals = array("1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th");
             break;
     }
+    $Status = array("Pending", "Approved", "Denied", "Delivered", "Canceled");
+    $Status = $Status[$Order["status"]];
 ?>
 @if($style==1)
-    Order #: <?= $orderid; ?>
-    <br>
-    Ordered On: <?=  $Order["placed_at"]; ?>
-    @if($Order["deliverytime"])
-        <br>
-        Delivery for: <?= now(false, $Order["deliverytime"]); ?>
-    @endif
+    <TABLE>
+        <TR><TD>Order #:&nbsp;</TD><TD><?= $orderid; ?></TD></TR>
+        <TR><TD>Ordered On:&nbsp;</TD><TD><?= verbosedate($Order["placed_at"]); ?></TD></TR>
+        <TR><TD>Status:&nbsp;</TD><TD><?= $Status; ?></TD></TR>
+        @if($Order["deliverytime"])
+            <TR><TD>Delivery for:&nbsp;</TD><TD><?= now(false, $Order["deliverytime"]); ?></TD></TR>
+        @endif
+    </TABLE>
     <TABLE WIDTH="100%" class="table table-sm table-bordered">
         <THEAD>
             <TR>

@@ -498,6 +498,9 @@
         if($IncludeOther) {
             $user["Addresses"] = Query("SELECT * FROM useraddresses WHERE user_id = " . $user["id"], true);
             $user["Orders"] = Query("SELECT id, placed_at FROM `orders` WHERE user_id = " . $user["id"] . " ORDER BY id DESC LIMIT 5", true);
+            foreach($user["Orders"] as $Index => $Order){
+                $user["Orders"][$Index]["placed_at"] = verbosedate($Order["placed_at"]);
+            }
         }
         return $user;
     }
@@ -514,5 +517,15 @@
 
     function islive(){
         return $_SERVER["SERVER_NAME"] == "bringpizza.ca";
+    }
+
+    function verbosedate($date){
+        if(!is_numeric($date)){$date = strtotime($date);}
+        $append = "";
+        switch(date("G:i", $date)){
+            case "0:00": $append = " (Midnight)"; break;
+            case "12:00": $append = " (Noon)"; break;
+        }
+        return date("l F j, Y @ g:i A", $date) . $append;
     }
 ?>

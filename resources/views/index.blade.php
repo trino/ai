@@ -466,9 +466,7 @@
                 }
                 HTML += '</ul><P><DIV ID="pastreceipt" CLASS="pastreceipt"></DIV><P>';
                 alert(HTML, "Orders");
-                if(First){
-                    orders(First);
-                }
+                if(First){orders(First);}
             } else {
                 if (isUndefined(getJSON)) {getJSON = false;}
                 var Index = getIterator(userdetails["Orders"], "id", ID);
