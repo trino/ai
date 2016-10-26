@@ -1,5 +1,6 @@
 <?php
     $RestaurantID= "";
+    $extratitle = "";
     //gets text between $start and $end in $string
     function get_string_between($string, $start, $end){
         $string = ' ' . $string;
@@ -62,8 +63,16 @@
                 $where = "user_id = " . $_GET["user_id"];
                 if($_GET["user_id"] == read("id")){$adminsonly=false;}
             }
+            $user = getuser();
+            if($user["profiletype"] == 2){
+                if(isset($user["Addresses"][0])){
+                    $_GET["restaurant"] = $user["Addresses"][0]["id"];
+                    $adminsonly=false;
+                }
+            }
             if(isset($_GET["restaurant"])){
                 $where = "restaurant_id = " . $_GET["restaurant"];
+                $extratitle = "for restaurant " . $_GET["restaurant"];
             }
             break;
         case "additional_toppings":
@@ -209,7 +218,7 @@
                     <div class="card">
                         <div class="card-block bg-danger" style="padding-top:.75rem !important;padding-bottom:.75rem !important;">
                             <h4 class="pull-left">
-                                <A HREF="<?= webroot("public/list/all"); ?>"><i class="fa fa-{{ $faicon }}" aria-hidden="true"></i></A> {{ ucfirst($table) }} list
+                                <A HREF="<?= webroot("public/list/all"); ?>"><i class="fa fa-{{ $faicon }}" aria-hidden="true"></i></A> {{ ucfirst($table) . ' list ' . $extratitle }}
                             </h4>
                             <H4 CLASS="pull-right spacing">
                                 @if($table != "all" && read("profiletype") == 1)
@@ -284,8 +293,10 @@
                                                         if(isset($_GET["restaurant"]) && $_GET["restaurant"]){
                                                             $RestaurantID = $_GET["restaurant"];
                                                             $Restaurant = first("SELECT * FROM restaurants WHERE id=" . $_GET["restaurant"]);
-                                                            $Address = first("SELECT * FROM useraddresses WHERE id=" . $Restaurant["address_id"]);
-                                                            echo view("popups_googlemaps", $Address);
+                                                            if($Restaurant){
+                                                                $Address = first("SELECT * FROM useraddresses WHERE id=" . $Restaurant["address_id"]);
+                                                                echo view("popups_googlemaps", $Address);
+                                                            }
                                                         }
                                                         break;
                                                 }
