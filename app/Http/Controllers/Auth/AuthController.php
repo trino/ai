@@ -147,6 +147,10 @@ class AuthController extends Controller {
                         insertdb("useraddresses", $address);
                         $this->sendverifemail($_POST["email"]);
                         break;
+                    case "forgotpassword":
+                        $ret["Status"] = false;
+                        $ret["Reason"] = "Email address not found.";
+                        break;
                     default:
                         $ret["Status"] = false;
                         $ret["Reason"] = $passwordmismatch;//"Email address not found."
