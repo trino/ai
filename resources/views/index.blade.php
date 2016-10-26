@@ -457,17 +457,25 @@
         function orders(ID, getJSON) {
             if (isUndefined(ID)) {//no ID specified, get a list of order IDs from the user's profile and make buttons
                 var HTML = '<ul class="list-group">';
+                var First = false;
                 for (var i = 0; i < userdetails["Orders"].length; i++) {
                     var order = userdetails["Orders"][i];
                     ID = order["id"];
-                    //HTML += '<BUTTON CLASS="btn btn-primary" ONCLICK="orders(' + ID + ');">' + ID + ": " + order["placed_at"] + '</BUTTON>';
-                    HTML += '<li class="list-group-item" ONCLICK="orders(' + ID + ');"><span class="tag tag-default tag-pill pull-xs-right">ID: ' + ID + '</span>' + order["placed_at"] + '</li>';
+                    if(!First){First = ID;}
+                    HTML += '<li class="list-group-item" ONCLICK="orders(' + ID + ');"><span class="tag tag-default tag-pill pull-xs-right">ID: ' + ID + '</span>' + order["placed_at"] + '<SPAN ID="pastreceipt' + ID + '"></SPAN></li>';
                 }
-                HTML += '</ul><P><DIV ID="pastreceipt" CLASS="pastreceipt">Click an order to view the contents</DIV><P>';
+                HTML += '</ul><P><DIV ID="pastreceipt" CLASS="pastreceipt"></DIV><P>';
                 alert(HTML, "Orders");
+                if(First){
+                    orders(First);
+                }
             } else {
-                if (isUndefined(getJSON)) {
-                    getJSON = false;
+                if (isUndefined(getJSON)) {getJSON = false;}
+                var Index = getIterator(userdetails["Orders"], "id", ID);
+                if(!getJSON && userdetails["Orders"][Index].hasOwnProperty("Contents")){
+                    $("#pastreceipt" + ID).html(userdetails["Orders"][Index]["Contents"]);
+                    GetNextOrder(ID);
+                    return;
                 }
                 $.post("<?= webroot('public/list/orders'); ?>", {
                     _token: token,
@@ -482,9 +490,25 @@
                         generatereceipt();
                         $("#alertmodal").modal('hide');
                     } else {//HTML recieved, put it in the pastreceipt element
-                        $("#pastreceipt").html(result);
+                        $("#pastreceipt" + ID).html(result);
+                        if(Index>-1){userdetails["Orders"][Index]["Contents"] = result;}
+                        GetNextOrder(ID);
                     }
                 });
+            }
+        }
+
+        function getIterator(arr, key, value){
+            for (var i = 0; i < arr.length; i++) {
+                if(arr[i][key] == value){return i;}
+            }
+            return -1;
+        }
+
+        function GetNextOrder(CurrentID){
+            var CurrentIndex = getIterator(userdetails["Orders"], "id", CurrentID);
+            if(CurrentIndex>-1 && CurrentIndex < userdetails["Orders"].length-1){
+                orders(userdetails["Orders"][CurrentIndex+1]["id"]);
             }
         }
 

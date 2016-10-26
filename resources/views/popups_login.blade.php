@@ -85,7 +85,7 @@
                                     <INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control">
                                 </div>
                             </div>
-                            <BUTTON CLASS="btn  btn-primary" onclick="handlelogin('login');">Log In</BUTTON>
+                            <BUTTON CLASS="btn btn-primary" onclick="handlelogin('login');">Log In</BUTTON>
                             <BUTTON CLASS="btn btn-link" onclick="handlelogin('forgotpassword');">Forgot Password</BUTTON>
                             <div class="p-y-1"></div>
                             <p>Signup</p>
@@ -129,9 +129,11 @@
                     switch (action) {
                         case "login":
                             token = data["Token"];
-                            login(data["User"]);
+                            login(data["User"], true);
                             $("#loginmodal").modal("hide");
-                            if(redirectonlogin){location.reload();}
+                            if(redirectonlogin){
+                                location.reload();
+                            }
                             break;
                         case "forgotpassword": case "verify":
                             alert(data["Reason"], "Login");

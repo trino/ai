@@ -137,12 +137,12 @@
                 });
 
                 @if(isset($user))
-                    login(<?= json_encode($user); ?>);//user is already logged in, use the data
+                    login(<?= json_encode($user); ?>, false);//user is already logged in, use the data
                 @endif
             });
 
             //handle a user login
-            function login(user) {
+            function login(user, isJSON) {
                 userdetails = user;
                 var keys = Object.keys(user);
                 for (var i = 0; i < keys.length; i++) {
