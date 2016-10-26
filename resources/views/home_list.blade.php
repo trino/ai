@@ -293,6 +293,8 @@
             </div>
             @if(read("profiletype") == 1)
                 <SCRIPT>
+                    var statuses = ["Pending", "Confirmed", "Declined", "Delivered", "Canceled"];
+                    var currentTable = "<?= $table; ?>";
                     var selecteditem = 0;
                     var itemsperpage = 25;
                     var currentpage = 0;
@@ -336,7 +338,6 @@
                                 var data = JSON.parse(result);
                                 var HTML = "";
                                 var needsAddresses = false;
-                                var statuses = ["Pending", "Confirmed", "Declined", "Delivered", "Canceled"];
                                 if(data.table.length>0) {
                                     var fields = Object.keys(data.table[0]);
                                     items = 0;
@@ -426,6 +427,15 @@
                                                     var min = intranges[column["Type"]]["min"];
                                                     var max = intranges[column["Type"]]["max"];
                                                     switch(colname){
+                                                        case "orders.placed_at": return; break;
+                                                        case "orders.status":
+                                                            isSelect=true;
+                                                            var options = new Array;
+                                                            for(min=0;min<statuses.length;min++){
+                                                                options.push({value: min, text: statuses[min]});
+                                                            }
+                                                            HTML = makeselect(ID + "_" + field, "selectfield form-control", colname, HTML, options);
+                                                            break;
                                                         case "users.profiletype":
                                                             isSelect=true;
                                                             HTML = makeselect(ID + "_" + field, "selectfield form-control", colname, HTML, [{value: 0, text: "user"}, {value: 1, text: "admin"}]);
@@ -608,7 +618,7 @@
 
                     //edit a single column in a row, verifying the data
                     function edititem(ID, field, data){
-                        var colname = $("#" + ID + "_" + field).attr("COLNAME").toLowerCase();
+                        var colname = currentTable + "." + field;//$("#" + ID + "_" + field).attr("COLNAME").toLowerCase();
                         if(data) {
                             var newdata="";
                             var datatype="";
@@ -624,6 +634,10 @@
                                 case "users.email":case "restaurants.email":
                                     if(validate_data(data, "email")){newdata = clean_data(data, "email");}
                                     datatype="email address";
+                                    break;
+                                case "orders.status":
+                                    newdata = statuses[data];
+                                    datatype="status";
                                     break;
                             }
                             log("Verifying: " + colname + " = '" + data + "' (" + datatype + ")");
@@ -722,7 +736,7 @@
                     }
 
                     function changeorderstatus(ID, Status){
-                        log("Change order " + ID + " status to " + Status);
+                        edititem(ID, "status", Status);
                     }
 
                     //data vealidation handling
