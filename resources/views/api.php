@@ -46,12 +46,13 @@
     function insertdb($Table, $DataArray, $PrimaryKey = "id", $Execute = True){
         global $con;
         if (is_object($con)){$DataArray = escapearray($DataArray);}
+        filtersubarrays($DataArray);
         $query = "INSERT INTO " . $Table . " (" . getarrayasstring($DataArray, True) . ") VALUES (" . getarrayasstring($DataArray, False) . ")";
         if($PrimaryKey && isset($DataArray[$PrimaryKey])) {
             $query.= " ON DUPLICATE KEY UPDATE";
             $delimeter = " ";
             foreach($DataArray as $Key => $Value){
-                if($Key != $PrimaryKey){
+                if($Key != $PrimaryKey ){
                     $query.= $delimeter . $Key . "='" . $Value . "'";
                     $delimeter = ", ";
                 }
@@ -68,11 +69,9 @@
     function escapearray($DataArray){
         global $con;
         foreach($DataArray as $Key => $Value) {
-            if(is_array($Value)){
-                var_dump($DataArray);
-                die();
+            if(!is_array($Value)) {
+                $DataArray[$Key] = mysqli_real_escape_string($con, $Value);
             }
-            $DataArray[$Key] = mysqli_real_escape_string($con, $Value);
         }
         return $DataArray;
     }
@@ -87,7 +86,11 @@
             return "'" . $DataArray . "'";
         }
     }
-
+    function filtersubarrays(&$array){
+        foreach($array as $key => $row) {
+            if(is_array($row)) unset($array[$key]);
+        }
+    }
     /*
      * $getcol:
      *  blank, returns first query results
@@ -472,7 +475,6 @@
 
     function getiterator($arr, $key, $value, $retValue = true){
         foreach($arr as $index => $item){
-            var_dump($item);
             if(is_array($item)){
                 if(isset($item[$key]) && $item[$key] == $value){
                     if($retValue){return $value;}

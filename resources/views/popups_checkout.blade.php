@@ -26,7 +26,7 @@
                     <DIV CLASS="input-group-vertical">
                         <?php
                             if(read("id")){//can only be included once, and is in the login modal
-                                view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true))->render();
+                                echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true))->render();
                             }
                         ?>
                     </DIV>
