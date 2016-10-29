@@ -26,7 +26,7 @@
 
 
                         <?php
-                        echo '<SELECT class="" id="deliverytime" TITLE="Delivery Time"/>';
+                        echo '<SELECT id="deliverytime" TITLE="Delivery Time"/>';
                         function rounduptoseconds($time, $seconds)
                         {
                             $r = $time % $seconds;

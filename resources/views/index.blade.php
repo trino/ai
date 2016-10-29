@@ -24,7 +24,7 @@
         }
         ?>
 
-        <div class="col-md-4 " style="padding: 0 !important;">
+        <div class="col-md-4 " >
             <div class="card">
                 <div class="card-block"
                 >
@@ -37,7 +37,7 @@
                     <div class="pull-right">
                         <ul class="nav navbar-nav pull-lg-right">
                             <li class="nav-item dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <a href="#" class="dropdown-toggle text-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     <i class="fa fa-user no-padding-margin"></i>
                                 </a>
                                 <ul class="dropdown-menu  dropdown-menu-right">

@@ -1,7 +1,6 @@
 <!-- menu cache saved from: {{ now() }} -->
-<div class="col-md-8 " style="padding: 0 !important;">
-    <div class="card" style="">
-
+<div class="col-md-8">
+    <div class="card" >
 
         <div class="card-block card-columns">
             <?php
@@ -108,7 +107,7 @@
                 <h5 class="text-danger">{{$category['category']}}</h5>
             </a>
 
-            <div class="collapse in " id="collapse{{$category['id']}}_cat">
+            <div class="collapse in" id="collapse{{$category['id']}}_cat">
                 @foreach ($menuitems as $menuitem)
                     <div
                             class="btnbtn-secondary menuitem item_{{ $catclass }}"
@@ -123,7 +122,6 @@
                                 echo $table . '="' . $menuitem[$table] . '" ';
                                 $total += $menuitem[$table];
                             }
-
                             ?>
                     >
 
@@ -139,7 +137,7 @@
                         ?>
                         <SPAN>
                                 <a <?= $HTML; ?> >
-                                    <DIV CLASS="sprite sprite-<?= $imagefile; ?> sprite-tiny"></DIV>
+                                    <DIV CLASS="sprite sprite-<?= $imagefile; ?> sprite-small"></DIV>
                                     <?= $icon; ?>
                                     <span class="itemname">{{$menuitem['item']}}</span>
                                     <span class="pull-right"> ${{number_format($menuitem["price"], 2)}}</span>

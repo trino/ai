@@ -1,3 +1,5 @@
+{{die();}}
+
 <script src="<?= webroot("resources/assets/scripts/api.js"); ?>"></script>
 <script src="<?= webroot("resources/assets/scripts/nui.js"); ?>"></script>
 <!--script src="<?= webroot("resources/assets/scripts/receipt.js"); ?>"></script-->

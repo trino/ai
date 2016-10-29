@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="<?= webroot("public/custom.123css"); ?>">
+    <link rel="stylesheet" href="<?= webroot("public/custom2.css"); ?>">
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="manifest" href="<?= webroot("resources/assets/manifest.json"); ?>">
     <script src="<?= webroot("resources/views/jquery.min.js"); ?>"></script>
@@ -41,113 +41,7 @@
 
 </head>
 
-<STYLE TITLE="These can not be moved to a CSS file!!!">
 
-    * {
-        border-radius: 0 !important;
-        border: 0 !important;
-    }
-
-    .modal-backdrop {
-        background-color: white;
-        opacity: 1 !important;
-    }
-
-    /* puts the google places autocomplete dropdown results above the bootstrap modal 1050 zindex. */
-    .pac-container {
-        z-index: 1151 !important;
-    }
-
-    .list-group-item {
-        padding: .2rem;
-    }
-
-    .dont-show {
-        display: none;
-    }
-
-    .sprite {
-        background-image: url('grid.png');
-        background-repeat: no-repeat;
-        width: 64px;
-        height: 64px;
-
-        display: inline-block;
-    }
-
-    .sprite-dips {
-        background-position: -0px -0px;
-    }
-
-    .sprite-wings {
-        background-position: -66px -0px;
-    }
-
-    .sprite-drinks {
-        background-position: -132px -0px;
-    }
-
-    .sprite-panzerotti {
-        background-position: 0px -66px;
-    }
-
-    .sprite-pizza {
-        background-position: -66px -66px;
-    }
-
-    .sprite-sides {
-        background-position: -132px -66px;
-    }
-
-    .sprite-medium {
-        zoom: 0.60;
-        -moz-transform: scale(0.60);
-        -moz-transform-origin: 0 0;
-    }
-
-    .sprite-small {
-        zoom: 0.29;
-        -moz-transform: scale(0.29);
-        -moz-transform-origin: 0 0;
-    }
-
-    .sprite-tiny {
-        zoom: 0.20;
-        -moz-transform: scale(0.20);
-        -moz-transform-origin: 0 0;
-    }
-
-    @if(read("id"))
-            .loggedin {
-        display: block;
-    }
-
-    .loggedout {
-        display: none;
-    }
-
-    @else
-            .loggedin {
-        display: none;
-    }
-
-    .loggedout {
-        display: block;
-    }
-
-    @endif
-
-        #loadingmodal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        background: rgba(255, 255, 255, .8) url('<?= webroot("resources/assets/images/slice.gif"); ?>') 50% 50% no-repeat;
-    }
-</STYLE>
 </HEAD>
 
 
@@ -164,8 +58,7 @@ if (read("id")) {
     @yield('content')
 </div>
 
-<nav class="navbar-default navbar-fixed-top navbar navbar-full navbar-dark bg-danger" style="z-index: 1;">
-</nav>
+
 <nav class="navbar-default navbar-fixed-bottom navbar navbar-full navbar-dark bg-danger dont-print" style="z-index: 1;">
     <SPAN ID="navbar-text"></SPAN>
     <button class="btn btn-warning pull-right" id="checkout-btn" onclick="showcheckout();" style="display: none;">
