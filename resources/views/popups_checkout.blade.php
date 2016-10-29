@@ -21,12 +21,12 @@
                         }
                         ?>
 
-                        <input type="text" class=" corner-top" ID="restaurant" readonly
+                        <input type="text" class="form-control corner-top" ID="restaurant" readonly
                                placeholder="Restaurant Select" TITLE="Closest restaurant"/>
 
 
                         <?php
-                        echo '<SELECT id="deliverytime" TITLE="Delivery Time"/>';
+                        echo '<SELECT id="deliverytime" TITLE="Delivery Time" class="form-control"/>';
                         function rounduptoseconds($time, $seconds)
                         {
                             $r = $time % $seconds;
@@ -43,7 +43,7 @@
                         }
                         echo '</SELECT>';
                         ?>
-                        <input type="text" id="cookingnotes"
+                        <input type="text" id="cookingnotes" class="form-control"
                                placeholder="Notes for the Cook" maxlength="255"/>
 
                     <button class="m-b-1 btn btn-warning btn-block" onclick="placeorder();">PLACE ORDER</button>

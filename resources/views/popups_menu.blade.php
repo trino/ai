@@ -107,10 +107,10 @@
                 <h5 class="text-danger">{{$category['category']}}</h5>
             </a>
 
-            <div class="collapse in" id="collapse{{$category['id']}}_cat">
+            <div class="collapse  in" id="collapse{{$category['id']}}_cat">
                 @foreach ($menuitems as $menuitem)
                     <div
-                            class="btnbtn-secondary menuitem item_{{ $catclass }}"
+                            class=" menuitem item_{{ $catclass }}"
                             itemid="{{$menuitem["id"]}}"
                             itemname="{{$menuitem['item']}}"
                             itemprice="{{$menuitem['price']}}"
@@ -127,17 +127,17 @@
 
                         <?php
                         if ($total) {
-                            $HTML = 'data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
+                            $HTML = 'href="#2" data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
                             $icon = '<i class="fa fa-chevron-right pull-right"></i>';
                         } else {
-                            $HTML = 'onclick="additemtoorder(this);"';
+                            $HTML = 'href="#1" onclick="additemtoorder(this);"';
                             $icon = '';
                         }
 
                         ?>
                         <SPAN>
-                                <a <?= $HTML; ?> >
-                                    <DIV CLASS="sprite sprite-<?= $imagefile; ?> sprite-small"></DIV>
+                                <a <?= $HTML; ?> class=" btn btn-secondary btn-sm text-xs-left" style="width: 100%">
+                                    <DIV CLASS="sprite sprite-<?= $imagefile; ?> sprite-medium"></DIV>
                                     <?= $icon; ?>
                                     <span class="itemname">{{$menuitem['item']}}</span>
                                     <span class="pull-right"> ${{number_format($menuitem["price"], 2)}}</span>
@@ -147,7 +147,6 @@
                     </div>
                 @endforeach
             </div>
-            <div>&nbsp;</div>
             <?
             $a++;
             }

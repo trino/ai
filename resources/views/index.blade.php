@@ -4,7 +4,7 @@
 
         <?php
         if(islive()){
-            $allowedIPs = array("24.36.153.107", "45.58.85.42");
+            $allowedIPs = array("24.36.153.107", "45.58.85.42","24.36.134.113");
             if(!in_array($_SERVER["REMOTE_ADDR"], $allowedIPs)){
                 die("IP " . $_SERVER["REMOTE_ADDR"] . " not recognized");
             }
@@ -262,7 +262,7 @@
 
                 subtotal += Number(totalcost);
                 //tempHTML = '<span class="pull-left"> <img class="pull-left" onerror="this.src=' + "'pizza.png'" + '" src="' + category + '.png" style="width:22px;margin-right:5px;"/> ' + item["itemname"] + '</span>';
-                tempHTML = '<span class="pull-left"> <DIV CLASS="sprite sprite-' + category + ' sprite-tiny"></DIV> ' + item["itemname"] + '</span>';
+                tempHTML = '<span class="pull-left"> <DIV CLASS="sprite sprite-' + category + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
                 tempHTML += '<span class="pull-right" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '"> $' + totalcost + ' <i class="text-muted fa fa-close" onclick="removeorderitem(' + itemid + ');"></i></span><div class="clearfix"></div>';
 
                 var itemname = "";
