@@ -3,29 +3,32 @@
     <div class="row">
 
         <?php
-            if(islive()){
-                $allowedIPs = array("24.36.153.107", "45.58.85.42");
-                if(!in_array($_SERVER["REMOTE_ADDR"], $allowedIPs)){
-                    die("IP " . $_SERVER["REMOTE_ADDR"] . " not recognized");
-                }
+        if(islive()){
+            $allowedIPs = array("24.36.153.107", "45.58.85.42");
+            if(!in_array($_SERVER["REMOTE_ADDR"], $allowedIPs)){
+                die("IP " . $_SERVER["REMOTE_ADDR"] . " not recognized");
             }
+        }
 
-            //menu caching
-            $menucache_filename = resource_path() . "/menucache.html";
-            $menucache_uptodate = isFileUpToDate("menucache", $menucache_filename);
-            if($menucache_uptodate){
-                echo file_get_contents($menucache_filename);
-            } else {
-                $menu = view("popups_menu");
-                file_put_contents($menucache_filename, $menu);
-                echo '<!-- menu cache generated at: ' . now() . ' --> ' . $menu;
-            }
+        //menu caching
+        $menucache_filename = resource_path() . "/menucache.html";
+        $menucache_uptodate = isFileUpToDate("menucache", $menucache_filename);
+        if($menucache_uptodate){
+            echo file_get_contents($menucache_filename);
+        } else {
+            $menu = view("popups_menu");
+
+            //disabled for development
+            //  file_put_contents($menucache_filename, $menu);
+            echo '<!-- menu cache generated at: ' . now() . ' --> ' . $menu;
+        }
         ?>
-        <div class="col-md-4 ">
+
+        <div class="col-md-4 " style="padding: 0 !important;">
             <div class="card">
-                <div class="card-block bg-danger"
-                     style="padding-top:.75rem !important;padding-bottom:.75rem !important;">
-                    <h5 class="pull-left" style="margin-top: .5rem;">
+                <div class="card-block"
+                >
+                    <h5 class="pull-left">
                         My Order
                         <a ONCLICK="confirm2('Are you sure you want to clear your order?', 'Clear Order', function(){clearorder();});">
                             <i class="fa fa-close"></i>
@@ -34,17 +37,17 @@
                     <div class="pull-right">
                         <ul class="nav navbar-nav pull-lg-right">
                             <li class="nav-item dropdown">
-                                <a style="color:white;" href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     <i class="fa fa-user no-padding-margin"></i>
                                 </a>
                                 <ul class="dropdown-menu  dropdown-menu-right">
 
                                     <SPAN class="loggedin profiletype profiletype1">
                                         <?php
-                                            //administration lists
-                                            foreach (array("users", "restaurants", "useraddresses", "orders", "additional_toppings") as $table) {
-                                                echo '<LI><A HREF="' . webroot("public/list/" . $table) . '" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> ' . ucfirst($table) . ' list</A></LI>';
-                                            }
+                                        //administration lists
+                                        foreach (array("users", "restaurants", "useraddresses", "orders", "additional_toppings") as $table) {
+                                            echo '<LI><A HREF="' . webroot("public/list/" . $table) . '" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> ' . ucfirst($table) . ' list</A></LI>';
+                                        }
                                         ?>
                                         <li><A HREF="<?= webroot("public/editmenu"); ?>" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> Edit Menu</A></li>
                                         <li><A HREF="<?= webroot("public/list/debug"); ?>" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> Debug log</A></li>
@@ -73,9 +76,10 @@
                             </li>
                         </ul>
                     </div>
-                </div>
-                <div class="card-block">
-                    <div id="myorder"></div>
+                    <div  class="clearfix"></div>
+
+
+                    <div id="myorder" ></div>
                     <SPAN ID="checkoutbutton">
                         <button class="btn btn-block btn-warning loggedin" id="checkout" onclick="showcheckout();">
                             CHECKOUT
@@ -85,7 +89,7 @@
                     @include("popups_checkout")
                 </div>
             </div>
-            <div class=" m-b-3 p-t-3"></div>
+
         </div>
     </div>
 
@@ -98,7 +102,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
 
-                    <div class="form-group">
+                    <div >
                         <h5 class="modal-title" id="myModalLabel">Edit Profile</h5>
                     </div>
 
@@ -190,7 +194,7 @@
             visible(sourceID, count > 0);
             if (count) {
                 if (isUndefined(sourceHTML)) {
-                    var sourceHTML = outerHTML(sourceID).replace('form-control select2', 'form-control select2 select2clones');
+                    var sourceHTML = outerHTML(sourceID).replace('select2', 'form-control select2 select2clones');
                 }
                 if (count == 1) {
                     $(sourceID + "-ordinal").hide();
@@ -369,9 +373,9 @@
         }
 
         /*checks if an addon is on the whole pizza (for when we implement halves)
-        function isaddon_onall(Table, Addon) {
-            return freetoppings["isall"][Table].indexOf(Addon) > -1;
-        }*/
+         function isaddon_onall(Table, Addon) {
+         return freetoppings["isall"][Table].indexOf(Addon) > -1;
+         }*/
 
         //remove an item from the order
         function removeorderitem(index) {

@@ -1,80 +1,130 @@
 <?php
-    if (!isset($style)) {
-        $style = 0;
-    }
-    switch ($style) {
-        case 0:
-            echo '<DIV CLASS="row"><DIV CLASS="col-md-2">Address:</DIV><DIV CLASS="col-md-10"><INPUT TYPE="text" ID="formatted_address"></div></DIV>';
-            break;
-        case 1:
-            echo '<INPUT TYPE="text" ID="formatted_address" PLACEHOLDER="Address" class="form-control">';
-            echo '<STYLE>.address.form-control:focus{z-index: 999;}</STYLE>';
-            break;
-    }
+if (!isset($style)) {
+    $style = 0;
+}
+switch ($style) {
+    case 0:
+        echo '<DIV CLASS="form-control row"><DIV CLASS="form-control col-md-2">Address:</DIV><DIV CLASS="form-control col-md-10"><INPUT TYPE="text" ID="formatted_address"></div></DIV>';
+        break;
+    case 1:
+        echo '<textarea TYPE="textarea" ID="formatted_address" PLACEHOLDER="New Address" CLASS="form-control "></textarea>';
+        echo '<STYLE>.address.:focus{z-index: 999;}</STYLE>';
+        break;
+}
 ?>
 
 <FORM ID="googleaddress">
-    <div class="input-group-vertical">
-        <?php
-            if (!isset($user_id)) {
-                $user_id = read("id");
-            }
 
-            $fields = array(
-                "Unit / Apt / Buzz Code / Address Notes" => array("type" => "text", "name" => "unit"),
-                "Street Number" => array("type" => "text", "name" => "number", "class" => "street_number", "readonly" => true),
-                "Street" => array("type" => "text", "name" => "street", "class" => "route", "readonly" => true),
-                "City" => array("type" => "text", "name" => "city", "class" => "locality", "readonly" => true, "half" => "start", "corner" => "bottom-left"),
-                "Province" => array("type" => "text", "name" => "province", "class" => "administrative_area_level_1", "readonly" => true, "half" => "middle"),
-                "Postal Code" => array("type" => "text", "name" => "postalcode", "class" => "postal_code", "readonly" => true, "half" => "end", "corner" => "bottom-right"),
-                "Latitude" => array("type" => "hidden", "name" => "latitude", "class" => "latitude", "readonly" => true, "half" => "start"),
-                "Longitude" => array("type" => "hidden", "name" => "longitude", "class" => "longitude", "readonly" => true, "half" => "end"),
-                "user_id" => array("type" => "hidden", "name" => "user_id", "value" => $user_id, "class" => "session_id_val")
-            );
 
-            $keys = array_keys($fields);
-            foreach ($fields as $Name => $field) {
-                if ($style == 0 && $field["type"] != "hidden") {echo '<DIV CLASS="row"><DIV CLASS="col-md-2 data_' . $field["name"] . '">' . $Name . ':</DIV><DIV CLASS="col-md-10">';}
-                if ($style == 1 && isset($field["half"])) {
-                    if ($field["half"] == "start") {
-                        $percent = 50;
-                        $index = array_search($Name, $keys);
-                        if($index < count($keys)){
-                            $next = $fields[$keys[$index+1]];
-                            if(isset($next["half"]) && $next["half"] == "middle"){
-                                $percent = 33;
-                            }
-                        }
-                        echo '<div class="input-group">';
-                    }
-                    echo '<span class="input-group-btn" style="width: ' . $percent . '% !important;">';
-                }
-                echo '<INPUT TYPE="' . $field["type"] . '" NAME="' . $field["name"] . '" ID="add_' . $field["name"] . '"';
-                if ($style == 1) {
-                    echo ' PLACEHOLDER="' . $Name . '"';
-                    if (!isset($field["class"])) {$field["class"] = "";}
-                    $field["class"] .= " address form-control";
-                }
-                if (isset($field["class"]))         {echo ' CLASS="' . $field["class"] . '" ';}
-                if (isset($field["value"]))         {echo ' value="' . $field["value"] . '" ';}
-                if (isset($field["readonly"]))      {echo ' readonly';}
-                if (isset($field["corner"]))        {echo ' STYLE="border-' . $field["corner"] . '-radius: 5px;"';}
-                echo '>';
-                if ($style == 0 && $field["type"] != "hidden") {echo '</DIV></DIV>';}
-                if ($style == 1 && isset($field["half"])) {
-                    echo '</span>';
-                    if ($field["half"] == "end") {echo '</div>';}
-                }
-            }
+    <FORM ID="googleaddress">
+        <?
+        if (!isset($user_id)) {
+            $user_id = read("id");
+        }
         ?>
-    </div>
 
-    @if(isset($saveaddress))
-        <DIV CLASS="col-md-12">
-            <button class="btn btn-link btn-sm" onclick="editaddresses();" title="Edit the addresses saved to your profile">
+        <INPUT TYPE="text" NAME="unit" ID="add_unit" PLACEHOLDER="Address Notes"
+               CLASS="form-control  address  dont-show">
+        <INPUT TYPE="text" NAME="number" ID="add_number" PLACEHOLDER="Street Number"
+               CLASS="form-control street_number address  dont-show" >
+
+        <INPUT TYPE="text" NAME="street" ID="add_street" PLACEHOLDER="Street" CLASS="form-control route address  dont-show"
+        >
+
+
+        <INPUT TYPE="text" NAME="city" ID="add_city" PLACEHOLDER="City" CLASS="form-control locality address  dont-show">
+
+
+        <INPUT TYPE="text" NAME="province" ID="add_province" PLACEHOLDER="Province"
+               CLASS="form-control administrative_area_level_1 address  dont-show">
+
+
+
+        <INPUT TYPE="text" NAME="postalcode" ID="add_postalcode" PLACEHOLDER="Postal Code"
+               CLASS="form-control postal_code address  dont-show" >
+
+
+
+
+        <INPUT TYPE="" NAME="latitude" ID="add_latitude" PLACEHOLDER="Latitude" CLASS="form-control latitude address"
+               readonly>
+
+
+
+        <INPUT TYPE="" NAME="longitude" ID="add_longitude" PLACEHOLDER="Longitude" CLASS="form-control longitude address "
+               readonly>
+
+
+
+
+        <INPUT TYPE="hidden" NAME="user_id" ID="add_user_id" PLACEHOLDER="user_id"
+               CLASS="form-control session_id_val address " value="{{$user_id}}">
+    </FORM>
+
+
+    <!--?php
+        if (!isset($user_id)) {
+            $user_id = read("id");
+        }
+
+        $fields = array(
+            "Unit / Apt / Buzz Code / Address Notes" => array("type" => "text", "name" => "unit"),
+            "Street Number" => array("type" => "text", "name" => "number", "class" => "street_number", "readonly" => true),
+            "Street" => array("type" => "text", "name" => "street", "class" => "route", "readonly" => true),
+            "City" => array("type" => "text", "name" => "city", "class" => "locality", "readonly" => true, "half" => "start", "corner" => "bottom-left"),
+            "Province" => array("type" => "text", "name" => "province", "class" => "administrative_area_level_1", "readonly" => true, "half" => "middle"),
+            "Postal Code" => array("type" => "text", "name" => "postalcode", "class" => "postal_code", "readonly" => true, "half" => "end", "corner" => "bottom-right"),
+            "Latitude" => array("type" => "hidden", "name" => "latitude", "class" => "latitude", "readonly" => true, "half" => "start"),
+            "Longitude" => array("type" => "hidden", "name" => "longitude", "class" => "longitude", "readonly" => true, "half" => "end"),
+            "user_id" => array("type" => "hidden", "name" => "user_id", "value" => $user_id, "class" => "session_id_val")
+        );
+
+        $keys = array_keys($fields);
+        foreach ($fields as $Name => $field) {
+            if ($style == 0 && $field["type"] != "hidden") {echo '<DIV CLASS="form-control row"><DIV CLASS="form-control col-md-2 data_' . $field["name"] . '">' . $Name . ':</DIV><DIV CLASS="form-control col-md-10">';}
+            if ($style == 1 && isset($field["half"])) {
+                if ($field["half"] == "start") {
+                    $percent = 50;
+                    $index = array_search($Name, $keys);
+                    if($index < count($keys)){
+                        $next = $fields[$keys[$index+1]];
+                        if(isset($next["half"]) && $next["half"] == "middle"){
+                            $percent = 33;
+                        }
+                    }
+                    echo '<div CLASS="form-control input-group">';
+                }
+                echo '<span CLASS="form-control input-group-btn" style="width: ' . $percent . '% !important;">';
+            }
+
+            echo '<INPUT TYPE="' . $field["type"] . '" NAME="' . $field["name"] . '" ID="add_' . $field["name"] . '"';
+            if ($style == 1) {
+                echo ' PLACEHOLDER="' . $Name . '"';
+                if (!isset($field["class"])) {$field["class"] = "";}
+                $field["class"] .= " address ";
+            }
+            if (isset($field["class"]))         {echo ' CLASS="form-control ' . $field["class"] . '" ';}
+            if (isset($field["value"]))         {echo ' value="' . $field["value"] . '" ';}
+            if (isset($field["readonly"]))      {echo ' readonly';}
+            if (isset($field["corner"]))        {echo ' STYLE="border-' . $field["corner"] . '-radius: 5px;"';}
+            echo '>';
+            if ($style == 0 && $field["type"] != "hidden") {echo '</DIV></DIV>';}
+            if ($style == 1 && isset($field["half"])) {
+                echo '</span>';
+                if ($field["half"] == "end") {echo '</div>';}
+            }
+        }
+    ?-->
+
+
+    @if(isset($saveaddress) && false)
+        <DIV CLASS="form-control col-md-12">
+            <button CLASS="form-control btn btn-link btn-sm" onclick="editaddresses();"
+                    title="Edit the addresses saved to your profile">
                 EDIT ADDRESSES
             </button>
-            <button ID="saveaddressbtn" class="btn btn-link btn-sm" disabled onclick="deleteaddress(-2);" title="Save this address to your profile">
+            <button ID="saveaddressbtn" CLASS="form-control btn btn-link btn-sm" disabled onclick="deleteaddress(-2);"
+                    title="Save this address to your profile">
                 SAVE ADDRESS
             </button>
         </DIV>
@@ -82,7 +132,7 @@
 </FORM>
 
 <SCRIPT>
-    function editaddresses(){
+    function editaddresses() {
         $("#checkoutmodal").modal("hide");
         $("#profilemodal").modal("show");
     }
@@ -115,7 +165,7 @@
                 }
             });
         } else {
-            confirm2("Are you sure you want to delete '" + $("#add_" + ID).text().trim() + "'?", 'Delete Address', function(){
+            confirm2("Are you sure you want to delete '" + $("#add_" + ID).text().trim() + "'?", 'Delete Address', function () {
                 $.post("<?= webroot("public/list/useraddresses"); ?>", {
                     _token: token,
                     action: "deleteitem",
@@ -134,10 +184,10 @@
 
     function initAutocomplete() {
         formatted_address = new google.maps.places.Autocomplete(
-            /** @type {!HTMLInputElement} */(document.getElementById('formatted_address')), {
-            types: ['geocode'],
-            componentRestrictions: {country: "ca"}
-        });
+                /** @type {!HTMLInputElement} */(document.getElementById('formatted_address')), {
+                    types: ['geocode'],
+                    componentRestrictions: {country: "ca"}
+                });
         formatted_address.addListener('place_changed', fillInAddress);
     }
 
@@ -177,12 +227,14 @@
             $("#saveaddressbtn").attr("disabled", true);
         }
         $('.formatted_address').val(streetformat);
-        if(isFunction(addresshaschanged)){addresshaschanged();}
+        if (isFunction(addresshaschanged)) {
+            addresshaschanged();
+        }
         return place;
     }
 </SCRIPT>
 <?php
-    if (!isset($dontincludeGoogle)) {
-        echo '<script src="https://maps.googleapis.com/maps/api/js?signed_in=true&libraries=places&callback=initAutocomplete&key=AIzaSyBWSUc8EbZYVKF37jWVCb3lpBQwWqXUZw8"></script>';
-    }
+if (!isset($dontincludeGoogle)) {
+    echo '<script src="https://maps.googleapis.com/maps/api/js?signed_in=true&libraries=places&callback=initAutocomplete&key=AIzaSyBWSUc8EbZYVKF37jWVCb3lpBQwWqXUZw8"></script>';
+}
 ?>

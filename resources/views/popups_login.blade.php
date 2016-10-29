@@ -9,12 +9,12 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <div class="form-group">
+                        <div >
                             <h4 class="modal-title" id="myModalLabel">Login</h4>
                         </div>
 
-                        <INPUT TYPE="TEXT" ID="login_email" PlACEHOLDER="Email Address" CLASS="form-control">
-                        <INPUT TYPE="PASSWORD" ID="login_password" PLACEHOLDER="Password" CLASS="form-control">
+                        <INPUT TYPE="TEXT" ID="login_email" PlACEHOLDER="Email Address" CLASS="">
+                        <INPUT TYPE="PASSWORD" ID="login_password" PLACEHOLDER="Password" CLASS="">
 
                         <DIV ID="loginmessage"></DIV>
 
@@ -48,7 +48,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <div class="form-group">
+                        <div >
                             <h4 class="modal-title" id="myModalLabel">Register</h4>
                         </div>
                         <FORM Name="regform" id="regform">
@@ -67,6 +67,7 @@
             </div>
         </div>
 <?php } else { ?>
+
     <div class="modal" id="loginmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -77,12 +78,12 @@
                             <p>
                                 Login
                             </p>
-                            <div class="input-group-vertical">
-                                <div class="form-group">
-                                    <INPUT TYPE="text" id="login_email" placeholder="Email" class="form-control">
+                            <div class="">
+                                <div >
+                                    <INPUT TYPE="text" id="login_email" placeholder="Email" class="">
                                 </div>
-                                <div class="form-group">
-                                    <INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control">
+                                <div >
+                                    <INPUT TYPE="password" id="login_password" placeholder="Password" class="">
                                 </div>
                             </div>
                             <BUTTON CLASS="btn btn-primary" onclick="handlelogin('login');">Log In</BUTTON>
@@ -101,13 +102,19 @@
                         </DIV>
                     </div>
 
-
                     <DIV CLASS="clearfix"></DIV>
                 </div>
             </div>
         </div>
     </div>
-<?php } ?>
+
+<?php
+
+} ?>
+
+
+
+
 <SCRIPT>
     @if($style == 2)
         redirectonlogin=true;
