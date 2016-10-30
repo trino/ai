@@ -108,9 +108,15 @@
             </a>
 
             <div class="collapse  in" id="collapse{{$category['id']}}_cat">
+
+
+                <div class="list-group">
                 @foreach ($menuitems as $menuitem)
+
+
                     <div
-                            class=" menuitem item_{{ $catclass }}"
+                            style="padding: 0 !important;"
+                            class="list-group-item menuitem item_{{ $catclass }}"
                             itemid="{{$menuitem["id"]}}"
                             itemname="{{$menuitem['item']}}"
                             itemprice="{{$menuitem['price']}}"
@@ -146,7 +152,7 @@
                             </SPAN>
                     </div>
                 @endforeach
-            </div>
+            </div></div>
             <?
             $a++;
             }

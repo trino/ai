@@ -28,11 +28,11 @@
 ?>
 @if($style==1)
     <TABLE>
-        <TR><TD>Order #:&nbsp;</TD><TD><?= $orderid; ?></TD></TR>
-        <TR><TD>Ordered On:&nbsp;</TD><TD><?= verbosedate($Order["placed_at"]); ?></TD></TR>
-        <TR><TD>Status:&nbsp;</TD><TD><?= $Status; ?></TD></TR>
+        <TR><TD>Order #: <?= $orderid; ?></TD></TR>
+        <!--TR><TD>Ordered On:&nbsp;</TD><TD><?= verbosedate($Order["placed_at"]); ?></TD></TR-->
+        <TR><TD>Status: <?= $Status; ?></TD></TR>
         @if($Order["deliverytime"])
-            <TR><TD>Delivery for:&nbsp;</TD><TD><?= now(false, $Order["deliverytime"]); ?></TD></TR>
+            <TR><TD>Delivery for:&nbsp;<?= now(false, $Order["deliverytime"]); ?></TD></TR>
         @endif
     </TABLE>
 
