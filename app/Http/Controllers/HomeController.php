@@ -80,11 +80,32 @@ class HomeController extends Controller {
             }
             $user["orderid"] = $orderid;
             $user["mail_subject"] = "Receipt";
-            $text = $this->sendEMail("email_receipt", $user);//send emails to customer and store
+            $text = $this->sendEMail("email_receipt", $user);//send emails to customer and store, also generates the cost
             //if ($text) {return $text;} //shows email errors. Uncomment when email works
             if(isset($info["stripeToken"])){//process stripe payment here
-                $price = select_field_where("orders", "id=" . $orderid, "price");
+                $amount = select_field_where("orders", "id=" . $orderid, "price");
+                if (strpos($amount, ".")) {
+                    $amount = $amount * 100;
+                }//remove the period, make it in cents
 
+                // Set secret key: remember to change this to live secret key in production
+                if(!islive()) {
+                    \Stripe\Stripe::setApiKey("BJi8zV1i3D90vmaaBoLKywL84HlstXEg"); //test
+                } else {
+                    \Stripe\Stripe::setApiKey("3qL9w2o6A0xePqv8C6ufRKbAqkKTDJAW"); //live
+                }
+                // Create the charge on Stripe's servers - this will charge the user's card
+                try {
+                    $charge = \Stripe\Charge::create(array(
+                        "amount" => $amount,
+                        "currency" => "cad",
+                        "source" => $info["stripeToken"],
+                        "description" => "Order ID: " . $orderid
+                    ));
+                    insertdb("orders", array("id" => $orderid, "paid" => 1));
+                } catch (\Stripe\Error\Card $e) {
+                    return false;// The card has been declined
+                }
             }
             return '<div CLASS="ordersuccess"></div>' . view("popups_receipt", array("orderid" => $orderid))->render();
         } else {

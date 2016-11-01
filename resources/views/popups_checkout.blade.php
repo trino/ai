@@ -178,5 +178,9 @@
         });
     }
 
-    Stripe.setPublishableKey('34564763567546745674567');
+    <?php if (!islive()) {
+        echo "Stripe.setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf'); //test";
+    } else {
+        echo "Stripe.setPublishableKey('pk_vnR0dLVmyF34VAqSegbpBvhfhaLNi'); //live";
+    }?>
 </SCRIPT>
