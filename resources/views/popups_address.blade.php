@@ -10,14 +10,14 @@
             break;
     }
     if (!isset($user_id)) {$user_id = read("id");}
+    if (!isset($form)) {$form = true;}
 ?>
 <STYLE>
     .pac-container {
         z-index: 9999 !important;
     }
 </STYLE>
-<FORM ID="googleaddress">
-    <FORM ID="googleaddress">
+    @if($form) <FORM ID="googleaddress"> @endif
         <INPUT TYPE="text" NAME="unit" ID="add_unit" PLACEHOLDER="Address Notes" CLASS="form-control address">
         <INPUT TYPE="text" NAME="number" ID="add_number" PLACEHOLDER="Street Number" CLASS="form-control street_number address dont-show">
         <INPUT TYPE="text" NAME="street" ID="add_street" PLACEHOLDER="Street" CLASS="form-control route address dont-show">
@@ -27,7 +27,7 @@
         <INPUT TYPE="text" NAME="latitude" ID="add_latitude" PLACEHOLDER="Latitude" CLASS="form-control latitude address" readonly>
         <INPUT TYPE="text" NAME="longitude" ID="add_longitude" PLACEHOLDER="Longitude" CLASS="form-control longitude address" readonly>
         <INPUT TYPE="hidden" NAME="user_id" ID="add_user_id" PLACEHOLDER="user_id" CLASS="form-control session_id_val address" value="{{$user_id}}">
-    </FORM>
+    @if($form) </FORM> @endif
 
     <?php
         /*
@@ -81,19 +81,18 @@
         */
     ?>
 
-    @if(isset($saveaddress) && false)
-        <DIV CLASS="form-control col-md-12">
-            <button CLASS="form-control btn btn-link btn-sm" onclick="editaddresses();"
-                    title="Edit the addresses saved to your profile">
-                EDIT ADDRESSES
-            </button>
-            <button ID="saveaddressbtn" CLASS="form-control btn btn-link btn-sm" disabled onclick="deleteaddress(-2);"
-                    title="Save this address to your profile">
-                SAVE ADDRESS
-            </button>
-        </DIV>
-    @endif
-</FORM>
+@if(isset($saveaddress) && false)
+    <DIV CLASS="form-control col-md-12">
+        <button CLASS="form-control btn btn-link btn-sm" onclick="editaddresses();"
+                title="Edit the addresses saved to your profile">
+            EDIT ADDRESSES
+        </button>
+        <button ID="saveaddressbtn" CLASS="form-control btn btn-link btn-sm" disabled onclick="deleteaddress(-2);"
+                title="Save this address to your profile">
+            SAVE ADDRESS
+        </button>
+    </DIV>
+@endif
 
 <SCRIPT>
     function editaddresses() {

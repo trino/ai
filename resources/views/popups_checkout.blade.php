@@ -13,32 +13,32 @@
 
                 <FORM ID="orderinfo" name="orderinfo">
                     <div class="clear_loggedout addressdropdown" id="checkoutaddress"></div>
-                        <?php
-                            if (read("id")) {
-                                //can only be included once, and is in the login modal
-                                echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true))->render();
-                            }
-                            echo '<input type="text" class="form-control corner-top" ID="restaurant" readonly placeholder="Restaurant Select" TITLE="Closest restaurant"/>';
-                            echo '<SELECT id="deliverytime" TITLE="Delivery Time" class="form-control"/>';
-                            function rounduptoseconds($time, $seconds) {
-                                $r = $time % $seconds;
-                                return $time + ($seconds - $r);
-                            }
-                            $mindeliverytime = 30 * 60;//30 minutes
-                            $now = rounduptoseconds(time() + $mindeliverytime, 900);
+                    <?php
+                        if (read("id")) {
+                            //can only be included once, and is in the login modal
+                            echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
+                        }
+                        echo '<input type="text" class="form-control corner-top" ID="restaurant" readonly placeholder="Restaurant Select" TITLE="Closest restaurant"/>';
+                        echo '<SELECT id="deliverytime" TITLE="Delivery Time" class="form-control"/>';
+                        function rounduptoseconds($time, $seconds) {
+                            $r = $time % $seconds;
+                            return $time + ($seconds - $r);
+                        }
+                        $mindeliverytime = 30 * 60;//30 minutes
+                        $now = rounduptoseconds(time() + $mindeliverytime, 900);
 
-                            echo '<OPTION>Deliver ASAP</OPTION>';
-                            for ($i = 0; $i < 10; $i++) {
-                                //what is the end time?
-                                echo '<OPTION VALUE="' . $now . '">Today at ' . date('g:ia', $now) . '</OPTION>';
-                                $now += 15 * 60;
-                            }
-                            echo '</SELECT>';
-                        ?>
-                        <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook" maxlength="255"/>
+                        echo '<OPTION>Deliver ASAP</OPTION>';
+                        for ($i = 0; $i < 10; $i++) {
+                            //what is the end time?
+                            echo '<OPTION VALUE="' . $now . '">Today at ' . date('g:ia', $now) . '</OPTION>';
+                            $now += 15 * 60;
+                        }
+                        echo '</SELECT>';
+                    ?>
+                    <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook" maxlength="255"/>
 
                     <DIV STYLE="margin-top: 15px;">
-                        <span class="payment-errors"></span>
+                        <DIV class="col-md-12 payment-errors" style="color:red;"></DIV>
                         <?php
                             $cols=8;
                             if(!islive()){
@@ -112,28 +112,31 @@
     @endif
 
     function payfororder(){
-        Stripe.card.createToken($('#orderinfo'), stripeResponseHandler);
+        if(!canplaceorder){log("SELECT AN ADDRESS"); return false;}
+        var $form = $('#orderinfo');
+        $(".payment-errors").html("");
+        Stripe.card.createToken($form, stripeResponseHandler);
     }
 
     function stripeResponseHandler(status, response){
         var errormessage = "";
         switch(status){
-            case 400: errormessage = "Bad Request<BR>The request was unacceptable, often due to missing a required parameter."; break;
-            case 401: errormessage = "Unauthorized<BR>No valid API key provided."; break;
-            case 402: errormessage = "Request Failed<BR>The parameters were valid but the request failed."; break;
-            case 404: errormessage = "Not Found<BR>The requested resource doesn't exist."; break;
-            case 409: errormessage = "Conflict<BR>The request conflicts with another request (perhaps due to using the same idempotent key)."; break;
-            case 429: errormessage = "Too Many Requests<BR>Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."; break;
-            case 500: case 502: case 503:case 504: errormessage = "Server Errors<BR>Something went wrong on Stripe's end. (These are rare.)"; break;
+            case 400: errormessage = "Bad Request:<BR>The request was unacceptable, often due to missing a required parameter."; break;
+            case 401: errormessage = "Unauthorized:<BR>No valid API key provided."; break;
+            case 402: errormessage = "Request Failed:<BR>The parameters were valid but the request failed."; break;
+            case 404: errormessage = "Not Found:<BR>The requested resource doesn't exist."; break;
+            case 409: errormessage = "Conflict:<BR>The request conflicts with another request (perhaps due to using the same idempotent key)."; break;
+            case 429: errormessage = "Too Many Requests:<BR>Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."; break;
+            case 500: case 502: case 503:case 504: errormessage = "Server Errors:<BR>Something went wrong on Stripe's end."; break;
             case 200:// - OK	Everything worked as expected.
                 if (response.error) {
-                    $('.payment-errors').text(response.error.message);
+                    $('.payment-errors').html(response.error.message);
                 } else {
                     placeorder(response.id);
                 }
                 break;
         }
-        if(errormessage){$(".payment-errors").text(errormessage);}
+        if(errormessage){$(".payment-errors").html(errormessage + "<BR><BR>" + response["error"]["type"] + ":<BR>" + response["error"]["message"]);}
     }
 
     function addresshaschanged() {

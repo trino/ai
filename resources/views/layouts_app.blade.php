@@ -203,6 +203,7 @@ if (read("id")) {
     //universal AJAX error handling
     $(document).ajaxComplete(function (event, request, settings) {
         if (request.status != 200 && request.status > 0) {//not OK, or aborted
+            //H2 class="block_exception", get span class="exception_title" and class="exception_message"
             alert(request.statusText + "<P>URL: " + settings.url, "AJAX error code: " + request.status);
         }
     });

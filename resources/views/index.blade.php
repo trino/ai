@@ -397,7 +397,7 @@
 
         //send an order to the server
         function placeorder(StripeResponse) {
-            if(!canplaceorder){return false;}
+            if(!canplaceorder){log("CANT PLACE ORDER"); return false;}
             if (isObject(userdetails)) {
                 var addressinfo = getform("#orderinfo");//i don't know why the below 2 won't get included. this forces them to be
                 addressinfo["cookingnotes"] = $("#cookingnotes").val();
