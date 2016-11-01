@@ -599,15 +599,13 @@
                     //delete everything in a table, confirm twice
                     function deletetable(){
                         confirm2("Are you sure you want to delete the entire " + table + " table?", 'Delete Table', function(){
-                            confirm2("Are you really REALLY sure you want to delete the entire " + table + " table?", 'Delete Table', function(){
-                                $.post(currentURL, {
-                                    action: "deletetable",
-                                    _token: token,
-                                }, function (result) {
-                                    if (handleresult(result)) {
-                                        location.reload();
-                                    }
-                                });
+                            $.post(currentURL, {
+                                action: "deletetable",
+                                _token: token,
+                            }, function (result) {
+                                if (handleresult(result)) {
+                                    location.reload();
+                                }
                             });
                         });
                     }
