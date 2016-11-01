@@ -65,6 +65,7 @@ class HomeController extends Controller {
             if(!isset($restaurant["id"])){return false;}
             $info["placed_at"] = now();
             $info["restaurant_id"] = $restaurant["id"];
+            if(isset($_POST["stripe"])){$info["stripeToken"] = $_POST["stripe"];}
 
             $order = $_POST["order"];
             $orderid = insertdb("orders", $info);
@@ -81,13 +82,17 @@ class HomeController extends Controller {
             $user["mail_subject"] = "Receipt";
             $text = $this->sendEMail("email_receipt", $user);//send emails to customer and store
             //if ($text) {return $text;} //shows email errors. Uncomment when email works
-            //$charged = $this->stripepayment();
+            if(isset($info["stripeToken"])){//process stripe payment here
+                $price = select_field_where("orders", "id=" . $orderid, "price");
+
+            }
             return '<div CLASS="ordersuccess"></div>' . view("popups_receipt", array("orderid" => $orderid))->render();
         } else {
             return $addressID;
         }
     }
 
+    /*
     function processCC($info){
         //saves credit card info if it's not blank, returns the user info without the credit card info for saving as an order
         $fields = array("cc_fname", "cc_lname", "cc_number", "cc_xyear", "cc_xmonth", "cc_cc");
@@ -104,6 +109,7 @@ class HomeController extends Controller {
         }
         return $info;
     }
+    */
 
     function closestrestaurant($data){
         if(!isset($data['radius'])){$data['radius'] = 100;}

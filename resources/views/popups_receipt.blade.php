@@ -229,6 +229,7 @@
                 if(!$integrity){
                     //echo '<TR><TD COLSPAN="7" ALIGN="RIGHT">Integrity check</TD><TD ALIGN="RIGHT" STYLE="color:red;">FAIL</TD></TR>';
                 }
+                insertdb("orders", array("id" => $orderid, "price" => $total));//saved for stripe
             } catch (exception $e){
                 echo 'Caught exception: ',  $e->getMessage() . " on line " . $e->getLine() . "<BR>";
                 echo $filename;

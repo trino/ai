@@ -396,7 +396,7 @@
         }
 
         //send an order to the server
-        function placeorder() {
+        function placeorder(StripeResponse) {
             if(!canplaceorder){return false;}
             if (isObject(userdetails)) {
                 var addressinfo = getform("#orderinfo");//i don't know why the below 2 won't get included. this forces them to be
@@ -405,6 +405,7 @@
                 $.post(webroot + "placeorder", {
                     _token: token,
                     info: addressinfo,
+                    stripe: StripeResponse,
                     order: theorder,
                     name: $("#reg_name").val(),
                     phone: $("#reg_phone").val()

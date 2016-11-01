@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 26, 2016 at 07:23 PM
+-- Generation Time: Nov 01, 2016 at 04:40 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -391,25 +391,27 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `deliverytime` varchar(64) NOT NULL,
   `cookingnotes` varchar(255) NOT NULL,
   `status` tinyint(4) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=37 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=38 ;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `user_id`, `placed_at`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `accepted_at`, `restaurant_id`, `type`, `payment_type`, `phone`, `cell`, `paid`, `stripeToken`, `deliverytime`, `cookingnotes`, `status`) VALUES
-(5, 1, '2016-09-28 05:12:54', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '', 0, '', '3:15 pm', 'texffd', 0),
-(13, 1, '2016-09-28 18:07:33', 197, 'basement', '', 'Yonge Street', 'M5B 1M4', 'Toronto', 'Ontario', '43.6533455999999', '-79.379373100000', '0000-00-00 00:00:00', 0, 0, 0, '', '', 0, '', '', '', 0),
-(14, 1, '2016-09-28 18:07:47', 197, 'basement', '', 'Yonge Street', 'M5B 1M4', 'Toronto', 'Ontario', '43.6533455999999', '-79.379373100000', '0000-00-00 00:00:00', 0, 0, 0, '', '', 0, '', '', '', 0),
-(15, 1, '2016-09-28 21:48:27', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '9055123067', 0, '', '', '', 0),
-(30, 1, '2016-10-04 19:15:26', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '9055123067', 0, '', '', '', 0),
-(31, 1, '2016-10-11 19:39:37', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '', 0, '', '', '', 0),
-(32, 1, '2016-10-11 19:41:05', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '', 0, '', '', '', 0),
-(33, 1, '2016-10-11 21:07:17', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 0, '', '', '', 0),
-(34, 1, '2016-10-11 21:13:41', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 0, '', '1476208800', 'trydffghhhf', 0),
-(35, 1, '2016-10-11 21:41:26', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 0, '', '1476211500', '', 0),
-(36, 1, '2016-10-18 21:16:42', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 0, '', 'Deliver ASAP', '', 0);
+INSERT INTO `orders` (`id`, `user_id`, `placed_at`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `accepted_at`, `restaurant_id`, `type`, `payment_type`, `phone`, `cell`, `paid`, `stripeToken`, `deliverytime`, `cookingnotes`, `status`, `price`) VALUES
+(5, 1, '2016-09-28 05:12:54', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '', 0, '', '3:15 pm', 'texffd', 0, '0.00'),
+(13, 1, '2016-09-28 18:07:33', 197, 'basement', '', 'Yonge Street', 'M5B 1M4', 'Toronto', 'Ontario', '43.6533455999999', '-79.379373100000', '0000-00-00 00:00:00', 0, 0, 0, '', '', 0, '', '', '', 0, '0.00'),
+(14, 1, '2016-09-28 18:07:47', 197, 'basement', '', 'Yonge Street', 'M5B 1M4', 'Toronto', 'Ontario', '43.6533455999999', '-79.379373100000', '0000-00-00 00:00:00', 0, 0, 0, '', '', 0, '', '', '', 0, '0.00'),
+(15, 1, '2016-09-28 21:48:27', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '9055123067', 0, '', '', '', 0, '0.00'),
+(30, 1, '2016-10-04 19:15:26', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '9055123067', 0, '', '', '', 0, '0.00'),
+(31, 1, '2016-10-11 19:39:37', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '', 0, '', '', '', 0, '0.00'),
+(32, 1, '2016-10-11 19:41:05', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 0, 0, 0, '', '', 0, '', '', '', 0, '0.00'),
+(33, 1, '2016-10-11 21:07:17', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 0, '', '', '', 0, '0.00'),
+(34, 1, '2016-10-11 21:13:41', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 0, '', '1476208800', 'trydffghhhf', 0, '0.00'),
+(35, 1, '2016-10-11 21:41:26', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 0, '', '1476211500', '', 0, '0.00'),
+(36, 1, '2016-10-18 21:16:42', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 0, '', 'Deliver ASAP', '', 0, '0.00'),
+(37, 1, '2016-11-01 18:10:40', 2396, 'up stairs', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 0, '', 'Deliver ASAP', '', 0, '1.23');
 
 -- --------------------------------------------------------
 
@@ -498,15 +500,16 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=55 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1476195325'),
-(20, 'orders', '1477502564');
+(1, 'lastSQL', '1477502595'),
+(20, 'orders', '1477502564'),
+(24, 'menucache', '1478014539');
 
 -- --------------------------------------------------------
 
@@ -594,7 +597,7 @@ CREATE TABLE IF NOT EXISTS `useraddresses` (
 --
 
 INSERT INTO `useraddresses` (`id`, `user_id`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `phone`) VALUES
-(1, 1, 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', ''),
+(1, 1, 2396, 'up stairs', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', ''),
 (20, 1, 183, '', '', 'Lottridge Street', 'L8L 6V6', 'Hamilton', 'Ontario', '43.2557729', '-79.831154999999', ''),
 (21, 13, 183, '', '', 'Dundas Street West', 'M5G 1C7', 'Toronto', 'Ontario', '43.6549701', '-79.386574399999', ''),
 (22, 14, 183, '', '', 'Dundas Street West', 'M5G 1C7', 'Toronto', 'Ontario', '43.6549701', '-79.386574399999', '');
