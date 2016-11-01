@@ -96,6 +96,7 @@
 
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <SCRIPT>
+    //https://stripe.com/docs/custom-form
     var canplaceorder = false;
 
     function rnd(min, max){
