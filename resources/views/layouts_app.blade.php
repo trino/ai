@@ -56,9 +56,8 @@ if (read("id")) {
 
 
 <nav class="navbar-default navbar-fixed-top navbar navbar-full navbar-dark bg-danger dont-print" style="z-index: 1;">
-    <button class="btn btn-warning pull-right">
-   CHECKOUT
-    </button>
+
+
 </nav>
 
 <div class="container">  @yield('content')</div>
