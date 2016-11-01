@@ -1,33 +1,29 @@
 @extends('layouts_app')
 @section('content')
     <div class="row">
-
         <?php
-        if(islive()){
-            $allowedIPs = array("24.36.153.107", "45.58.85.42","24.36.134.113");
-            if(!in_array($_SERVER["REMOTE_ADDR"], $allowedIPs)){
-                die("IP " . $_SERVER["REMOTE_ADDR"] . " not recognized");
+            if(islive()){
+                $allowedIPs = array("24.36.153.107", "45.58.85.42","24.36.134.113");
+                if(!in_array($_SERVER["REMOTE_ADDR"], $allowedIPs)){
+                    die("IP " . $_SERVER["REMOTE_ADDR"] . " not recognized");
+                }
             }
-        }
 
-        //menu caching
-        $menucache_filename = resource_path() . "/menucache.html";
-        $menucache_uptodate = isFileUpToDate("menucache", $menucache_filename);
-        if($menucache_uptodate){
-            echo file_get_contents($menucache_filename);
-        } else {
-            $menu = view("popups_menu");
-
-            //disabled for development
-            //  file_put_contents($menucache_filename, $menu);
-            echo '<!-- menu cache generated at: ' . now() . ' --> ' . $menu;
-        }
+            //menu caching
+            $menucache_filename = resource_path() . "/menucache.html";
+            $menucache_uptodate = false;//isFileUpToDate("menucache", $menucache_filename);//disabled for development
+            if($menucache_uptodate){
+                echo file_get_contents($menucache_filename);
+            } else {
+                $menu = view("popups_menu");
+                file_put_contents($menucache_filename, $menu);
+                echo '<!-- menu cache generated at: ' . now() . ' --> ' . $menu;
+            }
         ?>
 
         <div class="col-md-4 " >
             <div class="card">
-                <div class="card-block"
-                >
+                <div class="card-block">
                     <h5 class="pull-left">
                         My Order
                         <a ONCLICK="confirm2('Are you sure you want to clear your order?', 'Clear Order', function(){clearorder();});">

@@ -258,7 +258,7 @@
                                             echo $Contents;
                                         ?></PRE>
                                     @else
-                                        <TABLE WIDTH="100%" class="table table-bordered" ID="data">
+                                        <TABLE WIDTH="100%" BORDER="1" ID="data">
                                             <THEAD>
                                                 <TR>
                                                     <TH CLASS="th-left">ID</TH>
@@ -267,7 +267,7 @@
                                                             $last = lastkey($fields);
                                                             foreach($fields as $field){
                                                                 if($field != "id"){
-                                                                    echo '<TH CLASS="th-left">' . formatfield($field) . '</TH>';
+                                                                    echo '<TH CLASS="th-left" NOWRAP>' . formatfield($field) . '</TH>';
                                                                 }
                                                             }
                                                         }
