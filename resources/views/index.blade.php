@@ -17,6 +17,7 @@
             } else {
                 $menu = view("popups_menu");
                 file_put_contents($menucache_filename, $menu);
+                setsetting("menucache", filemtime($menucache_filename));
                 echo '<!-- menu cache generated at: ' . now() . ' --> ' . $menu;
             }
         ?>

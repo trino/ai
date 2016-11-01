@@ -1,72 +1,32 @@
 <?php
-if (!isset($style)) {
-    $style = 0;
-}
-switch ($style) {
-    case 0:
-        echo '<DIV CLASS="form-control row"><DIV CLASS="form-control col-md-2">Address:</DIV><DIV CLASS="form-control col-md-10"><INPUT TYPE="text" ID="formatted_address"></div></DIV>';
-        break;
-    case 1:
-        echo '<textarea TYPE="textarea" ID="formatted_address" PLACEHOLDER="New Address" CLASS="form-control "></textarea>';
-        echo '<STYLE>.address.:focus{z-index: 999;}</STYLE>';
-        break;
-}
+    if (!isset($style)) {$style = 0;}
+    switch ($style) {
+        case 0:
+            echo '<DIV CLASS="form-control row"><DIV CLASS="form-control col-md-2">Address:</DIV><DIV CLASS="form-control col-md-10"><INPUT TYPE="text" ID="formatted_address"></div></DIV>';
+            break;
+        case 1:
+            echo '<textarea TYPE="textarea" ID="formatted_address" PLACEHOLDER="New Address" CLASS="form-control "></textarea>';
+            echo '<STYLE>.address.:focus{z-index: 999;}</STYLE>';
+            break;
+    }
+    if (!isset($user_id)) {$user_id = read("id");}
 ?>
 
 <FORM ID="googleaddress">
-
-
     <FORM ID="googleaddress">
-        <?
-        if (!isset($user_id)) {
-            $user_id = read("id");
-        }
-        ?>
-
-        <INPUT TYPE="text" NAME="unit" ID="add_unit" PLACEHOLDER="Address Notes"
-               CLASS="form-control  address  dont-show">
-        <INPUT TYPE="text" NAME="number" ID="add_number" PLACEHOLDER="Street Number"
-               CLASS="form-control street_number address  dont-show" >
-
-        <INPUT TYPE="text" NAME="street" ID="add_street" PLACEHOLDER="Street" CLASS="form-control route address  dont-show"
-        >
-
-
-        <INPUT TYPE="text" NAME="city" ID="add_city" PLACEHOLDER="City" CLASS="form-control locality address  dont-show">
-
-
-        <INPUT TYPE="text" NAME="province" ID="add_province" PLACEHOLDER="Province"
-               CLASS="form-control administrative_area_level_1 address  dont-show">
-
-
-
-        <INPUT TYPE="text" NAME="postalcode" ID="add_postalcode" PLACEHOLDER="Postal Code"
-               CLASS="form-control postal_code address  dont-show" >
-
-
-
-
-        <INPUT TYPE="" NAME="latitude" ID="add_latitude" PLACEHOLDER="Latitude" CLASS="form-control latitude address"
-               readonly>
-
-
-
-        <INPUT TYPE="" NAME="longitude" ID="add_longitude" PLACEHOLDER="Longitude" CLASS="form-control longitude address "
-               readonly>
-
-
-
-
-        <INPUT TYPE="hidden" NAME="user_id" ID="add_user_id" PLACEHOLDER="user_id"
-               CLASS="form-control session_id_val address " value="{{$user_id}}">
+        <INPUT TYPE="text" NAME="unit" ID="add_unit" PLACEHOLDER="Address Notes" CLASS="form-control  address dont-show">
+        <INPUT TYPE="text" NAME="number" ID="add_number" PLACEHOLDER="Street Number" CLASS="form-control street_number address dont-show">
+        <INPUT TYPE="text" NAME="street" ID="add_street" PLACEHOLDER="Street" CLASS="form-control route address dont-show">
+        <INPUT TYPE="text" NAME="city" ID="add_city" PLACEHOLDER="City" CLASS="form-control locality address dont-show">
+        <INPUT TYPE="text" NAME="province" ID="add_province" PLACEHOLDER="Province" CLASS="form-control administrative_area_level_1 address  dont-show">
+        <INPUT TYPE="text" NAME="postalcode" ID="add_postalcode" PLACEHOLDER="Postal Code" CLASS="form-control postal_code address dont-show">
+        <INPUT TYPE="text" NAME="latitude" ID="add_latitude" PLACEHOLDER="Latitude" CLASS="form-control latitude address" readonly>
+        <INPUT TYPE="text" NAME="longitude" ID="add_longitude" PLACEHOLDER="Longitude" CLASS="form-control longitude address" readonly>
+        <INPUT TYPE="hidden" NAME="user_id" ID="add_user_id" PLACEHOLDER="user_id" CLASS="form-control session_id_val address" value="{{$user_id}}">
     </FORM>
 
-
-    <!--?php
-        if (!isset($user_id)) {
-            $user_id = read("id");
-        }
-
+    <?php
+        /*
         $fields = array(
             "Unit / Apt / Buzz Code / Address Notes" => array("type" => "text", "name" => "unit"),
             "Street Number" => array("type" => "text", "name" => "number", "class" => "street_number", "readonly" => true),
@@ -114,8 +74,8 @@ switch ($style) {
                 if ($field["half"] == "end") {echo '</div>';}
             }
         }
-    ?-->
-
+        */
+    ?>
 
     @if(isset($saveaddress) && false)
         <DIV CLASS="form-control col-md-12">
@@ -234,7 +194,7 @@ switch ($style) {
     }
 </SCRIPT>
 <?php
-if (!isset($dontincludeGoogle)) {
-    echo '<script src="https://maps.googleapis.com/maps/api/js?signed_in=true&libraries=places&callback=initAutocomplete&key=AIzaSyBWSUc8EbZYVKF37jWVCb3lpBQwWqXUZw8"></script>';
-}
+    if (!isset($dontincludeGoogle)) {
+        echo '<script src="https://maps.googleapis.com/maps/api/js?signed_in=true&libraries=places&callback=initAutocomplete&key=AIzaSyBWSUc8EbZYVKF37jWVCb3lpBQwWqXUZw8"></script>';
+    }
 ?>
