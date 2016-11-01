@@ -5,16 +5,20 @@
             echo '<DIV CLASS="form-control row"><DIV CLASS="form-control col-md-2">Address:</DIV><DIV CLASS="form-control col-md-10"><INPUT TYPE="text" ID="formatted_address"></div></DIV>';
             break;
         case 1:
-            echo '<textarea TYPE="textarea" ID="formatted_address" PLACEHOLDER="New Address" CLASS="form-control "></textarea>';
+            echo '<INPUT TYPE="text" ID="formatted_address" PLACEHOLDER="New Address" CLASS="form-control">';
             echo '<STYLE>.address.:focus{z-index: 999;}</STYLE>';
             break;
     }
     if (!isset($user_id)) {$user_id = read("id");}
 ?>
-
+<STYLE>
+    .pac-container {
+        z-index: 9999 !important;
+    }
+</STYLE>
 <FORM ID="googleaddress">
     <FORM ID="googleaddress">
-        <INPUT TYPE="text" NAME="unit" ID="add_unit" PLACEHOLDER="Address Notes" CLASS="form-control  address dont-show">
+        <INPUT TYPE="text" NAME="unit" ID="add_unit" PLACEHOLDER="Address Notes" CLASS="form-control address">
         <INPUT TYPE="text" NAME="number" ID="add_number" PLACEHOLDER="Street Number" CLASS="form-control street_number address dont-show">
         <INPUT TYPE="text" NAME="street" ID="add_street" PLACEHOLDER="Street" CLASS="form-control route address dont-show">
         <INPUT TYPE="text" NAME="city" ID="add_city" PLACEHOLDER="City" CLASS="form-control locality address dont-show">

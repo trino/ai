@@ -41,18 +41,15 @@
     <TR>
         <TD COLSPAN="<?= $colspan; ?>">234234234
             <?php
-            if(isset($JSON)){
-                echo '<BUTTON CLASS="btn btn-secondary form-control" ONCLICK="orders(' . $orderid . ', true);">Load Order</BUTTON>';//viewing order from user's order list popup
-            } else {
-                echo $Order["name"] . " - " . $Order["email"] . "<BR>" . $Order["phone"] . " " . $Order["cell"] . "<BR>" . $Order["number"] . " " .
-                        $Order["street"] . '<BR>' . $Order["city"] . ", " . $Order["province"] . "<BR>" . $Order["postalcode"];//viewing order from anywhere else
-            }
+                if(isset($JSON)){
+                    echo '<BUTTON CLASS="btn btn-secondary form-control" ONCLICK="orders(' . $orderid . ', true);">Load Order</BUTTON>';
+                } else {
+                    echo $Order["name"] . " - " . $Order["email"] . "<BR>" . $Order["phone"] . " " . $Order["cell"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . ", " . $Order["province"] . "<BR>" . $Order["postalcode"] . '<BR>' . $Order["unit"];
+                }
             ?>
         </TD>
     </TR>
     </table>
-
-
 
     <TABLE WIDTH="100%" class="table table-sm table-bordered">
         <THEAD>
