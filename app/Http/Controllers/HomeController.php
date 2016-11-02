@@ -15,10 +15,6 @@ class HomeController extends Controller {
         return view("home_keyword")->render();
     }
 
-    public function clipi(Request $request) {
-        return view("home_clipi")->render();
-    }
-
     public function getjs(Request $request) {
         return view("home_getjs")->render();
     }

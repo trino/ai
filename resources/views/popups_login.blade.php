@@ -182,6 +182,7 @@
     }
 
     var minlength = 5;
+    getcloseststore=false;
 
     $(function() {
         $("form[name='regform']").validate({
@@ -196,6 +197,7 @@
                         type: "post",
                         data: {
                             action: "testemail",
+                            _token: token,
                             email: function() {
                                 return $('#reg_email').val();
                             },

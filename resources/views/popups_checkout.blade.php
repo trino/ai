@@ -98,6 +98,7 @@
 <SCRIPT>
     //https://stripe.com/docs/custom-form
     var canplaceorder = false;
+    var getcloseststore = true;
 
     function rnd(min, max){
         return Math.round(Math.random() * (max - min) + min);
@@ -141,6 +142,7 @@
     }
 
     function addresshaschanged() {
+        if(!getcloseststore){return;}
         skiploadingscreen = true;
         $.post(webroot + "placeorder", {
             _token: token,

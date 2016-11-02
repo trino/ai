@@ -3,7 +3,7 @@
     <div class="row">
         <?php
             if(islive()){
-                $allowedIPs = array("24.36.153.107", "45.58.85.42", "24.36.134.113");
+                $allowedIPs = array("24.36.153.107", "45.58.85.42", "216.165.195.31", "24.36.134.113");
                 if(!in_array($_SERVER["REMOTE_ADDR"], $allowedIPs)){
                     die("IP " . $_SERVER["REMOTE_ADDR"] . " not recognized");
                 }
@@ -41,13 +41,12 @@
                                     <i class="fa fa-user no-padding-margin"></i>
                                 </a>
                                 <ul class="dropdown-menu  dropdown-menu-right">
-
                                     <SPAN class="loggedin profiletype profiletype1">
                                         <?php
-                                        //administration lists
-                                        foreach (array("users", "restaurants", "useraddresses", "orders", "additional_toppings") as $table) {
-                                            echo '<LI><A HREF="' . webroot("public/list/" . $table) . '" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> ' . ucfirst($table) . ' list</A></LI>';
-                                        }
+                                            //administration lists
+                                            foreach (array("users", "restaurants", "useraddresses", "orders", "additional_toppings") as $table) {
+                                                echo '<LI><A HREF="' . webroot("public/list/" . $table) . '" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> ' . ucfirst($table) . ' list</A></LI>';
+                                            }
                                         ?>
                                         <li><A HREF="<?= webroot("public/editmenu"); ?>" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> Edit Menu</A></li>
                                         <li><A HREF="<?= webroot("public/list/debug"); ?>" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> Debug log</A></li>
@@ -76,10 +75,10 @@
                             </li>
                         </ul>
                     </div>
-                    <div  class="clearfix"></div>
+                    <div class="clearfix"></div>
 
 
-                    <div id="myorder" ></div>
+                    <div id="myorder"></div>
                     <SPAN ID="checkoutbutton">
                         <button class="btn btn-block btn-warning loggedin" id="checkout" onclick="showcheckout();">
                             CHECKOUT
@@ -372,10 +371,10 @@
             }
         }
 
-        /*checks if an addon is on the whole pizza (for when we implement halves)
-         function isaddon_onall(Table, Addon) {
-         return freetoppings["isall"][Table].indexOf(Addon) > -1;
-         }*/
+        //checks if an addon is on the whole pizza (for when we implement halves)
+        function isaddon_onall(Table, Addon) {
+            return freetoppings["isall"][Table].indexOf(Addon) > -1;
+        }
 
         //remove an item from the order
         function removeorderitem(index) {
@@ -527,4 +526,5 @@
             @endif
         });
     </script>
+    <?= view("popups_toppings"); ?>
 @endsection

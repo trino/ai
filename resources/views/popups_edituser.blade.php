@@ -99,6 +99,7 @@
                         type: "post",
                         data: {
                             action: "testemail",
+                            _token: token,
                             email: function () {
                                 return $('#user_email').val();
                             },
