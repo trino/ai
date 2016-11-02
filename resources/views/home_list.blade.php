@@ -107,27 +107,29 @@
         $results = array("Status" => true, "POST" => $_POST);
         switch($_POST["action"]){
             case "getpage"://get a page of data via AJAX
-                if($_POST["makenew"] == "true"){
-                    Query("INSERT INTO " . $table . " () VALUES();");
-                    debugprint("Inserted into " . $table );
-                }
-                if(!isset($fields)){$fields[] = "id";}
-                if($where){$where = " WHERE " . $where;}
-                if(!$SQL){$SQL= "SELECT " . implode(", ", $fields) . " FROM " . $table;}
-                $results["SQL"] =   $SQL . $where . " LIMIT " . $_POST["itemsperpage"] . " OFFSET " . ($_POST["itemsperpage"] * $_POST["page"]);
-                $results["table"] = Query($results["SQL"], true);
-                if(is_array($specialformats)){
-                    foreach($results["table"] as $Index => $Data){
-                        foreach($specialformats as $Field => $Format){
-                            switch($Format){
-                                case "date":
-                                    $results["table"][$Index][$Field] = verbosedate($Data[$Field]);
-                                    break;
+                if(!in_array($table, array("all", "debug"))){
+                    if($_POST["makenew"] == "true"){
+                        Query("INSERT INTO " . $table . " () VALUES();");
+                        debugprint("Inserted into " . $table );
+                    }
+                    if(!isset($fields)){$fields[] = "id";}
+                    if($where){$where = " WHERE " . $where;}
+                    if(!$SQL){$SQL= "SELECT " . implode(", ", $fields) . " FROM " . $table;}
+                    $results["SQL"] =   $SQL . $where . " LIMIT " . $_POST["itemsperpage"] . " OFFSET " . ($_POST["itemsperpage"] * $_POST["page"]);
+                    $results["table"] = Query($results["SQL"], true);
+                    if(is_array($specialformats)){
+                        foreach($results["table"] as $Index => $Data){
+                            foreach($specialformats as $Field => $Format){
+                                switch($Format){
+                                    case "date":
+                                        $results["table"][$Index][$Field] = verbosedate($Data[$Field]);
+                                        break;
+                                }
                             }
                         }
                     }
+                    $results["count"] = first("SELECT COUNT(*) as count FROM " . $table)["count"];
                 }
-                $results["count"] = first("SELECT COUNT(*) as count FROM " . $table)["count"];
                 break;
 
             case "deleteitem"://delete a row

@@ -193,8 +193,10 @@
     if(!function_exists("mysqli_fetch_all")) {
         function mysqli_fetch_all($result){
             $data = [];
-            while ($row = $result->fetch_assoc()) {
-                $data[] = $row;
+            if(is_object($result)) {
+                while ($row = $result->fetch_assoc()) {
+                    $data[] = $row;
+                }
             }
             return $data;
         }
@@ -204,7 +206,11 @@
         global $con;//use while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) { to get results
         if($all){
             $result = $con->query($query);
-            return mysqli_fetch_all($result, MYSQLI_ASSOC);// or die ('Unable to execute query. '. mysqli_error($con) . "<P>Query: " . $query);
+            if(is_object($result)) {
+                return mysqli_fetch_all($result, MYSQLI_ASSOC);// or die ('Unable to execute query. '. mysqli_error($con) . "<P>Query: " . $query);
+            } else {
+                debugprint($query . " returned no results");
+            }
         }
         return $con->query($query);
     }
