@@ -3,21 +3,24 @@
     <div class="row">
         <?php
             if(islive()){
-                $allowedIPs = array("24.36.153.107", "45.58.85.42","24.36.134.113");
+                $allowedIPs = array("24.36.153.107", "45.58.85.42", "24.36.134.113");
                 if(!in_array($_SERVER["REMOTE_ADDR"], $allowedIPs)){
                     die("IP " . $_SERVER["REMOTE_ADDR"] . " not recognized");
                 }
             }
 
             //menu caching
+            $doCache = false;//disabled for development
             $menucache_filename = resource_path() . "/menucache.html";
-            $menucache_uptodate = false; //isFileUpToDate("menucache", $menucache_filename);//disabled for development
-            if($menucache_uptodate){
+            $menucache_uptodate = isFileUpToDate("menucache", $menucache_filename);
+            if($menucache_uptodate && $doCache){
                 echo file_get_contents($menucache_filename);
             } else {
                 $menu = view("popups_menu");
-                file_put_contents($menucache_filename, $menu);
-                setsetting("menucache", filemtime($menucache_filename));
+                if($doCache){
+                    file_put_contents($menucache_filename, $menu);
+                    setsetting("menucache", filemtime($menucache_filename));
+                }
                 echo '<!-- menu cache generated at: ' . now() . ' --> ' . $menu;
             }
         ?>
