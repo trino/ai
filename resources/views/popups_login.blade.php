@@ -67,7 +67,6 @@
             </div>
         </div>
 <?php } else { ?>
-
     <div class="modal" id="loginmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -94,7 +93,11 @@
                                 <?= view("popups_edituser", array("phone" => false))->render(); ?>
                             </FORM>
                             <FORM id="addform">
-                                <?= view("popups_address", array("style" => 1))->render(); ?>
+                                <?php
+                                    if(!read("id")){
+                                        echo view("popups_address", array("style" => 1))->render();
+                                    }
+                                ?>
                             </FORM>
                             <button class="btn btn-primary" onclick="$('#regform').submit();">
                                 Register

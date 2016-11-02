@@ -40,18 +40,18 @@
                     <DIV STYLE="margin-top: 15px;">
                         <DIV class="col-md-12 payment-errors" style="color:red;"></DIV>
                         <?php
-                            $cols=8;
+                            $cols=12;
                             if(!islive()){
-                                $cols=7;
+                                $cols-=1;
                                 echo '<DIV CLASS="col-md-1"><BUTTON ONCLICK="testcard();" CLASS="form-control btn btn-primary" STYLE="padding-left: 8px;">Test</BUTTON></DIV>';
                             }
                         ?>
                         <DIV CLASS="col-md-{{ $cols }}">
                             <input type="text" size="20" class="form-control" data-stripe="number" placeholder="Card Number">
                         </DIV>
-                        <DIV CLASS="col-md-4">
+                        <!--DIV CLASS="col-md-4">
                             <input type="text" size="6" data-stripe="address_zip" CLASS="form-control" placeholder="Billing Postal Code">
-                        </DIV>
+                        </DIV-->
                         <DIV CLASS="col-md-4">
                             <SELECT CLASS="form-control" data-stripe="exp_month">
                                 <OPTION VALUE="01">01 - January</OPTION>
