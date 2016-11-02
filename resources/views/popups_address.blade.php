@@ -5,7 +5,7 @@
             echo '<DIV CLASS="form-control row"><DIV CLASS="form-control col-md-2">Address:</DIV><DIV CLASS="form-control col-md-10"><INPUT TYPE="text" ID="formatted_address"></div></DIV>';
             break;
         case 1:
-            echo '<INPUT TYPE="text" ID="formatted_address" PLACEHOLDER="New Address" CLASS="form-control">';
+            echo '<textarea TYPE="text" ID="formatted_address" PLACEHOLDER="New Address" CLASS="form-control"></textarea>';
             echo '<STYLE>.address.:focus{z-index: 999;}</STYLE>';
             break;
     }

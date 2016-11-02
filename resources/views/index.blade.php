@@ -11,7 +11,7 @@
 
             //menu caching
             $menucache_filename = resource_path() . "/menucache.html";
-            $menucache_uptodate = false;//isFileUpToDate("menucache", $menucache_filename);//disabled for development
+            $menucache_uptodate = false; //isFileUpToDate("menucache", $menucache_filename);//disabled for development
             if($menucache_uptodate){
                 echo file_get_contents($menucache_filename);
             } else {
