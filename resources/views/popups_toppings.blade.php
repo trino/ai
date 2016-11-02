@@ -34,13 +34,16 @@
         position: absolute;
         bottom: 6px;
     }
+
+    .thisside{
+        background-color: lightblue;
+    }
 </STYLE>
 <DIV ID="addonlist" class="addonlist"></DIV>
 
 <SCRIPT>
-    var currentaddontype = "";
-    var hashalves = true;
-    var currentside = "", currentqualifier = "", addonname = "";
+    var currentaddontype = "", currentside = "", currentqualifier = "", addonname = "", hashalves = true;
+    var currentaddonlist = new Array;
 
     function toclassname(text){
         return text.toLowerCase().replaceAll(" ", "_");
@@ -85,7 +88,6 @@
         $(e.target).addClass("addon-selected");
         $("#addonedit").remove();
         var HTML = '<DIV CLASS="col-md-3 addonlist overflow-y" ID="addonedit">';
-
         HTML += '<DIV CLASS="addon-title">' + addonname + '</DIV>';
         if(isaddon_free(currentaddontype, addonname)){
             HTML += '<DIV>This is a free addon</DIV>';
@@ -93,6 +95,7 @@
 
         if(isaddon_onall(currentaddontype, addonname) || !hashalves) {
             HTML += '<DIV>This addon goes on the whole item</DIV>';
+            currentside=1;
         } else {
             HTML += makelist("Side", "addon-side", ["Left", "Whole", "Right"], 1);
         }
@@ -126,7 +129,7 @@
 
     function list_addon_list(e, classname, index){
         var listitemname = $(e.target).text();
-        if(classname == "addon-qualifier" && index == 0){index = "0.5";}
+        //if(classname == "addon-qualifier" && index == 0){index = "0.5";}
         $("." + classname).removeClass("addon-selected");
         $(e.target).addClass("addon-selected");
         switch(classname){
@@ -137,7 +140,60 @@
     }
 
     function addtoitem(){
-        log(addonname + " Side: " + currentside + " Qualifier: " + currentqualifier);
+        currentaddonlist.push({
+            name: addonname,
+            side: currentside,
+            qual: currentqualifier,
+            type: currentaddontype
+        });
+        $(".addon-selected").removeClass("addon-selected");
+        $("#addonall").remove();
+        $("#addonedit").remove();
+        generateaddons();
+    }
+
+    function generateaddons(){
+        var HTML = '<TABLE CELLPADDING="2" BORDER="1" WIDTH="100%"><TR><TH>Q</TH><TH>Name</TH><TH WIDTH="7%">L</TH><TH WIDTH="7%">R</TH><TD WIDTH="7%" ALIGN="CENTER"><B><i class="fa fa-trash-o"></i></B></TD></TR>';
+        var thisside = ' CLASS="thisside" ALIGN="CENTER"><I CLASS="fa fa-check"></I></TD>';
+        var freetoppings = 0;
+        var paidtoppings = 0;
+        for(var i=0; i<currentaddonlist.length; i++){
+            var currentaddon = currentaddonlist[i], qualifier = "";
+            if( qualifiers[currentaddontype].hasOwnProperty(addonname) ) {
+                qualifier = qualifiers[currentaddontype][addonname][currentaddon.qual];
+            } else {
+                qualifier = qualifiers["DEFAULT"][currentaddon.qual];
+            }
+            HTML += '<TR><TD>' + qualifier + '</TD><TD>' + currentaddon.name + '</TD>';
+            switch(currentaddon.side){
+                case 0://left
+                    HTML += '<TD' + thisside + '<TD></TD>';
+                    break;
+                case 1://all
+                    HTML += '<TD COLSPAN="2"' + thisside;
+                    break;
+                case 2://right
+                    HTML += '<TD></TD><TD' + thisside;
+                    break;
+            }
+            HTML += '<TD><BUTTON CLASS="btn btn-sm btn-danger" ONCLICK="removelistitem(' + i + ');"><I CLASS="fa fa-times"></I></BUTTON></TD></TR>';
+            if(!isaddon_free(currentaddontype, currentaddon.name)){
+                qualifier = currentaddon.qual;
+                if(qualifier == 0){
+                    qualifier = 0.5;
+                } else if(currentaddon.side != 1) {
+                    qualifier = qualifier * 0.5;
+                }
+                paidtoppings += qualifier;
+            }
+        }
+
+        $("#theaddons").html(HTML + '<TR><TD COLSPAN="2">Paid toppings:</TD><TD COLSPAN="3" ALIGN="RIGHT">' + paidtoppings + '</TD></TR></TABLE>');
+    }
+
+    function removelistitem(index){
+        removeindex(currentaddonlist, index);
+        generateaddons();
     }
 
     list_addons("toppings", true);
