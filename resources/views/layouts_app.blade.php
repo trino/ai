@@ -39,7 +39,7 @@
         <script src="<?= webroot("resources/views/api2.js"); ?>"></script>
     </HEAD>
 
-    <body style="overflow-x: hidden !important;">
+    <body style="margin-top:30px;overflow-x: hidden !important;">
         <?php
             if (read("id")) {
                 $user = getuser(read("id"));
@@ -48,13 +48,18 @@
         ?>
         <nav class="navbar-default navbar-fixed-top navbar navbar-full navbar-dark bg-danger dont-print" style="z-index: 1;"></nav>
 
-        <div class="container" STYLE="margin-bottom: 60px !important;">
+        <div class="container" STYLE="margin-bottom: 60px !important;background:white;">
             @yield('content')
         </div>
 
-        <nav class="navbar-default navbar-fixed-bottom navbar navbar-full navbar-dark bg-danger dont-print" style="z-index: 1;">
-            <SPAN ID="navbar-text"></SPAN>
-            <button class="btn btn-warning pull-right" id="checkout-btn" onclick="showcheckout();" style="display: none;">
+        <nav class="navbar-default navbar-fixed-bottom navbar navbar-full navbar-dark dont-print" style="z-index: 1;background:#fff;">
+            <button class="btn btn-danger btn-sm pull-left"
+                  >
+                <SPAN ID="navbar-text"></SPAN>
+
+            </button>
+
+            <button class="btn btn-sm btn-warning pull-right" id="checkout-btn" onclick="showcheckout();" style="display: none;">
                 <strong id="checkout-total"></strong> CHECKOUT
             </button>
         </nav>

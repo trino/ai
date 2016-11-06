@@ -2,16 +2,85 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-
+<div class="col-xs-12" style="padding: .5rem .75rem !important;">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     &times;
                 </button>
 
                 <h5 id="myModalLabel">Checkout</h5>
-
+</div>
                 <?= view("popups_edituser", array("email" => false, "password" => false))->render(); ?>
 
                 <FORM ID="orderinfo" name="orderinfo">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <DIV class="col-md-12 payment-errors" style="color:red;"></DIV>
+                    <?php
+                    $cols=12;
+                  //  if(!islive()){
+
+                        echo '<DIV CLASS="col-xs-12"><BUTTON ONCLICK="testcard();" CLASS="form-control btn btn-link">Test</BUTTON></DIV>';
+                  //  }
+                    ?>
+                    <DIV CLASS="col-xs-{{ $cols }}">
+                        <input type="text" size="20" class="form-control" data-stripe="number" placeholder="Card Number">
+                    </DIV>
+                    <!--DIV CLASS="col-md-4">
+                        <input type="text" size="6" data-stripe="address_zip" CLASS="form-control" placeholder="Billing Postal Code">
+                    </DIV-->
+                    <DIV CLASS="col-xs-4">
+                        <SELECT CLASS="form-control" data-stripe="exp_month">
+                            <OPTION VALUE="01">01 - January</OPTION>
+                            <OPTION VALUE="02">02 - February</OPTION>
+                            <OPTION VALUE="03">03 - March</OPTION>
+                            <OPTION VALUE="04">04 - April</OPTION>
+                            <OPTION VALUE="05">05 - May</OPTION>
+                            <OPTION VALUE="06">06 - June</OPTION>
+                            <OPTION VALUE="07">07 - July</OPTION>
+                            <OPTION VALUE="08">08 - August</OPTION>
+                            <OPTION VALUE="09">09 - September</OPTION>
+                            <OPTION VALUE="10">10 - October</OPTION>
+                            <OPTION VALUE="11">11 - November</OPTION>
+                            <OPTION VALUE="12">12 - December</OPTION>
+                        </SELECT>
+                    </DIV>
+                    <DIV CLASS="col-xs-4">
+                        <SELECT CLASS="form-control" data-stripe="exp_year">
+                            <?php
+                            $CURRENT_YEAR = date("Y");
+                            $TOTAL_YEARS = 6;
+                            for($year = $CURRENT_YEAR; $year<$CURRENT_YEAR+$TOTAL_YEARS; $year++){
+                                echo '<OPTION VALUE="' . right($year,2) . '">' . $year . '</OPTION>';
+                            }
+                            ?>
+                        </SELECT>
+                    </DIV>
+
+
+                    <DIV CLASS="col-xs-4">
+                        <input type="text" size="4" data-stripe="cvc" CLASS="form-control" PLACEHOLDER="CVC">
+                    </DIV>
+
+
+
+
+
+
                     <div class="clear_loggedout addressdropdown" id="checkoutaddress"></div>
                     <?php
                         if (read("id")) {
@@ -37,55 +106,22 @@
                     ?>
                     <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook" maxlength="255"/>
 
-                    <DIV STYLE="margin-top: 15px;">
-                        <DIV class="col-md-12 payment-errors" style="color:red;"></DIV>
-                        <?php
-                            $cols=12;
-                            if(!islive()){
-                                $cols-=1;
-                                echo '<DIV CLASS="col-md-1"><BUTTON ONCLICK="testcard();" CLASS="form-control btn btn-primary" STYLE="padding-left: 8px;">Test</BUTTON></DIV>';
-                            }
-                        ?>
-                        <DIV CLASS="col-md-{{ $cols }}">
-                            <input type="text" size="20" class="form-control" data-stripe="number" placeholder="Card Number">
-                        </DIV>
-                        <!--DIV CLASS="col-md-4">
-                            <input type="text" size="6" data-stripe="address_zip" CLASS="form-control" placeholder="Billing Postal Code">
-                        </DIV-->
-                        <DIV CLASS="col-md-4">
-                            <SELECT CLASS="form-control" data-stripe="exp_month">
-                                <OPTION VALUE="01">01 - January</OPTION>
-                                <OPTION VALUE="02">02 - February</OPTION>
-                                <OPTION VALUE="03">03 - March</OPTION>
-                                <OPTION VALUE="04">04 - April</OPTION>
-                                <OPTION VALUE="05">05 - May</OPTION>
-                                <OPTION VALUE="06">06 - June</OPTION>
-                                <OPTION VALUE="07">07 - July</OPTION>
-                                <OPTION VALUE="08">08 - August</OPTION>
-                                <OPTION VALUE="09">09 - September</OPTION>
-                                <OPTION VALUE="10">10 - October</OPTION>
-                                <OPTION VALUE="11">11 - November</OPTION>
-                                <OPTION VALUE="12">12 - December</OPTION>
-                            </SELECT>
-                        </DIV>
-                        <DIV CLASS="col-md-4">
-                            <SELECT CLASS="form-control" data-stripe="exp_year">
-                                <?php
-                                    $CURRENT_YEAR = date("Y");
-                                    $TOTAL_YEARS = 6;
-                                    for($year = $CURRENT_YEAR; $year<$CURRENT_YEAR+$TOTAL_YEARS; $year++){
-                                        echo '<OPTION VALUE="' . right($year,2) . '">' . $year . '</OPTION>';
-                                    }
-                                ?>
-                            </SELECT>
-                        </DIV>
-                        <DIV CLASS="col-md-4">
-                            <input type="text" size="4" data-stripe="cvc" CLASS="form-control" PLACEHOLDER="CVC">
-                        </DIV>
-                    </DIV>
+                    <div  class="clearfix"></div>
 
-                    <button class="m-b-1 btn btn-warning btn-block" onclick="payfororder();">PLACE ORDER</button>
+                    <div  class="col-xs-6">
+
+                    <button class="btn btn-secondary" onclick="payfororder();">Close</button>
+
+                        </div>
+                    <div  class="col-xs-6">
+
+
+                    <button class="btn btn-warning btn-block" onclick="payfororder();">PLACE ORDER</button>
                     <DIV ID="form_integrity" style="color:red;"></DIV>
+
+                    </div>
+
+
                 </FORM>
                 <div class="clearfix"></div>
 
@@ -97,7 +133,7 @@
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <SCRIPT>
     //https://stripe.com/docs/custom-form
-    var canplaceorder = false;
+    var canplaceorder = true;
     var getcloseststore = true;
 
     function rnd(min, max){

@@ -1,7 +1,51 @@
-*{border-radius: 0 !important;}
+*{
+    border-radius: 0 !important;
 
+}
+
+@media (min-width: 34em) {
+    .card-columns {
+        -webkit-column-count: 1;
+        -moz-column-count: 1;
+        column-count: 1;
+    }
+}
+
+@media (min-width: 48em) {
+    .card-columns {
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+    }
+}
+
+@media (min-width: 62em) {
+    .card-columns {
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+    }
+}
+
+.fa{color:#dadada;}
+/*
+
+.list-group-item{border:0;}
+body{
+    background:#dadada;
+}
+.modal-body{padding: 0 !important;}
+select,input{
+    border-left:0 !important;
+    border-right:0 !important;
+    border-bottom:0 !important;
+}
+select{
+    padding:.5rem .5rem !important;
+
+}
 .card, .card-block, .modal-content{
-    border: 0 !important;
+
 }
 @media screen and (max-width: 400px) {
     .modal-dialog {
@@ -14,11 +58,6 @@
         margin-left: 0 !important;
         margin-right: 0 !important;
     }
-
-
-
-
-
 }
 .col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11,
 .col-xs-12, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8,
@@ -35,9 +74,27 @@ h1,h2,h3,h4,h5,h6{
     margin-bottom: 0 !important;
 }
 .modal-backdrop {
-    background-color: white;
-    opacity: 1 !important;
 }
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* puts the google places autocomplete dropdown results above the bootstrap modal 1050 zindex. */
 .pac-container {
@@ -112,3 +169,6 @@ h1,h2,h3,h4,h5,h6{
     width: 100%;
     background: rgba(255, 255, 255, .8) url('<?= webroot("resources/assets/images/slice.gif"); ?>') 50% 50% no-repeat;
 }
+
+
+

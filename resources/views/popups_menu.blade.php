@@ -98,18 +98,19 @@
             }
             $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
             ?>
+<div class="clearfix"></div>
 
-            <a class="head_{{ $catclass }}" data-toggle="collapse" href="#collapse{{$category["id"]}}_cat">
-                <h5 class="text-danger">{{$category['category']}}</h5>
+            <a class=" head_{{ $catclass }}" data-toggle="collapse" href="#collapse{{$category["id"]}}_cat">
+                <h5 class="text-danger ">{{$category['category']}}</h5>
             </a>
 
             <div class="collapse  in" id="collapse{{$category['id']}}_cat">
 
-                <div class="list-group">
+                <div class="">
                 @foreach ($menuitems as $menuitem)
                     <div
                             style="padding: 0 !important;"
-                            class="list-group-item menuitem item_{{ $catclass }}"
+                            class="col-xs-6 menuitem item_{{ $catclass }}"
                             itemid="{{$menuitem["id"]}}"
                             itemname="{{$menuitem['item']}}"
                             itemprice="{{$menuitem['price']}}"
@@ -135,11 +136,11 @@
 
                         ?>
                         <SPAN>
-                                <a <?= $HTML; ?> class=" btn btn-secondary btn-sm text-xs-left" style="width: 100%">
-                                    <DIV CLASS="sprite sprite-<?= $imagefile; ?> sprite-medium"></DIV>
+                                <a <?= $HTML; ?> class=" btn btn-sm" style="width: 100%;padding:0 8px !important;">
+                                    <DIV CLASS="pull-left sprite sprite-<?= $imagefile; ?> sprite-medium"></DIV>
                                     <?= $icon; ?>
-                                    <span class="itemname">{{$menuitem['item']}}</span>
-                                    <span class="pull-right"> ${{number_format($menuitem["price"], 2)}}</span>
+                                    <span class=" pull-left itemname" style="font-size: 75%;">{{$menuitem['item']}}</span>
+                                    <span class="pull-right"  style="font-size: 75%;"> ${{number_format($menuitem["price"], 2)}}</span>
                                     <div class="clearfix"></div>
                                 </a>
                             </SPAN>

@@ -5,7 +5,7 @@
             if(islive()){
                 $allowedIPs = array("24.36.153.107", "45.58.85.42", "216.165.195.31", "24.36.134.113");
                 if(!in_array($_SERVER["REMOTE_ADDR"], $allowedIPs)){
-                    die("IP " . $_SERVER["REMOTE_ADDR"] . " not recognized");
+                //    die("IP " . $_SERVER["REMOTE_ADDR"] . " not recognized");
                 }
             }
 
