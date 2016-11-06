@@ -1,11 +1,14 @@
 @extends('layouts_app')
 @section('content')
     <div class="row">
+
+
+
         <?php
             if(islive()){
                 $allowedIPs = array("24.36.153.107", "45.58.85.42", "216.165.195.31", "24.36.134.113");
                 if(!in_array($_SERVER["REMOTE_ADDR"], $allowedIPs)){
-                //    die("IP " . $_SERVER["REMOTE_ADDR"] . " not recognized");
+                    die("IP " . $_SERVER["REMOTE_ADDR"] . " not recognized");
                 }
             }
 
@@ -25,66 +28,37 @@
             }
         ?>
 
-        <div class="col-md-4 " >
+
+
+
+        <div class="col-md-3">
             <div class="card">
                 <div class="card-block">
                     <h5 class="pull-left">
                         My Order
-                        <a ONCLICK="confirm2('Are you sure you want to clear your order?', 'Clear Order', function(){clearorder();});">
-                            <i class="fa fa-close"></i>
-                        </a>
+
                     </h5>
                     <div class="pull-right">
-                        <ul class="nav navbar-nav pull-lg-right">
-                            <li class="nav-item dropdown">
-                                <a href="#" class="dropdown-toggle text-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <i class="fa fa-user no-padding-margin"></i>
-                                </a>
-                                <ul class="dropdown-menu  dropdown-menu-right">
-                                    <SPAN class="loggedin profiletype profiletype1">
-                                        <?php
-                                            //administration lists
-                                            foreach (array("users", "restaurants", "useraddresses", "orders", "additional_toppings") as $table) {
-                                                echo '<LI><A HREF="' . webroot("public/list/" . $table) . '" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> ' . ucfirst($table) . ' list</A></LI>';
-                                            }
-                                        ?>
-                                        <li><A HREF="<?= webroot("public/editmenu"); ?>" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> Edit Menu</A></li>
-                                        <li><A HREF="<?= webroot("public/list/debug"); ?>" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> Debug log</A></li>
-                                        <HR>
-                                    </SPAN>
 
-                                    <li>
-                                        <SPAN class="dropdown-item"><i class="fa fa-home"></i> <SPAN CLASS="session_name"></SPAN></SPAN>
-                                    </li>
-
-                                    <SPAN class="loggedin">
-                                        <li>
-                                            <A ONCLICK="orders();" class="dropdown-item"> <i class="fa fa-home"></i> Past Orders</A>
-                                        </li>
-                                        <li>
-                                            <A data-toggle="modal" data-target="#profilemodal" class="dropdown-item"><i class="fa fa-home"></i> Profile</A>
-                                        </li>
-                                    </SPAN>
-
-                                    <li>
-                                        <A ONCLICK="handlelogin('logout');" CLASS="hyperlink dropdown-item loggedin"> <i class="fa fa-home"></i> Log out</A>
-                                        <A CLASS="loggedout dropdown-item hyperlink" data-toggle="modal" data-target="#loginmodal"> <i class="fa fa-home"></i> Log In</A>
-                                    </li>
-
-                                </ul>
-                            </li>
-                        </ul>
                     </div>
                     <div class="clearfix"></div>
 
 
                     <div id="myorder"></div>
-                    <SPAN ID="checkoutbutton">
-                        <button class="btn btn-block btn-warning loggedin" id="checkout" onclick="showcheckout();">
+
+                    <div class="clearfix"></div>
+<div   ID="checkoutbutton">
+                    <button class="btn btn-secondary col-xs-4" ONCLICK="confirm2('Are you sure you want to clear your order?', 'Clear Order', function(){clearorder();});">
+CLEAR                    </button>
+
+
+                        <button
+
+
+                                class="btn btn-warning col-xs-8 loggedin" id="checkout" onclick="showcheckout();">
                             CHECKOUT
                         </button>
-                    </SPAN>
-
+</div>
                     @include("popups_checkout")
                 </div>
             </div>
@@ -122,6 +96,13 @@
     </div>
     <!-- end edit profile Modal -->
     <script>
+
+
+        $(document).on('touchend', function(){
+            $(".select2-search, .select2-focusser").remove();
+        })
+
+
         //handles the search text box
         function search(element) {
             var searchtext = element.value.toLowerCase();
@@ -260,7 +241,7 @@
                 }
 
                 subtotal += Number(totalcost);
-                //tempHTML = '<span class="pull-left"> <img class="pull-left" onerror="this.src=' + "'pizza.png'" + '" src="' + category + '.png" style="width:22px;margin-right:5px;"/> ' + item["itemname"] + '</span>';
+
                 tempHTML = '<span class="pull-left"> <DIV CLASS="sprite sprite-' + category + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
                 tempHTML += '<span class="pull-right" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '"> $' + totalcost + ' <i class="text-muted fa fa-close" onclick="removeorderitem(' + itemid + ');"></i></span><div class="clearfix"></div>';
 

@@ -110,7 +110,7 @@
                 @foreach ($menuitems as $menuitem)
                     <div
                             style="padding: 0 !important;"
-                            class="col-xs-6 menuitem item_{{ $catclass }}"
+                            class=" menuitem item_{{ $catclass }}"
                             itemid="{{$menuitem["id"]}}"
                             itemname="{{$menuitem['item']}}"
                             itemprice="{{$menuitem['price']}}"

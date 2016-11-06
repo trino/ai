@@ -2,61 +2,48 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-<div class="col-xs-12" style="padding: .5rem .75rem !important;">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    &times;
-                </button>
 
-                <h5 id="myModalLabel">Checkout</h5>
-</div>
+
+
+                    <h5 id="myModalLabel">Checkout</h5>
+
                 <?= view("popups_edituser", array("email" => false, "password" => false))->render(); ?>
 
                 <FORM ID="orderinfo" name="orderinfo">
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    <DIV class="col-md-12 payment-errors" style="color:red;"></DIV>
+                    <DIV class="payment-errors" style="color:red;"></DIV>
                     <?php
-                    $cols=12;
-                  //  if(!islive()){
+                    //   $cols=12;
+                    //  if(!islive()){
 
-                        echo '<DIV CLASS="col-xs-12"><BUTTON ONCLICK="testcard();" CLASS="form-control btn btn-link">Test</BUTTON></DIV>';
-                  //  }
+                    echo '<DIV CLASS=""><BUTTON ONCLICK="testcard();" CLASS="form-control btn btn-link">Test</BUTTON></DIV>';
+                    //  }
                     ?>
-                    <DIV CLASS="col-xs-{{ $cols }}">
-                        <input type="text" size="20" class="form-control" data-stripe="number" placeholder="Card Number">
-                    </DIV>
+
+                        <input type="text" size="20" class="form-control" data-stripe="number"
+                               placeholder="Card Number">
+
                     <!--DIV CLASS="col-md-4">
                         <input type="text" size="6" data-stripe="address_zip" CLASS="form-control" placeholder="Billing Postal Code">
                     </DIV-->
+                    <div class="">
+
+
                     <DIV CLASS="col-xs-4">
                         <SELECT CLASS="form-control" data-stripe="exp_month">
-                            <OPTION VALUE="01">01 - January</OPTION>
-                            <OPTION VALUE="02">02 - February</OPTION>
-                            <OPTION VALUE="03">03 - March</OPTION>
-                            <OPTION VALUE="04">04 - April</OPTION>
-                            <OPTION VALUE="05">05 - May</OPTION>
-                            <OPTION VALUE="06">06 - June</OPTION>
-                            <OPTION VALUE="07">07 - July</OPTION>
-                            <OPTION VALUE="08">08 - August</OPTION>
-                            <OPTION VALUE="09">09 - September</OPTION>
-                            <OPTION VALUE="10">10 - October</OPTION>
-                            <OPTION VALUE="11">11 - November</OPTION>
-                            <OPTION VALUE="12">12 - December</OPTION>
+                            <OPTION VALUE="01">01</OPTION>
+                            <OPTION VALUE="02">02</OPTION>
+                            <OPTION VALUE="03">03</OPTION>
+                            <OPTION VALUE="04">04</OPTION>
+                            <OPTION VALUE="05">05</OPTION>
+                            <OPTION VALUE="06">06</OPTION>
+                            <OPTION VALUE="07">07</OPTION>
+                            <OPTION VALUE="08">08</OPTION>
+                            <OPTION VALUE="09">09</OPTION>
+                            <OPTION VALUE="10">10</OPTION>
+                            <OPTION VALUE="11">11</OPTION>
+                            <OPTION VALUE="12">12</OPTION>
                         </SELECT>
                     </DIV>
                     <DIV CLASS="col-xs-4">
@@ -64,8 +51,8 @@
                             <?php
                             $CURRENT_YEAR = date("Y");
                             $TOTAL_YEARS = 6;
-                            for($year = $CURRENT_YEAR; $year<$CURRENT_YEAR+$TOTAL_YEARS; $year++){
-                                echo '<OPTION VALUE="' . right($year,2) . '">' . $year . '</OPTION>';
+                            for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
+                                echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
                             }
                             ?>
                         </SELECT>
@@ -75,52 +62,48 @@
                     <DIV CLASS="col-xs-4">
                         <input type="text" size="4" data-stripe="cvc" CLASS="form-control" PLACEHOLDER="CVC">
                     </DIV>
-
-
-
-
+                    </DIV>
 
 
                     <div class="clear_loggedout addressdropdown" id="checkoutaddress"></div>
                     <?php
-                        if (read("id")) {
-                            //can only be included once, and is in the login modal
-                            echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
-                        }
-                        echo '<input type="text" class="form-control corner-top" ID="restaurant" readonly placeholder="Restaurant Select" TITLE="Closest restaurant"/>';
-                        echo '<SELECT id="deliverytime" TITLE="Delivery Time" class="form-control"/>';
-                        function rounduptoseconds($time, $seconds) {
-                            $r = $time % $seconds;
-                            return $time + ($seconds - $r);
-                        }
-                        $mindeliverytime = 30 * 60;//30 minutes
-                        $now = rounduptoseconds(time() + $mindeliverytime, 900);
+                    if (read("id")) {
+                        //can only be included once, and is in the login modal
+                        echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
+                    }
+                    echo '<input type="text" class="form-control corner-top" ID="restaurant" readonly placeholder="Restaurant Select" TITLE="Closest restaurant"/>';
+                    echo '<SELECT id="deliverytime" TITLE="Delivery Time" class="form-control"/>';
+                    function rounduptoseconds($time, $seconds)
+                    {
+                        $r = $time % $seconds;
+                        return $time + ($seconds - $r);
+                    }
+                    $mindeliverytime = 30 * 60;//30 minutes
+                    $now = rounduptoseconds(time() + $mindeliverytime, 900);
 
-                        echo '<OPTION>Deliver ASAP</OPTION>';
-                        for ($i = 0; $i < 10; $i++) {
-                            //what is the end time?
-                            echo '<OPTION VALUE="' . $now . '">Today at ' . date('g:ia', $now) . '</OPTION>';
-                            $now += 15 * 60;
-                        }
-                        echo '</SELECT>';
+                    echo '<OPTION>Deliver ASAP</OPTION>';
+                    for ($i = 0; $i < 10; $i++) {
+                        //what is the end time?
+                        echo '<OPTION VALUE="' . $now . '">Today at ' . date('g:ia', $now) . '</OPTION>';
+                        $now += 15 * 60;
+                    }
+                    echo '</SELECT>';
                     ?>
-                    <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook" maxlength="255"/>
 
-                    <div  class="clearfix"></div>
+                    <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook"
+                           maxlength="255"/>
 
-                    <div  class="col-xs-6">
-
-                    <button class="btn btn-secondary" onclick="payfororder();">Close</button>
-
+                    <div class="">
+                        <div class="col-xs-6">
+                            <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal" aria-label="Close">
+                                Cancel
+                            </button>
                         </div>
-                    <div  class="col-xs-6">
+                        <div class="col-xs-6">
+                            <button class="btn btn-warning btn-block" onclick="payfororder();">PLACE ORDER</button>
 
-
-                    <button class="btn btn-warning btn-block" onclick="payfororder();">PLACE ORDER</button>
-                    <DIV ID="form_integrity" style="color:red;"></DIV>
-
+                      </div>
                     </div>
-
 
                 </FORM>
                 <div class="clearfix"></div>
@@ -136,36 +119,56 @@
     var canplaceorder = true;
     var getcloseststore = true;
 
-    function rnd(min, max){
+    function rnd(min, max) {
         return Math.round(Math.random() * (max - min) + min);
     }
 
     @if(!islive())
-        function testcard(){
-            $('input[data-stripe=number]').val('4242424242424242');
-            $('input[data-stripe=address_zip]').val('L8L6V6');
-            $('input[data-stripe=cvc]').val(rnd(100,999));
-            $('select[data-stripe=exp_year]').val({{ right($CURRENT_YEAR,2) }} + 1);
-        }
+    function testcard() {
+        $('input[data-stripe=number]').val('4242424242424242');
+        $('input[data-stripe=address_zip]').val('L8L6V6');
+        $('input[data-stripe=cvc]').val(rnd(100, 999));
+        $('select[data-stripe=exp_year]').val({{ right($CURRENT_YEAR,2) }} +1);
+    }
     @endif
 
-    function payfororder(){
-        if(!canplaceorder){log("SELECT AN ADDRESS"); return false;}
+    function payfororder() {
+        if (!canplaceorder) {
+            log("SELECT AN ADDRESS");
+            return false;
+        }
         var $form = $('#orderinfo');
         $(".payment-errors").html("");
         Stripe.card.createToken($form, stripeResponseHandler);
     }
 
-    function stripeResponseHandler(status, response){
+    function stripeResponseHandler(status, response) {
         var errormessage = "";
-        switch(status){
-            case 400: errormessage = "Bad Request:<BR>The request was unacceptable, often due to missing a required parameter."; break;
-            case 401: errormessage = "Unauthorized:<BR>No valid API key provided."; break;
-            case 402: errormessage = "Request Failed:<BR>The parameters were valid but the request failed."; break;
-            case 404: errormessage = "Not Found:<BR>The requested resource doesn't exist."; break;
-            case 409: errormessage = "Conflict:<BR>The request conflicts with another request (perhaps due to using the same idempotent key)."; break;
-            case 429: errormessage = "Too Many Requests:<BR>Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."; break;
-            case 500: case 502: case 503:case 504: errormessage = "Server Errors:<BR>Something went wrong on Stripe's end."; break;
+        switch (status) {
+            case 400:
+                errormessage = "Bad Request:<BR>The request was unacceptable, often due to missing a required parameter.";
+                break;
+            case 401:
+                errormessage = "Unauthorized:<BR>No valid API key provided.";
+                break;
+            case 402:
+                errormessage = "Request Failed:<BR>The parameters were valid but the request failed.";
+                break;
+            case 404:
+                errormessage = "Not Found:<BR>The requested resource doesn't exist.";
+                break;
+            case 409:
+                errormessage = "Conflict:<BR>The request conflicts with another request (perhaps due to using the same idempotent key).";
+                break;
+            case 429:
+                errormessage = "Too Many Requests:<BR>Too many requests hit the API too quickly. We recommend an exponential backoff of your requests.";
+                break;
+            case 500:
+            case 502:
+            case 503:
+            case 504:
+                errormessage = "Server Errors:<BR>Something went wrong on Stripe's end.";
+                break;
             case 200:// - OK	Everything worked as expected.
                 if (response.error) {
                     $('.payment-errors').html(response.error.message);
@@ -174,11 +177,15 @@
                 }
                 break;
         }
-        if(errormessage){$(".payment-errors").html(errormessage + "<BR><BR>" + response["error"]["type"] + ":<BR>" + response["error"]["message"]);}
+        if (errormessage) {
+            $(".payment-errors").html(errormessage + "<BR><BR>" + response["error"]["type"] + ":<BR>" + response["error"]["message"]);
+        }
     }
 
     function addresshaschanged() {
-        if(!getcloseststore){return;}
+        if (!getcloseststore) {
+            return;
+        }
         skiploadingscreen = true;
         $.post(webroot + "placeorder", {
             _token: token,
