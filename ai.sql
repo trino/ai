@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 01, 2016 at 04:40 PM
+-- Generation Time: Nov 08, 2016 at 05:29 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -52,22 +52,29 @@ INSERT INTO `additional_toppings` (`id`, `size`, `price`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `hours` (
-  `restraunt_id` int(11) NOT NULL,
-  `monday_open` time NOT NULL,
-  `monday_close` time NOT NULL,
-  `tuesday_open` time NOT NULL,
-  `tuesday_close` time NOT NULL,
-  `wednesday_open` time NOT NULL,
-  `wednesday_close` time NOT NULL,
-  `thursday_open` time NOT NULL,
-  `thursday_close` time NOT NULL,
-  `friday_open` time NOT NULL,
-  `friday_close` time NOT NULL,
-  `saturday_open` time NOT NULL,
-  `saturday_close` time NOT NULL,
-  `sunday_open` time NOT NULL,
-  `sunday_close` time NOT NULL
+  `restaurant_id` int(11) NOT NULL,
+  `0_open` smallint(6) NOT NULL,
+  `0_close` smallint(6) NOT NULL,
+  `1_open` smallint(6) NOT NULL,
+  `1_close` smallint(6) NOT NULL,
+  `2_open` smallint(6) NOT NULL,
+  `2_close` smallint(6) NOT NULL,
+  `3_open` smallint(6) NOT NULL,
+  `3_close` smallint(6) NOT NULL,
+  `4_open` smallint(6) NOT NULL,
+  `4_close` smallint(6) NOT NULL,
+  `5_open` smallint(6) NOT NULL,
+  `5_close` smallint(6) NOT NULL,
+  `6_open` smallint(6) NOT NULL,
+  `6_close` smallint(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `hours`
+--
+
+INSERT INTO `hours` (`restaurant_id`, `0_open`, `0_close`, `1_open`, `1_close`, `2_open`, `2_close`, `3_open`, `3_close`, `4_open`, `4_close`, `5_open`, `5_close`, `6_open`, `6_close`) VALUES
+(0, -1, -1, 1100, 2250, 1100, 2250, 1100, 2250, 1100, 2250, 1100, 50, 1100, 50);
 
 -- --------------------------------------------------------
 
@@ -393,7 +400,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `status` tinyint(4) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=38 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=41 ;
 
 --
 -- Dumping data for table `orders`
@@ -410,8 +417,11 @@ INSERT INTO `orders` (`id`, `user_id`, `placed_at`, `number`, `unit`, `buzzcode`
 (33, 1, '2016-10-11 21:07:17', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 0, '', '', '', 0, '0.00'),
 (34, 1, '2016-10-11 21:13:41', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 0, '', '1476208800', 'trydffghhhf', 0, '0.00'),
 (35, 1, '2016-10-11 21:41:26', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 0, '', '1476211500', '', 0, '0.00'),
-(36, 1, '2016-10-18 21:16:42', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 0, '', 'Deliver ASAP', '', 0, '0.00'),
-(37, 1, '2016-11-01 18:10:40', 2396, 'up stairs', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 0, '', 'Deliver ASAP', '', 0, '1.23');
+(36, 1, '2016-10-18 21:16:42', 2396, 'basement', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 0, '', 'Deliver ASAP', '', 0, '6.72'),
+(37, 1, '2016-11-01 18:10:40', 2396, 'up stairs', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 0, '', 'Deliver ASAP', '', 0, '8.87'),
+(38, 1, '2016-11-01 21:34:11', 2396, 'up stairs', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 0, 'tok_9U4Hpr45yvMGru', 'Deliver ASAP', '', 0, '15.63'),
+(39, 1, '2016-11-01 21:35:37', 2396, 'up stairs', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 0, 'tok_9U4JIQDlqFVQS6', 'Deliver ASAP', '', 0, '15.63'),
+(40, 1, '2016-11-01 21:52:12', 2396, 'up stairs', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 1, 'tok_9U4Z6NLGSfC9kL', 'Deliver ASAP', '', 0, '15.63');
 
 -- --------------------------------------------------------
 
@@ -500,16 +510,16 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=55 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=81 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1477502595'),
+(1, 'lastSQL', '1478014823'),
 (20, 'orders', '1477502564'),
-(24, 'menucache', '1478014539');
+(24, 'menucache', '1478095311');
 
 -- --------------------------------------------------------
 
@@ -590,7 +600,7 @@ CREATE TABLE IF NOT EXISTS `useraddresses` (
   `longitude` varchar(16) NOT NULL,
   `phone` varchar(16) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
 
 --
 -- Dumping data for table `useraddresses`
@@ -600,7 +610,8 @@ INSERT INTO `useraddresses` (`id`, `user_id`, `number`, `unit`, `buzzcode`, `str
 (1, 1, 2396, 'up stairs', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', ''),
 (20, 1, 183, '', '', 'Lottridge Street', 'L8L 6V6', 'Hamilton', 'Ontario', '43.2557729', '-79.831154999999', ''),
 (21, 13, 183, '', '', 'Dundas Street West', 'M5G 1C7', 'Toronto', 'Ontario', '43.6549701', '-79.386574399999', ''),
-(22, 14, 183, '', '', 'Dundas Street West', 'M5G 1C7', 'Toronto', 'Ontario', '43.6549701', '-79.386574399999', '');
+(22, 14, 183, '', '', 'Dundas Street West', 'M5G 1C7', 'Toronto', 'Ontario', '43.6549701', '-79.386574399999', ''),
+(23, 15, 2396, '', '', 'Kingsway', 'V5R 5G9', 'Vancouver', 'British Columbia', '49.2408347', '-123.05659100000', '');
 
 -- --------------------------------------------------------
 
@@ -630,7 +641,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `cc_addressid` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=16 ;
 
 --
 -- Dumping data for table `users`
@@ -641,7 +652,8 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `creat
 (11, 'Van Trinh', 'info@trinoweb.com', '$2y$10$2yAesihK6otSPNnVtnpnIOEO3Ec.6n2mrN1VWoL3qoETP1.T66PcC', '', '2016-09-20 21:19:32', '0000-00-00 00:00:00', '(905) 512-3067', 0, 0, 0, '', '', '', '', '', '', '', 0),
 (12, 'Van Trinhb', 'info@gmail.com', '$2y$10$tnOFCR/UlrzmZENb2IO8Uu8.K4T/i0avXFAHcxYEtgqvXcGc7jyYy', '', '2016-10-12 17:25:35', '0000-00-00 00:00:00', '9055315331', 0, 0, 0, 'EC3558B1-3FD1-435B-9EE5-2E974C2C1BFC', '', '', '', '', '', '', 0),
 (13, 'Van Trinh', 'roy2@trinoweb.com', '$2y$10$GLJLyeWh1slbMcFUg8jIne17CieNfWVAShrFFCnu8kkVZPDW9aPgq', '', '2016-10-12 17:50:58', '0000-00-00 00:00:00', '', 0, 0, 0, 'E2770638-AB90-409D-A336-DD1ACE9C6BA4', '', '', '', '', '', '', 0),
-(14, 'Van Trinh', 'Roy+TeacherTest@trinoweb.com', '$2y$10$D.rVhp9vKl/LyA5WS8eXheHEVaD28rTew7atyzlqmwESBfbYABFHC', '', '2016-10-18 17:11:48', '0000-00-00 00:00:00', '', 0, 0, 0, 'B045B7D4-C76F-4204-A96F-9DC0A0F4DE5A', '', '', '', '', '', '', 0);
+(14, 'Van Trinh', 'Roy+TeacherTest@trinoweb.com', '$2y$10$D.rVhp9vKl/LyA5WS8eXheHEVaD28rTew7atyzlqmwESBfbYABFHC', '', '2016-10-18 17:11:48', '0000-00-00 00:00:00', '', 0, 0, 0, 'B045B7D4-C76F-4204-A96F-9DC0A0F4DE5A', '', '', '', '', '', '', 0),
+(15, 'Van Trinh', 'roy+test@trinoweb.com', '$2y$10$4UaY87HTFi5vma6fVFcTSOiacGuh9Ji2Vj.qidwuJE038Vo4wzbmy', '', '2016-11-02 21:39:31', '0000-00-00 00:00:00', '', 0, 0, 0, 'B6FEDF12-31F2-46A0-B8CE-BF4F93E9234A', '', '', '', '', '', '', 0);
 
 -- --------------------------------------------------------
 

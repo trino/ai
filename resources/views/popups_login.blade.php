@@ -182,7 +182,7 @@
     }
 
     var minlength = 5;
-    getcloseststore=false;
+    var getcloseststore=false;
 
     $(function() {
         $("form[name='regform']").validate({

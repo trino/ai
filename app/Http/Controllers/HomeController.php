@@ -47,7 +47,7 @@ class HomeController extends Controller {
             $ret = array("Status" => true, "Reason" => "");
             switch($_POST["action"]){
                 case "closestrestaurant":
-                    $ret["closest"] = $this->closestrestaurant($info);
+                    $ret["closest"] = $this->closestrestaurant($info, true);
                     break;
                 default:
                     $ret["Status"] = false;
@@ -128,13 +128,23 @@ class HomeController extends Controller {
     }
     */
 
-    function closestrestaurant($data){
+    function closestrestaurant($data, $gethours){
         if(!isset($data['radius'])){$data['radius'] = 100;}
         $owners = implode(",", collapsearray(Query("SELECT address_id FROM restaurants WHERE address_id > 0", true), "address_id"));
         $where = "id IN (" . $owners . ")";
-
         $SQL = "SELECT *, ( 6371 * acos( cos( radians('" . $data['latitude'] . "') ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians('" . $data['longitude']."') ) + sin( radians('" . $data['latitude']."') ) * sin( radians( latitude ) ) ) ) AS distance FROM useraddresses WHERE $where HAVING distance <= " . $data['radius'] . " ORDER BY distance ASC LIMIT 1";
-        return first($SQL);
+        $Restaurant = first($SQL);
+        if($Restaurant && $gethours){
+            $hours = first("SELECT * FROM `hours` WHERE restaurant_id = " . $Restaurant["id"] . " or restaurant_id = 0 ORDER BY restaurant_id DESC LIMIT 1");
+            foreach($hours as $day => $time){
+                $dayofweek = left($day, 1);
+                if(is_numeric($dayofweek)) {
+                    $timeofday = right($day, strlen($day) - 2);
+                    $Restaurant["hours"][$dayofweek][$timeofday] = $time;
+                }
+            }
+        }
+        return $Restaurant;
     }
 
     function processaddress($info){

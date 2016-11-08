@@ -20,6 +20,8 @@
                         }
                         echo '<input type="text" class="form-control corner-top" ID="restaurant" readonly placeholder="Restaurant Select" TITLE="Closest restaurant"/>';
                         echo '<SELECT id="deliverytime" TITLE="Delivery Time" class="form-control"/>';
+                        echo '<OPTION>Deliver ASAP</OPTION>';
+                        /*
                         function rounduptoseconds($time, $seconds) {
                             $r = $time % $seconds;
                             return $time + ($seconds - $r);
@@ -33,6 +35,8 @@
                             echo '<OPTION VALUE="' . $now . '">Today at ' . date('g:ia', $now) . '</OPTION>';
                             $now += 15 * 60;
                         }
+                        */
+
                         echo '</SELECT>';
                     ?>
                     <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook" maxlength="255"/>
@@ -98,7 +102,9 @@
 <SCRIPT>
     //https://stripe.com/docs/custom-form
     var canplaceorder = false;
-    var getcloseststore = true;
+    $( document ).ready(function() {
+        getcloseststore = true;
+    });
 
     function rnd(min, max){
         return Math.round(Math.random() * (max - min) + min);
@@ -162,6 +168,7 @@
                         var keyvalue = closest[keyname];
                         restaurant = restaurant.replace("[" + keyname + "]", keyvalue);
                     }
+                    GenerateHours(closest["hours"], 15);
                 }
                 $("#restaurant").val(restaurant);
             }
@@ -172,8 +179,6 @@
         var HTML = $("#checkoutaddress").html();
         HTML = HTML.replace('class="', 'class="corner-top ');
         $("#checkoutaddress").html(HTML);
-        //HTML = HTML.replace('id="saveaddresses"', 'name="cc_addressid" ID="cc_addressid" ').replace("onchange", 'offchange').replace('Select a saved address', 'Billing Address');
-        //$("#billingaddress").html(HTML);
         $("#checkoutmodal").modal("show");
         $(function () {
             $("#orderinfo").validate({
@@ -182,6 +187,103 @@
                 }
             });
         });
+    }
+
+    //var hours = {"0":{"open":"-1","close":"-1"},"1":{"open":"1100","close":"2250"},"2":{"open":"1100","close":"2250"},"3":{"open":"1100","close":"2250"},"4":{"open":"1100","close":"2250"},"5":{"open":"1100","close":"50"},"6":{"open":"1100","close":"50"}};
+
+    var daysofweek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    var monthnames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    function GenerateHours(hours, increments){
+        var now = new Date();//doesn't take into account <= because it takes more than 1 minute to place an order
+        var dayofweek = now.getDay();
+        var today = dayofweek;
+        var tomorrow = (today + 1) % 7;
+        var time = now.getHours() * 100 + now.getMinutes();
+        time = time + (increments - (time % increments));
+        var oldValue = $("#deliverytime").val();
+        var HTML = '<option>Deliver ASAP</option>';
+        var totalInc = 10080 / increments;
+
+        for(var i=0; i<totalInc; i++){
+            if(isopen(hours, dayofweek, time) > -1) {
+                var minutes = time % 100;
+                if(minutes<60) {
+                    var thehours = Math.floor(time / 100);
+                    var hoursAMPM = thehours % 12;
+                    if (hoursAMPM == 0) {
+                        hoursAMPM = 12;
+                    }
+                    var thedayname = daysofweek[dayofweek];
+                    var thedate = monthnames[now.getMonth()] + " " + now.getDate();
+                    if (dayofweek == today) {
+                        thedayname = "Today";
+                    } else if (dayofweek == tomorrow) {
+                        thedayname = "Tomorrow";
+                    } else {
+                        thedayname += " " + thedate;
+                    }
+                    var extra = "";
+                    if (time == 0) {
+                        extra = " (Midnight)";
+                    } else if (time == 1200) {
+                        extra = " (Noon)";
+                    }
+                    var tempstr = '<OPTION VALUE="' + thedate + " at " + time + extra + '">' + thedayname + " at " + hoursAMPM + ":";
+                    if (minutes < 10) {
+                        tempstr += "0" + minutes;
+                    } else {
+                        tempstr += minutes;
+                    }
+                    if (time < 1200) {
+                        tempstr += " AM" + extra;
+                    } else {
+                        tempstr += " PM" + extra;
+                    }
+                    HTML += tempstr + '</OPTION>';
+                }
+            }
+
+            time = time + increments;
+            if(time % 100 >= 60){
+                time = (Math.floor(time / 100) + 1) * 100;
+            }
+            if(time >= 2400){
+                time = time % 2400;
+                dayofweek = (dayofweek + 1) % 7;
+                now = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+                if(dayofweek == today){i = totalInc;}
+            }
+        }
+
+        $("#deliverytime").html(HTML);
+        $("#deliverytime").val(oldValue);
+    }
+
+    function isopen(hours, dayofweek, time){
+        var now = new Date();//doesn't take into account <= because it takes more than 1 minute to place an order
+        if(isUndefined(dayofweek)){dayofweek = now.getDay();}
+        if(isUndefined(time)){time = now.getHours() * 100 + now.getMinutes();}
+        var today = hours[dayofweek];
+        var yesterday = dayofweek - 1;
+        if(yesterday<0){yesterday = 6;}
+        var yesterdaysdate = yesterday;
+        yesterday = hours[yesterday];
+        today.open = Number(today.open);
+        today.close = Number(today.close);
+        yesterday.open = Number(yesterday.open);
+        yesterday.close = Number(yesterday.close);
+        if(yesterday.open > -1 && yesterday.close > -1 && yesterday.close < yesterday.open){
+            if(yesterday.close > time){return yesterdaysdate;}
+        }
+        if(today.open > -1 && today.close > -1){
+            if(today.close < today.open){
+                //log("Day: " + dayofweek + " time: " + time + " open: " + today.open + " close: " + today.close );
+                if(time >= today.open || time < today.close){return dayofweek;}
+            } else {
+                if(time >= today.open && time < today.close){return dayofweek;}
+            }
+        }
+        return -1;//closed
     }
 
     <?php if (!islive()) {
