@@ -20,6 +20,16 @@ class HomeController extends Controller {
     }
 
     public function tablelist($table) {
+        if(isset($_POST["action"])){
+            switch($_POST["action"]){
+                case "testemail":
+                    return $this->sendEMail("email_test", array(
+                        'mail_subject' => "test",
+                        "email" => "roy@trinoweb.com"
+                    ));
+                    break;
+            }
+        }
         return view("home_list", array("table" => $table))->render();
     }
 

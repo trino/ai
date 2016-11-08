@@ -225,6 +225,7 @@
                             <H4 CLASS="pull-right spacing">
                                 @if($table != "all" && read("profiletype") == 1)
                                     @if($table == "debug")
+                                        <A onclick="testemail();" TITLE="Send a test email" class="hyperlink" id="testemail"><i class="fa fa-envelope"></i></A>
                                         <A onclick="deletedebug();" TITLE="Delete the debug log" class="hyperlink" id="deletedebug"><i class="fa fa-trash-o"></i></A>
                                     @else
                                         <A onclick="deletetable();" TITLE="Delete the table data" class="hyperlink" id="deletetable"><i class="fa fa-trash-o"></i></A>
@@ -639,6 +640,17 @@
                     //add a new item to the table, load the last page
                     function newitem(){
                         getpage(-1, true);
+                    }
+
+                    function testemail(){
+                        $("#debuglogcontents").html("Sending email. Please standby");
+                        $.post(currentURL, {
+                            action: "testemail",
+                            _token: token
+                        }, function (result) {
+                            if(!result){result = "Email sent successfully!";}
+                            $("#debuglogcontents").html(result);
+                        });
                     }
 
                     //delete the debug file
