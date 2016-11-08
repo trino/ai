@@ -52,6 +52,8 @@
                 <select>
                     <option>Fab Pizza</option>
                 </select>
+
+                <select ID="deliverytimealias" onchange="$('#deliverytime').val($('#deliverytimealias').val());"></select>
                 <SPAN ID="openingtime"></SPAN>
 
                 <ul class="nav navbar-nav pull-right">
@@ -164,10 +166,10 @@
                     if (generalhours[todaysdate].open > now()){
                         HTML = 'Opens at: ' + GenerateTime(generalhours[todaysdate].open);
                     }
-                    //HTML += " Today: " + todaysdate + " Now: " +  now() + " Opens at: " + generalhours[todaysdate].open;
                 } else {
                     HTML = 'Open until: ' + GenerateTime(generalhours[todaysdate].close);
                 }
+                GenerateHours(generalhours);
                 $("#openingtime").html(HTML);
             });
 

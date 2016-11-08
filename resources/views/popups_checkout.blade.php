@@ -168,7 +168,7 @@
                         var keyvalue = closest[keyname];
                         restaurant = restaurant.replace("[" + keyname + "]", keyvalue);
                     }
-                    GenerateHours(closest["hours"], 15);
+                    GenerateHours(closest["hours"]);
                 }
                 $("#restaurant").val(restaurant);
             }
@@ -224,6 +224,7 @@
     }
     function GenerateHours(hours, increments){
         var now = new Date();//doesn't take into account <= because it takes more than 1 minute to place an order
+        if(isUndefined(increments)){increments = 15;}
         var dayofweek = now.getDay();
         var today = dayofweek;
         var tomorrow = (today + 1) % 7;
@@ -263,6 +264,7 @@
             }
         }
 
+        $("#deliverytimealias").html(HTML);
         $("#deliverytime").html(HTML);
         $("#deliverytime").val(oldValue);
     }
