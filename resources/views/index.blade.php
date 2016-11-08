@@ -1,90 +1,69 @@
 @extends('layouts_app')
 @section('content')
     <div class="row">
-        <?php
-            if(islive()){
-                $allowedIPs = array("24.36.153.107", "45.58.85.42", "216.165.195.31", "24.36.134.113");
-                if(!in_array($_SERVER["REMOTE_ADDR"], $allowedIPs)){
-                    die("IP " . $_SERVER["REMOTE_ADDR"] . " not recognized");
-                }
-            }
 
-            //menu caching
-            $doCache = false;//disabled for development
-            $menucache_filename = resource_path() . "/menucache.html";
-            $menucache_uptodate = isFileUpToDate("menucache", $menucache_filename);
-            if($menucache_uptodate && $doCache){
-                echo file_get_contents($menucache_filename);
-            } else {
-                $menu = view("popups_menu");
-                if($doCache){
-                    file_put_contents($menucache_filename, $menu);
-                    setsetting("menucache", filemtime($menucache_filename));
-                }
-                echo '<!-- menu cache generated at: ' . now() . ' --> ' . $menu;
+
+        <?php
+        if (islive()) {
+            $allowedIPs = array("24.36.153.107", "45.58.85.42", "216.165.195.31", "24.36.134.113");
+            if (!in_array($_SERVER["REMOTE_ADDR"], $allowedIPs)) {
+                die("IP " . $_SERVER["REMOTE_ADDR"] . " not recognized");
             }
+        }
+
+        //menu caching
+        $doCache = false;//disabled for development
+        $menucache_filename = resource_path() . "/menucache.html";
+        $menucache_uptodate = isFileUpToDate("menucache", $menucache_filename);
+        if ($menucache_uptodate && $doCache) {
+            echo file_get_contents($menucache_filename);
+        } else {
+            $menu = view("popups_menu");
+            if ($doCache) {
+                file_put_contents($menucache_filename, $menu);
+                setsetting("menucache", filemtime($menucache_filename));
+            }
+            echo '<!-- menu cache generated at: ' . now() . ' --> ' . $menu;
+        }
         ?>
 
-        <div class="col-md-4 " >
+
+        <div class="col-md-3">
             <div class="card">
                 <div class="card-block">
                     <h5 class="pull-left">
                         My Order
-                        <a ONCLICK="confirm2('Are you sure you want to clear your order?', 'Clear Order', function(){clearorder();});">
-                            <i class="fa fa-close"></i>
-                        </a>
+
                     </h5>
                     <div class="pull-right">
-                        <ul class="nav navbar-nav pull-lg-right">
-                            <li class="nav-item dropdown">
-                                <a href="#" class="dropdown-toggle text-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <i class="fa fa-user no-padding-margin"></i>
-                                </a>
-                                <ul class="dropdown-menu  dropdown-menu-right">
-                                    <SPAN class="loggedin profiletype profiletype1">
-                                        <?php
-                                            //administration lists
-                                            foreach (array("users", "restaurants", "useraddresses", "orders", "additional_toppings") as $table) {
-                                                echo '<LI><A HREF="' . webroot("public/list/" . $table) . '" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> ' . ucfirst($table) . ' list</A></LI>';
-                                            }
-                                        ?>
-                                        <li><A HREF="<?= webroot("public/editmenu"); ?>" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> Edit Menu</A></li>
-                                        <li><A HREF="<?= webroot("public/list/debug"); ?>" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> Debug log</A></li>
-                                        <HR>
-                                    </SPAN>
 
-                                    <li>
-                                        <SPAN class="dropdown-item"><i class="fa fa-home"></i> <SPAN CLASS="session_name"></SPAN></SPAN>
-                                    </li>
-
-                                    <SPAN class="loggedin">
-                                        <li>
-                                            <A ONCLICK="orders();" class="dropdown-item"> <i class="fa fa-home"></i> Past Orders</A>
-                                        </li>
-                                        <li>
-                                            <A data-toggle="modal" data-target="#profilemodal" class="dropdown-item"><i class="fa fa-home"></i> Profile</A>
-                                        </li>
-                                    </SPAN>
-
-                                    <li>
-                                        <A ONCLICK="handlelogin('logout');" CLASS="hyperlink dropdown-item loggedin"> <i class="fa fa-home"></i> Log out</A>
-                                        <A CLASS="loggedout dropdown-item hyperlink" data-toggle="modal" data-target="#loginmodal"> <i class="fa fa-home"></i> Log In</A>
-                                    </li>
-
-                                </ul>
-                            </li>
-                        </ul>
                     </div>
                     <div class="clearfix"></div>
 
 
                     <div id="myorder"></div>
-                    <SPAN ID="checkoutbutton">
-                        <button class="btn btn-block btn-warning loggedin" id="checkout" onclick="showcheckout();">
-                            CHECKOUT
-                        </button>
-                    </SPAN>
 
+                    <div class="clearfix"></div>
+                    <div ID="checkoutbutton">
+                        <div class="row mt-1">
+                            <DIV CLASS=" col-xs-5">
+                                <button class="btn btn-secondary btn-block"
+                                        ONCLICK="confirm2('Are you sure you want to clear your order?', 'Clear Order', function(){clearorder();});">
+                                    CLEAR
+                                </button>
+
+                            </DIV>
+                            <DIV CLASS=" col-xs-7">
+                                <button
+
+
+                                        class="btn btn-warning loggedin btn-block" id="checkout"
+                                        onclick="showcheckout();">
+                                    CHECKOUT
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                     @include("popups_checkout")
                 </div>
             </div>
@@ -101,7 +80,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
 
-                    <div >
+                    <div>
                         <h5 class="modal-title" id="myModalLabel">Edit Profile</h5>
                     </div>
 
@@ -122,6 +101,13 @@
     </div>
     <!-- end edit profile Modal -->
     <script>
+
+
+        $(document).on('touchend', function () {
+            $(".select2-search, .select2-focusser").remove();
+        })
+
+
         //handles the search text box
         function search(element) {
             var searchtext = element.value.toLowerCase();
@@ -156,7 +142,7 @@
         function loadmodal(element) {
             element = $(element).parent().parent();
             var items = ["name", "price", "id", "size", "cat"];
-            for(var i=0; i<items.length; i++){
+            for (var i = 0; i < items.length; i++) {
                 $("#modal-item" + items[i]).text($(element).attr("item" + items[i]));
             }
             var size = $(element).attr("itemsize");
@@ -176,12 +162,16 @@
         }
 
         function initSelect2(selector, reset) {
-            if (!isUndefined(reset)) {$('select').select2("val", null);}
+            if (!isUndefined(reset)) {
+                $('select').select2("val", null);
+            }
             if (!isUndefined(selector)) {
                 $('select' + selector).select2({
                     maximumSelectionSize: 4,
                     minimumResultsForSearch: -1,
-                    placeholder: function () {$(this).data('placeholder');},
+                    placeholder: function () {
+                        $(this).data('placeholder');
+                    },
                     allowClear: true
                 }).change();
             }
@@ -254,28 +244,36 @@
                 var item = theorder[itemid];
                 var totalcost = (Number(item["itemprice"]) + (Number(item["toppingcost"]) * Number(item["toppingcount"]))).toFixed(2);
                 var category = "pizza";
-                if(item.hasOwnProperty("category")) {
+                if (item.hasOwnProperty("category")) {
                     category = item["category"].toLowerCase().replaceAll(" ", "_");
-                    if (category.endswith("pizza")) {category = "pizza";}
+                    if (category.endswith("pizza")) {
+                        category = "pizza";
+                    }
                 }
 
                 subtotal += Number(totalcost);
-                //tempHTML = '<span class="pull-left"> <img class="pull-left" onerror="this.src=' + "'pizza.png'" + '" src="' + category + '.png" style="width:22px;margin-right:5px;"/> ' + item["itemname"] + '</span>';
+
                 tempHTML = '<span class="pull-left"> <DIV CLASS="sprite sprite-' + category + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
                 tempHTML += '<span class="pull-right" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '"> $' + totalcost + ' <i class="text-muted fa fa-close" onclick="removeorderitem(' + itemid + ');"></i></span><div class="clearfix"></div>';
 
                 var itemname = "";
                 if (item.hasOwnProperty("itemaddons") && item["itemaddons"].length > 0) {
                     var tablename = item["itemaddons"][0]["tablename"];
-                    if (item["itemaddons"].length > 1) {itemname = itemnames[tablename];}
+                    if (item["itemaddons"].length > 1) {
+                        itemname = itemnames[tablename];
+                    }
                     for (var currentitem = 0; currentitem < item["itemaddons"].length; currentitem++) {
                         var addons = item["itemaddons"][currentitem];
-                        if (itemname) {tempHTML += ordinals[currentitem] + " " + itemname + ": ";}
-                        if(addons["addons"].length == 0){
+                        if (itemname) {
+                            tempHTML += ordinals[currentitem] + " " + itemname + ": ";
+                        }
+                        if (addons["addons"].length == 0) {
                             tempHTML += '[No addons]';
                         } else {
                             for (var addonid = 0; addonid < addons["addons"].length; addonid++) {
-                                if (addonid > 0) {tempHTML += ", ";}
+                                if (addonid > 0) {
+                                    tempHTML += ", ";
+                                }
                                 var addonname = addons["addons"][addonid]["text"];
                                 var isfree = isaddon_free(tablename, addonname);
                                 if (isfree) {
@@ -317,7 +315,9 @@
 
         //hides the checkout form
         function collapsecheckout() {
-            if ($("#collapseCheckout").attr("aria-expanded") == "true") {$("#checkout").trigger("click");}
+            if ($("#collapseCheckout").attr("aria-expanded") == "true") {
+                $("#checkout").trigger("click");
+            }
         }
 
         function clearorder() {
@@ -342,7 +342,9 @@
                                 addons[addid]["text"] = addons[addid]["text"].left(addons[addid]["text"].length - 6).trim();
                             }
                             addons[addid]["isfree"] = isaddon_free(table, addons[addid]["text"]);
-                            if (!addons[addid]["isfree"]) {toppings++;}
+                            if (!addons[addid]["isfree"]) {
+                                toppings++;
+                            }
                         }
                         itemaddons.push({tablename: table, addons: addons, count: toppings});
                     }
@@ -357,7 +359,9 @@
             var size = "";
             for (var i = 0; i < sizes.length; i++) {
                 if (!isArray(freetoppings[sizes[i]])) {
-                    if (Itemname.contains(sizes[i]) && sizes[i].length > size.length) {size = sizes[i];}
+                    if (Itemname.contains(sizes[i]) && sizes[i].length > size.length) {
+                        size = sizes[i];
+                    }
                 }
             }
             return size;
@@ -365,9 +369,13 @@
 
         //checks if an addon is free
         function isaddon_free(Table, Addon) {
-            switch(Addon.toLowerCase()){
-                case "lightly done":case "well done": return true; break;
-                default: return freetoppings[Table].indexOf(Addon) > -1;
+            switch (Addon.toLowerCase()) {
+                case "lightly done":
+                case "well done":
+                    return true;
+                    break;
+                default:
+                    return freetoppings[Table].indexOf(Addon) > -1;
             }
         }
 
@@ -399,7 +407,10 @@
 
         //send an order to the server
         function placeorder(StripeResponse) {
-            if(!canplaceorder){log("CANT PLACE ORDER"); return false;}
+            if (!canplaceorder) {
+                log("CANT PLACE ORDER");
+                return false;
+            }
             if (isObject(userdetails)) {
                 var addressinfo = getform("#orderinfo");//i don't know why the below 2 won't get included. this forces them to be
                 addressinfo["cookingnotes"] = $("#cookingnotes").val();
@@ -423,9 +434,11 @@
             }
         }
 
-        $(window).on('shown.bs.modal', function() {
+        $(window).on('shown.bs.modal', function () {
             var modalID = $(".modal:visible").attr("id");
-            if(modalID == "profilemodal"){$("#addresslist").html(addresses());}
+            if (modalID == "profilemodal") {
+                $("#addresslist").html(addresses());
+            }
         });
 
         //generate a list of addresses and send it to the alert modal
@@ -465,16 +478,22 @@
                 for (var i = 0; i < userdetails["Orders"].length; i++) {
                     var order = userdetails["Orders"][i];
                     ID = order["id"];
-                    if(!First){First = ID;}
+                    if (!First) {
+                        First = ID;
+                    }
                     HTML += '<li class="list-group-item" ONCLICK="orders(' + ID + ');"><span class="tag tag-default tag-pill pull-xs-right">ID: ' + ID + '</span>' + order["placed_at"] + '<SPAN ID="pastreceipt' + ID + '"></SPAN></li>';
                 }
                 HTML += '</ul><P><DIV ID="pastreceipt" CLASS="pastreceipt"></DIV><P>';
                 alert(HTML, "Orders");
-                if(First){orders(First);}
+                if (First) {
+                    orders(First);
+                }
             } else {
-                if (isUndefined(getJSON)) {getJSON = false;}
+                if (isUndefined(getJSON)) {
+                    getJSON = false;
+                }
                 var Index = getIterator(userdetails["Orders"], "id", ID);
-                if(!getJSON && userdetails["Orders"][Index].hasOwnProperty("Contents")){
+                if (!getJSON && userdetails["Orders"][Index].hasOwnProperty("Contents")) {
                     $("#pastreceipt" + ID).html(userdetails["Orders"][Index]["Contents"]);
                     GetNextOrder(ID);
                     return;
@@ -493,24 +512,28 @@
                         $("#alertmodal").modal('hide');
                     } else {//HTML recieved, put it in the pastreceipt element
                         $("#pastreceipt" + ID).html(result);
-                        if(Index>-1){userdetails["Orders"][Index]["Contents"] = result;}
+                        if (Index > -1) {
+                            userdetails["Orders"][Index]["Contents"] = result;
+                        }
                         GetNextOrder(ID);
                     }
                 });
             }
         }
 
-        function getIterator(arr, key, value){
+        function getIterator(arr, key, value) {
             for (var i = 0; i < arr.length; i++) {
-                if(arr[i][key] == value){return i;}
+                if (arr[i][key] == value) {
+                    return i;
+                }
             }
             return -1;
         }
 
-        function GetNextOrder(CurrentID){
+        function GetNextOrder(CurrentID) {
             var CurrentIndex = getIterator(userdetails["Orders"], "id", CurrentID);
-            if(CurrentIndex>-1 && CurrentIndex < userdetails["Orders"].length-1){
-                orders(userdetails["Orders"][CurrentIndex+1]["id"]);
+            if (CurrentIndex > -1 && CurrentIndex < userdetails["Orders"].length - 1) {
+                orders(userdetails["Orders"][CurrentIndex + 1]["id"]);
             }
         }
 

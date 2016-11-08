@@ -71,20 +71,20 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <div class="row">
+                    <div class="">
                         <DIV CLASS="col-md-12">
-                            <h1>London Pizza Delivery</h1>
+                            <h3>London Pizza Delivery</h3>
                             <p>
                                 Login
                             </p>
-                            <div class="">
-                                <div >
-                                    <INPUT TYPE="text" id="login_email" placeholder="Email" class="">
-                                </div>
-                                <div >
-                                    <INPUT TYPE="password" id="login_password" placeholder="Password" class="">
-                                </div>
-                            </div>
+
+
+                                    <INPUT TYPE="text" id="login_email" placeholder="Email" class="form-control">
+
+
+                                    <INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control">
+
+
                             <BUTTON CLASS="btn btn-primary" onclick="handlelogin('login');">Log In</BUTTON>
                             <BUTTON CLASS="btn btn-link" onclick="handlelogin('forgotpassword');">Forgot Password</BUTTON>
                             <div class="p-y-1"></div>

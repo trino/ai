@@ -1,5 +1,5 @@
 <!-- menu cache saved from: {{ now() }} -->
-<div class="col-md-8">
+<div class="col-md-9">
     <div class="card" >
 
         <div class="card-block card-columns">
@@ -98,18 +98,19 @@
             }
             $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
             ?>
+<div class="clearfix"></div>
 
-            <a class="head_{{ $catclass }}" data-toggle="collapse" href="#collapse{{$category["id"]}}_cat">
-                <h5 class="text-danger">{{$category['category']}}</h5>
+            <a class=" head_{{ $catclass }}" data-toggle="collapse" href="#collapse{{$category["id"]}}_cat">
+                <h5 class="text-danger ">{{$category['category']}}</h5>
             </a>
 
-            <div class="collapse  in" id="collapse{{$category['id']}}_cat">
+            <div class="collapse mb-1 in" id="collapse{{$category['id']}}_cat">
 
-                <div class="list-group">
+                <div class="">
                 @foreach ($menuitems as $menuitem)
                     <div
                             style="padding: 0 !important;"
-                            class="list-group-item menuitem item_{{ $catclass }}"
+                            class=" menuitem item_{{ $catclass }}"
                             itemid="{{$menuitem["id"]}}"
                             itemname="{{$menuitem['item']}}"
                             itemprice="{{$menuitem['price']}}"
@@ -127,7 +128,7 @@
                         <?php
                         if ($total) {
                             $HTML = 'href="#2" data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
-                            $icon = '<i class="fa fa-chevron-right pull-right"></i>';
+                            $icon = '<i class="fa fa-chevron-up pull-right"></i>';
                         } else {
                             $HTML = 'href="#1" onclick="additemtoorder(this);"';
                             $icon = '';
@@ -135,11 +136,11 @@
 
                         ?>
                         <SPAN>
-                                <a <?= $HTML; ?> class=" btn btn-secondary btn-sm text-xs-left" style="width: 100%">
-                                    <DIV CLASS="sprite sprite-<?= $imagefile; ?> sprite-medium"></DIV>
+                                <a <?= $HTML; ?> class=" btn " style="width: 100%;padding:2px !important;">
+                                    <DIV CLASS="pull-left sprite sprite-<?= $imagefile; ?> sprite-medium"></DIV>
                                     <?= $icon; ?>
-                                    <span class="itemname">{{$menuitem['item']}}</span>
-                                    <span class="pull-right"> ${{number_format($menuitem["price"], 2)}}</span>
+                                    <span class=" pull-left itemname" style="font-size: 75%;">{{$menuitem['item']}}</span>
+                                    <span class="pull-right"  style="font-size: 75%;"> ${{number_format($menuitem["price"], 2)}}</span>
                                     <div class="clearfix"></div>
                                 </a>
                             </SPAN>
@@ -159,11 +160,12 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
 
-                <h5 class="modal-title" id="myModalLabel"><SPAN ID="modal-itemname"></SPAN> $<SPAN ID="modal-itemprice"></SPAN></h5>
+
+                <h4 id="myModalLabel">
+                    <SPAN ID="modal-itemname"></SPAN> $<SPAN ID="modal-itemprice"></SPAN>
+                </h4>
+                <div class="mt-1"></div>
 
                 <div style="display: none;" id="modal-hiddendata">
                     <SPAN ID="modal-itemid"></SPAN>
@@ -199,8 +201,14 @@
                     </div>
                     <div ID="modal-toppings-clones"></div>
                 </ul>
-                <div class="mt-1 "></div>
-                <button data-dismiss="modal" class="btn-secondary btn pull-right" onclick="additemtoorder();">
+                <div class=""></div>
+
+                <button type="button" class="btn-secondary btn pull-left" data-dismiss="modal" aria-label="Close">
+                    Cancel
+                </button>
+
+
+                <button data-dismiss="modal" class="btn-warning btn pull-right" onclick="additemtoorder();">
                     ADD TO ORDER
                 </button>
                 <div class="clearfix"></div>
