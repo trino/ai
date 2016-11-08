@@ -48,20 +48,20 @@ if (read("id")) {
 }
 ?>
 <nav class="navbar-default navbar-top navbar navbar-full navbar-dark bg-danger dont-print " style="z-index: 1;">
-    <div class="">
-        <label class="bg-warning">LPD</label>
+    <div class="container">
+        <div class="btn  " style="color: #fff;"><div class="pull-left sprite sprite-pizza sprite-medium"></div>LPD</div>
 
         <select>
             <option>Fab Pizza</option>
         </select>
         <select>
-            <option>at 5PM</option>
+            <option>Today at 5PM</option>
         </select>
 
         <ul class="nav navbar-nav pull-right">
             <li class="nav-item dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <i class="fa fa-user"></i>
+                <a href="#" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <i class="fa fa-user" style="color: white;"></i>
                 </a>
                 <ul class="dropdown-menu  dropdown-menu-right">
                                     <SPAN class="loggedin profiletype profiletype1">
@@ -106,13 +106,13 @@ if (read("id")) {
     </div>
 </nav>
 
-<div class="container-fluid" STYLE="margin-bottom: 50px !important ;margin-top: 10px !important ;">
+<div class="container" STYLE="margin-bottom: 50px !important ;margin-top: 10px !important ;">
     @yield('content')
 </div>
 
 <nav class="navbar-default navbar-fixed-bottom navbar navbar-dark"
      style="z-index: 1;background:#fff;">
-    <button class="btn btn-danger  pull-left">
+    <button class="btn btn-danger  pull-left" onclick="window.scrollTo(0,document.body.scrollHeight);">
         <SPAN ID="navbar-text"></SPAN>
     </button>
     <button class="btn btn-warning pull-right" id="checkout-btn" onclick="showcheckout();"

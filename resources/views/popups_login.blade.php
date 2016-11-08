@@ -71,7 +71,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <div class="row">
+                    <div class="">
                         <DIV CLASS="col-md-12">
                             <h3>London Pizza Delivery</h3>
                             <p>

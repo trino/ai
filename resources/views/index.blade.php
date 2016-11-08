@@ -3,32 +3,29 @@
     <div class="row">
 
 
-
         <?php
-            if(islive()){
-                $allowedIPs = array("24.36.153.107", "45.58.85.42", "216.165.195.31", "24.36.134.113");
-                if(!in_array($_SERVER["REMOTE_ADDR"], $allowedIPs)){
-                    die("IP " . $_SERVER["REMOTE_ADDR"] . " not recognized");
-                }
+        if (islive()) {
+            $allowedIPs = array("24.36.153.107", "45.58.85.42", "216.165.195.31", "24.36.134.113");
+            if (!in_array($_SERVER["REMOTE_ADDR"], $allowedIPs)) {
+                die("IP " . $_SERVER["REMOTE_ADDR"] . " not recognized");
             }
+        }
 
-            //menu caching
-            $doCache = false;//disabled for development
-            $menucache_filename = resource_path() . "/menucache.html";
-            $menucache_uptodate = isFileUpToDate("menucache", $menucache_filename);
-            if($menucache_uptodate && $doCache){
-                echo file_get_contents($menucache_filename);
-            } else {
-                $menu = view("popups_menu");
-                if($doCache){
-                    file_put_contents($menucache_filename, $menu);
-                    setsetting("menucache", filemtime($menucache_filename));
-                }
-                echo '<!-- menu cache generated at: ' . now() . ' --> ' . $menu;
+        //menu caching
+        $doCache = false;//disabled for development
+        $menucache_filename = resource_path() . "/menucache.html";
+        $menucache_uptodate = isFileUpToDate("menucache", $menucache_filename);
+        if ($menucache_uptodate && $doCache) {
+            echo file_get_contents($menucache_filename);
+        } else {
+            $menu = view("popups_menu");
+            if ($doCache) {
+                file_put_contents($menucache_filename, $menu);
+                setsetting("menucache", filemtime($menucache_filename));
             }
+            echo '<!-- menu cache generated at: ' . now() . ' --> ' . $menu;
+        }
         ?>
-
-
 
 
         <div class="col-md-3">
@@ -47,18 +44,26 @@
                     <div id="myorder"></div>
 
                     <div class="clearfix"></div>
-<div   ID="checkoutbutton">
-                    <button class="btn btn-secondary col-xs-4" ONCLICK="confirm2('Are you sure you want to clear your order?', 'Clear Order', function(){clearorder();});">
-CLEAR                    </button>
+                    <div ID="checkoutbutton">
+                        <div class="row mt-1">
+                            <DIV CLASS=" col-xs-5">
+                                <button class="btn btn-secondary btn-block"
+                                        ONCLICK="confirm2('Are you sure you want to clear your order?', 'Clear Order', function(){clearorder();});">
+                                    CLEAR
+                                </button>
+
+                            </DIV>
+                            <DIV CLASS=" col-xs-7">
+                                <button
 
 
-                        <button
-
-
-                                class="btn btn-warning col-xs-8 loggedin" id="checkout" onclick="showcheckout();">
-                            CHECKOUT
-                        </button>
-</div>
+                                        class="btn btn-warning loggedin btn-block" id="checkout"
+                                        onclick="showcheckout();">
+                                    CHECKOUT
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                     @include("popups_checkout")
                 </div>
             </div>
@@ -75,7 +80,7 @@ CLEAR                    </button>
                         <span aria-hidden="true">&times;</span>
                     </button>
 
-                    <div >
+                    <div>
                         <h5 class="modal-title" id="myModalLabel">Edit Profile</h5>
                     </div>
 
@@ -98,7 +103,7 @@ CLEAR                    </button>
     <script>
 
 
-        $(document).on('touchend', function(){
+        $(document).on('touchend', function () {
             $(".select2-search, .select2-focusser").remove();
         })
 
@@ -137,7 +142,7 @@ CLEAR                    </button>
         function loadmodal(element) {
             element = $(element).parent().parent();
             var items = ["name", "price", "id", "size", "cat"];
-            for(var i=0; i<items.length; i++){
+            for (var i = 0; i < items.length; i++) {
                 $("#modal-item" + items[i]).text($(element).attr("item" + items[i]));
             }
             var size = $(element).attr("itemsize");
@@ -157,12 +162,16 @@ CLEAR                    </button>
         }
 
         function initSelect2(selector, reset) {
-            if (!isUndefined(reset)) {$('select').select2("val", null);}
+            if (!isUndefined(reset)) {
+                $('select').select2("val", null);
+            }
             if (!isUndefined(selector)) {
                 $('select' + selector).select2({
                     maximumSelectionSize: 4,
                     minimumResultsForSearch: -1,
-                    placeholder: function () {$(this).data('placeholder');},
+                    placeholder: function () {
+                        $(this).data('placeholder');
+                    },
                     allowClear: true
                 }).change();
             }
@@ -235,9 +244,11 @@ CLEAR                    </button>
                 var item = theorder[itemid];
                 var totalcost = (Number(item["itemprice"]) + (Number(item["toppingcost"]) * Number(item["toppingcount"]))).toFixed(2);
                 var category = "pizza";
-                if(item.hasOwnProperty("category")) {
+                if (item.hasOwnProperty("category")) {
                     category = item["category"].toLowerCase().replaceAll(" ", "_");
-                    if (category.endswith("pizza")) {category = "pizza";}
+                    if (category.endswith("pizza")) {
+                        category = "pizza";
+                    }
                 }
 
                 subtotal += Number(totalcost);
@@ -248,15 +259,21 @@ CLEAR                    </button>
                 var itemname = "";
                 if (item.hasOwnProperty("itemaddons") && item["itemaddons"].length > 0) {
                     var tablename = item["itemaddons"][0]["tablename"];
-                    if (item["itemaddons"].length > 1) {itemname = itemnames[tablename];}
+                    if (item["itemaddons"].length > 1) {
+                        itemname = itemnames[tablename];
+                    }
                     for (var currentitem = 0; currentitem < item["itemaddons"].length; currentitem++) {
                         var addons = item["itemaddons"][currentitem];
-                        if (itemname) {tempHTML += ordinals[currentitem] + " " + itemname + ": ";}
-                        if(addons["addons"].length == 0){
+                        if (itemname) {
+                            tempHTML += ordinals[currentitem] + " " + itemname + ": ";
+                        }
+                        if (addons["addons"].length == 0) {
                             tempHTML += '[No addons]';
                         } else {
                             for (var addonid = 0; addonid < addons["addons"].length; addonid++) {
-                                if (addonid > 0) {tempHTML += ", ";}
+                                if (addonid > 0) {
+                                    tempHTML += ", ";
+                                }
                                 var addonname = addons["addons"][addonid]["text"];
                                 var isfree = isaddon_free(tablename, addonname);
                                 if (isfree) {
@@ -298,7 +315,9 @@ CLEAR                    </button>
 
         //hides the checkout form
         function collapsecheckout() {
-            if ($("#collapseCheckout").attr("aria-expanded") == "true") {$("#checkout").trigger("click");}
+            if ($("#collapseCheckout").attr("aria-expanded") == "true") {
+                $("#checkout").trigger("click");
+            }
         }
 
         function clearorder() {
@@ -323,7 +342,9 @@ CLEAR                    </button>
                                 addons[addid]["text"] = addons[addid]["text"].left(addons[addid]["text"].length - 6).trim();
                             }
                             addons[addid]["isfree"] = isaddon_free(table, addons[addid]["text"]);
-                            if (!addons[addid]["isfree"]) {toppings++;}
+                            if (!addons[addid]["isfree"]) {
+                                toppings++;
+                            }
                         }
                         itemaddons.push({tablename: table, addons: addons, count: toppings});
                     }
@@ -338,7 +359,9 @@ CLEAR                    </button>
             var size = "";
             for (var i = 0; i < sizes.length; i++) {
                 if (!isArray(freetoppings[sizes[i]])) {
-                    if (Itemname.contains(sizes[i]) && sizes[i].length > size.length) {size = sizes[i];}
+                    if (Itemname.contains(sizes[i]) && sizes[i].length > size.length) {
+                        size = sizes[i];
+                    }
                 }
             }
             return size;
@@ -346,9 +369,13 @@ CLEAR                    </button>
 
         //checks if an addon is free
         function isaddon_free(Table, Addon) {
-            switch(Addon.toLowerCase()){
-                case "lightly done":case "well done": return true; break;
-                default: return freetoppings[Table].indexOf(Addon) > -1;
+            switch (Addon.toLowerCase()) {
+                case "lightly done":
+                case "well done":
+                    return true;
+                    break;
+                default:
+                    return freetoppings[Table].indexOf(Addon) > -1;
             }
         }
 
@@ -380,7 +407,10 @@ CLEAR                    </button>
 
         //send an order to the server
         function placeorder(StripeResponse) {
-            if(!canplaceorder){log("CANT PLACE ORDER"); return false;}
+            if (!canplaceorder) {
+                log("CANT PLACE ORDER");
+                return false;
+            }
             if (isObject(userdetails)) {
                 var addressinfo = getform("#orderinfo");//i don't know why the below 2 won't get included. this forces them to be
                 addressinfo["cookingnotes"] = $("#cookingnotes").val();
@@ -404,9 +434,11 @@ CLEAR                    </button>
             }
         }
 
-        $(window).on('shown.bs.modal', function() {
+        $(window).on('shown.bs.modal', function () {
             var modalID = $(".modal:visible").attr("id");
-            if(modalID == "profilemodal"){$("#addresslist").html(addresses());}
+            if (modalID == "profilemodal") {
+                $("#addresslist").html(addresses());
+            }
         });
 
         //generate a list of addresses and send it to the alert modal
@@ -446,16 +478,22 @@ CLEAR                    </button>
                 for (var i = 0; i < userdetails["Orders"].length; i++) {
                     var order = userdetails["Orders"][i];
                     ID = order["id"];
-                    if(!First){First = ID;}
+                    if (!First) {
+                        First = ID;
+                    }
                     HTML += '<li class="list-group-item" ONCLICK="orders(' + ID + ');"><span class="tag tag-default tag-pill pull-xs-right">ID: ' + ID + '</span>' + order["placed_at"] + '<SPAN ID="pastreceipt' + ID + '"></SPAN></li>';
                 }
                 HTML += '</ul><P><DIV ID="pastreceipt" CLASS="pastreceipt"></DIV><P>';
                 alert(HTML, "Orders");
-                if(First){orders(First);}
+                if (First) {
+                    orders(First);
+                }
             } else {
-                if (isUndefined(getJSON)) {getJSON = false;}
+                if (isUndefined(getJSON)) {
+                    getJSON = false;
+                }
                 var Index = getIterator(userdetails["Orders"], "id", ID);
-                if(!getJSON && userdetails["Orders"][Index].hasOwnProperty("Contents")){
+                if (!getJSON && userdetails["Orders"][Index].hasOwnProperty("Contents")) {
                     $("#pastreceipt" + ID).html(userdetails["Orders"][Index]["Contents"]);
                     GetNextOrder(ID);
                     return;
@@ -474,24 +512,28 @@ CLEAR                    </button>
                         $("#alertmodal").modal('hide');
                     } else {//HTML recieved, put it in the pastreceipt element
                         $("#pastreceipt" + ID).html(result);
-                        if(Index>-1){userdetails["Orders"][Index]["Contents"] = result;}
+                        if (Index > -1) {
+                            userdetails["Orders"][Index]["Contents"] = result;
+                        }
                         GetNextOrder(ID);
                     }
                 });
             }
         }
 
-        function getIterator(arr, key, value){
+        function getIterator(arr, key, value) {
             for (var i = 0; i < arr.length; i++) {
-                if(arr[i][key] == value){return i;}
+                if (arr[i][key] == value) {
+                    return i;
+                }
             }
             return -1;
         }
 
-        function GetNextOrder(CurrentID){
+        function GetNextOrder(CurrentID) {
             var CurrentIndex = getIterator(userdetails["Orders"], "id", CurrentID);
-            if(CurrentIndex>-1 && CurrentIndex < userdetails["Orders"].length-1){
-                orders(userdetails["Orders"][CurrentIndex+1]["id"]);
+            if (CurrentIndex > -1 && CurrentIndex < userdetails["Orders"].length - 1) {
+                orders(userdetails["Orders"][CurrentIndex + 1]["id"]);
             }
         }
 
