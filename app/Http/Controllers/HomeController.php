@@ -138,7 +138,7 @@ class HomeController extends Controller {
     }
     */
 
-    function closestrestaurant($data, $gethours){
+    function closestrestaurant($data, $gethours = false){
         if(!isset($data['radius'])){$data['radius'] = 100;}
         $owners = implode(",", collapsearray(Query("SELECT address_id FROM restaurants WHERE address_id > 0", true), "address_id"));
         $where = "id IN (" . $owners . ")";
