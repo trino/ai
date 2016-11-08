@@ -189,10 +189,39 @@
         });
     }
 
-    //var hours = {"0":{"open":"-1","close":"-1"},"1":{"open":"1100","close":"2250"},"2":{"open":"1100","close":"2250"},"3":{"open":"1100","close":"2250"},"4":{"open":"1100","close":"2250"},"5":{"open":"1100","close":"50"},"6":{"open":"1100","close":"50"}};
-
     var daysofweek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     var monthnames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    function now(){
+        var now = new Date();
+        return now.getHours() * 100 + now.getMinutes();
+    }
+    function getToday(){
+        var now = new Date();//doesn't take into account <= because it takes more than 1 minute to place an order
+        return now.getDay();
+    }
+    function GenerateTime(time){
+        var minutes = time % 100;
+        var thehours = Math.floor(time / 100);
+        var hoursAMPM = thehours % 12;
+        if (hoursAMPM == 0) {hoursAMPM = 12;}
+        var tempstr = hoursAMPM + ":";
+        if (minutes < 10) {
+            tempstr += "0" + minutes;
+        } else {
+            tempstr += minutes;
+        }
+        var extra = "";
+        if (time == 0) {
+            extra = " (Midnight)";
+        } else if (time == 1200) {
+            extra = " (Noon)";
+        }
+        if (time < 1200) {
+            return tempstr + " AM" + extra;
+        } else {
+            return tempstr + " PM" + extra;
+        }
+    }
     function GenerateHours(hours, increments){
         var now = new Date();//doesn't take into account <= because it takes more than 1 minute to place an order
         var dayofweek = now.getDay();
@@ -203,16 +232,11 @@
         var oldValue = $("#deliverytime").val();
         var HTML = '<option>Deliver ASAP</option>';
         var totalInc = 10080 / increments;
-
         for(var i=0; i<totalInc; i++){
             if(isopen(hours, dayofweek, time) > -1) {
                 var minutes = time % 100;
                 if(minutes<60) {
-                    var thehours = Math.floor(time / 100);
-                    var hoursAMPM = thehours % 12;
-                    if (hoursAMPM == 0) {
-                        hoursAMPM = 12;
-                    }
+                    var thetime = GenerateTime(time);
                     var thedayname = daysofweek[dayofweek];
                     var thedate = monthnames[now.getMonth()] + " " + now.getDate();
                     if (dayofweek == today) {
@@ -222,23 +246,7 @@
                     } else {
                         thedayname += " " + thedate;
                     }
-                    var extra = "";
-                    if (time == 0) {
-                        extra = " (Midnight)";
-                    } else if (time == 1200) {
-                        extra = " (Noon)";
-                    }
-                    var tempstr = '<OPTION VALUE="' + thedate + " at " + time + extra + '">' + thedayname + " at " + hoursAMPM + ":";
-                    if (minutes < 10) {
-                        tempstr += "0" + minutes;
-                    } else {
-                        tempstr += minutes;
-                    }
-                    if (time < 1200) {
-                        tempstr += " AM" + extra;
-                    } else {
-                        tempstr += " PM" + extra;
-                    }
+                    var tempstr = '<OPTION VALUE="' + thedate + " at " + time + '">' + thedayname + " at " + thetime ;
                     HTML += tempstr + '</OPTION>';
                 }
             }

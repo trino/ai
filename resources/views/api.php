@@ -535,4 +535,17 @@
         }
         return date("l F j, Y @ g:i A", $date) . $append;
     }
+
+    function gethours($RestaurantID = -1){
+        $hours = first("SELECT * FROM `hours` WHERE restaurant_id = " . $RestaurantID . " or restaurant_id = 0 ORDER BY restaurant_id DESC LIMIT 1");
+        $ret = array();
+        foreach($hours as $day => $time){
+            $dayofweek = left($day, 1);
+            if(is_numeric($dayofweek)) {
+                $timeofday = right($day, strlen($day) - 2);
+                $ret[$dayofweek][$timeofday] = $time;
+            }
+        }
+        return $ret;
+    }
 ?>

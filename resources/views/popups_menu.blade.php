@@ -176,7 +176,7 @@
 
                 <ul class="list-group">
                     <div ID="modal-wings-original">
-                        <select class="form-control select2 wings_sauce" multiple="multiple" data-placeholder="First Pound" type="wings_sauce">
+                        <select class="form-control select2 wings_sauce" multiple="multiple" data-placeholder="1st Pound" type="wings_sauce">
                             <option value="blank"></option>
                             <?= $wings_display; ?>
                             <optgroup label="Options">
@@ -189,7 +189,7 @@
 
 
                     <div ID="modal-toppings-original" style="">
-                        <div style="margin-bottom:.1rem;" ID="modal-toppings-original-ordinal">First Pizza</div>
+                        <div style="margin-bottom:.1rem;" ID="modal-toppings-original-ordinal">1st Pizza</div>
                         <select style="border: 0 !important;" class="form-control select2 toppings" data-placeholder="Add Toppings: $[price]" multiple="multiple" type="toppings">
                             <!--option value="blank"></option-->
                             <?= $toppings_display; ?>
