@@ -240,6 +240,7 @@
         function generatereceipt() {
             var HTML = '', tempHTML = "", subtotal = 0;
             var itemnames = {toppings: "Pizza", wings_sauce: "Pound"};
+            var nonames = {toppings: "toppings", wings_sauce: "sauces"};
             for (var itemid = 0; itemid < theorder.length; itemid++) {
                 var item = theorder[itemid];
                 var totalcost = (Number(item["itemprice"]) + (Number(item["toppingcost"]) * Number(item["toppingcount"]))).toFixed(2);
@@ -268,7 +269,7 @@
                             tempHTML += ordinals[currentitem] + " " + itemname + ": ";
                         }
                         if (addons["addons"].length == 0) {
-                            tempHTML += '[No addons]';
+                            tempHTML += '[No ' + nonames[tablename] + ']';
                         } else {
                             for (var addonid = 0; addonid < addons["addons"].length; addonid++) {
                                 if (addonid > 0) {
