@@ -226,13 +226,16 @@
         var now = new Date();//doesn't take into account <= because it takes more than 1 minute to place an order
         if(isUndefined(increments)){increments = 15;}
         var dayofweek = now.getDay();
+        var minutesinaday = 1440;
+        var totaldays = 2;
+        var dayselapsed = 0;
         var today = dayofweek;
         var tomorrow = (today + 1) % 7;
         var time = now.getHours() * 100 + now.getMinutes();
         time = time + (increments - (time % increments));
         var oldValue = $("#deliverytime").val();
         var HTML = '<option>Deliver ASAP</option>';
-        var totalInc = 10080 / increments;
+        var totalInc = (minutesinaday*totaldays) / increments;
         for(var i=0; i<totalInc; i++){
             if(isopen(hours, dayofweek, time) > -1) {
                 var minutes = time % 100;
@@ -258,9 +261,10 @@
             }
             if(time >= 2400){
                 time = time % 2400;
+                dayselapsed +=1;
                 dayofweek = (dayofweek + 1) % 7;
                 now = new Date(now.getTime() + 24 * 60 * 60 * 1000);
-                if(dayofweek == today){i = totalInc;}
+                if(dayofweek == today || dayselapsed == totaldays){i = totalInc;}
             }
         }
 
