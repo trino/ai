@@ -134,18 +134,25 @@ class AuthController extends Controller {
             } else {
                 switch ($action) {
                     case "registration":
+                        $RequireAuthorization = false;
+                        $oldpassword = $_POST["password"];
+
                         $address = $_POST["address"];
                         unset($_POST["action"]);
                         unset($_POST["_token"]);
                         unset($_POST["address"]);
                         $_POST["remember_token"]="";
-                        $_POST["authcode"]=guidv4();
+                        if($RequireAuthorization) {
+                            $_POST["authcode"] = guidv4();
+                        }
                         $_POST["created_at"] = now();
                         $_POST["updated_at"] = 0;
+
                         $_POST["password"] = \Hash::make($_POST["password"]);
                         $address["user_id"] = insertdb("users", $_POST);
                         insertdb("useraddresses", $address);
-                        $this->sendverifemail($_POST["email"]);
+
+                        $this->sendverifemail($_POST["email"], $RequireAuthorization, $oldpassword);
                         break;
                     case "forgotpassword":
                         $ret["Status"] = false;
@@ -170,16 +177,27 @@ class AuthController extends Controller {
         return $randomString;
     }
     //sends the verification email to the user
-    function sendverifemail($email){
+    function sendverifemail($email, $RequireAuthorization, $oldpassword){
         $user = first("SELECT * FROM users WHERE email = '" . $email . "'");
-        $user["mail_subject"] = "Please click the verify button";
-        $text = $this->sendEMail("email_verify", $user);
+        $user["password"] = $oldpassword;
+        if($RequireAuthorization) {
+            $user["mail_subject"] = "Please click the verify button";
+            $text = $this->sendEMail("email_verify", $user);
+        } else {
+            $user["mail_subject"] = "You have successfully registered!";
+            $user["body"] = "Thank you for registering";
+            $text = $this->sendEMail("email_test", $user);
+        }
         if($text){
             $ret["Status"] = false;
             $ret["Reason"] = $text;
         } else {
             $ret["Status"] = true;
-            $ret["Reason"] = "Please click the Verify button in your email";
+            if($RequireAuthorization) {
+                $ret["Reason"] = "Please click the Verify button in your email";
+            } else {
+                $ret["Reason"] = $user["mail_subject"];
+            }
         }
         die(json_encode($ret));
     }
