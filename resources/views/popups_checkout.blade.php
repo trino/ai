@@ -102,9 +102,11 @@
 <SCRIPT>
     //https://stripe.com/docs/custom-form
     var canplaceorder = false;
-    $( document ).ready(function() {
-        getcloseststore = true;
-    });
+    @if(read("id"))
+        $( document ).ready(function() {
+            getcloseststore = true;
+        });
+    @endif
 
     function rnd(min, max){
         return Math.round(Math.random() * (max - min) + min);
