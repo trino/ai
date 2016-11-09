@@ -13,8 +13,8 @@
                             <h4 class="modal-title" id="myModalLabel">Login</h4>
                         </div>
 
-                        <INPUT TYPE="TEXT" ID="login_email" PlACEHOLDER="Email Address" CLASS="">
-                        <INPUT TYPE="PASSWORD" ID="login_password" PLACEHOLDER="Password" CLASS="">
+                        <INPUT TYPE="TEXT" ID="login_email" PlACEHOLDER="Email Address" onkeydown="enterkey(event, '#login_password');">
+                        <INPUT TYPE="PASSWORD" ID="login_password" PLACEHOLDER="Password" onkeydown="enterkey(event, 'login');">
 
                         <DIV ID="loginmessage"></DIV>
 
@@ -78,12 +78,8 @@
                                 Login
                             </p>
 
-
-                                    <INPUT TYPE="text" id="login_email" placeholder="Email" class="form-control">
-
-
-                                    <INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control">
-
+                            <INPUT TYPE="text" id="login_email" placeholder="Email" class="form-control"  onkeydown="enterkey(event, '#login_password');">
+                            <INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control"  onkeydown="enterkey(event, 'login');">
 
                             <BUTTON CLASS="btn btn-primary" onclick="handlelogin('login');">Log In</BUTTON>
                             <BUTTON CLASS="btn btn-link" onclick="handlelogin('forgotpassword');">Forgot Password</BUTTON>
@@ -111,17 +107,24 @@
         </div>
     </div>
 
-<?php
-
-} ?>
-
-
-
+<?php } ?>
 
 <SCRIPT>
     @if($style == 2)
         redirectonlogin=true;
     @endif
+
+    function enterkey(e, action){
+        var keycode = event.which || event.keyCode;
+        if(keycode == 13){
+            if(action.left(1) == "#"){
+                $(action).focus();
+            } else {
+                handlelogin(action);
+            }
+        }
+    }
+
     function handlelogin(action){
         if(isUndefined(action)){action="verify";}
         $.post(webroot + "auth/login", {
