@@ -9,9 +9,9 @@
 
                 <h5 id="myModalLabel">Checkout</h5>
 
-                <?= view("popups_edituser", array("email" => false, "password" => false))->render(); ?>
-
                 <FORM ID="orderinfo" name="orderinfo">
+                    <?= view("popups_edituser", array("email" => false, "password" => false, "phone" => "required"))->render(); ?>
+
                     <div class="clear_loggedout addressdropdown" id="checkoutaddress"></div>
                     <?php
                         if (read("id")) {
@@ -122,6 +122,7 @@
 
     function payfororder(){
         if(!canplaceorder){log("SELECT AN ADDRESS"); return false;}
+        if($("#orderinfo").find(".error:visible[for]").length>0){return false;}
         var $form = $('#orderinfo');
         $(".payment-errors").html("");
         Stripe.card.createToken($form, stripeResponseHandler);

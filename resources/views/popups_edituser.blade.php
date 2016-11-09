@@ -24,6 +24,7 @@
             if (isset($field["readonly"]))      {echo ' readonly';}
             if (isset($field["placeholder"]))   {echo ' placeholder="' . $field["placeholder"] . '" ';}
             if (isset($field["corner"]))        {echo ' STYLE="border-' . $field["corner"] . '-radius: 5px;"';}
+            if (isset($field["required"]) && $field["required"]) { echo ' REQUIRED';}
             echo '>';
             if ($field["type"] != "hidden")     {echo '';}
         }
@@ -31,11 +32,12 @@
     if(!isset($password)){$password = true;}
     if(!isset($email)){$email = true;}
 ?>
-<div class="">
+<div>
     <?php
         printarow("Name", $name, array("name" => "name", "value" => $user["name"], "type" => "text", "class" => "form-control session_name_val"));
         if(!isset($phone) || $phone){
-            printarow("Phone", $name, array("name" => "phone", "value" => $user["phone"], "type" => "tel", "class" => "form-control session_phone_val"));
+            if(!isset($phone)){$phone = false;}
+            printarow("Phone", $name, array("name" => "phone", "value" => $user["phone"], "type" => "tel", "class" => "form-control session_phone_val", "required" => $phone));
         }
         if($email){
             printarow("Email", $name, array("name" => "email", "value" => $user["email"], "type" => "email", "class" => "form-control session_email_val"));
@@ -79,17 +81,20 @@
 
     @if(isset($user_id) && $user["cc_addressid"])
         $(document).ready(function () {
-        setTimeout(function () {
-            $("#saveaddresses").val(<?= $user["cc_addressid"]; ?>);
-        }, 100);
-    });
+            setTimeout(function () {
+                $("#saveaddresses").val(<?= $user["cc_addressid"]; ?>);
+            }, 100);
+        });
     @endif
 
     $(function () {
         $("form[name='user']").validate({
             rules: {
                 name: "required",
-                phone: "phonenumber",
+                phone: {
+                    phonenumber: true,
+                    required: <?= $phone == "required" ? "true": "false"; ?>
+                },
                 cc_number: "creditcard",
                 email: {
                     required: true,
@@ -120,6 +125,10 @@
             },
             messages: {
                 name: "Please enter your name",
+                phone: {
+                    required: "Please provide an up-to-date phone number",
+                    phonenumber: "Please provide a valid phone number"
+                },
                 oldpassword: {
                     required: "Please provide your old password",
                     minlength: "Your old password is at least " + minlength + " characters long"
@@ -131,5 +140,25 @@
                 email: "Please enter a valid and unique email address"
             }
         });
+
+        $("#orderinfo").validate({
+                rules: {
+                    name: "required",
+                    phone: {
+                        phonenumber: true,
+                        required: <?= $phone == "required" ? "true": "false"; ?>
+                    }
+                },
+                messages: {
+                    name: "Please enter your name",
+                    phone: "Please enter a valid phone number"
+                }
+        });
+    });
+
+    $(document).ready(function () {
+        setTimeout(function () {
+            $("#orderinfo").removeAttr("novalidate");
+        }, 100);
     });
 </SCRIPT>
