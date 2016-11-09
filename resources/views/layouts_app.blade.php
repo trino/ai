@@ -43,11 +43,25 @@
         <script src="<?= webroot("resources/views/api2.js"); ?>"></script>
     </head>
 
+    <STYLE>
+        /* STOP MOVING THIS TO THE CSS, IT WON'T WORK! */
+        #loadingmodal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: rgba(255, 255, 255, .8) url('<?= webroot("resources/assets/images/slice.gif"); ?>') 50% 50% no-repeat;
+        }
+    </STYLE>
+
     <body style="overflow-x: hidden !important;background:#f7f7f7; ">
 
         <nav class="navbar-default navbar-top navbar navbar-full navbar-dark bg-danger dont-print " style="z-index: 1;">
             <div class="container">
-                <div class="btn  " style="color: #fff;"><div class="pull-left sprite sprite-pizza sprite-medium"></div>LPD</div>
+                <div class="btn" style="color: #fff;"><div class="pull-left sprite sprite-pizza sprite-medium"></div>LPD</div>
 
                 <select>
                     <option>Fab Pizza</option>

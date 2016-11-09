@@ -2,29 +2,28 @@
 @section('content')
     <div class="row">
 
-
         <?php
-        if (islive()) {
-            $allowedIPs = array("24.36.153.107", "45.58.85.42", "38.121.83.92", "216.165.195.31", "24.36.134.113");
-            if (!in_array($_SERVER["REMOTE_ADDR"], $allowedIPs)) {
-                die("IP " . $_SERVER["REMOTE_ADDR"] . " not recognized");
+            if (islive()) {
+                $allowedIPs = array("24.36.153.107", "45.58.85.42", "38.121.83.92", "216.165.195.31", "24.36.134.113");
+                if (!in_array($_SERVER["REMOTE_ADDR"], $allowedIPs)) {
+                    die("IP " . $_SERVER["REMOTE_ADDR"] . " not recognized");
+                }
             }
-        }
 
-        //menu caching
-        $doCache = false;//disabled for development
-        $menucache_filename = resource_path() . "/menucache.html";
-        $menucache_uptodate = isFileUpToDate("menucache", $menucache_filename);
-        if ($menucache_uptodate && $doCache) {
-            echo file_get_contents($menucache_filename);
-        } else {
-            $menu = view("popups_menu");
-            if ($doCache) {
-                file_put_contents($menucache_filename, $menu);
-                setsetting("menucache", filemtime($menucache_filename));
+            //menu caching
+            $doCache = false;//disabled for development
+            $menucache_filename = resource_path() . "/menucache.html";
+            $menucache_uptodate = isFileUpToDate("menucache", $menucache_filename);
+            if ($menucache_uptodate && $doCache) {
+                echo file_get_contents($menucache_filename);
+            } else {
+                $menu = view("popups_menu");
+                if ($doCache) {
+                    file_put_contents($menucache_filename, $menu);
+                    setsetting("menucache", filemtime($menucache_filename));
+                }
+                echo '<!-- menu cache generated at: ' . now() . ' --> ' . $menu;
             }
-            echo '<!-- menu cache generated at: ' . now() . ' --> ' . $menu;
-        }
         ?>
 
 
@@ -35,11 +34,9 @@
                         My Order
 
                     </h5>
-                    <div class="pull-right">
+                    <div class="pull-right"></div>
 
-                    </div>
                     <div class="clearfix"></div>
-
 
                     <div id="myorder"></div>
 
@@ -47,18 +44,12 @@
                     <div ID="checkoutbutton">
                         <div class="row mt-1">
                             <DIV CLASS=" col-xs-5">
-                                <button class="btn btn-secondary btn-block"
-                                        ONCLICK="confirm2('Are you sure you want to clear your order?', 'Clear Order', function(){clearorder();});">
+                                <button class="btn btn-secondary btn-block" ONCLICK="confirm2('Are you sure you want to clear your order?', 'Clear Order', function(){clearorder();});">
                                     CLEAR
                                 </button>
-
                             </DIV>
                             <DIV CLASS=" col-xs-7">
-                                <button
-
-
-                                        class="btn btn-warning loggedin btn-block" id="checkout"
-                                        onclick="showcheckout();">
+                                <button class="btn btn-warning loggedin btn-block" id="checkout" onclick="showcheckout();">
                                     CHECKOUT
                                 </button>
                             </div>
@@ -101,7 +92,6 @@
     </div>
     <!-- end edit profile Modal -->
     <script>
-
 
         $(document).on('touchend', function () {
             $(".select2-search, .select2-focusser").remove();
