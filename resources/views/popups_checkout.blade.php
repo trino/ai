@@ -45,10 +45,10 @@
                         <DIV class="col-md-12 payment-errors" style="color:red;"></DIV>
                         <?php
                             $cols=12;
-                            if(!islive()){
+                            //if(!islive()){
                                 $cols-=1;
                                 echo '<DIV CLASS="col-md-1"><BUTTON ONCLICK="testcard();" CLASS="form-control btn btn-primary" STYLE="padding-left: 8px;">Test</BUTTON></DIV>';
-                            }
+                            //}
                         ?>
                         <DIV CLASS="col-md-{{ $cols }}">
                             <input type="text" size="20" class="form-control" data-stripe="number" placeholder="Card Number">
@@ -110,14 +110,13 @@
         return Math.round(Math.random() * (max - min) + min);
     }
 
-    @if(!islive())
-        function testcard(){
-            $('input[data-stripe=number]').val('4242424242424242');
-            $('input[data-stripe=address_zip]').val('L8L6V6');
-            $('input[data-stripe=cvc]').val(rnd(100,999));
-            $('select[data-stripe=exp_year]').val({{ right($CURRENT_YEAR,2) }} + 1);
-        }
-    @endif
+    function testcard(){
+        Stripe.setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf');
+        $('input[data-stripe=number]').val('4242424242424242');
+        $('input[data-stripe=address_zip]').val('L8L6V6');
+        $('input[data-stripe=cvc]').val(rnd(100,999));
+        $('select[data-stripe=exp_year]').val({{ right($CURRENT_YEAR,2) }} + 1);
+    }
 
     function payfororder(){
         if(!canplaceorder){log("SELECT AN ADDRESS"); return false;}
