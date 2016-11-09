@@ -172,3 +172,7 @@ body.loading #loadingmodal {
     display: block;
     z-index: 999999;
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}
