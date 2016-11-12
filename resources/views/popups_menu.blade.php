@@ -99,14 +99,13 @@
             $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
             ?>
 <div class="clearfix"></div>
-
+<div class="card" style="border: 0 !important;">
             <a class=" head_{{ $catclass }}" data-toggle="collapse" href="#collapse{{$category["id"]}}_cat">
                 <h5 class="text-danger ">{{$category['category']}}</h5>
             </a>
 
             <div class="collapse mb-1 in" id="collapse{{$category['id']}}_cat">
 
-                <div class="">
                 @foreach ($menuitems as $menuitem)
                     <div
                             style="padding: 0 !important;"
@@ -128,7 +127,7 @@
                         <?php
                         if ($total) {
                             $HTML = 'href="#2" data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
-                            $icon = '<i class="fa fa-chevron-right pull-right"></i>';
+                            $icon = '<i class="fa fa-chevron-right pull-right text-muted"></i>';
                         } else {
                             $HTML = 'href="#1" onclick="additemtoorder(this);"';
                             $icon = '';
@@ -136,10 +135,10 @@
 
                         ?>
                         <SPAN>
-                                <a <?= $HTML; ?> class="btn btn-warning waves-effect waves-effect" style="border:0;width: 100%;border-radius:0 !important;">
+                                <a <?= $HTML; ?> class="btn btn-secondary waves-effect waves-effect" style="border:0;width: 100%;border-radius:0 !important;padding: .25rem .1rem !important;">
                                     <DIV CLASS="pull-left sprite sprite-<?= $imagefile; ?> sprite-medium"></DIV>
                                     <span class=" pull-left itemname" style="">{{$menuitem['item']}}</span>
-                                    <span class="pull-right"  style="font-size: 75%;"> ${{number_format($menuitem["price"], 2)}}
+                                    <span class="pull-right" > ${{number_format($menuitem["price"], 2)}}
                                         <?= $icon; ?>
 
                                     </span>
@@ -148,7 +147,7 @@
                             </SPAN>
                     </div>
                 @endforeach
-            </div></div>
+           </div></div>
             <?
             $a++;
             }
@@ -168,7 +167,7 @@
 
 
                 <h4 id="myModalLabel">
-                    <button type="button" class="btn-sm btn btn-outline-info   waves-effect btn pull-left" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="btn-sm btn btn-secondary   waves-effect btn pull-left" data-dismiss="modal" aria-label="Close">
                         <i class="fa fa-arrow-left"></i>
                     </button>
                     <SPAN ID="modal-itemname"></SPAN> $<SPAN ID="modal-itemprice"></SPAN>

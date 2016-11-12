@@ -67,7 +67,7 @@
 
 
 
-        <div class="row">
+        <div class="row  bg-primary hidden-md-down">
             <div class="col-xs-12" >
                 <div style="padding:1rem 0rem;">
                     <?= view("popups_toppings"); ?>

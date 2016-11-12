@@ -40,19 +40,30 @@
                     <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook" maxlength="255"/>
 
                     <DIV class="row">
+
+
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">Card</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Cash on Delivery</a>
+                            </li>
+
+
+                        </ul>
+
                         <?php
 
                             //if(!islive()){
-
                                 echo '<DIV CLASS="col-md-12"><BUTTON ONCLICK="testcard();" CLASS="form-control btn btn-link" STYLE="padding-left: 8px;">Test</BUTTON></DIV>';
                             //}
                         ?>
                         <DIV CLASS="col-md-12">
                             <input type="text" size="20" class="form-control" data-stripe="number" placeholder="Card Number">
                         </DIV>
-                        <!--DIV CLASS="col-md-4">
-                            <input type="text" size="6" data-stripe="address_zip" CLASS="form-control" placeholder="Billing Postal Code">
-                        </DIV-->
+
+
                         <DIV CLASS="col-xs-4">
                             <SELECT CLASS="form-control" data-stripe="exp_month">
                                 <OPTION VALUE="01">01</OPTION>

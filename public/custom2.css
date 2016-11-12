@@ -1,80 +1,10 @@
-h1,h2,h3,h4,h5,h6{
-    font-family: "Roboto Slab";
-
-
-}
-.close{color:white !important;}
-.btn {
-    position: relative;
-    overflow: hidden
-}
-.list-group-item{
-    background:transparent !important;
-}
-
-html, body {
+*{
 line-height: 1rem !important;
+    border:0 !important;
 }
-
-.form-control {
-padding: 0 !important;
+.card-block{
+    padding:0 !important;
 }
-.btn{margin: 0 !important;}
-.form-control:focus {
-
-}
-
-.modal-content {
-    background-color: #1d1d1d;
-}
-
-.modal-body{
-
-    color:white;
-}
-.row {
-    overflow: hidden;
-}
-
-[class*="col-"] {
-
-}
-
-.card-block {
-
-}
-
-@media (min-width: 14em) {
-    .card-columns {
-        -webkit-column-count: 1;
-        -moz-column-count: 1;
-        column-count: 1;
-    }
-}
-
-@media (min-width: 75em) {
-    .card-columns {
-        -webkit-column-count: 3;
-        -moz-column-count: 3;
-        column-count: 3;
-    }
-}
-
-input, select {
-    border-radius: 0 !important;
-    colo:white;
-}
-
-select {
-    padding: .5rem !important;
-}
-
-.dont-show {
-    display: none !important;
-}
-
-
-
 .sprite {
     background-image: url('grid.png');
     background-repeat: no-repeat;
@@ -83,7 +13,10 @@ select {
 
     display: inline-block;
 }
-
+.form-control{
+    padding:0 !important;
+    margin:0 !important;
+}
 .sprite-dips {
     background-position: -0px -0px;
 }
@@ -137,6 +70,84 @@ body.loading #loadingmodal {
     z-index: 999999;
 }
 
+
+/*
+
 .cursor-pointer {
     cursor: pointer;
 }
+
+
+
+.btn {
+    position: relative;
+    overflow: hidden
+}
+.list-group-item{
+    background:transparent !important;
+}
+
+html, body {
+    line-height: 1rem !important;
+}
+
+.form-control {
+    padding: 0 !important;
+}
+.btn{margin: 0 !important;}
+.form-control:focus {
+
+}
+
+.modal-content {
+    background-color: #1d1d1d;
+}
+
+.close{color:white !important;}
+.modal-body{
+
+    color:white;
+}
+.row {
+    overflow: hidden;
+}
+
+[class*="col-"] {
+
+}
+
+.card-block {
+
+}
+
+@media (min-width: 14em) {
+    .card-columns {
+        -webkit-column-count: 1;
+        -moz-column-count: 1;
+        column-count: 1;
+    }
+}
+
+@media (min-width: 75em) {
+    .card-columns {
+        -webkit-column-count: 3;
+        -moz-column-count: 3;
+        column-count: 3;
+    }
+}
+
+input, select {
+    border-radius: 0 !important;
+    colo:white;
+}
+
+select {
+    padding: .5rem !important;
+}
+
+.dont-show {
+    display: none !important;
+}
+
+
+*/
