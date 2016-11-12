@@ -34,13 +34,13 @@
 ?>
 <div>
     <?php
-        printarow("Name", $name, array("name" => "name", "value" => $user["name"], "type" => "text", "class" => "form-control session_name_val"));
+        printarow("Name", $name, array("name" => "name", "value" => $user["name"], "type" => "text",  "placeholder"=>"Name","class" => "form-control session_name_val"));
         if(!isset($phone) || $phone){
             if(!isset($phone)){$phone = false;}
-            printarow("Phone", $name, array("name" => "phone", "value" => $user["phone"], "type" => "tel", "class" => "form-control session_phone_val", "required" => $phone));
+            printarow("Phone", $name, array("name" => "phone", "value" => $user["phone"], "type" => "tel", "placeholder"=>"Cell", "class" => "form-control session_phone_val", "required" => $phone));
         }
         if($email){
-            printarow("Email", $name, array("name" => "email", "value" => $user["email"], "type" => "email", "class" => "form-control session_email_val"));
+            printarow("Email", $name, array("name" => "email", "value" => $user["email"], "type" => "email", "placeholder"=>"Email", "class" => "form-control session_email_val"));
         }
         if(isset($user_id) || isset($showpass)){
             printarow("Old Password", $name, array("name" => "oldpassword", "type" => "password", "class" => "form-control", "placeholder"=>"Old Password"));

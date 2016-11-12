@@ -1,5 +1,5 @@
 <!-- menu cache saved from: {{ now() }} -->
-<div class="col-md-9">
+<div class="col-md-8">
     <div class="card" >
 
         <div class="card-block card-columns">
@@ -136,7 +136,7 @@
 
                         ?>
                         <SPAN>
-                                <a <?= $HTML; ?> class=" btn " style="width: 100%;padding:2px !important;">
+                                <a <?= $HTML; ?> class=" btn btn-secondary " style="border:0;width: 100%;padding:0px !important;border-radius:0 !important;">
                                     <DIV CLASS="pull-left sprite sprite-<?= $imagefile; ?> sprite-medium"></DIV>
                                     <?= $icon; ?>
                                     <span class=" pull-left itemname" style="font-size: 75%;">{{$menuitem['item']}}</span>
@@ -152,6 +152,9 @@
             }
             ?>
         </div>
+
+
+
     </div>
 </div>
 

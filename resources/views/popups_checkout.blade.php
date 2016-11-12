@@ -3,9 +3,7 @@
         <div class="modal-content">
             <div class="modal-body">
 
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    &times;
-                </button>
+
 
                 <h5 id="myModalLabel">Checkout</h5>
 
@@ -41,13 +39,12 @@
                     ?>
                     <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook" maxlength="255"/>
 
-                    <DIV STYLE="margin-top: 15px;">
-                        <DIV class="col-md-12 payment-errors" style="color:red;"></DIV>
+                    <DIV class="row">
                         <?php
                             $cols=12;
                             //if(!islive()){
                                 $cols-=1;
-                                echo '<DIV CLASS="col-md-1"><BUTTON ONCLICK="testcard();" CLASS="form-control btn btn-primary" STYLE="padding-left: 8px;">Test</BUTTON></DIV>';
+                                echo '<DIV CLASS="col-md-1"><BUTTON ONCLICK="testcard();" CLASS="form-control btn btn-link" STYLE="padding-left: 8px;">Test</BUTTON></DIV>';
                             //}
                         ?>
                         <DIV CLASS="col-md-{{ $cols }}">
@@ -56,23 +53,23 @@
                         <!--DIV CLASS="col-md-4">
                             <input type="text" size="6" data-stripe="address_zip" CLASS="form-control" placeholder="Billing Postal Code">
                         </DIV-->
-                        <DIV CLASS="col-md-4">
+                        <DIV CLASS="col-xs-4">
                             <SELECT CLASS="form-control" data-stripe="exp_month">
-                                <OPTION VALUE="01">01 - January</OPTION>
-                                <OPTION VALUE="02">02 - February</OPTION>
-                                <OPTION VALUE="03">03 - March</OPTION>
-                                <OPTION VALUE="04">04 - April</OPTION>
-                                <OPTION VALUE="05">05 - May</OPTION>
-                                <OPTION VALUE="06">06 - June</OPTION>
-                                <OPTION VALUE="07">07 - July</OPTION>
-                                <OPTION VALUE="08">08 - August</OPTION>
-                                <OPTION VALUE="09">09 - September</OPTION>
-                                <OPTION VALUE="10">10 - October</OPTION>
-                                <OPTION VALUE="11">11 - November</OPTION>
-                                <OPTION VALUE="12">12 - December</OPTION>
+                                <OPTION VALUE="01">01</OPTION>
+                                <OPTION VALUE="02">02</OPTION>
+                                <OPTION VALUE="03">03</OPTION>
+                                <OPTION VALUE="04">04</OPTION>
+                                <OPTION VALUE="05">05</OPTION>
+                                <OPTION VALUE="06">06</OPTION>
+                                <OPTION VALUE="07">07</OPTION>
+                                <OPTION VALUE="08">08</OPTION>
+                                <OPTION VALUE="09">09</OPTION>
+                                <OPTION VALUE="10">10</OPTION>
+                                <OPTION VALUE="11">11</OPTION>
+                                <OPTION VALUE="12">12</OPTION>
                             </SELECT>
                         </DIV>
-                        <DIV CLASS="col-md-4">
+                        <DIV CLASS="col-xs-4">
                             <SELECT CLASS="form-control" data-stripe="exp_year">
                                 <?php
                                     $CURRENT_YEAR = date("Y");
@@ -83,12 +80,21 @@
                                 ?>
                             </SELECT>
                         </DIV>
-                        <DIV CLASS="col-md-4">
+                        <DIV CLASS="col-xs-4">
                             <input type="text" size="4" data-stripe="cvc" CLASS="form-control" PLACEHOLDER="CVC">
                         </DIV>
                     </DIV>
 
-                    <button class="m-b-1 btn btn-warning btn-block" onclick="payfororder();">PLACE ORDER</button>
+                        <DIV class="col-md-12 payment-errors" style="color:red;"></DIV>
+
+
+
+
+                        <button type="button" class="col-xs-4 btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                            Close
+                        </button>
+
+                    <button class="col-xs-8 btn btn-warning " onclick="payfororder();">PLACE ORDER</button>
                     <DIV ID="form_integrity" style="color:red;"></DIV>
                 </FORM>
                 <div class="clearfix"></div>

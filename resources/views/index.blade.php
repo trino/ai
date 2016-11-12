@@ -27,10 +27,10 @@
         ?>
 
 
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="card">
                 <div class="card-block">
-                    <h5 class="pull-left">
+                    <h5 class="pull-left text-danger">
                         My Order
 
                     </h5>
@@ -43,12 +43,12 @@
                     <div class="clearfix"></div>
                     <div ID="checkoutbutton">
                         <div class="row mt-1">
-                            <DIV CLASS=" col-xs-5">
+                            <DIV CLASS=" col-xs-6">
                                 <button class="btn btn-secondary btn-block" ONCLICK="confirm2('Are you sure you want to clear your order?', 'Clear Order', function(){clearorder();});">
                                     CLEAR
                                 </button>
                             </DIV>
-                            <DIV CLASS=" col-xs-7">
+                            <DIV CLASS=" col-xs-6">
                                 <button class="btn btn-warning loggedin btn-block" id="checkout" onclick="showcheckout();">
                                     CHECKOUT
                                 </button>
@@ -56,6 +56,19 @@
                         </div>
                     </div>
                     @include("popups_checkout")
+
+
+                    <div class="row pt-2">
+                        <div class="col-xs-12" >
+                            <div style="border:5px solid #000 !important;padding:1rem 0rem;">
+                                <?= view("popups_toppings"); ?>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
                 </div>
             </div>
 
@@ -540,5 +553,6 @@
             @endif
         });
     </script>
-    <?= view("popups_toppings"); ?>
+
+
 @endsection
