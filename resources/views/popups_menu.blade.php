@@ -128,7 +128,7 @@
                         <?php
                         if ($total) {
                             $HTML = 'href="#2" data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
-                            $icon = '<i class="fa fa-chevron-up pull-right"></i>';
+                            $icon = '<i class="fa fa-chevron-right pull-right"></i>';
                         } else {
                             $HTML = 'href="#1" onclick="additemtoorder(this);"';
                             $icon = '';
@@ -136,11 +136,13 @@
 
                         ?>
                         <SPAN>
-                                <a <?= $HTML; ?> class=" btn btn-secondary " style="border:0;width: 100%;padding:0px !important;border-radius:0 !important;">
+                                <a <?= $HTML; ?> class="btn btn-warning waves-effect waves-effect" style="border:0;width: 100%;border-radius:0 !important;">
                                     <DIV CLASS="pull-left sprite sprite-<?= $imagefile; ?> sprite-medium"></DIV>
-                                    <?= $icon; ?>
-                                    <span class=" pull-left itemname" style="font-size: 75%;">{{$menuitem['item']}}</span>
-                                    <span class="pull-right"  style="font-size: 75%;"> ${{number_format($menuitem["price"], 2)}}</span>
+                                    <span class=" pull-left itemname" style="">{{$menuitem['item']}}</span>
+                                    <span class="pull-right"  style="font-size: 75%;"> ${{number_format($menuitem["price"], 2)}}
+                                        <?= $icon; ?>
+
+                                    </span>
                                     <div class="clearfix"></div>
                                 </a>
                             </SPAN>
@@ -166,6 +168,9 @@
 
 
                 <h4 id="myModalLabel">
+                    <button type="button" class="btn-sm btn btn-outline-info   waves-effect btn pull-left" data-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-arrow-left"></i>
+                    </button>
                     <SPAN ID="modal-itemname"></SPAN> $<SPAN ID="modal-itemprice"></SPAN>
                 </h4>
                 <div class="mt-1"></div>
@@ -206,8 +211,8 @@
                 </ul>
                 <div class=""></div>
 
-                <button type="button" class="btn-secondary btn pull-left" data-dismiss="modal" aria-label="Close">
-                    Cancel
+                <button type="button" class=" btn-secondary waves-effect btn pull-left" data-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-close"></i>
                 </button>
 
 

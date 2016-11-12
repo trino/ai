@@ -5,7 +5,7 @@
 
 
 
-                <h5 id="myModalLabel">Checkout</h5>
+                <h4 id="myModalLabel">Checkout</h4>
 
                 <FORM ID="orderinfo" name="orderinfo">
                     <?= view("popups_edituser", array("email" => false, "password" => false, "phone" => "required"))->render(); ?>
@@ -16,7 +16,7 @@
                             //can only be included once, and is in the login modal
                             echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
                         }
-                        echo '<input type="text" class="form-control corner-top" ID="restaurant" readonly placeholder="Restaurant Select" TITLE="Closest restaurant"/>';
+                        echo '<input type="text" class="form-control corner-top" ID="restaurant" placeholder="Restaurant Select" TITLE="Closest restaurant"/>';
                         echo '<SELECT id="deliverytime" TITLE="Delivery Time" class="form-control"/>';
                         echo '<OPTION>Deliver ASAP</OPTION>';
                         /*
@@ -41,13 +41,13 @@
 
                     <DIV class="row">
                         <?php
-                            $cols=12;
+
                             //if(!islive()){
-                                $cols-=1;
-                                echo '<DIV CLASS="col-md-1"><BUTTON ONCLICK="testcard();" CLASS="form-control btn btn-link" STYLE="padding-left: 8px;">Test</BUTTON></DIV>';
+
+                                echo '<DIV CLASS="col-md-12"><BUTTON ONCLICK="testcard();" CLASS="form-control btn btn-link" STYLE="padding-left: 8px;">Test</BUTTON></DIV>';
                             //}
                         ?>
-                        <DIV CLASS="col-md-{{ $cols }}">
+                        <DIV CLASS="col-md-12">
                             <input type="text" size="20" class="form-control" data-stripe="number" placeholder="Card Number">
                         </DIV>
                         <!--DIV CLASS="col-md-4">
@@ -84,17 +84,20 @@
                             <input type="text" size="4" data-stripe="cvc" CLASS="form-control" PLACEHOLDER="CVC">
                         </DIV>
                     </DIV>
-
+<div class="row">
                         <DIV class="col-md-12 payment-errors" style="color:red;"></DIV>
 
 
+<div class="col-xs-6 ">
 
+                        <button type="button" class="btn btn-secondary waves-effect btn-block" data-dismiss="modal" aria-label="Close">
+                            CANCEL                       </button>
+</div><div class="col-xs-6">
 
-                        <button type="button" class="col-xs-4 btn btn-secondary" data-dismiss="modal" aria-label="Close">
-                            Close
-                        </button>
+                        <button class=" btn btn-warning btn-block" onclick="payfororder();">PLACE ORDER</button>
 
-                    <button class="col-xs-8 btn btn-warning " onclick="payfororder();">PLACE ORDER</button>
+                        </div>
+</div>
                     <DIV ID="form_integrity" style="color:red;"></DIV>
                 </FORM>
                 <div class="clearfix"></div>

@@ -39,7 +39,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://select2.github.io/select2/select2-3.5.2/select2.css">
     <script src="http://select2.github.io/select2/select2-3.4.2/select2.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap99/4.1.1/css/mdb.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.1.1/css/mdb.min.css">
     <SCRIPT SRC="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></SCRIPT>
     <script src="<?= webroot("resources/views/api2.js"); ?>"></script>
 </head>
@@ -96,18 +96,27 @@
                                 <HR>
                             </SPAN>
 
-                    <li>
-                        <SPAN class="dropdown-item"><i class="fa fa-home"></i> <SPAN CLASS="session_name"></SPAN></SPAN>
-                    </li>
 
                     <SPAN class="loggedin">
+
+
+
+
+
+                              <li>
+                                    <A data-toggle="modal" data-target="#profilemodal" class="dropdown-item">                            <i
+                                                class="fa fa-home"></i> <SPAN CLASS="session_name"></SPAN>
+</A>
+
+
+
+
+
+                                </li>
                                 <li>
                                     <A ONCLICK="orders();" class="dropdown-item"> <i class="fa fa-home"></i> Past Orders</A>
                                 </li>
-                                <li>
-                                    <A data-toggle="modal" data-target="#profilemodal" class="dropdown-item"><i
-                                                class="fa fa-home"></i> Profile</A>
-                                </li>
+
                             </SPAN>
 
                     <li>
@@ -154,7 +163,7 @@
             $("#alert-cancel").hide();
             $("#alert-ok").click(function () {
             });
-            $("#alert-confirm").css("width", "100%");
+
             $("#alertmodalbody").html(arguments[0]);
             $("#alertmodallabel").text(title);
             $("#alertmodal").modal('show');
@@ -296,26 +305,28 @@
         <div class="modal-content">
             <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                    <i class="fa fa-close"></i></button>
                 <div>
                     <h4 class="modal-title" id="alertmodallabel">Title</h4>
                 </div>
+
+
                 <DIV ID="alertmodalbody"></DIV>
+                <div class="row pt-1">
+                    <DIV class="col-xs-6 ">
+                        <button class="btn btn-secondary waves-effect BTN-BLOCK" id="alert-cancel" data-dismiss="modal"
+                         >
+                            Cancel
+                        </button>
+                    </DIV>
 
-                <DIV class="col-xs-6 ">
-                    <button class="btn btn-secondary BTN-BLOCK" id="alert-cancel" data-dismiss="modal">
-                        Cancel
-                    </button>
-                </DIV>
+                    <DIV class="col-xs-6 ">
 
-                <DIV class="col-xs-6 ">
-
-                    <button class="btn btn-warning btn-block" id="alert-confirm" data-dismiss="modal">
-                        OK
-                    </button>
-                </DIV>
-
+                        <button class="btn btn-warning btn-block" id="alert-confirm" data-dismiss="modal">
+                            OK
+                        </button>
+                    </DIV>
+                </div>
                 <DIV CLASS="clearfix"></DIV>
             </div>
         </div>

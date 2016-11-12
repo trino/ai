@@ -1,3 +1,9 @@
+h1,h2,h3,h4,h5,h6{
+    font-family: "Roboto Slab";
+
+
+}
+.close{color:white !important;}
 .btn {
     position: relative;
     overflow: hidden
@@ -5,55 +11,17 @@
 .list-group-item{
     background:transparent !important;
 }
-.btn:after {
-    content: "";
-    background: rgba(0, 0, 0, 0.3);
-    display: block;
-    position: absolute;
-    border-radius: 50%;
-    padding-top: 240%;
-    padding-left: 240%;
-    margin-top: -120%;
-    margin-left: -120%;
-    opacity: 0;
-    transition: all .5s
-}
-
-.btn:active:after {
-    padding-top: 0;
-    padding-left: 0;
-    margin-top: 0;
-    margin-left: 0;
-    opacity: 1;
-    transition: 0s
-}
 
 html, body {
-    font-family: "Roboto Slab";
-    width: 100%;
-    height: 100%
+line-height: 1rem !important;
 }
 
 .form-control {
-    display: block;
-    width: 100%;
-    height: 35px;
-    padding: 0 !important;
-    font-size: 14px;
-    line-height: 1.5;
-    color: #eee;
-    background-color: #36333d;
-    background-image: none;
-    border: 1px solid #36333d;
-    border-radius: 4px;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s
+padding: 0 !important;
 }
-
+.btn{margin: 0 !important;}
 .form-control:focus {
-    color: #222;
-    background-color: #ccc;
-    box-shadow: none
+
 }
 
 .modal-content {
@@ -61,7 +29,8 @@ html, body {
 }
 
 .modal-body{
-    padding: 10px !important;color:white;
+
+    color:white;
 }
 .row {
     overflow: hidden;
@@ -93,6 +62,7 @@ html, body {
 
 input, select {
     border-radius: 0 !important;
+    colo:white;
 }
 
 select {

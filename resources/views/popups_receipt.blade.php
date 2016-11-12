@@ -229,7 +229,7 @@
             if($style == 2){
                 echo '<TR><TD COLSPAN="' . $colspan . '">';
                 if(isset($JSON)){
-                    echo '<BUTTON CLASS="btn btn-secondary form-control" ONCLICK="orders(' . $orderid . ', true);">Load Order</BUTTON>';
+                    echo '<BUTTON CLASS="btn  btn-secondary waves-effect" ONCLICK="orders(' . $orderid . ', true);">Load Order</BUTTON>';
                 } else {
                     echo $Order["name"] . " - " . $Order["email"] . "<BR>" . $Order["phone"] . " " . $Order["cell"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . ", " . $Order["province"] . "<BR>" . $Order["postalcode"] . '<BR>' . $Order["unit"];
                 }

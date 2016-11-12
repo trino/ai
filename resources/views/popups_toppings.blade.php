@@ -1,14 +1,12 @@
 <STYLE>
-    #addonlist{
-        border-style: solid;
-    }
+
 
     .addonlist{
         height: 250px;
     }
 
     .overflow-y{
-        overflow-y: auto;
+
     }
 
     .cursor-pointer{
@@ -65,11 +63,11 @@
 
     function list_addons(table, halves){
         currentaddontype=table;
-        var HTML = '<DIV CLASS="col-md-6 overflow-y">Your current addons: <DIV id="theaddons"></DIV></DIV><DIV CLASS="col-md-6 addonlist overflow-y" ID="addontypes">';
+        var HTML = '<DIV CLASS="col-md-12 overflow-y"> <DIV id="theaddons"></DIV></DIV><DIV CLASS="col-md-12 addonlist overflow-y" ID="addontypes">';
         var types = Object.keys(alladdons[table]);
         for(var i=0;i<types.length;i++){
             var type =  types[i];
-            HTML += '<DIV CLASS="cursor-pointer addon-type">' + type + '</DIV>';
+            HTML += '<DIV CLASS="cursor-pointer addon-type ">' + type + '</DIV>';
         }
         $("#addonlist").html(HTML + '</DIV>');
         $(".addon-type").click(
@@ -176,7 +174,7 @@
     }
 
     function generateaddons(){
-        var HTML = '<TABLE CELLPADDING="2" BORDER="1" WIDTH="100%"><TR><TH WIDTH="5%">Q</TH><TH>Name</TH>';
+        var HTML = '<TABLE class="table table-sm" WIDTH="100%"><TR><TH WIDTH="5%">Q</TH><TH>Name</TH>';
         var columns = 3, addonname = "";
         if(hashalves){
             HTML += '<TH WIDTH="7%">L</TH><TH WIDTH="7%">R</TH>';
@@ -232,7 +230,7 @@
                 }
             }
 
-            HTML += '<SPAN CLASS="pull-right">' + ucfirst(addonname) + ': Paid: ' + paidtoppings +  ', Free: ' + freetoppings + '</SPAN></TD></TR>' + tempstr;
+            HTML += '<SPAN CLASS="pull-right">' + ucfirst(addonname) + ' P ' + paidtoppings +  ' F ' + freetoppings + '</SPAN></TD></TR>' + tempstr;
         }
         $("#theaddons").html(HTML + '</TABLE>');
         $(".currentitem.thisside").trigger("click");

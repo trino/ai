@@ -42,9 +42,9 @@
 
                     <div class="clearfix"></div>
                     <div ID="checkoutbutton">
-                        <div class="row mt-1">
+                        <div class="row my-1">
                             <DIV CLASS=" col-xs-6">
-                                <button class="btn btn-secondary btn-block" ONCLICK="confirm2('Are you sure you want to clear your order?', 'Clear Order', function(){clearorder();});">
+                                <button class="btn   btn-secondary waves-effect waves-effect btn-block" ONCLICK="confirm2('Are you sure you want to clear your order?', 'Clear Order', function(){clearorder();});">
                                     CLEAR
                                 </button>
                             </DIV>
@@ -58,21 +58,30 @@
                     @include("popups_checkout")
 
 
-                    <div class="row pt-2">
-                        <div class="col-xs-12" >
-                            <div style="border:5px solid #000 !important;padding:1rem 0rem;">
-                                <?= view("popups_toppings"); ?>
-                            </div>
-                        </div>
-                    </div>
-
-
-
 
                 </div>
             </div>
+<div class="card">
 
+    <div class="card-block">
+
+
+
+        <div class="row">
+            <div class="col-xs-12" >
+                <div style="padding:1rem 0rem;">
+                    <?= view("popups_toppings"); ?>
+                </div>
+            </div>
         </div>
+
+
+
+    </div>
+
+</div>
+        </div>
+
     </div>
 
     <!-- edit profile Modal -->
@@ -81,8 +90,7 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                        <i class="fa fa-close"></i>                    </button>
 
                     <div>
                         <h5 class="modal-title" id="myModalLabel">Edit Profile</h5>
@@ -96,7 +104,7 @@
 
                     <DIV CLASS="row">
                         <DIV CLASS="col-md-12" align="center">
-                            <BUTTON CLASS="btn btn-primary" onclick="userform_submit();">Save</BUTTON>
+                            <BUTTON CLASS="btn btn-primary pull-right" onclick="userform_submit();">Save</BUTTON>
                         </DIV>
                     </DIV>
                 </div>
@@ -469,7 +477,7 @@
             if (AddNew) {
                 HTML += '<A ONCLICK="deleteaddress(-1);" CLASS="hyperlink">Add ' + "'" + number + " " + street + ", " + city + "' to the list</A>";
             } else {
-                HTML += 'Enter a new address in the checkout form if you want to add it to your profile';
+             //   HTML += 'Enter a new address in the checkout form if you want to add it to your profile';
             }
             return HTML;
         }

@@ -46,7 +46,7 @@
             printarow("Old Password", $name, array("name" => "oldpassword", "type" => "password", "class" => "form-control", "placeholder"=>"Old Password"));
             printarow("New Password", $name, array("name" => "newpassword", "type" => "password", "class" => "form-control", "placeholder"=>"New Password"));
         } else if($password) {
-            printarow("Password", $name, array("name" => "password", "type" => "password", "class" => "form-control"));
+            printarow("Password", $name, array("name" => "password", "type" => "password", "class" => "form-control", "placeholder"=>"Password"));
         }
         if(isset($address) && $address){
             echo view("popups_address", array("style" => 1))->render();
