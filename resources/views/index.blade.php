@@ -1,6 +1,11 @@
 @extends('layouts_app')
 @section('content')
     <div class="row">
+
+
+
+
+
         <div class="col-md-8">
             <?php
             if (islive()) {
@@ -41,7 +46,7 @@
                             <div id="myorder"></div>
                         </div>
                     </div>
-                    <div ID="checkoutbutton" class="row py-3 hidden-sm-down">
+                    <div ID="checkoutbutton" class="row pt-1 hidden-sm-down">
                         <DIV CLASS=" col-xs-6">
                             <button class="btn   btn-secondary waves-effect waves-effect btn-block"
                                     ONCLICK="confirm2('Are you sure you want to clear your order?', 'Clear Order', function(){clearorder();});">

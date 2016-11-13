@@ -7,129 +7,27 @@ input[type="text"], input[type="date"], input[type="email"],  input[type="tel"],
     color: #373a3c !important;
 
 }
+*{
 
+}
+body{
+    /*  prevents horizontal scroll for full width container-fluid */
+    overflow-x: hidden !important;
+
+line-height: 1rem !important;
+    color: #373a3c;
+    font-family: 'Roboto', sans-serif;
+    margin-top: 70px;
+    animation: fadein 1s;
+    -moz-animation: fadein 1s; /* Firefox */
+    -webkit-animation: fadein 1s; /* Safari and Chrome */
+    -o-animation: fadein 1s; /* Opera */
+}
 /*
-h1,h2,h3,h4,h5,h6{
-    padding:.5rem 0 !important;
-    margin: 0 !important;
-}
-.navbar{padding: .5rem 0 !important;}
-
-.dont-show {
-    display: none;
-}
-.navbar-brand{font-size: 1rem !important;padding: 0 !important;}
-* {
-    border-radius: 0 !important;
-    border: 0 !important;
-    line-height: 1rem !important;
-box-shadow: none !important;
-}
-.modal-content {
-    background-color: #1d1d1d;
-    color: white;
-}
-input, select, option{
-    background-color: #1d1d1d !important;
-    padding:.25rem 0 !important;
-
-}
-.btn {
-    margin: 0 !important;
-}
-
-.card-block, .card {
-    box-shadow: none !important;
-    padding: 0 !important;
-}
-
-.form-control {
-    padding: 0 !important;
-    margin: 0 !important;
-}
-
-
-
-.cursor-pointer {
-    cursor: pointer;
-}
-
-
-
-.btn {
-    position: relative;
-    overflow: hidden
-}
-.list-group-item{
-    background:transparent !important;
-}
-
-html, body {
-    line-height: 1rem !important;
-}
-
-.form-control {
-    padding: 0 !important;
-}
-.btn{margin: 0 !important;}
-.form-control:focus {
-
-}
-
-.modal-content {
-    background-color: #1d1d1d;
-}
-
-.close{color:white !important;}
-.modal-body{
-
-    color:white;
-}
-.row {
-    overflow: hidden;
-}
-
-[class*="col-"] {
-
-}
-
-.card-block {
-
-}
-
-@media (min-width: 14em) {
-    .card-columns {
-        -webkit-column-count: 1;
-        -moz-column-count: 1;
-        column-count: 1;
-    }
-}
-
-@media (min-width: 75em) {
-    .card-columns {
-        -webkit-column-count: 3;
-        -moz-column-count: 3;
-        column-count: 3;
-    }
-}
-
-input, select {
-    border-radius: 0 !important;
-    colo:white;
-}
-
-select {
-    padding: .5rem !important;
-}
-
-.dont-show {
-    display: none !important;
-}
-
 
 */
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 700px) {
     .modal-dialog {
         margin: 0 !important;
     }

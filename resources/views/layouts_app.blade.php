@@ -58,7 +58,7 @@
 </head>
 <body>
 <?= view("popups_navbar")->render(); ?>
-<div class="container">
+<div class="container mt-3">
     @yield('content')
 </div>
 <nav id="checkout-btn" class="navbar-default bg-danger navbar-fixed-bottom navbar hidden-sm-up"

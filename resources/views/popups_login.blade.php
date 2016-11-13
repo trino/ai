@@ -8,7 +8,7 @@ if($style == 1){
         <div class="modal-content">
             <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i class="fa fa-close"></i>                </button>
+                    <i class="fa fa-close"></i></button>
                 <div>
                     <h4 class="modal-title" id="myModalLabel">Login</h4>
                 </div>
@@ -20,22 +20,22 @@ if($style == 1){
                 <DIV ID="loginmessage"></DIV>
 
 
-                    <DIV CLASS="col-md-4">
-                        <button class="btn btn-block btn-warning" onclick="handlelogin('login');">
-                            Login
-                        </button>
-                    </DIV>
-                    <DIV CLASS="col-md-4">
-                        <button class="btn btn-block btn-danger" onclick="handlelogin('forgotpassword');">
-                            Forgot Password
-                        </button>
-                    </DIV>
-                    <DIV CLASS="col-md-4">
-                        <button class="btn btn-block btn-primary" data-dismiss="modal" data-toggle="modal"
-                                data-target="#registermodal">
-                            Register
-                        </button>
-                    </DIV>
+                <DIV CLASS="col-md-4">
+                    <button class="btn btn-block btn-warning" onclick="handlelogin('login');">
+                        Login
+                    </button>
+                </DIV>
+                <DIV CLASS="col-md-4">
+                    <button class="btn btn-block btn-secondary" onclick="handlelogin('forgotpassword');">
+                        Forgot Password
+                    </button>
+                </DIV>
+                <DIV CLASS="col-md-4">
+                    <button class="btn btn-block btn-primary" data-dismiss="modal" data-toggle="modal"
+                            data-target="#registermodal">
+                        Register
+                    </button>
+                </DIV>
 
                 <DIV CLASS="clearfix"></DIV>
             </div>
@@ -89,9 +89,11 @@ if($style == 1){
                                onkeydown="enterkey(event, 'login');">
                         <div class="pt-1 "></div>
                         <BUTTON CLASS="btn btn-warning pull-right" onclick="handlelogin('login');">Log In</BUTTON>
-                        <BUTTON CLASS="btn btn-link pull-left" onclick="handlelogin('forgotpassword');">Forgot Password</BUTTON>
+                        <BUTTON CLASS="btn btn-secondary pull-left" onclick="handlelogin('forgotpassword');">Forgot
+                            Password
+                        </BUTTON>
 
-<div class="clearfix"></div>
+                        <div class="clearfix"></div>
                         <h4 class="pt-1">
                             Sign Up
                         </h4>
