@@ -137,7 +137,7 @@ class HomeController extends Controller {
                 }
 
                 if($error){
-                    debugprint("Stripe error: " . $error);
+                    debugprint("Order ID: " .  $orderid . " - Stripe error: " . $error);
                     return "";// The card has been declined
                 }
             }

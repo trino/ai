@@ -42,24 +42,21 @@
                     <DIV class="row">
                         <DIV CLASS="col-md-12">
 
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="#">Card</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Cash on Delivery</a>
+                                </li>
+                            </ul>
 
-                        <ul class="nav nav-tabs">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#">Card</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Cash on Delivery</a>
-                            </li>
+                        </DIV>
 
+                        <DIV CLASS="col-md-12">
+                            <a class="btn btn-primary" onclick="testcard();" STYLE="padding-left: 8px;">Test</a>
+                        </DIV>
 
-                        </ul>
-                            </DIV>
-
-                        <?php
-                            //if(!islive()){
-                                echo '<DIV CLASS="col-md-12"><BUTTON ONCLICK="testcard();" CLASS="form-control btn btn-link" STYLE="padding-left: 8px;">Test</BUTTON></DIV>';
-                            //}
-                        ?>
                         <DIV CLASS="col-md-12">
                             <input type="text" size="20" class="form-control" data-stripe="number" placeholder="Card Number">
                         </DIV>
@@ -123,6 +120,12 @@
 
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <SCRIPT>
+    //var oldJQueryEventTrigger = jQuery.event.trigger;
+    //jQuery.event.trigger = function( event, data, elem, onlyHandlers ) {
+    //    console.log( event, data, elem, onlyHandlers );
+    //    oldJQueryEventTrigger( event, data, elem, onlyHandlers );
+    //}
+
     //https://stripe.com/docs/custom-form
     var canplaceorder = false;
     @if(read("id"))
@@ -136,6 +139,7 @@
     }
 
     function testcard(){
+        log("testcard");
         $('input[data-stripe=number]').val('4242424242424242');
         $('input[data-stripe=address_zip]').val('L8L6V6');
         $('input[data-stripe=cvc]').val(rnd(100,999));

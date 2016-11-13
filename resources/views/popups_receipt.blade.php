@@ -114,7 +114,7 @@
                     if(is_object($item)){
                         $menukey = findkey($menu, "id", $item->itemid);
 
-                        debugprint($itemIDs . " = " . $item->itemid . " = " . $menukey . " = " . var_export($menu, true) );
+                        //debugprint($itemIDs . " = " . $item->itemid . " = " . $menukey . " = " . var_export($menu, true) );
 
                         if(true){
                             $menuitem = $menu[$menukey];
@@ -224,7 +224,7 @@
                 if(!$integrity){
                     //echo '<TR><TD COLSPAN="7" ALIGN="RIGHT">Integrity check</TD><TD ALIGN="RIGHT" STYLE="color:red;">FAIL</TD></TR>';
                 }
-                debugprint("Amount generated for order " . $orderid . " = " . $total);
+                //debugprint("Amount generated for order " . $orderid . " = " . $total);
                 insertdb("orders", array("id" => $orderid, "price" => $total));//saved for stripe
             } catch (exception $e){
                 echo 'Caught exception: ',  $e->getMessage() . " on line " . $e->getLine() . "<BR>";
