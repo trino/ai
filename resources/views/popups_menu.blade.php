@@ -1,5 +1,4 @@
-<!-- menu cache saved from: {{ now() }} -->
-<div class="col-md-8">
+
     <div class="card" >
 
         <div class="card-block card-columns">
@@ -158,7 +157,7 @@
 
 
     </div>
-</div>
+
 
 <!-- order menu item Modal -->
 <div class="modal" id="menumodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
