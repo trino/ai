@@ -56,7 +56,6 @@
                             </DIV>
 
                         <?php
-
                             //if(!islive()){
                                 echo '<DIV CLASS="col-md-12"><BUTTON ONCLICK="testcard();" CLASS="form-control btn btn-link" STYLE="padding-left: 8px;">Test</BUTTON></DIV>';
                             //}
@@ -68,18 +67,18 @@
 
                         <DIV CLASS="col-xs-4">
                             <SELECT CLASS="form-control" data-stripe="exp_month">
-                                <OPTION VALUE="01">01</OPTION>
-                                <OPTION VALUE="02">02</OPTION>
-                                <OPTION VALUE="03">03</OPTION>
-                                <OPTION VALUE="04">04</OPTION>
-                                <OPTION VALUE="05">05</OPTION>
-                                <OPTION VALUE="06">06</OPTION>
-                                <OPTION VALUE="07">07</OPTION>
-                                <OPTION VALUE="08">08</OPTION>
-                                <OPTION VALUE="09">09</OPTION>
-                                <OPTION VALUE="10">10</OPTION>
-                                <OPTION VALUE="11">11</OPTION>
-                                <OPTION VALUE="12">12</OPTION>
+                                <OPTION VALUE="01">01 - January</OPTION>
+                                <OPTION VALUE="02">02 - February</OPTION>
+                                <OPTION VALUE="03">03 - March</OPTION>
+                                <OPTION VALUE="04">04 - April</OPTION>
+                                <OPTION VALUE="05">05 - May</OPTION>
+                                <OPTION VALUE="06">06 - June</OPTION>
+                                <OPTION VALUE="07">07 - July</OPTION>
+                                <OPTION VALUE="08">08 - August</OPTION>
+                                <OPTION VALUE="09">09 - September</OPTION>
+                                <OPTION VALUE="10">10 - October</OPTION>
+                                <OPTION VALUE="11">11 - November</OPTION>
+                                <OPTION VALUE="12">12 - December</OPTION>
                             </SELECT>
                         </DIV>
                         <DIV CLASS="col-xs-4">
@@ -104,7 +103,9 @@
 <div class="col-xs-6 ">
 
                         <button type="button" class="btn btn-secondary waves-effect btn-block" data-dismiss="modal" aria-label="Close">
-                            CANCEL                       </button>
+                            CANCEL
+                        </button>
+
 </div><div class="col-xs-6">
 
                         <button class=" btn btn-warning btn-block" onclick="payfororder();">PLACE ORDER</button>
@@ -135,11 +136,16 @@
     }
 
     function testcard(){
-        Stripe.setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf');
         $('input[data-stripe=number]').val('4242424242424242');
         $('input[data-stripe=address_zip]').val('L8L6V6');
         $('input[data-stripe=cvc]').val(rnd(100,999));
         $('select[data-stripe=exp_year]').val({{ right($CURRENT_YEAR,2) }} + 1);
+
+        @if(islive())
+            log("Changing stripe key");
+            Stripe.setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf');
+            log("Stripe key changed");
+        @endif
     }
 
     function payfororder(){
@@ -147,11 +153,15 @@
         if($("#orderinfo").find(".error:visible[for]").length>0){return false;}
         var $form = $('#orderinfo');
         $(".payment-errors").html("");
+
+        log("Stripe data");
         Stripe.card.createToken($form, stripeResponseHandler);
+        log("Stripe data - complete");
     }
 
     function stripeResponseHandler(status, response){
         var errormessage = "";
+        log("Stripe response");
         switch(status){
             case 400: errormessage = "Bad Request:<BR>The request was unacceptable, often due to missing a required parameter."; break;
             case 401: errormessage = "Unauthorized:<BR>No valid API key provided."; break;
@@ -164,6 +174,7 @@
                 if (response.error) {
                     $('.payment-errors').html(response.error.message);
                 } else {
+                    log("Stripe successful");
                     placeorder(response.id);
                 }
                 break;
@@ -173,6 +184,7 @@
 
     function addresshaschanged() {
         if(!getcloseststore){return;}
+        log("Checking address");
         skiploadingscreen = true;
         $.post(webroot + "placeorder", {
             _token: token,
@@ -185,6 +197,7 @@
                 canplaceorder = false;
                 if (closest.hasOwnProperty("id")) {
                     canplaceorder = true;
+                    log("Can place an order");
                     restaurant = "[number] [street], [city]";
                     var keys = Object.keys(closest);
                     for (var i = 0; i < keys.length; i++) {

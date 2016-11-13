@@ -71,6 +71,7 @@ class HomeController extends Controller {
             if(!isset($restaurant["id"])){return false;}
             $info["placed_at"] = now();
             $info["restaurant_id"] = $restaurant["id"];
+            unset($info["name"]);
             if(isset($_POST["stripe"])){$info["stripeToken"] = $_POST["stripe"];}
 
             $order = $_POST["order"];
@@ -93,24 +94,51 @@ class HomeController extends Controller {
                 if (strpos($amount, ".")) {
                     $amount = $amount * 100;
                 }//remove the period, make it in cents
+                $error = false;
+                if($amount > 0) {
+                    // Set secret key: remember to change this to live secret key in production
+                    if (!islive()) {
+                        \Stripe\Stripe::setApiKey("BJi8zV1i3D90vmaaBoLKywL84HlstXEg"); //test
+                    } else {
+                        \Stripe\Stripe::setApiKey("3qL9w2o6A0xePqv8C6ufRKbAqkKTDJAW"); //live
+                    }
+                    // Create the charge on Stripe's servers - this will charge the user's card
+                    try {
+                        $charge = \Stripe\Charge::create(array(
+                            "amount" => $amount,
+                            "currency" => "cad",
+                            "source" => $info["stripeToken"],
+                            "description" => "Order ID: " . $orderid
+                        ));
+                        insertdb("orders", array("id" => $orderid, "paid" => 1));
 
-                // Set secret key: remember to change this to live secret key in production
-                if(!islive()) {
-                    \Stripe\Stripe::setApiKey("BJi8zV1i3D90vmaaBoLKywL84HlstXEg"); //test
+                    } catch (Stripe_CardError $e) {
+                        $error = $e->getMessage();
+                    } catch (Stripe_InvalidRequestError $e) {
+                        // Invalid parameters were supplied to Stripe's API
+                        $error = $e->getMessage();
+                    } catch (Stripe_AuthenticationError $e) {
+                        // Authentication with Stripe's API failed
+                        $error = $e->getMessage();
+                    } catch (Stripe_ApiConnectionError $e) {
+                        // Network communication with Stripe failed
+                        $error = $e->getMessage();
+                    } catch (Stripe_Error $e) {
+                        // Display a very generic error to the user
+                        $error = $e->getMessage();
+                    } catch (Exception $e) {
+                        // Something else happened, completely unrelated to Stripe
+                        $error = $e->getMessage();
+                    } catch (\Stripe\Error\Card $e) {
+                        $error = $e->getMessage();
+                    }
                 } else {
-                    \Stripe\Stripe::setApiKey("3qL9w2o6A0xePqv8C6ufRKbAqkKTDJAW"); //live
+                    $error = "Amount was 0";
                 }
-                // Create the charge on Stripe's servers - this will charge the user's card
-                try {
-                    $charge = \Stripe\Charge::create(array(
-                        "amount" => $amount,
-                        "currency" => "cad",
-                        "source" => $info["stripeToken"],
-                        "description" => "Order ID: " . $orderid
-                    ));
-                    insertdb("orders", array("id" => $orderid, "paid" => 1));
-                } catch (\Stripe\Error\Card $e) {
-                    return false;// The card has been declined
+
+                if($error){
+                    debugprint("Stripe error: " . $error);
+                    return "";// The card has been declined
                 }
             }
             return '<div CLASS="ordersuccess"></div>' . view("popups_receipt", array("orderid" => $orderid))->render();
