@@ -7,11 +7,13 @@
             <?php
              //   phpinfo();
             if (islive()) {
+                /*
                 $allowedIPs = array("24.36.153.107", "45.58.85.42", "38.121.83.92",
                         "216.165.195.31", "24.36.134.113");
                 if (!in_array($_SERVER["REMOTE_ADDR"], $allowedIPs)) {
                     die("IP " . $_SERVER["REMOTE_ADDR"] . " not recognized");
                 }
+                */
             }
 
             //menu caching
