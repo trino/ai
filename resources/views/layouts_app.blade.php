@@ -56,7 +56,7 @@
         }
     </STYLE>
 <body style="overflow-x: hidden !important;">
-<nav class="navbar-default navbar-fixed-bottom navbar navbar-dark" style="z-index: 1;background:#fff;">
+<nav class="navbar-default navbar-fixed-bottom navbar navbar-dark bg-danger" style="z-index: 1;background:#fff;">
     <button class="btn btn-danger  pull-left" onclick="window.scrollTo(0,document.body.scrollHeight);">
         <SPAN ID="navbar-text"></SPAN>
     </button>
