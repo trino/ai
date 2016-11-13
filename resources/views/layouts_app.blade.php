@@ -55,65 +55,6 @@
         }
     </STYLE>
     <body style="overflow-x: hidden !important;background:#f7f7f7; ">
-
-        <nav class="navbar-default navbar-top navbar navbar-full navbar-dark bg-danger dont-print " style="z-index: 1;">
-            <div class="container">
-                <div class="btn" style="color: #fff;"><div class="pull-left sprite sprite-pizza sprite-medium"></div>LPD</div>
-
-                <select>
-                    <option>Fab Pizza</option>
-                </select>
-
-                <select ID="deliverytimealias" onchange="$('#deliverytime').val($('#deliverytimealias').val());"></select>
-                <SPAN ID="openingtime"></SPAN>
-
-                <ul class="nav navbar-nav pull-right">
-                    <li class="nav-item dropdown">
-                        <a href="#" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <i class="fa fa-user" style="color: white;"></i>
-                        </a>
-                        <ul class="dropdown-menu  dropdown-menu-right">
-                            <SPAN class="loggedin profiletype profiletype1">
-                                <?php
-                                    //administration lists
-                                    foreach (array("users", "restaurants", "useraddresses", "orders", "additional_toppings") as $table) {
-                                        echo '<LI><A HREF="' . webroot("public/list/" . $table) . '" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> ' . ucfirst($table) . ' list</A></LI>';
-                                    }
-                                ?>
-                                <li><A HREF="<?= webroot("public/editmenu"); ?>" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> Edit Menu</A></li>
-                                <li><A HREF="<?= webroot("public/list/debug"); ?>" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> Debug log</A></li>
-                                <HR>
-                            </SPAN>
-
-                            <li>
-                                <SPAN class="dropdown-item"><i class="fa fa-home"></i> <SPAN CLASS="session_name"></SPAN></SPAN>
-                            </li>
-
-                            <SPAN class="loggedin">
-                                <li>
-                                    <A ONCLICK="orders();" class="dropdown-item"> <i class="fa fa-home"></i> Past Orders</A>
-                                </li>
-                                <li>
-                                    <A data-toggle="modal" data-target="#profilemodal" class="dropdown-item"><i class="fa fa-home"></i> Profile</A>
-                                </li>
-                            </SPAN>
-
-                            <li>
-                                <A ONCLICK="handlelogin('logout');" CLASS="hyperlink dropdown-item loggedin"> <i class="fa fa-home"></i> Log out</A>
-                                <A CLASS="loggedout dropdown-item hyperlink" data-toggle="modal" data-target="#loginmodal"> <i class="fa fa-home"></i> Log In</A>
-                            </li>
-
-                        </ul>
-                    </li>
-                </ul>
-
-            </div>
-        </nav>
-
-        <div class="container" STYLE="margin-bottom: 50px !important ;margin-top: 10px !important ;">
-            @yield('content')
-        </div>
-
         <nav class="navbar-default navbar-fixed-bottom navbar navbar-dark" style="z-index: 1;background:#fff;">
             <button class="btn btn-danger  pull-left" onclick="window.scrollTo(0,document.body.scrollHeight);">
                 <SPAN ID="navbar-text"></SPAN>
@@ -229,7 +170,6 @@
                         window.location.href = URL;
                         die();
                     }
-                }
             }
 
             //convert an address to a dropdown option

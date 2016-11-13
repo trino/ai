@@ -141,9 +141,11 @@
         $('input[data-stripe=cvc]').val(rnd(100,999));
         $('select[data-stripe=exp_year]').val({{ right($CURRENT_YEAR,2) }} + 1);
 
-        log("Changing stripe key");
-        Stripe.setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf');
-        log("Stripe key changed");
+        @if(islive())
+            log("Changing stripe key");
+            Stripe.setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf');
+            log("Stripe key changed");
+        @endif
     }
 
     function payfororder(){
@@ -159,6 +161,7 @@
 
     function stripeResponseHandler(status, response){
         var errormessage = "";
+        log("Stripe response");
         switch(status){
             case 400: errormessage = "Bad Request:<BR>The request was unacceptable, often due to missing a required parameter."; break;
             case 401: errormessage = "Unauthorized:<BR>No valid API key provided."; break;
@@ -181,6 +184,7 @@
 
     function addresshaschanged() {
         if(!getcloseststore){return;}
+        log("Checking address");
         skiploadingscreen = true;
         $.post(webroot + "placeorder", {
             _token: token,
@@ -193,6 +197,7 @@
                 canplaceorder = false;
                 if (closest.hasOwnProperty("id")) {
                     canplaceorder = true;
+                    log("Can place an order");
                     restaurant = "[number] [street], [city]";
                     var keys = Object.keys(closest);
                     for (var i = 0; i < keys.length; i++) {

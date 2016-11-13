@@ -113,95 +113,100 @@
                 foreach($items as $ID => $item){
                     if(is_object($item)){
                         $menukey = findkey($menu, "id", $item->itemid);
-                        $menuitem = $menu[$menukey];
-                        $size = getsize($menuitem["item"], $tables["additional_toppings"]);
-                        $addonscost = "0.00";
-                        if($size){
-                            $addonscost = findkey($tables["additional_toppings"], "size", $size);
-                            $addonscost = $tables["additional_toppings"][$addonscost]["price"];
-                        }
-                        $itemtotal = $menuitem["price"];
-                        $paidtoppings = 0;
-                        $freetoppings = 0;
 
-                        $totaladdons=0;
-                        foreach($tables as $name => $data){
-                            if(isset($menuitem[$name])){
-                                $totaladdons += $menuitem[$name];
+                        debugprint($itemIDs . " = " . $item->itemid . " = " . $menukey . " = " . var_export($menu, true) );
+
+                        if(true){
+                            $menuitem = $menu[$menukey];
+                            $size = getsize($menuitem["item"], $tables["additional_toppings"]);
+                            $addonscost = "0.00";
+                            if($size){
+                                $addonscost = findkey($tables["additional_toppings"], "size", $size);
+                                $addonscost = $tables["additional_toppings"][$addonscost]["price"];
                             }
-                        }
+                            $itemtotal = $menuitem["price"];
+                            $paidtoppings = 0;
+                            $freetoppings = 0;
 
-                        switch($style){
-                            case 1:
-                                echo '<TR><TD>' . ($ID+1) . '</TD><TD TITLE="' . var_export($item, true) . '">' . $item->itemname . '</TD><TD ALIGN="RIGHT" TITLE="' . print_r($menuitem, true) . '">$' . number_format($menuitem["price"], 2) . '</TD><TD>';
-                                break;
-                            case 2:
-                                $imagefile = str_replace(" ", "_", strtolower($menuitem["category"]));
-                                if(right($imagefile, 5) == "pizza" || !file_exists(public_path() . '/' . $imagefile . ".png")){$imagefile="pizza";}
-
-                                $imagefile = '<img class="pull-left" src="' . webroot("public/" . $imagefile . ".png") . '" style="width:22px;margin-right:5px;">';
-                                echo '<TR><TD width="1%">' . $imagefile . '</TD><TD valign="middle">' . $item->itemname . '</TD><TD ALIGN="RIGHT" WIDTH="5%">';
-                                break;
-                        }
-                        $HTML="";
-                        if(isset($item->itemaddons)){
-                            if($style==1){$HTML = '<TABLE BORDER="1" WIDTH="100%"><THEAD><TR><TH WIDTH="5%">#</TH><TH>Addons</TH></THEAD></TR>';}
-                            $addoncount = count($item->itemaddons);
-                            foreach($item->itemaddons as $addonID => $addon){
-                                $toppings=array();
-                                if(isset($addon->tablename)){
-                                    $tablename = $addon->tablename;
-                                    switch($tablename){
-                                        case "toppings":    $itemtype = "Pizza"; break;
-                                        case "wings_sauce": $itemtype = "Pound"; break;
-                                    }
-                                    if(isset($addon->addons)){
-                                        $toppings = $addon->addons;
-                                    }
+                            $totaladdons=0;
+                            foreach($tables as $name => $data){
+                                if(isset($menuitem[$name])){
+                                    $totaladdons += $menuitem[$name];
                                 }
-                                $newtoppings = array();
-                                foreach($toppings as $topping){
-                                    $toppingkey = findkey($tables[$tablename], "id", $topping->id);
-                                    $topping = $tables[$tablename][$toppingkey];
-                                    if($topping["isfree"]){
-                                        $freetoppings++;
-                                        $topping["name"] = '<I>' . $topping["name"] . '</I>';
+                            }
+
+                            switch($style){
+                                case 1:
+                                    echo '<TR><TD>' . ($ID+1) . '</TD><TD TITLE="' . var_export($item, true) . '">' . $item->itemname . '</TD><TD ALIGN="RIGHT" TITLE="' . print_r($menuitem, true) . '">$' . number_format($menuitem["price"], 2) . '</TD><TD>';
+                                    break;
+                                case 2:
+                                    $imagefile = str_replace(" ", "_", strtolower($menuitem["category"]));
+                                    if(right($imagefile, 5) == "pizza" || !file_exists(public_path() . '/' . $imagefile . ".png")){$imagefile="pizza";}
+
+                                    $imagefile = '<img class="pull-left" src="' . webroot("public/" . $imagefile . ".png") . '" style="width:22px;margin-right:5px;">';
+                                    echo '<TR><TD width="1%">' . $imagefile . '</TD><TD valign="middle">' . $item->itemname . '</TD><TD ALIGN="RIGHT" WIDTH="5%">';
+                                    break;
+                            }
+                            $HTML="";
+                            if(isset($item->itemaddons)){
+                                if($style==1){$HTML = '<TABLE BORDER="1" WIDTH="100%"><THEAD><TR><TH WIDTH="5%">#</TH><TH>Addons</TH></THEAD></TR>';}
+                                $addoncount = count($item->itemaddons);
+                                foreach($item->itemaddons as $addonID => $addon){
+                                    $toppings=array();
+                                    if(isset($addon->tablename)){
+                                        $tablename = $addon->tablename;
+                                        switch($tablename){
+                                            case "toppings":    $itemtype = "Pizza"; break;
+                                            case "wings_sauce": $itemtype = "Pound"; break;
+                                        }
+                                        if(isset($addon->addons)){
+                                            $toppings = $addon->addons;
+                                        }
+                                    }
+                                    $newtoppings = array();
+                                    foreach($toppings as $topping){
+                                        $toppingkey = findkey($tables[$tablename], "id", $topping->id);
+                                        $topping = $tables[$tablename][$toppingkey];
+                                        if($topping["isfree"]){
+                                            $freetoppings++;
+                                            $topping["name"] = '<I>' . $topping["name"] . '</I>';
+                                        } else {
+                                            $paidtoppings++;
+                                        }
+                                        $newtoppings[] = '<SPAN TITLE="' . print_r($topping, true) . '">' . $topping["name"] . '</SPAN>';
+                                    }
+
+                                    if($style==1){
+                                        $itemtitle = $itemtype . ' #' . ($addonID+1);
+                                        $HTML .= '<TR><TD NOWRAP>' . $itemtitle . '</TD><TD>' . implode(", ", $newtoppings) . '</TD></TR>';
                                     } else {
-                                        $paidtoppings++;
+                                        $itemtitle = "";
+                                        if($addoncount > 1){$itemtitle = $ordinals[$addonID] . " " . $itemtype . ": ";}
+                                        $HTML .= $itemtitle . implode(", ", $newtoppings);
                                     }
-                                    $newtoppings[] = '<SPAN TITLE="' . print_r($topping, true) . '">' . $topping["name"] . '</SPAN>';
                                 }
+                                if($style==1){echo $HTML . '</TABLE>';}
+                            }
 
-                                if($style==1){
-                                    $itemtitle = $itemtype . ' #' . ($addonID+1);
-                                    $HTML .= '<TR><TD NOWRAP>' . $itemtitle . '</TD><TD>' . implode(", ", $newtoppings) . '</TD></TR>';
-                                } else {
-                                    $itemtitle = "";
-                                    if($addoncount > 1){$itemtitle = $ordinals[$addonID] . " " . $itemtype . ": ";}
-                                    $HTML .= $itemtitle . implode(", ", $newtoppings);
+                            $toppingscost = $addonscost*$paidtoppings;
+                            $itemtotal = $menuitem["price"] + $toppingscost;
+
+                            if($style==1){
+                                echo '</TD><TD>';
+                                if($totaladdons){ echo $paidtoppings . ' paid, ' . $freetoppings . ' free';}
+                                echo '</TD><TD>' . $size . '</TD><TD ALIGN="RIGHT">$' . number_format($addonscost, 2) . '</TD><TD ALIGN="RIGHT" TITLE="User side: $' . $item->itemprice . '"';
+                                if (number_format($item->itemprice,2) <> number_format($itemtotal, 2)){
+                                    //echo ' STYLE="COLOR: red;"';
+                                    $integrity = false;
                                 }
+                                echo '>';
                             }
-                            if($style==1){echo $HTML . '</TABLE>';}
-                        }
-
-                        $toppingscost = $addonscost*$paidtoppings;
-                        $itemtotal = $menuitem["price"] + $toppingscost;
-
-                        if($style==1){
-                            echo '</TD><TD>';
-                            if($totaladdons){ echo $paidtoppings . ' paid, ' . $freetoppings . ' free';}
-                            echo '</TD><TD>' . $size . '</TD><TD ALIGN="RIGHT">$' . number_format($addonscost, 2) . '</TD><TD ALIGN="RIGHT" TITLE="User side: $' . $item->itemprice . '"';
-                            if (number_format($item->itemprice,2) <> number_format($itemtotal, 2)){
-                                //echo ' STYLE="COLOR: red;"';
-                                $integrity = false;
+                            echo '$' . number_format($itemtotal, 2) . '</TD></TR>';
+                            if($style==2 && $HTML){
+                                echo '<TR><TD COLSPAN="' . $colspan . '">' . $HTML . '</TD></TR>';
                             }
-                            echo '>';
+                            $subtotal += $itemtotal;
                         }
-                        echo '$' . number_format($itemtotal, 2) . '</TD></TR>';
-                        if($style==2 && $HTML){
-                            echo '<TR><TD COLSPAN="' . $colspan . '">' . $HTML . '</TD></TR>';
-                        }
-                        $subtotal += $itemtotal;
                     }
                 }
 
@@ -219,6 +224,7 @@
                 if(!$integrity){
                     //echo '<TR><TD COLSPAN="7" ALIGN="RIGHT">Integrity check</TD><TD ALIGN="RIGHT" STYLE="color:red;">FAIL</TD></TR>';
                 }
+                debugprint("Amount generated for order " . $orderid . " = " . $total);
                 insertdb("orders", array("id" => $orderid, "price" => $total));//saved for stripe
             } catch (exception $e){
                 echo 'Caught exception: ',  $e->getMessage() . " on line " . $e->getLine() . "<BR>";
