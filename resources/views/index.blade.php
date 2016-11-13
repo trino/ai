@@ -3,11 +3,9 @@
     <div class="row">
 
 
-
-
-
         <div class="col-md-8">
             <?php
+             //   phpinfo();
             if (islive()) {
                 $allowedIPs = array("24.36.153.107", "45.58.85.42", "38.121.83.92",
                         "216.165.195.31", "24.36.134.113");
@@ -39,26 +37,32 @@
                 <div class="card-block">
                     <div class="row">
                         <div class="col-md-12">
-                            <h5 class="pull-left">
+                            <h5 class="pull-left text-danger">
                                 My Order
                             </h5>
                             <div class="clearfix"></div>
+
                             <div id="myorder"></div>
                         </div>
                     </div>
-                    <div ID="checkoutbutton" class="row pt-1 hidden-sm-down">
-                        <DIV CLASS=" col-xs-6">
-                            <button class="btn   btn-secondary waves-effect waves-effect btn-block"
+                    <div ID="checkoutbutton">
+                        <div class="pt-1"></div>
+
+                        <div class="btn-group" role="group" aria-label="Basic example" style="width: 100%">
+                            <button style="width: 50%" class="btn   btn-secondary"
                                     ONCLICK="confirm2('Are you sure you want to clear your order?', 'Clear Order', function(){clearorder();});">
                                 CLEAR
                             </button>
-                        </DIV>
-                        <DIV CLASS=" col-xs-6">
-                            <button class="btn btn-warning loggedin btn-block" id="checkout"
+
+                            <button style="width: 50%" class="btn btn-warning loggedin" id="checkout"
                                     onclick="showcheckout();">
                                 CHECKOUT
                             </button>
+
+
                         </div>
+
+
                     </div>
                 </div>
             </div>

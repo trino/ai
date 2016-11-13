@@ -104,7 +104,7 @@
         $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
         ?>
 
-        <div class="card" style="border: 0 !important;">
+        <div class="card" style="border: 0 !important;box-shadow: none !important;">
 
             <a class=" head_{{ $catclass }}" data-toggle="collapse" href="#collapse{{$category["id"]}}_cat">
                 <h5 class="text-danger ">{{$category['category']}}</h5>
@@ -216,15 +216,26 @@
                 </ul>
                 <div class=""></div>
 
-                <button type="button" class=" btn-secondary waves-effect btn pull-left" data-dismiss="modal"
-                        aria-label="Close">
-                    <i class="fa fa-close"></i>
-                </button>
 
 
-                <button data-dismiss="modal" class="btn-warning btn pull-right" onclick="additemtoorder();">
-                    ADD TO ORDER
-                </button>
+
+                <div class="btn-group" role="group" aria-label="Basic example" style="width: 100%">
+                    <button style="width: 50%" class="btn   btn-secondary"
+                            data-dismiss="modal">
+                        CANCEL
+                    </button>
+
+                    <button    data-dismiss="modal" style="width: 50%" class="btn btn-warning"
+                            onclick="additemtoorder();">
+                        ADD TO ORDER
+                    </button>
+
+
+                </div>
+
+
+
+
                 <div class="clearfix"></div>
             </div>
         </div>
