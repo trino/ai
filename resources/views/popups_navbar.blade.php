@@ -1,4 +1,4 @@
-<nav class="navbar navbar-light bg-danger dont-print " style="z-index: 1;">
+<nav class="navbar navbar-light bg-danger dont-print " >
     <div class="container">
 
         <a class="navbar-brand text-white" href="#">

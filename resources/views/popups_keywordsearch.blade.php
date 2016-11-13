@@ -19,7 +19,7 @@
                 <TD></TD>
                 <TD><INPUT TYPE="TEXT" NAME="searchtext" ID="searchtext" TITLE="Do not use commas to delimit it, do not add a keyword that exists already"></TD>
                 <TD CLASS="hideme">
-                    <INPUT TYPE="NUMBER" MIN="1" MAX="5" VALUE="1" NAME="weight" ID="weight" STYLE="text-align:right;" TITLE="A weight of 5 counts as an item important enough to run a new search">
+                    <INPUT TYPE="NUMBER" MIN="1" MAX="5" VALUE="1" NAME="weight" ID="weight" TITLE="A weight of 5 counts as an item important enough to run a new search">
                 </TD>
                 <TD CLASS="hideme">
                     <SELECT ONCHANGE="keychange();" ID="keywordtype">
@@ -28,7 +28,7 @@
                         <OPTION VALUE="2">Size</OPTION>
                     </SELECT>
                 </TD>
-                <TD><BUTTON ONCLICK="search();" STYLE="width:100%;" TITLE="Do not include synonyms in the search">Search</BUTTON></TD>
+                <TD><BUTTON ONCLICK="search();" TITLE="Do not include synonyms in the search">Search</BUTTON></TD>
             </TR>
         </THEAD>
         <TBODY ID="searchbody"></TBODY>

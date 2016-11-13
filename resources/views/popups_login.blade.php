@@ -19,7 +19,7 @@ if($style == 1){
 
                 <DIV ID="loginmessage"></DIV>
 
-                <DIV STYLE="margin-top: 15px;">
+
                     <DIV CLASS="col-md-4">
                         <button class="btn btn-block btn-warning" onclick="handlelogin('login');">
                             Login
@@ -36,7 +36,7 @@ if($style == 1){
                             Register
                         </button>
                     </DIV>
-                </DIV>
+
                 <DIV CLASS="clearfix"></DIV>
             </div>
         </div>

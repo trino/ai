@@ -1,5 +1,5 @@
 <!-- menu cache saved from: {{ now() }} -->
-<div class="col-md-8 pt-1">
+<div class="col-md-8">
     <div class="card" >
 
         <div class="card-block card-columns">
@@ -99,7 +99,7 @@
             $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
             ?>
 <div class="clearfix"></div>
-<div class="card" style="border: 0 !important;">
+<div class="card" >
             <a class=" head_{{ $catclass }}" data-toggle="collapse" href="#collapse{{$category["id"]}}_cat">
                 <h5 class="text-danger ">{{$category['category']}}</h5>
             </a>
@@ -135,10 +135,10 @@
                         }
 
                         ?>
-                        <div class="col-md-12 col-xs-6" style="padding: 0 !important;">
+                        <div class="col-md-12 col-xs-6" >
                                 <a <?= $HTML; ?> class="btn btn-secondary btn-sm btn-block " style="padding:.25rem !important;border-radius: 0 !important;font-size: 70% !important;">
                                     <DIV CLASS="pull-left sprite sprite-<?= $imagefile; ?> sprite-medium"></DIV>
-                                    <span class=" pull-left itemname" style="">{{$menuitem['item']}}</span>
+                                    <span class=" pull-left itemname">{{$menuitem['item']}}</span>
                                     <span class="pull-right" > ${{number_format($menuitem["price"], 2)}}
                                         <?= $icon; ?>
 
@@ -196,8 +196,8 @@
                     <div ID="modal-wings-clones"></div>
 
 
-                    <div ID="modal-toppings-original" style="">
-                        <div style="margin-bottom:.1rem;" ID="modal-toppings-original-ordinal">1st Pizza</div>
+                    <div ID="modal-toppings-original" >
+                        <div ID="modal-toppings-original-ordinal">1st Pizza</div>
                         <select style="border: 0 !important;" class="form-control select2 toppings" data-placeholder="Add Toppings: $[price]" multiple="multiple" type="toppings">
                             <!--option value="blank"></option-->
                             <?= $toppings_display; ?>

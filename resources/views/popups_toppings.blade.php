@@ -1,18 +1,6 @@
 <STYLE>
 
 
-    .addonlist{
-        height: 250px;
-    }
-
-    .overflow-y{
-
-    }
-
-    .cursor-pointer{
-        cursor: pointer;
-    }
-
     .addon-selected{
         border: 1px solid black;
         background-color: lightblue;
@@ -24,18 +12,6 @@
         font-weight: bold;
     }
 
-    #addonall{
-        padding-left: 15px;
-    }
-
-    .addon-list{
-        text-align: center;
-    }
-
-    .addon-button{
-        position: absolute;
-        bottom: 6px;
-    }
 
     .thisside{
         background-color: lightblue;
@@ -43,9 +19,9 @@
 </STYLE>
 
 
-
+<div class="row">
 <DIV ID="addonlist" class="addonlist"></DIV>
-
+</div>
 <SCRIPT>
     var currentaddontype = "", currentside = "", currentqualifier = "", addonname = "", hashalves = true;
     var currentaddonlist = new Array, currentitemindex = 0, currentitemname = "";
@@ -66,11 +42,11 @@
 
     function list_addons(table, halves){
         currentaddontype=table;
-        var HTML = '<DIV CLASS="col-md-12 overflow-y"> <DIV id="theaddons"></DIV></DIV><DIV CLASS="col-md-12 addonlist overflow-y" ID="addontypes">';
+        var HTML = '<DIV CLASS="col-md-12 "> <DIV id="theaddons"></DIV></DIV><DIV CLASS="col-md-12 addonlist " ID="addontypes">';
         var types = Object.keys(alladdons[table]);
         for(var i=0;i<types.length;i++){
             var type =  types[i];
-            HTML += '<DIV CLASS="cursor-pointer addon-type ">' + type + '</DIV>';
+            HTML += '<DIV CLASS=" addon-type ">' + type + '</DIV>';
         }
         $("#addonlist").html(HTML + '</DIV>');
         $(".addon-type").click(

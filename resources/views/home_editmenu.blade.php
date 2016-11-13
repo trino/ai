@@ -42,7 +42,7 @@
     <div class="row m-t-1">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-block bg-danger" style="padding-top:.75rem !important;padding-bottom:.75rem !important;">
+                <div class="card-block bg-danger">
                     <h4 class="pull-left">
                         <i class="fa fa-home" aria-hidden="true"></i> Edit menu
                     </h4>

@@ -218,7 +218,7 @@
             <div class="row m-t-1">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-block bg-danger" style="padding-top:.75rem !important;padding-bottom:.75rem !important;">
+                        <div class="card-block bg-danger" >
                             <h4 class="pull-left">
                                 <A HREF="<?= webroot("public/list/all"); ?>"><i class="fa fa-{{ $faicon }}" aria-hidden="true"></i></A> {{ ucfirst($table) . ' list ' . $extratitle }}
                             </h4>
