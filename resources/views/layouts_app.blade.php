@@ -121,6 +121,14 @@
             <button class="btn btn-danger  pull-left" onclick="window.scrollTo(0,document.body.scrollHeight);">
                 <SPAN ID="navbar-text"></SPAN>
             </button>
+
+            @if(!islive())
+                <LABEL STYLE="margin-top: 7px; margin-left: 7px;">
+                    <INPUT TYPE="checkbox" onclick="checkblock(event);">
+                    Block leaving the page
+                </LABEL>
+            @endif
+
             <button class="btn btn-warning pull-right" id="checkout-btn" onclick="showcheckout();" style="display: none;">
                 <strong id="checkout-total"></strong> CHECKOUT
             </button>
@@ -220,6 +228,7 @@
                     user["restaurant_id"] = FirstAddress;
                     var URL = '<?= webroot("public/list/orders"); ?>';
                     if (window.location.href != URL && isJSON) {
+                        log("handle login");
                         window.location.href = URL;
                         die();
                     }
@@ -307,6 +316,22 @@
         <div class="modal loading" ID="loadingmodal"></div>
 
         <script type="text/javascript">
+            function checkblock(e){
+                var checked = $(e.target).is(':checked');
+                BeforeUnload(checked);
+            }
+            function BeforeUnload(enable) {
+                if(enable) {
+                    window.onbeforeunload = function (e) {
+                        return "Discard changes?";
+                    };
+                    log("Page transitions blocked");
+                } else {
+                    window.onbeforeunload = null;
+                    log("Page transitions allowed");
+                }
+            }
+
             $(window).load(function () {
                 console.log("Time until everything loaded: ", Date.now() - timerStart);
             });

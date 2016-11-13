@@ -71,6 +71,7 @@ class HomeController extends Controller {
             if(!isset($restaurant["id"])){return false;}
             $info["placed_at"] = now();
             $info["restaurant_id"] = $restaurant["id"];
+            unset($info["name"]);
             if(isset($_POST["stripe"])){$info["stripeToken"] = $_POST["stripe"];}
 
             $order = $_POST["order"];

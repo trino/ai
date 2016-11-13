@@ -145,6 +145,7 @@
                             login(data["User"], true);
                             $("#loginmodal").modal("hide");
                             if(redirectonlogin){
+                                log("Login reload");
                                 location.reload();
                             }
                             break;
@@ -160,6 +161,7 @@
                             $(".profiletype").hide();
                             userdetails=false;
                             if(redirectonlogout){
+                                log("Logout reload");
                                 window.location = "<?= webroot("public/index"); ?>";
                             } else {
                                 switch(currentRoute){

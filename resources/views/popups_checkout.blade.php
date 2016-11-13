@@ -113,11 +113,14 @@
     }
 
     function testcard(){
-        Stripe.setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf');
         $('input[data-stripe=number]').val('4242424242424242');
         $('input[data-stripe=address_zip]').val('L8L6V6');
         $('input[data-stripe=cvc]').val(rnd(100,999));
         $('select[data-stripe=exp_year]').val({{ right($CURRENT_YEAR,2) }} + 1);
+
+        log("Changing stripe key");
+        Stripe.setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf');
+        log("Stripe key changed");
     }
 
     function payfororder(){
@@ -125,7 +128,10 @@
         if($("#orderinfo").find(".error:visible[for]").length>0){return false;}
         var $form = $('#orderinfo');
         $(".payment-errors").html("");
+
+        log("Stripe data");
         Stripe.card.createToken($form, stripeResponseHandler);
+        log("Stripe data - complete");
     }
 
     function stripeResponseHandler(status, response){
@@ -142,6 +148,7 @@
                 if (response.error) {
                     $('.payment-errors').html(response.error.message);
                 } else {
+                    log("Stripe successful");
                     placeorder(response.id);
                 }
                 break;
