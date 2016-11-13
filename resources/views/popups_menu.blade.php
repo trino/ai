@@ -1,5 +1,5 @@
 <!-- menu cache saved from: {{ now() }} -->
-<div class="col-md-8">
+<div class="col-md-8 pt-1">
     <div class="card" >
 
         <div class="card-block card-columns">
@@ -104,7 +104,7 @@
                 <h5 class="text-danger ">{{$category['category']}}</h5>
             </a>
 
-            <div class="collapse mb-1 in" id="collapse{{$category['id']}}_cat">
+            <div class="collapse in" id="collapse{{$category['id']}}_cat">
 
                 @foreach ($menuitems as $menuitem)
                     <div
@@ -114,6 +114,7 @@
                             itemname="{{$menuitem['item']}}"
                             itemprice="{{$menuitem['price']}}"
                             itemsize="{{ getsize($menuitem['item'], $isfree) }}"
+
                             itemcat="{{$menuitem['category']}}"
                     <?php
                             $total = 0;
@@ -127,15 +128,15 @@
                         <?php
                         if ($total) {
                             $HTML = 'href="#2" data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
-                            $icon = '<i class="fa fa-chevron-right pull-right text-muted"></i>';
+                            $icon = '<i class="fa fa-chevron-right pull-right"></i>';
                         } else {
                             $HTML = 'href="#1" onclick="additemtoorder(this);"';
                             $icon = '';
                         }
 
                         ?>
-                        <SPAN>
-                                <a <?= $HTML; ?> class="btn btn-secondary waves-effect waves-effect" style="border:0;width: 100%;border-radius:0 !important;padding: .25rem .1rem !important;">
+                        <div class="col-md-12 col-xs-6" style="padding: 0 !important;">
+                                <a <?= $HTML; ?> class="btn btn-secondary btn-sm btn-block " style="padding:.25rem !important;border-radius: 0 !important;font-size: 70% !important;">
                                     <DIV CLASS="pull-left sprite sprite-<?= $imagefile; ?> sprite-medium"></DIV>
                                     <span class=" pull-left itemname" style="">{{$menuitem['item']}}</span>
                                     <span class="pull-right" > ${{number_format($menuitem["price"], 2)}}
@@ -144,7 +145,7 @@
                                     </span>
                                     <div class="clearfix"></div>
                                 </a>
-                            </SPAN>
+                            </div>
                     </div>
                 @endforeach
            </div></div>

@@ -40,6 +40,7 @@
                     <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook" maxlength="255"/>
 
                     <DIV class="row">
+                        <DIV CLASS="col-md-12">
 
 
                         <ul class="nav nav-tabs">
@@ -52,6 +53,7 @@
 
 
                         </ul>
+                            </DIV>
 
                         <?php
 

@@ -1,22 +1,51 @@
-*{
-line-height: 1rem !important;
-    border:0 !important;
+h1,h2,h3,h4,h5,h6{
+    padding:.5rem 0 !important;
+    margin: 0 !important;
 }
-.card-block{
-    padding:0 !important;
+.navbar{padding: .5rem 0 !important;}
+
+.dont-show {
+    display: none;
 }
+.navbar-brand{font-size: 1rem !important;padding: 0 !important;}
+* {
+    border-radius: 0 !important;
+    border: 0 !important;
+    line-height: 1rem !important;
+box-shadow: none !important;
+}
+.modal-content {
+    background-color: #1d1d1d;
+    color: white;
+}
+input, select, option{
+    background-color: #1d1d1d !important;
+    padding:.25rem 0 !important;
+
+}
+.btn {
+    margin: 0 !important;
+}
+
+.card-block, .card {
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+.form-control {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
 .sprite {
     background-image: url('grid.png');
     background-repeat: no-repeat;
-    width: 64px;
-    height: 64px;
-
+    width: 60px;
+    height: 60px;
+    margin-right: .2rem;
     display: inline-block;
 }
-.form-control{
-    padding:0 !important;
-    margin:0 !important;
-}
+
 .sprite-dips {
     background-position: -0px -0px;
 }
@@ -53,6 +82,8 @@ line-height: 1rem !important;
     -moz-transform-origin: 0 0;
 }
 
+
+
 .sprite-tiny {
     zoom: 0.20;
     -moz-transform: scale(0.20);
@@ -69,7 +100,6 @@ body.loading #loadingmodal {
     display: block;
     z-index: 999999;
 }
-
 
 /*
 

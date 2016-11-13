@@ -1,19 +1,12 @@
-
-<nav class="navbar navbar-light bg-faded dont-print " style="z-index: 1;">
-
-
+<nav class="navbar navbar-light bg-danger dont-print " style="z-index: 1;">
     <div class="container">
 
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand text-white" href="#">
             <div class="pull-left sprite sprite-pizza sprite-medium"></div>
             London Pizza</a>
-
-
         <ul class="nav navbar-nav pull-right">
-
-
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="http://example.com" id="responsiveNavbarDropdown"
+                <a class=" dropdown-toggle text-white" href="http://example.com" id="responsiveNavbarDropdown"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i> </a>
                 <div class="dropdown-menu" aria-labelledby="responsiveNavbarDropdown">
 
