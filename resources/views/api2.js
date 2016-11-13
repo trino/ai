@@ -133,7 +133,7 @@ function confirm2(){
     }
     alert(arguments[0], Title);
     $("#alert-cancel").show();
-    $("#alert-confirm").css("width", "40%");
+
     $("#alert-confirm").click(action);
 }
 

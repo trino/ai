@@ -1,5 +1,4 @@
-<!-- menu cache saved from: {{ now() }} -->
-<div class="col-md-9">
+
     <div class="card" >
 
         <div class="card-block card-columns">
@@ -99,14 +98,13 @@
             $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
             ?>
 <div class="clearfix"></div>
-
+<div class="card" >
             <a class=" head_{{ $catclass }}" data-toggle="collapse" href="#collapse{{$category["id"]}}_cat">
                 <h5 class="text-danger ">{{$category['category']}}</h5>
             </a>
 
-            <div class="collapse mb-1 in" id="collapse{{$category['id']}}_cat">
+            <div class="collapse in" id="collapse{{$category['id']}}_cat">
 
-                <div class="">
                 @foreach ($menuitems as $menuitem)
                     <div
                             style="padding: 0 !important;"
@@ -115,6 +113,7 @@
                             itemname="{{$menuitem['item']}}"
                             itemprice="{{$menuitem['price']}}"
                             itemsize="{{ getsize($menuitem['item'], $isfree) }}"
+
                             itemcat="{{$menuitem['category']}}"
                     <?php
                             $total = 0;
@@ -128,32 +127,37 @@
                         <?php
                         if ($total) {
                             $HTML = 'href="#2" data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
-                            $icon = '<i class="fa fa-chevron-up pull-right"></i>';
+                            $icon = '<i class="fa fa-chevron-right pull-right"></i>';
                         } else {
                             $HTML = 'href="#1" onclick="additemtoorder(this);"';
                             $icon = '';
                         }
 
                         ?>
-                        <SPAN>
-                                <a <?= $HTML; ?> class=" btn " style="width: 100%;padding:2px !important;">
+                        <div class="col-md-12 col-xs-6" >
+                                <a <?= $HTML; ?> class="btn btn-secondary btn-sm btn-block " style="padding:.25rem !important;border-radius: 0 !important;font-size: 70% !important;">
                                     <DIV CLASS="pull-left sprite sprite-<?= $imagefile; ?> sprite-medium"></DIV>
-                                    <?= $icon; ?>
-                                    <span class=" pull-left itemname" style="font-size: 75%;">{{$menuitem['item']}}</span>
-                                    <span class="pull-right"  style="font-size: 75%;"> ${{number_format($menuitem["price"], 2)}}</span>
+                                    <span class=" pull-left itemname">{{$menuitem['item']}}</span>
+                                    <span class="pull-right" > ${{number_format($menuitem["price"], 2)}}
+                                        <?= $icon; ?>
+
+                                    </span>
                                     <div class="clearfix"></div>
                                 </a>
-                            </SPAN>
+                            </div>
                     </div>
                 @endforeach
-            </div></div>
+           </div></div>
             <?
             $a++;
             }
             ?>
         </div>
+
+
+
     </div>
-</div>
+
 
 <!-- order menu item Modal -->
 <div class="modal" id="menumodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
@@ -163,6 +167,9 @@
 
 
                 <h4 id="myModalLabel">
+                    <button type="button" class="btn-sm btn btn-secondary   waves-effect btn pull-left" data-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-arrow-left"></i>
+                    </button>
                     <SPAN ID="modal-itemname"></SPAN> $<SPAN ID="modal-itemprice"></SPAN>
                 </h4>
                 <div class="mt-1"></div>
@@ -188,8 +195,8 @@
                     <div ID="modal-wings-clones"></div>
 
 
-                    <div ID="modal-toppings-original" style="">
-                        <div style="margin-bottom:.1rem;" ID="modal-toppings-original-ordinal">1st Pizza</div>
+                    <div ID="modal-toppings-original" >
+                        <div ID="modal-toppings-original-ordinal">1st Pizza</div>
                         <select style="border: 0 !important;" class="form-control select2 toppings" data-placeholder="Add Toppings: $[price]" multiple="multiple" type="toppings">
                             <!--option value="blank"></option-->
                             <?= $toppings_display; ?>
@@ -203,8 +210,8 @@
                 </ul>
                 <div class=""></div>
 
-                <button type="button" class="btn-secondary btn pull-left" data-dismiss="modal" aria-label="Close">
-                    Cancel
+                <button type="button" class=" btn-secondary waves-effect btn pull-left" data-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-close"></i>
                 </button>
 
 

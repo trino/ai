@@ -218,7 +218,7 @@
             <div class="row m-t-1">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-block bg-danger" style="padding-top:.75rem !important;padding-bottom:.75rem !important;">
+                        <div class="card-block bg-danger" >
                             <h4 class="pull-left">
                                 <A HREF="<?= webroot("public/list/all"); ?>"><i class="fa fa-{{ $faicon }}" aria-hidden="true"></i></A> {{ ucfirst($table) . ' list ' . $extratitle }}
                             </h4>
@@ -286,7 +286,7 @@
                                                 switch($table){
                                                     case "useraddresses":
                                                         echo '<A ONCLICK="saveaddress(0);" CLASS="btn btn-sm btn-primary">New</A> ';
-                                                        echo '<A ONCLICK="saveaddress(selecteditem);" CLASS="btn btn-sm btn-secondary" id="saveaddress" DISABLED>Save</A>';
+                                                        echo '<A ONCLICK="saveaddress(selecteditem);" CLASS="btn btn-sm  btn-secondary waves-effect" id="saveaddress" DISABLED>Save</A>';
                                                         echo view("popups_address", $_GET)->render();
                                                         break;
                                                     case "restaurants":
@@ -387,7 +387,7 @@
                                         switch(table){
                                             case "users":
                                                 tempHTML += '<A CLASS="btn btn-sm btn-primary" href="' + baseURL + 'useraddresses?user_id=' + ID + '">Addresses</A> ';
-                                                tempHTML += '<A CLASS="btn btn-sm btn-secondary" href="{{ webroot("public/user/info/") }}' + ID + '">Edit</A> ';
+                                                tempHTML += '<A CLASS="btn btn-sm  btn-secondary waves-effect" href="{{ webroot("public/user/info/") }}' + ID + '">Edit</A> ';
                                                 tempHTML += '<A CLASS="btn btn-sm btn-warning" ONCLICK="changepass(' + ID + ');" TITLE="Change their password">Password</A> ';
                                                 break;
                                             case "useraddresses":

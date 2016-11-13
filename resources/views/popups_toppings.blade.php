@@ -1,19 +1,5 @@
 <STYLE>
-    #addonlist{
-        border-style: solid;
-    }
 
-    .addonlist{
-        height: 250px;
-    }
-
-    .overflow-y{
-        overflow-y: auto;
-    }
-
-    .cursor-pointer{
-        cursor: pointer;
-    }
 
     .addon-selected{
         border: 1px solid black;
@@ -26,25 +12,16 @@
         font-weight: bold;
     }
 
-    #addonall{
-        padding-left: 15px;
-    }
-
-    .addon-list{
-        text-align: center;
-    }
-
-    .addon-button{
-        position: absolute;
-        bottom: 6px;
-    }
 
     .thisside{
         background-color: lightblue;
     }
 </STYLE>
-<DIV ID="addonlist" class="addonlist"></DIV>
 
+
+<div class="row">
+<DIV ID="addonlist" class="addonlist"></DIV>
+</div>
 <SCRIPT>
     var currentaddontype = "", currentside = "", currentqualifier = "", addonname = "", hashalves = true;
     var currentaddonlist = new Array, currentitemindex = 0, currentitemname = "";
@@ -65,11 +42,11 @@
 
     function list_addons(table, halves){
         currentaddontype=table;
-        var HTML = '<DIV CLASS="col-md-6 overflow-y">Your current addons: <DIV id="theaddons"></DIV></DIV><DIV CLASS="col-md-6 addonlist overflow-y" ID="addontypes">';
+        var HTML = '<DIV CLASS="col-md-12 "> <DIV id="theaddons"></DIV></DIV><DIV CLASS="col-md-12 addonlist " ID="addontypes">';
         var types = Object.keys(alladdons[table]);
         for(var i=0;i<types.length;i++){
             var type =  types[i];
-            HTML += '<DIV CLASS="cursor-pointer addon-type">' + type + '</DIV>';
+            HTML += '<DIV CLASS=" addon-type ">' + type + '</DIV>';
         }
         $("#addonlist").html(HTML + '</DIV>');
         $(".addon-type").click(
@@ -176,7 +153,7 @@
     }
 
     function generateaddons(){
-        var HTML = '<TABLE CELLPADDING="2" BORDER="1" WIDTH="100%"><TR><TH WIDTH="5%">Q</TH><TH>Name</TH>';
+        var HTML = '<TABLE class="table table-sm" WIDTH="100%"><TR><TH WIDTH="5%">Q</TH><TH>Name</TH>';
         var columns = 3, addonname = "";
         if(hashalves){
             HTML += '<TH WIDTH="7%">L</TH><TH WIDTH="7%">R</TH>';
@@ -232,7 +209,7 @@
                 }
             }
 
-            HTML += '<SPAN CLASS="pull-right">' + ucfirst(addonname) + ': Paid: ' + paidtoppings +  ', Free: ' + freetoppings + '</SPAN></TD></TR>' + tempstr;
+            HTML += '<SPAN CLASS="pull-right">' + ucfirst(addonname) + ' P ' + paidtoppings +  ' F ' + freetoppings + '</SPAN></TD></TR>' + tempstr;
         }
         $("#theaddons").html(HTML + '</TABLE>');
         $(".currentitem.thisside").trigger("click");

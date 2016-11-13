@@ -3,11 +3,9 @@
         <div class="modal-content">
             <div class="modal-body">
 
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    &times;
-                </button>
 
-                <h5 id="myModalLabel">Checkout</h5>
+
+                <h4 id="myModalLabel">Checkout</h4>
 
                 <FORM ID="orderinfo" name="orderinfo">
                     <?= view("popups_edituser", array("email" => false, "password" => false, "phone" => "required"))->render(); ?>
@@ -18,7 +16,7 @@
                             //can only be included once, and is in the login modal
                             echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
                         }
-                        echo '<input type="text" class="form-control corner-top" ID="restaurant" readonly placeholder="Restaurant Select" TITLE="Closest restaurant"/>';
+                        echo '<input type="text" class="form-control corner-top" ID="restaurant" placeholder="Restaurant Select" TITLE="Closest restaurant"/>';
                         echo '<SELECT id="deliverytime" TITLE="Delivery Time" class="form-control"/>';
                         echo '<OPTION>Deliver ASAP</OPTION>';
                         /*
@@ -41,22 +39,33 @@
                     ?>
                     <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook" maxlength="255"/>
 
-                    <DIV STYLE="margin-top: 15px;">
-                        <DIV class="col-md-12 payment-errors" style="color:red;"></DIV>
+                    <DIV class="row">
+                        <DIV CLASS="col-md-12">
+
+
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">Card</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Cash on Delivery</a>
+                            </li>
+
+
+                        </ul>
+                            </DIV>
+
                         <?php
-                            $cols=12;
                             //if(!islive()){
-                                $cols-=1;
-                                echo '<DIV CLASS="col-md-1"><BUTTON ONCLICK="testcard();" CLASS="form-control btn btn-primary" STYLE="padding-left: 8px;">Test</BUTTON></DIV>';
+                                echo '<DIV CLASS="col-md-12"><BUTTON ONCLICK="testcard();" CLASS="form-control btn btn-link" STYLE="padding-left: 8px;">Test</BUTTON></DIV>';
                             //}
                         ?>
-                        <DIV CLASS="col-md-{{ $cols }}">
+                        <DIV CLASS="col-md-12">
                             <input type="text" size="20" class="form-control" data-stripe="number" placeholder="Card Number">
                         </DIV>
-                        <!--DIV CLASS="col-md-4">
-                            <input type="text" size="6" data-stripe="address_zip" CLASS="form-control" placeholder="Billing Postal Code">
-                        </DIV-->
-                        <DIV CLASS="col-md-4">
+
+
+                        <DIV CLASS="col-xs-4">
                             <SELECT CLASS="form-control" data-stripe="exp_month">
                                 <OPTION VALUE="01">01 - January</OPTION>
                                 <OPTION VALUE="02">02 - February</OPTION>
@@ -72,7 +81,7 @@
                                 <OPTION VALUE="12">12 - December</OPTION>
                             </SELECT>
                         </DIV>
-                        <DIV CLASS="col-md-4">
+                        <DIV CLASS="col-xs-4">
                             <SELECT CLASS="form-control" data-stripe="exp_year">
                                 <?php
                                     $CURRENT_YEAR = date("Y");
@@ -83,12 +92,26 @@
                                 ?>
                             </SELECT>
                         </DIV>
-                        <DIV CLASS="col-md-4">
+                        <DIV CLASS="col-xs-4">
                             <input type="text" size="4" data-stripe="cvc" CLASS="form-control" PLACEHOLDER="CVC">
                         </DIV>
                     </DIV>
+<div class="row">
+                        <DIV class="col-md-12 payment-errors" style="color:red;"></DIV>
 
-                    <button class="m-b-1 btn btn-warning btn-block" onclick="payfororder();">PLACE ORDER</button>
+
+<div class="col-xs-6 ">
+
+                        <button type="button" class="btn btn-secondary waves-effect btn-block" data-dismiss="modal" aria-label="Close">
+                            CANCEL
+                        </button>
+
+</div><div class="col-xs-6">
+
+                        <button class=" btn btn-warning btn-block" onclick="payfororder();">PLACE ORDER</button>
+
+                        </div>
+</div>
                     <DIV ID="form_integrity" style="color:red;"></DIV>
                 </FORM>
                 <div class="clearfix"></div>

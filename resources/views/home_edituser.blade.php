@@ -161,21 +161,18 @@
         <div class="row m-t-1">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-block bg-danger" style="padding-top:.75rem !important;padding-bottom:.75rem !important;">
+                    <div class="card-block bg-danger" >
                         <h4 class="pull-left">
                             <A HREF="{{ webroot("public") }}"><i class="fa fa-home" aria-hidden="true"></i></A> Edit user
                         </h4>
-                        <A HREF="{{ webroot("public/list/useraddresses?user_id=" . $user_id ) }}" STYLE="float:right;" class="btn btn-sm btn-secondary">Edit Addresses</A>
+                        <A HREF="{{ webroot("public/list/useraddresses?user_id=" . $user_id ) }}" STYLE="float:right;" class="btn btn-sm  btn-secondary waves-effect">Edit Addresses</A>
                     </div>
                     <div class="card-block">
                         <div class="row">
                             <div class="col-md-12">
 @endif
-    <STYLE>
-        .row{
-            margin-bottom: 2px;
-        }
-    </STYLE>
+
+
     <FORM NAME="user" id="userform">
         @include("popups_edituser")
         <?php

@@ -42,7 +42,7 @@
     <div class="row m-t-1">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-block bg-danger" style="padding-top:.75rem !important;padding-bottom:.75rem !important;">
+                <div class="card-block bg-danger">
                     <h4 class="pull-left">
                         <i class="fa fa-home" aria-hidden="true"></i> Edit menu
                     </h4>
@@ -71,7 +71,7 @@
                                         </UL>
                                         <button class="btn btn-block btn-warning" onclick="$('.newitembtn').trigger('click');">New</button>
                                         <button ID="savechanges" class="btn btn-block btn-primary changes" style="display:none;" onclick="savechanges();">Save Changes</button>
-                                        <button ID="discardchanges" class="btn btn-block btn-secondary changes" style="display:none;" onclick="discard(false);">Discard Changes</button>
+                                        <button ID="discardchanges" class="btn btn-block  btn-secondary waves-effect changes" style="display:none;" onclick="discard(false);">Discard Changes</button>
                                     </div>
                                 </DIV>
                                 <?php
