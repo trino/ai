@@ -126,3 +126,9 @@ body.loading #loadingmodal {
     display: block;
     z-index: 999999;
 }
+
+
+/* stop removing this!!! */
+.cursor-pointer {
+    cursor: pointer;
+}

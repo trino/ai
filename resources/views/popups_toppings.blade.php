@@ -1,28 +1,47 @@
 <STYLE>
-
-
     .addon-selected{
         border: 1px solid black;
         background-color: lightblue;
+    }
+
+    .addon-type{
+        cursor: pointer;
     }
 
     .addon-title{
         border: 1px solid black;
         text-align: center;
         font-weight: bold;
+        cursor: pointer;
     }
-
 
     .thisside{
         background-color: lightblue;
     }
+
+    #addonall{
+        padding-left: 15px;
+    }
+
+    .free{
+        background: url('<?= webroot("resources/views"); ?>/circle.gif') no-repeat 0px 1px;
+        padding-left: 4px;
+        padding-right: 4px;
+    }
+
+    .btn-mini {
+        padding: 2px 6px;
+        font-size: 11px;
+        line-height: 13px;
+    }
 </STYLE>
 
-
 <div class="row">
-<DIV ID="addonlist" class="addonlist"></DIV>
+    <DIV ID="addonlist" class="addonlist"></DIV>
 </div>
+
 <SCRIPT>
+    var oneclick = true;
     var currentaddontype = "", currentside = "", currentqualifier = "", addonname = "", hashalves = true;
     var currentaddonlist = new Array, currentitemindex = 0, currentitemname = "";
 
@@ -80,11 +99,14 @@
     //alladdons, freetoppings, qualifiers, isaddon_free, isaddon_onall
     function list_addon_addon(e){
         addonname = $(e.target).text();
+        if(oneclick){
+            currentqualifier=1;
+            return addtoitem();
+        }
         $(".addon-addon").removeClass("addon-selected");
         $(e.target).addClass("addon-selected");
         $("#addonedit").remove();
         var HTML = '<DIV ID="addonedit">';
-        //HTML += '<DIV CLASS="addon-title">' + addonname + '</DIV>';
         if(isaddon_free(currentaddontype, addonname)){
             HTML += '<DIV>This is a free addon</DIV>';
         }
@@ -105,7 +127,6 @@
         }
 
         HTML += '<DIV CLASS="col-md-12" style="margin: 15px;" align="CENTER"><BUTTON ONCLICK="addtoitem();" CLASS="form-control btn btn-primary">Add to item</BUTTON></DIV>';
-        //$("#addonlist").append(HTML + '</DIV>');
         $(e.target).after(HTML + '</DIV>');
     }
 
@@ -146,14 +167,17 @@
             type: currentaddontype
         });
 
-        $(".addon-selected").removeClass("addon-selected");
-        $("#addonall").remove();
-        $("#addonedit").remove();
+        if(!oneclick) {
+            $(".addon-selected").removeClass("addon-selected");
+            $("#addonall").remove();
+            $("#addonedit").remove();
+        }
         generateaddons();
     }
 
     function generateaddons(){
         var HTML = '<TABLE class="table table-sm" WIDTH="100%"><TR><TH WIDTH="5%">Q</TH><TH>Name</TH>';
+        var free = ' <SPAN class="free" TITLE="Free addons">$</SPAN> ';
         var columns = 3, addonname = "";
         if(hashalves){
             HTML += '<TH WIDTH="7%">L</TH><TH WIDTH="7%">R</TH>';
@@ -197,7 +221,7 @@
                             break;
                     }
                 }
-                tempstr += '<TD><BUTTON CLASS="btn btn-sm btn-danger" ONCLICK="removelistitem(' + itemindex + ', ' + i + ');"><I CLASS="fa fa-times"></I></BUTTON></TD></TR>';
+                tempstr += '<TD><BUTTON CLASS="btn btn-mini btn-danger" ONCLICK="removelistitem(' + itemindex + ', ' + i + ');"><I CLASS="fa fa-times"></I></BUTTON></TD></TR>';
                 if(!isaddon_free(currentaddontype, currentaddon.name)){
                     qualifier = currentaddon.qual;
                     if(qualifier == 0){
@@ -209,7 +233,7 @@
                 }
             }
 
-            HTML += '<SPAN CLASS="pull-right">' + ucfirst(addonname) + ' P ' + paidtoppings +  ' F ' + freetoppings + '</SPAN></TD></TR>' + tempstr;
+            HTML += '<SPAN CLASS="pull-right">' + ucfirst(addonname) + ' $ ' + paidtoppings + free + freetoppings + '</SPAN></TD></TR>' + tempstr;
         }
         $("#theaddons").html(HTML + '</TABLE>');
         $(".currentitem.thisside").trigger("click");
