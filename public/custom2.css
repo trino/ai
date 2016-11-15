@@ -28,11 +28,11 @@ line-height: 1rem !important;
     margin: 0 !important;
 }
 .card-columns {
-    column-count: 2;
+    column-count: 3;
 }
-.list-group-item{background: #efefef;}
+
 .card,.list-group{box-shadow: none !important;}
-*{border:0 !important;}
+*{}
 /*
 
 */
