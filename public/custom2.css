@@ -7,7 +7,7 @@ input[type="text"], input[type="date"], input[type="email"],  input[type="tel"],
 
 }
 .modal-backdrop {
-    opacity: .9 !important;
+    opacity: 1 !important;
     background-color: white;
 }
 body{
@@ -17,15 +17,22 @@ body{
 line-height: 1rem !important;
     color: #373a3c;
     font-family: 'Roboto', sans-serif;
-    margin-top: 70px;
+
     animation: fadein 1s;
     -moz-animation: fadein 1s; /* Firefox */
     -webkit-animation: fadein 1s; /* Safari and Chrome */
     -o-animation: fadein 1s; /* Opera */
 }
-
-
-
+.form-control{
+    padding: 0 !important;
+    margin: 0 !important;
+}
+.card-columns {
+    column-count: 2;
+}
+.list-group-item{background: #efefef;}
+.card,.list-group{box-shadow: none !important;}
+*{border:0 !important;}
 /*
 
 */

@@ -139,7 +139,7 @@
                     }
                     ?>
                     <!-- why is this div required? -->
-                        <div>
+                        <div style="font-size: .7rem !important;">
                             <a <?= $HTML; ?>>
                                 <DIV CLASS="pull-left sprite sprite-<?= $imagefile; ?> sprite-medium"></DIV>
                                 <span class="pull-left itemname">{{$menuitem['item']}}</span>

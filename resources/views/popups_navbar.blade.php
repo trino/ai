@@ -1,4 +1,4 @@
-<nav class="navbar-default navbar-fixed-top navbar navbar-full navbar-dark bg-danger dont-print"
+<nav class="navbar-default navbar-top navbar navbar-full navbar-dark bg-danger dont-print"
      style="z-index: 1;">
 <span class="nav-link navbar-brand"
       style="font-weight:600;line-height: 1.5 !important;color:white !important;">
