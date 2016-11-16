@@ -4,6 +4,11 @@
         background-color: lightblue;
     }
 
+    .addon-selected::before, .currentitem.thisside td::before {
+        font-family: FontAwesome;
+        content: "\f0da  ";
+    }
+
     .addon-type{
         cursor: pointer;
     }
@@ -33,6 +38,7 @@
         padding: 2px 6px;
         font-size: 11px;
         line-height: 13px;
+        margin: 0px;
     }
 </STYLE>
 
