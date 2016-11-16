@@ -153,7 +153,9 @@
     }
 
     function outerHTML(selector){
-        return $(selector)[0].outerHTML;
+        var HTML = $(selector);
+        if(HTML.length) {return $(selector)[0].outerHTML;}
+        return "";
     }
 
     function visible(selector, status){
@@ -356,6 +358,7 @@
 
     //convert the order to an HTML receipt
     function generatereceipt() {
+        if($("#myorder").length == 0){return false;}
         var HTML = '', tempHTML = "", subtotal = 0;
         var itemnames = {toppings: "Pizza", wings_sauce: "Pound"};
         var nonames = {toppings: "toppings", wings_sauce: "sauces"};
@@ -667,40 +670,79 @@
         $("#loginmodal").modal("show");
         @endif
     });
-</script>
 
+    function enterkey(e, action){
+        var keycode = event.which || event.keyCode;
+        if(keycode == 13){
+            if(action.left(1) == "#"){
+                $(action).focus();
+            } else {
+                handlelogin(action);
+            }
+        }
+    }
 
+    function handlelogin(action){
+        if(isUndefined(action)){action="verify";}
+        $.post(webroot + "auth/login", {
+            action: action,
+            _token: token,
+            email: $("#login_email").val(),
+            password: $("#login_password").val()
+        }, function (result) {
+            try {
+                var data = JSON.parse(result);
+                if(data["Status"] == "false" || !data["Status"]) {
+                    data["Reason"] = data["Reason"].replace('[verify]', '<A onclick="handlelogin();" CLASS="hyperlink" TITLE="Click here to resend the email">verify</A>');
+                    alert(data["Reason"], "Error logging in");
+                } else {
+                    switch (action) {
+                        case "login":
+                            token = data["Token"];
+                            login(data["User"], true);
+                            $("#loginmodal").modal("hide");
+                            if(redirectonlogin){
+                                log("Login reload");
+                                location.reload();
+                            }
+                            break;
+                        case "forgotpassword": case "verify":
+                        alert(data["Reason"], "Login");
+                        break;
+                        case "logout":
+                            removeCookie();
+                            $('[class^="session_"]').text("");
+                            $(".loggedin").hide();
+                            $(".loggedout").show();
+                            $(".clear_loggedout").html("");
+                            $(".profiletype").hide();
+                            userdetails=false;
+                            if(redirectonlogout){
+                                log("Logout reload");
+                                window.location = "<?= webroot("public/index"); ?>";
+                            } else {
+                                switch(currentRoute){
+                                    case "index"://resave order as it's deleted in removeCookie();
+                                        if(!isUndefined(theorder)) {
+                                            if (theorder.length > 0) {
+                                                createCookieValue("theorder", JSON.stringify(theorder));
+                                            }
+                                        }
+                                        break;
+                                }
+                            }
+                            if(!isUndefined(collapsecheckout)) {
+                                collapsecheckout();
+                            }
+                            break;
+                    }
+                }
+            } catch (err){
+                alert(err.message + "<BR>" + result, "Login Error");
+            }
+        });
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<SCRIPT>
     var skiploadingscreen = false;
     //overwrites javascript's alert and use the modal popup
     (function () {
@@ -739,9 +781,8 @@
         });
 
         @if(isset($user))
-        login(<?= json_encode($user); ?>, false);
-//user is already logged in, use the data
-                @endif
+            login(<?= json_encode($user); ?>, false); //user is already logged in, use the data
+        @endif
 
         var HTML = '';
         var todaysdate = isopen(generalhours);
@@ -880,12 +921,3 @@
 </DIV>
 
 <div class="modal loading" ID="loadingmodal"></div>
-<script type="text/javascript">
-    $(window).load(function () {
-        console.log("Time until everything loaded: ", Date.now() - timerStart);
-    });
-    $(document).ready(function () {
-        console.log("Time until DOMready: ", Date.now() - timerStart);
-        $("#navbar-text").text("<?= "" . round((microtime(true) - $time), 5) . "s"; ?>");
-    });
-</script>

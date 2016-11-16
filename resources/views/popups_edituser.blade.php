@@ -22,6 +22,7 @@
             if (isset($field["maxlen"]))        {echo ' min="' . $field["maxlen"] . '" ';}
             if (isset($field["max"]))           {echo ' max="' . $field["max"] . '" ';}
             if (isset($field["readonly"]))      {echo ' readonly';}
+            if (isset($field["autocomplete"]) && $field["autocomplete"]) {echo ' autocomplete="' . $field["autocomplete"] . '"';}
             if (isset($field["placeholder"]))   {echo ' placeholder="' . $field["placeholder"] . '" ';}
             if (isset($field["corner"]))        {echo ' STYLE="border-' . $field["corner"] . '-radius: 5px;"';}
             if (isset($field["required"]) && $field["required"]) { echo ' REQUIRED';}
@@ -31,6 +32,7 @@
     }
     if(!isset($password)){$password = true;}
     if(!isset($email)){$email = true;}
+    if(!isset($autocomplete)){$autocomplete = "";}
 ?>
 <div>
     <?php
@@ -43,10 +45,10 @@
             printarow("Email", $name, array("name" => "email", "value" => $user["email"], "type" => "email", "placeholder"=>"Email", "class" => "form-control session_email_val"));
         }
         if(isset($user_id) || isset($showpass)){
-            printarow("Old Password", $name, array("name" => "oldpassword", "type" => "password", "class" => "form-control", "placeholder"=>"Old Password"));
-            printarow("New Password", $name, array("name" => "newpassword", "type" => "password", "class" => "form-control", "placeholder"=>"New Password"));
+            printarow("Old Password", $name, array("name" => "oldpassword", "type" => "password", "class" => "form-control", "placeholder"=>"Old Password", "autocomplete" => $autocomplete));
+            printarow("New Password", $name, array("name" => "newpassword", "type" => "password", "class" => "form-control", "placeholder"=>"New Password", "autocomplete" => $autocomplete));
         } else if($password) {
-            printarow("Password", $name, array("name" => "password", "type" => "password", "class" => "form-control", "placeholder"=>"Password"));
+            printarow("Password", $name, array("name" => "password", "type" => "password", "class" => "form-control", "placeholder"=>"Password", "autocomplete" => $autocomplete));
         }
         if(isset($address) && $address){
             echo view("popups_address", array("style" => 1))->render();
