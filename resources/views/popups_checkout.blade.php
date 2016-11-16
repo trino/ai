@@ -2,9 +2,6 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-
-
-
                 <h4 id="myModalLabel">Checkout</h4>
 
                 <FORM ID="orderinfo" name="orderinfo">
@@ -41,7 +38,6 @@
 
                     <DIV class="row">
                         <DIV CLASS="col-md-12">
-
                             <ul class="nav nav-tabs">
                                 <li class="nav-item">
                                     <a class="nav-link active" href="#">Card</a>
@@ -50,7 +46,6 @@
                                     <a class="nav-link" href="#">Cash on Delivery</a>
                                 </li>
                             </ul>
-
                         </DIV>
 
                         <DIV CLASS="col-md-12">
@@ -64,6 +59,7 @@
 
                         <DIV CLASS="col-xs-4">
                             <SELECT CLASS="form-control" data-stripe="exp_month">
+                                <!-- Do not remove the month names, trust me on this. Some customers only know their expiry date by it -->
                                 <OPTION VALUE="01">01 - January</OPTION>
                                 <OPTION VALUE="02">02 - February</OPTION>
                                 <OPTION VALUE="03">03 - March</OPTION>
@@ -94,25 +90,21 @@
                         </DIV>
                     </DIV>
 <div class="row">
-                        <DIV class="col-md-12 payment-errors" style="color:red;"></DIV>
-
-
-<div class="col-xs-6 ">
-
-                        <button type="button" class="btn btn-secondary waves-effect btn-block" data-dismiss="modal" aria-label="Close">
-                            CANCEL
-                        </button>
-
-</div><div class="col-xs-6">
-
-                        <button class=" btn btn-warning btn-block" onclick="payfororder();">PLACE ORDER</button>
-
+                    <DIV class="col-md-12 payment-errors" style="color:red;"></DIV>
+                        <div class="col-xs-6 ">
+                            <a type="button" class="btn btn-secondary waves-effect btn-block" data-dismiss="modal" aria-label="Close">
+                                CANCEL
+                            </a>
                         </div>
-</div>
+
+                        <div class="col-xs-6">
+                            <a class="btn btn-warning btn-block" onclick="payfororder();">PLACE ORDER</a>
+                        </div>
+                    </div>
+
                     <DIV ID="form_integrity" style="color:red;"></DIV>
                 </FORM>
                 <div class="clearfix"></div>
-
             </div>
         </div>
     </div>
