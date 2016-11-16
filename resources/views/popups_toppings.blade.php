@@ -67,11 +67,11 @@
 
     function list_addons(table, halves){
         currentaddontype=table;
-        var HTML = '<DIV CLASS="col-md-12 "> <DIV id="theaddons"></DIV></DIV><DIV CLASS="col-md-12 addonlist " ID="addontypes">';
+        var HTML = '<DIV CLASS="col-md-12"><DIV id="theaddons"></DIV></DIV><DIV CLASS="col-md-12 addonlist" ID="addontypes">';
         var types = Object.keys(alladdons[table]);
         for(var i=0;i<types.length;i++){
             var type =  types[i];
-            HTML += '<DIV CLASS=" addon-type ">' + type + '</DIV>';
+            HTML += '<DIV CLASS="addon-type">' + type + '</DIV>';
         }
         $("#addonlist").html(HTML + '</DIV>');
         $(".addon-type").click(
@@ -190,8 +190,9 @@
             columns=4;
         }
         switch(currentaddontype){
-            case "toppings": addonname = "toppings"; break;
-            case "wings_sauce": addonname = "sauces"; break;
+            case "toppings":    addonname = "toppings";         break;
+            case "wings_sauce": addonname = "sauces";           break;
+            default: addonname = "error: " + currentaddontype;  break;
         }
         HTML += '<TD WIDTH="7%" ALIGN="CENTER"><B><i class="fa fa-trash-o"></i></B></TD></TR>';
         var thisside = ' CLASS="thisside" ALIGN="CENTER"><I CLASS="fa fa-check"></I></TD>';
