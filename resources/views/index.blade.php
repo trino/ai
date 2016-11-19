@@ -50,11 +50,11 @@
                     <div ID="checkoutbutton">
                         <div class="pt-1"></div>
                         <div class="btn-group" role="group" aria-label="Basic example" style="width: 100%">
-                            <button style="width: 50%" class="btn   btn-secondary" ONCLICK="confirm2('Are you sure you want to clear your order?', 'Clear Order', function(){clearorder();});">
+                            <button style="width: 30%" class="btn   btn-secondary" ONCLICK="confirm2('Are you sure you want to clear your order?', 'Clear Order', function(){clearorder();});">
                                 CLEAR
                             </button>
 
-                            <button style="width: 50%" class="btn btn-warning loggedin" id="checkout" onclick="showcheckout();">
+                            <button style="width: 70%" class="btn btn-warning loggedin" id="checkout" onclick="showcheckout();">
                                 CHECKOUT
                             </button>
                         </div>
@@ -62,13 +62,7 @@
                 </div>
             </div>
             @include("popups_checkout")
-            <div class="card">
-                <div class="card-block">
-                    <div class="hidden-md-down">
-                        <?= view("popups_toppings"); ?>
-                    </div>
-                </div>
-            </div>
+
         </div>
     </div>
     @include("popups_editprofile_modal")

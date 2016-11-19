@@ -38,7 +38,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://select2.github.io/select2/select2-3.5.2/select2.css">
     <script src="http://select2.github.io/select2/select2-3.4.2/select2.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.1.1/css/mdb.min.css">
+    <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.1.1/css/mdb.min.css"-->
     <SCRIPT SRC="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></SCRIPT>
     <!--script src="<?= webroot("resources/views/api2.js"); ?>"></script-->
     <STYLE>

@@ -1,5 +1,5 @@
 input[type="text"], input[type="date"], input[type="email"],  input[type="tel"], input[type="password"], textarea, select {
-    padding: 0 !important;
+
     border: 0 !important;
     border-bottom: 1px solid #eceeef !important;
     border-radius: 0 !important;
@@ -24,15 +24,20 @@ line-height: 1rem !important;
     -o-animation: fadein 1s; /* Opera */
 }
 .form-control{
-    padding: 0 !important;
-    margin: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;    margin: 0 !important;
 }
 .card-columns {
-    column-count: 3;
+    column-count: 2;
 }
-
-
-
+.btn{margin:0 !important;}
+.dont-show{display: none;}
+select{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 0px;
+}
 
 .card,.list-group{box-shadow: none !important;}
 *{}

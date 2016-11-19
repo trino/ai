@@ -203,7 +203,18 @@
                     <div ID="modal-toppings-clones"></div>
                 </ul>
 
+
+
+
+                <?= view("popups_toppings"); ?>
+
+
+
+
+
                 <div class="btn-group" role="group" aria-label="Basic example" style="width: 100%">
+
+
                     <button style="width: 50%" class="btn   btn-secondary" data-dismiss="modal">
                         CANCEL
                     </button>
@@ -212,6 +223,8 @@
                         ADD TO ORDER
                     </button>
                 </div>
+
+
                 <div class="clearfix"></div>
             </div>
         </div>

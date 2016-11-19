@@ -36,7 +36,7 @@
                     ?>
                     <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook" maxlength="255"/>
 
-                    <DIV class="row">
+                    <DIV class="row mt-1">
                         <DIV CLASS="col-md-12">
                             <ul class="nav nav-tabs">
                                 <li class="nav-item">
@@ -48,9 +48,7 @@
                             </ul>
                         </DIV>
 
-                        <DIV CLASS="col-md-12">
-                            <a class="btn btn-primary" onclick="testcard();" STYLE="padding-left: 8px;">Test</a>
-                        </DIV>
+
 
                         <DIV CLASS="col-md-12">
                             <input type="text" size="20" class="form-control" data-stripe="number" placeholder="Card Number">
@@ -88,11 +86,20 @@
                         <DIV CLASS="col-xs-4">
                             <input type="text" size="4" data-stripe="cvc" CLASS="form-control" PLACEHOLDER="CVC">
                         </DIV>
+
+
+
                     </DIV>
-<div class="row">
-                    <DIV class="col-md-12 payment-errors" style="color:red;"></DIV>
-                        <div class="col-xs-6 ">
-                            <a type="button" class="btn btn-secondary waves-effect btn-block" data-dismiss="modal" aria-label="Close">
+<div class="row pt-1">
+                    <DIV class="col-xs-12 payment-errors" style="color:red;"></DIV>
+
+    <DIV CLASS="col-xs-2">
+        <a class="btn btn-secondary" onclick="testcard();">Test</a>
+    </DIV>
+
+
+                        <div class="col-xs-4 ">
+                            <a class="btn btn-secondary waves-effect btn-block" data-dismiss="modal" aria-label="Close">
                                 CANCEL
                             </a>
                         </div>
