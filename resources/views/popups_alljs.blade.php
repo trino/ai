@@ -1320,7 +1320,7 @@
                     <button class="btn btn-secondary" style="width: 50%" id="alert-cancel" data-dismiss="modal">
                         Cancel
                     </button>
-                    <button class="btn btn-secondary" style="width: 50%" id="alert-confirm" data-dismiss="modal">
+                    <button class="btn btn-secondary" style="width: 50%"   id="alert-confirm" data-dismiss="modal">
                         OK
                     </button>
                 </div>

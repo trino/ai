@@ -107,7 +107,7 @@
 
                 @foreach ($menuitems as $menuitem)
 
-                    <li style="padding:0.5rem !important;"
+                    <li style="padding:0.5rem !important;border:0 !important;"
                             class="list-group-item pa-0 list-group-item-action item_{{ $catclass }}"
                             itemid="{{$menuitem["id"]}}"
                             itemname="{{$menuitem['item']}}"
@@ -133,7 +133,7 @@
                         }
                     ?>
                     <!-- why is this div required? -->
-                        <div style="font-size: 1rem !important;">
+                        <div style="font-size: .75rem !important;">
                             <a <?= $HTML; ?>>
                                 <DIV CLASS="pull-left sprite sprite-<?= $imagefile; ?> sprite-medium"></DIV>
                                 <span class="pull-left itemname">{{$menuitem['item']}}</span>
@@ -205,6 +205,7 @@
                     </div>
                     <div ID="modal-toppings-clones"></div>
                 </ul>
+
 
 
 

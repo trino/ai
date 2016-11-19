@@ -101,9 +101,11 @@ if($style == 1){
                         <!-- Tab panes -->
                         <div class="tab-content mt-1">
                             <div role="tabpanel" class="tab-pane fade in active" id="profile">
+                                <div class="clearfix"></div>
 
                                 <INPUT TYPE="text" id="login_email" placeholder="Email" class="form-control"
                                        onkeydown="enterkey(event, '#login_password');">
+                                <div class="clearfix"></div>
 
                                 <INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control"
                                        onkeydown="enterkey(event, 'login');">
@@ -117,9 +119,16 @@ if($style == 1){
                             </div>
 
                             <div role="tabpanel" class="tab-pane fade" id="buzz">
+
+                                <div class="clearfix"></div>
+
+
                                 <FORM Name="regform" id="regform">
                                     <?= view("popups_edituser", array("phone" => false, "autocomplete" => "new-password"))->render(); ?>
                                 </FORM>
+                                <div class="clearfix"></div>
+
+
                                 <FORM id="addform">
                                     <?php
                                     if (!read("id")) {
@@ -130,7 +139,7 @@ if($style == 1){
 
 
 
-                                <div class="pb-1 clearfix"></div>
+                                <div class="clearfix"></div>
 
 
                                 <button class="btn btn-primary pull-right" onclick="$('#regform').submit();">
@@ -139,9 +148,17 @@ if($style == 1){
                             </div>
                         </div>
 
+                        <DIV CLASS="clearfix"></DIV>
 
                     </DIV>
-                </div>
+
+                    <DIV CLASS="col-md-6">
+
+
+                        <i class="fa fa-cutlery text-muted btn btn-block" style="font-size: 8rem;"></i>                <DIV CLASS="clearfix"></DIV>
+
+                    </DIV>
+                    </div>
 
                 <DIV CLASS="clearfix"></DIV>
             </div>
