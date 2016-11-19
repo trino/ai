@@ -161,10 +161,13 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-close"></i></button>
+
+
                 <h4 id="myModalLabel">
-                    <button type="button" class="btn-sm btn btn-secondary   waves-effect btn pull-left" data-dismiss="modal" aria-label="Close">
-                        <i class="fa fa-arrow-left"></i>
-                    </button>
+
                     <SPAN ID="modal-itemname"></SPAN> $<SPAN ID="modal-itemprice"></SPAN>
                 </h4>
                 <div class="mt-1"></div>
@@ -205,14 +208,12 @@
 
 
 
-
-                <?= view("popups_toppings"); ?>
-
-
-
-
-
                 <div class="btn-group" role="group" aria-label="Basic example" style="width: 100%">
+
+
+
+
+
 
 
                     <button style="width: 50%" class="btn   btn-secondary" data-dismiss="modal">

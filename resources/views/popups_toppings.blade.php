@@ -75,7 +75,7 @@
         }
         $("#addonlist").html(HTML + '</DIV>');
         $(".addon-type").click(
-            function(){list_addon_type(event);}
+                function(){list_addon_type(event);}
         );
         hashalves = halves;
         generateaddons();
