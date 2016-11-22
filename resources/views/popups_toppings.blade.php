@@ -43,7 +43,8 @@
 
     article.scrollspy-example {
         position: relative;
-        overflow: scroll;
+        overflow-y: scroll;
+        overflow-x: hidden;
         height: 200px;
     }
 
