@@ -4,7 +4,7 @@
         background-color: lightblue;
     }
 
-    .addon-selected::before, .currentitem.thisside td::before {
+    .addon-selected::before, .currentitem.thisside::before {
         font-family: FontAwesome;
         content: "\f0da  ";
     }
@@ -35,10 +35,10 @@
     }
 
     .btn-mini {
-        padding: 2px 6px;
+        padding: 1px 3px;
         font-size: 11px;
         line-height: 13px;
-        margin: 0px;
+        margin: 1px !important;
     }
 
     article.scrollspy-example {
@@ -55,6 +55,10 @@
         -webkit-border-radius: 4px !important;
         -moz-border-radius: 4px !important;
         border-radius: 4px !important;
+    }
+
+    .fa-strong{
+        font-weight: bold;
     }
 </STYLE>
 
@@ -222,11 +226,11 @@
     }
 
     function generateaddons(){
-        var HTML = '<TABLE class="table table-sm" WIDTH="100%"><TR><TH WIDTH="5%">Q</TH><TH>Name</TH>';
+        var HTML = '<DIV CLASS="col-md-12"><DIV CLASS="row"><B>Name</B>';
         var free = ' <SPAN class="free" TITLE="Free addons">$</SPAN> ';
         var columns = 3, addonname = "";
-        if(hashalves){
-            HTML += '<TH WIDTH="7%">L</TH><TH WIDTH="7%">R</TH>';
+        if(hashalves && currentstyle == 0){
+            //HTML += '<TH WIDTH="7%">L</TH><TH WIDTH="7%">R</TH>';
             columns=4;
         }
         switch(currentaddontype){
@@ -234,18 +238,20 @@
             case "wings_sauce": addonname = "sauces";           break;
             default: addonname = "error: " + currentaddontype;  break;
         }
-        HTML += '<TD WIDTH="7%" ALIGN="CENTER"><B><i class="fa fa-trash-o"></i></B></TD></TR>';
-        var thisside = ' CLASS="thisside" ALIGN="CENTER"><I CLASS="fa fa-check"></I></TD>';
+
+        HTML += '</div>';
+        var thisside = ' CLASS="thisside" ALIGN="CENTER"><I CLASS="fa fa-check"></I></DIV>';
+
         for(var itemindex=0; itemindex<currentaddonlist.length; itemindex++){
             var freetoppings = 0;
             var paidtoppings = 0;
-            HTML += '<TR ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="currentitem cursor-pointer currentitem' + itemindex;
+            HTML += '<DIV ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="col-md-12 currentitem cursor-pointer currentitem' + itemindex;
             if(currentitemindex == itemindex) {HTML += ' thisside';}
-            HTML += '"><TD COLSPAN="' + columns + '">' + currentitemname + ' #: ' + (itemindex+1);
+            HTML += '">' + currentitemname + ' #: ' + (itemindex+1);//<TD COLSPAN="' + columns + '">
             var classname = 'itemcontents itemcontents' + itemindex;
             var tempstr = '';
             if(currentaddonlist[itemindex].length==0){
-                tempstr = '<TR CLASS="' + classname + '"><TD COLSPAN="5">No ' + addonname + '</TD></TR>';
+                tempstr = '<DIV CLASS="col-md-12 ' + classname + '">No ' + addonname + '</DIV>';
             }
             for(var i=0; i<currentaddonlist[itemindex].length; i++){
                 var currentaddon = currentaddonlist[itemindex][i], qualifier = "";
@@ -254,8 +260,11 @@
                 } else {
                     qualifier = qualifiers["DEFAULT"][currentaddon.qual];
                 }
-                tempstr += '<TR CLASS="' + classname + '"><TD>' + qualifier + '</TD><TD>' + currentaddon.name + '</TD>';
+                tempstr += '<DIV CLASS="col-md-12 ' + classname + '">' + currentaddon.name;
+
+                /*
                 if(hashalves) {
+                    tempstr += '<DIV CLASS="col-md-12 ' + classname + '"><TD>' + qualifier + '</TD><TD>' + currentaddon.name + '</TD>';
                     switch (currentaddon.side) {
                         case 0://left
                             tempstr += '<TD' + thisside + '<TD></TD>';
@@ -268,7 +277,9 @@
                             break;
                     }
                 }
-                tempstr += '<TD><BUTTON CLASS="btn btn-mini btn-round btn-danger" ONCLICK="removelistitem(' + itemindex + ', ' + i + ');"><I CLASS="fa fa-times"></I></BUTTON></TD></TR>';
+                */
+
+                tempstr += '<DIV CLASS="pull-right"><BUTTON CLASS="btn btn-mini btn-round btn-danger" ONCLICK="removelistitem(' + itemindex + ', ' + i + ');"><I CLASS="fa fa-times"></I></BUTTON></DIV></DIV>';
                 if(!isaddon_free(currentaddontype, currentaddon.name)){
                     qualifier = currentaddon.qual;
                     if(qualifier == 0){
@@ -280,9 +291,9 @@
                 }
             }
 
-            HTML += '<SPAN CLASS="pull-right">' + ucfirst(addonname) + ' $ ' + paidtoppings + free + freetoppings + '</SPAN></TD></TR>' + tempstr;
+            HTML += '<SPAN CLASS="pull-right">' + ucfirst(addonname) + ' $ ' + paidtoppings + free + freetoppings + '</SPAN></TD></DIV>' + tempstr;
         }
-        $("#theaddons").html(HTML + '</TABLE>');
+        $("#theaddons").html(HTML + '</DIV>');
         $(".currentitem.thisside").trigger("click");
     }
 
