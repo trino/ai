@@ -230,7 +230,7 @@
 
     $(document).on('touchend', function () {
         $(".select2-search, .select2-focusser").remove();
-    })
+    });
 
     //handles the search text box
     function search(element) {
@@ -550,10 +550,15 @@
                 phone: $("#reg_phone").val()
             }, function (result) {
                 $("#checkoutmodal").modal("hide");
+                handleresult(result, "Order Placed Successfully!");
                 if (result.contains("ordersuccess")) {
+                    userdetails["Orders"].unshift({
+                        id: $("#receipt_id").text(),
+                        placed_at: $("#receipt_placed_at").text(),
+                        //Contents: $("#myorder").html()
+                    });
                     clearorder();
                 }
-                handleresult(result, "Order Placed Successfully!");
             });
         } else {
             $("#loginmodal").modal("show");
