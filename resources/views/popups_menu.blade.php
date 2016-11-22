@@ -128,7 +128,7 @@
                             $HTML = 'href="#2" data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
                             $icon = '<i class="fa fa-chevron-right pull-right"></i>';
                         } else {
-                            $HTML = 'href="#1" onclick="additemtoorder(this);"';
+                            $HTML = 'href="#1" onclick="additemtoorder(this, -1);"';
                             $icon = '';
                         }
                     ?>
@@ -210,11 +210,11 @@
                 </div>
 
                 <div class="btn-group" role="group" aria-label="Basic example" style="width: 100%">
-                    <button style="width: 50%" class="btn   btn-secondary" data-dismiss="modal">
+                    <button style="width: 50%" class="btn btn-secondary" data-dismiss="modal">
                         CANCEL
                     </button>
 
-                    <button data-dismiss="modal" style="width: 50%" class="btn btn-warning" onclick="additemtoorder();">
+                    <button data-dismiss="modal" style="width: 50%" id="additemtoorder" class="btn btn-warning" onclick="additemtoorder();">
                         ADD TO ORDER
                     </button>
                 </div>

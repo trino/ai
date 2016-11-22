@@ -3,6 +3,8 @@
 ?>
 
 <script>
+    var currentitemID = -1;
+
     String.prototype.isEqual = function (str){
         if(isUndefined(str)){return false;}
         if(isNumeric(str) || isNumeric(this)){return this == str;}
@@ -263,8 +265,8 @@
     }
 
     //generates the order menu item modal
-    function loadmodal(element) {
-        element = $(element).parent().parent();
+    function loadmodal(element, notparent) {
+        if(isUndefined(notparent)){element = $(element).parent().parent();}
         var items = ["name", "price", "id", "size", "cat"];
         for (var i = 0; i < items.length; i++) {
             $("#modal-item" + items[i]).text($(element).attr("item" + items[i]));
@@ -296,6 +298,13 @@
                 tableid = tables.length;
             }
         }
+        currentitemID=-1;
+        var title = "ADD TO ORDER";
+        if(!isUndefined(notparent)){
+            $("#menumodal").modal("show");
+            title = "EDIT ITEM";
+        }
+        $("#additemtoorder").text(title);
     }
 
     /*
@@ -337,8 +346,9 @@
     */
 
     //get the data from the modal and add it to the order
-    function additemtoorder(element) {
+    function additemtoorder(element, Index) {
         var itemid = 0, itemname = "", itemprice = 0.00, itemaddons = new Array, itemsize = "", toppingcost = 0.00, toppingscount = 0, itemcat = "";
+        if(!isUndefined(Index)){currentitemID = Index;}
         if (isUndefined(element)) {//modal with addons
             itemid = $("#modal-itemid").text();
             itemname = $("#modal-itemname").text();
@@ -371,7 +381,11 @@
             toppingcount: toppingscount,
             itemaddons: itemaddons
         };
-        theorder.push(data);
+        if(currentitemID == -1){
+            theorder.push(data);
+        } else {
+            theorder[currentitemID] = data;
+        }
         generatereceipt();
     }
 
@@ -391,14 +405,19 @@
                     category = "pizza";
                 }
             }
-
+            var hasaddons = item.hasOwnProperty("itemaddons") && item["itemaddons"].length > 0;
             subtotal += Number(totalcost);
 
             tempHTML = '<span class="pull-left"> <DIV CLASS="sprite sprite-' + category + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
-            tempHTML += '<span class="pull-right" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '"> $' + totalcost + ' <i class="fa fa-close" onclick="removeorderitem(' + itemid + ');"></i></span><div class="clearfix"></div>';
+            tempHTML += '<span class="pull-right" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '">';
+            if(hasaddons) {
+                tempHTML += ' <i class="fa fa-pencil cursor-pointer" onclick="edititem(this, ' + itemid + ');"></i>';
+            }
+            tempHTML += ' <i class="fa fa-close cursor-pointer" onclick="removeorderitem(' + itemid + ');"></i>';
+            tempHTML += '<BR>$' + totalcost + '</span><div class="clearfix"></div>';
 
             var itemname = "";
-            if (item.hasOwnProperty("itemaddons") && item["itemaddons"].length > 0) {
+            if (hasaddons) {
                 var tablename = item["itemaddons"][0]["tablename"];
                 if (item["itemaddons"].length > 1) {
                     itemname = itemnames[tablename];
@@ -464,6 +483,31 @@
     function clearorder() {
         theorder = new Array;
         generatereceipt();
+    }
+
+    function edititem(element, Index){
+        var theitem = theorder[Index];
+        if(!$(element).hasAttr("itemname")){
+            $(element).attr("itemname",     theitem.itemname);
+            $(element).attr("itemprice",    theitem.itemprice);
+            $(element).attr("itemid",       theitem.itemid);
+            $(element).attr("itemsize",     theitem.itemsize);
+            $(element).attr("itemcat",      theitem.category);
+            for(var i = 0; i< tables.length; i++){
+                $(element).attr(tables[i],  0);
+            }
+            $(element).attr(theitem.itemaddons[0].tablename, theitem.itemaddons.length);
+        }
+        loadmodal(element, true);
+        currentitemID = Index;
+        for(var i = 0; i < theitem.itemaddons.length; i++){
+            var tablename = theitem.itemaddons[i].tablename;
+            for(var i2 = 0; i2 < theitem.itemaddons[i].addons.length; i2++){
+                var theaddon = theitem.itemaddons[i].addons[i2].text;
+                currentaddonlist[i].push({name: theaddon, qual: 1, side: 1, type: tablename});
+            }
+        }
+        generateaddons();
     }
 
     //gets the addons from each dropdown
