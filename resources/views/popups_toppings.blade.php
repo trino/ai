@@ -227,7 +227,7 @@
     }
 
     function generateaddons(){
-        var HTML = '<DIV CLASS="col-md-12"><DIV CLASS="row"><B>Name</B>';
+        var HTML = '<DIV CLASS="col-md-12">';
         var free = ' <SPAN class="free" TITLE="Free addons">$</SPAN> ';
         var columns = 3, addonname = "";
         if(hashalves && currentstyle == 0){
@@ -239,8 +239,7 @@
             case "wings_sauce": addonname = "sauces";           break;
             default: addonname = "error: " + currentaddontype;  break;
         }
-
-        HTML += '</div>';
+        
         var thisside = ' CLASS="thisside" ALIGN="CENTER"><I CLASS="fa fa-check"></I></DIV>';
 
         for(var itemindex=0; itemindex<currentaddonlist.length; itemindex++){
