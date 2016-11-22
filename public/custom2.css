@@ -1,4 +1,10 @@
-input[type="text"], input[type="date"], input[type="email"],  input[type="tel"], input[type="password"], textarea, select {
+* {
+    line-height: 1rem !important;
+    border-radius: 0 !important;
+}
+.card-block, .navbar{padding:.75rem .5rem !important;}
+
+input[type="text"], input[type="date"], input[type="email"], input[type="tel"], input[type="password"], textarea, select {
 
     border: 0 !important;
     border-bottom: 1px solid #eceeef !important;
@@ -6,15 +12,16 @@ input[type="text"], input[type="date"], input[type="email"],  input[type="tel"],
     color: #373a3c !important;
 
 }
+
 .modal-backdrop {
-    opacity: 1 !important;
-    background-color: white;
+    opacity: .6 !important;
+    background-color: black;
 }
-body{
+
+body {
     /*  prevents horizontal scroll for full width container-fluid */
     overflow-x: hidden !important;
-
-line-height: 1rem !important;
+    line-height: 1rem !important;
     color: #373a3c;
     font-family: 'Roboto', sans-serif;
 
@@ -23,24 +30,46 @@ line-height: 1rem !important;
     -webkit-animation: fadein 1s; /* Safari and Chrome */
     -o-animation: fadein 1s; /* Opera */
 }
-.form-control{
+
+.form-control {
     padding-left: 0 !important;
-    padding-right: 0 !important;    margin: 0 !important;
+    padding-right: 0 !important;
+    margin: 0 !important;
 }
+
 .card-columns {
-    column-count: 2;
+    column-count: 3;
+    margin: 0 !important;
+    padding: 0 !important;
 }
-.btn{margin:0 !important;}
-.dont-show{display: none;}
-select{
+@media (max-width: 768px) {
+    .card-columns {
+        column-count: 2;
+
+    }
+}
+
+
+
+.btn {
+    margin: 0 !important;
+}
+
+.dont-show {
+    display: none;
+}
+
+select {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     padding: 0px;
 }
 
-.card,.list-group{box-shadow: none !important;}
-*{}
+.list-group {
+    box-shadow: none !important;
+}
+
 /*
 
 */
@@ -104,8 +133,8 @@ select{
 }
 
 .sprite-medium {
-    zoom: 0.30;
-    -moz-transform: scale(0.30);
+    zoom: 0.5;
+    -moz-transform: scale(0.5);
     -moz-transform-origin: 0 0;
 }
 
@@ -131,7 +160,6 @@ body.loading #loadingmodal {
     display: block;
     z-index: 999999;
 }
-
 
 /* stop removing this!!! */
 .cursor-pointer {

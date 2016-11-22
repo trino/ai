@@ -1142,7 +1142,6 @@
             $("#alert-cancel").hide();
             $("#alert-ok").click(function () {
             });
-            $("#alert-confirm").css("width", "100%");
             $("#alertmodalbody").html(arguments[0]);
             $("#alertmodallabel").text(title);
             $("#alertmodal").modal('show');
@@ -1308,7 +1307,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <i class="fa fa-close"></i>
                 </button>
 
                 <h4 class="modal-title" id="alertmodallabel">Title</h4>
@@ -1357,12 +1356,6 @@
         $("#navbar-text").text("<?= "" . round((microtime(true) - $time), 5) . "s"; ?>");
     });
 </script>
-
-
-
-
-
-
 
 
 

@@ -5,7 +5,7 @@
     </span>
     <div class="pull-right">
         <ul class="nav navbar-nav pull-lg-right">
-            <li class="nav-item dropdown open">
+            <li class="nav-item dropdown">
                 <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <i class="fa fa-user no-padding-margin"></i>
                 </a>

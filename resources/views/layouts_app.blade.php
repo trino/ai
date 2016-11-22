@@ -39,7 +39,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://select2.github.io/select2/select2-3.5.2/select2.css">
     <script src="http://select2.github.io/select2/select2-3.4.2/select2.js"></script>
-    <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.1.1/css/mdb.min.css"-->
+    <!--link rel="stylesheet" href="http://griny.frosenka.ru/onepage/css/main.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.1.1/css/mdb.min.css"-->
+
     <SCRIPT SRC="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></SCRIPT>
 
     @include("popups_alljs")
@@ -51,7 +53,14 @@
 <?= view("popups_navbar")->render(); ?>
 
 
-<div class="container mt-1 " style="display: none;">
+<div class="container mt-1">
+
+
+    @yield('content')
+
+
+</div>
+<div class="container mt-1 ">
 
 
     <button class="btn btn-danger  pull-left" onclick="window.scrollTo(0,document.body.scrollHeight);">
@@ -67,26 +76,8 @@
         </LABEL>
     @endif
 
-    <div class="card">
-        <div class="card-block">
-
-            <?= view("popups_toppings"); ?>
-
-
-
-        </div>
-    </div>
 
 </div>
-
-<div class="container mt-1">
-
-
-    @yield('content')
-
-
-</div>
-
 
 <?= view("popups_sticky_footer")->render(); ?>
 

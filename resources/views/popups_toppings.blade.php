@@ -1,33 +1,85 @@
-
+<DIV ID="addonlist"></DIV>
+<div class="clearfix"></div>
 
 <style scoped="true">
     article.scrollspy-example {
         position: relative;
         overflow: scroll;
-        height: 260px;
+        height: 200px;
     }
 </style>
-
-<nav id="scrollspy-nav" class="navbar navbar-default" style="padding: 0!important;">
+<br><br>
+<h6>design topping selector like below</h6>
+<nav id="scrollspy-nav" class="navbar " style="padding: .5rem 0 !important;">
     <ul class="nav nav-pills">
-        <li class="nav-item"><a class="nav-link" href="#bast">Bast</a></li>
-        <li class="nav-item"><a class="nav-link" href="#brogan">Brogan</a></li>
-        <li class="nav-item"><a class="nav-link" href="#calceology">Calceology</a></li>
+        <li class="nav-item"><a class="nav-link" href="#bast">Meat</a></li>
+        <li class="nav-item"><a class="nav-link" href="#brogan">Vegetables</a></li>
+        <li class="nav-item"><a class="nav-link" href="#calceology">Preperation</a></li>
     </ul>
 </nav>
+
+
 <article data-spy="scroll" data-target="#scrollspy-nav" data-offset="0" class="scrollspy-example">
-    <h4 id="bast">Bast Shoes</h4>
-    <p>    <DIV ID="addonlist"></DIV>
+    <h4 id="bast">Meat</h4>
+    <p>
+    <div class="btn btn-danger btn-sm"> Anchovies</div>
+    <div class="btn btn-danger btn-sm"> Bacon</div>
+    <div class="btn btn-danger btn-sm"> Beef Salami</div>
+    <div class="btn btn-danger btn-sm"> Chicken</div>
+    <div class="btn btn-danger btn-sm"> Ground Beef</div>
+    <div class="btn btn-danger btn-sm"> Ham</div>
+    <div class="btn btn-danger btn-sm"> Hot Italian Sausage</div>
+    <div class="btn btn-danger btn-sm"> Hot Sausage</div>
+    <div class="btn btn-danger btn-sm"> Italian Sausage</div>
+    <div class="btn btn-danger btn-sm"> Mild Sausage</div>
+    <div class="btn btn-danger btn-sm"> Pepperoni</div>
+    <div class="btn btn-danger btn-sm"> Salami</div>
     </p>
-    <h4 id="brogan">Brogan</h4>
-    <p>Brogan-like shoes, called "brogues", were made and worn in Scotland and Ireland as early as the 16th century, and
-        the shoe-type probably originated there.</p>
-    <h4 id="calceology">Calceology</h4>
-    <p>Calceology is the study of footwear, especially historical footwear whether as archaeology, shoe fashion history,
-        or otherwise.</p>
-    <p>Calceology comprises the examination, registration, research and conservation of leather shoe fragments.</p>
-    <p>However, calceology is not yet formally recognized as a field of research. </p>
+    <h4 id="brogan">Vegetables</h4>
+    <p>
+    <div class="btn btn-success btn-sm"> Artichoke Heart</div>
+    <div class="btn btn-success btn-sm"> Black Olives</div>
+    <div class="btn btn-success btn-sm"> Broccoli</div>
+    <div class="btn btn-success btn-sm"> Fresh Mushroom</div>
+    <div class="btn btn-success btn-sm"> Green Olives</div>
+    <div class="btn btn-success btn-sm"> Green Peppers</div>
+    <div class="btn btn-success btn-sm"> Hot Banana Peppers</div>
+    <div class="btn btn-success btn-sm"> Hot Peppers</div>
+    <div class="btn btn-success btn-sm"> Jalapeno Peppers</div>
+    <div class="btn btn-success btn-sm"> Mushrooms</div>
+    <div class="btn btn-success btn-sm"> Onions</div>
+    <div class="btn btn-success btn-sm"> Pineapple</div>
+    <div class="btn btn-success btn-sm"> Red Onions</div>
+    <div class="btn btn-success btn-sm"> Red Peppers</div>
+    <div class="btn btn-success btn-sm"> Spinach</div>
+    <div class="btn btn-success btn-sm"> Sundried Tomatoes</div>
+    <div class="btn btn-success btn-sm"> Tomatoes</div>
+
+    </p>
+    <h4 id="calceology">Preperation</h4>
+    <p>
+    <div class="btn btn-secondary btn-sm"> Cooked</div>
+    <div class="btn btn-secondary btn-sm"> Tomato Sauce</div>
+    <div class="btn btn-secondary btn-sm"> Cooked</div>
+    <div class="btn btn-secondary btn-sm"> Tomato Sauce</div>
+    <div class="btn btn-secondary btn-sm"> Cooked</div>
+    <div class="btn btn-secondary btn-sm"> Tomato Sauce</div>
+    <div class="btn btn-secondary btn-sm"> Cooked</div>
+    <div class="btn btn-secondary btn-sm"> Tomato Sauce</div>
+    <div class="btn btn-secondary btn-sm"> Cooked</div>
+    <div class="btn btn-secondary btn-sm"> Tomato Sauce</div>
+    <div class="btn btn-secondary btn-sm"> Cooked</div>
+    <div class="btn btn-secondary btn-sm"> Tomato Sauce</div>
+    <div class="btn btn-secondary btn-sm"> Tomato Sauce</div>
+    <div class="btn btn-secondary btn-sm"> Tomato Sauce</div>
+    <div class="btn btn-secondary btn-sm"> Tomato Sauce</div>
+    <div class="btn btn-secondary btn-sm"> Tomato Sauce</div>
+    <div class="btn btn-secondary btn-sm"> Tomato Sauce</div>
+    <div class="btn btn-secondary btn-sm"> Tomato Sauce</div>
+
+
 </article>
+
 
 <SCRIPT>
     var oneclick = true;
@@ -36,11 +88,11 @@
 
     function list_addons(table, halves) {
         currentaddontype = table;
-        var HTML = '<DIV CLASS="col-md-12"><DIV id="theaddons"></DIV></DIV><DIV CLASS="col-md-12 addonlist" ID="addontypes">';
+        var HTML = '<DIV id="theaddons"></DIV><DIV CLASS="addonlist" ID="addontypes">';
         var types = Object.keys(alladdons[table]);
         for (var i = 0; i < types.length; i++) {
             var type = types[i];
-            HTML += '<DIV CLASS="addon-type">' + type + '</DIV>';
+            HTML += '<DIV CLASS="addon-type bg-success">' + type + '</DIV>';
         }
         $("#addonlist").html(HTML + '</DIV>');
         $(".addon-type").click(
@@ -77,7 +129,7 @@
         var addontype = $(e.target).text();
         for (var i = 0; i < alladdons[currentaddontype][addontype].length; i++) {
             var addon = alladdons[currentaddontype][addontype][i];
-            HTML += '<DIV class="cursor-pointer addon-addon">' + addon + '</DIV>';
+            HTML += '<DIV class="bg-warning addon-addon">' + addon + '</DIV>';
         }
 
         $(e.target).after(HTML + '</DIV>');
@@ -90,15 +142,21 @@
 
     //alladdons, freetoppings, qualifiers, isaddon_free, isaddon_onall
     function list_addon_addon(e) {
+
         addonname = $(e.target).text();
         if (oneclick) {
             currentqualifier = 1;
             return addtoitem();
         }
+
         $(".addon-addon").removeClass("addon-selected");
+
         $(e.target).addClass("addon-selected");
+
         $("#addonedit").remove();
+
         var HTML = '<DIV ID="addonedit">';
+
         if (isaddon_free(currentaddontype, addonname)) {
             HTML += '<DIV>This is a free addon</DIV>';
         }
@@ -131,7 +189,7 @@
             if (i == defaultindex) {
                 selected = " addon-selected";
             }
-            HTML += '<DIV CLASS="cursor-pointer addon-list col-md-' + columns + ' ' + classname + selected + '" ONCLICK="list_addon_list(event, ' + "'" + classname + "', " + i + ');">' + data[i] + '</DIV>';
+            HTML += '<DIV CLASS="col-md-' + columns + ' ' + classname + selected + '" ONCLICK="list_addon_list(event, ' + "'" + classname + "', " + i + ');">' + data[i] + '</DIV>';
         }
         switch (classname) {
             case "addon-qualifier":
@@ -146,9 +204,13 @@
 
     function list_addon_list(e, classname, index) {
         var listitemname = $(e.target).text();
-//if(classname == "addon-qualifier" && index == 0){index = "0.5";}
+
+        //if(classname == "addon-qualifier" && index == 0){index = "0.5";}
+
         $("." + classname).removeClass("addon-selected");
+
         $(e.target).addClass("addon-selected");
+
         switch (classname) {
             case "addon-qualifier":
                 currentqualifier = index;
@@ -157,6 +219,7 @@
                 currentside = index;
                 break;
         }
+
         log(classname + "." + listitemname + "=" + index);
     }
 
@@ -164,6 +227,7 @@
         if (!hashalves) {
             currentside = 1;
         }
+
         currentaddonlist[currentitemindex].push({
             name: addonname,
             side: currentside,
@@ -176,11 +240,12 @@
             $("#addonall").remove();
             $("#addonedit").remove();
         }
+
         generateaddons();
     }
 
     function generateaddons() {
-        var HTML = '<TABLE class="table table-sm" WIDTH="100%">';
+        var HTML = '<TABLE class="">';
         var free = ' <SPAN class="free" TITLE="Free addons">$</SPAN> ';
         var columns = 3, addonname = "";
         if (hashalves) {
@@ -203,7 +268,7 @@
         for (var itemindex = 0; itemindex < currentaddonlist.length; itemindex++) {
             var freetoppings = 0;
             var paidtoppings = 0;
-            HTML += '<TR ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="currentitem cursor-pointer currentitem' + itemindex;
+            HTML += '<TR ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="currentitem rcurrentitem' + itemindex;
             if (currentitemindex == itemindex) {
                 HTML += ' thisside';
             }
@@ -260,8 +325,6 @@
         currentitemindex = index;
     }
 
-
-
     function removelistitem(index, subindex) {
         if (isUndefined(subindex)) {
             removeindex(currentaddonlist, index);
@@ -276,4 +339,5 @@
     }
 
     list_addons_quantity(3, "toppings", false, "Pizza");
+
 </SCRIPT>

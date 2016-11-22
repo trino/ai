@@ -1,8 +1,8 @@
-<nav class="navbar-default navbar-fixed-bottom navbar" style="z-index: 1;">
+<nav class="navbar-default navbar-fixed-bottom navbar" style="z-index: 0;">
 
 
     <button class="btn bg-danger text-white pull-right" onclick="window.scrollTo(0,document.body.scrollHeight);">
-        <strong id="checkout-total"></strong> Total
+        Total <strong id="checkout-total"></strong>
     </button>
 
 

@@ -97,7 +97,7 @@
                 $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
         ?>
 
-        <div class="card" style="border: 0 !important;box-shadow: none !important;">
+        <div class="card" style="border:0 !important;margin:.5rem;">
 
             <a class=" head_{{ $catclass }}" data-toggle="collapse" href="#collapse{{$category["id"]}}_cat">
                 <h5 class="text-danger ">{{$category['category']}}</h5>
@@ -107,7 +107,7 @@
 
                 @foreach ($menuitems as $menuitem)
 
-                    <li style="padding:0.5rem !important;border:0 !important;"
+                    <li style="border:0 !important;padding:1px !important;margin-top:5px;"
                             class="list-group-item pa-0 list-group-item-action item_{{ $catclass }}"
                             itemid="{{$menuitem["id"]}}"
                             itemname="{{$menuitem['item']}}"
@@ -133,12 +133,12 @@
                         }
                     ?>
                     <!-- why is this div required? -->
-                        <div style="font-size: .75rem !important;">
+                        <div style="font-size: 1rem !important;background: #fafafa;">
                             <a <?= $HTML; ?>>
                                 <DIV CLASS="pull-left sprite sprite-<?= $imagefile; ?> sprite-medium"></DIV>
                                 <span class="pull-left itemname">{{$menuitem['item']}}</span>
-
-                                <span class="pull-right"> ${{number_format($menuitem["price"], 2)}}
+<br>
+                                <span class="pull-left text-muted"> ${{number_format($menuitem["price"], 2)}}
                                     <?= $icon; ?>
                                     </span>
                                 <div class="clearfix"></div>

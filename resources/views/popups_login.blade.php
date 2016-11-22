@@ -8,7 +8,7 @@ if($style == 1){
         <div class="modal-content">
             <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <i class="fa fa-close"></i>
                 </button>
                 <div>
                     <h4 class="modal-title" id="myModalLabel">Login</h4>
@@ -50,7 +50,7 @@ if($style == 1){
         <div class="modal-content">
             <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <i class="fa fa-close"></i>
                 </button>
                 <div>
                     <h4 class="modal-title" id="myModalLabel">Register</h4>
@@ -152,10 +152,22 @@ if($style == 1){
 
                     </DIV>
 
-                    <DIV CLASS="col-md-6">
+                    <DIV CLASS="col-md-6 text-white  bg-danger" >
 
 
-                        <i class="fa fa-cutlery text-muted btn btn-block" style="font-size: 8rem;"></i>                <DIV CLASS="clearfix"></DIV>
+                        <i class="fa fa-cutlery btn btn-block" style="font-size: 1rem;"></i>
+
+                        test 123 <br>
+                        test 123 <br>
+                        test 123 <br>
+                        test 123 <br>
+                        test 123 <br>
+                        test 123 <br>
+                        test 123 <br>
+                        test 123 <br>
+                        test 123 <br>
+                        test 123 <br>
+                        <DIV CLASS="clearfix"></DIV>
 
                     </DIV>
                     </div>
