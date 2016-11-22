@@ -8,8 +8,8 @@
         height: 200px;
     }
 </style>
-<br><br>
-<h6>design topping selector like below</h6>
+<br><br><br><br>
+<h6 class="text-danger">design topping selector like below</h6><br><br>
 <nav id="scrollspy-nav" class="navbar " style="padding: .5rem 0 !important;">
     <ul class="nav nav-pills">
         <li class="nav-item"><a class="nav-link" href="#bast">Meat</a></li>
