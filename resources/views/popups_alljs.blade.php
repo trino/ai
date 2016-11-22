@@ -269,7 +269,10 @@
         for (var i = 0; i < items.length; i++) {
             $("#modal-item" + items[i]).text($(element).attr("item" + items[i]));
         }
+        var itemname = $(element).attr("itemname");
+        var itemcost = $(element).attr("itemprice");
         var size = $(element).attr("itemsize");
+
         var toppingcost = 0.00;
         if (size) {
             toppingcost = Number(freetoppings[size]).toFixed(2);
@@ -278,13 +281,24 @@
         }
         $("#modal-toppingcost").text(toppingcost);
 
-//clones the addon dropdowns
+        /*clones the addon dropdowns
         initSelect2(".select2", true);
         sendintheclones("#modal-wings-clones", "#modal-wings-original", $(element).attr("wings_sauce"), wingsauceouterhtml);
         sendintheclones("#modal-toppings-clones", "#modal-toppings-original", $(element).attr("toppings"), toppingsouterhtml.replace('[price]', toppingcost));
         initSelect2(".select2clones");
+        */
+
+        for (var tableid = 0; tableid < tables.length; tableid++) {
+            var table = tables[tableid];
+            var Quantity = Number($(element).attr(table));
+            if(Quantity > 0){
+                list_addons_quantity(Quantity, table, false, itemname, itemcost, toppingcost);
+                tableid = tables.length;
+            }
+        }
     }
 
+    /*
     function initSelect2(selector, reset) {
         if (!isUndefined(reset)) {
             $('select').select2("val", null);
@@ -320,6 +334,7 @@
         }
         $(destinationID).html(HTML);
     }
+    */
 
     //get the data from the modal and add it to the order
     function additemtoorder(element) {
@@ -456,6 +471,7 @@
         var itemaddons = new Array;
         for (var tableid = 0; tableid < tables.length; tableid++) {
             var table = tables[tableid];
+            /*
             $('.select2.' + table + ":visible").each(function (index) {
                 if (!$(this).hasClass("select2-offscreen")) {
                     var addons = $(this).select2('data');
@@ -475,6 +491,24 @@
                     itemaddons.push({tablename: table, addons: addons, count: toppings});
                 }
             });
+            */
+            if(table == currentaddontype){
+                for(var itemid=0; itemid < currentaddonlist.length; itemid++){
+                    var addonlist = currentaddonlist[itemid];
+                    var addons = new Array;
+                    var toppings = 0;
+                    for(var addonid=0; addonid < addonlist.length; addonid++){
+                        var name = addonlist[addonid].name;
+                        var isfree = isaddon_free(table, name);
+                        addons.push({
+                            text: name,
+                            isfree: isfree
+                        });
+                        if (!isfree) {toppings++;}
+                    }
+                    itemaddons.push({tablename: table, addons: addons, count: toppings});
+                }
+            }
         }
         return itemaddons;
     }

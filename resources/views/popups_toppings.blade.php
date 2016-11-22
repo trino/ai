@@ -63,12 +63,8 @@
     }
 </STYLE>
 
-<div class="row">
-    <DIV ID="addonlist" class="addonlist"></DIV>
-</div>
-
 <SCRIPT>
-    var oneclick = true, currentstyle = 1;
+    var oneclick = true, currentstyle = 1, currentbasecost = 0, currentaddoncost = 0;
     var currentaddontype = "", currentside = "", currentqualifier = "", addonname = "", hashalves = true;
     var currentaddonlist = new Array, currentitemindex = 0, currentitemname = "";
 
@@ -76,13 +72,15 @@
         return text.toLowerCase().replaceAll(" ", "_");
     }
 
-    function list_addons_quantity(quantity, tablename, halves, name){
+    function list_addons_quantity(quantity, tablename, halves, name, basecost, addoncost){
         currentaddonlist = new Array();
         currentitemindex=0;
         for(var i=0; i<quantity; i++){
             currentaddonlist.push([]);
         }
         currentitemname=name;
+        currentbasecost=basecost;
+        currentaddoncost=addoncost;
         list_addons(tablename, halves);
     }
 
@@ -113,7 +111,7 @@
                 HTML += '<h4 id="' + toclassname(type) + '">' + type + '</h4><p>';
                 for(var i2=0; i2< alladdons[currentaddontype][type].length; i2++){
                     var addon = alladdons[currentaddontype][type][i2];
-                    HTML += '<div class="btn btn-' + colors[i] + ' btn-sm cursor-pointer addon-addon"> ' + addon + '</DIV>';
+                    HTML += '<div class="btn btn-' + colors[i] + ' btn-sm cursor-pointer addon-addon">' + addon + '</DIV>';
                 }
                 HTML += '</P>';
             }
@@ -239,7 +237,7 @@
             case "wings_sauce": addonname = "sauces";           break;
             default: addonname = "error: " + currentaddontype;  break;
         }
-        
+
         var thisside = ' CLASS="thisside" ALIGN="CENTER"><I CLASS="fa fa-check"></I></DIV>';
 
         for(var itemindex=0; itemindex<currentaddonlist.length; itemindex++){
@@ -317,5 +315,5 @@
         return text.left(1).toUpperCase() + text.right(text.length-1);
     }
 
-    list_addons_quantity(3, "toppings", false, "Pizza");
+    //list_addons_quantity(3, "toppings", false, "Pizza");
 </SCRIPT>

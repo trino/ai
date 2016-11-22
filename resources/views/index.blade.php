@@ -68,12 +68,7 @@
             </div>
 
             @include("popups_checkout")
-
-            <div class="card">
-                <div class="card-block">
-                    <?= view("popups_toppings"); ?>
-                </div>
-            </div>
+            <?= view("popups_toppings"); ?>
         </div>
     </div>
     @include("popups_editprofile_modal")

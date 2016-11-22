@@ -179,7 +179,7 @@
                     <SPAN ID="modal-itemcat"></SPAN>
                 </div>
 
-                <ul class="list-group">
+                <!--ul class="list-group">
                     <div ID="modal-wings-original">
                         <select class="form-control select2 wings_sauce" multiple="multiple" data-placeholder="1st Pound" type="wings_sauce">
                             <option value="blank"></option>
@@ -195,7 +195,6 @@
                     <div ID="modal-toppings-original">
                         <div ID="modal-toppings-original-ordinal">1st Pizza</div>
                         <select style="border: 0 !important;" class="form-control select2 toppings" data-placeholder="Add Toppings: $[price]" multiple="multiple" type="toppings">
-                            <!--option value="blank"></option-->
                             <?= $toppings_display; ?>
                             <optgroup label="Options">
                                 <option value="AZ">Well Done</option>
@@ -204,19 +203,13 @@
                         </select>
                     </div>
                     <div ID="modal-toppings-clones"></div>
-                </ul>
+                </ul-->
 
-
-
+                <div class="row">
+                    <DIV ID="addonlist" class="addonlist"></DIV>
+                </div>
 
                 <div class="btn-group" role="group" aria-label="Basic example" style="width: 100%">
-
-
-
-
-
-
-
                     <button style="width: 50%" class="btn   btn-secondary" data-dismiss="modal">
                         CANCEL
                     </button>
