@@ -95,7 +95,6 @@ if($style == 1){
                             <li class="nav-item">
                                 <a class="nav-link" href="#buzz" role="tab" data-toggle="tab">Signup</a>
                             </li>
-
                         </ul>
 
                         <!-- Tab panes -->
@@ -103,16 +102,12 @@ if($style == 1){
                             <div role="tabpanel" class="tab-pane fade in active" id="profile">
                                 <div class="clearfix"></div>
 
-                                <INPUT TYPE="text" id="login_email" placeholder="Email" class="form-control"
-                                       onkeydown="enterkey(event, '#login_password');">
+                                <INPUT TYPE="text" id="login_email" placeholder="Email" class="form-control" onkeydown="enterkey(event, '#login_password');">
                                 <div class="clearfix"></div>
 
-                                <INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control"
-                                       onkeydown="enterkey(event, 'login');">
+                                <INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control" onkeydown="enterkey(event, 'login');">
 
                                 <div class="pb-1 clearfix"></div>
-
-
                                 <BUTTON CLASS="btn btn-primary pull-right" onclick="handlelogin('login');">Log In</BUTTON>
                                 <BUTTON CLASS="btn btn-link text-muted pull-left" onclick="handlelogin('forgotpassword');">Forgot Password
                                 </BUTTON>
@@ -121,26 +116,20 @@ if($style == 1){
                             <div role="tabpanel" class="tab-pane fade" id="buzz">
 
                                 <div class="clearfix"></div>
-
-
                                 <FORM Name="regform" id="regform">
                                     <?= view("popups_edituser", array("phone" => false, "autocomplete" => "new-password"))->render(); ?>
                                 </FORM>
                                 <div class="clearfix"></div>
 
-
                                 <FORM id="addform">
                                     <?php
-                                    if (!read("id")) {
-                                        echo view("popups_address", array("style" => 1))->render();
-                                    }
+                                        if (!read("id")) {
+                                            echo view("popups_address", array("style" => 1))->render();
+                                        }
                                     ?>
                                 </FORM>
 
-
-
                                 <div class="clearfix"></div>
-
 
                                 <button class="btn btn-primary pull-right" onclick="$('#regform').submit();">
                                     Register
@@ -152,9 +141,7 @@ if($style == 1){
 
                     </DIV>
 
-                    <DIV CLASS="col-md-6 text-white  bg-danger" >
-
-
+                    <DIV CLASS="col-md-6 text-white bg-danger" id="loginpanel">
                         <i class="fa fa-cutlery btn btn-block" style="font-size: 1rem;"></i>
 
                         test 123 <br>
@@ -182,11 +169,13 @@ if($style == 1){
 
 <SCRIPT>
     @if($style == 2)
-            redirectonlogin = true;
-            @endif
+        redirectonlogin = true;
+    @endif
 
     var minlength = 5;
     var getcloseststore = false;
+    skiploadingscreen = true;
+    lockloading=true;
 
     $(function () {
         $("form[name='regform']").validate({
@@ -230,9 +219,11 @@ if($style == 1){
                     if (result) {
                         try {
                             var data = JSON.parse(result);
-                            alert(data["Reason"], "Registration");
+                            //alert(data["Reason"], "Registration");
+                            $("#loginpanel").text(data["Reason"]);
                         } catch (e) {
-                            alert(result, "Registration");
+                            //alert(result, "Registration");
+                            $("#loginpanel").text(result);
                         }
                     }
                 });

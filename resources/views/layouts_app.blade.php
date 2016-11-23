@@ -60,7 +60,7 @@
 
             @if(!islive())
                 <LABEL STYLE="margin-top: 7px; margin-left: 7px;">
-                    <INPUT TYPE="checkbox" onclick="checkblock(event);">block leaving
+                    <INPUT TYPE="checkbox" onclick="checkblock(event);" id="blockleaving">block leaving
                 </LABEL>
             @endif
         </div>
