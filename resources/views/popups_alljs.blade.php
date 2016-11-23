@@ -914,8 +914,8 @@
         $(".profiletype" + user["profiletype"]).show();//show classes for this profile type
         var HTML = '';
         var FirstAddress = false;
-        if (user["Addresses"].length > 0) {//generate address dropdown
-            HTML += '<SELECT class="form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION>Select a saved address</OPTION>';
+        HTML += '<SELECT class="form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION>Select a saved address</OPTION>';
+        if (user["Addresses"].length > 0) {
             addresskeys = Object.keys(user["Addresses"][0]);
             for (i = 0; i < user["Addresses"].length; i++) {
                 if (!FirstAddress) {
@@ -923,8 +923,8 @@
                 }
                 HTML += AddressToOption(user["Addresses"][i], addresskeys);
             }
-            HTML += '</SELECT>';
         }
+        HTML += '</SELECT>';
         $(".addressdropdown").html(HTML);
         if (user["profiletype"] == 2) {
             user["restaurant_id"] = FirstAddress;
