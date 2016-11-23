@@ -972,6 +972,12 @@
         }
         if ($(Selected).val() == 0) {
             Text = '';
+        } else {
+            if($(Selected).val() == "addaddress"){
+                visible_address(true);
+                Text="";
+            }
+            $("#add_unit").show();
         }
         $("#formatted_address").val(Text);
         addresshaschanged();

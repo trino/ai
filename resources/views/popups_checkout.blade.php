@@ -10,8 +10,7 @@
                     <div class="col-sm-6">
                         <FORM ID="orderinfo" name="orderinfo">
                             <?= view("popups_edituser", array("email" => false, "password" => false, "phone" => "required"))->render(); ?>
-                            <input type="text" size="20" class="form-control" data-stripe="number"
-                                   placeholder="Credit or Debit Card Number">
+                            <input type="text" size="20" class="form-control" data-stripe="number" placeholder="Credit or Debit Card Number">
                             <div class="row">
                                 <DIV CLASS="col-xs-4 ">
                                     <SELECT CLASS="form-control" data-stripe="exp_month">
@@ -33,43 +32,40 @@
                                 <DIV CLASS="col-xs-4">
                                     <SELECT CLASS="form-control" data-stripe="exp_year">
                                         <?php
-                                        $CURRENT_YEAR = date("Y");
-                                        $TOTAL_YEARS = 6;
-                                        for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
-                                            echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
-                                        }
+                                            $CURRENT_YEAR = date("Y");
+                                            $TOTAL_YEARS = 6;
+                                            for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
+                                                echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
+                                            }
                                         ?>
                                     </SELECT>
                                 </DIV>
                                 <DIV CLASS="col-xs-4">
-                                    <input type="text" size="4" data-stripe="cvc" CLASS="form-control"
-                                           PLACEHOLDER="CVC">
+                                    <input type="text" size="4" data-stripe="cvc" CLASS="form-control" PLACEHOLDER="CVC">
                                 </DIV>
                             </div>
                             <div class="clear_loggedout addressdropdown" id="checkoutaddress"></div>
                         <?php
-                        if (read("id")) {
-//can only be included once, and is in the login modal
-                            echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
-                        }
+                            if (read("id")) {
+                                //can only be included once, and is in the login modal
+                                echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
+                            }
                         ?>
                     </div>
                     <div class="col-sm-6">
                         <?php
-                        echo '<input type="text" class="form-control corner-top" ID="restaurant" placeholder="Restaurant Select" TITLE="Closest restaurant"/>';
-                        echo '<SELECT id="deliverytime" TITLE="Delivery Time" class="form-control"/>';
-                        echo '<OPTION>Deliver ASAP</OPTION>';
-                        echo '</SELECT>';
+                            echo '<input type="text" class="form-control corner-top" ID="restaurant" placeholder="Closest Restaurant" READONLY TITLE="Closest restaurant"/>';
+                            echo '<SELECT id="deliverytime" TITLE="Delivery Time" class="form-control"/>';
+                            echo '<OPTION>Deliver ASAP</OPTION>';
+                            echo '</SELECT>';
                         ?>
-                        <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook"
-                               maxlength="255"/>
+                        <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook" maxlength="255"/>
                     </div>
                     <div class="col-xs-12 mt-1">
                         <DIV class=" payment-errors" style="color:red;"></DIV>
                         <a class="btn btn-secondary" onclick="testcard();">Test</a>
                         <a class="btn btn-warning text-white pull-right" onclick="payfororder();">PLACE ORDER</a>
-                        <a class="btn btn-secondary-outlined pull-right" data-dismiss="modal"
-                           aria-label="Close">CANCEL</a>
+                        <a class="btn btn-secondary-outlined pull-right" data-dismiss="modal" aria-label="Close">CANCEL</a>
                         <DIV ID="form_integrity" style="color:red;"></DIV>
                     </div>
                     </FORM>
@@ -83,10 +79,23 @@
     //https://stripe.com/docs/custom-form
     var canplaceorder = false;
     @if(read("id"))
-    $(document).ready(function () {
-        getcloseststore = true;
-    });
+        $(document).ready(function () {
+            getcloseststore = true;
+            visible_address(false);
+
+            $("#saveaddresses").append('<OPTION VALUE="addaddress">[Add an address]</OPTION>');
+        });
     @endif
+
+    function visible_address(state){
+        if(state){
+            $("#formatted_address").show();
+            $("#add_unit").show();
+        } else {
+            $("#formatted_address").hide();
+            $("#add_unit").hide();
+        }
+    }
 
     <?php if (!islive()) {
         echo "Stripe.setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf'); //test";
