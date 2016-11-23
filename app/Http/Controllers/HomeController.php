@@ -138,7 +138,7 @@ class HomeController extends Controller {
 
                 if($error){
                     debugprint("Order ID: " .  $orderid . " - Stripe error: " . $error);
-                    return "";// The card has been declined
+                    return $error;// The card has been declined
                 }
             }
             return '<div CLASS="ordersuccess"></div>' . view("popups_receipt", array("orderid" => $orderid))->render();

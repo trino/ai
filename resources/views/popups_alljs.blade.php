@@ -628,14 +628,16 @@
                 phone: $("#reg_phone").val()
             }, function (result) {
                 $("#checkoutmodal").modal("hide");
-                handleresult(result, "Order Placed Successfully!");
                 if (result.contains("ordersuccess")) {
+                    handleresult(result, "Order Placed Successfully!");
                     userdetails["Orders"].unshift({
                         id: $("#receipt_id").text(),
                         placed_at: $("#receipt_placed_at").text(),
                         //Contents: $("#myorder").html()
                     });
                     clearorder();
+                } else {
+                    alert("Error:" . result, "Order was not placed!");
                 }
             });
         } else {

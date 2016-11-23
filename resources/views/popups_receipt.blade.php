@@ -165,7 +165,14 @@
                                     }
                                     $newtoppings = array();
                                     foreach($toppings as $topping){
-                                        $toppingkey = findkey($tables[$tablename], "id", $topping->id);
+                                        if(isset($topping->id)){//search by id
+                                            $id = $topping->id;
+                                            $toppingkey = findkey($tables[$tablename], "id", $topping->id);
+                                        } else {//search by name
+                                            $toppingkey = findkey($tables[$tablename], "name", $topping->text);
+                                            //$id = $tables[$tablename][$id]["id"];
+                                        }
+
                                         $topping = $tables[$tablename][$toppingkey];
                                         if($topping["isfree"]){
                                             $freetoppings++;
