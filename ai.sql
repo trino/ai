@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 13, 2016 at 08:21 PM
+-- Generation Time: Nov 23, 2016 at 03:53 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -202,7 +202,7 @@ INSERT INTO `menu` (`id`, `category_id`, `category`, `item`, `price`, `toppings`
 (11, 4, 'Wings', '3 Pound Wings', 17.99, 0, 3),
 (12, 4, 'Wings', '4 Pound Wings', 24.99, 0, 4),
 (13, 4, 'Wings', '5 Pound Wings', 28.99, 0, 5),
-(14, 5, 'Sides', 'Panzerotti', 5.99, 0, 0),
+(14, 5, 'Sides', 'Panzerotti', 5.99, 1, 0),
 (15, 5, 'Sides', 'Garlic Bread', 2.25, 0, 0),
 (16, 5, 'Sides', 'French Fries', 28.99, 0, 0),
 (17, 5, 'Sides', 'Potato Wedges', 3.99, 0, 0),
@@ -286,17 +286,26 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `status` tinyint(4) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=51 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=61 ;
 
 --
 -- Dumping data for table `orders`
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `placed_at`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `accepted_at`, `restaurant_id`, `type`, `payment_type`, `phone`, `cell`, `paid`, `stripeToken`, `deliverytime`, `cookingnotes`, `status`, `price`) VALUES
-(47, 1, '2016-11-13 23:52:15', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 0, 'tok_9YaFXoMuP7djGa', 'Deliver ASAP', '', 0, '0.00'),
 (48, 1, '2016-11-13 23:55:13', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9YaITlR2bCSCMi', 'Deliver ASAP', '', 0, '5.58'),
 (49, 1, '2016-11-13 23:56:11', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9YaJReaOaIQfzJ', 'Deliver ASAP', '', 0, '13.41'),
-(50, 1, '2016-11-13 23:56:33', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9YaKs02iFd4RPP', 'Deliver ASAP', '', 0, '12.18');
+(50, 1, '2016-11-13 23:56:33', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9YaKs02iFd4RPP', 'Deliver ASAP', '', 0, '12.18'),
+(51, 1, '2016-11-15 20:20:52', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9ZHI9ZJ3dAFrtf', 'Deliver ASAP', '', 0, '5.58'),
+(52, 1, '2016-11-16 21:01:44', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9ZfBQ6I6E5Nnoh', 'Deliver ASAP', '', 0, '18.94'),
+(53, 1, '2016-11-16 21:02:21', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9ZfBNuiXayjZG4', 'Deliver ASAP', '', 0, '21.24'),
+(54, 1, '2016-11-16 21:04:30', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9ZfEHxORrN40zk', 'Deliver ASAP', '', 0, '21.24'),
+(55, 1, '2016-11-17 06:18:04', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9Zo9lDC0JOqgdC', 'Deliver ASAP', '', 0, '23.85'),
+(56, 1, '2016-11-22 19:46:43', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9btKDie8B2rHdZ', 'Deliver ASAP', '', 0, '21.24'),
+(57, 1, '2016-11-22 19:47:47', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9btL04hP0jud3G', 'Deliver ASAP', '', 0, '26.84'),
+(58, 1, '2016-11-23 05:55:44', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 0, 'tok_9c39nkLMpQpMu8', 'Deliver ASAP', '', 0, '0.00'),
+(59, 1, '2016-11-23 05:57:05', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 0, 'tok_9c3AseQ2URjmEC', 'Deliver ASAP', '', 0, '0.00'),
+(60, 1, '2016-11-23 06:00:50', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 0, 'tok_9c3ExfE5LAZLkm', 'Deliver ASAP', '', 0, '18.79');
 
 -- --------------------------------------------------------
 
@@ -385,17 +394,19 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=33 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=40 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1479060075'),
-(20, 'orders', '1479063006'),
-(24, 'menucache', '1478095311'),
-(25, 'useraddresses', '1478971665');
+(1, 'lastSQL', '1479066194'),
+(20, 'orders', '1479345573'),
+(24, 'menucache', '1479345609'),
+(25, 'useraddresses', '1478971665'),
+(37, 'users', '1479345588'),
+(38, 'additional_toppings', '1479345609');
 
 -- --------------------------------------------------------
 
@@ -476,7 +487,7 @@ CREATE TABLE IF NOT EXISTS `useraddresses` (
   `longitude` varchar(16) NOT NULL,
   `phone` varchar(16) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=31 ;
 
 --
 -- Dumping data for table `useraddresses`
@@ -484,7 +495,9 @@ CREATE TABLE IF NOT EXISTS `useraddresses` (
 
 INSERT INTO `useraddresses` (`id`, `user_id`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `phone`) VALUES
 (1, 18, 1234, 'b@b.com', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', ''),
-(28, 1, 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '');
+(28, 1, 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', ''),
+(29, 20, 2396, '', '', 'Kingsway', 'V5R 5G9', 'Vancouver', 'British Columbia', '49.2408347', '-123.05659100000', ''),
+(30, 21, 0, '', '', '', '', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -514,14 +527,16 @@ CREATE TABLE IF NOT EXISTS `users` (
   `cc_addressid` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=20 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=22 ;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `phone`, `lastlogin`, `loginattempts`, `profiletype`, `authcode`, `cc_fname`, `cc_lname`, `cc_number`, `cc_xyear`, `cc_xmonth`, `cc_cc`, `cc_addressid`) VALUES
-(1, 'Roy Hodson', 'roy@trinoweb.com', '$2y$10$XqUn.RNhx0YbcZUQXWYP0eHIz0aLK8xX00cd.PLVRQsafF9Frod6K', '', '0000-00-00 00:00:00', '2016-10-26 18:22:14', '(905) 512-3067', 1478976317, 0, 1, '', 'eyJpdiI6Ikp2c3BNQjFONVhHSSsrZjhCQjJzV2c9PSIsInZhbHVlIjoiQ1puNVFJajUyMktKVlVGVXRnbDhLQT09IiwibWFjIjoiODZlODNlMzZlNWZlYTE5NmEyZGFkOGExZjY0ZmZkMDI1YTY5MjcwZDM3N2Y3ZTdjNmUxMDNjYTQ0ZTk2ZDljNiJ9', 'eyJpdiI6IjhKMEUrVmtpcXBnVlhuVzdXTk5vQ2c9PSIsInZhbHVlIjoiQ3N1bFVsQ2NLa1Y0SlFHNXpQU3JJQT09IiwibWFjIjoiOGZmMzc2MjJiYmE4YTYwZmJmMmY5YWNhMTFlNWE1MzgxM2E4OWEyZWYxZTQ2ZGFiOTI2YzRjYmUwMzUzYmJmYiJ9', 'eyJpdiI6ImlQWW81VTFFNGRpVVNFaytUZHcwWmc9PSIsInZhbHVlIjoiZExvajhPWjN1Y09lMEFWWGx0SHQxNjFsdG5Ea3BlcWdIenVtZ0J6Z0Facz0iLCJtYWMiOiI4MjBhMzNjZTE5OGUzYTYxZjM4NGRhYjM1MzgwMjMwNzUyODI3MDFmNGI1MzE3NjY4YTBiZjAzOTE0NTJjZDNiIn0=', 'eyJpdiI6IllIN3EyNFpJMzgxSEJSeTF4dEU2YkE9PSIsInZhbHVlIjoiWWQ5YTdpeldKdkROWjRndWRRcWRaUT09IiwibWFjIjoiZWU3MGVmZDNiNGZjMDY1NmVlNTg4MzY5MDcwNTA1YzE0MGRlNjhlODgzMmMzZTU0ZjFiNDQ1ZTFhOTFjM2IwNCJ9', 'eyJpdiI6IjZxMkVWZjBVNWdpUGx0Z013eG9Db1E9PSIsInZhbHVlIjoic1wvaWN3SzFjNXcyc1wvZGIzYUpvVXJ3PT0iLCJtYWMiOiJhZDZhOWI3NzRhZWVlNTNmMmRkODc1YWM4MjU4MDYyYzQwNWNkMzczZTllODBhYTExZWEwMTM5NjEwYjRkYmQ2In0=', 'eyJpdiI6InFDd3lFaHEwMFwveURuaGlKeTNNM2JRPT0iLCJ2YWx1ZSI6InEzVW1CXC9aOUo3TnF3cm53Mkdka2VRPT0iLCJtYWMiOiI4YTcyZGVhN2YxM2Y0ZTI1ZmY5NGJjNzY2MzhlOTU2ZDE0NTc1MTA1YWVhZmNiYWE1MTZkNTE2ZTNlOTgwMTU0In0=', 1);
+(1, 'Roy Hodson', 'roy@trinoweb.com', '$2y$10$XqUn.RNhx0YbcZUQXWYP0eHIz0aLK8xX00cd.PLVRQsafF9Frod6K', '', '0000-00-00 00:00:00', '2016-10-26 18:22:14', '(905) 512-3067', 1479912217, 6, 1, '', 'eyJpdiI6Ikp2c3BNQjFONVhHSSsrZjhCQjJzV2c9PSIsInZhbHVlIjoiQ1puNVFJajUyMktKVlVGVXRnbDhLQT09IiwibWFjIjoiODZlODNlMzZlNWZlYTE5NmEyZGFkOGExZjY0ZmZkMDI1YTY5MjcwZDM3N2Y3ZTdjNmUxMDNjYTQ0ZTk2ZDljNiJ9', 'eyJpdiI6IjhKMEUrVmtpcXBnVlhuVzdXTk5vQ2c9PSIsInZhbHVlIjoiQ3N1bFVsQ2NLa1Y0SlFHNXpQU3JJQT09IiwibWFjIjoiOGZmMzc2MjJiYmE4YTYwZmJmMmY5YWNhMTFlNWE1MzgxM2E4OWEyZWYxZTQ2ZGFiOTI2YzRjYmUwMzUzYmJmYiJ9', 'eyJpdiI6ImlQWW81VTFFNGRpVVNFaytUZHcwWmc9PSIsInZhbHVlIjoiZExvajhPWjN1Y09lMEFWWGx0SHQxNjFsdG5Ea3BlcWdIenVtZ0J6Z0Facz0iLCJtYWMiOiI4MjBhMzNjZTE5OGUzYTYxZjM4NGRhYjM1MzgwMjMwNzUyODI3MDFmNGI1MzE3NjY4YTBiZjAzOTE0NTJjZDNiIn0=', 'eyJpdiI6IllIN3EyNFpJMzgxSEJSeTF4dEU2YkE9PSIsInZhbHVlIjoiWWQ5YTdpeldKdkROWjRndWRRcWRaUT09IiwibWFjIjoiZWU3MGVmZDNiNGZjMDY1NmVlNTg4MzY5MDcwNTA1YzE0MGRlNjhlODgzMmMzZTU0ZjFiNDQ1ZTFhOTFjM2IwNCJ9', 'eyJpdiI6IjZxMkVWZjBVNWdpUGx0Z013eG9Db1E9PSIsInZhbHVlIjoic1wvaWN3SzFjNXcyc1wvZGIzYUpvVXJ3PT0iLCJtYWMiOiJhZDZhOWI3NzRhZWVlNTNmMmRkODc1YWM4MjU4MDYyYzQwNWNkMzczZTllODBhYTExZWEwMTM5NjEwYjRkYmQ2In0=', 'eyJpdiI6InFDd3lFaHEwMFwveURuaGlKeTNNM2JRPT0iLCJ2YWx1ZSI6InEzVW1CXC9aOUo3TnF3cm53Mkdka2VRPT0iLCJtYWMiOiI4YTcyZGVhN2YxM2Y0ZTI1ZmY5NGJjNzY2MzhlOTU2ZDE0NTc1MTA1YWVhZmNiYWE1MTZkNTE2ZTNlOTgwMTU0In0=', 1),
+(20, 'no', 'roy+tesy@trinoweb.com', '$2y$10$1QkddId8cIcydMdVOcLfTua0ecrLCJYdgGa5egg7Qt.0STsZCGYB6', '', '2016-11-16 20:20:28', '0000-00-00 00:00:00', '', 0, 0, 0, '', '', '', '', '', '', '', 0),
+(21, 'Jonas Morse', 'dezutabe@EMAILHOSTNAME.COM', '$2y$10$T6ExVSHGkiJOucU9YlIP1eVzNL1rE8LS8KuUqrduLDLpehytDKsXG', '', '2016-11-16 20:49:31', '0000-00-00 00:00:00', '', 0, 0, 0, '', '', '', '', '', '', '', 0);
 
 -- --------------------------------------------------------
 

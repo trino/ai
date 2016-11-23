@@ -548,4 +548,29 @@ function gethours($RestaurantID = -1){
     }
     return $ret;
 }
+
+function GenerateTime($time = ""){
+    if(!$time){$time = date("Gi");}
+    $minutes = $time % 100;
+    $thehours = floor($time / 100);
+    $hoursAMPM = $thehours % 12;
+    if ($hoursAMPM == 0) {$hoursAMPM = 12;}
+    $tempstr = $hoursAMPM + ":";
+    if ($minutes < 10) {
+        $tempstr += "0" + $minutes;
+    } else {
+        $tempstr += $minutes;
+    }
+    $extra = "";
+    if ($time == 0) {
+        $extra = " (Midnight)";
+    } else if ($time == 1200) {
+        $extra = " (Noon)";
+    }
+    if ($time < 1200) {
+        return $tempstr + " AM" + $extra;
+    } else {
+        return $tempstr + " PM" + $extra;
+    }
+}
 ?>

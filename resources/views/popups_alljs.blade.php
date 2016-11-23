@@ -841,8 +841,7 @@
                 title = arguments[1];
             }
             $("#alert-cancel").hide();
-            $("#alert-ok").click(function () {
-            });
+            $("#alert-ok").click(function () {});
 
             $("#alertmodalbody").html(arguments[0]);
             $("#alertmodallabel").text(title);

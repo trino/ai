@@ -219,11 +219,9 @@ if($style == 1){
                     if (result) {
                         try {
                             var data = JSON.parse(result);
-                            //alert(data["Reason"], "Registration");
-                            $("#loginpanel").text(data["Reason"]);
+                            alert(data["Reason"], "Registration");
                         } catch (e) {
-                            //alert(result, "Registration");
-                            $("#loginpanel").text(result);
+                            alert(result, "Registration");
                         }
                     }
                 });

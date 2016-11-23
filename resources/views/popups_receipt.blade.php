@@ -32,7 +32,7 @@
         <TR><TD>Ordered On:</TD><TD ID="receipt_placed_at"><?= verbosedate($Order["placed_at"]); ?></TD></TR>
         <TR><TD>Status: </TD><TD><?= $Status; ?></TD></TR>
         @if($Order["deliverytime"])
-            <TR><TD>Delivery for:</TD><TD><?= now(false, $Order["deliverytime"]); ?></TD></TR>
+            <TR><TD>Delivery for:</TD><TD><?= GenerateTime(now(false, $Order["deliverytime"])); ?></TD></TR>
         @endif
         @if(!isset($JSON))
             <TR><TD COLSPAN="2">
