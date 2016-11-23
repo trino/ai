@@ -694,6 +694,9 @@
                 HTML += '<li class="list-group-item" ONCLICK="orders(' + ID + ');"><span class="tag tag-default tag-pill pull-xs-right">ID: ' + ID + '</span>' + order["placed_at"] + '<SPAN ID="pastreceipt' + ID + '"></SPAN></li>';
             }
             HTML += '</ul><P><DIV ID="pastreceipt" CLASS="pastreceipt"></DIV><P>';
+            if (!First) {
+                HTML = "No orders placed yet";
+            }
             alert(HTML, "Orders");
             if (First) {
                 orders(First);
@@ -772,7 +775,7 @@
 
     function handlelogin(action){
         if(isUndefined(action)){action="verify";}
-        if(!$("#login_email").val()){
+        if(!$("#login_email").val() && action !== "logout"){
             alert("Please enter an email address");
             return;
         }

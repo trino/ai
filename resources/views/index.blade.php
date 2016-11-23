@@ -10,10 +10,19 @@
     <div class="row">
         <div class="col-md-8">
             <?php
-                //phpinfo();
                 if (islive()) {
-                    $allowedIPs = array("24.36.153.107", "45.58.85.42", "38.121.83.92", "216.165.195.31", "24.36.134.113", "184.151.178.135");
-                    if (!in_array($_SERVER["REMOTE_ADDR"], $allowedIPs)) {
+                    function like_match($pattern, $subject) {
+                        $pattern = str_replace('%', '.*', preg_quote($pattern, '/'));
+                        return (bool) preg_match("/^{$pattern}$/i", $subject);
+                    }
+                    $allowedIPs = array("24.36.%.%", "216.165.%.%", "45.58.85.42", "38.121.83.92", "184.151.178.135");
+                    $found = false;
+                    foreach($allowedIPs as $pattern){
+                        if(like_match($pattern, $_SERVER["REMOTE_ADDR"])){
+                            $found = true;
+                        }
+                    }
+                    if (!$found) {
                         die("IP " . $_SERVER["REMOTE_ADDR"] . " not recognized");
                     }
                 }

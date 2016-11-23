@@ -81,9 +81,10 @@ class HomeController extends Controller {
             file_put_contents($dir . "/" . $orderid . ".json", json_encode($order, JSON_PRETTY_PRINT));
             $user = first("SELECT * FROM users WHERE id = " . $info["user_id"]);
             if($user["name"] != $_POST["name"] || $user["phone"] != $_POST["phone"]){
+                if(!isset($user["id"])) {$user["id"] == $info["user_id"];}
                 $user["name"] = $_POST["name"];
                 $user["phone"] = $_POST["phone"];
-                insertdb("users", $user);
+                //insertdb("users", $user);
             }
             $user["orderid"] = $orderid;
             $user["mail_subject"] = "Receipt";
