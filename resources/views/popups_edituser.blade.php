@@ -74,9 +74,7 @@
             _token: token,
             value: formdata
         }, function (result) {
-            if (result) {
-                alert(result);
-            }
+            //if (result) {alert(result);}
         });
         return false;
     }

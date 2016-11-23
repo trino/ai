@@ -772,6 +772,10 @@
 
     function handlelogin(action){
         if(isUndefined(action)){action="verify";}
+        if(!$("#login_email").val()){
+            alert("Please enter an email address");
+            return;
+        }
         $.post(webroot + "auth/login", {
             action: action,
             _token: token,
@@ -1216,7 +1220,7 @@
 
                 <h4 class="modal-title" id="alertmodallabel">Title</h4>
 
-                <DIV ID="alertmodalbody"></DIV>
+                <DIV ID="alertmodalbody" STYLE="margin-top: 5px;"></DIV>
 
                 <DIV CLASS="pb-1"></DIV>
                 <div class="btn-group" role="group" aria-label="Basic example" style="width: 100%">

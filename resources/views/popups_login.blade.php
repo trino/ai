@@ -90,7 +90,7 @@ if($style == 1){
 
                         <ul class="nav nav-tabs mb-1" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" href="#profile" role="tab" data-toggle="tab">Login</a>
+                                <a class="nav-link active" href="#profile" role="tab" data-toggle="tab" id="logintab">Login</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#buzz" role="tab" data-toggle="tab">Signup</a>
@@ -109,8 +109,7 @@ if($style == 1){
 
                                 <div class="pb-1 clearfix"></div>
                                 <BUTTON CLASS="btn btn-primary pull-right" onclick="handlelogin('login');">Log In</BUTTON>
-                                <BUTTON CLASS="btn btn-link text-muted pull-left" onclick="handlelogin('forgotpassword');">Forgot Password
-                                </BUTTON>
+                                <BUTTON CLASS="btn btn-link text-muted pull-left" onclick="handlelogin('forgotpassword');">Forgot Password</BUTTON>
                             </div>
 
                             <div role="tabpanel" class="tab-pane fade" id="buzz">
@@ -219,7 +218,11 @@ if($style == 1){
                     if (result) {
                         try {
                             var data = JSON.parse(result);
-                            alert(data["Reason"], "Registration");
+                            //alert(data["Reason"], "Registration");
+                            $("#logintab").trigger("click");
+                            $("#login_email").val(formdata["email"]);
+                            $("#login_password").val(formdata["password"]);
+                            handlelogin('login');
                         } catch (e) {
                             alert(result, "Registration");
                         }
