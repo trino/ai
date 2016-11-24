@@ -98,7 +98,7 @@
             if(currentstyle == 0){
                 HTML += '<DIV CLASS="addon-type">' + type + '</DIV>';
             } else {
-                HTML += '<li class="nav-item"><a class="nav-link" href="#' + toclassname(type) + '">' + type + '</a></li></DIV>';
+                HTML += '<li class="nav-item"><a class="btn-warning btn" href="#' + toclassname(type) + '">' + type + '</a></li></DIV>';
             }
         }
         if(currentstyle == 0){
@@ -225,7 +225,7 @@
     }
 
     function generateaddons(){
-        var HTML = '<DIV CLASS="col-md-12">';
+        var HTML = '<DIV CLASS="">';
         var free = ' <SPAN class="free" TITLE="Free addons">$</SPAN> ';
         var columns = 3, addonname = "";
         if(hashalves && currentstyle == 0){
@@ -243,7 +243,7 @@
         for(var itemindex=0; itemindex<currentaddonlist.length; itemindex++){
             var freetoppings = 0;
             var paidtoppings = 0;
-            HTML += '<DIV ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="col-md-12 currentitem cursor-pointer currentitem' + itemindex;
+            HTML += '<DIV ONCLICK="selectitem(event, ' + itemindex + ');" CLASS=" currentitem cursor-pointer currentitem' + itemindex;
             if(currentitemindex == itemindex) {HTML += ' thisside';}
             HTML += '">' + currentitemname + ' #: ' + (itemindex+1);//<TD COLSPAN="' + columns + '">
             var classname = 'itemcontents itemcontents' + itemindex;

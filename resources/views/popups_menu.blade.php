@@ -97,7 +97,7 @@
                 $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
         ?>
 
-        <div class="card" style="border:0 !important;margin:.5rem;">
+        <div class="">
 
             <a class=" head_{{ $catclass }}" data-toggle="collapse" href="#collapse{{$category["id"]}}_cat">
                 <h5 class="text-danger ">{{$category['category']}}</h5>
@@ -107,8 +107,8 @@
 
                 @foreach ($menuitems as $menuitem)
 
-                    <li style=";padding:5px !important;"
-                            class="list-group-item pa-0 list-group-item-action item_{{ $catclass }}"
+                    <li
+                            class="list-group-item item_{{ $catclass }}"
                             itemid="{{$menuitem["id"]}}"
                             itemname="{{$menuitem['item']}}"
                             itemprice="{{$menuitem['price']}}"
@@ -133,7 +133,7 @@
                         }
                     ?>
                     <!-- why is this div required? -->
-                        <div style="font-size: 1rem !important;">
+                        <div>
                             <a <?= $HTML; ?>>
                                 <DIV CLASS="pull-left sprite sprite-<?= $imagefile; ?> sprite-medium"></DIV>
                                 <span class="pull-left itemname">{{$menuitem['item']}} </span><br>
@@ -178,38 +178,13 @@
                     <SPAN ID="modal-itemcat"></SPAN>
                 </div>
 
-                <!--ul class="list-group">
-                    <div ID="modal-wings-original">
-                        <select class="form-control select2 wings_sauce" multiple="multiple" data-placeholder="1st Pound" type="wings_sauce">
-                            <option value="blank"></option>
-                            <?= $wings_display; ?>
-                            <optgroup label="Options">
-                                <option value="AZ">Well Done</option>
-                                <option value="CO">Lightly Done</option>
-                            </optgroup>
-                        </select>
-                    </div>
-                    <div ID="modal-wings-clones"></div>
 
-                    <div ID="modal-toppings-original">
-                        <div ID="modal-toppings-original-ordinal">1st Pizza</div>
-                        <select style="border: 0 !important;" class="form-control select2 toppings" data-placeholder="Add Toppings: $[price]" multiple="multiple" type="toppings">
-                            <?= $toppings_display; ?>
-                            <optgroup label="Options">
-                                <option value="AZ">Well Done</option>
-                                <option value="CO">Lightly Done</option>
-                            </optgroup>
-                        </select>
-                    </div>
-                    <div ID="modal-toppings-clones"></div>
-                </ul-->
-
-                <div class="row">
+                <div class="row bg-danger">
                     <DIV ID="addonlist" class="addonlist"></DIV>
                 </div>
 
                 <div class="btn-group" role="group" aria-label="Basic example" style="width: 100%">
-                    <button style="width: 50%" class="btn btn-secondary" data-dismiss="modal">
+                    <button style="width: 50%" class="btn btn-link" data-dismiss="modal">
                         CANCEL
                     </button>
 
