@@ -107,7 +107,7 @@
 
                 @foreach ($menuitems as $menuitem)
 
-                    <li style="border:0 !important;padding:1px !important;margin-top:5px;"
+                    <li style=";padding:5px !important;"
                             class="list-group-item pa-0 list-group-item-action item_{{ $catclass }}"
                             itemid="{{$menuitem["id"]}}"
                             itemname="{{$menuitem['item']}}"
@@ -133,14 +133,13 @@
                         }
                     ?>
                     <!-- why is this div required? -->
-                        <div style="font-size: 1rem !important;background: #fafafa;">
+                        <div style="font-size: 1rem !important;">
                             <a <?= $HTML; ?>>
                                 <DIV CLASS="pull-left sprite sprite-<?= $imagefile; ?> sprite-medium"></DIV>
-                                <span class="pull-left itemname">{{$menuitem['item']}}</span>
-<br>
-                                <span class="pull-left text-muted"> ${{number_format($menuitem["price"], 2)}}
-                                    <?= $icon; ?>
-                                    </span>
+                                <span class="pull-left itemname">{{$menuitem['item']}} </span><br>
+                                <span class="pull-left text-muted itemname"> ${{number_format($menuitem["price"], 2)}}  <?= $icon; ?></span>
+
+
                                 <div class="clearfix"></div>
                             </a>
                         </div>
