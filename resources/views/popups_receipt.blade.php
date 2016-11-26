@@ -27,7 +27,7 @@
     $Status = $Status[$Order["status"]];
 ?>
 @if($style==1)
-    <TABLE>
+    <TABLE class="table table-sm table-bordered ">
         <TR><TD>Order #: </TD><TD ID="receipt_id"><?= $orderid; ?></TD></TR>
         <TR><TD>Ordered On:</TD><TD ID="receipt_placed_at"><?= verbosedate($Order["placed_at"]); ?></TD></TR>
         <TR><TD>Status: </TD><TD><?= $Status; ?></TD></TR>
@@ -41,7 +41,7 @@
         @endif
     </TABLE>
 
-    <TABLE WIDTH="100%" class="table table-sm table-bordered">
+    <TABLE WIDTH="100%" class="table table-inverse  table-sm bg-danger table-bordered table-responsive">
         <THEAD>
             <TR>
                 <TH>#</TH>

@@ -6,11 +6,20 @@ input[type="text"], input[type="date"], input[type="email"], input[type="tel"], 
 
 }
 
+.btn-sm {
+    padding: .1rem !important;
+    font-size:.9rem !important;
+}
+
 .modal-backdrop {
     opacity: .6 !important;
     background-color: black;
 }
-*{border-radius: 0 !important;}
+
+* {
+
+}
+
 body {
     animation: fadein 1s;
     -moz-animation: fadein 1s; /* Firefox */
@@ -40,8 +49,6 @@ select {
     appearance: none;
     padding: 0px;
 }
-
-
 
 @media screen and (max-width: 700px) {
     .col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5,

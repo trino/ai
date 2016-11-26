@@ -50,9 +50,9 @@
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     function list_addons(table, halves) {
         currentaddontype = table;
-        var HTML = '<DIV style="height:200px;"><DIV id="theaddons"></DIV></DIV>';
+        var HTML = '<DIV style="height:150px;" class=""><DIV id="theaddons"></DIV></DIV>';
         if (currentstyle == 0) {
-            HTML += '<DIV CLASS=" addonlist" ID="addontypes">';
+            HTML += '<DIV CLASS="bg-danger addonlist" ID="addontypes">';
         } else {
             HTML += '';
         }

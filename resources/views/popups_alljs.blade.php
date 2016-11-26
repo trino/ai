@@ -1227,7 +1227,7 @@
                     <i class="fa fa-close"></i>
                 </button>
 
-                <h4 class="modal-title" id="alertmodallabel">Title</h4>
+                <h5 class="modal-title" id="alertmodallabel">Title</h5>
 
                 <DIV ID="alertmodalbody" STYLE="margin-top: 5px;"></DIV>
 

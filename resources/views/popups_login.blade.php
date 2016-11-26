@@ -53,7 +53,7 @@ if($style == 1){
                     <i class="fa fa-close"></i>
                 </button>
                 <div>
-                    <h4 class="modal-title" id="myModalLabel">Register</h4>
+                    <h5 class="modal-title" id="myModalLabel">Register</h5>
                 </div>
                 <FORM Name="regform" id="regform">
                     <?= view("popups_edituser")->render(); ?>

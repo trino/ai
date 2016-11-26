@@ -16,7 +16,7 @@
                         return (bool) preg_match("/^{$pattern}$/i", $subject);
                     }
                     $allowedIPs = array("24.36.%.%", "216.165.%.%", "45.58.85.42", "38.121.83.92", "184.151.178.135");
-                    $found = false;
+                    $found = true;
                     foreach($allowedIPs as $pattern){
                         if(like_match($pattern, $_SERVER["REMOTE_ADDR"])){
                             $found = true;
@@ -43,7 +43,7 @@
                 }
                 ?>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 mt-2" style="padding: 0 !important;">
 
 
             <div class="card text-white bg-danger " style="margin: 0 !important;border-radius: 0 !important;">
@@ -66,7 +66,7 @@
                     <div ID="checkoutbutton"></div>
 
 
-                    <div id="checkout-btn" class="row  my-1">
+                    <div id="checkout-btn" class="row  mt-1 mb-3">
                         <div class="col-md-12">
                             <button class="btn btn-warning pull-left" onclick="showcheckout();">
                                 CHECKOUT

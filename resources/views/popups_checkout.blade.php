@@ -5,7 +5,7 @@
             <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i class="fa fa-close"></i></button>
-                <h4 id="myModalLabel">Checkout </h4>
+                <h5 id="myModalLabel">Checkout </h5>
                 <div class="row">
                     <div class="col-sm-6">
                         <FORM ID="orderinfo" name="orderinfo">

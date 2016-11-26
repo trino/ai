@@ -165,10 +165,10 @@
                     <i class="fa fa-close"></i></button>
 
 
-                <h4 id="myModalLabel">
+                <h5 id="myModalLabel">
 
                     <SPAN ID="modal-itemname"></SPAN> $<SPAN ID="modal-itemprice"></SPAN>
-                </h4>
+                </h5>
                 <div class="mt-1"></div>
 
                 <div style="display: none;" id="modal-hiddendata">
@@ -179,8 +179,10 @@
                 </div>
 
 
-                <div class="row col-xs-12">
+                <div class="row">
+                <div class=" col-xs-12">
                     <DIV ID="addonlist" class="addonlist"></DIV>
+                </div>
                 </div>
 
                 <div class="btn-group" role="group" aria-label="Basic example" style="width: 100%">
