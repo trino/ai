@@ -63,9 +63,9 @@
                     </div>
                     <div class="col-xs-12 mt-1">
                         <DIV class=" payment-errors" style="color:red;"></DIV>
-                        <a class="btn btn-secondary" onclick="testcard();">Test</a>
-                        <button class="btn btn-danger ml-1 pull-right" onclick="payfororder();">PLACE ORDER</button>
-                        <button class="btn btn-secondary pull-right" data-dismiss="modal" aria-label="Close">CANCEL</button>
+                        <a class="btn btn-link" onclick="testcard();">Test</a>
+                        <a class="btn btn-warning text-white pull-right" onclick="payfororder();">PLACE ORDER</a>
+                        <a class="btn btn-link-outlined pull-right" data-dismiss="modal" aria-label="Close">CANCEL</a>
                         <DIV ID="form_integrity" style="color:red;"></DIV>
                     </div>
                     </FORM>

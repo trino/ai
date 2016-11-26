@@ -1,5 +1,6 @@
 <div class="">
-    <div class="">
+    <div class="card-columns">
+
         <?php
             $tables = array("toppings", "wings_sauce");
             $qualifiers = array("DEFAULT" => array("1/2", "1x", "2x", "3x"));
@@ -96,7 +97,7 @@
                 $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
         ?>
 
-        <div class="clearfix">
+        <div class="">
 
             <a class=" head_{{ $catclass }}" data-toggle="collapse" href="#collapse{{$category["id"]}}_cat">
                 <h5 class="text-danger ">{{$category['category']}}</h5>
@@ -107,7 +108,7 @@
                 @foreach ($menuitems as $menuitem)
 
                     <li style="padding: 5px 1px !important;"
-                            class="list-group-item col-xs-6 item_{{ $catclass }}"
+                            class="list-group-item item_{{ $catclass }}"
                             itemid="{{$menuitem["id"]}}"
                             itemname="{{$menuitem['item']}}"
                             itemprice="{{$menuitem['price']}}"
@@ -163,6 +164,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i class="fa fa-close"></i></button>
 
+
                 <h4 id="myModalLabel">
 
                     <SPAN ID="modal-itemname"></SPAN> $<SPAN ID="modal-itemprice"></SPAN>
@@ -176,14 +178,13 @@
                     <SPAN ID="modal-itemcat"></SPAN>
                 </div>
 
+
                 <div class="row">
-                <div class="col-xs-12">
                     <DIV ID="addonlist" class="addonlist"></DIV>
-                </div>
                 </div>
 
                 <div class="btn-group" role="group" aria-label="Basic example" style="width: 100%">
-                    <button style="width: 50%" class="btn btn-secondary" data-dismiss="modal">
+                    <button style="width: 50%" class="btn btn-link" data-dismiss="modal">
                         CANCEL
                     </button>
 
@@ -198,7 +199,6 @@
         </div>
     </div>
 </div>
-
 <!-- end order menu item Modal -->
 
 <script>

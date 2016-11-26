@@ -109,7 +109,7 @@ if($style == 1){
 
                                 <div class="pb-1 clearfix"></div>
                                 <BUTTON CLASS="btn btn-primary pull-right" onclick="handlelogin('login');">Log In</BUTTON>
-                                <BUTTON CLASS="btn btn-secondary text-muted pull-left" onclick="handlelogin('forgotpassword');">Forgot Password</BUTTON>
+                                <BUTTON CLASS="btn btn-link text-muted pull-left" onclick="handlelogin('forgotpassword');">Forgot Password</BUTTON>
                             </div>
 
                             <div role="tabpanel" class="tab-pane fade" id="buzz">

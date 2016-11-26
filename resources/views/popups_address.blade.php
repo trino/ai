@@ -35,7 +35,7 @@
                 title="Edit the addresses saved to your profile">
             EDIT ADDRESSES
         </button>
-        <button ID="saveaddressbtn" CLASS="form-control btn btn-secondary btn-sm" disabled onclick="deleteaddress(-2);"
+        <button ID="saveaddressbtn" CLASS="form-control btn btn-link btn-sm" disabled onclick="deleteaddress(-2);"
                 title="Save this address to your profile">
             SAVE ADDRESS
         </button>
