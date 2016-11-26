@@ -53,22 +53,23 @@
             @yield('content')
         </div>
 
-        <div class="container mt-1 ">
+
+        @if(!islive())
+        <div class="container mt-1 " style="display: none">
             <button class="btn btn-danger  pull-left" onclick="window.scrollTo(0,document.body.scrollHeight);">
-                <span id="navbar-text"></span>
+                <span id="navbar-text" ></span>
             </button>
 
-            @if(!islive())
-                <LABEL STYLE="margin-top: 7px; margin-left: 7px;">
-                    <INPUT TYPE="checkbox" onclick="checkblock(event);" id="blockleaving">block leaving
-                </LABEL>
-            @endif
-        </div>
 
+                <!--LABEL STYLE="margin-top: 7px; margin-left: 7px;">
+                    <INPUT TYPE="checkbox" onclick="checkblock(event);" id="blockleaving">block leaving
+                </LABEL-->
+
+        </div>
+        @endif
         <?= view("popups_sticky_footer")->render(); ?>
 
         <div class="modal loading" ID="loadingmodal"></div>
-        <SPAN ID="navbar-text"></SPAN>
     </body>
 
     <script type="text/javascript">
