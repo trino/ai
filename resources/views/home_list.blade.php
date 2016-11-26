@@ -286,7 +286,7 @@
                                                 switch($table){
                                                     case "useraddresses":
                                                         echo '<A ONCLICK="saveaddress(0);" CLASS="btn btn-sm btn-primary">New</A> ';
-                                                        echo '<A ONCLICK="saveaddress(selecteditem);" CLASS="btn btn-sm  btn-link waves-effect" id="saveaddress" DISABLED>Save</A>';
+                                                        echo '<A ONCLICK="saveaddress(selecteditem);" CLASS="btn btn-sm  btn-secondary waves-effect" id="saveaddress" DISABLED>Save</A>';
                                                         echo view("popups_address", $_GET)->render();
                                                         break;
                                                     case "restaurants":
@@ -387,7 +387,7 @@
                                         switch(table){
                                             case "users":
                                                 tempHTML += '<A CLASS="btn btn-sm btn-primary" href="' + baseURL + 'useraddresses?user_id=' + ID + '">Addresses</A> ';
-                                                tempHTML += '<A CLASS="btn btn-sm  btn-link waves-effect" href="{{ webroot("public/user/info/") }}' + ID + '">Edit</A> ';
+                                                tempHTML += '<A CLASS="btn btn-sm  btn-secondary waves-effect" href="{{ webroot("public/user/info/") }}' + ID + '">Edit</A> ';
                                                 tempHTML += '<A CLASS="btn btn-sm btn-warning" ONCLICK="changepass(' + ID + ');" TITLE="Change their password">Password</A> ';
                                                 break;
                                             case "useraddresses":

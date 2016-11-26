@@ -71,7 +71,7 @@
                                         </UL>
                                         <button class="btn btn-block btn-warning" onclick="$('.newitembtn').trigger('click');">New</button>
                                         <button ID="savechanges" class="btn btn-block btn-primary changes" style="display:none;" onclick="savechanges();">Save Changes</button>
-                                        <button ID="discardchanges" class="btn btn-block  btn-link waves-effect changes" style="display:none;" onclick="discard(false);">Discard Changes</button>
+                                        <button ID="discardchanges" class="btn btn-block  btn-secondary waves-effect changes" style="display:none;" onclick="discard(false);">Discard Changes</button>
                                     </div>
                                 </DIV>
                                 <?php
