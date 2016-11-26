@@ -1,5 +1,5 @@
 <div class="">
-    <div class="card-columns">
+    <div class="">
 
         <?php
             $tables = array("toppings", "wings_sauce");
@@ -97,18 +97,18 @@
                 $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
         ?>
 
-        <div class="">
+        <div class="clearfix">
 
             <a class=" head_{{ $catclass }}" data-toggle="collapse" href="#collapse{{$category["id"]}}_cat">
                 <h5 class="text-danger ">{{$category['category']}}</h5>
             </a>
 
-            <ul class="list-group collapse in" id="collapse{{$category['id']}}_cat">
+            <div class=" collapse in" id="collapse{{$category['id']}}_cat">
 
                 @foreach ($menuitems as $menuitem)
 
-                    <li style="padding: 5px 1px !important;"
-                            class="list-group-item item_{{ $catclass }}"
+                    <div
+                            class=" col-xs-6 col-sm-3 btn btn-secondary  btn-sm item_{{ $catclass }}"
                             itemid="{{$menuitem["id"]}}"
                             itemname="{{$menuitem['item']}}"
                             itemprice="{{$menuitem['price']}}"
@@ -133,7 +133,7 @@
                         }
                     ?>
                     <!-- why is this div required? -->
-                        <div style="font-size: .85rem !important;">
+                        <div>
                             <a <?= $HTML; ?>>
                                 <DIV CLASS="pull-left sprite sprite-<?= $imagefile; ?> sprite-medium"></DIV>
                                 <span class="pull-left itemname">{{$menuitem['item']}} </span><br>
@@ -143,9 +143,9 @@
                                 <div class="clearfix"></div>
                             </a>
                         </div>
-                    </li>
+                    </div>
                 @endforeach
-            </ul>
+            </div>
         </div>
         <?
         $a++;
@@ -179,12 +179,12 @@
                 </div>
 
 
-                <div class="row">
+                <div class="row col-xs-12">
                     <DIV ID="addonlist" class="addonlist"></DIV>
                 </div>
 
                 <div class="btn-group" role="group" aria-label="Basic example" style="width: 100%">
-                    <button style="width: 50%" class="btn btn-link" data-dismiss="modal">
+                    <button style="width: 50%" class="btn btn-secondary" data-dismiss="modal">
                         CANCEL
                     </button>
 

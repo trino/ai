@@ -2,7 +2,7 @@
 
 
     <button class="btn bg-danger text-white pull-right" onclick="window.scrollTo(0,document.body.scrollHeight);">
-        Total <strong id="checkout-total"></strong>
+        <strong id="checkout-total"></strong>
     </button>
 
 

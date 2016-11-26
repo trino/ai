@@ -1233,10 +1233,10 @@
 
                 <DIV CLASS="pb-1"></DIV>
                 <div class="btn-group" role="group" aria-label="Basic example" style="width: 100%">
-                    <button class="btn btn-link" style="width: 50%" id="alert-cancel" data-dismiss="modal">
+                    <button class="btn btn-secondary" style="width: 50%" id="alert-cancel" data-dismiss="modal">
                         Cancel
                     </button>
-                    <button class="btn btn-link" style="width: 50%"   id="alert-confirm" data-dismiss="modal">
+                    <button class="btn btn-secondary" style="width: 50%"   id="alert-confirm" data-dismiss="modal">
                         OK
                     </button>
                 </div>

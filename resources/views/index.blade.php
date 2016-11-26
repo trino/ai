@@ -77,7 +77,11 @@
             </div>
 
             @include("popups_checkout")
+
+
             <?= view("popups_toppings"); ?>
+
+
         </div>
     </div>
     @include("popups_editprofile_modal")
