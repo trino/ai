@@ -1,12 +1,17 @@
 <STYLE>
-    .addon-selected {
+    .addon-selected,.thisside {
         border: 1px solid black;
-        background-color: lightblue;
+        background-color: #dadada !important;
     }
     .addon-selected::before, .currentitem.thisside::before {
         font-family: FontAwesome;
         content: "\f0da  ";
     }
+
+
+
+
+
     .free {
         background: url('<?= webroot("resources/views"); ?>/circle.gif') no-repeat 0px 1px;
         padding-left: 4px;
@@ -63,15 +68,15 @@
             $("#addonlist").html(HTML + '</DIV>');
         } else {
             HTML += '</ul></nav>';
-            var colors = ["danger", "success", "warning", "info", "primary"];
+            var colors = ["warning", "warning", "warning", "warning", "warning"];
             for (var i = 0; i < types.length; i++) {
                 var type = types[i];
-                HTML += '<br><div class="btn btn-sm" id="' + toclassname(type) + '">' + type + '</div>';
+                HTML += '<div class="row " style="border:1px solid #dadada !important; padding:.75rem;"><div class="btn  col-xs-3 btn-sm" id="' + toclassname(type) + '">' + type + '</div>';
                 for (var i2 = 0; i2 < alladdons[currentaddontype][type].length; i2++) {
                     var addon = alladdons[currentaddontype][type][i2];
-                    HTML += '<div class="btn btn-' + colors[i] + ' btn-sm addon-addon">' + addon + '</DIV>';
+                    HTML += '<div class="btn col-xs-3 btn-outline-' + colors[i] + ' btn-sm addon-addon">' + addon + '</DIV>';
                 }
-                HTML += '';
+                HTML += '</div>';
             }
             $("#addonlist").html(HTML + '</SPAN>');
             $(".addon-addon").click(
@@ -243,7 +248,7 @@
         for (var itemindex = 0; itemindex < currentaddonlist.length; itemindex++) {
             var freetoppings = 0;
             var paidtoppings = 0;
-            HTML += '<DIV style="background:#dadada;clear:both !important;" ONCLICK="selectitem(event, ' + itemindex + ');"' +
+            HTML += '<DIV style="clear:both !important;" ONCLICK="selectitem(event, ' + itemindex + ');"' +
                 ' CLASS="currentitem currentitem' + itemindex;
             if (currentitemindex == itemindex) {
                 HTML += ' thisside';

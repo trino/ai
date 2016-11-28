@@ -7,8 +7,8 @@ input[type="text"], input[type="date"], input[type="email"], input[type="tel"], 
 }
 
 .btn-sm {
-    padding: .1rem !important;
-    font-size:.9rem !important;
+    overflow: hidden !important;
+
 }
 
 .modal-backdrop {
@@ -17,7 +17,7 @@ input[type="text"], input[type="date"], input[type="email"], input[type="tel"], 
 }
 
 * {
-
+border-radius:0 !important;
 }
 
 body {

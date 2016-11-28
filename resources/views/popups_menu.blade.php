@@ -180,7 +180,7 @@
 
 
                 <div class="row">
-                <div class=" col-xs-12">
+                <div class=" col-xs-12 pb-1">
                     <DIV ID="addonlist" class="addonlist"></DIV>
                 </div>
                 </div>

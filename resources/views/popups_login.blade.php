@@ -1,78 +1,8 @@
 <?php
-$style = 2;
-if($style == 1){
-?>
-<div class="modal" id="loginmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
-     data-keyboard="false" data-backdrop="static">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i class="fa fa-close"></i>
-                </button>
-                <div>
-                    <h4 class="modal-title" id="myModalLabel">Login</h4>
-                </div>
+$style = 2;?>
 
-                <INPUT TYPE="TEXT" ID="login_email" PlACEHOLDER="Email Address"
-                       onkeydown="enterkey(event, '#login_password');">
-                <INPUT TYPE="PASSWORD" ID="login_password" PLACEHOLDER="Password" onkeydown="enterkey(event, 'login');">
-
-                <DIV ID="loginmessage"></DIV>
-
-                <DIV STYLE="margin-top: 15px;">
-                    <DIV CLASS="col-md-4">
-                        <button class="btn btn-block btn-warning" onclick="handlelogin('login');">
-                            Login
-                        </button>
-                    </DIV>
-                    <DIV CLASS="col-md-4">
-                        <button class="btn btn-block btn-danger" onclick="handlelogin('forgotpassword');">
-                            Forgot Password
-                        </button>
-                    </DIV>
-                    <DIV CLASS="col-md-4">
-                        <button class="btn btn-block btn-primary" data-dismiss="modal" data-toggle="modal"
-                                data-target="#registermodal">
-                            Register
-                        </button>
-                    </DIV>
-                </DIV>
-                <DIV CLASS="clearfix"></DIV>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal" id="registermodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
-     data-keyboard="false" data-backdrop="static">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i class="fa fa-close"></i>
-                </button>
-                <div>
-                    <h5 class="modal-title" id="myModalLabel">Register</h5>
-                </div>
-                <FORM Name="regform" id="regform">
-                    <?= view("popups_edituser")->render(); ?>
-                    <DIV STYLE="margin-top: 15px;">
-                        <DIV CLASS="col-md-12">
-                            <button class="btn btn-block btn-primary">
-                                Register
-                            </button>
-                        </DIV>
-                    </DIV>
-                </FORM>
-                <DIV CLASS="clearfix"></DIV>
-            </div>
-        </div>
-    </div>
-</div>
-<?php } else { ?>
-<div class="modal" id="loginmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
-     data-keyboard="false" data-backdrop="static">
+<!--div class="modal" id="loginmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"  data-keyboard="false" data-backdrop="static"-->
+<div class="card">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
@@ -164,7 +94,6 @@ if($style == 1){
     </div>
 </div>
 
-<?php } ?>
 
 <SCRIPT>
     @if($style == 2)
