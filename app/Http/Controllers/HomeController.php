@@ -100,13 +100,17 @@ class HomeController extends Controller {
                     try {
                         if($user["stripecustid"]){
                             $customer_id = $user["stripecustid"];//load customer ID from user profile
-                        } else {//Create a customer ID
+                            if(isset($info["stripeToken"]) && $info["stripeToken"]){//update credit card info
+                                $cu = \Stripe\Customer::retrieve($customer_id);
+                                $cu->source = $info['stripeToken']; //obtained with Checkout
+                                $cu->save();
+                            }
+                        } else {
                             $customer = \Stripe\Customer::create(array(
                                 "source" => $info["stripeToken"],
                                 "description" => $user["name"] . ' (ID:' . $user["id"] . ')'
                             ));
                             $customer_id = $customer["id"];
-                            debugprint("User ID: " . $user["id"] . " Cust ID: " . $customer_id);
                             insertdb("users", array("id" => $user["id"], "stripecustid" => $customer_id));//attempt to update user profile
                         }
 
@@ -139,6 +143,10 @@ class HomeController extends Controller {
                         $error = $e->getMessage();
                     } catch (\Stripe\Error\Card $e) {
                         $error = $e->getMessage();
+
+                        //$body = $e->getJsonBody();
+                        //$err  = $body['error'];
+                        //$error .= " - " . $err['message'];
                     }
                 } else {
                     $error = "Amount was 0";
