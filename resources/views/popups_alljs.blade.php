@@ -610,10 +610,7 @@
 
     //send an order to the server
     function placeorder(StripeResponse) {
-        if (!canplaceorder) {
-            log("CANT PLACE ORDER");
-            return false;
-        }
+        if (!canplaceorder) {return cantplaceorder();}
         if(isUndefined(StripeResponse)){StripeResponse = "";}
         if (isObject(userdetails)) {
             var addressinfo = getform("#orderinfo");//i don't know why the below 2 won't get included. this forces them to be
@@ -962,6 +959,8 @@
 
     //address dropdown changed
     function addresschanged() {
+        $("#saveaddresses").removeClass("red");
+        $(".payment-errors").text("");
         var Selected = $("#saveaddresses option:selected");
         var Text = '[number] [street], [city]';
         for (var keyID = 0; keyID < addresskeys.length; keyID++) {
@@ -995,31 +994,38 @@
         return Math.round(Math.random() * (max - min) + min);
     }
 
+    function cantplaceorder(){
+        $("#saveaddresses").addClass("red");
+        $(".payment-errors").text("Please enter and address");
+    }
+
     function testcard(){
         log("testcard");
         $('input[data-stripe=number]').val('4242424242424242');
         $('input[data-stripe=address_zip]').val('L8L6V6');
         $('input[data-stripe=cvc]').val(rnd(100,999));
         $('select[data-stripe=exp_year]').val({{ right($CURRENT_YEAR,2) }} + 1);
-        $("#istest").val("true");
         @if(islive())
             log("Changing stripe key");
-        Stripe.setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf');
-        log("Stripe key changed");
+            $("#istest").val("true");
+            Stripe.setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf');
+            log("Stripe key changed");
         @endif
     }
 
     function payfororder(){
-        if(!canplaceorder){log("SELECT AN ADDRESS"); return false;}
+        if(!canplaceorder){return cantplaceorder();}
         if($("#orderinfo").find(".error:visible[for]").length>0){return false;}
         var $form = $('#orderinfo');
         $(".payment-errors").html("");
 
+        log("Attempt to pay: " + changecredit());
         if(changecredit() == 1){//new card
             log("Stripe data");
             Stripe.card.createToken($form, stripeResponseHandler);
             log("Stripe data - complete");
         } else {//saved card
+            log("Use saved data");
             placeorder("");//no stripe token, use customer ID on the server side
         }
     }

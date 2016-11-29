@@ -128,3 +128,7 @@ body.loading #loadingmodal {
 .proper-height, .proper-height > select{
     height: 37px !important;
 }
+
+.red{
+    border: 2px solid red !important;
+}
