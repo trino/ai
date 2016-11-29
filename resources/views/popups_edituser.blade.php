@@ -79,14 +79,6 @@
         return false;
     }
 
-    @if(isset($user_id) && $user["cc_addressid"])
-        $(document).ready(function () {
-            setTimeout(function () {
-                $("#saveaddresses").val(<?= $user["cc_addressid"]; ?>);
-            }, 100);
-        });
-    @endif
-
     $(function () {
         $("form[name='user']").validate({
             rules: {
@@ -95,7 +87,6 @@
                     phonenumber: true,
                     required: <?= $phone == "required" ? "true": "false"; ?>
                 },
-                cc_number: "creditcard",
                 email: {
                     required: true,
                     email: true,

@@ -75,6 +75,7 @@ class HomeController extends Controller {
             if(isset($_POST["stripe"])){$info["stripeToken"] = $_POST["stripe"];}
 
             $order = $_POST["order"];
+            unset($info["istest"]);
             $orderid = insertdb("orders", $info);
             $dir = resource_path("orders");//no / at the end
             if (!is_dir($dir)) {mkdir($dir, 0777, true);}
@@ -84,31 +85,37 @@ class HomeController extends Controller {
                 if(!isset($user["id"])) {$user["id"] == $info["user_id"];}
                 $user["name"] = $_POST["name"];
                 $user["phone"] = $_POST["phone"];
-                //insertdb("users", $user);
+                insertdb("users", array("id" => $user["id"], "name" => $_POST["name"], "phone" => $_POST["phone"]));//attempt to update user profile
             }
             $user["orderid"] = $orderid;
             $user["mail_subject"] = "Receipt";
             $text = $this->sendEMail("email_receipt", $user);//send emails to customer and store, also generates the cost
             //if ($text) {return $text;} //shows email errors. Uncomment when email works
-            if(isset($info["stripeToken"])){//process stripe payment here
+            if(isset($info["stripeToken"]) || $user["stripecustid"]){//process stripe payment here
                 $amount = select_field_where("orders", "id=" . $orderid, "price");
-                if (strpos($amount, ".")) {
-                    $amount = $amount * 100;
-                }//remove the period, make it in cents
+                if (strpos($amount, ".")) {$amount = $amount * 100;}//remove the period, make it in cents
                 $error = false;
                 if($amount > 0) {
-                    // Set secret key: remember to change this to live secret key in production
-                  //  if (!islive()) {
-                        \Stripe\Stripe::setApiKey("BJi8zV1i3D90vmaaBoLKywL84HlstXEg"); //test
-               //     } else {
-             //           \Stripe\Stripe::setApiKey("3qL9w2o6A0xePqv8C6ufRKbAqkKTDJAW"); //live
-               //     }
-                    // Create the charge on Stripe's servers - this will charge the user's card
+                    initStripe();
                     try {
+                        if($user["stripecustid"]){
+                            $customer_id = $user["stripecustid"];//load customer ID from user profile
+                        } else {//Create a customer ID
+                            $customer = \Stripe\Customer::create(array(
+                                "source" => $info["stripeToken"],
+                                "description" => $user["name"] . ' (ID:' . $user["id"] . ')'
+                            ));
+                            $customer_id = $customer["id"];
+                            debugprint("User ID: " . $user["id"] . " Cust ID: " . $customer_id);
+                            insertdb("users", array("id" => $user["id"], "stripecustid" => $customer_id));//attempt to update user profile
+                        }
+
+                        // Create the charge on Stripe's servers - this will charge the user's card
                         $charge = \Stripe\Charge::create(array(
                             "amount" => $amount,
                             "currency" => "cad",
-                            "source" => $info["stripeToken"],
+                            //"source" => $info["stripeToken"],//charge card directly
+                            "customer" => $customer_id,//charge customer ID
                             "description" => "Order ID: " . $orderid
                         ));
                         insertdb("orders", array("id" => $orderid, "paid" => 1));

@@ -124,3 +124,7 @@ body.loading #loadingmodal {
 .cursor-pointer {
     cursor: pointer;
 }
+
+.proper-height, .proper-height > select{
+    height: 37px !important;
+}

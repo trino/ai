@@ -508,8 +508,24 @@ function getuser($IDorEmail = false, $IncludeOther = true){
         foreach($user["Orders"] as $Index => $Order){
             $user["Orders"][$Index]["placed_at"] = verbosedate($Order["placed_at"]);
         }
+        if($user["stripecustid"]) {
+            initStripe();
+            $customer = \Stripe\Customer::Retrieve(
+                array("id" => $user["stripecustid"], "expand" => array("default_source"))
+            );
+            $user["Stripe"] = $customer->default_source;
+        }
     }
     return $user;
+}
+
+function initStripe(){
+    //Set secret key: remember to change this to live secret key in production
+    if (!islive() || (isset($_POST["istest"]) && $_POST["istest"])) {
+        \Stripe\Stripe::setApiKey("BJi8zV1i3D90vmaaBoLKywL84HlstXEg"); //test
+    } else {
+        \Stripe\Stripe::setApiKey("3qL9w2o6A0xePqv8C6ufRKbAqkKTDJAW"); //live
+    }
 }
 
 function isencrypted($text){

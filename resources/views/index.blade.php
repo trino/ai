@@ -2,9 +2,9 @@
 @section('content')
 
     <?php
-    if(!read("id")){
-        echo view("popups_login")->render();
-    } else {
+        if(!read("id")){
+            echo view("popups_login")->render();
+        } else {
     ?>
 
     <div class="row">

@@ -614,6 +614,7 @@
             log("CANT PLACE ORDER");
             return false;
         }
+        if(isUndefined(StripeResponse)){StripeResponse = "";}
         if (isObject(userdetails)) {
             var addressinfo = getform("#orderinfo");//i don't know why the below 2 won't get included. this forces them to be
             addressinfo["cookingnotes"] = $("#cookingnotes").val();
@@ -661,11 +662,7 @@
         $("#saveaddresses option").each(function () {
             var ID = $(this).val();
             if (ID > 0) {
-                if (userdetails["cc_addressid"] == ID) {
-                    HTML += '<A TITLE="This address is used for your credit card and cannot be deleted"><i class="fa fa-fw fa-credit-card"></i> ';
-                } else {
-                    HTML += '<A ID="add_' + ID + '" TITLE="Delete this address" onclick="deleteaddress(' + ID + ');" class="hyperlink"><i style="color:red" class="fa fa-fw fa-times"></i> ';
-                }
+                HTML += '<A ID="add_' + ID + '" TITLE="Delete this address" onclick="deleteaddress(' + ID + ');" class="hyperlink"><i style="color:red" class="fa fa-fw fa-times"></i> ';
                 HTML += $(this).text() + '</A><BR>';
                 if (number.isEqual($(this).attr("number")) && street.isEqual($(this).attr("street")) && city.isEqual($(this).attr("city"))) {
                     AddNew = false;
@@ -989,7 +986,7 @@
     //universal AJAX error handling
     $(document).ajaxComplete(function (event, request, settings) {
         if (request.status != 200 && request.status > 0) {//not OK, or aborted
-//H2 class="block_exception", get span class="exception_title" and class="exception_message"
+            //H2 class="block_exception", get span class="exception_title" and class="exception_message"
             alert(request.statusText + "<P>URL: " + settings.url, "AJAX error code: " + request.status);
         }
     });
@@ -1004,7 +1001,7 @@
         $('input[data-stripe=address_zip]').val('L8L6V6');
         $('input[data-stripe=cvc]').val(rnd(100,999));
         $('select[data-stripe=exp_year]').val({{ right($CURRENT_YEAR,2) }} + 1);
-
+        $("#istest").val("true");
         @if(islive())
             log("Changing stripe key");
         Stripe.setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf');
@@ -1018,9 +1015,13 @@
         var $form = $('#orderinfo');
         $(".payment-errors").html("");
 
-        log("Stripe data");
-        Stripe.card.createToken($form, stripeResponseHandler);
-        log("Stripe data - complete");
+        if(changecredit() == 1){//new card
+            log("Stripe data");
+            Stripe.card.createToken($form, stripeResponseHandler);
+            log("Stripe data - complete");
+        } else {//saved card
+            placeorder("");//no stripe token, use customer ID on the server side
+        }
     }
 
     function stripeResponseHandler(status, response){
@@ -1076,9 +1077,35 @@
         });
     }
 
+    function loadsavedcreditinfo(){
+        if(userdetails.stripecustid.length>0) {
+            $("input[data-stripe=number]").val("**** **** **** " + userdetails.Stripe.last4);
+            $("input[data-stripe=exp_month]").val(userdetails.Stripe.exp_month);
+            $("input[data-stripe=exp_year]").val(userdetails.Stripe.exp_year);
+            return true;
+        }
+        return false;
+    }
+
+    function changecredit(){
+        var val = $("#saved-credit-info").val();
+        if(val == 1){
+            $(".credit-info").show();//let cust edit the card
+        } else {
+            $(".credit-info").hide();//use saved card info
+        }
+        return val;
+    }
+
     function showcheckout() {
         var HTML = $("#checkoutaddress").html();
         HTML = HTML.replace('class="', 'class="corner-top ');
+        if(loadsavedcreditinfo()){
+            $(".credit-info").hide();
+            $("#credit-info").html('<SELECT ID="saved-credit-info" onchange="changecredit();" class="form-control proper-height"><OPTION value="0">Use saved credit card</OPTION><OPTION value="1">Use new credit card</OPTION></SELECT>');
+        } else {
+            $("#credit-info").html('<INPUT TYPE="hidden" VALUE="1" ID="saved-credit-info">');
+        }
         $("#checkoutaddress").html(HTML);
         $("#checkoutmodal").modal("show");
         $(function () {

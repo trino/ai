@@ -1,7 +1,6 @@
 <?php
     $currentURL = webroot("public/user/info");
     $includesection = Request::url() == $currentURL;
-    //$encryptedfields = array("fname" => "First Name", "lname" => "Last Name", "number" => "Card Number", "xyear" => "Year", "xmonth" => "Month", "cc" => "Security Number");
 
     if(!isset($user_id) || !$user_id){$user_id = read("id");}
 
@@ -34,14 +33,6 @@
                 $user["name"] = $_POST["name"];
                 $user["phone"] = $_POST["phone"];
                 $user["updated_at"] = now();
-
-                if(isset($encryptedfields)){
-                    foreach($encryptedfields as $field => $name){
-                        if(isset($_POST["cc_" . $field])){
-                            $user["cc_" . $field] = encrypt($_POST["cc_" . $field]);
-                        }
-                    }
-                }
 
                 insertdb("users", $user);//save
                 echo "Data saved";
@@ -175,43 +166,6 @@
 
     <FORM NAME="user" id="userform">
         @include("popups_edituser")
-        <?php
-            if(isset($encryptedfields)){
-                //"fname", "lname", "number", "xyear", "xmonth", "cc"
-                echo '<HR><H2>Credit Card info</H2><BR>';
-                foreach($encryptedfields as $field => $name){
-                    if($field == "number"){
-                        $user["cc_number"] = obfuscate(isencrypted($user["cc_number"]));
-                    } else {
-                        $user["cc_" . $field] = "";
-                    }
-                    switch($field){
-                        case "xmonth":
-                            startfield($name);
-                            echo printoptions("cc_xmonth", array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"), $user["cc_xmonth"], array(1,2,3,4,5,6,7,8,9,10,11,12));
-                            startfield();
-                            break;
-                        case "xyear":
-                            startfield($name);
-                            $currentyear=date("Y");
-                            $years = array();
-                            for($year=$currentyear; $year<$currentyear+5; $year++){
-                                $years[] = $year;
-                            }
-                            echo printoptions("cc_xyear", $years, $user["cc_xyear"]);
-                            startfield();
-                            break;
-                        case "cc":
-                            printarow($name, "user", array("name" => "cc_cc", "value" => $user["cc_cc"], "type" => "number", "class" => "form-control", "min" => 0, "max" => 99999));
-                            break;
-                        default://fname, lname, number
-                            printarow($name, "user", array("name" => "cc_" . $field, "value" => $user["cc_" . $field], "type" => "text", "class" => "form-control"));
-                    }
-                }
-                startfield("Billing Address");
-                echo '<div CLASS="addressdropdown"></div></div></div>';
-            }
-        ?>
         <DIV CLASS="row">
             <DIV CLASS="col-md-12" align="center">
                 <BUTTON CLASS="btn btn-primary" onclick="userform_submit();">Save</BUTTON>
