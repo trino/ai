@@ -33,7 +33,7 @@
                             </A>
                         </li>
                         <li>
-                            <A ONCLICK="orders();" class="dropdown-item" href="#"> <i class="fa fa-home"></i> Order History</A>
+                            <A ONCLICK="orders();" class="dropdown-item" href="#"> <i class="fa fa-home"></i> Recent Orders</A>
                         </li>
                         <li>
                             <A ONCLICK="handlelogin('logout');" CLASS="dropdown-item" href="#"><i class="fa fa-home"></i> Log out</A>

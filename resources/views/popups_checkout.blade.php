@@ -57,7 +57,7 @@
                         <?php
                             echo '<input type="text" class="form-control corner-top" ID="restaurant" placeholder="Closest Restaurant" READONLY TITLE="Closest restaurant"/>';
                             echo '<SELECT id="deliverytime" TITLE="Delivery Time" class="form-control proper-height"/>';
-                            echo '<OPTION>Deliver ASAP</OPTION>';
+                            echo '<OPTION>Deliver Now</OPTION>';
                             echo '</SELECT>';
                         ?>
                         <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook" maxlength="255"/>

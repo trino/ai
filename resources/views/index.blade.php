@@ -45,7 +45,7 @@
             }
             ?>
         </div>
-        <div class="col-md-4 mt-2" style="padding: 0 !important;">
+        <div class="col-md-4" style="">
 
             <div class="card text-white bg-danger" style="margin: 0 !important;border-radius: 0 !important;">
                 <div class="card-block ">

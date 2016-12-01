@@ -685,7 +685,12 @@
                 if (!First) {
                     First = ID;
                 }
-                HTML += '<li class="list-group-item" ONCLICK="orders(' + ID + ');"><span class="tag tag-default tag-pill pull-xs-right">ID: ' + ID + '</span>' + order["placed_at"] + '<SPAN ID="pastreceipt' + ID + '"></SPAN></li>';
+                HTML += '<li class="list-group-item" ONCLICK="orders(' + ID + ');">' +
+                  '<SPAN ID="pastreceipt' + ID + '"></SPAN>' +
+                    '<span class="tag tag-default tag-pill pull-xs-right">ID: ' + ID + '</span>'
+                    + order["placed_at"] +
+                    '' +
+                    '</li>';
             }
             HTML += '</ul><P><DIV ID="pastreceipt" CLASS="pastreceipt"></DIV><P>';
             if (!First) {
@@ -1168,7 +1173,7 @@
         var time = now.getHours() * 100 + now.getMinutes();
         time = time + (increments - (time % increments));
         var oldValue = $("#deliverytime").val();
-        var HTML = '<option>Deliver ASAP</option>';
+        var HTML = '<option>Deliver Now</option>';
         var totalInc = (minutesinaday*totaldays) / increments;
         for(var i=0; i<totalInc; i++){
             if(isopen(hours, dayofweek, time) > -1) {
