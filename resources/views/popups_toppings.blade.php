@@ -1,25 +1,15 @@
 <STYLE>
-    .addon-selected,.thisside {
-        border: 1px solid black;
-        background-color: #dadada !important;
+    .addon-selected, .thisside {
+        background: #daDADA;
+
     }
+
     .addon-selected::before, .currentitem.thisside::before {
         font-family: FontAwesome;
         content: "\f0da  ";
+        border: 1px solid #dadada !important;
     }
 
-
-
-
-
-    .free {
-        background: url('<?= webroot("resources/views"); ?>/circle.gif') no-repeat 0px 1px;
-        padding-left: 4px;
-        padding-right: 4px;
-    }
-    * {
-        border: 0px solid black;
-    }
 </STYLE>
 
 <SCRIPT>
@@ -27,12 +17,102 @@
     var currentaddontype = "", currentside = "", currentqualifier = "", addonname = "", hashalves = true;
     var currentaddonlist = new Array, currentitemindex = 0, currentitemname = "";
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    function toclassname(text) {
+        return text.toLowerCase().replaceAll(" ", "_");
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    function toclassname(text) {
-        return text.toLowerCase().replaceAll(" ", "_");
+    function generateaddons() {
+        var HTML = '';
+        var free = '!';
+
+        switch (currentaddontype) {
+            case "toppings":
+                addonname = "toppings";
+                break;
+            case "wings_sauce":
+                addonname = "sauces";
+                break;
+            default:
+                addonname = "error: " + currentaddontype;
+                break;
+        }
+
+        var thisside = ' CLASS="thisside" ><I CLASS="fa fa-check text-danger"></I>';
+
+
+        for (var itemindex = 0; itemindex < currentaddonlist.length; itemindex++) {
+
+            var freetoppings = 0;
+            var paidtoppings = 0;
+
+            var tempstr = '';
+            var classname = 'itemcontents itemcontents' + itemindex;
+
+            HTML += '<DIV style=" padding: 2px ;     border-radius: 5px;border:1px solid #dadada !important;" ' +
+                ' ONCLICK="selectitem(event, ' + itemindex + ');"' +
+                ' CLASS=" currentitem currentitem' + itemindex;
+
+            if (currentitemindex == itemindex) {
+                HTML += ' thisside';
+            }
+
+            HTML += '">' + currentitemname + ' #' + (itemindex + 1) + ' ';
+
+
+            if (currentaddonlist[itemindex].length == 0) {
+                tempstr += '<div class="btn-sm">No ' + addonname + '</div>';
+            }
+
+            for (var i = 0; i < currentaddonlist[itemindex].length; i++) {
+
+                /*
+                 if (qualifiers[currentaddontype].hasOwnProperty(addonname)) {
+                 qualifier = qualifiers[currentaddontype][addonname][currentaddon.qual];
+                 } else {
+                 qualifier = qualifiers["DEFAULT"][currentaddon.qual];
+                 }
+                 */
+
+                var currentaddon = currentaddonlist[itemindex][i];
+                var qualifier = "";
+                tempstr += '<DIV CLASS="btn btn-sm btn-secondary ' + classname + '">'
+                    + currentaddon.name
+                    + '<span CLASS="pull-right" '
+                    + 'ONCLICK="removelistitem(' + itemindex + ', ' + i + ');">'
+                    + '&nbsp; <i CLASS="fa fa-times"></i> </span></div>&nbsp;';
+
+
+                if (!isaddon_free(currentaddontype, currentaddon.name)) {
+                    qualifier = currentaddon.qual;
+                    if (qualifier == 0) {
+                        qualifier = 0.5;
+                    } else if (currentaddon.side != 1) {
+                        qualifier = qualifier * 0.5;
+                    }
+                    paidtoppings += qualifier;
+                }
+
+            }
+
+            HTML += ucfirst(addonname)
+                + '$'
+                + paidtoppings
+                + free
+                + freetoppings
+                + '<br>'
+                + tempstr
+                + '</DIV>';
+
+        }
+
+
+        $("#theaddons").html(HTML);
+        $(".currentitem.thisside").trigger("click");
     }
 
 
@@ -55,11 +135,10 @@
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     function list_addons(table, halves) {
         currentaddontype = table;
-        var HTML = '<DIV style="height:150px;" class=""><DIV id="theaddons"></DIV></DIV>';
+        var HTML = '<DIV style="height:170px;background: #fafafa;" class=""><DIV id="theaddons"></DIV></DIV>';
         if (currentstyle == 0) {
             HTML += '<DIV CLASS="bg-danger addonlist" ID="addontypes">';
         } else {
-            HTML += '';
         }
 
         var types = Object.keys(alladdons[table]);
@@ -67,16 +146,14 @@
         if (currentstyle == 0) {
             $("#addonlist").html(HTML + '</DIV>');
         } else {
-            HTML += '</ul></nav>';
-            var colors = ["warning", "warning", "warning", "warning", "warning"];
+            var colors = ["secondary", "secondary", "secondary", "secondary", "secondary"];
             for (var i = 0; i < types.length; i++) {
-                var type = types[i];
-                HTML += '<div class="row " style="border:1px solid #dadada !important; padding:.75rem;"><div class="btn  col-xs-3 btn-sm" id="' + toclassname(type) + '">' + type + '</div>';
-                for (var i2 = 0; i2 < alladdons[currentaddontype][type].length; i2++) {
-                    var addon = alladdons[currentaddontype][type][i2];
-                    HTML += '<div class="btn col-xs-3 btn-outline-' + colors[i] + ' btn-sm addon-addon">' + addon + '</DIV>';
+
+                HTML += '<strong class="col-xs-12 btn-sm btn-secondary  " id="' + toclassname(types[i]) + '">' + types[i] + '</strong>';
+                for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
+                    var addon = alladdons[currentaddontype][types[i]][i2];
+                    HTML += '<div style="" class="col-xs-6 col-md-3 btn-sm btn-secondary ' + colors[i] + ' addon-addon">' + addon + '</DIV>';
                 }
-                HTML += '</div>';
             }
             $("#addonlist").html(HTML + '</SPAN>');
             $(".addon-addon").click(
@@ -222,80 +299,6 @@
         }
         generateaddons();
     }
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-    function generateaddons() {
-        var HTML = '<DIV CLASS="">';
-        var free = ' <SPAN class="free" TITLE="Free addons">$</SPAN> ';
-
-        switch (currentaddontype) {
-            case "toppings":
-                addonname = "toppings";
-                break;
-            case "wings_sauce":
-                addonname = "sauces";
-                break;
-            default:
-                addonname = "error: " + currentaddontype;
-                break;
-        }
-
-        var thisside = ' CLASS="thisside" ALIGN="CENTER"><I CLASS="fa fa-check"></I></DIV>';
-
-        for (var itemindex = 0; itemindex < currentaddonlist.length; itemindex++) {
-            var freetoppings = 0;
-            var paidtoppings = 0;
-            HTML += '<DIV style="clear:both !important;" ONCLICK="selectitem(event, ' + itemindex + ');"' +
-                ' CLASS="currentitem currentitem' + itemindex;
-            if (currentitemindex == itemindex) {
-                HTML += ' thisside';
-            }
-            HTML += '">' + currentitemname + ' #: ' + (itemindex + 1);//<TD COLSPAN="' + columns + '">
-            var classname = 'itemcontents itemcontents' + itemindex;
-            var tempstr = '';
-
-            if (currentaddonlist[itemindex].length == 0) {
-                tempstr = '<DIV CLASS="' + classname + '">No ' + addonname + '</DIV>';
-            }
-
-            for (var i = 0; i < currentaddonlist[itemindex].length; i++) {
-
-                var currentaddon = currentaddonlist[itemindex][i], qualifier = "";
-
-                if (qualifiers[currentaddontype].hasOwnProperty(addonname)) {
-                    qualifier = qualifiers[currentaddontype][addonname][currentaddon.qual];
-                } else {
-                    qualifier = qualifiers["DEFAULT"][currentaddon.qual];
-                }
-                tempstr += '<DIV CLASS="btn btn-sm btn-warning ' + classname + '">'
-
-                    + currentaddon.name;
-
-                tempstr += '<div CLASS="pull-right" ' +
-                    'ONCLICK="removelistitem(' + itemindex + ', ' + i + ');">' +
-                    '<I CLASS="fa fa-times"></I></div>' +
-                    '</DIV>';
-
-                if (!isaddon_free(currentaddontype, currentaddon.name)) {
-                    qualifier = currentaddon.qual;
-                    if (qualifier == 0) {
-                        qualifier = 0.5;
-                    } else if (currentaddon.side != 1) {
-                        qualifier = qualifier * 0.5;
-                    }
-                    paidtoppings += qualifier;
-                }
-            }
-
-            HTML += '<SPAN CLASS="pull-right">' + ucfirst(addonname) + ' $ ' + paidtoppings + free + freetoppings + '</SPAN></TD></DIV>' + tempstr;
-        }
-        $("#theaddons").html(HTML + '</DIV>');
-        $(".currentitem.thisside").trigger("click");
-    }
-
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

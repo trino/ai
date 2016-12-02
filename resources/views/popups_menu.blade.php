@@ -108,7 +108,7 @@
                 @foreach ($menuitems as $menuitem)
 
                     <div
-                            class=" col-xs-6 col-sm-3 btn btn-secondary  btn-sm item_{{ $catclass }}"
+                            class=" col-xs-6 col-md-4 btn-sm item_{{ $catclass }}"
                             itemid="{{$menuitem["id"]}}"
                             itemname="{{$menuitem['item']}}"
                             itemprice="{{$menuitem['price']}}"
@@ -180,20 +180,18 @@
 
 
                 <div class="row">
-                <div class=" col-xs-12 pb-1">
+                <div class="col-xs-12">
                     <DIV ID="addonlist" class="addonlist"></DIV>
                 </div>
                 </div>
 
-                <div class="btn-group" role="group" aria-label="Basic example" style="width: 100%">
-                    <button style="width: 50%" class="btn btn-secondary" data-dismiss="modal">
+                <button data-dismiss="modal" id="additemtoorder" class="btn btn-warning pull-right" onclick="additemtoorder();">
+                    ADD TO ORDER
+                </button>
+
+                    <button  class="btn btn-secondary pull-right" data-dismiss="modal">
                         CANCEL
                     </button>
-
-                    <button data-dismiss="modal" style="width: 50%" id="additemtoorder" class="btn btn-warning" onclick="additemtoorder();">
-                        ADD TO ORDER
-                    </button>
-                </div>
 
 
                 <div class="clearfix"></div>

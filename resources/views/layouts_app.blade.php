@@ -49,7 +49,7 @@
 
         @include("popups_alljs")
     </head>
-    <body style="margin-bottom: 80px;">
+    <body>
         <?= view("popups_navbar")->render(); ?>
 
         <div class="container mt-1">
