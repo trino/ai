@@ -409,10 +409,11 @@
 
             tempHTML = '<span class="pull-left"> <DIV CLASS="sprite sprite-' + category + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
             tempHTML += '<span class="pull-right" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '">';
+
+            tempHTML += ' <i class="fa fa-close pull-right" onclick="removeorderitem(' + itemid + ');"></i>';
             if(hasaddons) {
                 tempHTML += ' <i class="fa fa-pencil pull-right" onclick="edititem(this, ' + itemid + ');"></i>';
             }
-            tempHTML += ' <i class="fa fa-close pull-right" onclick="removeorderitem(' + itemid + ');"></i>';
             tempHTML += '$' + totalcost + '</span><div class="clearfix"></div>';
 
             var itemname = "";

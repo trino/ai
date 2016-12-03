@@ -61,7 +61,7 @@
                 HTML += ' thisside';
             }
 
-            HTML += '">' + currentitemname + ' #' + (itemindex + 1) + ' ';
+            HTML += '">'  + ' #' + (itemindex + 1) + ' ';
 
 
             if (currentaddonlist[itemindex].length == 0) {

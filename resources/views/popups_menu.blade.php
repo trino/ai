@@ -137,7 +137,7 @@
                         <div>
                             <a <?= $HTML; ?>>
                                 <DIV CLASS="pull-left sprite sprite-<?= $imagefile; ?> sprite-medium"></DIV>
-                                <span class="pull-left itemname">{{$menuitem['item']}} </span><br>
+                                <span class="pull-left itemname" style="vertical-align: top !important;">{{$menuitem['item']}} </span><br>
                                 <span class="pull-left text-muted itemname"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
 
 
