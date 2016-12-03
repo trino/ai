@@ -651,7 +651,7 @@
 
     //generate a list of addresses and send it to the alert modal
     function addresses() {
-        var HTML = '<h5>Addresses</h5>';
+        var HTML = '<h4>Addresses</h4>';
         var number = $("#add_number").val();
         var street = $("#add_street").val();
         var city = $("#add_city").val();
@@ -1265,16 +1265,16 @@
                     <i class="fa fa-close"></i>
                 </button>
 
-                <h5 class="modal-title" id="alertmodallabel">Title</h5>
+                <h4 class="modal-title" id="alertmodallabel">Title</h4>
 
                 <DIV ID="alertmodalbody" STYLE="margin-top: 5px;"></DIV>
 
                 <DIV CLASS="pb-1"></DIV>
-                <div class="btn-group" role="group" aria-label="Basic example" style="width: 100%">
-                    <button class="btn btn-secondary" style="width: 50%" id="alert-cancel" data-dismiss="modal">
+                <div >
+                    <button class="btn btn-secondary"  id="alert-cancel" data-dismiss="modal">
                         Cancel
                     </button>
-                    <button class="btn btn-secondary" style="width: 50%"   id="alert-confirm" data-dismiss="modal">
+                    <button class="btn btn-secondary" id="alert-confirm" data-dismiss="modal">
                         OK
                     </button>
                 </div>

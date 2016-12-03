@@ -100,7 +100,7 @@
         <div class="clearfix">
 
             <a class=" head_{{ $catclass }}" data-toggle="collapse" href="#collapse{{$category["id"]}}_cat">
-                <h5 class="text-danger ">{{$category['category']}}</h5>
+                <h5 class="text-danger pt-1 ">{{$category['category']}}</h5>
             </a>
 
             <div class=" collapse in" id="collapse{{$category['id']}}_cat">
@@ -108,7 +108,8 @@
                 @foreach ($menuitems as $menuitem)
 
                     <div
-                            class=" col-xs-6 col-md-4 btn-sm item_{{ $catclass }}"
+                            style="border-radius: 0 !important;border:0 !important;padding-bottom:.5rem !important;"
+                            class="btn btn-secondary col-xs-6 col-md-3 btn-sm item_{{ $catclass }}"
                             itemid="{{$menuitem["id"]}}"
                             itemname="{{$menuitem['item']}}"
                             itemprice="{{$menuitem['price']}}"
@@ -126,7 +127,7 @@
                     <?php
                         if ($total) {
                             $HTML = 'href="#2" data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
-                            $icon = '<i class="fa fa-chevron-right pull-right"></i>';
+                            $icon = '+';
                         } else {
                             $HTML = 'href="#1" onclick="additemtoorder(this, -1);"';
                             $icon = '';
@@ -137,7 +138,7 @@
                             <a <?= $HTML; ?>>
                                 <DIV CLASS="pull-left sprite sprite-<?= $imagefile; ?> sprite-medium"></DIV>
                                 <span class="pull-left itemname">{{$menuitem['item']}} </span><br>
-                                <span class="pull-left text-muted itemname"> ${{number_format($menuitem["price"], 2)}}  <?= $icon; ?></span>
+                                <span class="pull-left text-muted itemname"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
 
 
                                 <div class="clearfix"></div>
@@ -165,10 +166,10 @@
                     <i class="fa fa-close"></i></button>
 
 
-                <h5 id="myModalLabel">
+                <h4 id="myModalLabel">
 
                     <SPAN ID="modal-itemname"></SPAN> $<SPAN ID="modal-itemprice"></SPAN>
-                </h5>
+                </h4>
                 <div class="mt-1"></div>
 
                 <div style="display: none;" id="modal-hiddendata">
@@ -179,19 +180,16 @@
                 </div>
 
 
-                <div class="row">
+                <div class="row" style="border-bottom:2px solid #dadada; margin-bottom:.5rem !important;">
                 <div class="col-xs-12">
                     <DIV ID="addonlist" class="addonlist"></DIV>
                 </div>
                 </div>
 
-                <button data-dismiss="modal" id="additemtoorder" class="btn btn-warning pull-right" onclick="additemtoorder();">
+                <button data-dismiss="modal" id="additemtoorder" class="btn btn-warning-outline pull-right" onclick="additemtoorder();">
                     ADD TO ORDER
                 </button>
 
-                    <button  class="btn btn-secondary pull-right" data-dismiss="modal">
-                        CANCEL
-                    </button>
 
 
                 <div class="clearfix"></div>

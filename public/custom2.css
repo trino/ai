@@ -30,6 +30,36 @@ th {
 form {
     border: 3px solid black;
 }*/
+.fab {
+    border:none;
+    font-size:1em;
+    color:white;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    margin: auto;
+    -webkit-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
+    -moz-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
+    box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
+}
+
+.fab:hover {
+    background-color: #ff4060;
+}
+
+.fixed-action-btn {
+    position: fixed;
+    right: 20px;
+    bottom: 10px !important;
+    padding-top: 15px;
+    margin-bottom: 0;
+    z-index: 998;
+}
+
+.modal-body{padding:.5rem !important;}
+
+
+
 
 
 input[type="text"], input[type="date"], input[type="email"], input[type="tel"], input[type="password"], textarea, select {
@@ -37,8 +67,13 @@ input[type="text"], input[type="date"], input[type="email"], input[type="tel"], 
     border-bottom: 1px solid #eceeef !important;
     border-radius: 0 !important;
     color: #373a3c !important;
-
 }
+
+input[type="text"], input[type="date"], input[type="email"], input[type="tel"], input[type="password"]{
+ padding-left:16px !important;
+}
+
+input{padding-left:10px !important;}
 .dont-show {
     display: none;
 }
@@ -203,10 +238,6 @@ body.loading #loadingmodal {
 }
 
 @media screen and (max-width: 768px) {
-
-    body {
-        margin-top: 45px !important;
-    }
 
     h1 {
         font-size: 1.3rem !important;

@@ -219,10 +219,10 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-block bg-danger" >
-                            <h5 class="pull-left">
+                            <h4 class="pull-left">
                                 <A HREF="<?= webroot("public/list/all"); ?>"><i class="fa fa-{{ $faicon }}" aria-hidden="true"></i></A> {{ ucfirst($table) . ' list ' . $extratitle }}
-                            </h5>
-                            <H5 CLASS="pull-right spacing">
+                            </h4>
+                            <h4 CLASS="pull-right spacing">
                                 @if($table != "all" && read("profiletype") == 1)
                                     @if($table == "debug")
                                         <A onclick="testemail();" TITLE="Send a test email" class="hyperlink" id="testemail"><i class="fa fa-envelope"></i></A>
@@ -232,7 +232,7 @@
                                     @endif
                                     <A HREF="{{ webroot("public/list/all") }}" TITLE="Back"><i class="fa fa-arrow-left"></i></A>
                                 @endif
-                            </H5>
+                            </h4>
                         </div>
                         <div class="card-block">
                             <div class="row">

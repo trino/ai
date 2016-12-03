@@ -4,7 +4,7 @@
             <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i class="fa fa-close"></i></button>
-                <h5 id="myModalLabel">Checkout </h5>
+                <h4 id="myModalLabel">Checkout </h4>
                 <div class="row">
                     <div class="col-sm-6">
                         <FORM ID="orderinfo" name="orderinfo">
@@ -64,9 +64,8 @@
                     </div>
                     <div class="col-xs-12 mt-1">
                         <DIV class="payment-errors" style="color:red;"></DIV>
-                        <a class="btn btn-secondary" onclick="testcard();">Test</a>
+                        <a class="btn btn-secondary" onclick="testcard();">Test CreditCard</a>
                         <a class="btn btn-warning text-white pull-right" onclick="payfororder();">PLACE ORDER</a>
-                        <a class="btn btn-secondary pull-right" data-dismiss="modal" aria-label="Close">CANCEL</a>
                         <DIV ID="form_integrity" style="color:red;"></DIV>
                     </div>
                     </FORM>

@@ -52,7 +52,7 @@
     <body>
         <?= view("popups_navbar")->render(); ?>
 
-        <div class="container mt-1">
+        <div class="container">
             @yield('content')
         </div>
 

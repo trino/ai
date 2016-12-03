@@ -1,13 +1,13 @@
 <STYLE>
     .addon-selected, .thisside {
-        background: #daDADA;
-
+        background: #dadada;
+        border-radius: .25rem !important;
     }
 
     .addon-selected::before, .currentitem.thisside::before {
         font-family: FontAwesome;
         content: "\f0da  ";
-        border: 1px solid #dadada !important;
+        color:red;
     }
 
 </STYLE>
@@ -28,7 +28,7 @@
 
     function generateaddons() {
         var HTML = '';
-        var free = '!';
+        var free = '';
 
         switch (currentaddontype) {
             case "toppings":
@@ -53,9 +53,9 @@
             var tempstr = '';
             var classname = 'itemcontents itemcontents' + itemindex;
 
-            HTML += '<DIV style=" padding: 2px ;     border-radius: 5px;border:1px solid #dadada !important;" ' +
+            HTML += '<DIV style="padding:.25rem !important;" ' +
                 ' ONCLICK="selectitem(event, ' + itemindex + ');"' +
-                ' CLASS=" currentitem currentitem' + itemindex;
+                ' CLASS="col-xs-6 currentitem currentitem' + itemindex;
 
             if (currentitemindex == itemindex) {
                 HTML += ' thisside';
@@ -65,7 +65,7 @@
 
 
             if (currentaddonlist[itemindex].length == 0) {
-                tempstr += '<div class="btn-sm">No ' + addonname + '</div>';
+                tempstr += '<div class="btn btn-sm btn-secondary">No ' + addonname + '</div>';
             }
 
             for (var i = 0; i < currentaddonlist[itemindex].length; i++) {
@@ -100,11 +100,11 @@
             }
 
             HTML += ucfirst(addonname)
-                + '$'
                 + paidtoppings
                 + free
                 + freetoppings
-                + '<br>'
+
+            + '<br>'
                 + tempstr
                 + '</DIV>';
 
@@ -135,7 +135,7 @@
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     function list_addons(table, halves) {
         currentaddontype = table;
-        var HTML = '<DIV style="height:170px;background: #fafafa;" class=""><DIV id="theaddons"></DIV></DIV>';
+        var HTML = '<DIV style="background:#f8f8f8;padding:15px 5px;border-bottom:2px solid #dadada;border-top:2px solid #dadada;"><DIV id="theaddons"></DIV><div class="clearfix"></div> </DIV>';
         if (currentstyle == 0) {
             HTML += '<DIV CLASS="bg-danger addonlist" ID="addontypes">';
         } else {
@@ -149,10 +149,10 @@
             var colors = ["secondary", "secondary", "secondary", "secondary", "secondary"];
             for (var i = 0; i < types.length; i++) {
 
-                HTML += '<strong class="col-xs-12 btn-sm btn-secondary  " id="' + toclassname(types[i]) + '">' + types[i] + '</strong>';
+                HTML += '<strong class="col-xs-12 btn-sm " id="' + toclassname(types[i]) + '">' + types[i] + '</strong>';
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
-                    HTML += '<div style="" class="col-xs-6 col-md-3 btn-sm btn-secondary ' + colors[i] + ' addon-addon">' + addon + '</DIV>';
+                    HTML += '<div style="  overflow: hidden; white-space: nowrap;  text-overflow: ellipsis;" class="col-xs-4 col-md-3 btn-sm btn-secondary ' + colors[i] + ' addon-addon">' + addon + '</DIV>';
                 }
             }
             $("#addonlist").html(HTML + '</SPAN>');
