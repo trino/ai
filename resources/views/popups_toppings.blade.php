@@ -256,19 +256,31 @@
         if (!hashalves) {
             currentside = 1;
         }
+        var removed = "";
+        var group = getaddon_group(currentaddontype, addonname);
         currentaddonlist[currentitemindex].push({
             name: addonname,
             side: currentside,
             qual: currentqualifier,
             type: currentaddontype,
-            group: getaddon_group(currentaddontype, addonname)
+            group: group
         });
-
+        if(group>0){
+            for(var i = currentaddonlist[currentitemindex].length-2; i>-1; i--){
+                if(currentaddonlist[currentitemindex][i]["group"] == group){
+                    removed = currentaddonlist[currentitemindex][i]["name"];
+                    if(removed == addonname){removed = "";}
+                    removelistitem(currentitemindex, i);
+                }
+            }
+        }
         if (!oneclick) {
             $(".addon-selected").removeClass("addon-selected");
             $("#addonall").remove();
             $("#addonedit").remove();
         }
+        if(removed){removed += " was removed";}
+        $("#removelist").text(removed);
         generateaddons();
     }
 

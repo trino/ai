@@ -183,6 +183,10 @@
 
                 <div class="row" style="border-bottom:2px solid #dadada; margin-bottom:.5rem !important;">
                     <div class="col-xs-12">
+                        <DIV ID="removelist" style="color: red;"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-12">
                         <DIV ID="addonlist" class="addonlist"></DIV>
                     </div>
                 </div>
