@@ -1,5 +1,7 @@
 <?php
     $CURRENT_YEAR = date("Y");
+    $STREET_FORMAT = "[number] [street], [city]";
+    //["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
 ?>
 
 <script>
@@ -964,7 +966,7 @@
             addresskeys = ["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
         }
         var tempHTML = '<OPTION';
-        var streetformat = "[number] [street], [city]";
+        var streetformat = "<?= $STREET_FORMAT; ?>";
         if (address["unit"]) {
             streetformat += " - Apt/Unit: [unit]";
             if (address["buzzcode"]) {
@@ -990,7 +992,7 @@
         $("#saveaddresses").removeClass("red");
         $(".payment-errors").text("");
         var Selected = $("#saveaddresses option:selected");
-        var Text = '[number] [street], [city]';
+        var Text = '<?= $STREET_FORMAT; ?>';
         for (var keyID = 0; keyID < addresskeys.length; keyID++) {
             var keyname = addresskeys[keyID];
             var keyvalue = $(Selected).attr(keyname);
@@ -1106,7 +1108,7 @@
                 if (closest.hasOwnProperty("id")) {
                     canplaceorder = true;
                     log("Can place an order");
-                    restaurant = "[number] [street], [city]";
+                    restaurant = "<?= $STREET_FORMAT; ?>";
                     var keys = Object.keys(closest);
                     for (var i = 0; i < keys.length; i++) {
                         var keyname = keys[i];

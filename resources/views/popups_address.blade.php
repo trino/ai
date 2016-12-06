@@ -5,7 +5,7 @@
             echo '<DIV CLASS="form-control row"><DIV CLASS="form-control col-md-2">Address:</DIV><DIV CLASS="form-control col-md-10"><INPUT TYPE="text" ID="formatted_address"></div></DIV>';
             break;
         case 1:
-            echo '<INPUT TYPE="text" ID="formatted_address" PLACEHOLDER="Delivery Address" CLASS="form-control">';
+            echo '<INPUT TYPE="text" ID="formatted_address" PLACEHOLDER="Delivery Address" CLASS="form-control formatted_address">';
             echo '<STYLE>.address.:focus{z-index: 999;}</STYLE>';
             break;
     }
@@ -116,13 +116,14 @@
 
         var componentForm = {
             street_number: 'short_name',
-            route: 'long_name',
-            locality: 'long_name',
+            route: 'long_name',//street name
+            locality: 'long_name',//ON Canada
             administrative_area_level_1: 'long_name',
             country: 'long_name',
             postal_code: 'short_name'
         };
-        var streetformat = "[street_number] [route], [locality]";
+        //2396 Kingsway, locality: Vancouver, administrative_area_level_1: British Columbia, country: Canada, postal_code: V5R 5G9
+        var streetformat = "[street_number] [route], [postal_code]";
         for (var i = 0; i < place.address_components.length; i++) {
             var addressType = place.address_components[i].types[0];
             if (componentForm[addressType]) {
