@@ -1,5 +1,5 @@
 <?php
-    $debugmode = false;//!islive();
+    $debugmode = !islive();
     $debug="";
     $Order = first("SELECT orders.*, users.name, users.id as userid, users.email FROM orders, users WHERE orders.id = " . $orderid . " HAVING user_id = users.id");
     $filename = resource_path("orders") . "/" . $orderid . ".json";
