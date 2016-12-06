@@ -346,7 +346,6 @@
 
                     //gets a page of data from the server, convert it to HTML
                     function getpage(index, makenew){
-                        log("GET PAGE");
                         if(index==-1){index = lastpage;}
                         if(isUndefined(makenew)){makenew = false;}
                         if(index<0){index = currentpage;}
@@ -359,7 +358,6 @@
                             makenew: makenew
                         }, function (result) {
                             try {
-                                log("RESULT: " + result);
                                 var data = JSON.parse(result);
                                 var HTML = "";
                                 var needsAddresses = false;
