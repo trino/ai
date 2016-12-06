@@ -583,14 +583,16 @@ function gethours($RestaurantID = -1){
 function GenerateTime($time = ""){
     if(!$time){$time = date("Gi");}
     $minutes = $time % 100;
-    $thehours = floor($time / 100);
+    $thehours = intval(floor($time / 100));
     $hoursAMPM = $thehours % 12;
     if ($hoursAMPM == 0) {$hoursAMPM = 12;}
-    $tempstr = $hoursAMPM + ":";
-    if ($minutes < 10) {
-        $tempstr += "0" + $minutes;
+    $tempstr = $hoursAMPM . ":";
+    if($minutes == 0){
+        $tempstr .= "00";
+    } else if ($minutes < 10) {
+        $tempstr .= "0" + $minutes;
     } else {
-        $tempstr += $minutes;
+        $tempstr .= $minutes;
     }
     $extra = "";
     if ($time == 0) {
@@ -599,9 +601,9 @@ function GenerateTime($time = ""){
         $extra = " (Noon)";
     }
     if ($time < 1200) {
-        return $tempstr + " AM" + $extra;
+        return $tempstr . " AM" . $extra;
     } else {
-        return $tempstr + " PM" + $extra;
+        return $tempstr . " PM" . $extra;
     }
 }
 ?>

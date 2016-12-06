@@ -32,7 +32,15 @@
         <TR><TD>Ordered On:</TD><TD ID="receipt_placed_at"><?= verbosedate($Order["placed_at"]); ?></TD></TR>
         <TR><TD>Status: </TD><TD><?= $Status; ?></TD></TR>
         @if($Order["deliverytime"])
-            <TR><TD>Delivery for:</TD><TD><?= GenerateTime(now(false, $Order["deliverytime"])); ?></TD></TR>
+            <TR><TD>Delivery for:</TD><TD>
+                <?php
+                    $Time = right($Order["deliverytime"], 4);
+                    if(is_numeric($Time)){
+                        echo left($Order["deliverytime"], strlen($Order["deliverytime"])-4) . GenerateTime(intval($Time));
+                    } else {
+                        echo $Order["deliverytime"];
+                    }
+                ?></TD></TR>
         @endif
         @if(!isset($JSON))
             <TR><TD COLSPAN="2">

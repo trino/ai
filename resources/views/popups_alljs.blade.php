@@ -1225,7 +1225,7 @@
                     } else {
                         thedayname += " " + thedate;
                     }
-                    var tempstr = '<OPTION VALUE="' + thedate + " at " + time + '">' + thedayname + " at " + thetime ;
+                    var tempstr = '<OPTION VALUE="' + thedate + " at " + time.pad(4) + '">' + thedayname + " at " + thetime ;
                     HTML += tempstr + '</OPTION>';
                 }
             }
