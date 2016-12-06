@@ -68,6 +68,8 @@ class HomeController extends Controller {
         $addressID = $this->processaddress($info);
         if(isset($_POST["order"])) {
             $restaurant = $this->closestrestaurant($info);
+            var_dump($restaurant);
+
             if(!isset($restaurant["id"])){return false;}
             $info["placed_at"] = now();
             $info["restaurant_id"] = $restaurant["id"];
@@ -85,9 +87,8 @@ class HomeController extends Controller {
 
             if($user["name"] != $_POST["name"] || $user["phone"] != $_POST["phone"]){
                 if(!isset($user["id"])) {
-                    $user["id"] == $info["user_id"];
+                    $user["id"] = $info["user_id"];
                 }
-                //print_r($user); print_r($info);
                 $user["name"] = $_POST["name"];
                 $user["phone"] = $_POST["phone"];
                 insertdb("users", array("id" => $user["id"], "name" => $_POST["name"], "phone" => $_POST["phone"]));//attempt to update user profile
@@ -95,7 +96,13 @@ class HomeController extends Controller {
 
             $user["orderid"] = $orderid;
             $user["mail_subject"] = "Receipt";
-            $text = $this->sendEMail("email_receipt", $user);//send emails to customer and store, also generates the cost
+            $text = $this->sendEMail("email_receipt", $user);//send emails to customer also generates the cost
+
+            $user["mail_subject"] = "A new order was placed";
+            $user["email"] = $restaurant["user"]["email"];
+            $this->sendEMail("email_receipt", $user);//send emails to store
+            $this->sendSMS($restaurant["user"]["phone"], $user["mail_subject"]);//send text to the store
+
             //if ($text) {return $text;} //shows email errors. Uncomment when email works
             if(isset($info["stripeToken"]) || $user["stripecustid"]){//process stripe payment here
                 $amount = select_field_where("orders", "id=" . $orderid, "price");
@@ -164,34 +171,16 @@ class HomeController extends Controller {
         }
     }
 
-    /*
-    function processCC($info){
-        //saves credit card info if it's not blank, returns the user info without the credit card info for saving as an order
-        $fields = array("cc_fname", "cc_lname", "cc_number", "cc_xyear", "cc_xmonth", "cc_cc");
-        $cardnumber = filter_var($info["cc_number"], FILTER_SANITIZE_NUMBER_INT);
-        $docard = strlen($cardnumber)>14;
-        $ccinfo = array("id" => $info["user_id"], "cc_addressid" => $info["cc_addressid"]);
-        foreach($fields as $field){
-            $ccinfo = encrypt($info[$field]);
-            unset($info[$field]);
-        }
-        unset($info["cc_addressid"]);
-        if($docard){
-            insertdb("users", $ccinfo);
-        }
-        return $info;
-    }
-    */
-
     function closestrestaurant($data, $gethours = false){
         if(!isset($data['radius'])){$data['radius'] = 100;}
         $owners = implode(",", collapsearray(Query("SELECT address_id FROM restaurants WHERE address_id > 0", true), "address_id"));
         $where = "id IN (" . $owners . ")";
         $SQL = "SELECT *, ( 6371 * acos( cos( radians('" . $data['latitude'] . "') ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians('" . $data['longitude']."') ) + sin( radians('" . $data['latitude']."') ) * sin( radians( latitude ) ) ) ) AS distance FROM useraddresses WHERE $where HAVING distance <= " . $data['radius'] . " ORDER BY distance ASC LIMIT 1";
-        $Restaurant = first($SQL);
+        $Restaurant = first($SQL);//useraddresses
         if($Restaurant && $gethours){
             $Restaurant["hours"] = gethours($Restaurant["id"]);
             $Restaurant["restaurant"] = first("SELECT * FROM restaurants WHERE address_id = " . $Restaurant["id"]);
+            $Restaurant["user"] = first("SELECT * FROM users WHERE id = " . $Restaurant["user_id"]);
         }
         return $Restaurant;
     }

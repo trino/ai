@@ -82,12 +82,12 @@ class Controller extends BaseController {
     //$0.0075 per SMS, + $1 per month
     public function sendSMS($Phone, $Message, $Call = false){//works if you can get the from number....
         //https://www.twilio.com/
-        debugprint( iif($Call, "Calling", "Sending an SMS to") . ": " . $Phone . " - " .  $Message);
-        //if (islive()) {
+        debugprint(iif($Call, "Calling", "Sending an SMS to") . ": " . $Phone . " - " .  $Message);
+        if($Phone == "van"){$Phone = "9055315331";} else {$Phone=filternonnumeric($Phone);}
+        if (islive() && $Phone !== "9055123067") {//never call me
             $sid = 'AC81b73bac3d9c483e856c9b2c8184a5cd';
             $token = "3fd30e06e99b5c9882610a033ec59cbd";
             $fromnumber = "2897685936";
-            if($Phone == "van"){$Phone = "9055315331";}
             if ($Call) {
                 $Message = "http://charlieschopsticks.com/pages/call?message=" . urlencode($Message);
                 $URL = "https://api.twilio.com/2010-04-01/Accounts/" . $sid . "/Calls";
@@ -97,7 +97,7 @@ class Controller extends BaseController {
                 $data = array("From" => $fromnumber, "To" => $Phone, "Body" => $Message);
             }
             return $this->cURL($URL, http_build_query($data), $sid, $token);
-        //}
-        //return "Is not live, did not contact";
+        }
+        return "Is not live, did not contact";
     }
 }
