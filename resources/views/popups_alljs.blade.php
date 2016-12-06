@@ -991,6 +991,7 @@
     //address dropdown changed
     function addresschanged() {
         $("#saveaddresses").removeClass("red");
+        $('#reg_phone').attr("style", "");
         $(".payment-errors").text("");
         var Selected = $("#saveaddresses option:selected");
         var Text = '<?= $STREET_FORMAT; ?>';
@@ -1031,7 +1032,7 @@
             $(".payment-errors").text("Please enter and address");
         }
         if($("#reg_phone").val().length == 0){
-            $("#reg_phone").addClass("red");
+            $('#reg_phone').attr('style', 'border: 2px solid red !important;');
             $(".payment-errors").text("Please enter a cell phone number");
         }
     }
