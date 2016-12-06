@@ -642,10 +642,18 @@
         }
     }
 
+    var modalID = "";
     $(window).on('shown.bs.modal', function () {
-        var modalID = $(".modal:visible").attr("id");
+        modalID = $(".modal:visible").attr("id");
         if (modalID == "profilemodal") {
             $("#addresslist").html(addresses());
+        }
+        window.location.hash = "modal";
+    });
+
+    $(window).on('hashchange', function (event) {
+        if(window.location.hash != "#modal") {
+            $('#' + modalID).modal('hide');
         }
     });
 
@@ -1234,6 +1242,9 @@
         return -1;//closed
     }
 
+    function visiblemodals(){
+        return $('.modal:visible').map(function() { return this.id; }).get();
+    }
 </SCRIPT>
 <STYLE>
     /* STOP MOVING THIS TO THE CSS, IT WON'T WORK! */
@@ -1297,12 +1308,4 @@
             log("Page transitions allowed");
         }
     }
-
-    $(window).load(function () {
-        console.log("Time until everything loaded: ", Date.now() - timerStart);
-    });
-    $(document).ready(function () {
-        console.log("Time until DOMready: ", Date.now() - timerStart);
-        $("#navbar-text").text("<?= "" . round((microtime(true) - $time), 5) . "s"; ?>");
-    });
 </script>

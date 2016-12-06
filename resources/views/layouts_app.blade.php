@@ -57,7 +57,7 @@
         </div>
 
         @if(!islive())
-            <div class="container mt-1 " style="display: none">
+            <div class="container mt-1" style="display: none">
                 <button class="btn btn-danger  pull-left" onclick="window.scrollTo(0,document.body.scrollHeight);">
                     <span id="navbar-text"></span>
                 </button>
