@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 29, 2016 at 05:38 PM
+-- Generation Time: Dec 06, 2016 at 07:02 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -75,97 +75,6 @@ CREATE TABLE IF NOT EXISTS `hours` (
 
 INSERT INTO `hours` (`restaurant_id`, `0_open`, `0_close`, `1_open`, `1_close`, `2_open`, `2_close`, `3_open`, `3_close`, `4_open`, `4_close`, `5_open`, `5_close`, `6_open`, `6_close`) VALUES
 (0, -1, -1, 1100, 2250, 1100, 2250, 1100, 2250, 1100, 2250, 1100, 50, 1100, 50);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `keywords`
---
-
-CREATE TABLE IF NOT EXISTS `keywords` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `synonyms` varchar(1024) NOT NULL,
-  `weight` int(11) NOT NULL,
-  `keywordtype` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=62 ;
-
---
--- Dumping data for table `keywords`
---
-
-INSERT INTO `keywords` (`id`, `synonyms`, `weight`, `keywordtype`) VALUES
-(1, 'italian', 1, 0),
-(2, 'pizza', 5, 0),
-(6, '2 two', 1, 1),
-(7, 'chicken', 1, 0),
-(8, 'wing', 5, 0),
-(9, '3 three', 1, 1),
-(10, 'dip', 5, 0),
-(11, 'cheddar', 1, 0),
-(12, 'jalapeno', 1, 0),
-(13, 'marinara', 1, 0),
-(14, 'bbq barbeque', 1, 0),
-(15, 'garlic', 1, 0),
-(16, 'parmesan', 1, 0),
-(17, 'honey', 1, 0),
-(18, 'hot', 1, 0),
-(19, 'medium med', 1, 0),
-(20, 'mild', 1, 0),
-(21, 'ranch', 1, 0),
-(22, 'buffalo', 1, 0),
-(23, 'spicy', 1, 0),
-(24, '1 one', 1, 1),
-(25, '4 four', 1, 1),
-(26, '5 five', 1, 1),
-(27, 'small sm', 1, 2),
-(28, 'large lg', 1, 2),
-(29, 'extra xl ex', 1, 2),
-(30, 'lbl pound lb', 1, 2),
-(32, 'drink beverage soda pop can', 5, 0),
-(33, 'coke cola', 1, 0),
-(34, 'diet', 1, 0),
-(35, 'liter litre lt bottle ltr', 1, 0),
-(36, 'iced ice tea nestea lipton brisk', 1, 0),
-(37, 'ginger ale', 1, 0),
-(38, 'pepper doctor', 1, 0),
-(39, 'crush', 1, 0),
-(40, 'orange', 1, 0),
-(41, 'pepsi', 1, 0),
-(42, '7up seven', 1, 0),
-(44, 'water h20', 1, 0),
-(45, 'salad', 5, 0),
-(46, 'caesar', 1, 0),
-(47, 'greek', 1, 0),
-(48, 'garden', 1, 0),
-(49, 'side', 1, 0),
-(50, 'poutine', 5, 0),
-(51, 'french fry frie', 5, 0),
-(52, 'wedges potato potatoe', 5, 0),
-(53, 'ring', 5, 0),
-(54, 'veggie', 5, 0),
-(55, 'stick', 1, 0),
-(56, 'bread', 5, 0),
-(60, 'regular classic', 1, 0),
-(61, 'panzerotti calzone pocket panzerottie', 5, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `locations`
---
-
-CREATE TABLE IF NOT EXISTS `locations` (
-  `restraunt_id` int(11) NOT NULL,
-  `formatted_address` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `address` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `city` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `province` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `postal_code` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `country` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `latitude` double NOT NULL,
-  `longitude` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -244,19 +153,6 @@ INSERT INTO `menu` (`id`, `category_id`, `category`, `item`, `price`, `toppings`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `menukeywords`
---
-
-CREATE TABLE IF NOT EXISTS `menukeywords` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `menuitem_id` int(11) NOT NULL,
-  `keyword_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=120 ;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `orders`
 --
 
@@ -286,7 +182,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `status` tinyint(4) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=62 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=67 ;
 
 --
 -- Dumping data for table `orders`
@@ -306,21 +202,12 @@ INSERT INTO `orders` (`id`, `user_id`, `placed_at`, `number`, `unit`, `buzzcode`
 (58, 1, '2016-11-23 05:55:44', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 0, 'tok_9c39nkLMpQpMu8', 'Deliver ASAP', '', 0, '14.50'),
 (59, 1, '2016-11-23 05:57:05', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 0, 'tok_9c3AseQ2URjmEC', 'Deliver ASAP', '', 0, '18.79'),
 (60, 1, '2016-11-23 06:00:50', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 0, 'tok_9c3ExfE5LAZLkm', 'Deliver ASAP', '', 0, '18.79'),
-(61, 1, '2016-11-29 20:46:46', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9eWscgIqiAnO3D', 'Deliver ASAP', '', 0, '21.24');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `password_resets`
---
-
-CREATE TABLE IF NOT EXISTS `password_resets` (
-  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `created_at` timestamp NOT NULL,
-  KEY `password_resets_email_index` (`email`),
-  KEY `password_resets_token_index` (`token`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+(61, 1, '2016-11-29 20:46:46', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9eWscgIqiAnO3D', 'Deliver ASAP', '', 0, '21.24'),
+(62, 1, '2016-11-29 23:06:27', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, '', 'Deliver ASAP', '', 0, '63.88'),
+(63, 1, '2016-11-29 23:06:56', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9eZ8OIZCv9Xypw', 'Deliver ASAP', '', 0, '9.25'),
+(64, 1, '2016-12-06 19:54:54', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 1, '', 'December 6 at 1100', '', 0, '22.54'),
+(65, 1, '2016-12-06 20:42:29', 2396, '18 Oakland Dr', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '20.31'),
+(66, 1, '2016-12-06 22:42:36', 2396, '18 Oakland Dr', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '24.81');
 
 -- --------------------------------------------------------
 
@@ -381,7 +268,7 @@ CREATE TABLE IF NOT EXISTS `restaurants` (
 --
 
 INSERT INTO `restaurants` (`id`, `name`, `slug`, `email`, `phone`, `cuisine`, `website`, `description`, `logo`, `is_delivery`, `is_pickup`, `max_delivery_distance`, `delivery_fee`, `minimum`, `is_complete`, `lastorder_id`, `franchise`, `address_id`) VALUES
-(1, 'Home', '', '', '(905) 512-3067', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 1);
+(1, 'Fabulous 2 for 1 Pizza & Wings', '', '', '(905) 512-3067', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -395,14 +282,14 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=41 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=43 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1479912807'),
+(1, 'lastSQL', '1481046301'),
 (20, 'orders', '1479345573'),
 (24, 'menucache', '1479345609'),
 (25, 'useraddresses', '1478971665'),
@@ -496,7 +383,7 @@ CREATE TABLE IF NOT EXISTS `useraddresses` (
 
 INSERT INTO `useraddresses` (`id`, `user_id`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `phone`) VALUES
 (1, 18, 1234, 'b@b.com', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', ''),
-(28, 1, 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', ''),
+(28, 1, 2396, '18 Oakland Dr', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', ''),
 (29, 20, 2396, '', '', 'Kingsway', 'V5R 5G9', 'Vancouver', 'British Columbia', '49.2408347', '-123.05659100000', ''),
 (30, 21, 0, '', '', '', '', '', '', '', '', ''),
 (31, 22, 2396, '', '', 'Kingsway', 'V5R 5G9', 'Vancouver', 'British Columbia', '49.2408347', '-123.05659100000', '');
@@ -530,7 +417,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `phone`, `lastlogin`, `loginattempts`, `profiletype`, `authcode`, `stripecustid`) VALUES
-(1, 'Roy Hodson', 'roy@trinoweb.com', '$2y$10$XqUn.RNhx0YbcZUQXWYP0eHIz0aLK8xX00cd.PLVRQsafF9Frod6K', '', '0000-00-00 00:00:00', '2016-10-26 18:22:14', '(905) 512-3067', 1479912217, 6, 1, '', 'cus_9eWsGq9LgH0kpX'),
+(1, 'Roy Hodson', 'roy@trinoweb.com', '$2y$10$XqUn.RNhx0YbcZUQXWYP0eHIz0aLK8xX00cd.PLVRQsafF9Frod6K', '', '0000-00-00 00:00:00', '2016-10-26 18:22:14', '9055315331', 1479912217, 6, 1, '', 'cus_9eWsGq9LgH0kpX'),
 (20, 'no', 'roy+tesy@trinoweb.com', '$2y$10$1QkddId8cIcydMdVOcLfTua0ecrLCJYdgGa5egg7Qt.0STsZCGYB6', '', '2016-11-16 20:20:28', '0000-00-00 00:00:00', '', 0, 0, 0, '', ''),
 (21, 'Jonas Morse', 'dezutabe@EMAILHOSTNAME.COM', '$2y$10$T6ExVSHGkiJOucU9YlIP1eVzNL1rE8LS8KuUqrduLDLpehytDKsXG', '', '2016-11-16 20:49:31', '0000-00-00 00:00:00', '', 0, 0, 0, '', ''),
 (22, 'Van Trinh', 'info+logintest@trinoweb.com', '$2y$10$mK2WHSoxG/vkNsT9R5FRsuzAc.HaFeeBiwTXNN6AFpLmO5OLf51hK', '', '2016-11-23 20:18:07', '0000-00-00 00:00:00', '', 0, 0, 0, '', '');

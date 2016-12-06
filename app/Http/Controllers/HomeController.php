@@ -191,6 +191,7 @@ class HomeController extends Controller {
         $Restaurant = first($SQL);
         if($Restaurant && $gethours){
             $Restaurant["hours"] = gethours($Restaurant["id"]);
+            $Restaurant["restaurant"] = first("SELECT * FROM restaurants WHERE address_id = " . $Restaurant["id"]);
         }
         return $Restaurant;
     }

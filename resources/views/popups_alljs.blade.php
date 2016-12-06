@@ -6,6 +6,7 @@
 
 <script>
     var currentitemID = -1;
+    var MAX_DISTANCE = 20;//km
 
     String.prototype.isEqual = function (str){
         if(isUndefined(str)){return false;}
@@ -967,12 +968,12 @@
         }
         var tempHTML = '<OPTION';
         var streetformat = "<?= $STREET_FORMAT; ?>";
-        if (address["unit"]) {
+        /*if (address["unit"]) {
             streetformat += " - Apt/Unit: [unit]";
             if (address["buzzcode"]) {
                 streetformat += ", Buzz code: [buzzcode]";
             }
-        }
+        }*/
         for (var keyID = 0; keyID < addresskeys.length; keyID++) {
             var keyname = addresskeys[keyID];
             if (address.hasOwnProperty(keyname)) {
@@ -1103,19 +1104,25 @@
         }, function (result) {
             if (handleresult(result)) {
                 var closest = JSON.parse(result)["closest"];
+                log(closest);
                 var restaurant = "No restaurant is within range";
                 canplaceorder = false;
                 if (closest.hasOwnProperty("id")) {
-                    canplaceorder = true;
-                    log("Can place an order");
-                    restaurant = "<?= $STREET_FORMAT; ?>";
-                    var keys = Object.keys(closest);
-                    for (var i = 0; i < keys.length; i++) {
-                        var keyname = keys[i];
-                        var keyvalue = closest[keyname];
-                        restaurant = restaurant.replace("[" + keyname + "]", keyvalue);
+                    if(parseFloat(closest.distance) < MAX_DISTANCE) {
+                        canplaceorder = true;
+                        /*
+                        log("Can place an order");
+                        restaurant = "<?= $STREET_FORMAT; ?>";
+                        var keys = Object.keys(closest);
+                        for (var i = 0; i < keys.length; i++) {
+                            var keyname = keys[i];
+                            var keyvalue = closest[keyname];
+                            restaurant = restaurant.replace("[" + keyname + "]", keyvalue);
+                        }
+                        */
+                        restaurant = closest.restaurant.name;
+                        GenerateHours(closest["hours"]);
                     }
-                    GenerateHours(closest["hours"]);
                 }
                 $("#restaurant").val(restaurant);
             }
