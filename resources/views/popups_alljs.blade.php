@@ -1,9 +1,7 @@
 <?php
     $CURRENT_YEAR = date("Y");
-    $STREET_FORMAT = "[number] [street], [city]";
-    //["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
+    $STREET_FORMAT = "[number] [street], [city]";//["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
 ?>
-
 <script>
     var currentitemID = -1;
     var MAX_DISTANCE = 20;//km
@@ -48,7 +46,7 @@
         var s = String(this);
         while (s.length < (size || 2)) {s = "0" + s;}
         return s;
-    }
+    };
 
     //returns the right $n characters of a string
     String.prototype.right = function(n) {
@@ -277,6 +275,7 @@
     }
 
     //generates the order menu item modal
+    var currentitem;
     function loadmodal(element, notparent) {
         if(isUndefined(notparent)){element = $(element).parent().parent();}
         var items = ["name", "price", "id", "size", "cat"];
@@ -285,8 +284,8 @@
         }
         var itemname = $(element).attr("itemname");
         var itemcost = $(element).attr("itemprice");
+        $("#modal-itemtotalprice").text(itemcost);
         var size = $(element).attr("itemsize");
-
         var toppingcost = 0.00;
         if (size) {
             toppingcost = Number(freetoppings[size]).toFixed(2);
@@ -294,6 +293,7 @@
             $(".toppings_price").text(toppingcost);
         }
         $("#modal-toppingcost").text(toppingcost);
+        currentitem = {itemname: itemname, itemcost: itemcost, size: size, toppingcost: toppingcost};
 
         /*clones the addon dropdowns
         initSelect2(".select2", true);
@@ -517,7 +517,7 @@
             var tablename = theitem.itemaddons[i].tablename;
             for(var i2 = 0; i2 < theitem.itemaddons[i].addons.length; i2++){
                 var theaddon = theitem.itemaddons[i].addons[i2].text;
-                currentaddonlist[i].push({name: theaddon, qual: 1, side: 1, type: tablename});
+                currentaddonlist[i].push({name: theaddon, qual: 1, side: 1, type: tablename, group: getaddon_group(tablename, theaddon)});
             }
         }
         generateaddons();
@@ -584,11 +584,17 @@
         return size;
     }
 
+    function getaddon_group(Table, Addon){
+        if (groups.hasOwnProperty(Table)) {
+            if (groups[Table].hasOwnProperty(Addon)) {return Number(groups[Table][Addon]);}
+        }
+        return 0;
+    }
+
     //checks if an addon is free
     function isaddon_free(Table, Addon) {
         switch (Addon.toLowerCase()) {
-            case "lightly done":
-            case "well done":
+            case "lightly done": case "well done":
                 return true;
                 break;
             default:

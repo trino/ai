@@ -30,7 +30,7 @@
                 }
 
                 //process addons, generating the option group dropdown HTML, enumerating free toppings and qualifiers
-                function getaddons($Table, &$isfree, &$qualifiers, &$addons) {
+                function getaddons($Table, &$isfree, &$qualifiers, &$addons, &$groups) {
                     $toppings = Query("SELECT * FROM " . $Table . " ORDER BY type ASC, name ASC", true);
                     $toppings_display = '';
                     $currentsection = "";
@@ -55,6 +55,9 @@
                         }
                         if ($topping["isall"]) {
                             $isfree["isall"][$Table][] = $topping["name"];
+                        }
+                        if ($topping["group"] > 0){
+                            $groups[$Table][$topping["name"]] = $topping["group"];
                         }
                         $toppings_display .= '<option value="' . $topping["id"] . '" type="' . $topping["type"] . '">' . $topping["displayname"] . '</option>';
                     }
@@ -82,8 +85,9 @@
                 }
             }
 
-            $toppings_display = getaddons("toppings", $isfree, $qualifiers, $addons);
-            $wings_display = getaddons("wings_sauce", $isfree, $qualifiers, $addons);
+            $groups = array();
+            $toppings_display = getaddons("toppings", $isfree, $qualifiers, $addons, $groups);
+            $wings_display = getaddons("wings_sauce", $isfree, $qualifiers, $addons, $groups);
             $classlist = array();
 
             foreach ($categories as $category) {
@@ -106,7 +110,6 @@
             <div class=" collapse in" id="collapse{{$category['id']}}_cat">
 
                 @foreach ($menuitems as $menuitem)
-
                     <div
                             style="border-radius: 0 !important;border:0 !important;padding-bottom:.5rem !important;"
                             class="btn btn-secondary col-xs-6 col-md-3 btn-sm item_{{ $catclass }}"
@@ -162,17 +165,15 @@
         <div class="modal-content">
             <div class="modal-body">
 
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i class="fa fa-close"></i></button>
-
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-close"></i></button>
 
                 <h4 id="myModalLabel">
-
-                    <SPAN ID="modal-itemname"></SPAN> $<SPAN ID="modal-itemprice"></SPAN>
+                    <SPAN ID="modal-itemname"></SPAN> $<SPAN ID="modal-itemtotalprice"></SPAN>
                 </h4>
                 <div class="mt-1"></div>
 
                 <div style="display: none;" id="modal-hiddendata">
+                    <SPAN ID="modal-itemprice"></SPAN>
                     <SPAN ID="modal-itemid"></SPAN>
                     <SPAN ID="modal-toppingcost"></SPAN>
                     <SPAN ID="modal-itemsize"></SPAN>
@@ -181,16 +182,14 @@
 
 
                 <div class="row" style="border-bottom:2px solid #dadada; margin-bottom:.5rem !important;">
-                <div class="col-xs-12">
-                    <DIV ID="addonlist" class="addonlist"></DIV>
-                </div>
+                    <div class="col-xs-12">
+                        <DIV ID="addonlist" class="addonlist"></DIV>
+                    </div>
                 </div>
 
                 <button data-dismiss="modal" id="additemtoorder" class="btn btn-warning-outline pull-right" onclick="additemtoorder();">
                     ADD TO ORDER
                 </button>
-
-
 
                 <div class="clearfix"></div>
             </div>
@@ -204,6 +203,7 @@
     var alladdons = <?= json_encode($addons); ?>;
     var freetoppings = <?= json_encode($isfree); ?>;
     var qualifiers = <?= json_encode($qualifiers); ?>;
+    var groups = <?= json_encode($groups); ?>;
     var theorder = new Array;
     var toppingsouterhtml, wingsauceouterhtml;
     var deliveryfee = <?= $deliveryfee; ?>;
