@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 06, 2016 at 07:02 PM
+-- Generation Time: Dec 06, 2016 at 10:38 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -182,14 +182,14 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `status` tinyint(4) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=67 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=82 ;
 
 --
 -- Dumping data for table `orders`
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `placed_at`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `accepted_at`, `restaurant_id`, `type`, `payment_type`, `phone`, `cell`, `paid`, `stripeToken`, `deliverytime`, `cookingnotes`, `status`, `price`) VALUES
-(48, 1, '2016-11-13 23:55:13', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9YaITlR2bCSCMi', 'Deliver ASAP', '', 0, '5.58'),
+(48, 1, '2016-11-13 23:55:13', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9YaITlR2bCSCMi', 'Deliver ASAP', '', 1, '5.58'),
 (49, 1, '2016-11-13 23:56:11', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9YaJReaOaIQfzJ', 'Deliver ASAP', '', 0, '13.41'),
 (50, 1, '2016-11-13 23:56:33', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9YaKs02iFd4RPP', 'Deliver ASAP', '', 0, '12.18'),
 (51, 1, '2016-11-15 20:20:52', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9ZHI9ZJ3dAFrtf', 'Deliver ASAP', '', 0, '5.58'),
@@ -207,7 +207,22 @@ INSERT INTO `orders` (`id`, `user_id`, `placed_at`, `number`, `unit`, `buzzcode`
 (63, 1, '2016-11-29 23:06:56', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9eZ8OIZCv9Xypw', 'Deliver ASAP', '', 0, '9.25'),
 (64, 1, '2016-12-06 19:54:54', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 1, '', 'December 6 at 1100', '', 0, '22.54'),
 (65, 1, '2016-12-06 20:42:29', 2396, '18 Oakland Dr', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '20.31'),
-(66, 1, '2016-12-06 22:42:36', 2396, '18 Oakland Dr', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '24.81');
+(66, 1, '2016-12-06 22:42:36', 2396, '18 Oakland Dr', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '24.81'),
+(67, 0, '2016-12-07 00:19:08', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, '', 'Deliver Now', '', 0, '0.00'),
+(68, 0, '2016-12-07 00:20:32', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, '', 'Deliver Now', '', 0, '0.00'),
+(69, 0, '2016-12-07 00:22:06', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, '', 'Deliver Now', '', 0, '0.00'),
+(70, 0, '2016-12-07 00:22:59', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, '', 'Deliver Now', '', 0, '0.00'),
+(71, 0, '2016-12-07 00:23:46', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, '', 'Deliver Now', '', 0, '0.00'),
+(72, 0, '2016-12-07 00:24:25', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, '', 'Deliver Now', '', 0, '0.00'),
+(73, 0, '2016-12-07 00:25:15', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, '', 'Deliver Now', '', 0, '0.00'),
+(74, 0, '2016-12-07 00:26:32', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, '', 'Deliver Now', '', 0, '0.00'),
+(75, 0, '2016-12-07 00:27:44', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, '', 'Deliver Now', '', 0, '0.00'),
+(76, 0, '2016-12-07 00:29:03', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, '', 'Deliver Now', '', 0, '0.00'),
+(77, 0, '2016-12-07 00:30:21', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, '', 'Deliver Now', '', 0, '0.00'),
+(78, 1, '2016-12-07 00:32:35', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '24.81'),
+(79, 1, '2016-12-07 00:56:10', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '9.02'),
+(80, 1, '2016-12-07 00:57:17', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '16.92'),
+(81, 1, '2016-12-07 00:59:40', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '20.31');
 
 -- --------------------------------------------------------
 
@@ -282,14 +297,14 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=43 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=44 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1481046301'),
+(1, 'lastSQL', '1481047339'),
 (20, 'orders', '1479345573'),
 (24, 'menucache', '1479345609'),
 (25, 'useraddresses', '1478971665'),
@@ -309,51 +324,53 @@ CREATE TABLE IF NOT EXISTS `toppings` (
   `isfree` tinyint(1) NOT NULL,
   `qualifiers` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'comma delimited list of the names for 1/2,x1,x2 if applicable',
   `isall` tinyint(4) NOT NULL DEFAULT '0',
+  `group` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=39 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=40 ;
 
 --
 -- Dumping data for table `toppings`
 --
 
-INSERT INTO `toppings` (`id`, `name`, `type`, `isfree`, `qualifiers`, `isall`) VALUES
-(1, 'Anchovies', 'Meat', 0, '', 0),
-(2, 'Artichoke Heart', 'Vegetable', 0, '', 0),
-(3, 'Bacon', 'Meat', 0, '', 0),
-(4, 'Beef Salami', 'Meat', 0, '', 0),
-(5, 'Black Olives', 'Vegetable', 0, '', 0),
-(6, 'Broccoli', 'Vegetable', 0, '', 0),
-(7, 'Cheddar', 'Cheese', 0, '', 0),
-(8, 'Cheese', 'Cheese', 0, '', 0),
-(9, 'Chicken', 'Meat', 0, '', 0),
-(11, 'Feta Cheese', 'Cheese', 0, '', 0),
-(12, 'Fresh Mushroom', 'Vegetable', 0, '', 0),
-(13, 'Green Olives', 'Vegetable', 0, '', 0),
-(14, 'Green Peppers', 'Vegetable', 0, '', 0),
-(15, 'Ground Beef', 'Meat', 0, '', 0),
-(16, 'Ham', 'Meat', 0, '', 0),
-(17, 'Hot Banana Peppers', 'Vegetable', 0, '', 0),
-(18, 'Hot Italian Sausage', 'Meat', 0, '', 0),
-(19, 'Hot Peppers', 'Vegetable', 0, '', 0),
-(20, 'Hot Sausage', 'Meat', 0, '', 0),
-(21, 'Italian Sausage', 'Meat', 0, '', 0),
-(22, 'Tomato Sauce', 'Preparation', 1, '', 0),
-(23, 'Jalapeno Peppers', 'Vegetable', 0, '', 0),
-(24, 'Mild Sausage', 'Meat', 0, '', 0),
-(25, 'Mixed Cheese', 'Cheese', 0, '', 0),
-(26, 'Mozzarella Cheese', 'Cheese', 0, '', 0),
-(27, 'Mushrooms', 'Vegetable', 0, '', 0),
-(28, 'Onions', 'Vegetable', 0, '', 0),
-(29, 'Parmesan Cheese', 'Cheese', 0, '', 0),
-(30, 'Pepperoni', 'Meat', 0, '', 0),
-(31, 'Pineapple', 'Vegetable', 0, '', 0),
-(32, 'Red Onions', 'Vegetable', 0, '', 0),
-(33, 'Red Peppers', 'Vegetable', 0, '', 0),
-(34, 'Salami', 'Meat', 0, '', 0),
-(35, 'Spinach', 'Vegetable', 0, '', 0),
-(36, 'Sundried Tomatoes', 'Vegetable', 0, '', 0),
-(37, 'Tomatoes', 'Vegetable', 0, '', 0),
-(38, 'Cooked', 'Preparation', 1, 'Lightly done, Regular, Well done', 1);
+INSERT INTO `toppings` (`id`, `name`, `type`, `isfree`, `qualifiers`, `isall`, `group`) VALUES
+(1, 'Anchovies', 'Meat', 0, '', 0, 0),
+(2, 'Artichoke Heart', 'Vegetable', 0, '', 0, 0),
+(3, 'Bacon', 'Meat', 0, '', 0, 0),
+(4, 'Beef Salami', 'Meat', 0, '', 0, 0),
+(5, 'Black Olives', 'Vegetable', 0, '', 0, 0),
+(6, 'Broccoli', 'Vegetable', 0, '', 0, 0),
+(7, 'Cheddar', 'Cheese', 0, '', 0, 0),
+(8, 'Cheese', 'Cheese', 0, '', 0, 0),
+(9, 'Chicken', 'Meat', 0, '', 0, 0),
+(11, 'Feta Cheese', 'Cheese', 0, '', 0, 0),
+(12, 'Fresh Mushroom', 'Vegetable', 0, '', 0, 0),
+(13, 'Green Olives', 'Vegetable', 0, '', 0, 0),
+(14, 'Green Peppers', 'Vegetable', 0, '', 0, 0),
+(15, 'Ground Beef', 'Meat', 0, '', 0, 0),
+(16, 'Ham', 'Meat', 0, '', 0, 0),
+(17, 'Hot Banana Peppers', 'Vegetable', 0, '', 0, 0),
+(18, 'Hot Italian Sausage', 'Meat', 0, '', 0, 0),
+(19, 'Hot Peppers', 'Vegetable', 0, '', 0, 0),
+(20, 'Hot Sausage', 'Meat', 0, '', 0, 0),
+(21, 'Italian Sausage', 'Meat', 0, '', 0, 0),
+(22, 'Tomato Sauce', 'Preparation', 1, '', 0, 0),
+(23, 'Jalapeno Peppers', 'Vegetable', 0, '', 0, 0),
+(24, 'Mild Sausage', 'Meat', 0, '', 0, 0),
+(25, 'Mixed Cheese', 'Cheese', 0, '', 0, 0),
+(26, 'Mozzarella Cheese', 'Cheese', 0, '', 0, 0),
+(27, 'Mushrooms', 'Vegetable', 0, '', 0, 0),
+(28, 'Onions', 'Vegetable', 0, '', 0, 0),
+(29, 'Parmesan Cheese', 'Cheese', 0, '', 0, 0),
+(30, 'Pepperoni', 'Meat', 0, '', 0, 0),
+(31, 'Pineapple', 'Vegetable', 0, '', 0, 0),
+(32, 'Red Onions', 'Vegetable', 0, '', 0, 0),
+(33, 'Red Peppers', 'Vegetable', 0, '', 0, 0),
+(34, 'Salami', 'Meat', 0, '', 0, 0),
+(35, 'Spinach', 'Vegetable', 0, '', 0, 0),
+(36, 'Sundried Tomatoes', 'Vegetable', 0, '', 0, 0),
+(37, 'Tomatoes', 'Vegetable', 0, '', 0, 0),
+(38, 'Well Done', 'Preparation', 1, 'Lightly done, Regular, Well done', 1, 1),
+(39, 'Lightly Done', 'Preparation', 1, '', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -374,19 +391,20 @@ CREATE TABLE IF NOT EXISTS `useraddresses` (
   `latitude` varchar(16) NOT NULL,
   `longitude` varchar(16) NOT NULL,
   `phone` varchar(16) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=32 ;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=43 ;
 
 --
 -- Dumping data for table `useraddresses`
 --
 
 INSERT INTO `useraddresses` (`id`, `user_id`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `phone`) VALUES
-(1, 18, 1234, 'b@b.com', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', ''),
+(1, 21, 1234, 'b@b.com', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', ''),
 (28, 1, 2396, '18 Oakland Dr', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', ''),
 (29, 20, 2396, '', '', 'Kingsway', 'V5R 5G9', 'Vancouver', 'British Columbia', '49.2408347', '-123.05659100000', ''),
-(30, 21, 0, '', '', '', '', '', '', '', '', ''),
-(31, 22, 2396, '', '', 'Kingsway', 'V5R 5G9', 'Vancouver', 'British Columbia', '49.2408347', '-123.05659100000', '');
+(31, 22, 2396, '', '', 'Kingsway', 'V5R 5G9', 'Vancouver', 'British Columbia', '49.2408347', '-123.05659100000', ''),
+(32, 1, 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '');
 
 -- --------------------------------------------------------
 
@@ -410,7 +428,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `stripecustid` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=28 ;
 
 --
 -- Dumping data for table `users`
@@ -418,9 +436,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `phone`, `lastlogin`, `loginattempts`, `profiletype`, `authcode`, `stripecustid`) VALUES
 (1, 'Roy Hodson', 'roy@trinoweb.com', '$2y$10$XqUn.RNhx0YbcZUQXWYP0eHIz0aLK8xX00cd.PLVRQsafF9Frod6K', '', '0000-00-00 00:00:00', '2016-10-26 18:22:14', '9055315331', 1479912217, 6, 1, '', 'cus_9eWsGq9LgH0kpX'),
-(20, 'no', 'roy+tesy@trinoweb.com', '$2y$10$1QkddId8cIcydMdVOcLfTua0ecrLCJYdgGa5egg7Qt.0STsZCGYB6', '', '2016-11-16 20:20:28', '0000-00-00 00:00:00', '', 0, 0, 0, '', ''),
-(21, 'Jonas Morse', 'dezutabe@EMAILHOSTNAME.COM', '$2y$10$T6ExVSHGkiJOucU9YlIP1eVzNL1rE8LS8KuUqrduLDLpehytDKsXG', '', '2016-11-16 20:49:31', '0000-00-00 00:00:00', '', 0, 0, 0, '', ''),
-(22, 'Van Trinh', 'info+logintest@trinoweb.com', '$2y$10$mK2WHSoxG/vkNsT9R5FRsuzAc.HaFeeBiwTXNN6AFpLmO5OLf51hK', '', '2016-11-23 20:18:07', '0000-00-00 00:00:00', '', 0, 0, 0, '', '');
+(20, 'no', 'roy+test@trinoweb.com', '$2y$10$XqUn.RNhx0YbcZUQXWYP0eHIz0aLK8xX00cd.PLVRQsafF9Frod6K', '', '2016-11-16 20:20:28', '0000-00-00 00:00:00', '9055315331', 0, 0, 0, '', ''),
+(21, 'Jonas Morse', 'roy+rest@trinoweb.com', '$2y$10$XqUn.RNhx0YbcZUQXWYP0eHIz0aLK8xX00cd.PLVRQsafF9Frod6K', '', '2016-11-16 20:49:31', '0000-00-00 00:00:00', '9055315331', 1481048458, 1, 2, '', ''),
+(22, 'Van Trinh', 'info+logintest@trinoweb.com', '$2y$10$XqUn.RNhx0YbcZUQXWYP0eHIz0aLK8xX00cd.PLVRQsafF9Frod6K', '', '2016-11-23 20:18:07', '0000-00-00 00:00:00', '9055315331', 0, 0, 0, '', '');
 
 -- --------------------------------------------------------
 
@@ -435,21 +453,23 @@ CREATE TABLE IF NOT EXISTS `wings_sauce` (
   `isfree` tinyint(1) NOT NULL,
   `qualifiers` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'comma delimited list of the names for 1/2,x1,x2 if applicable',
   `isall` tinyint(4) NOT NULL DEFAULT '1',
+  `group` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `wings_sauce`
 --
 
-INSERT INTO `wings_sauce` (`id`, `name`, `type`, `isfree`, `qualifiers`, `isall`) VALUES
-(1, 'Mild', 'Sauce', 0, '', 1),
-(2, 'Medium', 'Sauce', 0, '', 1),
-(3, 'Hot', 'Sauce', 0, '', 1),
-(4, 'Suicide', 'Sauce', 0, '', 1),
-(5, 'BBQ', 'Sauce', 0, '', 1),
-(6, 'Honey Garlic', 'Sauce', 0, '', 1),
-(7, 'Cooked', 'Preparation', 1, 'Lightly done, Regular, Well done', 1);
+INSERT INTO `wings_sauce` (`id`, `name`, `type`, `isfree`, `qualifiers`, `isall`, `group`) VALUES
+(1, 'Mild', 'Sauce', 0, '', 1, 2),
+(2, 'Medium', 'Sauce', 0, '', 1, 2),
+(3, 'Hot', 'Sauce', 0, '', 1, 2),
+(4, 'Suicide', 'Sauce', 0, '', 1, 2),
+(5, 'BBQ', 'Sauce', 0, '', 1, 2),
+(6, 'Honey Garlic', 'Sauce', 0, '', 1, 2),
+(7, 'Well Done', 'Preparation', 1, 'Lightly done, Regular, Well done', 1, 1),
+(8, 'Lightly Done', 'Preparation', 1, '', 1, 1);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
