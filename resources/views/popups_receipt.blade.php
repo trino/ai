@@ -1,4 +1,6 @@
 <?php
+    $debugmode = false;//!islive();
+    $debug="";
     $Order = first("SELECT orders.*, users.name, users.id as userid, users.email FROM orders, users WHERE orders.id = " . $orderid . " HAVING user_id = users.id");
     $filename = resource_path("orders") . "/" . $orderid . ".json";
     if(isset($JSON)){//get raw JSON instead
@@ -27,7 +29,7 @@
     $Status = $Status[$Order["status"]];
 ?>
 @if($style==1)
-    <TABLE class="table table-sm table-bordered ">
+    <TABLE class="table table-sm table-bordered">
         <TR><TD>Order #: </TD><TD ID="receipt_id"><?= $orderid; ?></TD></TR>
         <TR><TD>Ordered On:</TD><TD ID="receipt_placed_at"><?= verbosedate($Order["placed_at"]); ?></TD></TR>
         <TR><TD>Status: </TD><TD><?= $Status; ?></TD></TR>
@@ -49,7 +51,7 @@
         @endif
     </TABLE>
 
-    <TABLE WIDTH="100%" class="table table-inverse  table-sm bg-danger table-bordered table-responsive">
+    <TABLE WIDTH="100%" class="table table-inverse table-sm bg-danger table-bordered">
         <THEAD>
             <TR>
                 <TH>#</TH>
@@ -145,7 +147,10 @@
 
                             switch($style){
                                 case 1:
-                                    echo '<TR><TD>' . ($ID+1) . '</TD><TD TITLE="' . var_export($item, true) . '">' . $item->itemname . '</TD><TD ALIGN="RIGHT" TITLE="' . print_r($menuitem, true) . '">$' . number_format($menuitem["price"], 2) . '</TD><TD>';
+                                    if($debugmode){$debug = ' TITLE="' . var_export($item, true) . '"';}
+                                    echo '<TR><TD>' . ($ID+1) . '</TD><TD' . $debug . '>' . $item->itemname . '</TD>';
+                                    if($debugmode){$debug = ' TITLE="' . print_r($menuitem, true) . '"';}
+                                    echo '<TD ALIGN="RIGHT"' . $debug . '>$' . number_format($menuitem["price"], 2) . '</TD><TD>';
                                     break;
                                 case 2:
                                     $imagefile = str_replace(" ", "_", strtolower($menuitem["category"]));
@@ -188,7 +193,8 @@
                                         } else {
                                             $paidtoppings++;
                                         }
-                                        $newtoppings[] = '<SPAN TITLE="' . print_r($topping, true) . '">' . $topping["name"] . '</SPAN>';
+                                        if($debugmode){$debug=' TITLE="' . print_r($topping, true) . '"';}
+                                        $newtoppings[] = '<SPAN' . $debug . '>' . $topping["name"] . '</SPAN>';
                                     }
 
                                     if($style==1){
@@ -209,11 +215,12 @@
                             if($style==1){
                                 echo '</TD><TD>';
                                 if($totaladdons){ echo $paidtoppings . ' paid, ' . $freetoppings . ' free';}
-                                echo '</TD><TD>' . $size . '</TD><TD ALIGN="RIGHT">$' . number_format($addonscost, 2) . '</TD><TD ALIGN="RIGHT" TITLE="User side: $' . $item->itemprice . '"';
-                                if (number_format($item->itemprice,2) <> number_format($itemtotal, 2)){
+                                if($debugmode){$debug=' TITLE="User side: $' . $item->itemprice . '"';}
+                                echo '</TD><TD>' . $size . '</TD><TD ALIGN="RIGHT">$' . number_format($addonscost, 2) . '</TD><TD ALIGN="RIGHT"' . $debug;
+                                //if (number_format($item->itemprice,2) <> number_format($itemtotal, 2)){
                                     //echo ' STYLE="COLOR: red;"';
-                                    $integrity = false;
-                                }
+                                    //$integrity = false;
+                                //}
                                 echo '>';
                             }
                             echo '$' . number_format($itemtotal, 2) . '</TD></TR>';
@@ -236,9 +243,9 @@
                 if($Order["cookingnotes"]){
                     echo '<TR><TD COLSPAN="' . $colspan . '"><B>Notes to cook: </B>' . $Order["cookingnotes"] . '</TD></TR>';
                 }
-                if(!$integrity){
+                //if(!$integrity){
                     //echo '<TR><TD COLSPAN="7" ALIGN="RIGHT">Integrity check</TD><TD ALIGN="RIGHT" STYLE="color:red;">FAIL</TD></TR>';
-                }
+                //}
                 //debugprint("Amount generated for order " . $orderid . " = " . $total);
                 insertdb("orders", array("id" => $orderid, "price" => $total));//saved for stripe
             } catch (exception $e){
