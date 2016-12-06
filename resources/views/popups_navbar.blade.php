@@ -1,4 +1,5 @@
-<nav class="navbar-default navbar-top navbar navbar-full navbar-dark bg-danger dont-print" style="z-index: 1;">
+<nav class="navbar-default navbar-top navbar navbar-full navbar-dark bg-danger dont-print" style="z-index: 1;
+padding:.75rem !important;">
     <span class="nav-link navbar-brand" style="font-weight:600;line-height: 1.5 !important;color:white !important;">
         <a HREF="<?= webroot("public/index"); ?>" class=" pull-left" style="color:white;cursor:pointer;">
         <i class="fa fa-home" style="width: 25px;" aria-hidden="true"></i> London Pizza</a>
@@ -34,7 +35,7 @@
                                 </A>
                             </li>
                             <li>
-                                <A ONCLICK="orders();" class="dropdown-item" href="#"> <i class="fa fa-home"></i> Order History</A>
+                                <A ONCLICK="orders();" class="dropdown-item" href="#"> <i class="fa fa-home"></i> Recent Orders</A>
                             </li>
                             <li>
                                 <A ONCLICK="handlelogin('logout');" CLASS="dropdown-item" href="#"><i class="fa fa-home"></i> Log out</A>

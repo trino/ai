@@ -35,7 +35,7 @@
         <link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://bootswatch.com/paper/bootstrap.css">
+        <!--link rel="stylesheet" href="https://bootswatch.com/paper/bootstrap.css"-->
         <link rel="stylesheet" href="<?= webroot("public/custom2.css"); ?>">
 
         <script src="<?= webroot("resources/views/jquery.min.js"); ?>"></script>
@@ -49,10 +49,10 @@
 
         @include("popups_alljs")
     </head>
-    <body style="margin-bottom: 80px;">
+    <body>
         <?= view("popups_navbar")->render(); ?>
 
-        <div class="container mt-1">
+        <div class="container">
             @yield('content')
         </div>
 

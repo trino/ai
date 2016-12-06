@@ -4,7 +4,7 @@
             <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i class="fa fa-close"></i></button>
-                <h5 id="myModalLabel">Checkout </h5>
+                <h4 id="myModalLabel">Checkout </h4>
                 <div class="row">
                     <div class="col-sm-6">
                         <FORM ID="orderinfo" name="orderinfo">
@@ -57,16 +57,15 @@
                         <?php
                             echo '<input type="text" class="form-control corner-top" ID="restaurant" placeholder="Closest Restaurant" READONLY TITLE="Closest restaurant"/>';
                             echo '<SELECT id="deliverytime" TITLE="Delivery Time" class="form-control proper-height"/>';
-                            echo '<OPTION>Deliver ASAP</OPTION>';
+                            echo '<OPTION>Deliver Now</OPTION>';
                             echo '</SELECT>';
                         ?>
                         <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook" maxlength="255"/>
                     </div>
                     <div class="col-xs-12 mt-1">
                         <DIV class="payment-errors" style="color:red;"></DIV>
-                        <a class="btn btn-secondary" onclick="testcard();">Test</a>
+                        <a class="btn btn-secondary" onclick="testcard();">Test CreditCard</a>
                         <a class="btn btn-warning text-white pull-right" onclick="payfororder();">PLACE ORDER</a>
-                        <a class="btn btn-secondary pull-right" data-dismiss="modal" aria-label="Close">CANCEL</a>
                         <DIV ID="form_integrity" style="color:red;"></DIV>
                     </div>
                     </FORM>

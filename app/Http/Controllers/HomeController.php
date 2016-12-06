@@ -81,12 +81,19 @@ class HomeController extends Controller {
             if (!is_dir($dir)) {mkdir($dir, 0777, true);}
             file_put_contents($dir . "/" . $orderid . ".json", json_encode($order, JSON_PRETTY_PRINT));
             $user = first("SELECT * FROM users WHERE id = " . $info["user_id"]);
+
             if($user["name"] != $_POST["name"] || $user["phone"] != $_POST["phone"]){
-                if(!isset($user["id"])) {$user["id"] == $info["user_id"];}
+                if(!isset($user["id"])) {
+                    $user["id"] == $info["user_id"];
+                }
+
+                print_r($user);
+                print_r( $info);
                 $user["name"] = $_POST["name"];
                 $user["phone"] = $_POST["phone"];
                 insertdb("users", array("id" => $user["id"], "name" => $_POST["name"], "phone" => $_POST["phone"]));//attempt to update user profile
             }
+
             $user["orderid"] = $orderid;
             $user["mail_subject"] = "Receipt";
             $text = $this->sendEMail("email_receipt", $user);//send emails to customer and store, also generates the cost

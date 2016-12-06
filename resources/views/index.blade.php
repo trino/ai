@@ -8,7 +8,7 @@
     ?>
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-8" style="padding: .75rem !important;">
             <?php
             if (islive()) {
                 function like_match($pattern, $subject)
@@ -25,7 +25,7 @@
                     }
                 }
                 if (!$found) {
-                    die("IP " . $_SERVER["REMOTE_ADDR"] . " not recognized");
+                  //  die("IP " . $_SERVER["REMOTE_ADDR"] . " not recognized");
                 }
             }
 
@@ -44,8 +44,12 @@
                 echo '<!-- menu cache generated at: ' . now() . ' --> ' . $menu;
             }
             ?>
+                <div class="row">
+                    <div class="col-md-12"><br>
+                    </div>
+                    </div>
         </div>
-        <div class="col-md-4 mt-2" style="padding: 0 !important;">
+        <div class="col-md-4">
 
             <div class="card text-white bg-danger" style="margin: 0 !important;border-radius: 0 !important;">
                 <div class="card-block ">
@@ -55,9 +59,9 @@
                                ONCLICK="confirm2('Are you sure you want to clear your order?', 'Clear Order', function(){clearorder();});">
                                 <i class="fa fa-close"></i>
                             </a>
-                            <h5 class="pull-left text-white">
+                            <h4 class="pull-left text-white">
                                 My Order
-                            </h5>
+                            </h4>
                             <div class="clearfix" style="margin:.5rem 0 1rem 0 !Important;"></div>
                             <div id="myorder"></div>
                         </div>
@@ -65,9 +69,9 @@
 
                     <div ID="checkoutbutton"></div>
 
-                    <div id="checkout-btn" class="row  mt-1 mb-3">
+                    <div id="checkout-btn" class="row  mt-1">
                         <div class="col-md-12">
-                            <button class="btn btn-warning pull-left" onclick="showcheckout();">
+                            <button class="btn btn-warning btn-block" onclick="showcheckout();">
                                 CHECKOUT
                             </button>
                         </div>

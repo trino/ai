@@ -409,10 +409,11 @@
 
             tempHTML = '<span class="pull-left"> <DIV CLASS="sprite sprite-' + category + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
             tempHTML += '<span class="pull-right" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '">';
+
+            tempHTML += ' <i class="fa fa-close pull-right" onclick="removeorderitem(' + itemid + ');"></i>';
             if(hasaddons) {
                 tempHTML += ' <i class="fa fa-pencil pull-right" onclick="edititem(this, ' + itemid + ');"></i>';
             }
-            tempHTML += ' <i class="fa fa-close pull-right" onclick="removeorderitem(' + itemid + ');"></i>';
             tempHTML += '$' + totalcost + '</span><div class="clearfix"></div>';
 
             var itemname = "";
@@ -659,7 +660,7 @@
 
     //generate a list of addresses and send it to the alert modal
     function addresses() {
-        var HTML = '<h5>Addresses</h5>';
+        var HTML = '<h4>Addresses</h4>';
         var number = $("#add_number").val();
         var street = $("#add_street").val();
         var city = $("#add_city").val();
@@ -693,7 +694,12 @@
                 if (!First) {
                     First = ID;
                 }
-                HTML += '<li class="list-group-item" ONCLICK="orders(' + ID + ');"><span class="tag tag-default tag-pill pull-xs-right">ID: ' + ID + '</span>' + order["placed_at"] + '<SPAN ID="pastreceipt' + ID + '"></SPAN></li>';
+                HTML += '<li class="list-group-item" ONCLICK="orders(' + ID + ');">' +
+                  '<SPAN ID="pastreceipt' + ID + '"></SPAN>' +
+                    '<span class="tag tag-default tag-pill pull-xs-right">ID: ' + ID + '</span>'
+                    + order["placed_at"] +
+                    '' +
+                    '</li>';
             }
             HTML += '</ul><P><DIV ID="pastreceipt" CLASS="pastreceipt"></DIV><P>';
             if (!First) {
@@ -1176,7 +1182,7 @@
         var time = now.getHours() * 100 + now.getMinutes();
         time = time + (increments - (time % increments));
         var oldValue = $("#deliverytime").val();
-        var HTML = '<option>Deliver ASAP</option>';
+        var HTML = '<option>Deliver Now</option>';
         var totalInc = (minutesinaday*totaldays) / increments;
         for(var i=0; i<totalInc; i++){
             if(isopen(hours, dayofweek, time) > -1) {
@@ -1271,16 +1277,16 @@
                     <i class="fa fa-close"></i>
                 </button>
 
-                <h5 class="modal-title" id="alertmodallabel">Title</h5>
+                <h4 class="modal-title" id="alertmodallabel">Title</h4>
 
                 <DIV ID="alertmodalbody" STYLE="margin-top: 5px;"></DIV>
 
                 <DIV CLASS="pb-1"></DIV>
-                <div class="btn-group" role="group" aria-label="Basic example" style="width: 100%">
-                    <button class="btn btn-secondary" style="width: 50%" id="alert-cancel" data-dismiss="modal">
+                <div >
+                    <button class="btn btn-secondary"  id="alert-cancel" data-dismiss="modal">
                         Cancel
                     </button>
-                    <button class="btn btn-secondary" style="width: 50%"   id="alert-confirm" data-dismiss="modal">
+                    <button class="btn btn-secondary" id="alert-confirm" data-dismiss="modal">
                         OK
                     </button>
                 </div>

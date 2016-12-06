@@ -153,9 +153,9 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-block bg-danger" >
-                        <h5 class="pull-left">
+                        <h4 class="pull-left">
                             <A HREF="{{ webroot("public") }}"><i class="fa fa-home" aria-hidden="true"></i></A> Edit user
-                        </h5>
+                        </h4>
                         <A HREF="{{ webroot("public/list/useraddresses?user_id=" . $user_id ) }}" STYLE="float:right;" class="btn btn-sm  btn-secondary waves-effect">Edit Addresses</A>
                     </div>
                     <div class="card-block">

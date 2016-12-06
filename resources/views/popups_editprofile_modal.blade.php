@@ -8,7 +8,7 @@
                     <i class="fa fa-close"></i></button>
 
                 <div>
-                    <h5 class="modal-title" id="myModalLabel">Edit Profile</h5>
+                    <h4 class="modal-title" id="myModalLabel">Edit Profile</h4>
                 </div>
 
                 <FORM NAME="user" id="userform">

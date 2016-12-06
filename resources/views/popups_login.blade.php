@@ -2,9 +2,9 @@
 $style = 2;?>
 
 <!--div class="modal" id="loginmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"  data-keyboard="false" data-backdrop="static"-->
-<div class="card">
+<div class="">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="">
             <div class="modal-body">
                 <div class="row">
 
@@ -70,19 +70,8 @@ $style = 2;?>
 
                     </DIV>
 
-                    <DIV CLASS="col-md-6 text-white bg-danger" id="loginpanel">
-                        <i class="fa fa-cutlery btn btn-block" style="font-size: 1rem;"></i>
+                    <DIV CLASS="col-md-6" id="loginpanel">
 
-                        test 123 <br>
-                        test 123 <br>
-                        test 123 <br>
-                        test 123 <br>
-                        test 123 <br>
-                        test 123 <br>
-                        test 123 <br>
-                        test 123 <br>
-                        test 123 <br>
-                        test 123 <br>
                         <DIV CLASS="clearfix"></DIV>
 
                     </DIV>
