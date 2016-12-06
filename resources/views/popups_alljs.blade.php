@@ -1148,6 +1148,8 @@
     }
 
     function showcheckout() {
+        canplaceorder=false;
+        $("#restaurant").val("");
         var HTML = $("#checkoutaddress").html();
         HTML = HTML.replace('class="', 'class="corner-top ');
         if(loadsavedcreditinfo()){
