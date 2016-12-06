@@ -510,23 +510,35 @@ function getuser($IDorEmail = false, $IncludeOther = true){
         }
         if($user["stripecustid"]) {
             initStripe();
-            $customer = \Stripe\Customer::Retrieve(
-                array("id" => $user["stripecustid"], "expand" => array("default_source"))
-            );
-            $user["Stripe"] = $customer->default_source;
+            $customer = \Stripe\Customer::Retrieve($user["stripecustid"]);//get all credit cards
+            //array("id" => $user["stripecustid"], "expand" => array("default_source")));
+            foreach($customer->sources->data as $Index => $Value){
+                $customer->sources->data[$Index] = getProtectedValue($Value, "_values");
+                unset($customer->sources->data[$Index]["metadata"]);
+            }
+            $user["Stripe"] = $customer->sources->data;
+            //var_dump($user["Stripe"]);die();
         }
     }
     return $user;
 }
+
+//gets the protected value of an object ("_properties" is one used by most objects)
+function getProtectedValue($obj, $name = "_properties") {
+    $array = (array)$obj;
+    $prefix = chr(0) . '*' . chr(0);
+    if (isset($array[$prefix . $name])) {
+        return $array[$prefix . $name];
+    }
+}
+
 
 function initStripe(){
     //Set secret key: remember to change this to live secret key in production
     if (!islive() || (isset($_POST["istest"]) && $_POST["istest"])) {
         \Stripe\Stripe::setApiKey("BJi8zV1i3D90vmaaBoLKywL84HlstXEg"); //test
     } else {
-
         \Stripe\Stripe::setApiKey("BJi8zV1i3D90vmaaBoLKywL84HlstXEg"); //test
-
         //\Stripe\Stripe::setApiKey("3qL9w2o6A0xePqv8C6ufRKbAqkKTDJAW"); //live
     }
 }

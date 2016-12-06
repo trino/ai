@@ -41,10 +41,20 @@
         return this.substring(0, n);
     };
 
+    Number.prototype.pad = function(size) {
+        var s = String(this);
+        while (s.length < (size || 2)) {s = "0" + s;}
+        return s;
+    }
+
     //returns the right $n characters of a string
     String.prototype.right = function(n) {
         return this.substring(this.length-n);
     };
+
+    function right(text, length){
+        return String(text).right(length);
+    }
 
     //returns true if $variable appears to be a valid function
     function isFunction(variable) {
@@ -1044,7 +1054,7 @@
         $(".payment-errors").html("");
 
         log("Attempt to pay: " + changecredit());
-        if(changecredit() == 1){//new card
+        if(!changecredit()){//new card
             log("Stripe data");
             Stripe.card.createToken($form, stripeResponseHandler);
             log("Stripe data - complete");
@@ -1074,7 +1084,10 @@
                 }
                 break;
         }
-        if(errormessage){$(".payment-errors").html(errormessage + "<BR><BR>" + response["error"]["type"] + ":<BR>" + response["error"]["message"]);}
+        if(errormessage){
+            //$(".payment-errors").html(errormessage + "<BR><BR>" + response["error"]["type"] + ":<BR>" + response["error"]["message"]);
+            $(".payment-errors").html(response["error"]["message"]);
+        }
     }
 
     function addresshaschanged() {
@@ -1109,17 +1122,14 @@
 
     function loadsavedcreditinfo(){
         if(userdetails.stripecustid.length>0) {
-            $("input[data-stripe=number]").val("**** **** **** " + userdetails.Stripe.last4);
-            $("input[data-stripe=exp_month]").val(userdetails.Stripe.exp_month);
-            $("input[data-stripe=exp_year]").val(userdetails.Stripe.exp_year);
-            return true;
+            return userdetails.Stripe.length > 0;
         }
         return false;
     }
 
     function changecredit(){
         var val = $("#saved-credit-info").val();
-        if(val == 1){
+        if(!val){
             $(".credit-info").show();//let cust edit the card
         } else {
             $(".credit-info").hide();//use saved card info
@@ -1132,9 +1142,16 @@
         HTML = HTML.replace('class="', 'class="corner-top ');
         if(loadsavedcreditinfo()){
             $(".credit-info").hide();
-            $("#credit-info").html('<SELECT ID="saved-credit-info" onchange="changecredit();" class="form-control proper-height"><OPTION value="0">Use saved credit card</OPTION><OPTION value="1">Use new credit card</OPTION></SELECT>');
+            var creditHTML = '<SELECT ID="saved-credit-info" name="creditcard" onchange="changecredit();" class="form-control proper-height"><OPTION value="">Use new credit card</OPTION>';
+            for(var i=0; i<userdetails.Stripe.length; i++){
+                var card = userdetails.Stripe[i];
+                creditHTML += '<OPTION value="' + card.id + '"';
+                if(i == userdetails.Stripe.length-1){creditHTML += ' SELECTED';}
+                creditHTML += '>**** **** **** ' + card.last4 + ' EXP: ' + card.exp_month.pad(2) + '/' + right(card.exp_year,2) + '</OPTION>';
+            }
+            $("#credit-info").html(creditHTML + '</SELECT>');
         } else {
-            $("#credit-info").html('<INPUT TYPE="hidden" VALUE="1" ID="saved-credit-info">');
+            $("#credit-info").html('<INPUT TYPE="hidden" VALUE="" ID="saved-credit-info">');
         }
         $("#checkoutaddress").html(HTML);
         $("#checkoutmodal").modal("show");

@@ -72,6 +72,7 @@ class HomeController extends Controller {
             $info["placed_at"] = now();
             $info["restaurant_id"] = $restaurant["id"];
             unset($info["name"]);
+            unset($info["creditcard"]);
             if(isset($_POST["stripe"])){$info["stripeToken"] = $_POST["stripe"];}
 
             $order = $_POST["order"];
@@ -86,9 +87,7 @@ class HomeController extends Controller {
                 if(!isset($user["id"])) {
                     $user["id"] == $info["user_id"];
                 }
-
-                print_r($user);
-                print_r( $info);
+                //print_r($user); print_r($info);
                 $user["name"] = $_POST["name"];
                 $user["phone"] = $_POST["phone"];
                 insertdb("users", array("id" => $user["id"], "name" => $_POST["name"], "phone" => $_POST["phone"]));//attempt to update user profile
@@ -121,44 +120,39 @@ class HomeController extends Controller {
                             insertdb("users", array("id" => $user["id"], "stripecustid" => $customer_id));//attempt to update user profile
                         }
 
-                        // Create the charge on Stripe's servers - this will charge the user's card
-                        $charge = \Stripe\Charge::create(array(
+                        $charge = array(
                             "amount" => $amount,
                             "currency" => "cad",
                             //"source" => $info["stripeToken"],//charge card directly
                             "customer" => $customer_id,//charge customer ID
                             "description" => "Order ID: " . $orderid
-                        ));
-                        insertdb("orders", array("id" => $orderid, "paid" => 1));
+                        );
+                        if(isset($_POST["creditcard"]) && $_POST["creditcard"]){
+                            $charge["source"] = $_POST["creditcard"];//charge a specific credit card
+                            //$charge["card"] = $_POST["creditcard"];//charge a specific credit card
+                        }
+
+                        $charge = \Stripe\Charge::create($charge);// Create the charge on Stripe's servers - this will charge the user's card
+                        insertdb("orders", array("id" => $orderid, "paid" => 1));//will only happen if the $charge succeeds
 
                     } catch (Stripe_CardError $e) {
                         $error = $e->getMessage();
                     } catch (Stripe_InvalidRequestError $e) {
-                        // Invalid parameters were supplied to Stripe's API
-                        $error = $e->getMessage();
+                        $error = $e->getMessage();//Invalid parameters were supplied to Stripe's API
                     } catch (Stripe_AuthenticationError $e) {
-                        // Authentication with Stripe's API failed
-                        $error = $e->getMessage();
+                        $error = $e->getMessage();//Authentication with Stripe's API failed
                     } catch (Stripe_ApiConnectionError $e) {
-                        // Network communication with Stripe failed
-                        $error = $e->getMessage();
+                        $error = $e->getMessage();//Network communication with Stripe failed
                     } catch (Stripe_Error $e) {
-                        // Display a very generic error to the user
-                        $error = $e->getMessage();
+                        $error = $e->getMessage();//Display a very generic error to the user
                     } catch (Exception $e) {
-                        // Something else happened, completely unrelated to Stripe
-                        $error = $e->getMessage();
+                        $error = $e->getMessage();//Something else happened, completely unrelated to Stripe
                     } catch (\Stripe\Error\Card $e) {
                         $error = $e->getMessage();
-
-                        //$body = $e->getJsonBody();
-                        //$err  = $body['error'];
-                        //$error .= " - " . $err['message'];
                     }
                 } else {
-                    $error = "Amount was 0";
+                    $error = "Order total was $0.00";
                 }
-
                 if($error){
                     debugprint("Order ID: " .  $orderid . " - Stripe error: " . $error);
                     return $error;// The card has been declined
