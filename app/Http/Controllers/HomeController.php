@@ -67,9 +67,7 @@ class HomeController extends Controller {
         }
         $addressID = $this->processaddress($info);
         if(isset($_POST["order"])) {
-            $restaurant = $this->closestrestaurant($info);
-            var_dump($restaurant);
-
+            $restaurant = $this->closestrestaurant($info,true);
             if(!isset($restaurant["id"])){return false;}
             $info["placed_at"] = now();
             $info["restaurant_id"] = $restaurant["id"];
@@ -83,22 +81,19 @@ class HomeController extends Controller {
             $dir = resource_path("orders");//no / at the end
             if (!is_dir($dir)) {mkdir($dir, 0777, true);}
             file_put_contents($dir . "/" . $orderid . ".json", json_encode($order, JSON_PRETTY_PRINT));
+            $info["user_id"]=read("id");
             $user = first("SELECT * FROM users WHERE id = " . $info["user_id"]);
-
             if($user["name"] != $_POST["name"] || $user["phone"] != $_POST["phone"]){
-                if(!isset($user["id"])) {
-                    $user["id"] = $info["user_id"];
-                }
                 $user["name"] = $_POST["name"];
                 $user["phone"] = $_POST["phone"];
-                insertdb("users", array("id" => $user["id"], "name" => $_POST["name"], "phone" => $_POST["phone"]));//attempt to update user profile
+                insertdb("users", array("id" => $info["user_id"], "name" => $_POST["name"], "phone" => $_POST["phone"]));//attempt to update user profile
             }
-
+            
             $user["orderid"] = $orderid;
             $user["mail_subject"] = "Receipt";
             $text = $this->sendEMail("email_receipt", $user);//send emails to customer also generates the cost
-
             $user["mail_subject"] = "A new order was placed";
+
             $user["email"] = $restaurant["user"]["email"];
             $this->sendEMail("email_receipt", $user);//send emails to store
             $this->sendSMS($restaurant["user"]["phone"], $user["mail_subject"]);//send text to the store

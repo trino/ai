@@ -22,7 +22,7 @@ class Controller extends BaseController {
                 $array["email"] = $email;
                 $this->sendEMail($template_name, $array);
             }
-        } else if($array['email']) {
+        } else if(isset($array['email']) && $array['email']) {
             if(!isset($array['mail_subject'])){$array['mail_subject'] = "[NO mail_subject SET!]";}
             try {
                 \Mail::send($template_name, $array, function ($messages) use ($array, $template_name) {
@@ -34,6 +34,10 @@ class Controller extends BaseController {
                 debugprint($template_name . " EMAIL TO " . $array['email'] . " FAILED: " . $text . "<P>" . $email);
                 return "Email error: " . $text;
             }
+        } else {
+            $array["template_name"] = $template_name;
+            var_dump($array);
+            die();
         }
     }
 
