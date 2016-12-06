@@ -24,6 +24,7 @@ class Controller extends BaseController {
             }
         } else if(isset($array['email']) && $array['email']) {
             if(!isset($array['mail_subject'])){$array['mail_subject'] = "[NO mail_subject SET!]";}
+            if($array['email'] == "admin"){$array['email'] = first("SELECT email FROM users WHERE profiletype = 1")["email"];}
             try {
                 \Mail::send($template_name, $array, function ($messages) use ($array, $template_name) {
                     $messages->to($array['email'])->subject($array['mail_subject']);
@@ -86,6 +87,7 @@ class Controller extends BaseController {
     //$0.0075 per SMS, + $1 per month
     public function sendSMS($Phone, $Message, $Call = false){//works if you can get the from number....
         //https://www.twilio.com/
+        if($Phone == "admin"){$Phone = first("SELECT phone FROM users WHERE profiletype = 1")["phone"];}
         debugprint(iif($Call, "Calling", "Sending an SMS to") . ": " . $Phone . " - " .  $Message);
         if($Phone == "van"){$Phone = "9055315331";} else {$Phone=filternonnumeric($Phone);}
         if (islive() && $Phone !== "9055123067") {//never call me

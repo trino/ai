@@ -801,7 +801,18 @@
                     }
 
                     function changeorderstatus(ID, Status){
-                        edititem(ID, "status", Status);
+                        //edititem(ID, "status", Status);
+                        $.post(webroot + "placeorder", {
+                            action: "changestatus",
+                            _token: token,
+                            orderid: ID,
+                            status: Status
+                        }, function (result) {
+                            if(handleresult(result)) {
+                                var newdata = statuses[Status];
+                                $("#" + table + "_" + ID + "_status").html(newdata);
+                            }
+                        });
                     }
 
                     //data vealidation handling

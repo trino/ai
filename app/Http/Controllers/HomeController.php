@@ -52,12 +52,30 @@ class HomeController extends Controller {
 
     public function placeorder(){
         if(!read("id")){return array("Status" => false, "Reason" => "You are not logged in");}
-        $info = $_POST["info"];
+        $info="";
+        if(isset($_POST["info"])){$info = $_POST["info"];}
         if(isset($_POST["action"])){
             $ret = array("Status" => true, "Reason" => "");
             switch($_POST["action"]){
                 case "closestrestaurant":
                     $ret["closest"] = $this->closestrestaurant($info, true);
+                    break;
+                case "changestatus":
+                    $Status = array("Pending", "Confirmed", "Declined", "Delivered", "Canceled");
+                    insertdb("orders", array("id" => $_POST["orderid"], "status" => $_POST["status"]));
+                    $Status = $Status[$_POST["status"]];
+                    $ret["Reason"] = "Order #" . $_POST["orderid"] . ": " . $Status;
+                    if($_POST["status"] == 2){//declined, sms and email user and admin.
+                        $this->sendSMS("admin", $ret["Reason"]);//sms admin
+                        $order = first("SELECT * FROM orders WHERE id = " . $_POST["orderid"]);
+                        $user = first("SELECT * FROM users WHERE id = " . $order["user_id"]);
+                        $this->sendSMS($user["phone"], $ret["Reason"]);//sms user
+                        return $this->sendEMail("email_test", array(
+                            'mail_subject' => $ret["Reason"],
+                            "email" => array("admin", $user["email"]),
+                            "body" => "Your order was " . strtolower($Status) . " by the restaurant"
+                        ));
+                    }
                     break;
                 default:
                     $ret["Status"] = false;
@@ -88,7 +106,7 @@ class HomeController extends Controller {
                 $user["phone"] = $_POST["phone"];
                 insertdb("users", array("id" => $info["user_id"], "name" => $_POST["name"], "phone" => $_POST["phone"]));//attempt to update user profile
             }
-            
+
             $user["orderid"] = $orderid;
             $user["mail_subject"] = "Receipt";
             $text = $this->sendEMail("email_receipt", $user);//send emails to customer also generates the cost
