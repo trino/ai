@@ -156,10 +156,13 @@ body.loading #loadingmodal {
     border: 2px solid red !important;
 }
 
+.error{
+    color:red;
+}
 
-
-
-
+select.form-control{
+    padding-bottom: 6px !important;
+}
 
 
 

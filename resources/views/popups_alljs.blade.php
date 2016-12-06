@@ -609,9 +609,13 @@
         return false;
     }
 
+    function canplaceanorder(){
+        return $(".error:visible").length == 0 && canplaceorder && $("#reg_phone").val().length > 0;
+    }
+
     //send an order to the server
     function placeorder(StripeResponse) {
-        if (!canplaceorder) {return cantplaceorder();}
+        if (!canplaceanorder()) {return cantplaceorder();}
         if(isUndefined(StripeResponse)){StripeResponse = "";}
         if (isObject(userdetails)) {
             var addressinfo = getform("#orderinfo");//i don't know why the below 2 won't get included. this forces them to be
@@ -1009,8 +1013,14 @@
     }
 
     function cantplaceorder(){
-        $("#saveaddresses").addClass("red");
-        $(".payment-errors").text("Please enter and address");
+        if(!canplaceorder) {
+            $("#saveaddresses").addClass("red");
+            $(".payment-errors").text("Please enter and address");
+        }
+        if($("#reg_phone").val().length == 0){
+            $("#reg_phone").addClass("red");
+            $(".payment-errors").text("Please enter a cell phone number");
+        }
     }
 
     function testcard(){
@@ -1028,7 +1038,7 @@
     }
 
     function payfororder(){
-        if(!canplaceorder){return cantplaceorder();}
+        if(!canplaceanorder()){return cantplaceorder();}
         if($("#orderinfo").find(".error:visible[for]").length>0){return false;}
         var $form = $('#orderinfo');
         $(".payment-errors").html("");
