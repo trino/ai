@@ -84,7 +84,7 @@
         $(document).ready(function () {
             getcloseststore = true;
             visible_address(false);
-            $("#saveaddresses").append('<OPTION VALUE="addaddress">[Add an address]</OPTION>');
+            $("#saveaddresses").append('<OPTION VALUE="addaddress" ID="addaddress">[Add an address]</OPTION>');
         });
     @endif
 

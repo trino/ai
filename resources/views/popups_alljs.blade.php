@@ -592,6 +592,26 @@
             }, function (result) {
                 $("#checkoutmodal").modal("hide");
                 if (result.contains("ordersuccess")) {
+                    if($("#saveaddresses").val() == "addaddress"){
+                        var Address = {
+                            id:         $(".ordersuccess").attr("addressid"),
+                            buzzcode:   "",
+                            city:       $("#add_city").val(),
+                            latitude:   $("#add_latitude").val(),
+                            longitude:  $("#add_longitude").val(),
+                            number:     $("#add_number").val(),
+                            phone:      $("#reg_phone").val(),
+                            postalcode: $("#add_postalcode").val(),
+                            province:   $("#add_province").val(),
+                            street:     $("#add_street").val(),
+                            unit:       $("#add_unit").val(),
+                            user_id:    $("#add_user_id").val()
+                        };
+                        userdetails.Addresses.push(Address);
+                        $("#addaddress").remove();
+                        $("#saveaddresses").append(AddressToOption(Address) + '<OPTION VALUE="addaddress" ID="addaddress">[Add an address]</OPTION>');
+                    }
+
                     handleresult(result, "Order Placed Successfully!");
                     userdetails["Orders"].unshift({
                         id: $("#receipt_id").text(),
@@ -880,7 +900,7 @@
         $(".profiletype" + user["profiletype"]).show();//show classes for this profile type
         var HTML = '';
         var FirstAddress = false;
-        HTML += '<SELECT class="form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION>Select a saved address</OPTION>';
+        HTML += '<SELECT class="form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION value="0">Select a saved address</OPTION>';
         if (user["Addresses"].length > 0) {
             addresskeys = Object.keys(user["Addresses"][0]);
             for (i = 0; i < user["Addresses"].length; i++) {
@@ -1093,6 +1113,7 @@
 
     function showcheckout() {
         canplaceorder=false;
+        addresschanged();
         $("#restaurant").val("");
         var HTML = $("#checkoutaddress").html();
         HTML = HTML.replace('class="', 'class="corner-top ');

@@ -11,8 +11,7 @@
         <div class="col-md-8" style="padding: .75rem !important;">
             <?php
             if (islive()) {
-                function like_match($pattern, $subject)
-                {
+                function like_match($pattern, $subject) {
                     $pattern = str_replace('%', '.*', preg_quote($pattern, '/'));
                     return (bool)preg_match("/^{$pattern}$/i", $subject);
                 }
@@ -45,9 +44,8 @@
             }
             ?>
                 <div class="row">
-                    <div class="col-md-12"><br>
-                    </div>
-                    </div>
+                    <div class="col-md-12"><br></div>
+                </div>
         </div>
 
         <div class="col-md-4">

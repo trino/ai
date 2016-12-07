@@ -178,7 +178,7 @@ class HomeController extends Controller {
                     return $error;// The card has been declined
                 }
             }
-            return '<div CLASS="ordersuccess"></div>' . view("popups_receipt", array("orderid" => $orderid))->render();
+            return '<div CLASS="ordersuccess" addressid="' . $addressID . '"></div>' . view("popups_receipt", array("orderid" => $orderid))->render();
         } else {
             return $addressID;
         }
