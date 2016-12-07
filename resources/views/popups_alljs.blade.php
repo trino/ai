@@ -5,6 +5,7 @@
 <script>
     var currentitemID = -1;
     var MAX_DISTANCE = 20;//km
+    var debugmode = '<?= !islive(); ?>' == '1';
 
     String.prototype.isEqual = function (str){
         if(isUndefined(str)){return false;}
@@ -726,8 +727,7 @@
             HTML += '</ul>';
             if (!First) {HTML = "No orders placed yet";}
             alert(HTML, "Orders");
-            log("DELETEME HTML: " + HTML);
-            //if (First) {orders(First);}
+            if (First) {orders(First);}
         } else {
             if (isUndefined(getJSON)) {getJSON = false;}
             var Index = getIterator(userdetails["Orders"], "id", ID);
@@ -890,10 +890,7 @@
         $(document).on({
             ajaxStart: function () {
                 if (skiploadingscreen) {
-                    if(!lockloading) {
-                        log("Was hidden, showing now");
-                        skiploadingscreen = false;
-                    }
+                    if(!lockloading) {skiploadingscreen = false;}
                 } else {
                     $body.addClass("loading");
                 }
@@ -1109,7 +1106,10 @@
                 var restaurant = "No restaurant is within range";
                 canplaceorder = false;
                 if (closest.hasOwnProperty("id")) {
-                    if(parseFloat(closest.distance) < MAX_DISTANCE) {
+                    if(parseFloat(closest.distance) < MAX_DISTANCE || debugmode) {
+                        if(parseFloat(closest.distance) >= MAX_DISTANCE){
+                            closest.restaurant.name += " [DEBUG]"
+                        }
                         canplaceorder = true;
                         /*
                         log("Can place an order");

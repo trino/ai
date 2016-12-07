@@ -2,9 +2,11 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i class="fa fa-close"></i></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-close"></i></button>
                 <h4 id="myModalLabel">Checkout </h4>
+                @if(!islive())
+                    Restaurant Address: 483 Dundas Street, London On
+                @endif
                 <div class="row">
                     <div class="col-sm-6">
                         <FORM ID="orderinfo" name="orderinfo">

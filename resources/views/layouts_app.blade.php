@@ -57,7 +57,7 @@
         </div>
 
         @if(!islive())
-            <div class="container mt-1" style="display: none">
+            <!--div class="container mt-1" style="display: none">
                 <button class="btn btn-danger  pull-left" onclick="window.scrollTo(0,document.body.scrollHeight);">
                     <span id="navbar-text"></span>
                 </button>
@@ -66,7 +66,7 @@
                     <INPUT TYPE="checkbox" onclick="checkblock(event);" id="blockleaving">block leaving
                 </LABEL-->
 
-            </div>
+            <!--/div-->
         @endif
         <?= view("popups_sticky_footer")->render(); ?>
 

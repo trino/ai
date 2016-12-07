@@ -83,6 +83,7 @@ class HomeController extends Controller {
             }
             return json_encode($ret);
         }
+        if(!isset($info["user_id"]) || !$info["user_id"]) {$info["user_id"] = read("id");}
         $addressID = $this->processaddress($info);
         if(isset($_POST["order"])) {
             $restaurant = $this->closestrestaurant($info,true);
@@ -99,7 +100,6 @@ class HomeController extends Controller {
             $dir = resource_path("orders");//no / at the end
             if (!is_dir($dir)) {mkdir($dir, 0777, true);}
             file_put_contents($dir . "/" . $orderid . ".json", json_encode($order, JSON_PRETTY_PRINT));
-            $info["user_id"]=read("id");
             $user = first("SELECT * FROM users WHERE id = " . $info["user_id"]);
             if($user["name"] != $_POST["name"] || $user["phone"] != $_POST["phone"]){
                 $user["name"] = $_POST["name"];
