@@ -31,12 +31,10 @@
 
 @if(isset($saveaddress) && false)
     <DIV CLASS="form-control col-md-12">
-        <button CLASS="form-control btn btn-secondary btn-sm" onclick="editaddresses();"
-                title="Edit the addresses saved to your profile">
+        <button CLASS="form-control btn btn-secondary btn-sm" onclick="editaddresses();" title="Edit the addresses saved to your profile">
             EDIT ADDRESSES
         </button>
-        <button ID="saveaddressbtn" CLASS="form-control btn btn-secondary btn-sm" disabled onclick="deleteaddress(-2);"
-                title="Save this address to your profile">
+        <button ID="saveaddressbtn" CLASS="form-control btn btn-secondary btn-sm" disabled onclick="deleteaddress(-2);" title="Save this address to your profile">
             SAVE ADDRESS
         </button>
     </DIV>

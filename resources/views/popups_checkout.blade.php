@@ -48,28 +48,28 @@
                                 </DIV>
                             </div>
                             <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
-                        <?php
-                            if (read("id")) {
-                                //can only be included once, and is in the login modal
-                                echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
-                            }
-                        ?>
-                    </div>
-                    <div class="col-sm-6">
-                        <?php
-                            echo '<input type="text" class="form-control corner-top" ID="restaurant" placeholder="Closest Restaurant" READONLY TITLE="Closest restaurant"/>';
-                            echo '<SELECT id="deliverytime" TITLE="Delivery Time" class="form-control proper-height"/>';
-                            echo '<OPTION>Deliver Now</OPTION>';
-                            echo '</SELECT>';
-                        ?>
-                        <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook" maxlength="255"/>
-                    </div>
-                    <div class="col-xs-12 mt-1">
-                        <DIV class="payment-errors" style="color:red;"></DIV>
-                        <a class="btn btn-secondary" onclick="testcard();">Test CreditCard</a>
-                        <a class="btn btn-warning text-white pull-right" onclick="payfororder();">PLACE ORDER</a>
-                        <DIV ID="form_integrity" style="color:red;"></DIV>
-                    </div>
+                            <?php
+                                if (read("id")) {
+                                    //can only be included once, and is in the login modal
+                                    echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
+                                }
+                            ?>
+                        </div>
+                        <div class="col-sm-6">
+                            <?php
+                                echo '<input type="text" class="form-control corner-top" ID="restaurant" placeholder="Closest Restaurant" READONLY TITLE="Closest restaurant"/>';
+                                echo '<SELECT id="deliverytime" TITLE="Delivery Time" class="form-control proper-height"/>';
+                                echo '<OPTION>Deliver Now</OPTION>';
+                                echo '</SELECT>';
+                            ?>
+                            <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook" maxlength="255"/>
+                        </div>
+                        <div class="col-xs-12 mt-1">
+                            <DIV class="payment-errors" style="color:red;"></DIV>
+                            <a class="btn btn-secondary" onclick="testcard();">Test CreditCard</a>
+                            <a class="btn btn-warning text-white pull-right" onclick="payfororder();">PLACE ORDER</a>
+                            <DIV ID="form_integrity" style="color:red;"></DIV>
+                        </div>
                     </FORM>
                 </div>
             </div>
