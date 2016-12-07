@@ -42,6 +42,7 @@
     $datafields=true;
     $SQL=false;
     $specialformats = false;
+    $showmap=false;
     switch($table){
         case "all":case "debug"://system value
             $datafields=false;
@@ -294,6 +295,7 @@
                                                         break;
                                                     case "orders":
                                                         if(isset($_GET["restaurant"]) && $_GET["restaurant"]){
+                                                            $showmap=true;
                                                             $RestaurantID = $_GET["restaurant"];
                                                             $Restaurant = first("SELECT * FROM restaurants WHERE id=" . $_GET["restaurant"]);
                                                             if($Restaurant){
@@ -780,7 +782,12 @@
                             if(result) {
                                 var HTML = '<button class="btn btn-primary" data-dismiss="modal" style="width: 45%;" onclick="changeorderstatus(' + ID + ', 1);">Confirm</button>';
                                 HTML += '<button class="btn btn-danger pull-right" data-dismiss="modal" style="width: 45%;" onclick="changeorderstatus(' + ID + ', 2);">Decline</button>';
-                                alert(result + HTML, "View Order");
+                                //alert(result + HTML, "View Order");
+                                $("#ordercontents").html(result + HTML);
+                                $("#ordermodal").modal("show");
+                                @if(!$showmap)
+                                    showmap();
+                                @endif
                             }
                         });
                     }
@@ -811,6 +818,8 @@
                             if(handleresult(result)) {
                                 var newdata = statuses[Status];
                                 $("#" + table + "_" + ID + "_status").html(newdata);
+                                result=JSON.parse(result);
+                                alert(result["Reason"]);
                             }
                         });
                     }
@@ -900,12 +909,39 @@
                         }
                         return Data;
                     }
+
+                    function showmap(){
+                        initMap(parseFloat($("#rest_latitude").val()), parseFloat($("#rest_longitude").val()));
+                        addmarker("Customer", parseFloat($("#cust_latitude").val()), parseFloat($("#cust_longitude").val()));
+                    }
                 </SCRIPT>
             @else
                 <SCRIPT>
                     redirectonlogout = true;
                 </SCRIPT>
             @endif
+
+            <div class="modal" id="ordermodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-close"></i></button>
+
+                            <h4 id="myModalLabel">View Order</h4>
+
+                            <SPAN ID="ordercontents"></SPAN><P>
+
+                            @if(!$showmap)
+                                <?= view("popups_googlemaps"); ?>
+                            @endif
+
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         @endsection
         <?php
     }

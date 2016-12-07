@@ -209,7 +209,6 @@
     var qualifiers = <?= json_encode($qualifiers); ?>;
     var groups = <?= json_encode($groups); ?>;
     var theorder = new Array;
-    var toppingsouterhtml, wingsauceouterhtml;
     var deliveryfee = <?= $deliveryfee; ?>;
     var classlist = <?= json_encode($classlist); ?>;
     var ordinals = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th"];

@@ -39,15 +39,31 @@
                     $Time = right($Order["deliverytime"], 4);
                     if(is_numeric($Time)){
                         echo left($Order["deliverytime"], strlen($Order["deliverytime"])-4) . GenerateTime(intval($Time));
+                    } else if($Order["deliverytime"] == "Deliver Now"){
+                        echo "ASAP";
                     } else {
                         echo $Order["deliverytime"];
                     }
                 ?></TD></TR>
         @endif
         @if(!isset($JSON))
-            <TR><TD COLSPAN="2">
-                <?= $Order["name"] . " - " . $Order["email"] . "<BR>" . $Order["phone"] . " " . $Order["cell"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . ", " . $Order["province"] . "<BR>" . $Order["postalcode"] . '<BR>' . $Order["unit"]; ?>
-            </TD></TR>
+            <TR>
+                <TD COLSPAN="2" STYLE="padding: 0px;">
+                    <TABLE WIDTH="100%" BORDER="0"><TR><TD WIDTH="50%">
+                        <?php
+                            echo $Order["name"] . " - " . $Order["email"] . "<BR>" . $Order["phone"] . " " . $Order["cell"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . ", " . $Order["province"] . "<BR>" . $Order["postalcode"] . '<BR>' . $Order["unit"] . '</TD><TD>';
+                            $Restaurant = first("SELECT * FROM restaurants WHERE id = " . $Order["restaurant_id"]);
+                            $Raddress = first("SELECT * FROM useraddresses WHERE id = " . $Restaurant["address_id"]);
+                            echo $Restaurant["name"] . "<BR>" . $Restaurant["phone"] . "<BR>" . $Raddress["number"] . " " . $Raddress["street"] . '<BR>' . $Raddress["city"] . ", " . $Raddress["province"] . "<BR>" . $Raddress["postalcode"] . '<BR>' . $Raddress["unit"];
+
+                            echo '<INPUT TYPE="HIDDEN" ID="cust_latitude" VALUE="' . $Order["latitude"] . '">';
+                            echo '<INPUT TYPE="HIDDEN" ID="cust_longitude" VALUE="' . $Order["longitude"] . '">';
+                            echo '<INPUT TYPE="HIDDEN" ID="rest_latitude" VALUE="' . $Raddress["latitude"] . '">';
+                            echo '<INPUT TYPE="HIDDEN" ID="rest_longitude" VALUE="' . $Raddress["longitude"] . '">';
+                        ?>
+                    </TD></TR></TABLE>
+                </TD>
+            </TR>
         @endif
     </TABLE>
 

@@ -7,9 +7,16 @@
 <script>
     var map, infowindow, service, markers = new Array();
 
-    function initMap() {
+    <?php
+        if(isset($latitude) && isset($longitude)){
+            echo 'initMap(' . $latitude . ', ' . $longitude . ');';
+        }
+    ?>
+
+    function initMap(latitude, longitude) {
+        log("initMap: " + latitude + ", " + longitude);
         map = new google.maps.Map(document.getElementById('map'), {
-            center: {lat: <?= $latitude; ?>, lng: <?= $longitude; ?>},
+            center: {lat: latitude, lng: longitude},
             zoom: 15
         });
 

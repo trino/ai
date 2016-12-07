@@ -320,44 +320,6 @@
         $("#additemtoorder").text(title);
     }
 
-    /*
-    function initSelect2(selector, reset) {
-        if (!isUndefined(reset)) {
-            $('select').select2("val", null);
-        }
-        if (!isUndefined(selector)) {
-            $('select' + selector).select2({
-                maximumSelectionSize: 4,
-                minimumResultsForSearch: -1,
-                placeholder: function () {
-                    $(this).data('placeholder');
-                },
-                allowClear: true
-            }).change();
-        }
-    }
-
-    //makes HTML clones of a dropdown
-    function sendintheclones(destinationID, sourceID, count, sourceHTML) {
-        var HTML = "";
-        visible(sourceID, count > 0);
-        if (count) {
-            if (isUndefined(sourceHTML)) {
-                var sourceHTML = outerHTML(sourceID).replace('select2', 'form-control select2 select2clones');
-            }
-            if (count == 1) {
-                $(sourceID + "-ordinal").hide();
-            } else {
-                $(sourceID + "-ordinal").show();
-            }
-            for (var index = 2; index <= count; index++) {
-                HTML += sourceHTML.replace('First', ordinals[index - 1]);
-            }
-        }
-        $(destinationID).html(HTML);
-    }
-    */
-
     //get the data from the modal and add it to the order
     function additemtoorder(element, Index) {
         var itemid = 0, itemname = "", itemprice = 0.00, itemaddons = new Array, itemsize = "", toppingcost = 0.00, toppingscount = 0, itemcat = "";
@@ -529,27 +491,6 @@
         var itemaddons = new Array;
         for (var tableid = 0; tableid < tables.length; tableid++) {
             var table = tables[tableid];
-            /*
-            $('.select2.' + table + ":visible").each(function (index) {
-                if (!$(this).hasClass("select2-offscreen")) {
-                    var addons = $(this).select2('data');
-                    var toppings = 0;
-                    for (var addid = 0; addid < addons.length; addid++) {
-                        delete addons[addid]["element"];
-                        delete addons[addid]["locked"];
-                        delete addons[addid]["disabled"];
-                        if (addons[addid]["text"].endswith("(free)")) {
-                            addons[addid]["text"] = addons[addid]["text"].left(addons[addid]["text"].length - 6).trim();
-                        }
-                        addons[addid]["isfree"] = isaddon_free(table, addons[addid]["text"]);
-                        if (!addons[addid]["isfree"]) {
-                            toppings++;
-                        }
-                    }
-                    itemaddons.push({tablename: table, addons: addons, count: toppings});
-                }
-            });
-            */
             if(table == currentaddontype){
                 for(var itemid=0; itemid < currentaddonlist.length; itemid++){
                     var addonlist = currentaddonlist[itemid];
@@ -682,9 +623,10 @@
     });
 
     $(window).on('hashchange', function (event) {
-        if(window.location.hash != "#modal") {
+        if(window.location.hash != "#modal" && window.location.hash != "#loading") {
             if(skipone > Date.now()){return;}
             $('#' + modalID).modal('hide');
+            log("AUTOHIDE " + modalID);
         }
     });
 
@@ -777,8 +719,6 @@
     }
 
     $(document).ready(function () {
-        toppingsouterhtml = outerHTML("#modal-toppings-original").replace('form-control select2', 'form-control select2 select2clones');
-        wingsauceouterhtml = outerHTML("#modal-wings-original").replace('form-control select2', 'form-control select2 select2clones');
         if (getCookie("theorder")) {
             theorder = JSON.parse(getCookie("theorder"));
         }
@@ -882,7 +822,7 @@
     })();
 
     var generalhours = <?= json_encode(gethours()) ?>;
-    var lockloading = false;
+    var lockloading = false, previoushash = "";
 
     $(document).ready(function () {
         //make every AJAX request show the loading animation
@@ -893,10 +833,14 @@
                     if(!lockloading) {skiploadingscreen = false;}
                 } else {
                     $body.addClass("loading");
+                    previoushash=window.location.hash;
+                    window.location.hash = "loading";
                 }
             },
             ajaxStop: function () {
                 $body.removeClass("loading");
+                skipone = Date.now() + 100;//
+                window.location.hash=previoushash;
             }
         });
 
