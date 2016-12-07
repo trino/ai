@@ -929,12 +929,10 @@
         }
         var tempHTML = '<OPTION';
         var streetformat = "<?= $STREET_FORMAT; ?>";
-        /*if (address["unit"]) {
-            streetformat += " - Apt/Unit: [unit]";
-            if (address["buzzcode"]) {
-                streetformat += ", Buzz code: [buzzcode]";
-            }
-        }*/
+        if (address["unit"].trim()) {
+            streetformat += " ([unit])";
+            //if (address["buzzcode"]) {streetformat += ", Buzz code: [buzzcode]";}
+        }
         for (var keyID = 0; keyID < addresskeys.length; keyID++) {
             var keyname = addresskeys[keyID];
             if (address.hasOwnProperty(keyname)) {
