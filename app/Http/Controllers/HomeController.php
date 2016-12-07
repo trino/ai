@@ -70,7 +70,7 @@ class HomeController extends Controller {
                         $order = first("SELECT * FROM orders WHERE id = " . $_POST["orderid"]);
                         $user = first("SELECT * FROM users WHERE id = " . $order["user_id"]);
                         $this->sendSMS($user["phone"], $ret["Reason"]);//sms user
-                        return $this->sendEMail("email_test", array(
+                        $this->sendEMail("email_test", array(
                             'mail_subject' => $ret["Reason"],
                             "email" => array("admin", $user["email"]),
                             "body" => "Your order was " . strtolower($Status) . " by the restaurant"
