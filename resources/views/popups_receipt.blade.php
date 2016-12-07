@@ -19,7 +19,7 @@
     }
     if(!$Order){echo 'Order not found'; return false;}
     switch($style){
-        case 1: $colspan = 8; break;
+        case 1: $colspan = 6; break;
         case 2:
             $colspan = 3;
             $ordinals = array("1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th");
@@ -75,8 +75,6 @@
                 <TH>Sub-total</TH>
                 <TH>Addons</TH>
                 <TH>Addon Count</TH>
-                <TH>Size</TH>
-                <TH>Addon Cost</TH>
                 <TH>Total</TH>
             </TR>
         </THEAD>
@@ -230,14 +228,16 @@
 
                             if($style==1){
                                 echo '</TD><TD>';
-                                if($totaladdons){ echo $paidtoppings . ' paid, ' . $freetoppings . ' free';}
+                                if($totaladdons){
+                                    echo $paidtoppings . ' paid, ' . $freetoppings . ' free';
+                                    echo '<BR>' . $size . '<BR>$' . number_format($addonscost, 2);
+                                    //if (number_format($item->itemprice,2) <> number_format($itemtotal, 2)){
+                                        //echo ' STYLE="COLOR: red;"';
+                                        //$integrity = false;
+                                    //}
+                                }
                                 if($debugmode){$debug=' TITLE="User side: $' . $item->itemprice . '"';}
-                                echo '</TD><TD>' . $size . '</TD><TD ALIGN="RIGHT">$' . number_format($addonscost, 2) . '</TD><TD ALIGN="RIGHT"' . $debug;
-                                //if (number_format($item->itemprice,2) <> number_format($itemtotal, 2)){
-                                    //echo ' STYLE="COLOR: red;"';
-                                    //$integrity = false;
-                                //}
-                                echo '>';
+                                echo '</TD><TD ALIGN="RIGHT"' . $debug . '>';
                             }
                             echo '$' . number_format($itemtotal, 2) . '</TD></TR>';
                             if($style==2 && $HTML){
