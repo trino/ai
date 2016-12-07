@@ -930,7 +930,7 @@
         var tempHTML = '<OPTION';
         var streetformat = "<?= $STREET_FORMAT; ?>";
         if (address["unit"].trim()) {
-            streetformat += " ([unit])";
+            streetformat = "[unit] - " + streetformat;
             //if (address["buzzcode"]) {streetformat += ", Buzz code: [buzzcode]";}
         }
         for (var keyID = 0; keyID < addresskeys.length; keyID++) {
