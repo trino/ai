@@ -2,11 +2,11 @@
 <html lang="en">
     <head>
         <?php
-        $time = microtime(true); // Gets microseconds
-        if (read("id")) {
-            $user = getuser(read("id"));
-            unset($user["password"]);
-        }
+            $time = microtime(true); // Gets microseconds
+            if (read("id")) {
+                $user = getuser(read("id"));
+                unset($user["password"]);
+            }
         ?>
         <script type="text/javascript">
             var timerStart = Date.now();

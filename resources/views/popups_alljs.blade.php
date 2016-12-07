@@ -666,17 +666,23 @@
         }
     }
 
-    var modalID = "";
+    if (!Date.now) {
+        Date.now = function() { return new Date().getTime(); }
+    }
+
+    var modalID = "", skipone = 0;
     $(window).on('shown.bs.modal', function () {
         modalID = $(".modal:visible").attr("id");
-        if (modalID == "profilemodal") {
-            $("#addresslist").html(addresses());
+        skipone = Date.now() + 100;//blocks delete button for 1/10 of a second
+        switch(modalID){
+            case "profilemodal": $("#addresslist").html(addresses()); break;
         }
         window.location.hash = "modal";
     });
 
     $(window).on('hashchange', function (event) {
         if(window.location.hash != "#modal") {
+            if(skipone > Date.now()){return;}
             $('#' + modalID).modal('hide');
         }
     });
@@ -714,28 +720,16 @@
             for (var i = 0; i < userdetails["Orders"].length; i++) {
                 var order = userdetails["Orders"][i];
                 ID = order["id"];
-                if (!First) {
-                    First = ID;
-                }
-                HTML += '<li class="list-group-item" ONCLICK="orders(' + ID + ');">' +
-                  '<SPAN ID="pastreceipt' + ID + '"></SPAN>' +
-                    '<span class="tag tag-default tag-pill pull-xs-right">ID: ' + ID + '</span>'
-                    + order["placed_at"] +
-                    '' +
-                    '</li>';
+                if (!First) {First = ID;}
+                HTML += '<li class="list-group-item" ONCLICK="orders(' + ID + ');">' + '<SPAN ID="pastreceipt' + ID + '"></SPAN>' + '<span class="tag tag-default tag-pill pull-xs-right">ID: ' + ID + '</span>' + order["placed_at"] + '</li>';
             }
-            HTML += '</ul><P><DIV ID="pastreceipt" CLASS="pastreceipt"></DIV><P>';
-            if (!First) {
-                HTML = "No orders placed yet";
-            }
+            HTML += '</ul>';
+            if (!First) {HTML = "No orders placed yet";}
             alert(HTML, "Orders");
-            if (First) {
-                orders(First);
-            }
+            log("DELETEME HTML: " + HTML);
+            //if (First) {orders(First);}
         } else {
-            if (isUndefined(getJSON)) {
-                getJSON = false;
-            }
+            if (isUndefined(getJSON)) {getJSON = false;}
             var Index = getIterator(userdetails["Orders"], "id", ID);
             if (!getJSON && userdetails["Orders"][Index].hasOwnProperty("Contents")) {
                 $("#pastreceipt" + ID).html(userdetails["Orders"][Index]["Contents"]);
@@ -775,6 +769,7 @@
     }
 
     function GetNextOrder(CurrentID) {
+        log("GetNextOrder: " + CurrentID)
         var CurrentIndex = getIterator(userdetails["Orders"], "id", CurrentID);
         if (CurrentIndex > -1 && CurrentIndex < userdetails["Orders"].length - 1) {
             orders(userdetails["Orders"][CurrentIndex + 1]["id"]);
@@ -880,7 +875,6 @@
             }
             $("#alert-cancel").hide();
             $("#alert-ok").click(function () {});
-
             $("#alertmodalbody").html(arguments[0]);
             $("#alertmodallabel").text(title);
             $("#alertmodal").modal('show');

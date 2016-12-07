@@ -151,7 +151,7 @@ class HomeController extends Controller {
                             $charge["source"] = $_POST["creditcard"];//charge a specific credit card
                             //$charge["card"] = $_POST["creditcard"];//charge a specific credit card
                         }
-
+                        // https://stripe.com/docs/charges https://stripe.com/docs/api
                         $charge = \Stripe\Charge::create($charge);// Create the charge on Stripe's servers - this will charge the user's card
                         insertdb("orders", array("id" => $orderid, "paid" => 1));//will only happen if the $charge succeeds
 
