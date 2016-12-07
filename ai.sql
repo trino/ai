@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 06, 2016 at 10:38 PM
+-- Generation Time: Dec 07, 2016 at 04:56 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -182,47 +182,14 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `status` tinyint(4) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=82 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `orders`
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `placed_at`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `accepted_at`, `restaurant_id`, `type`, `payment_type`, `phone`, `cell`, `paid`, `stripeToken`, `deliverytime`, `cookingnotes`, `status`, `price`) VALUES
-(48, 1, '2016-11-13 23:55:13', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9YaITlR2bCSCMi', 'Deliver ASAP', '', 1, '5.58'),
-(49, 1, '2016-11-13 23:56:11', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9YaJReaOaIQfzJ', 'Deliver ASAP', '', 0, '13.41'),
-(50, 1, '2016-11-13 23:56:33', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9YaKs02iFd4RPP', 'Deliver ASAP', '', 0, '12.18'),
-(51, 1, '2016-11-15 20:20:52', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9ZHI9ZJ3dAFrtf', 'Deliver ASAP', '', 0, '5.58'),
-(52, 1, '2016-11-16 21:01:44', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9ZfBQ6I6E5Nnoh', 'Deliver ASAP', '', 0, '18.94'),
-(53, 1, '2016-11-16 21:02:21', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9ZfBNuiXayjZG4', 'Deliver ASAP', '', 0, '21.24'),
-(54, 1, '2016-11-16 21:04:30', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9ZfEHxORrN40zk', 'Deliver ASAP', '', 0, '21.24'),
-(55, 1, '2016-11-17 06:18:04', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9Zo9lDC0JOqgdC', 'Deliver ASAP', '', 0, '23.85'),
-(56, 1, '2016-11-22 19:46:43', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9btKDie8B2rHdZ', 'Deliver ASAP', '', 0, '21.24'),
-(57, 1, '2016-11-22 19:47:47', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9btL04hP0jud3G', 'Deliver ASAP', '', 0, '26.84'),
-(58, 1, '2016-11-23 05:55:44', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 0, 'tok_9c39nkLMpQpMu8', 'Deliver ASAP', '', 0, '14.50'),
-(59, 1, '2016-11-23 05:57:05', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 0, 'tok_9c3AseQ2URjmEC', 'Deliver ASAP', '', 0, '18.79'),
-(60, 1, '2016-11-23 06:00:50', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 0, 'tok_9c3ExfE5LAZLkm', 'Deliver ASAP', '', 0, '18.79'),
-(61, 1, '2016-11-29 20:46:46', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9eWscgIqiAnO3D', 'Deliver ASAP', '', 0, '21.24'),
-(62, 1, '2016-11-29 23:06:27', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, '', 'Deliver ASAP', '', 0, '63.88'),
-(63, 1, '2016-11-29 23:06:56', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '(905) 512-3067', '', 1, 'tok_9eZ8OIZCv9Xypw', 'Deliver ASAP', '', 0, '9.25'),
-(64, 1, '2016-12-06 19:54:54', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 1, '', 'December 6 at 1100', '', 0, '22.54'),
-(65, 1, '2016-12-06 20:42:29', 2396, '18 Oakland Dr', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '20.31'),
-(66, 1, '2016-12-06 22:42:36', 2396, '18 Oakland Dr', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '24.81'),
-(67, 0, '2016-12-07 00:19:08', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, '', 'Deliver Now', '', 0, '0.00'),
-(68, 0, '2016-12-07 00:20:32', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, '', 'Deliver Now', '', 0, '0.00'),
-(69, 0, '2016-12-07 00:22:06', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, '', 'Deliver Now', '', 0, '0.00'),
-(70, 0, '2016-12-07 00:22:59', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, '', 'Deliver Now', '', 0, '0.00'),
-(71, 0, '2016-12-07 00:23:46', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, '', 'Deliver Now', '', 0, '0.00'),
-(72, 0, '2016-12-07 00:24:25', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, '', 'Deliver Now', '', 0, '0.00'),
-(73, 0, '2016-12-07 00:25:15', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, '', 'Deliver Now', '', 0, '0.00'),
-(74, 0, '2016-12-07 00:26:32', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, '', 'Deliver Now', '', 0, '0.00'),
-(75, 0, '2016-12-07 00:27:44', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, '', 'Deliver Now', '', 0, '0.00'),
-(76, 0, '2016-12-07 00:29:03', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, '', 'Deliver Now', '', 0, '0.00'),
-(77, 0, '2016-12-07 00:30:21', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, '', 'Deliver Now', '', 0, '0.00'),
-(78, 1, '2016-12-07 00:32:35', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '24.81'),
-(79, 1, '2016-12-07 00:56:10', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '9.02'),
-(80, 1, '2016-12-07 00:57:17', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '16.92'),
-(81, 1, '2016-12-07 00:59:40', 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '20.31');
+(1, 1, '2016-12-07 19:58:21', 483, '', '', 'Dundas Street', 'N6B 1W4', 'London', 'Ontario', '42.9871816000000', '-81.236422800000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 1, '13.53');
 
 -- --------------------------------------------------------
 
@@ -297,15 +264,15 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=44 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=50 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1481047339'),
-(20, 'orders', '1479345573'),
+(1, 'lastSQL', '1481060320'),
+(20, 'orders', '1481122592'),
 (24, 'menucache', '1479345609'),
 (25, 'useraddresses', '1478971665'),
 (37, 'users', '1479345588'),
@@ -393,18 +360,21 @@ CREATE TABLE IF NOT EXISTS `useraddresses` (
   `phone` varchar(16) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=43 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=46 ;
 
 --
 -- Dumping data for table `useraddresses`
 --
 
 INSERT INTO `useraddresses` (`id`, `user_id`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `phone`) VALUES
-(1, 21, 1234, 'b@b.com', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', ''),
-(28, 1, 2396, '18 Oakland Dr', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', ''),
+(1, 21, 483, '', '', 'Dundas Street', 'N6B 1W4', 'London', 'Ontario', '42.9871816', '-81.2386115', ''),
+(28, 1, 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', ''),
 (29, 20, 2396, '', '', 'Kingsway', 'V5R 5G9', 'Vancouver', 'British Columbia', '49.2408347', '-123.05659100000', ''),
 (31, 22, 2396, '', '', 'Kingsway', 'V5R 5G9', 'Vancouver', 'British Columbia', '49.2408347', '-123.05659100000', ''),
-(32, 1, 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', '');
+(32, 1, 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', ''),
+(43, 0, 483, '', '', 'Dundas Street', 'N6B 1W4', 'London', 'Ontario', '42.9871816000000', '-81.236422800000', ''),
+(44, 0, 483, '', '', 'Dundas Street', 'N6B 1W4', 'London', 'Ontario', '42.9871816000000', '-81.236422800000', ''),
+(45, 1, 483, '', '', 'Dundas Street', 'N6B 1W4', 'London', 'Ontario', '42.9871816000000', '-81.236422800000', '');
 
 -- --------------------------------------------------------
 
