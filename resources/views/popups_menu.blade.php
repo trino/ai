@@ -1,7 +1,7 @@
-<div class="">
-    <div class="">
-
+<div>
+    <div>
         <?php
+            startfile("popups_menu");
             $tables = array("toppings", "wings_sauce");
             $qualifiers = array("DEFAULT" => array("1/2", "1x", "2x", "3x"));
             $categories = Query("SELECT * FROM menu GROUP BY category ORDER BY id", true);
@@ -214,3 +214,4 @@
     var ordinals = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th"];
 </script>
 <!-- end menu cache -->
+<?php endfile("popups_menu"); ?>

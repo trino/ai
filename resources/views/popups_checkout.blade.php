@@ -1,3 +1,31 @@
+<?php startfile("popups_checkout"); ?>
+<div class="card text-white bg-danger" style="margin: 0 !important;border-radius: 0 !important;">
+    <div class="card-block ">
+        <div class="row">
+            <div class="col-md-12">
+                <a class="pull-right text-white " ONCLICK="confirm2('Are you sure you want to clear your order?', 'Clear Order', function(){clearorder();});">
+                    <i class="fa fa-close"></i>
+                </a>
+                <h4 class="pull-left text-white">
+                    My Order
+                </h4>
+                <div class="clearfix" style="margin:.5rem 0 1rem 0 !Important;"></div>
+                <div id="myorder"></div>
+            </div>
+        </div>
+
+        <div ID="checkoutbutton"></div>
+
+        <div id="checkout-btn" class="row  mt-1">
+            <div class="col-md-12">
+                <button class="btn btn-warning btn-block" onclick="showcheckout();">
+                    CHECKOUT
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -106,3 +134,4 @@
 
     //uses showcheckout();
 </SCRIPT>
+<?php endfile("popups_checkout"); ?>

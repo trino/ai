@@ -1,5 +1,7 @@
 <?php
-$style = 2;?>
+    $style = 2;
+    startfile("popups_login");
+?>
 
 <!--div class="modal" id="loginmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"  data-keyboard="false" data-backdrop="static"-->
 <div class="">
@@ -151,3 +153,5 @@ $style = 2;?>
         });
     });
 </SCRIPT>
+
+<?php endfile("popups_login"); ?>

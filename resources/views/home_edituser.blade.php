@@ -1,4 +1,5 @@
 <?php
+    startfile("home_edituser");
     $currentURL = webroot("public/user/info");
     $includesection = Request::url() == $currentURL;
 
@@ -180,5 +181,6 @@
                 </div>
             </div>
         </div>
+        <?php endfile("home_edituser"); ?>
     @endsection
 @endif

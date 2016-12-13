@@ -1,6 +1,7 @@
 <button onclick="window.history.back();">Go Back</button> <button onclick="location.reload();">Refresh</button><P>
 <TABLE>
     <?php
+        startfile("home_edittable");
         $con = connectdb("ai");
         $currentURL = Request::url();
         $backURL = $currentURL;
@@ -73,5 +74,6 @@
                 echo '<TR><TD><A HREF="?table=' . $table . '">' . $table . '</A></TD></TR>';
             }
         }
+        endfile("home_edittable");
     ?>
 </TABLE>

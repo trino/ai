@@ -2,6 +2,7 @@
 @section('content')
 
     <?php
+        startfile("index");
         if(!read("id")){
             echo view("popups_login")->render();
         } else {
@@ -43,39 +44,12 @@
                 echo '<!-- menu cache generated at: ' . now() . ' --> ' . $menu;
             }
             ?>
-                <div class="row">
-                    <div class="col-md-12"><br></div>
-                </div>
+            <div class="row">
+                <div class="col-md-12"><br></div>
+            </div>
         </div>
 
         <div class="col-md-4">
-            <div class="card text-white bg-danger" style="margin: 0 !important;border-radius: 0 !important;">
-                <div class="card-block ">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <a class="pull-right text-white " ONCLICK="confirm2('Are you sure you want to clear your order?', 'Clear Order', function(){clearorder();});">
-                                <i class="fa fa-close"></i>
-                            </a>
-                            <h4 class="pull-left text-white">
-                                My Order
-                            </h4>
-                            <div class="clearfix" style="margin:.5rem 0 1rem 0 !Important;"></div>
-                            <div id="myorder"></div>
-                        </div>
-                    </div>
-
-                    <div ID="checkoutbutton"></div>
-
-                    <div id="checkout-btn" class="row  mt-1">
-                        <div class="col-md-12">
-                            <button class="btn btn-warning btn-block" onclick="showcheckout();">
-                                CHECKOUT
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             @include("popups_checkout")
 
             <?= view("popups_toppings"); ?>
@@ -83,5 +57,26 @@
         </div>
     </div>
     @include("popups_editprofile_modal")
-    <?php } ?>
+    <?php }
+        endfile("index");
+        if(isset($GLOBALS["filetimes"])){// && !islive()){
+            echo '<TABLE><TR><TH COLSPAN="2">File times</TH></TR>';
+            foreach($GLOBALS["filetimes"] as $Index => $Values){
+                echo '<TR><TD>' . $Index . '</TD><TD>';
+                if(isset($Values["start"]) && isset($Values["end"])){
+                    $val = round($Values["end"] - $Values["start"], 4);
+                    if(strpos($val, ".") === false){
+                        $val .= ".000";
+                    } else {
+                        $val = str_pad($val,4,"0");
+                    }
+                    echo $val . "s";
+                } else {
+                    echo "Unended";
+                }
+                echo '</TD></TR>';
+            }
+            echo '</TABLE>';
+        }
+    ?>
 @endsection

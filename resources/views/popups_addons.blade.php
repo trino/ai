@@ -1,5 +1,6 @@
 <?php
     //this page takes an addon table (toppings or wings_sauce) and makes it into a list with the quantity radio buttons and a label
+    startfile("popups_addons");
     if(!isset($table)){
         $table = "toppings";
     }
@@ -91,3 +92,4 @@
 
     trigger(".cat-headerid-<?= $table; ?>-0", "click");
 </SCRIPT>
+<?php endfile("popups_addons"); ?>

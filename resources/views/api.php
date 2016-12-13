@@ -544,4 +544,19 @@ function GenerateTime($time = ""){
         return $tempstr . " PM" . $extra;
     }
 }
+
+function lastupdatetime($table){
+    if (first("SHOW TABLE STATUS FROM " . $GLOBALS["database"] . " LIKE '" . $table . "';")["Engine"] == "InnoDB"){
+        $filename = first('SHOW VARIABLES WHERE Variable_name = "datadir"')["Value"] . $GLOBALS["database"] . '/' . $table . '.ibd';
+        return filemtime($filename);//UNIX datestamp
+    }
+    return first("SELECT UPDATE_TIME FROM information_schema.tables WHERE  TABLE_SCHEMA = '" . $GLOBALS["database"] . "' AND TABLE_NAME = '" . $table . "'")["UPDATE_TIME"];//unknown format
+}
+
+function startfile($filename){
+    $GLOBALS["filetimes"][$filename]["start"] = microtime(true);
+}
+function endfile($filename){
+    $GLOBALS["filetimes"][$filename]["end"] = microtime(true);
+}
 ?>

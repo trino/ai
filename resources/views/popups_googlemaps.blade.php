@@ -8,6 +8,7 @@
     var map, infowindow, service, markers = new Array();
 
     <?php
+        startfile("popups_googlemaps");
         if(isset($latitude) && isset($longitude)){
             echo 'initMap(' . $latitude . ', ' . $longitude . ');';
         }
@@ -65,4 +66,4 @@
         });
     </SCRIPT>
 @endif
-
+<?php endfile("popups_googlemaps"); ?>

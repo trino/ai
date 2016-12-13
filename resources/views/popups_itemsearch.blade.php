@@ -1,5 +1,6 @@
 <DIV CLASS="red">
 <?php
+    startfile("popups_itemsearch");
     printfile("popups/itemsearch.blade.php");
     //this is the item search engine, works by either text, or keyword IDs
     if(isset($keywordids) && is_array($keywordids)){$keywordids = implode(",", $keywordids);}
@@ -279,7 +280,6 @@
             }
             if(!$quantityID){//keyword for quantity wasn't in the search, get it manually
                 $QTY = Query("SELECT * FROM menukeywords, keywords WHERE menuitem_id = " . $row["id"] . " OR menuitem_id = -" . $row["category_id"] . " AND keywordtype = 1 HAVING keywords.id = menukeywords.keyword_id", true)[0];
-                //$row["quantityID"] = $QTY["id"];
                 $row["quantity"] = firstword($QTY["synonyms"]);
             }
 
@@ -314,7 +314,7 @@
     } else {
         echo "No keywords found in '" . $_GET["search"] . "'";
         echo '<BR>SQL: <B>' . $SQL . '</B>';
-    }//dump the arrays to javascript, that way only 1 copy needs to be edited
+    }
 ?>
 </DIV>
 <SCRIPT>

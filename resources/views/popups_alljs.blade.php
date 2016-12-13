@@ -1,4 +1,5 @@
 <?php
+    startfile("popups_alljs");
     $CURRENT_YEAR = date("Y");
     $STREET_FORMAT = "[number] [street], [city]";//["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
 ?>
@@ -1224,3 +1225,4 @@
         }
     }
 </script>
+<?php endfile("popups_alljs"); ?>

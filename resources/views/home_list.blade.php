@@ -1,4 +1,5 @@
 <?php
+    startfile("home_list");
     $RestaurantID= "";
     $extratitle = "";
     //gets text between $start and $end in $string
@@ -943,7 +944,7 @@
                     </div>
                 </div>
             </div>
-
+            <?php endfile("home_list"); ?>
         @endsection
         <?php
     }

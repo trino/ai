@@ -1,3 +1,4 @@
+<?php startfile("popups_toppings"); ?>
 <STYLE>
     .addon-selected, .thisside {
         background: #dadada;
@@ -308,3 +309,4 @@
     }
 </SCRIPT>
 
+<?php endfile("popups_toppings"); ?>

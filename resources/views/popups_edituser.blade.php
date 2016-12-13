@@ -1,4 +1,5 @@
 <?php
+    startfile("popups_edituser");
     $currentURL = webroot("public/user/info");
     if (isset($user_id)) {
         $user = first("SELECT * FROM users WHERE id=" . $user_id);
@@ -153,3 +154,4 @@
         }, 100);
     });
 </SCRIPT>
+<?php endfile("popups_edituser"); ?>

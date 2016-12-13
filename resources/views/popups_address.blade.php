@@ -1,4 +1,5 @@
 <?php
+    startfile("popups_address");
     if (!isset($style)) {$style = 0;}
     switch ($style) {
         case 0:
@@ -147,4 +148,5 @@
     if (!isset($dontincludeGoogle)) {
         echo '<script src="https://maps.googleapis.com/maps/api/js?signed_in=true&libraries=places&callback=initAutocomplete&key=AIzaSyBWSUc8EbZYVKF37jWVCb3lpBQwWqXUZw8"></script>';
     }
+    endfile("popups_address");
 ?>

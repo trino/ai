@@ -1,4 +1,5 @@
 <?php
+    startfile("home_editmenu");
     if(read("profiletype") == 1 && count($_POST)){
         if(isset($_POST["changes"])){
             foreach($_POST["changes"] as $tablename => $table){
@@ -433,4 +434,5 @@
             };
         </SCRIPT>
     @endif
+    <?php endfile("home_editmenu"); ?>
 @endsection

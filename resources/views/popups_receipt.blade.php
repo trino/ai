@@ -1,4 +1,5 @@
 <?php
+    startfile("popups_receipt");
     $debugmode = !islive();
     $debug="";
     $Order = first("SELECT orders.*, users.name, users.id as userid, users.email FROM orders, users WHERE orders.id = " . $orderid . " HAVING user_id = users.id");
@@ -282,5 +283,6 @@
         } else {
             echo '<TR><TD COLSPAN="' . $colspan . '" ALIGN="CENTER"><B>ORDER FILE NOT FOUND</B></TD></TR>';
         }
+        endfile("popups_receipt");
     ?>
 </TABLE>
