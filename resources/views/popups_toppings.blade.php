@@ -16,6 +16,11 @@
         margin-right: 2px;
         white-space: nowrap;
         text-overflow: ellipsis;
+        cursor: pointer;
+    }
+
+    .currentitem{
+        cursor: pointer;
     }
 </STYLE>
 
@@ -87,7 +92,11 @@
                 }
             }
             totaltoppings += Math.ceil(paidtoppings);
-            HTML += ucfirst(addonname) + " Paid: " + paidtoppings + " Free: " + freetoppings + '<br>' + tempstr + '</DIV>';
+            HTML += ucfirst(addonname);
+            //if(paidtoppings > 0 || freetoppings > 0){
+                HTML += " (Paid: " + paidtoppings + " Free: " + freetoppings + ')';
+            //}
+            HTML += '<br>' + tempstr + '</DIV>';
         }
 
         var totalcost = getcost(totaltoppings);

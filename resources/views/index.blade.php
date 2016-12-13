@@ -76,6 +76,8 @@
                 }
                 echo '</TD></TR>';
             }
+            echo '<TR><TD>Loaded</TD><TD ID="td_loaded"></TD></TR>';
+            echo '<TR><TD>Ready</TD><TD ID="td_ready"></TD></TR>';
             echo '</TABLE>';
         }
     ?>

@@ -75,10 +75,14 @@
 
     <script type="text/javascript">
         $(window).load(function () {
-            console.log("Time until everything loaded: ", Date.now() - timerStart);
+            var time = Date.now() - timerStart;
+            $("#td_loaded").text(time/1000 + "s");
+            console.log("Time until everything loaded: ", time);
         });
         $(document).ready(function () {
-            console.log("Time until DOMready: ", Date.now() - timerStart);
+            var time = Date.now() - timerStart;
+            $("#td_ready").text(time/1000 + "s");
+            console.log("Time until DOMready: ", time);
             $("#navbar-text").text("<?= "" . round((microtime(true) - $time), 5) . "s"; ?>");
         });
     </script>
