@@ -4,8 +4,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i class="fa fa-close"></i></button>
+                <button type="button" class="close" data-popup-close="profilemodal" old-data-dismiss="modal" aria-label="Close"><i class="fa fa-close"></i></button>
 
                 <div>
                     <h4 class="modal-title" id="myModalLabel">Edit Profile</h4>

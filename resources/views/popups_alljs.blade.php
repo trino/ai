@@ -571,6 +571,8 @@
     var modalID = "", skipone = 0;
     $(window).on('shown.bs.modal', function () {
         modalID = $(".modal:visible").attr("id");
+        $("#" + modalID).hide();
+        $("#" + modalID).fadeIn("slow");
         skipone = Date.now() + 100;//blocks delete button for 1/10 of a second
         switch(modalID){
             case "profilemodal": $("#addresslist").html(addresses()); break;
@@ -681,6 +683,24 @@
         @if(!read("id"))
             $("#loginmodal").modal("show");
         @endif
+
+        //----- OPEN
+        $('[data-popup-open]').on('click', function(e)  {
+            var targeted_popup_class = jQuery(this).attr('data-popup-open');
+            $('#' + targeted_popup_class).fadeIn("slow");
+            e.preventDefault();
+        });
+
+        //----- CLOSE
+        $('[data-popup-close]').on('click', function(e)  {
+            var targeted_popup_class = jQuery(this).attr('data-popup-close');
+            $('#' + targeted_popup_class).fadeOut("slow", function(){
+                $(".modal-backdrop").fadeOut("slow", function(){
+                    $('#' + targeted_popup_class).modal("hide");
+                });
+            });
+            e.preventDefault();
+        });
     });
 
     function enterkey(e, action){
@@ -784,6 +804,7 @@
         $body = $("body");
         $(document).on({
             ajaxStart: function () {
+            //ajaxSend: function ( event, jqxhr, settings ) {log("settings.url: " + settings.url);//use this event if you need the URL
                 if (skiploadingscreen) {
                     if(!lockloading) {skiploadingscreen = false;}
                 } else {
@@ -907,6 +928,7 @@
 
     //universal AJAX error handling
     $(document).ajaxComplete(function (event, request, settings) {
+        $body.removeClass("loading");
         if (request.status != 200 && request.status > 0) {//not OK, or aborted
             //H2 class="block_exception", get span class="exception_title" and class="exception_message"
             alert(request.statusText + "<P>URL: " + settings.url, "AJAX error code: " + request.status);
@@ -1192,14 +1214,12 @@
     }
 </STYLE>
 
-<div class="modal loading" ID="loadingmodal"></div>
-
 <div class="modal" id="alertmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
      data-keyboard="false" data-backdrop="static" style="z-index: 9999999;">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-popup-close="alertmodal" old-data-dismiss="modal" aria-label="Close">
                     <i class="fa fa-close"></i>
                 </button>
 
@@ -1209,7 +1229,7 @@
 
                 <DIV CLASS="pb-1"></DIV>
                 <div>
-                    <button class="btn btn-secondary"  id="alert-cancel" data-dismiss="modal">
+                    <button class="btn btn-secondary" id="alert-cancel" data-dismiss="modal">
                         Cancel
                     </button>
                     <button class="btn btn-secondary" id="alert-confirm" data-dismiss="modal">
@@ -1221,8 +1241,6 @@
         </div>
     </div>
 </DIV>
-
-<div class="modal loading" ID="loadingmodal"></div>
 
 <script type="text/javascript">
     function checkblock(e) {

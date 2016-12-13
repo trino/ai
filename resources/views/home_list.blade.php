@@ -816,8 +816,6 @@
                             orderid: ID,
                             status: Status
                         }, function (result) {
-                            log("changeorderstatus:");
-                            log(result);
                             if(handleresult(result)) {
                                 var newdata = statuses[Status];
                                 $("#" + table + "_" + ID + "_status").html(newdata);
