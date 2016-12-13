@@ -169,12 +169,6 @@
         return arr;
     }
 
-    function outerHTML(selector){
-        var HTML = $(selector);
-        if(HTML.length) {return $(selector)[0].outerHTML;}
-        return "";
-    }
-
     function visible(selector, status){
         if(isUndefined(status)){status = false;}
         if(status){
@@ -194,39 +188,6 @@
         return Data.length == 10;
     }, "Please enter a valid phone number");
 
-    $.validator.addMethod('creditcard', function (value, element) {
-        var nCheck = 0, nDigit = 0, bEven = false, desiredlength = 16;
-        if(value.contains("-XXXX-XXXX-") && element.hasAttribute("allowblank")){return true;}//placeholder data
-        value = value.replace(/\D/g, "");
-        if (value.left(1) == 3){desiredlength=15;}//amex
-        if (value.length != desiredlength){return false;}
-        for (var n = value.length - 1; n >= 0; n--) {
-            var cDigit = value.charAt(n), nDigit = parseInt(cDigit, 10);
-            if (bEven) {if ((nDigit *= 2) > 9) nDigit -= 9;}
-            nCheck += nDigit;
-            bEven = !bEven;
-        }
-        return (nCheck % 10) == 0;
-    }, "Please enter a valid credit card number");
-
-    var decodeEntities = (function() {
-        // this prevents any overhead from creating the object each time
-        var element = document.createElement('div');
-        function decodeHTMLEntities (str) {
-            if(str && typeof str === 'string') {
-                // strip script/html tags
-                str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
-                str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
-                element.innerHTML = str;
-                str = element.textContent;
-                element.textContent = '';
-            }
-
-            return str;
-        }
-        return decodeHTMLEntities;
-    })();
-
     function findwhere(data, key, value){
         for(var i=0; i<data.length; i++){
             if(data[i][key].isEqual(value)){
@@ -236,44 +197,9 @@
         return -1
     }
 
-    function clearValidation(formElement){
-        $(formElement).removeData('validator');
-        $(formElement).removeData('validate');
-    }
-
     $(document).on('touchend', function () {
         $(".select2-search, .select2-focusser").remove();
     });
-
-    //handles the search text box
-    function search(element) {
-        var searchtext = element.value.toLowerCase();
-        $(".menuitem").each(function (index) {
-            var ismatch = false;
-            if (searchtext) {
-                var itemtext = $(this).attr("itemname").toLowerCase();
-                if (itemtext.indexOf(searchtext) > -1) {
-                    ismatch = true;
-                }
-            } else {
-                ismatch = true;
-            }
-            if (ismatch) {
-                $(this).removeClass("disabled");
-            } else {
-                $(this).addClass("disabled");
-            }
-        });
-        for (var i = 0; i < classlist.length; i++) {
-            var classname = classlist[i];
-            var visible = $(".item_" + classname + ":visible").length;
-            if (visible) {
-                $(".head_" + classname).show();
-            } else {
-                $(".head_" + classname).hide();
-            }
-        }
-    }
 
     //generates the order menu item modal
     var currentitem;
@@ -295,13 +221,6 @@
         }
         $("#modal-toppingcost").text(toppingcost);
         currentitem = {itemname: itemname, itemcost: itemcost, size: size, toppingcost: toppingcost};
-
-        /*clones the addon dropdowns
-        initSelect2(".select2", true);
-        sendintheclones("#modal-wings-clones", "#modal-wings-original", $(element).attr("wings_sauce"), wingsauceouterhtml);
-        sendintheclones("#modal-toppings-clones", "#modal-toppings-original", $(element).attr("toppings"), toppingsouterhtml.replace('[price]', toppingcost));
-        initSelect2(".select2clones");
-        */
 
         for (var tableid = 0; tableid < tables.length; tableid++) {
             var table = tables[tableid];
@@ -642,7 +561,7 @@
         window.location.hash = "modal";
     });
 
-    $(window).on('hashchange', function (event) {
+    $(window).on('hashchange', function (event) {//delete button closes modal
         if(window.location.hash != "#modal" && window.location.hash != "#loading") {
             if(skipone > Date.now()){return;}
             $('#' + modalID).modal('hide');
@@ -731,7 +650,6 @@
     }
 
     function GetNextOrder(CurrentID) {
-        log("GetNextOrder: " + CurrentID)
         var CurrentIndex = getIterator(userdetails["Orders"], "id", CurrentID);
         if (CurrentIndex > -1 && CurrentIndex < userdetails["Orders"].length - 1) {
             orders(userdetails["Orders"][CurrentIndex + 1]["id"]);
@@ -929,10 +847,7 @@
         }
         var tempHTML = '<OPTION';
         var streetformat = "<?= $STREET_FORMAT; ?>";
-        if (address["unit"].trim()) {
-            streetformat = "[unit] - " + streetformat;
-            //if (address["buzzcode"]) {streetformat += ", Buzz code: [buzzcode]";}
-        }
+        if (address["unit"].trim()) {streetformat = "[unit] - " + streetformat;}
         for (var keyID = 0; keyID < addresskeys.length; keyID++) {
             var keyname = addresskeys[keyID];
             if (address.hasOwnProperty(keyname)) {
@@ -1055,11 +970,13 @@
 
     function addresshaschanged() {
         if(!getcloseststore){return;}
-        log("Checking address");
+        var formdata = getform("#orderinfo");
+        if(!formdata.latitude || !formdata.longitude){return;}
+        if(!debugmode){formdata.radius = MAX_DISTANCE;}
         skiploadingscreen = true;
         $.post(webroot + "placeorder", {
             _token: token,
-            info: getform("#orderinfo"),
+            info: formdata,
             action: "closestrestaurant"
         }, function (result) {
             if (handleresult(result)) {
@@ -1068,21 +985,11 @@
                 var restaurant = "No restaurant is within range";
                 canplaceorder = false;
                 if (closest.hasOwnProperty("id")) {
-                    if(parseFloat(closest.distance) < MAX_DISTANCE || debugmode) {
+                    if(parseFloat(closest.distance) <= MAX_DISTANCE || debugmode) {
                         if(parseFloat(closest.distance) >= MAX_DISTANCE){
                             closest.restaurant.name += " [DEBUG]"
                         }
                         canplaceorder = true;
-                        /*
-                        log("Can place an order");
-                        restaurant = "<?= $STREET_FORMAT; ?>";
-                        var keys = Object.keys(closest);
-                        for (var i = 0; i < keys.length; i++) {
-                            var keyname = keys[i];
-                            var keyvalue = closest[keyname];
-                            restaurant = restaurant.replace("[" + keyname + "]", keyvalue);
-                        }
-                        */
                         restaurant = closest.restaurant.name;
                         GenerateHours(closest["hours"]);
                     }
@@ -1284,7 +1191,7 @@
                 <DIV ID="alertmodalbody" STYLE="margin-top: 5px;"></DIV>
 
                 <DIV CLASS="pb-1"></DIV>
-                <div >
+                <div>
                     <button class="btn btn-secondary"  id="alert-cancel" data-dismiss="modal">
                         Cancel
                     </button>

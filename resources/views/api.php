@@ -287,48 +287,6 @@ function printfile($filename){
     echo '<DIV CLASS="blue">' . $filename . '</DIV>';
 }
 
-//explodes $text by space, checks if the cells contain $words and returns the indexes
-function containswords($text, $words, $all = false, $delimiter = " ", $normalizationmode = 0){
-    $ret = array();
-    if(!is_array($text)){$text = explode($delimiter, $text);}
-    if(!is_array($words)){$words = array(normalizetext($words));} else {$words = normalizetext($words);}
-    foreach($text as $index => $text_word) {
-        $text_word = normalizetext($text_word, $normalizationmode);
-        foreach($words as $word_index => $word_word){
-            if (is_array($word_word)) {
-                if (count(containswords($text_word, $word_word, false, $delimiter, $normalizationmode))) {
-                    $ret[] = $index;
-                }
-            } else if($text_word == normalizetext($word_word, $normalizationmode)) {
-                $ret[] = $index;
-            }
-        }
-
-    }
-    if($all){return count($ret) == count($words);}
-    return $ret;
-}
-
-//lowercase and trim text for == comparison
-function normalizetext($text, $normalizationmode = 0){
-    //$before = $text;
-    if(is_array($text)){
-        foreach($text as $index => $word){
-            $text[$index] = normalizetext($word);
-        }
-        return $text;
-    }
-    $text = strtolower(trim($text));
-    if($normalizationmode) {
-        if (extract_bits($normalizationmode, 1)) {$text = filternonalphanumeric($text);}//2
-        if (extract_bits($normalizationmode, 2)) {$text = filternumeric($text, "#");}//4
-        if (extract_bits($normalizationmode, 3)) {$text = filternumeric($text);}//8
-        if (extract_bits($normalizationmode, 4)) {if(right($text,1) == "s"){$text = left($text, strlen($text)-1);}}//16
-    }
-    //echo "<BR>'<I>" . $before . "</I>' in mode " . $normalizationmode . " becomes '<I>" . $text . "</I>'";
-    return $text;
-}
-
 function filternumeric($text, $withwhat = ''){
     return preg_replace('/[0-9]/', $withwhat, $text);
 }
@@ -339,19 +297,6 @@ function filternonnumeric($text, $withwhat = ''){
 
 function filternonalphanumeric($text, $withwhat = ''){
     return preg_replace("/[^A-Za-z0-9 ]/", $withwhat, $text);
-}
-
-function filterduplicates($text, $filter = "  ", $withwhat = " "){
-    while (strpos($text, $filter) !== false){
-        $text = str_replace($filter, $withwhat, $text);
-    }
-    return $text;
-}
-
-function extract_bits($value, $start_pos, $length = 1){
-    $end_pos = $start_pos + $length;
-    $mask = (1 << ($end_pos - $start_pos)) - 1;
-    return ($value >> $start_pos) & $mask;
 }
 
 function setsetting($Key, $Value){
@@ -465,17 +410,6 @@ function getextension($path) {
 function file_size($path){
     if(file_exists($path)) {return filesize($path);}
     return 0;
-}
-
-//make a GUID
-function guidv4() {
-    if (function_exists('com_create_guid') === true) {
-        return trim(com_create_guid(), '{}');
-    }
-    $data = openssl_random_pseudo_bytes(16);
-    $data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 0100
-    $data[8] = chr(ord($data[8]) & 0x3f | 0x80); // set bits 6-7 to 10
-    return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
 }
 
 //gets the last key of an array

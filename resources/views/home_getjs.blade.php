@@ -86,4 +86,11 @@
 
         return $code;// replace some unneeded spaces, modify as needed
     }
+
+    function filterduplicates($text, $filter = "  ", $withwhat = " "){
+        while (strpos($text, $filter) !== false){
+            $text = str_replace($filter, $withwhat, $text);
+        }
+        return $text;
+    }
 ?>

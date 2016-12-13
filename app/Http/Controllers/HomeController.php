@@ -185,12 +185,17 @@ class HomeController extends Controller {
     }
 
     function closestrestaurant($data, $gethours = false){
-        if(!isset($data['radius'])){$data['radius'] = 100;}
+        //if(!isset($data['radius'])){$data['radius'] = 100;}
         $owners = implode(",", collapsearray(Query("SELECT address_id FROM restaurants WHERE address_id > 0", true), "address_id"));
-        $where = "id IN (" . $owners . ")";
-        $SQL = "SELECT *, ( 6371 * acos( cos( radians('" . $data['latitude'] . "') ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians('" . $data['longitude']."') ) + sin( radians('" . $data['latitude']."') ) * sin( radians( latitude ) ) ) ) AS distance FROM useraddresses WHERE $where HAVING distance <= " . $data['radius'] . " ORDER BY distance ASC LIMIT 1";
+        $SQL = "SELECT *, ( 6371 * acos( cos( radians('" . $data['latitude'] . "') ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians('" . $data['longitude']."') ) + sin( radians('" . $data['latitude']."') ) * sin( radians( latitude ) ) ) ) AS distance FROM useraddresses WHERE id IN (" . $owners . ")";
+        if(isset($data['radius'])){
+            $SQL .= " HAVING distance <= " . $data['radius'];
+        }
+        $SQL .= " ORDER BY distance ASC LIMIT 1";
+
         $Restaurant = first($SQL);//useraddresses
         if($Restaurant && $gethours){
+            $Restaurant["SQL"] = $SQL;
             $Restaurant["hours"] = gethours($Restaurant["id"]);
             $Restaurant["restaurant"] = first("SELECT * FROM restaurants WHERE address_id = " . $Restaurant["id"]);
             $Restaurant["user"] = first("SELECT * FROM users WHERE id = " . $Restaurant["user_id"]);

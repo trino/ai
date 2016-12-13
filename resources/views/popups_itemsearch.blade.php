@@ -16,6 +16,54 @@
             if(!$Text){return 1;}
             return $Text;
         }
+
+        //explodes $text by space, checks if the cells contain $words and returns the indexes
+        function containswords($text, $words, $all = false, $delimiter = " ", $normalizationmode = 0){
+            $ret = array();
+            if(!is_array($text)){$text = explode($delimiter, $text);}
+            if(!is_array($words)){$words = array(normalizetext($words));} else {$words = normalizetext($words);}
+            foreach($text as $index => $text_word) {
+                $text_word = normalizetext($text_word, $normalizationmode);
+                foreach($words as $word_index => $word_word){
+                    if (is_array($word_word)) {
+                        if (count(containswords($text_word, $word_word, false, $delimiter, $normalizationmode))) {
+                            $ret[] = $index;
+                        }
+                    } else if($text_word == normalizetext($word_word, $normalizationmode)) {
+                        $ret[] = $index;
+                    }
+                }
+
+            }
+            if($all){return count($ret) == count($words);}
+            return $ret;
+        }
+
+        //lowercase and trim text for == comparison
+        function normalizetext($text, $normalizationmode = 0){
+            //$before = $text;
+            if(is_array($text)){
+                foreach($text as $index => $word){
+                    $text[$index] = normalizetext($word);
+                }
+                return $text;
+            }
+            $text = strtolower(trim($text));
+            if($normalizationmode) {
+                if (extract_bits($normalizationmode, 1)) {$text = filternonalphanumeric($text);}//2
+                if (extract_bits($normalizationmode, 2)) {$text = filternumeric($text, "#");}//4
+                if (extract_bits($normalizationmode, 3)) {$text = filternumeric($text);}//8
+                if (extract_bits($normalizationmode, 4)) {if(right($text,1) == "s"){$text = left($text, strlen($text)-1);}}//16
+            }
+            //echo "<BR>'<I>" . $before . "</I>' in mode " . $normalizationmode . " becomes '<I>" . $text . "</I>'";
+            return $text;
+        }
+
+        function extract_bits($value, $start_pos, $length = 1){
+            $end_pos = $start_pos + $length;
+            $mask = (1 << ($end_pos - $start_pos)) - 1;
+            return ($value >> $start_pos) & $mask;
+        }
     }
     $reduced = false;
     if($isKeyword && isset($is5keywords) && count($is5keywords) > 1){//is part of a multiple item search
