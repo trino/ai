@@ -278,10 +278,15 @@
         };
         if(currentitemID == -1){
             theorder.push(data);
+            var ret = theorder.length - 1;
         } else {
             theorder[currentitemID] = data;
+            var ret = currentitemID;
         }
         generatereceipt();
+        $("#receipt_item_" + ret).hide();
+        $("#receipt_item_" + ret).fadeIn("slow");
+        return ret;
     }
 
     //convert the order to an HTML receipt
@@ -303,7 +308,8 @@
             var hasaddons = item.hasOwnProperty("itemaddons") && item["itemaddons"].length > 0;
             subtotal += Number(totalcost);
 
-            tempHTML = '<span class="pull-left"> <DIV CLASS="sprite sprite-' + category + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
+            tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item">';
+            tempHTML += '<span class="pull-left"> <DIV CLASS="sprite sprite-' + category + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
             tempHTML += '<span class="pull-right" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '">';
 
             tempHTML += ' <i class="fa fa-close pull-right" onclick="removeorderitem(' + itemid + ');"></i>';
@@ -342,7 +348,7 @@
                     tempHTML += '<BR>';
                 }
             }
-            HTML += tempHTML;
+            HTML += tempHTML + '</DIV>';
         }
         var taxes = (subtotal + deliveryfee) * 0.13;//ontario only
         totalcost = subtotal + deliveryfee + taxes;
@@ -378,7 +384,11 @@
 
     function clearorder() {
         theorder = new Array;
-        generatereceipt();
+        removeorderitemdisabled=true;
+        $(".receipt_item").fadeOut("slow", function() {
+            removeorderitemdisabled=false;
+            generatereceipt();
+        });
     }
 
     function edititem(element, Index){
@@ -470,9 +480,15 @@
     }
 
     //remove an item from the order
+    var removeorderitemdisabled = false;
     function removeorderitem(index) {
+        if(removeorderitemdisabled){return;}
         removeindex(theorder, index);
-        generatereceipt();
+        removeorderitemdisabled=true;
+        $("#receipt_item_" + index).fadeOut("slow", function() {
+            removeorderitemdisabled=false;
+            generatereceipt();
+        });
     }
 
     //checks if the result is JSON, and processes the Status and Reasons
