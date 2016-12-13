@@ -230,7 +230,7 @@
                                 echo '</TD><TD NOWRAP>';
                                 if($totaladdons){
                                     echo $paidtoppings . ' paid<BR>' . $freetoppings . ' free';
-                                    echo '<BR>' . $size . '<BR>$' . number_format($addonscost, 2);
+                                    echo '<BR>$' . number_format($addonscost, 2);//'<BR>' . $size .
                                     //if (number_format($item->itemprice,2) <> number_format($itemtotal, 2)){
                                         //echo ' STYLE="COLOR: red;"';
                                         //$integrity = false;
