@@ -35,8 +35,8 @@ Route::group(['middleware' => ['web']], function () {
         return view("index")->render();
     })->middleware('guest');
 
-    Route::any('/auth/login',           'Auth\AuthController@login');
-    Route::any('/auth/gettoken',        'Auth\AuthController@gettoken');
+    Route::any('/auth/login',           'AuthController@login');
+    Route::any('/auth/gettoken',        'AuthController@gettoken');
     Route::any('/placeorder',           'HomeController@placeorder');
 
     Route::get('/getjs',                'HomeController@getjs');
