@@ -168,7 +168,9 @@ select.form-control{
     margin-top: 5px;
 }
 
-
+.pull-center {
+    text-align: center;
+}
 
 
 

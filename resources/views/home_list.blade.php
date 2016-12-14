@@ -781,9 +781,10 @@
                             orderid: ID
                         }, function (result) {
                             if(result) {
-                                var HTML = '<button class="btn btn-primary" data-dismiss="modal" style="width: 45%;" onclick="changeorderstatus(' + ID + ', 1);">Confirm</button>';
-                                HTML += '<button class="btn btn-danger pull-right" data-dismiss="modal" style="width: 45%;" onclick="changeorderstatus(' + ID + ', 2);">Decline</button>';
-                                //alert(result + HTML, "View Order");
+                                var button = '<DIV CLASS="col-md-4"><button style="width: 100%;" data-dismiss="modal" class="btn btn-';
+                                var HTML = button + 'primary" onclick="changeorderstatus(' + ID + ', 1);">Confirm</button></DIV>';
+                                HTML += button + 'secondary pull-center" onclick="changeorderstatus(' + ID + ');"><i class="fa fa-envelope"></I> Email</button></DIV>';
+                                HTML += button + 'danger pull-right" onclick="changeorderstatus(' + ID + ', 2);">Decline</button></DIV>';
                                 $("#ordercontents").html(result + HTML);
                                 $("#ordermodal").modal("show");
                                 @if(!$showmap)
@@ -810,6 +811,7 @@
 
                     function changeorderstatus(ID, Status){
                         //edititem(ID, "status", Status);
+                        if(isUndefined(Status)){Status = -1;}
                         $.post(webroot + "placeorder", {
                             action: "changestatus",
                             _token: token,

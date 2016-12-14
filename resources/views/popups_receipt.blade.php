@@ -28,9 +28,31 @@
     }
     $Status = array("Pending", "Confirmed", "Declined", "Delivered", "Canceled");
     $Status = $Status[$Order["status"]];
+
+    //Hack to put CSS inline for emails
+    if(!isset($inline)){$inline = false;}
+    $GLOBALS["inline"] = $inline;
+    function inline($Class, $OnlyInline = false){
+        if($GLOBALS["inline"]){
+            $Style = array();
+            $Class = explode(" ", $Class);
+            foreach($Class as $Classname){
+                switch(strtolower($Classname)){
+                    //table-sm
+                    case "table":               $Style[] = "width: 100%; max-width: 100%; margin-bottom: 0; border-collapse: collapse; background-color: transparent; display: table; border-spacing: 2px;"; break;
+                    case "table-bordered":      $Style[] = "border: 1px solid #eceeef; ";    break;
+                    case "bg-danger":           $Style[] = "background-color: #d9534f!important;"; break;
+                    case "table-inverse":       $Style[] = "border: 0; color: #eceeef; background-color: #373a3c;"; break;
+                }
+            }
+            return ' style="' . implode(" ", $Style) . '"';
+        } else if (!$OnlyInline){
+            return ' class="' . $Class . '"';
+        }
+    }
 ?>
 @if($style==1)
-    <TABLE class="table table-sm table-bordered">
+    <TABLE ID="maintable" <?= inline("table table-sm table-bordered");?> >
         <TR><TD>Order #: </TD><TD ID="receipt_id"><?= $orderid; ?></TD></TR>
         <TR><TD>Ordered On:</TD><TD ID="receipt_placed_at"><?= verbosedate($Order["placed_at"]); ?></TD></TR>
         <TR><TD>Status: </TD><TD><?= $Status; ?></TD></TR>
@@ -49,8 +71,8 @@
         @endif
         @if(!isset($JSON))
             <TR>
-                <TD COLSPAN="2" STYLE="padding: 0px;">
-                    <TABLE WIDTH="100%" BORDER="0"><TR><TD WIDTH="50%">
+                <td COLSPAN="2" STYLE="padding: 0px;">
+                    <TABLE WIDTH="100%" ID="addresstable" BORDER="0" <?= inline("table", true); ?> ><TR><TD WIDTH="50%">
                         <?php
                             echo $Order["name"] . " - " . $Order["email"] . "<BR>" . $Order["phone"] . " " . $Order["cell"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . ", " . $Order["province"] . "<BR>" . $Order["postalcode"] . '<BR>' . $Order["unit"] . '</TD><TD>';
                             $Restaurant = first("SELECT * FROM restaurants WHERE id = " . $Order["restaurant_id"]);
@@ -63,22 +85,20 @@
                             echo '<INPUT TYPE="HIDDEN" ID="rest_longitude" VALUE="' . $Raddress["longitude"] . '">';
                         ?>
                     </TD></TR></TABLE>
-                </TD>
+                </td>
             </TR>
         @endif
     </TABLE>
 
-    <TABLE WIDTH="100%" class="table table-inverse table-sm bg-danger table-bordered">
-        <THEAD>
-            <TR>
-                <TH>#</TH>
-                <TH>Name</TH>
-                <TH>Sub-total</TH>
-                <TH>Addons</TH>
-                <TH>Addon Count</TH>
-                <TH>Total</TH>
-            </TR>
-        </THEAD>
+    <TABLE ID="receipttable" WIDTH="100%" <?= inline("table table-inverse table-sm bg-danger table-bordered"); ?> >
+        <TR>
+            <TH>#</TH>
+            <TH>Name</TH>
+            <TH>Sub-total</TH>
+            <TH>Addons</TH>
+            <TH>Addon Count</TH>
+            <th>Total</th>
+        </TR>
 @else
     <TABLE WIDTH="100%" class="noborder" cellspacing="0" cellpadding="0">
 @endif
@@ -177,7 +197,7 @@
                             }
                             $HTML="";
                             if(isset($item->itemaddons)){
-                                if($style==1){$HTML = '<TABLE BORDER="1" WIDTH="100%"><THEAD><TR><TH WIDTH="5%">#</TH><TH>Addons</TH></THEAD></TR>';}
+                                if($style==1){$HTML = '<TABLE BORDER="1" WIDTH="100%"><TR><TH WIDTH="5%">#</TH><TH>Addons</TH></TR>';}
                                 $addoncount = count($item->itemaddons);
                                 foreach($item->itemaddons as $addonID => $addon){
                                     $toppings=array();

@@ -74,20 +74,32 @@ class HomeController extends Controller {
                     $ret["closest"] = $this->closestrestaurant($info, true);
                     break;
                 case "changestatus":
-                    $Status = array("Pending", "Confirmed", "Declined", "Delivered", "Canceled");
-                    insertdb("orders", array("id" => $_POST["orderid"], "status" => $_POST["status"]));
-                    $Status = $Status[$_POST["status"]];
-                    $ret["Reason"] = "Order #" . $_POST["orderid"] . ": " . $Status;
-                    if($_POST["status"] == 2){//declined, sms and email user and admin.
-                        $this->sendSMS("admin", $ret["Reason"]);//sms admin
-                        $order = first("SELECT * FROM orders WHERE id = " . $_POST["orderid"]);
-                        $user = first("SELECT * FROM users WHERE id = " . $order["user_id"]);
-                        $this->sendSMS($user["phone"], $ret["Reason"]);//sms user
-                        $this->sendEMail("email_test", array(
-                            'mail_subject' => $ret["Reason"],
-                            "email" => array("admin", $user["email"]),
-                            "body" => "Your order was " . strtolower($Status) . " by the restaurant"
-                        ));
+                    if($_POST["status"] == -1){//email out
+                        $user = first("SELECT * FROM users WHERE id = " . read("id"));
+                        $user["orderid"] = $_POST["orderid"];
+                        $user["mail_subject"] = "Receipt";
+                        $ret["Reason"] =  $this->sendEMail("email_receipt", $user);
+                        if($ret["Reason"]){
+                            $ret["Status"] = false;
+                        } else {
+                            $ret["Reason"] = "Receipt for order ID " . $user["orderid"] . " sent to '" . $user["email"] . "'";
+                        }
+                    } else {
+                        $Status = array("Pending", "Confirmed", "Declined", "Delivered", "Canceled");
+                        insertdb("orders", array("id" => $_POST["orderid"], "status" => $_POST["status"]));
+                        $Status = $Status[$_POST["status"]];
+                        $ret["Reason"] = "Order #" . $_POST["orderid"] . ": " . $Status;
+                        if ($_POST["status"] == 2) {//declined, sms and email user and admin.
+                            $this->sendSMS("admin", $ret["Reason"]);//sms admin
+                            $order = first("SELECT * FROM orders WHERE id = " . $_POST["orderid"]);
+                            $user = first("SELECT * FROM users WHERE id = " . $order["user_id"]);
+                            $this->sendSMS($user["phone"], $ret["Reason"]);//sms user
+                            $this->sendEMail("email_test", array(
+                                'mail_subject' => $ret["Reason"],
+                                "email" => array("admin", $user["email"]),
+                                "body" => "Your order was " . strtolower($Status) . " by the restaurant"
+                            ));
+                        }
                     }
                     break;
                 default:

@@ -3,7 +3,7 @@
     <div class="card-block ">
         <div class="row">
             <div class="col-md-12">
-                <a class="pull-right text-white " ONCLICK="confirm2('Are you sure you want to clear your order?', 'Clear Order', function(){clearorder();});">
+                <a class="pull-right text-white cursor-pointer" ONCLICK="confirmclearorder();">
                     <i class="fa fa-close"></i>
                 </a>
                 <h4 class="pull-left text-white">

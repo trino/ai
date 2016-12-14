@@ -382,6 +382,14 @@
         }
     }
 
+    function confirmclearorder(){
+        if(theorder.length>0) {
+            confirm2('Are you sure you want to clear your order?', 'Clear Order', function () {
+                clearorder();
+            });
+        }
+    }
+
     function clearorder() {
         theorder = new Array;
         removeorderitemdisabled=true;
