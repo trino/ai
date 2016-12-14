@@ -32,22 +32,24 @@
     //Hack to put CSS inline for emails
     if(!isset($inline)){$inline = false;}
     $GLOBALS["inline"] = $inline;
-    function inline($Class, $OnlyInline = false){
-        if($GLOBALS["inline"]){
-            $Style = array();
-            $Class = explode(" ", $Class);
-            foreach($Class as $Classname){
-                switch(strtolower($Classname)){
-                    //table-sm
-                    case "table":               $Style[] = "width: 100%; max-width: 100%; margin-bottom: 0; border-collapse: collapse; background-color: transparent; display: table; border-spacing: 2px;"; break;
-                    case "table-bordered":      $Style[] = "border: 1px solid #eceeef; ";    break;
-                    case "bg-danger":           $Style[] = "background-color: #d9534f!important;"; break;
-                    case "table-inverse":       $Style[] = "border: 0; color: #eceeef; background-color: #373a3c;"; break;
+    if(!function_exists("inline")){
+        function inline($Class, $OnlyInline = false){
+            if($GLOBALS["inline"]){
+                $Style = array();
+                $Class = explode(" ", $Class);
+                foreach($Class as $Classname){
+                    switch(strtolower($Classname)){
+                        //table-sm
+                        case "table":               $Style[] = "width: 100%; max-width: 100%; margin-bottom: 0; border-collapse: collapse; background-color: transparent; display: table; border-spacing: 2px;"; break;
+                        case "table-bordered":      $Style[] = "border: 1px solid #eceeef; ";    break;
+                        case "bg-danger":           $Style[] = "background-color: #d9534f!important;"; break;
+                        case "table-inverse":       $Style[] = "border: 0; color: #eceeef; background-color: #373a3c;"; break;
+                    }
                 }
+                return ' style="' . implode(" ", $Style) . '"';
+            } else if (!$OnlyInline){
+                return ' class="' . $Class . '"';
             }
-            return ' style="' . implode(" ", $Style) . '"';
-        } else if (!$OnlyInline){
-            return ' class="' . $Class . '"';
         }
     }
 ?>
