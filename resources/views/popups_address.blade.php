@@ -104,6 +104,7 @@
     function fillInAddress() {
         // Get the place details from the formatted_address object.
         var place = formatted_address.getPlace();
+        log(JSON.stringify(place));
         var lat = place.geometry.location.lat();
         var lng = place.geometry.location.lng();
 
@@ -122,7 +123,7 @@
             postal_code: 'short_name'
         };
         //2396 Kingsway, locality: Vancouver, administrative_area_level_1: British Columbia, country: Canada, postal_code: V5R 5G9
-        var streetformat = "[street_number] [route], [postal_code]";
+        var streetformat = "[street_number] [route], [locality], [administrative_area_level_1_s] [postal_code]";
         for (var i = 0; i < place.address_components.length; i++) {
             var addressType = place.address_components[i].types[0];
             if (componentForm[addressType]) {
@@ -130,6 +131,11 @@
                 addressdata[addressType] = val;
                 streetformat = streetformat.replace("[" + addressType + "]", val);
                 $('.' + addressType).val(val);
+
+                val = place.address_components[i]['short_name'];
+                streetformat = streetformat.replace("[" + addressType + "_s]", val);
+                val = place.address_components[i]['long_name'];
+                streetformat = streetformat.replace("[" + addressType + "_l]", val);
             }
         }
         if (isnewaddress(addressdata["street_number"], addressdata["route"], addressdata["locality"])) {

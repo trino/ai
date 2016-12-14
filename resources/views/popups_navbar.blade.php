@@ -34,7 +34,7 @@ padding:.75rem !important;">
                                     <i class="fa fa-home"></i> <SPAN CLASS="session_name"></SPAN>
                                 </A>
                             </li>
-                            <li>
+                            <li class="profiletype_not profiletype_not2">
                                 <A ONCLICK="orders();" class="dropdown-item" href="#"> <i class="fa fa-home"></i> Recent Orders</A>
                             </li>
                             <li>

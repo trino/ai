@@ -146,6 +146,7 @@
         }
     }
     $user = getuser(false, false);
+    $email = false;
 ?>
 @if($includesection)
     @extends("layouts_app")
@@ -157,22 +158,21 @@
                         <h4 class="pull-left">
                             <A HREF="{{ webroot("public") }}"><i class="fa fa-home" aria-hidden="true"></i></A> Edit user
                         </h4>
-                        <A HREF="{{ webroot("public/list/useraddresses?user_id=" . $user_id ) }}" STYLE="float:right;" class="btn btn-sm  btn-secondary waves-effect">Edit Addresses</A>
+                        <A HREF="{{ webroot("public/list/useraddresses?user_id=" . $user_id ) }}" STYLE="float:right;" class="btn btn-sm btn-secondary waves-effect">Edit Addresses</A>
                     </div>
                     <div class="card-block">
                         <div class="row">
                             <div class="col-md-12">
 @endif
 
-
-    <FORM NAME="user" id="userform">
-        @include("popups_edituser")
-        <DIV CLASS="row">
-            <DIV CLASS="col-md-12" align="center">
-                <BUTTON CLASS="btn btn-primary" onclick="userform_submit();">Save</BUTTON>
-            </DIV>
+<FORM NAME="user" id="userform">
+    @include("popups_edituser")
+    <DIV CLASS="row">
+        <DIV CLASS="col-md-12" align="center">
+            <BUTTON CLASS="btn btn-primary" onclick="userform_submit();">Save</BUTTON>
         </DIV>
-    </FORM>
+    </DIV>
+</FORM>
 
 @if($includesection)
                             </div>

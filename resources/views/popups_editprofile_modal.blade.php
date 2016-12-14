@@ -11,12 +11,11 @@
                 </div>
 
                 <FORM NAME="user" id="userform">
-                    @include("popups_edituser", array("showpass" => true))
+                    @include("popups_edituser", array("showpass" => true, "email" => false))
                 </FORM>
 
-
-
                 <DIV ID="addresslist"></DIV>
+                <DIV ID="cardlist"></DIV>
 
                 <DIV CLASS="row">
                     <DIV CLASS="col-md-12" align="center">

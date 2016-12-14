@@ -57,6 +57,19 @@ class HomeController extends Controller {
         if(isset($_POST["action"])){
             $ret = array("Status" => true, "Reason" => "");
             switch($_POST["action"]){
+                case "deletecard":
+                    initStripe();
+                    $user = first("SELECT * FROM users WHERE id = " . read("id"));
+                    try{
+                        $ret["Status"] = false;
+                        $cu = \Stripe\Customer::retrieve($user["stripecustid"]);
+                        $cu->sources->retrieve($_POST["cardid"])->delete();
+                        $ret["Reason"] = "'" + $_POST["cardid"] . "' was deleted";
+                        $ret["Status"] = true;
+                    } catch (\Stripe\Error\InvalidRequest $e) {
+                        $ret["Reason"] = $e->getMessage();
+                    }
+                    break;
                 case "closestrestaurant":
                     $ret["closest"] = $this->closestrestaurant($info, true);
                     break;

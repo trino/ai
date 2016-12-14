@@ -545,7 +545,7 @@ function GenerateTime($time = ""){
     }
 }
 
-function lastupdatetime($table){
+function lastupdatetime($table){//will not work on live!
     if (first("SHOW TABLE STATUS FROM " . $GLOBALS["database"] . " LIKE '" . $table . "';")["Engine"] == "InnoDB"){
         $filename = first('SHOW VARIABLES WHERE Variable_name = "datadir"')["Value"] . $GLOBALS["database"] . '/' . $table . '.ibd';
         return filemtime($filename);//UNIX datestamp
