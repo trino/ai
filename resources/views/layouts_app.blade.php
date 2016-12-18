@@ -36,7 +36,7 @@
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css">
         <!--link rel="stylesheet" href="https://bootswatch.com/paper/bootstrap.css"-->
-        <link rel="stylesheet" href="<?= webroot("public/custom2.css"); ?>">
+        <link rel="stylesheet" href="<?= webroot("public/custom3.css"); ?>">
 
         <script src="<?= webroot("resources/views/jquery.min.js"); ?>"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js"></script>

@@ -92,7 +92,7 @@
         @endif
     </TABLE>
 
-    <TABLE ID="receipttable" WIDTH="100%" <?= inline("table table-inverse table-sm bg-danger table-bordered"); ?> >
+    <TABLE ID="receipttable" WIDTH="100%" <?= inline("table table-sm bg-danger table-bordered text-white"); ?> >
         <TR>
             <TH>#</TH>
             <TH>Name</TH>

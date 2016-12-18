@@ -308,7 +308,7 @@ $STREET_FORMAT = "[number] [street], [city]";//["id", "value", "user_id", "numbe
         }
         generatereceipt();
         $("#receipt_item_" + ret).hide();
-        $("#receipt_item_" + ret).fadeIn("slow");
+        $("#receipt_item_" + ret).fadeIn("fast");
         return ret;
     }
 
@@ -418,7 +418,7 @@ $STREET_FORMAT = "[number] [street], [city]";//["id", "value", "user_id", "numbe
     function clearorder() {
         theorder = new Array;
         removeorderitemdisabled = true;
-        $(".receipt_item").fadeOut("slow", function () {
+        $(".receipt_item").fadeOut("fast", function () {
             removeorderitemdisabled = false;
             generatereceipt();
         });
@@ -531,7 +531,7 @@ $STREET_FORMAT = "[number] [street], [city]";//["id", "value", "user_id", "numbe
         }
         removeindex(theorder, index);
         removeorderitemdisabled = true;
-        $("#receipt_item_" + index).fadeOut("slow", function () {
+        $("#receipt_item_" + index).fadeOut("fast", function () {
             removeorderitemdisabled = false;
             generatereceipt();
         });
@@ -624,7 +624,7 @@ $STREET_FORMAT = "[number] [street], [city]";//["id", "value", "user_id", "numbe
     $(window).on('shown.bs.modal', function () {
         modalID = $(".modal:visible").attr("id");
         $("#" + modalID).hide();
-        $("#" + modalID).fadeIn("slow");
+        $("#" + modalID).fadeIn("fast");
         skipone = Date.now() + 100;//blocks delete button for 1/10 of a second
         switch (modalID) {
             case "profilemodal":
@@ -777,15 +777,15 @@ $STREET_FORMAT = "[number] [street], [city]";//["id", "value", "user_id", "numbe
         //----- OPEN
         $('[data-popup-open]').on('click', function (e) {
             var targeted_popup_class = jQuery(this).attr('data-popup-open');
-            $('#' + targeted_popup_class).fadeIn("slow");
+            $('#' + targeted_popup_class).fadeIn("fast");
             e.preventDefault();
         });
 
         //----- CLOSE
         $('[data-popup-close]').on('click', function (e) {
             var targeted_popup_class = jQuery(this).attr('data-popup-close');
-            $('#' + targeted_popup_class).fadeOut("slow", function () {
-                $(".modal-backdrop").fadeOut("slow", function () {
+            $('#' + targeted_popup_class).fadeOut("fast", function () {
+                $(".modal-backdrop").fadeOut("fast", function () {
                     $('#' + targeted_popup_class).modal("hide");
                 });
             });

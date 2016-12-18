@@ -2,7 +2,7 @@
 <STYLE>
     .addon-selected, .thisside {
         background: #dadada;
-        border-radius: .25rem !important;
+        padding:.5rem;
     }
 
     .addon-selected::before, .currentitem.thisside::before {
@@ -11,17 +11,6 @@
         color:red;
     }
 
-    .addon-addon{
-        overflow: hidden;
-        margin-right: 2px;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        cursor: pointer;
-    }
-
-    .currentitem{
-        cursor: pointer;
-    }
 </STYLE>
 
 <SCRIPT>
@@ -58,7 +47,7 @@
             var tempstr = '';
             var classname = 'itemcontents itemcontents' + itemindex;
 
-            HTML += '<DIV style="padding:.25rem !important;" ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="col-xs-6 currentitem currentitem' + itemindex;
+            HTML += '<DIV style="" ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="currentitem currentitem' + itemindex;
             if (currentitemindex == itemindex) {HTML += ' thisside';}
             HTML += '">'  + ' #' + (itemindex + 1) + ' ';
 
@@ -129,7 +118,7 @@
 
     function list_addons(table, halves) {
         currentaddontype = table;
-        var HTML = '<DIV style="background:#f8f8f8;padding:15px 5px;border-bottom:2px solid #dadada;border-top:2px solid #dadada;"><DIV id="theaddons"></DIV><div class="clearfix"></div> </DIV>';
+        var HTML = '<DIV style="background:#f8f8f8;"><DIV id="theaddons"></DIV><div class="clearfix"></div> </DIV>';
         if (currentstyle == 0) {
             HTML += '<DIV CLASS="bg-danger addonlist" ID="addontypes">';
         } else {

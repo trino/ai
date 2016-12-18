@@ -1,6 +1,6 @@
 <?php startfile("popups_checkout"); ?>
-<div class="card text-white bg-danger" style="margin: 0 !important;border-radius: 0 !important;">
-    <div class="card-block ">
+<div class="card text-white" style="">
+    <div class="card-block bg-danger">
         <div class="row">
             <div class="col-md-12">
                 <a class="pull-right text-white cursor-pointer" ONCLICK="confirmclearorder();">
@@ -24,6 +24,13 @@
             </div>
         </div>
     </div>
+
+
+
+
+
+
+
 </div>
 
 <div class="modal" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
@@ -108,18 +115,26 @@
                         <!-- --------------------------------------------------------------------------------- -->
 
 
-                            <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook"
-                                   maxlength="255"/>
-
 
                             <DIV class="payment-errors"></DIV>
 
                             <?php
                             echo '<input type="text" class="form-control" ID="restaurant" placeholder="Closest Restaurant" READONLY TITLE="Closest restaurant"/>';
+
+                        ?>
+
+                            <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook"
+                                   maxlength="255"/>
+
+                        <?
                             echo '<SELECT id="deliverytime" TITLE="Delivery Time" class="form-control proper-height"/>';
+
+
+
                             echo '<OPTION>Deliver Now</OPTION>';
                             echo '</SELECT>';
                             ?>
+
 
                             <a class="btn btn-warning text-white pull-right" onclick="payfororder();">PLACE ORDER</a>
                             <DIV ID="form_integrity"></DIV>

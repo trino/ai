@@ -8,8 +8,8 @@
         } else {
     ?>
 
-    <div class="row">
-        <div class="col-md-8" style="padding: .75rem !important;">
+    <div class="row mt-1">
+        <div class="col-md-8">
             <?php
             if (islive()) {
                 function like_match($pattern, $subject) {
@@ -54,31 +54,46 @@
 
             <?= view("popups_toppings"); ?>
 
-        </div>
-    </div>
+
+
+
+
+
+
+
     @include("popups_editprofile_modal")
     <?php }
         endfile("index");
-        if(isset($GLOBALS["filetimes"])){// && !islive()){
-            echo '<TABLE><TR><TH COLSPAN="2">File times</TH></TR>';
-            foreach($GLOBALS["filetimes"] as $Index => $Values){
-                echo '<TR><TD>' . $Index . '</TD><TD>';
-                if(isset($Values["start"]) && isset($Values["end"])){
-                    $val = round($Values["end"] - $Values["start"], 4);
-                    if(strpos($val, ".") === false){
-                        $val .= ".000";
-                    } else {
-                        $val = str_pad($val,4,"0");
-                    }
-                    echo $val . "s";
-                } else {
-                    echo "Unended";
-                }
-                echo '</TD></TR>';
-            }
-            echo '<TR><TD>Loaded</TD><TD ID="td_loaded"></TD></TR>';
-            echo '<TR><TD>Ready</TD><TD ID="td_ready"></TD></TR>';
-            echo '</TABLE>';
-        }
+
     ?>
+
+
+    <?php
+    if(isset($GLOBALS["filetimes"])){// && !islive()){
+        echo '<TABLE><TR><TH COLSPAN="2">File times</TH></TR>';
+        foreach($GLOBALS["filetimes"] as $Index => $Values){
+            echo '<TR><TD>' . $Index . '</TD><TD>';
+            if(isset($Values["start"]) && isset($Values["end"])){
+                $val = round($Values["end"] - $Values["start"], 4);
+                if(strpos($val, ".") === false){
+                    $val .= ".000";
+                } else {
+                    $val = str_pad($val,4,"0");
+                }
+                echo $val . "s";
+            } else {
+                echo "Unended";
+            }
+            echo '</TD></TR>';
+        }
+        echo '<TR><TD>Loaded</TD><TD ID="td_loaded"></TD></TR>';
+        echo '<TR><TD>Ready</TD><TD ID="td_ready"></TD></TR>';
+        echo '</TABLE>';
+    }?>
+
+
+
+        </div>
+    </div>
+
 @endsection

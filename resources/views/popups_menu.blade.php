@@ -102,10 +102,10 @@
         ?>
 
         <div class="card">
-        <div class="">
+        <div class="card-block">
 
 
-            <h5 class="text-danger pt-1 ">{{$category['category']}}</h5>
+            <h5 class="text-danger">{{$category['category']}}</h5>
 
             <div>
 

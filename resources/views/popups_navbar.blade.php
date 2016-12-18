@@ -12,8 +12,7 @@ padding:.75rem !important;">
                         <i class="fa fa-user no-padding-margin"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
-                        <h6 class="dropdown-header session_name" style="margin-top: .25rem;"></h6>
-                        <div class="dropdown-divider"></div>
+
                         <SPAN class="loggedin profiletype profiletype1">
                             <?php
                                 //administration lists

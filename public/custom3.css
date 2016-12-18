@@ -1,0 +1,104 @@
+.sprite {
+    background-image: url('grid.png');
+    background-repeat: no-repeat;
+    width: 60px;
+    height: 60px;
+    margin-right: .5rem;
+    display: inline-block;
+}
+
+.sprite-dips {
+    background-position: -0px -0px;
+}
+
+.sprite-wings {
+    background-position: -66px -0px;
+}
+
+.sprite-drinks {
+    background-position: -132px -0px;
+}
+
+.sprite-panzerotti {
+    background-position: 0px -66px;
+}
+
+.sprite-pizza {
+    background-position: -66px -66px;
+}
+
+.sprite-sides {
+    background-position: -132px -66px;
+}
+
+.sprite-medium {
+    zoom: 0.5;
+    -moz-transform: scale(0.5);
+    -moz-transform-origin: 0 0;
+}
+
+.sprite-small {
+    zoom: 0.29;
+    -moz-transform: scale(0.29);
+    -moz-transform-origin: 0 0;
+}
+
+.sprite-tiny {
+    zoom: 0.20;
+    -moz-transform: scale(0.20);
+    -moz-transform-origin: 0 0;
+}
+
+/* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
+body.loading {
+    overflow: hidden;
+}
+
+/* Anytime the body has the loading class, our modal element will be visible */
+body.loading #loadingmodal {
+    display: block;
+    z-index: 999999;
+}
+.dont-show {
+    display: none;
+}
+
+
+
+
+.proper-height, .proper-height > select{
+    height: 37px !important;
+}
+
+.red{
+    border: 2px solid red !important;
+}
+
+.error{
+    color:red;
+}
+
+select.form-control{
+    padding-bottom: 6px !important;
+}
+
+.section{
+    margin-top: 5px;
+}
+
+.pull-center {
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
