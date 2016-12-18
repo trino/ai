@@ -2,15 +2,14 @@
 <STYLE>
     .addon-selected, .thisside {
         background: #dadada;
-        padding:.5rem;
     }
-
+/*
     .addon-selected::before, .currentitem.thisside::before {
         font-family: FontAwesome;
         content: "\f0da  ";
         color:red;
     }
-
+*/
 </STYLE>
 
 <SCRIPT>
@@ -135,9 +134,9 @@
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
-                    HTML += '<div class="col-xs-4 col-md-3 btn-sm addon-addon';
+                    HTML += '<div  style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;" class="col-xs-4 col-sm-3 btn-sm addon-addon';
                     if(isaddon_free(String(currentaddontype), String(addon))){
-                        HTML += ' btn-primary';
+                        HTML += ' btn-secondary';
                         title = "Free addon";
                     }else {
                         HTML += ' btn-secondary'

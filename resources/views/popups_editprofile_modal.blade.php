@@ -4,7 +4,8 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <button type="button" class="close" data-popup-close="profilemodal" old-data-dismiss="modal" aria-label="Close"><i class="fa fa-close"></i></button>
+                <button type="button" class="close" data-popup-close="profilemodal" old-data-dismiss="modal"
+                        aria-label="Close"><i class="fa fa-close"></i></button>
 
                 <div>
                     <h4 class="modal-title" id="myModalLabel">Edit Profile</h4>
@@ -17,9 +18,16 @@
                 <DIV ID="addresslist"></DIV>
                 <DIV ID="cardlist"></DIV>
 
+
                 <DIV CLASS="row">
                     <DIV CLASS="col-md-12" align="center">
-                        <BUTTON CLASS="btn btn-primary pull-right" onclick="userform_submit();">Save</BUTTON>
+
+
+                        <BUTTON CLASS="btn btn-primary pull-right" onclick="userform_submit();">SAVE</BUTTON>
+                        <button ONCLICK="handlelogin('logout');" CLASS="btn btn-secondary pull-left" href="#">
+                            LOG OUT
+                        </button>
+
                     </DIV>
                 </DIV>
             </div>

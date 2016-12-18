@@ -334,7 +334,7 @@ $STREET_FORMAT = "[number] [street], [city]";//["id", "value", "user_id", "numbe
             subtotal += Number(totalcost);
 
             tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item">';
-            tempHTML += '<span class="pull-left"> <DIV CLASS="sprite sprite-' + category + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
+            tempHTML += '<span class="pull-left"> <DIV CLASS="pull-left sprite sprite-' + category + ' sprite-small"></DIV> ' + item["itemname"] + '</span>';
             tempHTML += '<span class="pull-right" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '">';
 
             tempHTML += ' <i class="fa fa-close pull-right" onclick="removeorderitem(' + itemid + ');"></i>';
@@ -1202,7 +1202,7 @@ $STREET_FORMAT = "[number] [street], [city]";//["id", "value", "user_id", "numbe
                 creditHTML += '>**** **** **** ' + card.last4 + ' EXP: ' + card.exp_month.pad(2) + '/' + right(card.exp_year, 2) + '</OPTION>';
             }
 
-            creditHTML +='<OPTION value="">Add Credit Card</OPTION>';
+            creditHTML += '<OPTION value="">Add Credit Card</OPTION>';
 
             $("#credit-info").html(creditHTML + '</SELECT>');
         } else {
@@ -1382,14 +1382,15 @@ $STREET_FORMAT = "[number] [street], [city]";//["id", "value", "user_id", "numbe
 
                 <DIV ID="alertmodalbody" STYLE="margin-top: 5px;"></DIV>
 
-                <DIV CLASS="pb-1"></DIV>
                 <div>
-                    <button class="btn btn-secondary" id="alert-cancel" data-dismiss="modal">
+                    <button class="btn btn-secondary pull-right" id="alert-confirm" data-dismiss="modal">
+                        OK1
+                    </button>
+                    <button class="btn btn-secondary pull-right" id="alert-cancel" data-dismiss="modal">
                         Cancel
                     </button>
-                    <button class="btn btn-secondary" id="alert-confirm" data-dismiss="modal">
-                        OK
-                    </button>
+                    <DIV CLASS="clearfix"></DIV>
+
                 </div>
 
             </div>
