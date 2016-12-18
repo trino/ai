@@ -106,7 +106,7 @@
         $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
         ?>
 
-        <div class="card">
+        <div class="card" style="border: 0 !important;">
             <div class="">
 
                 <div class="text-danger btn-sm btn ">{{$category['category']}}</div>
@@ -142,11 +142,12 @@
                     ?>
                     <!-- why is this div required? -->
                         <div>
-                            <a <?= $HTML; ?>>
+                            <a <?= $HTML; ?> style="font-size: 75%">
                                 <DIV CLASS="pull-left sprite sprite-<?= $imagefile; ?> sprite-medium"></DIV>
                                 <span class="pull-left itemname"
-                                      style="vertical-align: top !important;">{{$menuitem['item']}} </span><br>
-                                <span class="pull-left text-muted itemname"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
+                                      style="vertical-align: top !important;">{{$menuitem['item']}} </span>
+                                <br>
+                                                                <span class="pull-left text-muted itemname"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
                             </a>
                         </div>
 
