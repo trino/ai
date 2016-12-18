@@ -30,7 +30,7 @@
             }
 
             //menu caching
-            $doCache = true;//disabled for development
+            $doCache = false;//disabled for development
             $menucache_filename = resource_path() . "/menucache.html";
             $menucache_uptodate = isFileUpToDate("menucache", $menucache_filename);
             if ($menucache_uptodate && $doCache) {

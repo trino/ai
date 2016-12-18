@@ -1,5 +1,5 @@
 <div>
-    <div>
+    <div class="card-columns">
         <?php
             startfile("popups_menu");
             $tables = array("toppings", "wings_sauce");
@@ -101,18 +101,18 @@
                 $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
         ?>
 
-        <div class="clearfix">
+        <div class="card">
+        <div class="">
 
-            <a class=" head_{{ $catclass }}" data-toggle="collapse" href="#collapse{{$category["id"]}}_cat">
-                <h5 class="text-danger pt-1 ">{{$category['category']}}</h5>
-            </a>
 
-            <div class=" collapse in" id="collapse{{$category['id']}}_cat">
+            <h5 class="text-danger pt-1 ">{{$category['category']}}</h5>
+
+            <div>
 
                 @foreach ($menuitems as $menuitem)
                     <div
                             style="border-radius: 0 !important;border:0 !important;padding-bottom:.5rem !important;"
-                            class="btn btn-secondary col-xs-6 col-md-3 btn-sm item_{{ $catclass }}"
+                            class="btn btn-secondary btn-sm item_{{ $catclass }}"
                             itemid="{{$menuitem["id"]}}"
                             itemname="{{$menuitem['item']}}"
                             itemprice="{{$menuitem['price']}}"
@@ -150,6 +150,7 @@
                     </div>
                 @endforeach
             </div>
+        </div>
         </div>
         <?
         $a++;
