@@ -106,7 +106,7 @@
         $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
         ?>
 
-        <div class="card" style="border: 0 !important;">
+        <div class="card" style="">
             <div class="">
 
                 <div class="text-danger btn-sm btn ">{{$category['category']}}</div>
