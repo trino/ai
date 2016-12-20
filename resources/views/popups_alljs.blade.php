@@ -1115,6 +1115,12 @@
 
     function showcheckout() {
         canplaceorder=false;
+        if(userdetails["Addresses"].length == 0){
+            setTimeout(function(){
+                $("#saveaddresses").val("addaddress");
+                addresschanged();
+            }, 100);
+        }
         addresschanged();
         $("#restaurant").val("");
         var HTML = $("#checkoutaddress").html();

@@ -27,9 +27,12 @@
                         die("Password mismatch");
                     }
                 }
+
                 //email check
-                $found = first("SELECT * FROM users WHERE id != " . $user_id . " AND email = '" . $_POST["email"] . "'");
-                if(!$found){$user["email"] = $_POST["email"];}
+                if(isset($_POST["email"]) && $_POST["email"] != $user["email"]){
+                    $found = first("SELECT * FROM users WHERE id != " . $user_id . " AND email = '" . $_POST["email"] . "'");
+                    if(!$found){$user["email"] = $_POST["email"];}
+                }
 
                 $user["name"] = $_POST["name"];
                 $user["phone"] = $_POST["phone"];
