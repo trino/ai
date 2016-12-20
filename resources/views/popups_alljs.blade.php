@@ -514,8 +514,16 @@
         return false;
     }
 
+    function validaddress(){
+        var savedaddress = $("#saveaddresses").val();
+        if(savedaddress == 0){return false;}
+        if(savedaddress == "addaddress"){
+            if ($("#add_latitude").val().length == 0 || $("#add_longitude").val().length == 0){return false;}
+        }
+        return true;
+    }
     function canplaceanorder(){
-        return $(".error:visible").length == 0 && canplaceorder && $("#reg_phone").val().length > 0;
+        return $(".error:visible").length == 0 && canplaceorder && $("#restaurant").val().length > 0 && $("#reg_phone").val().length > 0 && validaddress();
     }
 
     //send an order to the server
@@ -945,17 +953,23 @@
         $('#reg_phone').attr("style", "");
         $(".payment-errors").text("");
         var Selected = $("#saveaddresses option:selected");
+        var SelectedVal = $(Selected).val();
+        log("Selected: " + $(Selected).val());
         var Text = '<?= $STREET_FORMAT; ?>';
         for (var keyID = 0; keyID < addresskeys.length; keyID++) {
             var keyname = addresskeys[keyID];
-            var keyvalue = $(Selected).attr(keyname);
+            if(SelectedVal == 0){
+                var keyvalue = "";
+            } else {
+                var keyvalue = $(Selected).attr(keyname);
+            }
             Text = Text.replace("[" + keyname + "]", keyvalue);
             $("#add_" + keyname).val(keyvalue);
         }
-        if ($(Selected).val() == 0) {
+        if (SelectedVal == 0) {
             Text = '';
         } else {
-            if($(Selected).val() == "addaddress"){
+            if(SelectedVal == "addaddress"){
                 visible_address(true);
                 Text="";
             }
@@ -979,7 +993,7 @@
     }
 
     function cantplaceorder(){
-        if(!canplaceorder) {
+        if(!canplaceorder || !validaddress()) {
             $("#saveaddresses").addClass("red");
             $(".payment-errors").text("Please enter an address");
         }
@@ -1018,6 +1032,7 @@
             log("Use saved data");
             placeorder("");//no stripe token, use customer ID on the server side
         }
+        canplaceorder=false;
     }
 
     function stripeResponseHandler(status, response){
@@ -1049,9 +1064,13 @@
     function addresshaschanged() {
         if(!getcloseststore){return;}
         var formdata = getform("#orderinfo");
+        log("formdata");
+        log(formdata);
         if(!formdata.latitude || !formdata.longitude){return;}
         if(!debugmode){formdata.radius = MAX_DISTANCE;}
         skiploadingscreen = true;
+        canplaceorder = false;
+
         $.post(webroot + "placeorder", {
             _token: token,
             info: formdata,
@@ -1067,6 +1086,7 @@
                         if(parseFloat(closest.distance) >= MAX_DISTANCE){
                             closest.restaurant.name += " [DEBUG]"
                         }
+                        log("CAN PLACE ORDER");
                         canplaceorder = true;
                         restaurant = closest.restaurant.name;
                         GenerateHours(closest["hours"]);

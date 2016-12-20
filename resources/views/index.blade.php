@@ -34,7 +34,7 @@
             $menucache_filename = resource_path() . "/menucache.html";
             $menucache_uptodate = isFileUpToDate("menucache", $menucache_filename);
             if ($menucache_uptodate && $doCache) {
-                echo file_get_contents($menucache_filename);
+                echo '<!-- menu cache pre-generated at: ' . filemtime($menucache_filename) . ' --> ' . file_get_contents($menucache_filename);
             } else {
                 $menu = view("popups_menu");
                 if ($doCache) {
@@ -61,6 +61,7 @@
         endfile("index");
         if(isset($GLOBALS["filetimes"])){// && !islive()){
             echo '<TABLE><TR><TH COLSPAN="2">File times</TH></TR>';
+            $total = 0;
             foreach($GLOBALS["filetimes"] as $Index => $Values){
                 echo '<TR><TD>' . $Index . '</TD><TD>';
                 if(isset($Values["start"]) && isset($Values["end"])){
@@ -71,13 +72,16 @@
                         $val = str_pad($val,4,"0");
                     }
                     echo $val . "s";
+                    $total += $val;
                 } else {
                     echo "Unended";
                 }
                 echo '</TD></TR>';
             }
-            echo '<TR><TD>Loaded</TD><TD ID="td_loaded"></TD></TR>';
-            echo '<TR><TD>Ready</TD><TD ID="td_ready"></TD></TR>';
+            $total = str_pad(round($total,4),5,"0");
+            echo '<TR><TD>Total</TD><TD>' . $total . 's</TD></TR>';
+            echo '<TR><TD>DOM Loaded</TD><TD ID="td_loaded"></TD></TR>';
+            echo '<TR><TD>DOM Ready</TD><TD ID="td_ready"></TD></TR>';
             echo '</TABLE>';
         }
     ?>
