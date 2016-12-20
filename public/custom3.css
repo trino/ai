@@ -1,3 +1,7 @@
+*{
+    line-height: 1rem !important;
+}
+h1,h2,h3,h4,h5,h6{font-size: 1rem !important;}
 .fab {
     border:none;
     font-size:1em;
@@ -23,9 +27,6 @@
     margin-bottom: 0;
     z-index: 998;
 }
-
-
-
 
 @media (max-width: 44em) {
     .card-columns {
@@ -59,19 +60,6 @@
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 @media screen and (max-width: 400px) {
     .modal-dialog {
         margin: 0 !important;
@@ -101,13 +89,7 @@
     .list-group, .list-group-item, .card {
         border-radius: 0 !important;
     }
-
-
 }
-
-
-
-
 
 .modal-backdrop.fade {
     opacity: 0.9;
