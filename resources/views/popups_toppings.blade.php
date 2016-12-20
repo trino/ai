@@ -2,26 +2,14 @@
 <STYLE>
     .addon-selected, .thisside {
         background: #dadada;
-        border-radius: .25rem !important;
     }
-
+/*
     .addon-selected::before, .currentitem.thisside::before {
         font-family: FontAwesome;
         content: "\f0da  ";
         color:red;
     }
-
-    .addon-addon{
-        overflow: hidden;
-        margin-right: 2px;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        cursor: pointer;
-    }
-
-    .currentitem{
-        cursor: pointer;
-    }
+*/
 </STYLE>
 
 <SCRIPT>
@@ -58,7 +46,7 @@
             var tempstr = '';
             var classname = 'itemcontents itemcontents' + itemindex;
 
-            HTML += '<DIV style="padding:.25rem !important;" ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="col-xs-6 currentitem currentitem' + itemindex;
+            HTML += '<DIV style="" ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="currentitem currentitem' + itemindex;
             if (currentitemindex == itemindex) {HTML += ' thisside';}
             HTML += '">'  + ' #' + (itemindex + 1) + ' ';
 
@@ -129,7 +117,7 @@
 
     function list_addons(table, halves) {
         currentaddontype = table;
-        var HTML = '<DIV style="background:#f8f8f8;padding:15px 5px;border-bottom:2px solid #dadada;border-top:2px solid #dadada;"><DIV id="theaddons"></DIV><div class="clearfix"></div> </DIV>';
+        var HTML = '<DIV style="background:#f8f8f8;"><DIV id="theaddons"></DIV><div class="clearfix"></div> </DIV>';
         if (currentstyle == 0) {
             HTML += '<DIV CLASS="bg-danger addonlist" ID="addontypes">';
         } else {
@@ -146,9 +134,9 @@
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
-                    HTML += '<div class="col-xs-4 col-md-3 btn-sm addon-addon';
+                    HTML += '<div  style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;" class="col-xs-4 col-sm-3 btn-sm addon-addon';
                     if(isaddon_free(String(currentaddontype), String(addon))){
-                        HTML += ' btn-primary';
+                        HTML += ' btn-secondary';
                         title = "Free addon";
                     }else {
                         HTML += ' btn-secondary'
