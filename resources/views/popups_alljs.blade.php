@@ -609,37 +609,36 @@
 
     //generate a list of addresses and send it to the alert modal
     function addresses() {
-        var HTML = '<DIV CLASS="section"><h4>Addresses</h4>';
+        var HTML = '<BR><DIV CLASS="section"><h4>Addresses</h4>';
         var number = $("#add_number").val();
         var street = $("#add_street").val();
         var city = $("#add_city").val();
-        var AddNew = number && street && city;
+        var AddNew = false;//number && street && city;
         $("#saveaddresses option").each(function () {
             var ID = $(this).val();
             if (ID > 0) {
-                HTML += '<A ID="add_' + ID + '" TITLE="Delete this address" onclick="deleteaddress(' + ID + ');" class="cursor-pointer"><i style="color:red" class="fa fa-fw fa-times"></i> ';
-                HTML += $(this).text() + '</A><BR>';
-                if (number.isEqual($(this).attr("number")) && street.isEqual($(this).attr("street")) && city.isEqual($(this).attr("city"))) {
-                    AddNew = false;
-                }
+                HTML += '<DIV><A ID="add_' + ID + '" TITLE="Delete this address" onclick="deleteaddress(' + ID + ');" class="cursor-pointer"><i style="color:red" class="fa fa-fw fa-times"></i> ';
+                HTML += $(this).text() + '</A></DIV>';
+                //if (number.isEqual($(this).attr("number")) && street.isEqual($(this).attr("street")) && city.isEqual($(this).attr("city"))) {AddNew = false;}
+                AddNew=true;
             }
         });
-        if (AddNew) {
-            HTML += '<A ONCLICK="deleteaddress(-1);" CLASS="cursor-pointer">Add ' + "'" + number + " " + street + ", " + city + "' to the list</A>";
-        //} else {//HTML += 'Enter a new address in the checkout form if you want to add it to your profile';
+        if (!AddNew) {
+            //HTML += '<A ONCLICK="deleteaddress(-1);" CLASS="cursor-pointer">Add ' + "'" + number + " " + street + ", " + city + "' to the list</A>";} else {
+            HTML += 'No addresses';
         }
         return HTML + "</DIV>";
     }
 
     function creditcards(){
-        var HTML = '<DIV CLASS="section"><h4>Credit Cards</h4>';
+        var HTML = '<BR><DIV CLASS="section"><h4>Credit Cards</h4>';
         if(userdetails.Stripe.length == 0){return HTML + "None are on file";}
         for(var i=0; i<userdetails.Stripe.length; i++){
             var card = userdetails.Stripe[i];
-            HTML += '<A ONCLICK="deletecard(' + "'" + card.id + "', " + card.last4 + ", '" + card.exp_month.pad(2) + "', " + right(card.exp_year,2) + ');" CLASS="cursor-pointer">';
-            HTML += '<i style="color:red" class="fa fa-fw fa-times"></i> **** **** **** ' + card.last4 + ' EXP: ' + card.exp_month.pad(2) + '/' + right(card.exp_year,2) + '</A>';
+            HTML += '<DIV><A ONCLICK="deletecard(' + "'" + card.id + "', " + card.last4 + ", '" + card.exp_month.pad(2) + "', " + right(card.exp_year,2) + ');" CLASS="cursor-pointer">';
+            HTML += '<i style="color:red" class="fa fa-fw fa-times"></i> **** **** **** ' + card.last4 + ' EXP: ' + card.exp_month.pad(2) + '/' + right(card.exp_year,2) + '</A></DIV>';
         }
-        return HTML + '</DIV>';
+        return HTML + '</DIV><BR>';
     }
 
     function deletecard(ID, last4, month, year){

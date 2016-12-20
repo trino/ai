@@ -93,7 +93,7 @@
 
     var minlength = 5;
     var getcloseststore = false;
-    skiploadingscreen = true;
+    //skiploadingscreen = true;
     lockloading=true;
 
     $(function () {
