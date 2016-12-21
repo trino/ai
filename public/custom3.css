@@ -178,6 +178,20 @@ body.loading #loadingmodal {
     border: 2px solid red !important;
 }
 
+.basecost{
+    height: 32px;
+    padding-top: 16px;
+}
+
+.category-parent{
+    margin-right: 17px;
+}
+
+.category{
+    position: absolute;
+    right: 100px;
+}
+
 .error{
     color:red;
 }

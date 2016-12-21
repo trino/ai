@@ -151,10 +151,10 @@
     //https://stripe.com/docs/custom-form
     @if(read("id"))
         $(document).ready(function () {
-        getcloseststore = true;
-        visible_address(false);
-        $("#saveaddresses").append('<OPTION VALUE="addaddress" ID="addaddress">Add Address</OPTION>');
-    });
+            getcloseststore = true;
+            visible_address(false);
+            $("#saveaddresses").append('<OPTION VALUE="addaddress" ID="addaddress">Add Address</OPTION>');
+        });
     @endif
 
     function visible_address(state) {

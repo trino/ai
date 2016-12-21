@@ -312,7 +312,7 @@
 
             tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item">';
             tempHTML += '<span class="pull-left"> <DIV CLASS="sprite sprite-' + category + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
-            tempHTML += '<span class="pull-right" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '">';
+            tempHTML += '<span class="pull-right basecost" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '">';
 
             tempHTML += ' <i class="fa fa-close pull-right" onclick="removeorderitem(' + itemid + ');"></i>';
             if(hasaddons) {
@@ -368,10 +368,10 @@
             $("#checkout-btn").hide();
             $("#checkout-total").text('$0.00');
         } else {
-            tempHTML = '<span class="pull-right"> Sub-total: $' + subtotal.toFixed(2) + '</span><br>';
-            tempHTML += '<span class="pull-right"> Delivery: $' + deliveryfee.toFixed(2) + '</span><br>';
-            tempHTML += '<span class="pull-right"> Tax: $' + taxes.toFixed(2) + '</span><br>';
-            tempHTML += '<span class="pull-right"> Total: $' + totalcost.toFixed(2) + '</span>';
+            tempHTML =  '<span class="pull-right category-parent"> <SPAN CLASS="category">Sub-total: </SPAN>$' + subtotal.toFixed(2) + '</span><br>';
+            tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Delivery: </SPAN>$' + deliveryfee.toFixed(2) + '</span><br>';
+            tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Tax: </SPAN>$' + taxes.toFixed(2) + '</span><br>';
+            tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Total: </SPAN>$' + totalcost.toFixed(2) + '</span>';
             $("#checkout-total").text('$' + totalcost.toFixed(2));
             $("#checkout-btn").show();
         }
