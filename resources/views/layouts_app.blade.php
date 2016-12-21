@@ -15,7 +15,7 @@
             var webroot = "<?= webroot("public/"); ?>";
             var redirectonlogout = false;
             var redirectonlogin = false;
-            var addresskeys = new Array;
+            var addresskeys = ["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
             var userdetails = false;
             var currentRoute = "<?= Route::getCurrentRoute()->getPath(); ?>";
         </script>

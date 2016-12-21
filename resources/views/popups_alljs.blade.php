@@ -364,6 +364,7 @@
             removeCookie("theorder");
             collapsecheckout();
             $("#checkout-btn").hide();
+            $("#checkout-total").text('$0.00');
         } else {
             tempHTML = '<span class="pull-right"> Sub-total: $' + subtotal.toFixed(2) + '</span><br>';
             tempHTML += '<span class="pull-right"> Delivery: $' + deliveryfee.toFixed(2) + '</span><br>';
@@ -544,6 +545,7 @@
             }, function (result) {
                 $("#checkoutmodal").modal("hide");
                 if (result.contains("ordersuccess")) {
+                    handleresult(result, "Order Placed Successfully!");
                     if($("#saveaddresses").val() == "addaddress"){
                         var Address = {
                             id:         $(".ordersuccess").attr("addressid"),
@@ -563,8 +565,6 @@
                         $("#addaddress").remove();
                         $("#saveaddresses").append(AddressToOption(Address) + '<OPTION VALUE="addaddress" ID="addaddress">[Add an address]</OPTION>');
                     }
-
-                    handleresult(result, "Order Placed Successfully!");
                     userdetails["Orders"].unshift({
                         id: $("#receipt_id").text(),
                         placed_at: $("#receipt_placed_at").text(),
@@ -953,8 +953,12 @@
         $(".payment-errors").text("");
         var Selected = $("#saveaddresses option:selected");
         var SelectedVal = $(Selected).val();
-        log("Selected: " + $(Selected).val());
+        //log("Selected: " + SelectedVal);
         var Text = '<?= $STREET_FORMAT; ?>';
+        visible_address(false);
+        if (addresskeys.length == 0) {
+            addresskeys = ["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
+        }
         for (var keyID = 0; keyID < addresskeys.length; keyID++) {
             var keyname = addresskeys[keyID];
             if(SelectedVal == 0){
@@ -968,6 +972,7 @@
         if (SelectedVal == 0) {
             Text = '';
         } else {
+            $("#formatted_address").hide();
             if(SelectedVal == "addaddress"){
                 visible_address(true);
                 Text="";
@@ -1063,8 +1068,6 @@
     function addresshaschanged() {
         if(!getcloseststore){return;}
         var formdata = getform("#orderinfo");
-        log("formdata");
-        log(formdata);
         if(!formdata.latitude || !formdata.longitude){return;}
         if(!debugmode){formdata.radius = MAX_DISTANCE;}
         skiploadingscreen = true;
@@ -1077,7 +1080,6 @@
         }, function (result) {
             if (handleresult(result)) {
                 var closest = JSON.parse(result)["closest"];
-                log(closest);
                 var restaurant = "No restaurant is within range";
                 canplaceorder = false;
                 if (closest.hasOwnProperty("id")) {
@@ -1085,7 +1087,6 @@
                         if(parseFloat(closest.distance) >= MAX_DISTANCE){
                             closest.restaurant.name += " [DEBUG]"
                         }
-                        log("CAN PLACE ORDER");
                         canplaceorder = true;
                         restaurant = closest.restaurant.name;
                         GenerateHours(closest["hours"]);

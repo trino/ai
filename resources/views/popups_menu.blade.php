@@ -91,14 +91,14 @@
             $classlist = array();
 
             foreach ($categories as $category) {
-            $catclass = toclass($category['category']);
-            $classlist[] = $catclass;
-            $imagefile = $catclass;
-            //if(right($imagefile, 5) == "pizza" || !file_exists(public_path() . '/' . $imagefile . ".png")){$imagefile="pizza";}
-            if (right($imagefile, 5) == "pizza") {
-                $imagefile = "pizza";
-            }
-            $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
+                $catclass = toclass($category['category']);
+                $classlist[] = $catclass;
+                $imagefile = $catclass;
+                //if(right($imagefile, 5) == "pizza" || !file_exists(public_path() . '/' . $imagefile . ".png")){$imagefile="pizza";}
+                if (right($imagefile, 5) == "pizza") {
+                    $imagefile = "pizza";
+                }
+                $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
         ?>
 
         <div class="card" style="">
@@ -180,7 +180,6 @@
                     <SPAN ID="modal-itemcat"></SPAN>
                 </div>
 
-
                 <div class="row">
                     <div class="col-xs-12">
                         <DIV ID="removelist" style="color: red;"></div>
@@ -188,8 +187,7 @@
                     </div>
                 </div>
 
-                <button data-popup-close="menumodal" old-data-dismiss="modal" id="additemtoorder"
-                        class="btn btn-warning-outline pull-right" onclick="additemtoorder();">
+                <button data-popup-close="menumodal" old-data-dismiss="modal" id="additemtoorder" class="btn btn-warning-outline pull-right" onclick="additemtoorder();">
                     ADD TO ORDER
                 </button>
 
