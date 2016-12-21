@@ -189,3 +189,9 @@ body.loading #loadingmodal {
 .cursor-pointer {
     cursor: pointer;
 }
+
+.menuitem{
+    cursor: pointer;
+    border: 0 !important;
+    font-size: 75%
+}

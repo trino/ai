@@ -11,38 +11,39 @@
     <div class="row">
         <div class="col-md-8" style="padding: .75rem !important;">
             <?php
-            if (islive()) {
-                function like_match($pattern, $subject) {
-                    $pattern = str_replace('%', '.*', preg_quote($pattern, '/'));
-                    return (bool)preg_match("/^{$pattern}$/i", $subject);
-                }
+                if (islive()) {
+                    function like_match($pattern, $subject) {
+                        $pattern = str_replace('%', '.*', preg_quote($pattern, '/'));
+                        return (bool)preg_match("/^{$pattern}$/i", $subject);
+                    }
 
-                $allowedIPs = array("24.36.%.%", "216.165.%.%", "45.58.85.42", "38.121.83.92", "184.151.178.135");
-                $found = true;
-                foreach ($allowedIPs as $pattern) {
-                    if (like_match($pattern, $_SERVER["REMOTE_ADDR"])) {
-                        $found = true;
+                    $allowedIPs = array("24.36.%.%", "216.165.%.%", "45.58.85.42", "38.121.83.92", "184.151.178.135");
+                    $found = true;
+                    foreach ($allowedIPs as $pattern) {
+                        if (like_match($pattern, $_SERVER["REMOTE_ADDR"])) {
+                            $found = true;
+                        }
+                    }
+                    if (!$found) {
+                      //  die("IP " . $_SERVER["REMOTE_ADDR"] . " not recognized");
                     }
                 }
-                if (!$found) {
-                  //  die("IP " . $_SERVER["REMOTE_ADDR"] . " not recognized");
-                }
-            }
 
-            //menu caching
-            $doCache = true;//disabled for development
-            $menucache_filename = resource_path() . "/menucache.html";
-            $menucache_uptodate = isFileUpToDate("menucache", $menucache_filename);
-            if ($menucache_uptodate && $doCache) {
-                echo '<!-- menu cache pre-generated at: ' . filemtime($menucache_filename) . ' --> ' . file_get_contents($menucache_filename);
-            } else {
-                $menu = view("popups_menu");
-                if ($doCache) {
-                    file_put_contents($menucache_filename, $menu);
-                    setsetting("menucache", filemtime($menucache_filename));
+                //menu caching
+                $doCache = true;//disabled for development
+                $menucache_filename = resource_path() . "/menucache.html";
+                $menublade_filename = resource_path() . "/views/popups_menu.blade.php";
+                $menucache_uptodate = isFileUpToDate("menucache", $menucache_filename) && !isFileUpToDate("menucache", $menublade_filename);
+                if ($menucache_uptodate && $doCache) {
+                    echo '<!-- menu cache pre-generated at: ' . filemtime($menucache_filename) . ' --> ' . file_get_contents($menucache_filename);
+                } else {
+                    $menu = view("popups_menu");
+                    if ($doCache) {
+                        file_put_contents($menucache_filename, $menu);
+                        setsetting("menucache", filemtime($menucache_filename));
+                    }
+                    echo '<!-- menu cache generated at: ' . now() . ' --> ' . $menu;
                 }
-                echo '<!-- menu cache generated at: ' . now() . ' --> ' . $menu;
-            }
             ?>
             <div class="row">
                 <div class="col-md-12"><br></div>

@@ -205,7 +205,7 @@
     //generates the order menu item modal
     var currentitem;
     function loadmodal(element, notparent) {
-        if(isUndefined(notparent)){element = $(element).parent().parent();}
+        if(isUndefined(notparent)){element = $(element);}
         var items = ["name", "price", "id", "size", "cat"];
         for (var i = 0; i < items.length; i++) {
             $("#modal-item" + items[i]).text($(element).attr("item" + items[i]));
@@ -258,7 +258,9 @@
                 toppingscount += itemaddons[i]["count"];
             }
         } else {//direct link, no addons
-            element = $(element).parent().parent();
+            element = $(element);
+            log("HERE");
+            log(element);
             itemid = $(element).attr("itemid");
             itemname = $(element).attr("itemname");
             itemprice = $(element).attr("itemprice");
@@ -523,8 +525,43 @@
         }
         return true;
     }
+
+    function isvalidcreditcard(CardNumber, Month, Year, CVV){
+        if(isUndefined(CardNumber)){CardNumber = $("[data-stripe=number]").val();}
+        if(isUndefined(Month)){Month = $("[data-stripe=exp_month]").val();}
+        if(isUndefined(Year)){Year = $("[data-stripe=exp_year]").val();}
+        if(isUndefined(CVV)){CVV = $("[data-stripe=cvc]").val();}
+        CardNumber = CardNumber.replace(/\D/g,'');
+        var nCheck = 0, nDigit = 0, bEven = false;
+        for (var n = CardNumber.length - 1; n >= 0; n--) {
+            var cDigit = CardNumber.charAt(n);
+            var nDigit = parseInt(cDigit, 10);
+            if (bEven) {
+                if ((nDigit *= 2) > 9) {nDigit -= 9;}
+            }
+            nCheck += nDigit;
+            bEven = !bEven;
+        }
+        if((nCheck % 10) == 0){
+            var ExpiryDate = Number(Year) * 100 + Number(Month);
+            var d = new Date();
+            var CurrentDate = (d.getYear() % 100) * 100 + d.getMonth();
+            if(ExpiryDate > CurrentDate){
+                return Number(CVV) > 99;
+            } else {
+                log("Failed expiry date check: " + ExpiryDate + " <= " + CurrentDate);
+            }
+        } else {
+            log("Failed card number check: " + CardNumber);
+        }
+    }
+
+
     function canplaceanorder(){
-        return $(".error:visible").length == 0 && canplaceorder && $("#restaurant").val().length > 0 && $("#reg_phone").val().length > 0 && validaddress();
+        if(!$("#saved-credit-info").val()){
+            if(!isvalidcreditcard()){return false;}
+        }
+        return $(".error:visible").length == 0 && $("#restaurant").val().length > 0 && $("#reg_phone").val().length > 0 && validaddress();
     }
 
     //send an order to the server
@@ -683,6 +720,7 @@
                 orderid: ID,
                 JSON: getJSON
             }, function (result) {
+                setTimeout( function(){loading(true, "SHOWRESULT");}, 10 );
                 if (getJSON) {//JSON recieved, put it in the order
                     result = JSON.parse(result);
                     theorder = result["Order"];
@@ -713,6 +751,19 @@
         var CurrentIndex = getIterator(userdetails["Orders"], "id", CurrentID);
         if (CurrentIndex > -1 && CurrentIndex < userdetails["Orders"].length - 1) {
             orders(userdetails["Orders"][CurrentIndex + 1]["id"]);
+            return true;
+        }
+        setTimeout( function(){loading(false, "GetNextOrder");}, 10 );
+    }
+
+    function loading(state, where){
+        if(isUndefined(where)){where = "UNKNOWN";}
+        if(state){
+            log("Loading: " + where);
+            $body.addClass("loading");
+        } else {
+            log("Done Loading: " + where);
+            $body.removeClass("loading");
         }
     }
 
@@ -850,13 +901,13 @@
                 if (skiploadingscreen) {
                     if(!lockloading) {skiploadingscreen = false;}
                 } else {
-                    $body.addClass("loading");
+                    loading(true, "ajaxStart");
                     previoushash=window.location.hash;
                     window.location.hash = "loading";
                 }
             },
             ajaxStop: function () {
-                $body.removeClass("loading");
+                loading(false, "ajaxStop");
                 skipone = Date.now() + 100;//
                 window.location.hash=previoushash;
             }
@@ -985,7 +1036,7 @@
 
     //universal AJAX error handling
     $(document).ajaxComplete(function (event, request, settings) {
-        $body.removeClass("loading");
+        loading(false, "ajaxComplete");
         if (request.status != 200 && request.status > 0) {//not OK, or aborted
             //H2 class="block_exception", get span class="exception_title" and class="exception_message"
             alert(request.statusText + "<P>URL: " + settings.url, "AJAX error code: " + request.status);
@@ -997,9 +1048,15 @@
     }
 
     function cantplaceorder(){
-        if(!canplaceorder || !validaddress()) {
+        if(!validaddress()) {
             $("#saveaddresses").addClass("red");
             $(".payment-errors").text("Please enter an address");
+        } else if(!$("#saved-credit-info").val()){
+            if(!isvalidcreditcard()){
+                $("#saved-credit-info").addClass("red");
+                $(".payment-errors").text("Please select or enter a valid credit card");
+                return false;
+            }
         }
         if($("#reg_phone").val().length == 0){
             $('#reg_phone').attr('style', 'border: 2px solid red !important;');
@@ -1036,7 +1093,7 @@
             log("Use saved data");
             placeorder("");//no stripe token, use customer ID on the server side
         }
-        canplaceorder=false;
+        //canplaceorder=false;
     }
 
     function stripeResponseHandler(status, response){
@@ -1071,7 +1128,7 @@
         if(!formdata.latitude || !formdata.longitude){return;}
         if(!debugmode){formdata.radius = MAX_DISTANCE;}
         skiploadingscreen = true;
-        canplaceorder = false;
+        //canplaceorder = false;
 
         $.post(webroot + "placeorder", {
             _token: token,
@@ -1081,13 +1138,13 @@
             if (handleresult(result)) {
                 var closest = JSON.parse(result)["closest"];
                 var restaurant = "No restaurant is within range";
-                canplaceorder = false;
+                //canplaceorder = false;
                 if (closest.hasOwnProperty("id")) {
                     if(parseFloat(closest.distance) <= MAX_DISTANCE || debugmode) {
                         if(parseFloat(closest.distance) >= MAX_DISTANCE){
                             closest.restaurant.name += " [DEBUG]"
                         }
-                        canplaceorder = true;
+                        //canplaceorder = true;
                         restaurant = closest.restaurant.name;
                         GenerateHours(closest["hours"]);
                     }
@@ -1105,6 +1162,7 @@
     }
 
     function changecredit(){
+        $("#saved-credit-info").removeClass("red");
         var val = $("#saved-credit-info").val();
         if(!val){
             $(".credit-info").show();//let cust edit the card
@@ -1115,7 +1173,7 @@
     }
 
     function showcheckout() {
-        canplaceorder=false;
+        //canplaceorder=false;
         if(userdetails["Addresses"].length == 0){
             setTimeout(function(){
                 $("#saveaddresses").val("addaddress");
@@ -1279,8 +1337,7 @@
     }
 </STYLE>
 
-<div class="modal" id="alertmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
-     data-keyboard="false" data-backdrop="static" style="z-index: 9999999;">
+<div class="modal" id="alertmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static" style="z-index: 9999;">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">

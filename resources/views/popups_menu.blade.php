@@ -101,57 +101,46 @@
                 $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
         ?>
 
-        <div class="card" style="">
-            <div class="">
+        <div class="card">
 
                 <div class="text-danger btn-sm btn ">{{$category['category']}}</div>
 
                 @foreach ($menuitems as $menuitem)
-
                     <div
-                            style="border: 0 !important;"
-                            class="btn btn-secondary btn-sm btn-block item_{{ $catclass }}"
-                            itemid="{{$menuitem["id"]}}"
-                            itemname="{{$menuitem['item']}}"
-                            itemprice="{{$menuitem['price']}}"
-                            itemsize="{{ getsize($menuitem['item'], $isfree) }}"
-                            itemcat="{{$menuitem['category']}}"
+                        class="btn btn-secondary btn-sm btn-block menuitem item_{{ $catclass }}"
+                        itemid="{{$menuitem["id"]}}"
+                        itemname="{{$menuitem['item']}}"
+                        itemprice="{{$menuitem['price']}}"
+                        itemsize="{{ getsize($menuitem['item'], $isfree) }}"
+                        itemcat="{{$menuitem['category']}}"
 
-                    <?php
-                        $total = 0;
-                        foreach ($tables as $table) {
-                            echo $table . '="' . $menuitem[$table] . '" ';
-                            $total += $menuitem[$table];
-                        }
+                        <?php
+                            $total = 0;
+                            foreach ($tables as $table) {
+                                echo $table . '="' . $menuitem[$table] . '" ';
+                                $total += $menuitem[$table];
+                            }
+                            if ($total) {
+                                $HTML = ' data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
+                                $icon = '+';
+                            } else {
+                                $HTML = ' onclick="additemtoorder(this, -1);"';
+                                $icon = '';
+                            }
+                            echo $HTML;
                         ?>
                     >
 
-                    <?php
-                        if ($total) {
-                            $HTML = 'href="#2" data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
-                            $icon = '+';
-                        } else {
-                            $HTML = 'href="#1" onclick="additemtoorder(this, -1);"';
-                            $icon = '';
-                        }
-                    ?>
-                    <!-- why is this div required? -->
-                        <div>
-                            <a <?= $HTML; ?> style="font-size: 75%">
-                                <DIV CLASS="pull-left sprite sprite-<?= $imagefile; ?> sprite-medium"></DIV>
-                                <span class="pull-left itemname"
-                                      style="vertical-align: top !important;">{{$menuitem['item']}} </span>
-                                <br>
-                                                                <span class="pull-left text-muted itemname"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
-                            </a>
-                        </div>
+                        <DIV CLASS="pull-left sprite sprite-<?= $imagefile; ?> sprite-medium"></DIV>
+                        <span class="pull-left itemname" style="vertical-align: top !important;">{{$menuitem['item']}} </span>
+                        <br>
+                        <span class="pull-left text-muted itemname"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
 
                         <div class="clearfix"></div>
                     </div>
 
                 @endforeach
 
-            </div>
         </div>
         <?
               $a++;
