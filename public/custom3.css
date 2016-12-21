@@ -178,6 +178,10 @@ body.loading #loadingmodal {
     border: 2px solid red !important;
 }
 
+select.red{
+    padding-top: 5px;
+}
+
 .basecost{
     height: 32px;
     padding-top: 16px;
@@ -192,7 +196,7 @@ body.loading #loadingmodal {
     right: 100px;
 }
 
-.error{
+.error, .payment-errors{
     color:red;
 }
 
@@ -208,4 +212,8 @@ body.loading #loadingmodal {
     cursor: pointer;
     border: 0 !important;
     font-size: 75%
+}
+
+.modal-title{
+    margin-bottom: 10px;
 }

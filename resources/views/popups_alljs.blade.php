@@ -44,6 +44,10 @@
         return this.substring(0, n);
     };
 
+    String.prototype.mid = function(start, length) {
+        return this.substring(start, start+length);
+    };
+
     Number.prototype.pad = function(size) {
         var s = String(this);
         while (s.length < (size || 2)) {s = "0" + s;}
@@ -79,6 +83,17 @@
             return target;
         }
         return target.replace(new RegExp(search, 'g'), replacement);
+    };
+
+    String.prototype.between = function (leftside, rightside) {
+        var target = this;
+        var start = target.indexOf(leftside);
+        if(start > -1) {
+            var finish = target.indexOf(rightside, start);
+            if(finish > -1){
+                return target.substring(start + leftside.length, finish);
+            }
+        }
     };
 
     //make a cookie value that expires in exdays
@@ -1038,8 +1053,14 @@
     $(document).ajaxComplete(function (event, request, settings) {
         loading(false, "ajaxComplete");
         if (request.status != 200 && request.status > 0) {//not OK, or aborted
-            //H2 class="block_exception", get span class="exception_title" and class="exception_message"
-            alert(request.statusText + "<P>URL: " + settings.url, "AJAX error code: " + request.status);
+            var text = request.responseText;
+            if (text.indexOf('Whoops, looks like something went wrong.') > -1){
+                text = text.between('<span class="exception_title">', '</h2>');
+                text = text.replace(/<(?:.|\n)*?>/gm, '');
+            } else {
+                text = request.statusText;
+            }
+            alert(text + "<BR><BR>URL: " + settings.url, "AJAX error code: " + request.status);
         }
     });
 
@@ -1054,6 +1075,7 @@
         } else if(!$("#saved-credit-info").val()){
             if(!isvalidcreditcard()){
                 $("#saved-credit-info").addClass("red");
+                $("[data-stripe=number]").addClass("red");
                 $(".payment-errors").text("Please select or enter a valid credit card");
                 return false;
             }
@@ -1065,7 +1087,6 @@
     }
 
     function testcard(){
-        log("testcard");
         $('input[data-stripe=number]').val('4242424242424242');
         $('input[data-stripe=address_zip]').val('L8L6V6');
         $('input[data-stripe=cvc]').val(rnd(100,999));
@@ -1163,6 +1184,7 @@
 
     function changecredit(){
         $("#saved-credit-info").removeClass("red");
+        $("[data-stripe=number]").removeClass("red");
         var val = $("#saved-credit-info").val();
         if(!val){
             $(".credit-info").show();//let cust edit the card

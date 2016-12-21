@@ -1,5 +1,5 @@
 <?php startfile("popups_checkout"); ?>
-<div class="card text-white" style="">
+<div class="card text-white">
     <div class="card-block bg-danger">
         <div class="row">
             <div class="col-md-12">
@@ -16,7 +16,7 @@
 
         <div ID="checkoutbutton"></div>
 
-        <div id="checkout-btn" class="row  mt-1">
+        <div id="checkout-btn" class="row mt-1">
             <div class="col-md-12">
                 <button class="btn btn-warning btn-block" onclick="showcheckout();">
                     CHECKOUT
@@ -24,13 +24,6 @@
             </div>
         </div>
     </div>
-
-
-
-
-
-
-
 </div>
 
 <div class="modal" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
@@ -38,23 +31,16 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <button type="button" class="close" data-popup-close="checkoutmodal" old-data-dismiss="modal"
-                        aria-label="Close"><i class="fa fa-close"></i></button>
+                <button type="button" class="close" data-popup-close="checkoutmodal" old-data-dismiss="modal" aria-label="Close"><i class="fa fa-close"></i></button>
                 <h4 id="myModalLabel">Checkout </h4>
                 <div class="row">
                     <FORM ID="orderinfo" name="orderinfo">
 
-
                         <DIV CLASS="col-xs-12">
-                        <?= view("popups_edituser", array("email" => false, "password" => false, "phone" => "required"))->render(); ?>
-                        <!-- --------------------------------------------------------------------------------- -->
-
+                            <?= view("popups_edituser", array("email" => false, "password" => false, "phone" => "required"))->render(); ?>
                             <DIV ID="credit-info"></DIV>
-                            <input type="text" size="20" class="form-control credit-info" data-stripe="number"
-                                   placeholder="Card Number">
-
+                            <input type="text" size="20" class="form-control credit-info" data-stripe="number" placeholder="Card Number">
                         </DIV>
-
 
                         <div class="credit-info">
                             <DIV CLASS="col-xs-4">
@@ -77,64 +63,42 @@
                             <DIV CLASS="col-xs-4">
                                 <SELECT CLASS="form-control proper-height" data-stripe="exp_year">
                                     <?php
-                                    $CURRENT_YEAR = date("Y");
-                                    $TOTAL_YEARS = 6;
-                                    for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
-                                        echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
-                                    }
+                                        $CURRENT_YEAR = date("Y");
+                                        $TOTAL_YEARS = 6;
+                                        for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
+                                            echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
+                                        }
                                     ?>
                                 </SELECT>
                             </DIV>
                             <DIV CLASS="col-xs-4">
-                                <input type="text" size="4" data-stripe="cvc" CLASS="form-control proper-height"
-                                       PLACEHOLDER="CVC">
+                                <input type="text" size="4" data-stripe="cvc" CLASS="form-control proper-height" PLACEHOLDER="CVC">
                                 <INPUT TYPE="hidden" name="istest" id="istest">
                             </DIV>
 
                             <a class="pull-right btn" onclick="testcard();">Test CreditCard</a>
 
-
-
                         </div>
-
-
-                        <!-- --------------------------------------------------------------------------------- -->
-
 
                         <DIV CLASS="col-xs-12">
 
                             <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
-                        <?php
-                        if (read("id")) {
-                            //can only be included once, and is in the login modal
-                            echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
-                        }
-                        ?>
-
-
-                        <!-- --------------------------------------------------------------------------------- -->
-
-
+                            <?php
+                                if (read("id")) {
+                                    //can only be included once, and is in the login modal
+                                    echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
+                                }
+                            ?>
 
                             <DIV class="payment-errors"></DIV>
 
-                            <?php
-                            echo '<input type="text" class="form-control" ID="restaurant" placeholder="Closest Restaurant" READONLY TITLE="Closest restaurant"/>';
+                            <input type="text" class="form-control" ID="restaurant" placeholder="Closest Restaurant" READONLY TITLE="Closest restaurant"/>
 
-                        ?>
+                            <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook" maxlength="255"/>
 
-                            <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook"
-                                   maxlength="255"/>
-
-                        <?
-                            echo '<SELECT id="deliverytime" TITLE="Delivery Time" class="form-control proper-height"/>';
-
-
-
-                            echo '<OPTION>Deliver Now</OPTION>';
-                            echo '</SELECT>';
-                            ?>
-
+                            <SELECT id="deliverytime" TITLE="Delivery Time" class="form-control proper-height"/>
+                                <OPTION>Deliver Now</OPTION>
+                            </SELECT>
 
                             <a class="btn btn-warning text-white pull-right" onclick="payfororder();">PLACE ORDER</a>
                             <DIV ID="form_integrity"></DIV>
@@ -167,10 +131,10 @@
         }
     }
 
-    <?php if (!islive()) {
-        echo "Stripe.setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf'); //test";
-    } else {
+    <?php if (islive() || $GLOBALS["testlive"]) {
         echo "Stripe.setPublishableKey('pk_vnR0dLVmyF34VAqSegbpBvhfhaLNi'); //live";
+    } else {
+        echo "Stripe.setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf'); //test";
     }?>
 
     //uses showcheckout();

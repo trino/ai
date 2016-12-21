@@ -448,14 +448,17 @@
             }
             if($user["stripecustid"]) {
                 initStripe();
-                $customer = \Stripe\Customer::Retrieve($user["stripecustid"]);//get all credit cards
-                //array("id" => $user["stripecustid"], "expand" => array("default_source")));
-                foreach($customer->sources->data as $Index => $Value){
-                    $customer->sources->data[$Index] = getProtectedValue($Value, "_values");
-                    unset($customer->sources->data[$Index]["metadata"]);
+                try {
+                    $customer = \Stripe\Customer::Retrieve($user["stripecustid"]);//get all credit cards
+                    foreach($customer->sources->data as $Index => $Value){
+                        $customer->sources->data[$Index] = getProtectedValue($Value, "_values");
+                        unset($customer->sources->data[$Index]["metadata"]);
+                    }
+                    $user["Stripe"] = $customer->sources->data;
+                } catch(Stripe\Error\Base $e){
+                    Query("UPDATE users SET stripecustid = '' WHERE " . $field . " = " . $IDorEmail . ";");//stripecustid is likely invalid, delete it
+                    $user["StripeError"] = $e->getMessage();
                 }
-                $user["Stripe"] = $customer->sources->data;
-                //var_dump($user["Stripe"]);die();
             }
         }
         return $user;
@@ -470,14 +473,13 @@
         }
     }
 
-
+    $GLOBALS["testlive"]=false;
     function initStripe(){
         //Set secret key: remember to change this to live secret key in production
-        if (!islive() || (isset($_POST["istest"]) && $_POST["istest"])) {
+        if ((!islive() || (isset($_POST["istest"]) && $_POST["istest"])) && !$GLOBALS["testlive"]) {
             \Stripe\Stripe::setApiKey("BJi8zV1i3D90vmaaBoLKywL84HlstXEg"); //test
         } else {
-            \Stripe\Stripe::setApiKey("BJi8zV1i3D90vmaaBoLKywL84HlstXEg"); //test
-            //\Stripe\Stripe::setApiKey("3qL9w2o6A0xePqv8C6ufRKbAqkKTDJAW"); //live
+            \Stripe\Stripe::setApiKey("3qL9w2o6A0xePqv8C6ufRKbAqkKTDJAW"); //live
         }
     }
 
