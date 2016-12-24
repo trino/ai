@@ -629,7 +629,7 @@
                                 if(handleresult(result)) {
                                     selecteditem=0;
                                     $("#saveaddress").attr("disabled", true);
-                                    $("#" + table + "_" + ID).fadeOut(1000, function(){
+                                    $("#" + table + "_" + ID).fadeOut(500, function(){
                                         $("#" + table + "_" + ID).remove();
                                     });
                                     items--;

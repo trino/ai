@@ -3,6 +3,3 @@
         <strong id="checkout-total"></strong>
     </button>
 </div>
-
-
-

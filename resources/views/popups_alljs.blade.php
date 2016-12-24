@@ -1,65 +1,81 @@
 <?php
-    startfile("popups_alljs");
-    $CURRENT_YEAR = date("Y");
-    $STREET_FORMAT = "[number] [street], [city]";//["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
+startfile("popups_alljs");
+$CURRENT_YEAR = date("Y");
+$STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
 ?>
+
+
 <script>
     var currentitemID = -1;
     var MAX_DISTANCE = 20;//km
     var debugmode = true;//'<?= !islive(); ?>' == '1';
 
-    String.prototype.isEqual = function (str){
-        if(isUndefined(str)){return false;}
-        if(isNumeric(str) || isNumeric(this)){return this == str;}
+    String.prototype.isEqual = function (str) {
+        if (isUndefined(str)) {
+            return false;
+        }
+        if (isNumeric(str) || isNumeric(this)) {
+            return this == str;
+        }
         return this.toUpperCase().trim() == str.toUpperCase().trim();
     };
-    function isUndefined(variable){
+
+    function isUndefined(variable) {
         return typeof variable === 'undefined';
     }
-    function isArray(variable){
+
+    function isArray(variable) {
         return Array.isArray(variable);
     }
+
     //returns true if $variable appears to be a valid number
-    function isNumeric(variable){
+    function isNumeric(variable) {
         return !isNaN(Number(variable));
     }
+
     //returns true if $variable appears to be a valid object
     //typename (optional): the $variable would also need to be of the same object type (case-sensitive)
-    function isObject(variable, typename){
-        if (typeof variable == "object"){
-            if(isUndefined(typename)) {return true;}
+    function isObject(variable, typename) {
+        if (typeof variable == "object") {
+            if (isUndefined(typename)) {
+                return true;
+            }
             return variable.getName().toLowerCase() == typename.toLowerCase();
         }
         return false;
     }
 
-    String.prototype.contains = function (str){
+    String.prototype.contains = function (str) {
         return this.toLowerCase().indexOf(str.toLowerCase()) > -1;
     };
-    String.prototype.endswith = function(str) {
+
+    String.prototype.endswith = function (str) {
         return this.right(str.length).isEqual(str);
     };
     //returns the left $n characters of a string
-    String.prototype.left = function(n) {
+
+    String.prototype.left = function (n) {
         return this.substring(0, n);
     };
 
-    String.prototype.mid = function(start, length) {
-        return this.substring(start, start+length);
+    String.prototype.mid = function (start, length) {
+        return this.substring(start, start + length);
     };
 
-    Number.prototype.pad = function(size) {
+    Number.prototype.pad = function (size) {
         var s = String(this);
-        while (s.length < (size || 2)) {s = "0" + s;}
+        while (s.length < (size || 2)) {
+            s = "0" + s;
+        }
         return s;
     };
 
     //returns the right $n characters of a string
-    String.prototype.right = function(n) {
-        return this.substring(this.length-n);
+    String.prototype.right = function (n) {
+        return this.substring(this.length - n);
     };
 
-    function right(text, length){
+    function right(text, length) {
         return String(text).right(length);
     }
 
@@ -72,12 +88,12 @@
     //replaces all instances of $search within a string with $replacement
     String.prototype.replaceAll = function (search, replacement) {
         var target = this;
-        if(isArray(search)){
-            for(var i=0; i<search.length; i++){
-                if(isArray(replacement)){
-                    target = target.replaceAll( search[i], replacement[i] );
+        if (isArray(search)) {
+            for (var i = 0; i < search.length; i++) {
+                if (isArray(replacement)) {
+                    target = target.replaceAll(search[i], replacement[i]);
                 } else {
-                    target = target.replaceAll( search[i], replacement );
+                    target = target.replaceAll(search[i], replacement);
                 }
             }
             return target;
@@ -88,9 +104,9 @@
     String.prototype.between = function (leftside, rightside) {
         var target = this;
         var start = target.indexOf(leftside);
-        if(start > -1) {
+        if (start > -1) {
             var finish = target.indexOf(rightside, start);
-            if(finish > -1){
+            if (finish > -1) {
                 return target.substring(start + leftside.length, finish);
             }
         }
@@ -118,7 +134,7 @@
 
     //deletes a cookie value
     function removeCookie(cname) {
-        if(isUndefined(cname)){//erase all cookies
+        if (isUndefined(cname)) {//erase all cookies
             var cookies = document.cookie.split(";");
             for (var i = 0; i < cookies.length; i++) {
                 removeCookie(cookies[i].split("=")[0]);
@@ -130,36 +146,38 @@
 
     //creates a cookie value that expires in 1 year
     function createCookieValue(cname, cvalue) {
-        //log("Creating cookie value: '" + cname + "' with: " + cvalue);
+//log("Creating cookie value: '" + cname + "' with: " + cvalue);
         setCookie(cname, cvalue, 365);
     }
 
-    function log(text){
+    function log(text) {
         console.log(text);
     }
 
-    function getform(ID){
+    function getform(ID) {
         var data = $(ID).serializeArray();
         var ret = {};
-        for(var i=0; i<data.length; i++){
-            ret[ data[i].name ] = data[i].value;
+        for (var i = 0; i < data.length; i++) {
+            ret[data[i].name] = data[i].value;
         }
         return ret;
     }
 
-    function inputbox2(Text, Title, Default, retfnc){
+    function inputbox2(Text, Title, Default, retfnc) {
         Text += '<INPUT TYPE="TEXT" ID="modal_inputbox" CLASS="form-control" VALUE="' + Default + '" STYLE="margin-top: 15px;">';
-        confirm2(Text, Title, function(){
-            retfnc( $("#modal_inputbox").val() );
+        confirm2(Text, Title, function () {
+            retfnc($("#modal_inputbox").val());
         });
     }
-    function confirm2(){
+
+    function confirm2() {
         var Title = "Confirm";
-        var action = function(){};
+        var action = function () {
+        };
         $('#alert-confirm').unbind('click');
         if (arguments.length > 1) {
-            for(var index = 0; index<arguments.length; index++){
-                if(isFunction(arguments[index])){
+            for (var index = 0; index < arguments.length; index++) {
+                if (isFunction(arguments[index])) {
                     action = arguments[index];
                 } else {
                     Title = arguments[index];
@@ -171,42 +189,52 @@
         $("#alert-confirm").click(action);
     }
 
-    function removeindex(arr, index, count, delimiter){
-        if(!isArray(arr)){
-            if(isUndefined(delimiter)){delimiter=" ";}
+    function removeindex(arr, index, count, delimiter) {
+        if (!isArray(arr)) {
+            if (isUndefined(delimiter)) {
+                delimiter = " ";
+            }
             arr = removeindex(arr.split(delimiter), index, count, delimiter).join(delimiter);
         } else {
-            if(isNaN(index)){index = hasword(arr, index);}
+            if (isNaN(index)) {
+                index = hasword(arr, index);
+            }
             if (index > -1 && index < arr.length) {
-                if (isUndefined(count)) {count = 1;}
+                if (isUndefined(count)) {
+                    count = 1;
+                }
                 arr.splice(index, count);
             }
         }
         return arr;
     }
 
-    function visible(selector, status){
-        if(isUndefined(status)){status = false;}
-        if(status){
+    function visible(selector, status) {
+        if (isUndefined(status)) {
+            status = false;
+        }
+        if (status) {
             $(selector).show();
         } else {
             $(selector).hide();
         }
     }
 
-    $.fn.hasAttr = function(name) {
+    $.fn.hasAttr = function (name) {
         return this.attr(name) !== undefined;
     };
 
     $.validator.addMethod('phonenumber', function (Data, element) {
         Data = Data.replace(/\D/g, "");
-        if(Data.substr(0,1)=="0"){return false;}
+        if (Data.substr(0, 1) == "0") {
+            return false;
+        }
         return Data.length == 10;
     }, "Please enter a valid phone number");
 
-    function findwhere(data, key, value){
-        for(var i=0; i<data.length; i++){
-            if(data[i][key].isEqual(value)){
+    function findwhere(data, key, value) {
+        for (var i = 0; i < data.length; i++) {
+            if (data[i][key].isEqual(value)) {
                 return i;
             }
         }
@@ -219,8 +247,11 @@
 
     //generates the order menu item modal
     var currentitem;
+
     function loadmodal(element, notparent) {
-        if(isUndefined(notparent)){element = $(element);}
+        if (isUndefined(notparent)) {
+            element = $(element);
+        }
         var items = ["name", "price", "id", "size", "cat"];
         for (var i = 0; i < items.length; i++) {
             $("#modal-item" + items[i]).text($(element).attr("item" + items[i]));
@@ -241,14 +272,14 @@
         for (var tableid = 0; tableid < tables.length; tableid++) {
             var table = tables[tableid];
             var Quantity = Number($(element).attr(table));
-            if(Quantity > 0){
+            if (Quantity > 0) {
                 list_addons_quantity(Quantity, table, false, itemname, itemcost, toppingcost);
                 tableid = tables.length;
             }
         }
-        currentitemID=-1;
+        currentitemID = -1;
         var title = "ADD TO ORDER";
-        if(!isUndefined(notparent)){
+        if (!isUndefined(notparent)) {
             $("#menumodal").modal("show");
             title = "EDIT ITEM";
         }
@@ -258,7 +289,9 @@
     //get the data from the modal and add it to the order
     function additemtoorder(element, Index) {
         var itemid = 0, itemname = "", itemprice = 0.00, itemaddons = new Array, itemsize = "", toppingcost = 0.00, toppingscount = 0, itemcat = "";
-        if(!isUndefined(Index)){currentitemID = Index;}
+        if (!isUndefined(Index)) {
+            currentitemID = Index;
+        }
         if (isUndefined(element)) {//modal with addons
             itemid = $("#modal-itemid").text();
             itemname = $("#modal-itemname").text();
@@ -293,7 +326,7 @@
             toppingcount: toppingscount,
             itemaddons: itemaddons
         };
-        if(currentitemID == -1){
+        if (currentitemID == -1) {
             theorder.push(data);
             var ret = theorder.length - 1;
         } else {
@@ -302,13 +335,15 @@
         }
         generatereceipt();
         $("#receipt_item_" + ret).hide();
-        $("#receipt_item_" + ret).fadeIn("slow");
+        $("#receipt_item_" + ret).fadeIn("fast");
         return ret;
     }
 
     //convert the order to an HTML receipt
     function generatereceipt() {
-        if($("#myorder").length == 0){return false;}
+        if ($("#myorder").length == 0) {
+            return false;
+        }
         var HTML = '', tempHTML = "", subtotal = 0;
         var itemnames = {toppings: "Pizza", wings_sauce: "Pound"};
         var nonames = {toppings: "toppings", wings_sauce: "sauces"};
@@ -330,7 +365,7 @@
             tempHTML += '<span class="pull-right basecost" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '">';
 
             tempHTML += ' <i class="fa fa-close pull-right" onclick="removeorderitem(' + itemid + ');"></i>';
-            if(hasaddons) {
+            if (hasaddons) {
                 tempHTML += ' <i class="fa fa-pencil pull-right" onclick="edititem(this, ' + itemid + ');"></i>';
             }
             tempHTML += '$' + totalcost + '</span><div class="clearfix"></div>';
@@ -383,7 +418,7 @@
             $("#checkout-btn").hide();
             $("#checkout-total").text('$0.00');
         } else {
-            tempHTML =  '<span class="pull-right category-parent"> <SPAN CLASS="category">Sub-total: </SPAN>$' + subtotal.toFixed(2) + '</span><br>';
+            tempHTML = '<span class="pull-right category-parent"> <SPAN CLASS="category">Sub-total: </SPAN>$' + subtotal.toFixed(2) + '</span><br>';
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Delivery: </SPAN>$' + deliveryfee.toFixed(2) + '</span><br>';
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Tax: </SPAN>$' + taxes.toFixed(2) + '</span><br>';
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Total: </SPAN>$' + totalcost.toFixed(2) + '</span>';
@@ -400,9 +435,10 @@
         }
     }
 
-    function confirmclearorder(){
-        if(theorder.length>0) {
-            confirm2('Are you sure you want to clear your order?', 'Clear Order', function () {
+    function confirmclearorder() {
+        if (theorder.length > 0) {
+
+            confirm2('', 'Clear Order?', function () {
                 clearorder();
             });
         }
@@ -410,31 +446,31 @@
 
     function clearorder() {
         theorder = new Array;
-        removeorderitemdisabled=true;
-        $(".receipt_item").fadeOut("slow", function() {
-            removeorderitemdisabled=false;
+        removeorderitemdisabled = true;
+        $(".receipt_item").fadeOut("fast", function () {
+            removeorderitemdisabled = false;
             generatereceipt();
         });
     }
 
-    function edititem(element, Index){
+    function edititem(element, Index) {
         var theitem = theorder[Index];
-        if(!$(element).hasAttr("itemname")){
-            $(element).attr("itemname",     theitem.itemname);
-            $(element).attr("itemprice",    theitem.itemprice);
-            $(element).attr("itemid",       theitem.itemid);
-            $(element).attr("itemsize",     theitem.itemsize);
-            $(element).attr("itemcat",      theitem.category);
-            for(var i = 0; i< tables.length; i++){
-                $(element).attr(tables[i],  0);
+        if (!$(element).hasAttr("itemname")) {
+            $(element).attr("itemname", theitem.itemname);
+            $(element).attr("itemprice", theitem.itemprice);
+            $(element).attr("itemid", theitem.itemid);
+            $(element).attr("itemsize", theitem.itemsize);
+            $(element).attr("itemcat", theitem.category);
+            for (var i = 0; i < tables.length; i++) {
+                $(element).attr(tables[i], 0);
             }
             $(element).attr(theitem.itemaddons[0].tablename, theitem.itemaddons.length);
         }
         loadmodal(element, true);
         currentitemID = Index;
-        for(var i = 0; i < theitem.itemaddons.length; i++){
+        for (var i = 0; i < theitem.itemaddons.length; i++) {
             var tablename = theitem.itemaddons[i].tablename;
-            for(var i2 = 0; i2 < theitem.itemaddons[i].addons.length; i2++){
+            for (var i2 = 0; i2 < theitem.itemaddons[i].addons.length; i2++) {
                 var theaddon = theitem.itemaddons[i].addons[i2].text;
                 currentaddonlist[i].push({name: theaddon, qual: 1, side: 1, type: tablename, group: getaddon_group(tablename, theaddon)});
             }
@@ -447,19 +483,21 @@
         var itemaddons = new Array;
         for (var tableid = 0; tableid < tables.length; tableid++) {
             var table = tables[tableid];
-            if(table == currentaddontype){
-                for(var itemid=0; itemid < currentaddonlist.length; itemid++){
+            if (table == currentaddontype) {
+                for (var itemid = 0; itemid < currentaddonlist.length; itemid++) {
                     var addonlist = currentaddonlist[itemid];
                     var addons = new Array;
                     var toppings = 0;
-                    for(var addonid=0; addonid < addonlist.length; addonid++){
+                    for (var addonid = 0; addonid < addonlist.length; addonid++) {
                         var name = addonlist[addonid].name;
                         var isfree = isaddon_free(table, name);
                         addons.push({
                             text: name,
                             isfree: isfree
                         });
-                        if (!isfree) {toppings++;}
+                        if (!isfree) {
+                            toppings++;
+                        }
                     }
                     itemaddons.push({tablename: table, addons: addons, count: toppings});
                 }
@@ -482,9 +520,11 @@
         return size;
     }
 
-    function getaddon_group(Table, Addon){
+    function getaddon_group(Table, Addon) {
         if (groups.hasOwnProperty(Table)) {
-            if (groups[Table].hasOwnProperty(Addon)) {return Number(groups[Table][Addon]);}
+            if (groups[Table].hasOwnProperty(Addon)) {
+                return Number(groups[Table][Addon]);
+            }
         }
         return 0;
     }
@@ -492,7 +532,8 @@
     //checks if an addon is free
     function isaddon_free(Table, Addon) {
         switch (Addon.toLowerCase()) {
-            case "lightly done": case "well done":
+            case "lightly done":
+            case "well done":
                 return true;
                 break;
             default:
@@ -507,12 +548,15 @@
 
     //remove an item from the order
     var removeorderitemdisabled = false;
+
     function removeorderitem(index) {
-        if(removeorderitemdisabled){return;}
+        if (removeorderitemdisabled) {
+            return;
+        }
         removeindex(theorder, index);
-        removeorderitemdisabled=true;
-        $("#receipt_item_" + index).fadeOut("slow", function() {
-            removeorderitemdisabled=false;
+        removeorderitemdisabled = true;
+        $("#receipt_item_" + index).fadeOut("fast", function () {
+            removeorderitemdisabled = false;
             generatereceipt();
         });
     }
@@ -532,36 +576,50 @@
         return false;
     }
 
-    function validaddress(){
+    function validaddress() {
         var savedaddress = $("#saveaddresses").val();
-        if(savedaddress == 0){return false;}
-        if(savedaddress == "addaddress"){
-            if ($("#add_latitude").val().length == 0 || $("#add_longitude").val().length == 0){return false;}
+        if (savedaddress == 0) {
+            return false;
+        }
+        if (savedaddress == "addaddress") {
+            if ($("#add_latitude").val().length == 0 || $("#add_longitude").val().length == 0) {
+                return false;
+            }
         }
         return true;
     }
 
-    function isvalidcreditcard(CardNumber, Month, Year, CVV){
-        if(isUndefined(CardNumber)){CardNumber = $("[data-stripe=number]").val();}
-        if(isUndefined(Month)){Month = $("[data-stripe=exp_month]").val();}
-        if(isUndefined(Year)){Year = $("[data-stripe=exp_year]").val();}
-        if(isUndefined(CVV)){CVV = $("[data-stripe=cvc]").val();}
-        CardNumber = CardNumber.replace(/\D/g,'');
+    function isvalidcreditcard(CardNumber, Month, Year, CVV) {
+        if (isUndefined(CardNumber)) {
+            CardNumber = $("[data-stripe=number]").val();
+        }
+        if (isUndefined(Month)) {
+            Month = $("[data-stripe=exp_month]").val();
+        }
+        if (isUndefined(Year)) {
+            Year = $("[data-stripe=exp_year]").val();
+        }
+        if (isUndefined(CVV)) {
+            CVV = $("[data-stripe=cvc]").val();
+        }
+        CardNumber = CardNumber.replace(/\D/g, '');
         var nCheck = 0, nDigit = 0, bEven = false;
         for (var n = CardNumber.length - 1; n >= 0; n--) {
             var cDigit = CardNumber.charAt(n);
             var nDigit = parseInt(cDigit, 10);
             if (bEven) {
-                if ((nDigit *= 2) > 9) {nDigit -= 9;}
+                if ((nDigit *= 2) > 9) {
+                    nDigit -= 9;
+                }
             }
             nCheck += nDigit;
             bEven = !bEven;
         }
-        if((nCheck % 10) == 0){
+        if ((nCheck % 10) == 0) {
             var ExpiryDate = Number(Year) * 100 + Number(Month);
             var d = new Date();
             var CurrentDate = (d.getYear() % 100) * 100 + d.getMonth();
-            if(ExpiryDate > CurrentDate){
+            if (ExpiryDate > CurrentDate) {
                 return Number(CVV) > 99;
             } else {
                 log("Failed expiry date check: " + ExpiryDate + " <= " + CurrentDate);
@@ -571,18 +629,23 @@
         }
     }
 
-
-    function canplaceanorder(){
-        if(!$("#saved-credit-info").val()){
-            if(!isvalidcreditcard()){return false;}
+    function canplaceanorder() {
+        if (!$("#saved-credit-info").val()) {
+            if (!isvalidcreditcard()) {
+                return false;
+            }
         }
         return $(".error:visible").length == 0 && $("#restaurant").val().length > 0 && $("#reg_phone").val().length > 0 && validaddress();
     }
 
     //send an order to the server
     function placeorder(StripeResponse) {
-        if (!canplaceanorder()) {return cantplaceorder();}
-        if(isUndefined(StripeResponse)){StripeResponse = "";}
+        if (!canplaceanorder()) {
+            return cantplaceorder();
+        }
+        if (isUndefined(StripeResponse)) {
+            StripeResponse = "";
+        }
         if (isObject(userdetails)) {
             var addressinfo = getform("#orderinfo");//i don't know why the below 2 won't get included. this forces them to be
             addressinfo["cookingnotes"] = $("#cookingnotes").val();
@@ -598,20 +661,20 @@
                 $("#checkoutmodal").modal("hide");
                 if (result.contains("ordersuccess")) {
                     handleresult(result, "Order Placed Successfully!");
-                    if($("#saveaddresses").val() == "addaddress"){
+                    if ($("#saveaddresses").val() == "addaddress") {
                         var Address = {
-                            id:         $(".ordersuccess").attr("addressid"),
-                            buzzcode:   "",
-                            city:       $("#add_city").val(),
-                            latitude:   $("#add_latitude").val(),
-                            longitude:  $("#add_longitude").val(),
-                            number:     $("#add_number").val(),
-                            phone:      $("#reg_phone").val(),
+                            id: $(".ordersuccess").attr("addressid"),
+                            buzzcode: "",
+                            city: $("#add_city").val(),
+                            latitude: $("#add_latitude").val(),
+                            longitude: $("#add_longitude").val(),
+                            number: $("#add_number").val(),
+                            phone: $("#reg_phone").val(),
                             postalcode: $("#add_postalcode").val(),
-                            province:   $("#add_province").val(),
-                            street:     $("#add_street").val(),
-                            unit:       $("#add_unit").val(),
-                            user_id:    $("#add_user_id").val()
+                            province: $("#add_province").val(),
+                            street: $("#add_street").val(),
+                            unit: $("#add_unit").val(),
+                            user_id: $("#add_user_id").val()
                         };
                         userdetails.Addresses.push(Address);
                         $("#addaddress").remove();
@@ -620,11 +683,11 @@
                     userdetails["Orders"].unshift({
                         id: $("#receipt_id").text(),
                         placed_at: $("#receipt_placed_at").text(),
-                        //Contents: $("#myorder").html()
+//Contents: $("#myorder").html()
                     });
                     clearorder();
                 } else {
-                    alert("Error:" . result, "Order was not placed!");
+                    alert("Error:".result, "Order was not placed!");
                 }
             });
         } else {
@@ -633,16 +696,19 @@
     }
 
     if (!Date.now) {
-        Date.now = function() { return new Date().getTime(); }
+        Date.now = function () {
+            return new Date().getTime();
+        }
     }
 
     var modalID = "", skipone = 0;
+
     $(window).on('shown.bs.modal', function () {
         modalID = $(".modal:visible").attr("id");
         $("#" + modalID).hide();
-        $("#" + modalID).fadeIn("slow");
+        $("#" + modalID).fadeIn("fast");
         skipone = Date.now() + 100;//blocks delete button for 1/10 of a second
-        switch(modalID){
+        switch (modalID) {
             case "profilemodal":
                 $("#addresslist").html(addresses());
                 $("#cardlist").html(creditcards());
@@ -652,8 +718,10 @@
     });
 
     $(window).on('hashchange', function (event) {//delete button closes modal
-        if(window.location.hash != "#modal" && window.location.hash != "#loading") {
-            if(skipone > Date.now()){return;}
+        if (window.location.hash != "#modal" && window.location.hash != "#loading") {
+            if (skipone > Date.now()) {
+                return;
+            }
             $('#' + modalID).modal('hide');
             log("AUTOHIDE " + modalID);
         }
@@ -671,40 +739,41 @@
             if (ID > 0) {
                 HTML += '<DIV><A ID="add_' + ID + '" TITLE="Delete this address" onclick="deleteaddress(' + ID + ');" class="cursor-pointer"><i style="color:red" class="fa fa-fw fa-times"></i> ';
                 HTML += $(this).text() + '</A></DIV>';
-                //if (number.isEqual($(this).attr("number")) && street.isEqual($(this).attr("street")) && city.isEqual($(this).attr("city"))) {AddNew = false;}
-                AddNew=true;
+//if (number.isEqual($(this).attr("number")) && street.isEqual($(this).attr("street")) && city.isEqual($(this).attr("city"))) {AddNew = false;}
+                AddNew = true;
             }
         });
         if (!AddNew) {
-            //HTML += '<A ONCLICK="deleteaddress(-1);" CLASS="cursor-pointer">Add ' + "'" + number + " " + street + ", " + city + "' to the list</A>";} else {
+//HTML += '<A ONCLICK="deleteaddress(-1);" CLASS="cursor-pointer">Add ' + "'" + number + " " + street + ", " + city + "' to the list</A>";} else {
             HTML += 'No addresses';
         }
         return HTML + "</DIV>";
     }
 
-    function creditcards(){
+    function creditcards() {
         var HTML = '<BR><DIV CLASS="section"><h4>Credit Cards</h4>';
-        if(userdetails.Stripe.length == 0){return HTML + "None are on file";}
-        for(var i=0; i<userdetails.Stripe.length; i++){
+        if (userdetails.Stripe.length == 0) {
+            return HTML + "None are on file";
+        }
+        for (var i = 0; i < userdetails.Stripe.length; i++) {
             var card = userdetails.Stripe[i];
-            HTML += '<DIV><A ONCLICK="deletecard(' + "'" + card.id + "', " + card.last4 + ", '" + card.exp_month.pad(2) + "', " + right(card.exp_year,2) + ');" CLASS="cursor-pointer">';
-            HTML += '<i style="color:red" class="fa fa-fw fa-times"></i> **** **** **** ' + card.last4 + ' EXP: ' + card.exp_month.pad(2) + '/' + right(card.exp_year,2) + '</A></DIV>';
+            HTML += '<DIV><A ONCLICK="deletecard(' + "'" + card.id + "', " + card.last4 + ", '" + card.exp_month.pad(2) + "', " + right(card.exp_year, 2) + ');" CLASS="cursor-pointer">';
+            HTML += '<i style="color:red" class="fa fa-fw fa-times"></i> **** **** **** ' + card.last4 + ' EXP: ' + card.exp_month.pad(2) + '/' + right(card.exp_year, 2) + '</A></DIV>';
         }
         return HTML + '</DIV><BR>';
     }
 
-    function deletecard(ID, last4, month, year){
-        confirm2("Are you sure you want to delete the credit card **** **** **** " + last4 + " Expiring on " + month + "/" + year + "?", 'Delete Credit Card', function() {
+    function deletecard(ID, last4, month, year) {
+        confirm2("Are you sure you want to delete the credit card **** **** **** " + last4 + " Expiring on " + month + "/" + year + "?", 'Delete Credit Card', function () {
             $.post(webroot + "placeorder", {
                 _token: token,
                 action: "deletecard",
                 cardid: ID
             }, function (result) {
-               alert(result);
+                alert(result);
             });
         });
     }
-
 
     //handles the orders list modal
     function orders(ID, getJSON) {
@@ -714,15 +783,23 @@
             for (var i = 0; i < userdetails["Orders"].length; i++) {
                 var order = userdetails["Orders"][i];
                 ID = order["id"];
-                if (!First) {First = ID;}
+                if (!First) {
+                    First = ID;
+                }
                 HTML += '<li class="list-group-item" ONCLICK="orders(' + ID + ');">' + '<SPAN ID="pastreceipt' + ID + '"></SPAN>' + '<span class="tag tag-default tag-pill pull-xs-right">ID: ' + ID + '</span>' + order["placed_at"] + '</li>';
             }
             HTML += '</ul>';
-            if (!First) {HTML = "No orders placed yet";}
+            if (!First) {
+                HTML = "No orders placed yet";
+            }
             alert(HTML, "Orders");
-            if (First) {orders(First);}
+            if (First) {
+                orders(First);
+            }
         } else {
-            if (isUndefined(getJSON)) {getJSON = false;}
+            if (isUndefined(getJSON)) {
+                getJSON = false;
+            }
             var Index = getIterator(userdetails["Orders"], "id", ID);
             if (!getJSON && userdetails["Orders"][Index].hasOwnProperty("Contents")) {
                 $("#pastreceipt" + ID).html(userdetails["Orders"][Index]["Contents"]);
@@ -735,7 +812,9 @@
                 orderid: ID,
                 JSON: getJSON
             }, function (result) {
-                setTimeout( function(){loading(true, "SHOWRESULT");}, 10 );
+                setTimeout(function () {
+                    loading(true, "SHOWRESULT");
+                }, 10);
                 if (getJSON) {//JSON recieved, put it in the order
                     result = JSON.parse(result);
                     theorder = result["Order"];
@@ -768,12 +847,16 @@
             orders(userdetails["Orders"][CurrentIndex + 1]["id"]);
             return true;
         }
-        setTimeout( function(){loading(false, "GetNextOrder");}, 10 );
+        setTimeout(function () {
+            loading(false, "GetNextOrder");
+        }, 10);
     }
 
-    function loading(state, where){
-        if(isUndefined(where)){where = "UNKNOWN";}
-        if(state){
+    function loading(state, where) {
+        if (isUndefined(where)) {
+            where = "UNKNOWN";
+        }
+        if (state) {
             log("Loading: " + where);
             $body.addClass("loading");
         } else {
@@ -788,21 +871,21 @@
         }
         generatereceipt();
         @if(!read("id"))
-            $("#loginmodal").modal("show");
+        $("#loginmodal").modal("show");
         @endif
 
         //----- OPEN
-        $('[data-popup-open]').on('click', function(e)  {
+        $('[data-popup-open]').on('click', function (e) {
             var targeted_popup_class = jQuery(this).attr('data-popup-open');
-            $('#' + targeted_popup_class).fadeIn("slow");
+            $('#' + targeted_popup_class).fadeIn("fast");
             e.preventDefault();
         });
 
-        //----- CLOSE
-        $('[data-popup-close]').on('click', function(e)  {
+//----- CLOSE
+        $('[data-popup-close]').on('click', function (e) {
             var targeted_popup_class = jQuery(this).attr('data-popup-close');
-            $('#' + targeted_popup_class).fadeOut("slow", function(){
-                $(".modal-backdrop").fadeOut("slow", function(){
+            $('#' + targeted_popup_class).fadeOut("fast", function () {
+                $(".modal-backdrop").fadeOut("fast", function () {
                     $('#' + targeted_popup_class).modal("hide");
                 });
             });
@@ -810,10 +893,10 @@
         });
     });
 
-    function enterkey(e, action){
+    function enterkey(e, action) {
         var keycode = event.which || event.keyCode;
-        if(keycode == 13){
-            if(action.left(1) == "#"){
+        if (keycode == 13) {
+            if (action.left(1) == "#") {
                 $(action).focus();
             } else {
                 handlelogin(action);
@@ -821,9 +904,11 @@
         }
     }
 
-    function handlelogin(action){
-        if(isUndefined(action)){action="verify";}
-        if(!$("#login_email").val() && action !== "logout"){
+    function handlelogin(action) {
+        if (isUndefined(action)) {
+            action = "verify";
+        }
+        if (!$("#login_email").val() && action !== "logout") {
             alert("Please enter an email address");
             return;
         }
@@ -835,7 +920,7 @@
         }, function (result) {
             try {
                 var data = JSON.parse(result);
-                if(data["Status"] == "false" || !data["Status"]) {
+                if (data["Status"] == "false" || !data["Status"]) {
                     data["Reason"] = data["Reason"].replace('[verify]', '<A onclick="handlelogin();" CLASS="hyperlink" TITLE="Click here to resend the email">verify</A>');
                     alert(data["Reason"], "Error logging in");
                 } else {
@@ -844,12 +929,13 @@
                             token = data["Token"];
                             login(data["User"], true);
                             $("#loginmodal").modal("hide");
-                            if(redirectonlogin){
+                            if (redirectonlogin) {
                                 log("Login reload");
                                 location.reload();
                             }
                             break;
-                        case "forgotpassword": case "verify":
+                        case "forgotpassword":
+                        case "verify":
                             alert(data["Reason"], "Login");
                             break;
                         case "logout":
@@ -859,14 +945,14 @@
                             $(".loggedout").show();
                             $(".clear_loggedout").html("");
                             $(".profiletype").hide();
-                            userdetails=false;
-                            if(redirectonlogout){
+                            userdetails = false;
+                            if (redirectonlogout) {
                                 log("Logout reload");
                                 window.location = "<?= webroot("public/index"); ?>";
                             } else {
-                                switch(currentRoute){
+                                switch (currentRoute) {
                                     case "index"://resave order as it's deleted in removeCookie();
-                                        if(!isUndefined(theorder)) {
+                                        if (!isUndefined(theorder)) {
                                             if (theorder.length > 0) {
                                                 createCookieValue("theorder", JSON.stringify(theorder));
                                             }
@@ -874,19 +960,20 @@
                                         break;
                                 }
                             }
-                            if(!isUndefined(collapsecheckout)) {
+                            if (!isUndefined(collapsecheckout)) {
                                 collapsecheckout();
                             }
                             break;
                     }
                 }
-            } catch (err){
+            } catch (err) {
                 alert(err.message + "<BR>" + result, "Login Error");
             }
         });
     }
 
     var skiploadingscreen = false;
+
     //overwrites javascript's alert and use the modal popup
     (function () {
         var proxied = window.alert;
@@ -896,8 +983,10 @@
                 title = arguments[1];
             }
             $("#alert-cancel").hide();
-            $("#alert-ok").click(function () {});
-            $("#alert-confirm").click(function () {});
+            $("#alert-ok").click(function () {
+            });
+            $("#alert-confirm").click(function () {
+            });
             $("#alertmodalbody").html(arguments[0]);
             $("#alertmodallabel").text(title);
             $("#alertmodal").modal('show');
@@ -905,32 +994,35 @@
     })();
 
     var generalhours = <?= json_encode(gethours()) ?>;
+
     var lockloading = false, previoushash = "";
 
     $(document).ready(function () {
-        //make every AJAX request show the loading animation
+//make every AJAX request show the loading animation
         $body = $("body");
         $(document).on({
             ajaxStart: function () {
-            //ajaxSend: function ( event, jqxhr, settings ) {log("settings.url: " + settings.url);//use this event if you need the URL
+//ajaxSend: function ( event, jqxhr, settings ) {log("settings.url: " + settings.url);//use this event if you need the URL
                 if (skiploadingscreen) {
-                    if(!lockloading) {skiploadingscreen = false;}
+                    if (!lockloading) {
+                        skiploadingscreen = false;
+                    }
                 } else {
                     loading(true, "ajaxStart");
-                    previoushash=window.location.hash;
+                    previoushash = window.location.hash;
                     window.location.hash = "loading";
                 }
             },
             ajaxStop: function () {
                 loading(false, "ajaxStop");
                 skipone = Date.now() + 100;//
-                window.location.hash=previoushash;
+                window.location.hash = previoushash;
             }
         });
 
         @if(isset($user))
-            login(<?= json_encode($user); ?>, false); //user is already logged in, use the data
-        @endif
+        login(<?= json_encode($user); ?>, false); //user is already logged in, use the data
+                @endif
 
         var HTML = '';
         var todaysdate = isopen(generalhours);
@@ -997,7 +1089,7 @@
         }
         var tempHTML = '<OPTION';
         var streetformat = "<?= $STREET_FORMAT; ?>";
-        //if (address["unit"].trim()) {streetformat = "[unit] - " + streetformat;}
+//if (address["unit"].trim()) {streetformat = "[unit] - " + streetformat;}
         for (var keyID = 0; keyID < addresskeys.length; keyID++) {
             var keyname = addresskeys[keyID];
             if (address.hasOwnProperty(keyname)) {
@@ -1019,7 +1111,7 @@
         $(".payment-errors").text("");
         var Selected = $("#saveaddresses option:selected");
         var SelectedVal = $(Selected).val();
-        //log("Selected: " + SelectedVal);
+//log("Selected: " + SelectedVal);
         var Text = '<?= $STREET_FORMAT; ?>';
         visible_address(false);
         if (addresskeys.length == 0) {
@@ -1027,7 +1119,7 @@
         }
         for (var keyID = 0; keyID < addresskeys.length; keyID++) {
             var keyname = addresskeys[keyID];
-            if(SelectedVal == 0){
+            if (SelectedVal == 0) {
                 var keyvalue = "";
             } else {
                 var keyvalue = $(Selected).attr(keyname);
@@ -1039,9 +1131,9 @@
             Text = '';
         } else {
             $("#formatted_address").hide();
-            if(SelectedVal == "addaddress"){
+            if (SelectedVal == "addaddress") {
                 visible_address(true);
-                Text="";
+                Text = "";
             }
             $("#add_unit").show();
         }
@@ -1054,7 +1146,7 @@
         loading(false, "ajaxComplete");
         if (request.status != 200 && request.status > 0) {//not OK, or aborted
             var text = request.responseText;
-            if (text.indexOf('Whoops, looks like something went wrong.') > -1){
+            if (text.indexOf('Whoops, looks like something went wrong.') > -1) {
                 text = text.between('<span class="exception_title">', '</h2>');
                 text = text.replace(/<(?:.|\n)*?>/gm, '');
             } else {
@@ -1064,49 +1156,53 @@
         }
     });
 
-    function rnd(min, max){
+    function rnd(min, max) {
         return Math.round(Math.random() * (max - min) + min);
     }
 
-    function cantplaceorder(){
-        if(!validaddress()) {
+    function cantplaceorder() {
+        if (!validaddress()) {
             $("#saveaddresses").addClass("red");
             $(".payment-errors").text("Please enter an address");
-        } else if(!$("#saved-credit-info").val()){
-            if(!isvalidcreditcard()){
+        } else if (!$("#saved-credit-info").val()) {
+            if (!isvalidcreditcard()) {
                 $("#saved-credit-info").addClass("red");
                 $("[data-stripe=number]").addClass("red");
                 $(".payment-errors").text("Please select or enter a valid credit card");
                 return false;
             }
         }
-        if($("#reg_phone").val().length == 0){
+        if ($("#reg_phone").val().length == 0) {
             $('#reg_phone').attr('style', 'border: 2px solid red !important;');
             $(".payment-errors").text("Please enter a cell phone number");
         }
     }
 
-    function testcard(){
+    function testcard() {
         $('input[data-stripe=number]').val('4242424242424242');
         $('input[data-stripe=address_zip]').val('L8L6V6');
-        $('input[data-stripe=cvc]').val(rnd(100,999));
-        $('select[data-stripe=exp_year]').val({{ right($CURRENT_YEAR,2) }} + 1);
+        $('input[data-stripe=cvc]').val(rnd(100, 999));
+        $('select[data-stripe=exp_year]').val({{ right($CURRENT_YEAR,2) }} +1);
         @if(islive())
-            log("Changing stripe key");
-            $("#istest").val("true");
-            Stripe.setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf');
-            log("Stripe key changed");
+        log("Changing stripe key");
+        $("#istest").val("true");
+        Stripe.setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf');
+        log("Stripe key changed");
         @endif
     }
 
-    function payfororder(){
-        if(!canplaceanorder()){return cantplaceorder();}
-        if($("#orderinfo").find(".error:visible[for]").length>0){return false;}
+    function payfororder() {
+        if (!canplaceanorder()) {
+            return cantplaceorder();
+        }
+        if ($("#orderinfo").find(".error:visible[for]").length > 0) {
+            return false;
+        }
         var $form = $('#orderinfo');
         $(".payment-errors").html("");
 
         log("Attempt to pay: " + changecredit());
-        if(!changecredit()){//new card
+        if (!changecredit()) {//new card
             log("Stripe data");
             Stripe.card.createToken($form, stripeResponseHandler);
             log("Stripe data - complete");
@@ -1114,20 +1210,37 @@
             log("Use saved data");
             placeorder("");//no stripe token, use customer ID on the server side
         }
-        //canplaceorder=false;
+//canplaceorder=false;
     }
 
-    function stripeResponseHandler(status, response){
+    function stripeResponseHandler(status, response) {
         var errormessage = "";
         log("Stripe response");
-        switch(status){
-            case 400: errormessage = "Bad Request:<BR>The request was unacceptable, often due to missing a required parameter."; break;
-            case 401: errormessage = "Unauthorized:<BR>No valid API key provided."; break;
-            case 402: errormessage = "Request Failed:<BR>The parameters were valid but the request failed."; break;
-            case 404: errormessage = "Not Found:<BR>The requested resource doesn't exist."; break;
-            case 409: errormessage = "Conflict:<BR>The request conflicts with another request (perhaps due to using the same idempotent key)."; break;
-            case 429: errormessage = "Too Many Requests:<BR>Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."; break;
-            case 500: case 502: case 503:case 504: errormessage = "Server Errors:<BR>Something went wrong on Stripe's end."; break;
+        switch (status) {
+            case 400:
+                errormessage = "Bad Request:<BR>The request was unacceptable, often due to missing a required parameter.";
+                break;
+            case 401:
+                errormessage = "Unauthorized:<BR>No valid API key provided.";
+                break;
+            case 402:
+                errormessage = "Request Failed:<BR>The parameters were valid but the request failed.";
+                break;
+            case 404:
+                errormessage = "Not Found:<BR>The requested resource doesn't exist.";
+                break;
+            case 409:
+                errormessage = "Conflict:<BR>The request conflicts with another request (perhaps due to using the same idempotent key).";
+                break;
+            case 429:
+                errormessage = "Too Many Requests:<BR>Too many requests hit the API too quickly. We recommend an exponential backoff of your requests.";
+                break;
+            case 500:
+            case 502:
+            case 503:
+            case 504:
+                errormessage = "Server Errors:<BR>Something went wrong on Stripe's end.";
+                break;
             case 200:// - OK	Everything worked as expected.
                 if (response.error) {
                     $('.payment-errors').html(response.error.message);
@@ -1137,19 +1250,25 @@
                 }
                 break;
         }
-        if(errormessage){
-            //$(".payment-errors").html(errormessage + "<BR><BR>" + response["error"]["type"] + ":<BR>" + response["error"]["message"]);
+        if (errormessage) {
+//$(".payment-errors").html(errormessage + "<BR><BR>" + response["error"]["type"] + ":<BR>" + response["error"]["message"]);
             $(".payment-errors").html(response["error"]["message"]);
         }
     }
 
     function addresshaschanged() {
-        if(!getcloseststore){return;}
+        if (!getcloseststore) {
+            return;
+        }
         var formdata = getform("#orderinfo");
-        if(!formdata.latitude || !formdata.longitude){return;}
-        if(!debugmode){formdata.radius = MAX_DISTANCE;}
+        if (!formdata.latitude || !formdata.longitude) {
+            return;
+        }
+        if (!debugmode) {
+            formdata.radius = MAX_DISTANCE;
+        }
         skiploadingscreen = true;
-        //canplaceorder = false;
+//canplaceorder = false;
 
         $.post(webroot + "placeorder", {
             _token: token,
@@ -1159,13 +1278,13 @@
             if (handleresult(result)) {
                 var closest = JSON.parse(result)["closest"];
                 var restaurant = "No restaurant is within range";
-                //canplaceorder = false;
+//canplaceorder = false;
                 if (closest.hasOwnProperty("id")) {
-                    if(parseFloat(closest.distance) <= MAX_DISTANCE || debugmode) {
-                        if(parseFloat(closest.distance) >= MAX_DISTANCE){
+                    if (parseFloat(closest.distance) <= MAX_DISTANCE || debugmode) {
+                        if (parseFloat(closest.distance) >= MAX_DISTANCE) {
                             closest.restaurant.name += " [DEBUG]"
                         }
-                        //canplaceorder = true;
+//canplaceorder = true;
                         restaurant = closest.restaurant.name;
                         GenerateHours(closest["hours"]);
                     }
@@ -1175,18 +1294,18 @@
         });
     }
 
-    function loadsavedcreditinfo(){
-        if(userdetails.stripecustid.length>0) {
+    function loadsavedcreditinfo() {
+        if (userdetails.stripecustid.length > 0) {
             return userdetails.Stripe.length > 0;
         }
         return false;
     }
 
-    function changecredit(){
+    function changecredit() {
         $("#saved-credit-info").removeClass("red");
         $("[data-stripe=number]").removeClass("red");
         var val = $("#saved-credit-info").val();
-        if(!val){
+        if (!val) {
             $(".credit-info").show();//let cust edit the card
         } else {
             $(".credit-info").hide();//use saved card info
@@ -1195,9 +1314,9 @@
     }
 
     function showcheckout() {
-        //canplaceorder=false;
-        if(userdetails["Addresses"].length == 0){
-            setTimeout(function(){
+//canplaceorder=false;
+        if (userdetails["Addresses"].length == 0) {
+            setTimeout(function () {
                 $("#saveaddresses").val("addaddress");
                 addresschanged();
             }, 100);
@@ -1206,14 +1325,16 @@
         $("#restaurant").val("");
         var HTML = $("#checkoutaddress").html();
         HTML = HTML.replace('class="', 'class="corner-top ');
-        if(loadsavedcreditinfo()){
+        if (loadsavedcreditinfo()) {
             $(".credit-info").hide();
             var creditHTML = '<SELECT ID="saved-credit-info" name="creditcard" onchange="changecredit();" class="form-control proper-height"><OPTION value="">Use new credit card</OPTION>';
-            for(var i=0; i<userdetails.Stripe.length; i++){
+            for (var i = 0; i < userdetails.Stripe.length; i++) {
                 var card = userdetails.Stripe[i];
                 creditHTML += '<OPTION value="' + card.id + '"';
-                if(i == userdetails.Stripe.length-1){creditHTML += ' SELECTED';}
-                creditHTML += '>**** **** **** ' + card.last4 + ' EXP: ' + card.exp_month.pad(2) + '/' + right(card.exp_year,2) + '</OPTION>';
+                if (i == userdetails.Stripe.length - 1) {
+                    creditHTML += ' SELECTED';
+                }
+                creditHTML += '>**** **** **** ' + card.last4 + ' EXP: ' + card.exp_month.pad(2) + '/' + right(card.exp_year, 2) + '</OPTION>';
             }
             $("#credit-info").html(creditHTML + '</SELECT>');
         } else {
@@ -1224,7 +1345,7 @@
         $(function () {
             $("#orderinfo").validate({
                 submitHandler: function (form) {
-                    //handled by placeorder
+//handled by placeorder
                 }
             });
         });
@@ -1232,19 +1353,24 @@
 
     var daysofweek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     var monthnames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    function now(){
+
+    function now() {
         var now = new Date();
         return now.getHours() * 100 + now.getMinutes();
     }
-    function getToday(){
+
+    function getToday() {
         var now = new Date();//doesn't take into account <= because it takes more than 1 minute to place an order
         return now.getDay();
     }
-    function GenerateTime(time){
+
+    function GenerateTime(time) {
         var minutes = time % 100;
         var thehours = Math.floor(time / 100);
         var hoursAMPM = thehours % 12;
-        if (hoursAMPM == 0) {hoursAMPM = 12;}
+        if (hoursAMPM == 0) {
+            hoursAMPM = 12;
+        }
         var tempstr = hoursAMPM + ":";
         if (minutes < 10) {
             tempstr += "0" + minutes;
@@ -1263,9 +1389,12 @@
             return tempstr + " PM" + extra;
         }
     }
-    function GenerateHours(hours, increments){
+
+    function GenerateHours(hours, increments) {
         var now = new Date();//doesn't take into account <= because it takes more than 1 minute to place an order
-        if(isUndefined(increments)){increments = 15;}
+        if (isUndefined(increments)) {
+            increments = 15;
+        }
         var dayofweek = now.getDay();
         var minutesinaday = 1440;
         var totaldays = 2;
@@ -1276,11 +1405,11 @@
         time = time + (increments - (time % increments));
         var oldValue = $("#deliverytime").val();
         var HTML = '<option>Deliver Now</option>';
-        var totalInc = (minutesinaday*totaldays) / increments;
-        for(var i=0; i<totalInc; i++){
-            if(isopen(hours, dayofweek, time) > -1) {
+        var totalInc = (minutesinaday * totaldays) / increments;
+        for (var i = 0; i < totalInc; i++) {
+            if (isopen(hours, dayofweek, time) > -1) {
                 var minutes = time % 100;
-                if(minutes<60) {
+                if (minutes < 60) {
                     var thetime = GenerateTime(time);
                     var thedayname = daysofweek[dayofweek];
                     var thedate = monthnames[now.getMonth()] + " " + now.getDate();
@@ -1291,21 +1420,23 @@
                     } else {
                         thedayname += " " + thedate;
                     }
-                    var tempstr = '<OPTION VALUE="' + thedate + " at " + time.pad(4) + '">' + thedayname + " at " + thetime ;
+                    var tempstr = '<OPTION VALUE="' + thedate + " at " + time.pad(4) + '">' + thedayname + " at " + thetime;
                     HTML += tempstr + '</OPTION>';
                 }
             }
 
             time = time + increments;
-            if(time % 100 >= 60){
+            if (time % 100 >= 60) {
                 time = (Math.floor(time / 100) + 1) * 100;
             }
-            if(time >= 2400){
+            if (time >= 2400) {
                 time = time % 2400;
-                dayselapsed +=1;
+                dayselapsed += 1;
                 dayofweek = (dayofweek + 1) % 7;
                 now = new Date(now.getTime() + 24 * 60 * 60 * 1000);
-                if(dayofweek == today || dayselapsed == totaldays){i = totalInc;}
+                if (dayofweek == today || dayselapsed == totaldays) {
+                    i = totalInc;
+                }
             }
         }
 
@@ -1314,37 +1445,53 @@
         $("#deliverytime").val(oldValue);
     }
 
-    function isopen(hours, dayofweek, time){
+    function isopen(hours, dayofweek, time) {
         var now = new Date();//doesn't take into account <= because it takes more than 1 minute to place an order
-        if(isUndefined(dayofweek)){dayofweek = now.getDay();}
-        if(isUndefined(time)){time = now.getHours() * 100 + now.getMinutes();}
+        if (isUndefined(dayofweek)) {
+            dayofweek = now.getDay();
+        }
+        if (isUndefined(time)) {
+            time = now.getHours() * 100 + now.getMinutes();
+        }
         var today = hours[dayofweek];
         var yesterday = dayofweek - 1;
-        if(yesterday<0){yesterday = 6;}
+        if (yesterday < 0) {
+            yesterday = 6;
+        }
         var yesterdaysdate = yesterday;
         yesterday = hours[yesterday];
         today.open = Number(today.open);
         today.close = Number(today.close);
         yesterday.open = Number(yesterday.open);
         yesterday.close = Number(yesterday.close);
-        if(yesterday.open > -1 && yesterday.close > -1 && yesterday.close < yesterday.open){
-            if(yesterday.close > time){return yesterdaysdate;}
+        if (yesterday.open > -1 && yesterday.close > -1 && yesterday.close < yesterday.open) {
+            if (yesterday.close > time) {
+                return yesterdaysdate;
+            }
         }
-        if(today.open > -1 && today.close > -1){
-            if(today.close < today.open){
-                //log("Day: " + dayofweek + " time: " + time + " open: " + today.open + " close: " + today.close );
-                if(time >= today.open || time < today.close){return dayofweek;}
+        if (today.open > -1 && today.close > -1) {
+            if (today.close < today.open) {
+//log("Day: " + dayofweek + " time: " + time + " open: " + today.open + " close: " + today.close );
+                if (time >= today.open || time < today.close) {
+                    return dayofweek;
+                }
             } else {
-                if(time >= today.open && time < today.close){return dayofweek;}
+                if (time >= today.open && time < today.close) {
+                    return dayofweek;
+                }
             }
         }
         return -1;//closed
     }
 
-    function visiblemodals(){
-        return $('.modal:visible').map(function() { return this.id; }).get();
+    function visiblemodals() {
+        return $('.modal:visible').map(function () {
+            return this.id;
+        }).get();
     }
+
 </SCRIPT>
+
 <STYLE>
     /* STOP MOVING THIS TO THE CSS, IT WON'T WORK! */
     #loadingmodal {
@@ -1359,6 +1506,7 @@
     }
 </STYLE>
 
+
 <div class="modal" id="alertmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static" style="z-index: 9999;">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -1371,15 +1519,15 @@
 
                 <DIV ID="alertmodalbody" STYLE="margin-top: 5px;"></DIV>
 
-                <DIV CLASS="pb-1"></DIV>
-                <div>
+                <div CLASS="pull-right">
                     <button class="btn btn-secondary" id="alert-cancel" data-dismiss="modal">
                         Cancel
                     </button>
                     <button class="btn btn-secondary" id="alert-confirm" data-dismiss="modal">
-                        OK
+                        OK555
                     </button>
                 </div>
+                <DIV CLASS="clearfix"></DIV>
 
             </div>
         </div>
@@ -1403,4 +1551,5 @@
         }
     }
 </script>
+
 <?php endfile("popups_alljs"); ?>

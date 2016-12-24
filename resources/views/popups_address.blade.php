@@ -82,7 +82,7 @@
                     id: ID
                 }, function (result) {
                     if (handleresult(result)) {
-                        $("#add_" + ID).fadeOut(1000, function () {
+                        $("#add_" + ID).fadeOut(500, function () {
                             $("#add_" + ID).remove();
                         });
                         $(".saveaddresses option[value=" + ID + "]").remove();
