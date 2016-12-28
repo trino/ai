@@ -12,7 +12,7 @@
 
                     <DIV CLASS="col-md-12">
 
-                    <h3>London Pizza Delivery</h3>
+                    <h3>Precise Pizza Delivery</h3>
 </div>
                     <DIV CLASS="col-md-6">
 

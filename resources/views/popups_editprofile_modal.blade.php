@@ -4,32 +4,26 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <button type="button" class="close" data-popup-close="profilemodal" old-data-dismiss="modal"
-                        aria-label="Close"><i class="fa fa-close"></i></button>
+                <button type="button" class="close" data-popup-close="profilemodal" old-data-dismiss="modal"  aria-label="Close"><i class="fa fa-close"></i></button>
 
-                <div>
-                    <h4 class="modal-title" id="myModalLabel">Edit Profile</h4>
-                </div>
+                <strong id="myModalLabel">My Profile</strong>
 
                 <FORM NAME="user" id="userform">
+
                     @include("popups_edituser", array("showpass" => true, "email" => false))
+
+                    <BUTTON CLASS="btn btn-secondary" onclick="userform_submit();">SAVE</BUTTON>
+
                 </FORM>
 
                 <DIV ID="addresslist"></DIV>
                 <DIV ID="cardlist"></DIV>
 
+                <button ONCLICK="handlelogin('logout');" CLASS="btn btn-secondary pull-left" href="#">
+                    LOG OUT
+                </button>
+                <DIV class="clearfix"></DIV>
 
-                <DIV CLASS="row">
-                    <DIV CLASS="col-md-12" align="center">
-
-
-                        <BUTTON CLASS="btn btn-primary pull-right" onclick="userform_submit();">SAVE</BUTTON>
-                        <button ONCLICK="handlelogin('logout');" CLASS="btn btn-secondary pull-left" href="#">
-                            LOG OUT
-                        </button>
-
-                    </DIV>
-                </DIV>
             </div>
         </div>
     </div>

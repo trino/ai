@@ -1,7 +1,7 @@
 <HTML>
     <?php
         //hack to put CSS inline for emails
-        echo 'Here is a copy of your order';
+        echo 'Thank you for your order!<br>';
         $HTML = view("popups_receipt", array("orderid" => $orderid, "inline" => true))->render();
         $Styles = array(
             "TD" => "border: 1px solid #eceeef; padding: .3rem; display: table-cell;",

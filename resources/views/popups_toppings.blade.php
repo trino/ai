@@ -1,8 +1,10 @@
 <?php startfile("popups_toppings"); ?>
 <STYLE>
     .addon-selected, .thisside {
-        background: #dadada;
+        border:5px solid #dadada !important;
     }
+
+
 /*
     .addon-selected::before, .currentitem.thisside::before {
         font-family: FontAwesome;
@@ -117,7 +119,7 @@
 
     function list_addons(table, halves) {
         currentaddontype = table;
-        var HTML = '<DIV style="background:#f8f8f8;"><DIV id="theaddons"></DIV><div class="clearfix"></div> </DIV>';
+        var HTML = '<DIV style="height:300px;overflow-y: scroll;background: #efefef;"><DIV id="theaddons"></DIV><div class="clearfix"></div> </DIV>';
         if (currentstyle == 0) {
             HTML += '<DIV CLASS="bg-danger addonlist" ID="addontypes">';
         } else {
@@ -134,7 +136,7 @@
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
-                    HTML += '<div  style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;" class="col-xs-4 col-sm-3 btn-sm addon-addon';
+                    HTML += '<div class="col-xs-4 col-sm-3 btn-sm toppings_btn btn addon-addon';
                     if(isaddon_free(String(currentaddontype), String(addon))){
                         HTML += ' btn-secondary';
                         title = "Free addon";

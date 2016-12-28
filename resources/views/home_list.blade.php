@@ -221,9 +221,9 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-block bg-danger" >
-                            <h4 class="pull-left">
+                            <strong class="pull-left">
                                 <A HREF="<?= webroot("public/list/all"); ?>"><i class="fa fa-{{ $faicon }}" aria-hidden="true"></i></A> {{ ucfirst($table) . ' list ' . $extratitle }}
-                            </h4>
+                            </strong>
                             <h4 CLASS="pull-right spacing">
                                 @if($table != "all" && read("profiletype") == 1)
                                     @if($table == "debug")

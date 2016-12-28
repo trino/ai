@@ -1,5 +1,5 @@
 <div>
-    <div class="card-columns">
+    <div class="">
         <?php
         startfile("popups_menu");
         $tables = array("toppings", "wings_sauce");
@@ -106,11 +106,15 @@
         $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
         ?>
 
-        <div class="card">
+        <div class="col-sm-4" style="">
             <div class="text-danger btn-sm btn ">{{$category['category']}}</div>
+            @if($imagefile=="pizza" || $imagefile=="wings"  || $imagefile=="2_pizzas")
+            @endif
+
+            <div class="clearfix"></div>
             @foreach ($menuitems as $menuitem)
                 <div
-                        class="btn btn-secondary btn-sm btn-block menuitem item_{{ $catclass }}"
+                        class="btn btn-sm btn-block item_{{ $catclass }}"
                         itemid="{{$menuitem["id"]}}"
                         itemname="{{$menuitem['item']}}"
                         itemprice="{{$menuitem['price']}}"
@@ -133,10 +137,16 @@
                     echo $HTML;
                     ?>
                 >
+
+                    @if($imagefile!="pizza" && $imagefile!="wings" && $imagefile!="2_pizzas")
+                    @else
+
+
+                    @endif
                     <DIV CLASS="pull-left sprite sprite-<?= $imagefile; ?> sprite-medium"></DIV>
-                    <span class="pull-left itemname" style="vertical-align: top !important;">{{$menuitem['item']}} </span>
-                    <br>
-                    <span class="pull-left text-muted itemname"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
+
+                    <span class="pull-left itemname">{{$menuitem['item']}} </span>
+                    <span class="pull-right text-muted itemname"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
                     <div class="clearfix"></div>
                 </div>
             @endforeach
@@ -157,9 +167,9 @@
                 <button type="button" class="close" data-popup-close="menumodal" old-data-dismiss="modal"
                         aria-label="Close"><i class="fa fa-close"></i></button>
 
-                <h4 id="myModalLabel">
-                    <SPAN ID="modal-itemname"></SPAN> $<SPAN ID="modal-itemtotalprice"></SPAN>
-                </h4>
+                <strong id="myModalLabel">
+                    <SPAN ID="modal-itemname"></SPAN>
+                </strong>
 
                 <div style="display: none;" id="modal-hiddendata">
                     <SPAN ID="modal-itemprice"></SPAN>
@@ -171,15 +181,24 @@
 
                 <div class="row">
                     <div class="col-xs-12">
-                        <DIV ID="removelist" style="color: red;"></div>
                         <DIV ID="addonlist" class="addonlist"></DIV>
                     </div>
                 </div>
 
+
+                <DIV ID="removelist" style="color: red;"></div>
+
                 <button data-popup-close="menumodal" old-data-dismiss="modal" id="additemtoorder"
                         class="btn btn-warning-outline pull-right" onclick="additemtoorder();">
+
+
+
                     ADD TO ORDER
                 </button>
+                <div class="pull-right btn"> $<SPAN ID="modal-itemtotalprice"></SPAN></div>
+
+
+
 
                 <div class="clearfix"></div>
             </div>

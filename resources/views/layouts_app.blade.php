@@ -49,7 +49,7 @@
 
 
 <?= view("popups_navbar")->render(); ?>
-<div class="container">@yield('content')</div>
+<div class="container-fluid">@yield('content')</div>
 <?= view("popups_sticky_footer")->render(); ?>
 
 

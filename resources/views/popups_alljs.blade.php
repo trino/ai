@@ -362,7 +362,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
 
             tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item">';
             tempHTML += '<span class="pull-left"> <DIV CLASS="sprite sprite-' + category + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
-            tempHTML += '<span class="pull-right basecost" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '">';
+            tempHTML += '<span class="pull-right basecost" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings567: ' + item["toppingcount"] + ' Topping cost345: $' + item["toppingcost"] + '">';
 
             tempHTML += ' <i class="fa fa-close pull-right" onclick="removeorderitem(' + itemid + ');"></i>';
             if (hasaddons) {
@@ -382,7 +382,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
                         tempHTML += ordinals[currentitem] + " " + itemname + ": ";
                     }
                     if (addons["addons"].length == 0) {
-                        tempHTML += '[No ' + nonames[tablename] + ']';
+                        tempHTML += 'no ' + nonames[tablename] + '';
                     } else {
                         for (var addonid = 0; addonid < addons["addons"].length; addonid++) {
                             if (addonid > 0) {
@@ -418,11 +418,12 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
             $("#checkout-btn").hide();
             $("#checkout-total").text('$0.00');
         } else {
-            tempHTML = '<span class="pull-right category-parent"> <SPAN CLASS="category">Sub-total: </SPAN>$' + subtotal.toFixed(2) + '</span><br>';
-            tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Delivery: </SPAN>$' + deliveryfee.toFixed(2) + '</span><br>';
-            tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Tax: </SPAN>$' + taxes.toFixed(2) + '</span><br>';
-            tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Total: </SPAN>$' + totalcost.toFixed(2) + '</span>';
-            $("#checkout-total").text('$' + totalcost.toFixed(2));
+            tempHTML = '<br><span class="pull-right category-parent"> <SPAN CLASS="category">Sub-total8 </SPAN>$' + subtotal.toFixed(2) + '</span><br>';
+            tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Delivery </SPAN>$' + deliveryfee.toFixed(2) + '</span><br>';
+            tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Tax </SPAN>$' + taxes.toFixed(2) + '</span><br>';
+            tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Total </SPAN>$' + totalcost.toFixed(2) + '</span>';
+
+           $("#checkout-total").text('$' + totalcost.toFixed(2));
             $("#checkout-btn").show();
         }
         $("#myorder").html(HTML + tempHTML);
@@ -678,12 +679,11 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
                         };
                         userdetails.Addresses.push(Address);
                         $("#addaddress").remove();
-                        $("#saveaddresses").append(AddressToOption(Address) + '<OPTION VALUE="addaddress" ID="addaddress">[Add an address]</OPTION>');
+                        $("#saveaddresses").append(AddressToOption(Address) + '<OPTION VALUE="addaddress" ID="addaddress">Add Address</OPTION>');
                     }
                     userdetails["Orders"].unshift({
                         id: $("#receipt_id").text(),
                         placed_at: $("#receipt_placed_at").text(),
-//Contents: $("#myorder").html()
                     });
                     clearorder();
                 } else {
@@ -729,7 +729,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
 
     //generate a list of addresses and send it to the alert modal
     function addresses() {
-        var HTML = '<BR><DIV CLASS="section"><h4>Addresses</h4>';
+        var HTML = '<BR><DIV CLASS="section"><strong>Addresses</strong><br>';
         var number = $("#add_number").val();
         var street = $("#add_street").val();
         var city = $("#add_city").val();
@@ -751,16 +751,16 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
     }
 
     function creditcards() {
-        var HTML = '<BR><DIV CLASS="section"><h4>Credit Cards</h4>';
+        var HTML = '<BR><DIV CLASS="section"><strong>Credit Cards</strong>';
         if (userdetails.Stripe.length == 0) {
-            return HTML + "None are on file";
+            return HTML + "<br>No Credit Cards";
         }
         for (var i = 0; i < userdetails.Stripe.length; i++) {
             var card = userdetails.Stripe[i];
             HTML += '<DIV><A ONCLICK="deletecard(' + "'" + card.id + "', " + card.last4 + ", '" + card.exp_month.pad(2) + "', " + right(card.exp_year, 2) + ');" CLASS="cursor-pointer">';
             HTML += '<i style="color:red" class="fa fa-fw fa-times"></i> **** **** **** ' + card.last4 + ' EXP: ' + card.exp_month.pad(2) + '/' + right(card.exp_year, 2) + '</A></DIV>';
         }
-        return HTML + '</DIV><BR>';
+        return HTML + '</DIV>';
     }
 
     function deletecard(ID, last4, month, year) {
@@ -1060,7 +1060,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
 
         var HTML = '';
         var FirstAddress = false;
-        HTML += '<SELECT class="form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION value="0">Select a saved address</OPTION>';
+        HTML += '<SELECT class="form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION value="0">Delivery Address</OPTION>';
         if (user["Addresses"].length > 0) {
             addresskeys = Object.keys(user["Addresses"][0]);
             for (i = 0; i < user["Addresses"].length; i++) {
@@ -1327,14 +1327,14 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
         HTML = HTML.replace('class="', 'class="corner-top ');
         if (loadsavedcreditinfo()) {
             $(".credit-info").hide();
-            var creditHTML = '<SELECT ID="saved-credit-info" name="creditcard" onchange="changecredit();" class="form-control proper-height"><OPTION value="">Use new credit card</OPTION>';
+            var creditHTML = '<SELECT ID="saved-credit-info" name="creditcard" onchange="changecredit();" class="form-control proper-height">';
             for (var i = 0; i < userdetails.Stripe.length; i++) {
                 var card = userdetails.Stripe[i];
                 creditHTML += '<OPTION value="' + card.id + '"';
                 if (i == userdetails.Stripe.length - 1) {
                     creditHTML += ' SELECTED';
                 }
-                creditHTML += '>**** **** **** ' + card.last4 + ' EXP: ' + card.exp_month.pad(2) + '/' + right(card.exp_year, 2) + '</OPTION>';
+                creditHTML += '>**** **** **** ' + card.last4 + ' EXP: ' + card.exp_month.pad(2) + '/' + right(card.exp_year, 2) + '</OPTION><OPTION value="">Add Card</OPTION>';
             }
             $("#credit-info").html(creditHTML + '</SELECT>');
         } else {
@@ -1515,9 +1515,9 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
                     <i class="fa fa-close"></i>
                 </button>
 
-                <h4 class="modal-title" id="alertmodallabel">Title</h4>
+                <strong class="modal-title" id="alertmodallabel">Title</strong>
 
-                <DIV ID="alertmodalbody" STYLE="margin-top: 5px;"></DIV>
+                <DIV ID="alertmodalbody"></DIV>
 
                 <div CLASS="pull-right">
                     <button class="btn btn-secondary" id="alert-cancel" data-dismiss="modal">

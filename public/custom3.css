@@ -1,7 +1,27 @@
+* {
+
+}
+
+.btn {
+    font-weight: 600 !important;
+}
+
+.btn-secondary {
+    border: 1px solid #dadada !important;
+}
+
+.toppings_btn {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: left !important;
+    font-size: .9rem !important;
+}
+
 body {
     background: none;
 }
-input,select{background: transparent !important;}
+
 .full {
     background: url(http://placehold.it/1920x1080) no-repeat center center fixed;
     -webkit-background-size: cover;
@@ -9,16 +29,21 @@ input,select{background: transparent !important;}
     -o-background-size: cover;
     background-size: cover;
 }
-*{
-    border-radius: 0 !important;
-    line-height: 1rem !important;
 
+input[type="text"], input[type="date"], input[type="email"], input[type="password"], textarea, select {
+    /*
+        border: 0 !important;
+        border-bottom: 1px solid #eceeef !important;
+        border-radius: 0 !important;
+        color: #373a3c !important;
+        background: transparent !important;
+        */
 }
-h1,h2,h3,h4,h5,h6{font-size: 1rem !important;}
+
 .fab {
-    border:none;
-    font-size:1em;
-    color:white;
+    border: none;
+    font-size: 1em;
+    color: white;
     border-radius: 50%;
     width: 60px;
     height: 60px;
@@ -41,6 +66,7 @@ h1,h2,h3,h4,h5,h6{font-size: 1rem !important;}
     z-index: 998;
 }
 
+/*
 @media (max-width: 44em) {
     .card-columns {
         -webkit-column-count: 2;
@@ -67,9 +93,9 @@ h1,h2,h3,h4,h5,h6{font-size: 1rem !important;}
 
 @media (min-width: 75em) {
     .card-columns {
-        -webkit-column-count: 3;
-        -moz-column-count: 3;
-        column-count: 3;
+        -webkit-column-count: 4;
+        -moz-column-count: 4;
+        column-count: 4;
     }
 }
 
@@ -108,15 +134,16 @@ h1,h2,h3,h4,h5,h6{font-size: 1rem !important;}
     opacity: 0.9;
     filter: alpha(opacity=90);
 }
+
 .modal-backdrop.in {
     opacity: 0.9;
     filter: alpha(opacity=90);
 }
 
-.btn-block+.btn-block{
-    margin:0 !important;
+.btn-block + .btn-block {
+    margin: 0 !important;
 }
-
+*/
 .sprite {
     background-image: url('grid.png');
     background-repeat: no-repeat;
@@ -178,39 +205,34 @@ body.loading #loadingmodal {
     display: block;
     z-index: 999999;
 }
+
 .dont-show {
     display: none;
 }
 
-
-.proper-height, .proper-height > select{
+.proper-height, .proper-height > select {
     height: 37px !important;
 }
 
-.red{
+.red {
     border: 2px solid red !important;
 }
 
-select.red{
+select.red {
     padding-top: 5px;
 }
 
-.basecost{
+.basecost {
     height: 32px;
     padding-top: 16px;
 }
 
-.category-parent{
+.category-parent {
     margin-right: 17px;
 }
 
-.category{
-    position: absolute;
-    right: 100px;
-}
-
-.error, .payment-errors{
-    color:red;
+.error, .payment-errors {
+    color: red;
 }
 
 .pull-center {
@@ -219,14 +241,4 @@ select.red{
 
 .cursor-pointer {
     cursor: pointer;
-}
-
-.menuitem{
-    cursor: pointer;
-    border: 0 !important;
-    font-size: 75%
-}
-
-.modal-title{
-    margin-bottom: 10px;
 }
