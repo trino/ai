@@ -1,5 +1,6 @@
-<nav class="navbar-default navbar-top navbar navbar-full navbar-dark bg-danger dont-print" style="z-index: 1;
-padding:.75rem !important;">
+<nav class="navbar-default navbar-top navbar navbar-full navbar-dark bg-danger dont-print" style="z-index: 1;">
+
+    <div class="container">
 <span class="nav-link navbar-brand" style="font-weight:600;line-height: 1.5 !important;color:white !important;">
 <a HREF="<?= webroot("public/index"); ?>" class=" pull-left" style="color:white;cursor:pointer;">
 <i class="fa fa-car" style="width: 25px;" aria-hidden="true"></i> Delivery Menu</a>
@@ -41,13 +42,14 @@ padding:.75rem !important;">
 <LI>
 <A ONCLICK="handlelogin('logout');" CLASS="dropdown-item" href="#"><i class="fa fa-home"></i> Log Out</A>
 </LI>
-<li class="profiletype_not profiletype_not2">
+<!--li class="profiletype_not profiletype_not2">
 <A ONCLICK="orders();" class="dropdown-item" href="#"><i class="fa fa-clock-o"></i> Recent Orders</A>
-</li>
+</li-->
 </SPAN>
                     </ul>
                 </li>
             </ul>
         </div>
     @endif
+</div>
 </nav>

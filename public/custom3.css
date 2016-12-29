@@ -1,13 +1,48 @@
+/*
+.modal-dialog {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.modal-content {
+    height: auto;
+    min-height: 100%;
+    border-radius: 0;
+}
+*/
+
 * {
 
 }
 
-.btn {
-    font-weight: 600 !important;
+.card-columns {
+    /* -webkit-column-gap: 1.25rem; */
+    -moz-column-gap: 1.25rem;
+    column-gap: .25rem;
+}
+
+@media (min-width: 75em) {
+    .card-columns {
+        -webkit-column-count: 4;
+        -moz-column-count: 4;
+        column-count: 4;
+    }
+}
+
+.modal-header {
+    background: #d9534f !important;
+    color: white !important;
+}
+
+.card {
+    border-radius: 0 !important;
+    border: 0 !important;
 }
 
 .btn-secondary {
-    border: 1px solid #dadada !important;
+    border: 0 !important;
 }
 
 .toppings_btn {
@@ -15,11 +50,14 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     text-align: left !important;
-    font-size: .9rem !important;
 }
 
 body {
-    background: none;
+
+}
+
+.btn {
+    border-radius: 0 !important;
 }
 
 .full {
@@ -28,6 +66,11 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+}
+
+input {
+    padding-left: 17px !important;
+    padding-right: 17px !important;
 }
 
 input[type="text"], input[type="date"], input[type="email"], input[type="password"], textarea, select {
@@ -45,8 +88,8 @@ input[type="text"], input[type="date"], input[type="email"], input[type="passwor
     font-size: 1em;
     color: white;
     border-radius: 50%;
-    width: 60px;
-    height: 60px;
+    width: 73px;
+    height: 73px;
     margin: auto;
     -webkit-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
     -moz-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
@@ -67,38 +110,6 @@ input[type="text"], input[type="date"], input[type="email"], input[type="passwor
 }
 
 /*
-@media (max-width: 44em) {
-    .card-columns {
-        -webkit-column-count: 2;
-        -moz-column-count: 2;
-        column-count: 2;
-    }
-}
-
-@media (min-width: 48em) {
-    .card-columns {
-        -webkit-column-count: 2;
-        -moz-column-count: 2;
-        column-count: 2;
-    }
-}
-
-@media (min-width: 62em) {
-    .card-columns {
-        -webkit-column-count: 2;
-        -moz-column-count: 2;
-        column-count: 2;
-    }
-}
-
-@media (min-width: 75em) {
-    .card-columns {
-        -webkit-column-count: 4;
-        -moz-column-count: 4;
-        column-count: 4;
-    }
-}
-
 @media screen and (max-width: 400px) {
     .modal-dialog {
         margin: 0 !important;
@@ -129,7 +140,7 @@ input[type="text"], input[type="date"], input[type="email"], input[type="passwor
         border-radius: 0 !important;
     }
 }
-
+*/
 .modal-backdrop.fade {
     opacity: 0.9;
     filter: alpha(opacity=90);
@@ -143,7 +154,7 @@ input[type="text"], input[type="date"], input[type="email"], input[type="passwor
 .btn-block + .btn-block {
     margin: 0 !important;
 }
-*/
+
 .sprite {
     background-image: url('grid.png');
     background-repeat: no-repeat;

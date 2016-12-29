@@ -1,9 +1,9 @@
 <?php startfile("popups_toppings"); ?>
 <STYLE>
     .addon-selected, .thisside {
-        border:5px solid #dadada !important;
+       background:  #dadada !important;
     }
-
+.addonlist{background: #efefef;}
 
 /*
     .addon-selected::before, .currentitem.thisside::before {
@@ -29,13 +29,13 @@
 
         switch (currentaddontype) {
             case "toppings":
-                addonname = "toppings";
+                addonname = "Toppings";
                 break;
             case "wings_sauce":
-                addonname = "sauces";
+                addonname = "Sauces";
                 break;
             default:
-                addonname = "error: " + currentaddontype;
+                addonname = "Error: " + currentaddontype;
                 break;
         }
 
@@ -67,7 +67,7 @@
 
                 var currentaddon = currentaddonlist[itemindex][i];
                 var qualifier = "";
-                tempstr += '<DIV CLASS="btn btn-sm btn-secondary ' + classname + '">' + currentaddon.name + '<span CLASS="pull-right" ONCLICK="removelistitem(' + itemindex + ', ' + i + ');">&nbsp; <i CLASS="fa fa-times"></i> </span></div>&nbsp;';
+                tempstr += '<DIV CLASS="pill btn btn-sm btn-secondary ' + classname + '">' + currentaddon.name + '<span CLASS="pull-right" ONCLICK="removelistitem(' + itemindex + ', ' + i + ');">&nbsp; <i CLASS="fa fa-times"></i> </span></div>&nbsp;';
 
                 qualifier = currentaddon.qual;
                 if (qualifier == 0) {
@@ -119,9 +119,9 @@
 
     function list_addons(table, halves) {
         currentaddontype = table;
-        var HTML = '<DIV style="height:300px;overflow-y: scroll;background: #efefef;"><DIV id="theaddons"></DIV><div class="clearfix"></div> </DIV>';
+        var HTML = '<DIV style="height:200px;overflow-y: scroll; padding:5px;"><DIV id="theaddons"></DIV></DIV>';
         if (currentstyle == 0) {
-            HTML += '<DIV CLASS="bg-danger addonlist" ID="addontypes">';
+            HTML += '<DIV CLASS=" addonlist" ID="addontypes">';
         } else {
         }
 
@@ -131,8 +131,14 @@
             $("#addonlist").html(HTML + '</DIV>');
         } else {
             //var colors = ["secondary", "secondary", "secondary", "secondary", "secondary"];//' + colors[i] + '
+
+
             for (var i = 0; i < types.length; i++) {
+
+
                 HTML += '<strong class="col-xs-12 btn-sm" id="' + toclassname(types[i]) + '">' + types[i] + '</strong>';
+
+
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
@@ -143,10 +149,15 @@
                     }else {
                         HTML += ' btn-secondary'
                     }
-                    HTML += '" TITLE="' + title + '">' + addon + '</DIV>';
+                    HTML += '" TITLE="' + title + '">' + addon + '</div>';
                 }
+
+
+
             }
-            $("#addonlist").html(HTML + '</SPAN>');
+
+
+            $("#addonlist").html(HTML);
             $(".addon-addon").click(
                 function () {
                     list_addon_addon(event);
@@ -173,7 +184,6 @@
             var addon = alladdons[currentaddontype][addontype][i];
             HTML += '<DIV class=" addon-addon">' + addon + '</DIV>';
         }
-        //$("#addonlist").append(HTML + '</DIV></DIV>');
         $(e.target).after(HTML + '</DIV>');
         $(".addon-addon").click(
             function () {

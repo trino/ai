@@ -288,6 +288,16 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
 
     //get the data from the modal and add it to the order
     function additemtoorder(element, Index) {
+
+
+        var x = document.getElementById("snackbar")
+        x.className = "show";
+        setTimeout(function () {
+            x.className = x.className.replace("show", "");
+        }, 500);
+
+
+
         var itemid = 0, itemname = "", itemprice = 0.00, itemaddons = new Array, itemsize = "", toppingcost = 0.00, toppingscount = 0, itemcat = "";
         if (!isUndefined(Index)) {
             currentitemID = Index;
