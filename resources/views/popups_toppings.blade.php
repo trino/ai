@@ -119,7 +119,7 @@
 
     function list_addons(table, halves) {
         currentaddontype = table;
-        var HTML = '<DIV style="height:200px;overflow-y: scroll; padding:5px;"><DIV id="theaddons"></DIV></DIV>';
+        var HTML = '<DIV style="height:130px;overflow-y: scroll; padding:5px;"><DIV id="theaddons"></DIV></DIV>';
         if (currentstyle == 0) {
             HTML += '<DIV CLASS=" addonlist" ID="addontypes">';
         } else {

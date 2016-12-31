@@ -8,8 +8,8 @@
     } else {
     ?>
 
-    <div class="row mt-1 ">
-        <div class="col-md-9">
+    <div class="row mt-1">
+        <div class="col-md-8">
             <?php
             if (islive()) {
                 function like_match($pattern, $subject)
@@ -26,12 +26,12 @@
                     }
                 }
                 if (!$found) {
-//  die("IP " . $_SERVER["REMOTE_ADDR"] . " not recognized");
+                        //  die("IP " . $_SERVER["REMOTE_ADDR"] . " not recognized");
                 }
             }
 
             //menu caching
-            $doCache = false;//disabled for development
+            $doCache = true;//disabled for development
             $menucache_filename = resource_path() . "/menucache.html";
             $menublade_filename = resource_path() . "/views/popups_menu.blade.php";
             $menucache_uptodate = isFileUpToDate("menucache", $menucache_filename) && !isFileUpToDate("menucache", $menublade_filename);
@@ -46,12 +46,10 @@
                 echo '<!-- menu cache generated at: ' . now() . ' --> ' . $menu;
             }
             ?>
-            <div class="row">
-                <div class="col-md-12"><br></div>
-            </div>
+
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-4 bg-danger">
             @include("popups_checkout")
             <?= view("popups_toppings"); ?>
         </div>

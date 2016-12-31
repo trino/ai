@@ -38,7 +38,6 @@
 
     <link rel="stylesheet" href="<?= webroot("public/custom3.css?v=") . time(); ?>">
 
-
     <script src="<?= webroot("resources/views/jquery.min.js"); ?>"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js"></script>
     <SCRIPT SRC="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></SCRIPT>
@@ -91,7 +90,7 @@
         }
     }
 
-    @keyframes  fadein {
+    @keyframes fadein {
         from {
             bottom: 0;
             opacity: 0;
@@ -113,7 +112,7 @@
         }
     }
 
-    @keyframes  fadeout {
+    @keyframes fadeout {
         from {
             bottom: 30px;
             opacity: 1;
@@ -127,11 +126,44 @@
 <div id="snackbar">Some text some message..</div>
 
 
-
-
-
-
 <div class="pa-1 bg-danger"> &nbsp;</div>
+
+
+
+
+
+<style>
+/*
+    input,select,textarea{
+        border:1px solid green !important;
+        background: #dadada !important;
+    }
+    div {
+        border: 1px solid red !important;
+    }
+
+    .row {
+        border: 1px solid blue !important;
+    }
+
+    .col- * {
+        border: 1px solid red !important;
+    }
+
+    table {
+        border: 1px solid yellow !important;
+    }
+
+    tr {
+        border: 1px solid pink !important;
+    }
+
+    td {
+        border: 1px solid black !important;
+    }
+*/
+</style>
+
 
 
 </body>
@@ -152,34 +184,34 @@
 </script>
 
 <div style="display: none;">
-<?php
-if (isset($GLOBALS["filetimes"])) {
-    // && !islive()){
-    echo '<TABLE><TR><TH COLSPAN="2">File times</TH></TR>';
-    $total = 0;
-    foreach ($GLOBALS["filetimes"] as $Index => $Values) {
-        echo '<TR><TD>' . $Index . '</TD><TD>';
-        if (isset($Values["start"]) && isset($Values["end"])) {
-            $val = round($Values["end"] - $Values["start"], 4);
-            if (strpos($val, ".") === false) {
-                $val .= ".000";
+    <?php
+    if (isset($GLOBALS["filetimes"])) {
+        // && !islive()){
+        echo '<TABLE><TR><TH COLSPAN="2">File times</TH></TR>';
+        $total = 0;
+        foreach ($GLOBALS["filetimes"] as $Index => $Values) {
+            echo '<TR><TD>' . $Index . '</TD><TD>';
+            if (isset($Values["start"]) && isset($Values["end"])) {
+                $val = round($Values["end"] - $Values["start"], 4);
+                if (strpos($val, ".") === false) {
+                    $val .= ".000";
+                } else {
+                    $val = str_pad($val, 4, "0");
+                }
+                echo $val . "s";
+                $total += $val;
             } else {
-                $val = str_pad($val, 4, "0");
+                echo "Unended";
             }
-            echo $val . "s";
-            $total += $val;
-        } else {
-            echo "Unended";
+            echo '</TD></TR>';
         }
-        echo '</TD></TR>';
+        $total = str_pad(round($total, 4), 5, "0");
+        echo '<TR><TD>Total</TD><TD>' . $total . 's</TD></TR>';
+        echo '<TR><TD>DOM Loaded</TD><TD ID="td_loaded"></TD></TR>';
+        echo '<TR><TD>DOM Ready</TD><TD ID="td_ready"></TD></TR>';
+        echo '</TABLE>';
     }
-    $total = str_pad(round($total, 4), 5, "0");
-    echo '<TR><TD>Total</TD><TD>' . $total . 's</TD></TR>';
-    echo '<TR><TD>DOM Loaded</TD><TD ID="td_loaded"></TD></TR>';
-    echo '<TR><TD>DOM Ready</TD><TD ID="td_ready"></TD></TR>';
-    echo '</TABLE>';
-}
-?></div>
+    ?></div>
 
 
 </html>

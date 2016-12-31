@@ -1,13 +1,9 @@
 <?php
-    $style = 2;
     startfile("popups_login");
 ?>
 
 <!--div class="modal" id="loginmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"  data-keyboard="false" data-backdrop="static"-->
-<div class="">
-    <div class="modal-dialog" role="document">
-        <div class="">
-            <div class="modal-body">
+
                 <div class="row">
 
                     <DIV CLASS="col-md-12">
@@ -79,17 +75,11 @@
                     </DIV>
                     </div>
 
-                <DIV CLASS="clearfix"></DIV>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 <SCRIPT>
-    @if($style == 2)
+
         redirectonlogin = true;
-    @endif
 
     var minlength = 5;
     var getcloseststore = false;

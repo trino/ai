@@ -1,6 +1,6 @@
 <?php startfile("popups_checkout"); ?>
 
-<div class="card card-block text-white bg-danger  mb-0">
+<div class="card-blocktext-white bg-danger">
     <div class="row">
         <div class="col-md-12">
             <a class="pull-right text-white cursor-pointer" ONCLICK="confirmclearorder();">

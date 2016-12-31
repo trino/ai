@@ -1,160 +1,181 @@
-<div class="card-columns">
-    <?php
-    startfile("popups_menu");
-    $tables = array("toppings", "wings_sauce");
-    $qualifiers = array("DEFAULT" => array("1/2", "1x", "2x", "3x"));
-    $categories = Query("SELECT * FROM menu GROUP BY category ORDER BY id", true);
-    $isfree = collapsearray(Query("SELECT * FROM additional_toppings", true), "price", "size");
-    $deliveryfee = $isfree["Delivery"];
-    $addons = array();
-    $a = 0;
+<?php
+startfile("popups_menu");
 
-    if (!function_exists("getsize")) {
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+if (!function_exists("getsize")) {
 //gets the size of the pizza
-        function getsize($itemname, &$isfree)
-        {
-            $currentsize = "";
-            foreach ($isfree as $size => $cost) {
-                if (!is_array($cost)) {
-                    if (textcontains($itemname, $size) && strlen($size) > strlen($currentsize)) {
-                        $currentsize = $size;
-                    }
+    function getsize($itemname, &$isfree)
+    {
+        $currentsize = "";
+        foreach ($isfree as $size => $cost) {
+            if (!is_array($cost)) {
+                if (textcontains($itemname, $size) && strlen($size) > strlen($currentsize)) {
+                    $currentsize = $size;
                 }
             }
-            return $currentsize;
         }
+        return $currentsize;
+    }
 
 //checks if $text contains $searchfor, case insensitive
-        function textcontains($text, $searchfor)
-        {
-            return strpos(strtolower($text), strtolower($searchfor)) !== false;
-        }
+    function textcontains($text, $searchfor)
+    {
+        return strpos(strtolower($text), strtolower($searchfor)) !== false;
+    }
 
 //process addons, generating the option group dropdown HTML, enumerating free toppings and qualifiers
-        function getaddons($Table, &$isfree, &$qualifiers, &$addons, &$groups)
-        {
-            $toppings = Query("SELECT * FROM " . $Table . " ORDER BY type ASC, name ASC", true);
-            $toppings_display = '';
-            $currentsection = "";
-            $isfree[$Table] = array();
-            foreach ($toppings as $ID => $topping) {
-                if ($currentsection != $topping["type"]) {
-                    if ($toppings_display) {
-                        $toppings_display .= '</optgroup>';
-                    }
-                    $toppings_display .= '<optgroup label="' . $topping["type"] . '">';
-                    $currentsection = $topping["type"];
+    function getaddons($Table, &$isfree, &$qualifiers, &$addons, &$groups)
+    {
+        $toppings = Query("SELECT * FROM " . $Table . " ORDER BY type ASC, name ASC", true);
+        $toppings_display = '';
+        $currentsection = "";
+        $isfree[$Table] = array();
+        foreach ($toppings as $ID => $topping) {
+            if ($currentsection != $topping["type"]) {
+                if ($toppings_display) {
+                    $toppings_display .= '</optgroup>';
                 }
-
-                $addons[$Table][$topping["type"]][] = explodetrim($topping["name"]);
-                $topping["displayname"] = $topping["name"];
-                if ($topping["isfree"]) {
-                    $isfree[$Table][] = $topping["name"];
-                    $topping["displayname"] .= " (free)";
-                }
-                if ($topping["qualifiers"]) {
-                    $qualifiers[$Table][$topping["name"]] = explodetrim($topping["qualifiers"]);
-                }
-                if ($topping["isall"]) {
-                    $isfree["isall"][$Table][] = $topping["name"];
-                }
-                if ($topping["group"] > 0) {
-                    $groups[$Table][$topping["name"]] = $topping["group"];
-                }
-                $toppings_display .= '<option value="' . $topping["id"] . '" type="' . $topping["type"] . '">' . $topping["displayname"] . '</option>';
+                $toppings_display .= '<optgroup label="' . $topping["type"] . '">';
+                $currentsection = $topping["type"];
             }
-            return $toppings_display . '</optgroup>';
+
+            $addons[$Table][$topping["type"]][] = explodetrim($topping["name"]);
+            $topping["displayname"] = $topping["name"];
+            if ($topping["isfree"]) {
+                $isfree[$Table][] = $topping["name"];
+                $topping["displayname"] .= " (free)";
+            }
+            if ($topping["qualifiers"]) {
+                $qualifiers[$Table][$topping["name"]] = explodetrim($topping["qualifiers"]);
+            }
+            if ($topping["isall"]) {
+                $isfree["isall"][$Table][] = $topping["name"];
+            }
+            if ($topping["group"] > 0) {
+                $groups[$Table][$topping["name"]] = $topping["group"];
+            }
+            $toppings_display .= '<option value="' . $topping["id"] . '" type="' . $topping["type"] . '">' . $topping["displayname"] . '</option>';
         }
+        return $toppings_display . '</optgroup>';
+    }
 
 //same as explode, but makes sure each cell is trimmed
-        function explodetrim($text, $delimiter = ",", $dotrim = true)
-        {
-            if (is_array($text)) {
-                return $text;
-            }
-            $text = explode($delimiter, $text);
-            if (!$dotrim) {
-                return $text;
-            }
-            foreach ($text as $ID => $Word) {
-                $text[$ID] = trim($Word);
-            }
+    function explodetrim($text, $delimiter = ",", $dotrim = true)
+    {
+        if (is_array($text)) {
             return $text;
         }
+        $text = explode($delimiter, $text);
+        if (!$dotrim) {
+            return $text;
+        }
+        foreach ($text as $ID => $Word) {
+            $text[$ID] = trim($Word);
+        }
+        return $text;
+    }
 
 //converts a string to a class name (lowercase, replace spaces with underscores)
-        function toclass($text)
-        {
-            return strtolower(str_replace(" ", "_", $text));
-        }
+    function toclass($text)
+    {
+        return strtolower(str_replace(" ", "_", $text));
     }
+}
 
-    $groups = array();
-    $toppings_display = getaddons("toppings", $isfree, $qualifiers, $addons, $groups);
-    $wings_display = getaddons("wings_sauce", $isfree, $qualifiers, $addons, $groups);
-    $classlist = array();
+$qualifiers = array("DEFAULT" => array("1/2", "1x", "2x", "3x"));
+$categories = Query("SELECT * FROM menu GROUP BY category ORDER BY id", true);
+$isfree = collapsearray(Query("SELECT * FROM additional_toppings", true), "price", "size");
+$deliveryfee = $isfree["Delivery"];
+$addons = array();
+$classlist = array();
+$groups = array();
 
-    foreach ($categories as $category) {
-    $catclass = toclass($category['category']);
-    $classlist[] = $catclass;
-    $imagefile = $catclass;
-    if (right($imagefile, 5) == "pizza") {
-        $imagefile = "pizza";
-    }
-    $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
-    ?>
 
-    <div class="">
-        <div class="clearfix"></div>
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        <div class="text-danger btn-sm btn ">{{$category['category']}}</div>
-        <div class="clearfix"></div>
 
-        @foreach ($menuitems as $menuitem)
-            <div class="btn-secondary btn-block btn btn-sm  item_{{ $catclass }}"
-                 itemid="{{$menuitem["id"]}}"
-                 itemname="{{$menuitem['item']}}"
-                 itemprice="{{$menuitem['price']}}"
-                 itemsize="{{ getsize($menuitem['item'], $isfree) }}"
-                 itemcat="{{$menuitem['category']}}"
+$toppings_display = getaddons("toppings", $isfree, $qualifiers, $addons, $groups);
+$wings_display = getaddons("wings_sauce", $isfree, $qualifiers, $addons, $groups);
+$tables = array("toppings", "wings_sauce");
+?>
+
+
+<div class="card-deck">
+    @foreach ($categories as $category)
+
+
+
+
+        <div class="card">
+            <div class="text-danger">{{$category['category']}}</div>
 
             <?php
-                $total = 0;
-                foreach ($tables as $table) {
-                    echo $table . '="' . $menuitem[$table] . '" ';
-                    $total += $menuitem[$table];
-                }
-                if ($total) {
-                    $HTML = ' data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
-                    $icon = '+';
-                } else {
-                    $HTML = ' onclick="additemtoorder(this, -1);"';
-                    $icon = '';
-                }
-                echo $HTML;
-                ?>
-            >
+            $catclass = toclass($category['category']);
+            $classlist[] = $catclass;
+            $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
+            ?>
 
-                <DIV CLASS="pull-left sprite sprite-<?= $imagefile; ?> sprite-medium"></DIV>
-                <span class="pull-left itemname">{{$menuitem['item']}} </span>
-                <span class="pull-right  text-muted itemname"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
-                <div class="clearfix"></div>
-            </div>
+            @foreach ($menuitems as $menuitem)
+
+                <div class="btn-secondary btn-sm btn-block btn pa-0 item_{{ $catclass }}"
+                     itemid="{{$menuitem["id"]}}"
+                     itemname="{{$menuitem['item']}}"
+                     itemprice="{{$menuitem['price']}}"
+                     itemsize="{{ getsize($menuitem['item'], $isfree) }}"
+                     itemcat="{{$menuitem['category']}}"
+                <?php
+                    $total = 0;
+                    foreach ($tables as $table) {
+                        echo $table . '="' . $menuitem[$table] . '" ';
+                        $total += $menuitem[$table];
+                    }
+                    if ($total) {
+                        $HTML = ' data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
+                        $icon = '+';
+                    } else {
+                        $HTML = ' onclick="additemtoorder(this, -1);"';
+                        $icon = '';
+                    }
+                    echo $HTML;
+                    ?>
+                >
+                    <div class="bg-warning pull-left sprite sprite-<?= $catclass; ?> sprite-medium"></div>
+                    <span class="pull-left itemname">{{$menuitem['item']}} </span>
+                    <span class="pull-right text-muted itemname"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
+                    <div class="clearfix"></div>
+
+                </div>
 
 
-        @endforeach
-        <div class="clearfix"></div>
 
-    </div>
-    <?
-    $a++;
-    }
-    ?>
+
+
+            @endforeach
+        </div>
+    @endforeach
 </div>
 
+
 <!-- order menu item Modal -->
-<div class="modal" id="menumodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
-     data-keyboard="false" data-backdrop="static">
+<!-- order menu item Modal -->
+<!-- order menu item Modal -->
+<!-- order menu item Modal -->
+<!-- order menu item Modal -->
+<!-- order menu item Modal -->
+<!-- order menu item Modal -->
+<!-- order menu item Modal -->
+<!-- order menu item Modal -->
+<!-- order menu item Modal -->
+
+
+<div class="modal" id="menumodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
 
