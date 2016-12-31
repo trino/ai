@@ -4,7 +4,7 @@
 
 <!--div class="modal" id="loginmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"  data-keyboard="false" data-backdrop="static"-->
 
-                <div class="row">
+                <div class="row py-1">
 
                     <DIV CLASS="col-md-12">
 

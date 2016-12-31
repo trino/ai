@@ -1,12 +1,4 @@
-.table-row {
-    display: table;
-    table-layout: fixed;
-}
 
-.table-row [class^="col-"] {
-    display: table-cell;
-    float: none;
-}
 /*
 .modal-dialog {
     width: 100%;
@@ -25,7 +17,10 @@
 * {
 
 }
-
+.row .no-float {
+    display: table-cell;
+    float: none;
+}
 
 
 

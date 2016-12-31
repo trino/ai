@@ -69,14 +69,14 @@
         position: fixed;
         z-index: 1;
         left: 50%;
-        bottom: 30px;
+        bottom: 20px;
         font-size: 17px;
     }
 
     #snackbar.show {
         visibility: visible;
-        -webkit-animation: fadein 0.15s, fadeout 0.15s 1.5s;
-        animation: fadein 0.15s, fadeout 0.15s 1.5s;
+        -webkit-animation: fadein 0.75s, fadeout 0.75s 3.5s;
+        animation: fadein 0.75s, fadeout 0.75s 3.5s;
     }
 
     @-webkit-keyframes fadein {
@@ -85,7 +85,7 @@
             opacity: 0;
         }
         to {
-            bottom: 30px;
+            bottom: 20px;
             opacity: 1;
         }
     }
@@ -96,14 +96,14 @@
             opacity: 0;
         }
         to {
-            bottom: 30px;
+            bottom: 20px;
             opacity: 1;
         }
     }
 
     @-webkit-keyframes fadeout {
         from {
-            bottom: 30px;
+            bottom: 20px;
             opacity: 1;
         }
         to {
@@ -114,7 +114,7 @@
 
     @keyframes fadeout {
         from {
-            bottom: 30px;
+            bottom: 20px;
             opacity: 1;
         }
         to {
@@ -123,7 +123,7 @@
         }
     }
 </style>
-<div id="snackbar">Some text some message..</div>
+<div id="snackbar">Order Updated</div>
 
 
 <div class="pa-1 bg-danger"> &nbsp;</div>
@@ -133,7 +133,9 @@
 
 
 <style>
+
 /*
+
     input,select,textarea{
         border:1px solid green !important;
         background: #dadada !important;
@@ -161,7 +163,9 @@
     td {
         border: 1px solid black !important;
     }
+
 */
+
 </style>
 
 

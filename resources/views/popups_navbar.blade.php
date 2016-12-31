@@ -1,7 +1,7 @@
-<nav class="navbar-default navbar-top navbar navbar-full navbar-dark bg-danger dont-print" style="z-index: 1;">
+<nav class="navbar-default navbar-top navbar navbar-full navbar-dark bg-danger dont-print" style="padding:.75rem 0 !important;z-index: 1;">
 
     <div class="container">
-<span class="nav-link navbar-brand" style="font-weight:600;line-height: 1.5 !important;color:white !important;">
+<span class="nav-link navbar-brand" style="font-weight:600;line-height: 1.5 !important;">
 <a HREF="<?= webroot("public/index"); ?>" class=" pull-left" style="color:white;cursor:pointer;">
 <i class="fa fa-car" style="width: 25px;" aria-hidden="true"></i> Delivery Menu</a>
 </span>
@@ -11,7 +11,7 @@
                 <li class="nav-item">
 
                     <a href="#" class=" nav-link text-white" data-toggle="modal" data-target="#profilemodal">
-                        <i class="fa fa-list no-padding-margin"></i>
+                        <i class="fa fa-user no-padding-margin"></i>
                     </a>
                 </li>
                 <li class="nav-item dropdown">

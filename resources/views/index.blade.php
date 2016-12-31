@@ -9,7 +9,6 @@
     ?>
 
     <div class="row mt-1">
-        <div class="col-md-8">
             <?php
             if (islive()) {
                 function like_match($pattern, $subject)
@@ -47,9 +46,7 @@
             }
             ?>
 
-        </div>
-
-        <div class="col-md-4 bg-danger">
+        <div class="col-md-3">
             @include("popups_checkout")
             <?= view("popups_toppings"); ?>
         </div>

@@ -78,7 +78,7 @@ if (!function_exists("inline")) {
     <TABLE ID="maintable" <?= inline("table table-sm table-bordered");?> >
         <TR>
             <TD class="align-center">
-                <strong>Arriving in 35:55 countdown</strong>
+                <strong>Arriving in 35:55 countdown</strong><br>
                 @if($Order["deliverytime"])
                     <?php
                     $Time = right($Order["deliverytime"], 4);
@@ -270,7 +270,7 @@ if (!function_exists("inline")) {
                                                         $itemtype = "Pizza";
                                                         break;
                                                     case "wings_sauce":
-                                                        $itemtype = "Pound";
+                                                        $itemtype = "Lb";
                                                         break;
                                                 }
                                                 if (isset($addon->addons)) {

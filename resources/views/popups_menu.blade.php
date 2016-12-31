@@ -106,62 +106,60 @@ $wings_display = getaddons("wings_sauce", $isfree, $qualifiers, $addons, $groups
 $tables = array("toppings", "wings_sauce");
 ?>
 
+    <div class="col-md-3" style="min-height: 100% !important;height: 100% !important;">
+        @foreach ($categories as $category)
 
-<div class="card-deck">
-    @foreach ($categories as $category)
+            <div class="card">
+                <div class="text-danger  " style="font-weight: bold">{{$category['category']}}</div>
 
-
-
-
-        <div class="card">
-            <div class="text-danger">{{$category['category']}}</div>
-
-            <?php
-            $catclass = toclass($category['category']);
-            $classlist[] = $catclass;
-            $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
-            ?>
-
-            @foreach ($menuitems as $menuitem)
-
-                <div class="btn-secondary btn-sm btn-block btn pa-0 item_{{ $catclass }}"
-                     itemid="{{$menuitem["id"]}}"
-                     itemname="{{$menuitem['item']}}"
-                     itemprice="{{$menuitem['price']}}"
-                     itemsize="{{ getsize($menuitem['item'], $isfree) }}"
-                     itemcat="{{$menuitem['category']}}"
                 <?php
-                    $total = 0;
-                    foreach ($tables as $table) {
-                        echo $table . '="' . $menuitem[$table] . '" ';
-                        $total += $menuitem[$table];
-                    }
-                    if ($total) {
-                        $HTML = ' data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
-                        $icon = '+';
-                    } else {
-                        $HTML = ' onclick="additemtoorder(this, -1);"';
-                        $icon = '';
-                    }
-                    echo $HTML;
-                    ?>
-                >
-                    <div class="bg-warning pull-left sprite sprite-<?= $catclass; ?> sprite-medium"></div>
-                    <span class="pull-left itemname">{{$menuitem['item']}} </span>
-                    <span class="pull-right text-muted itemname"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
-                    <div class="clearfix"></div>
+                $catclass = toclass($category['category']);
+                $classlist[] = $catclass;
+                $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
+                ?>
 
-                </div>
+                @foreach ($menuitems as $menuitem)
+
+                    <div class="btn-secondary btn-sm btn-block btn pa-0 item_{{ $catclass }}"
+                         itemid="{{$menuitem["id"]}}"
+                         itemname="{{$menuitem['item']}}"
+                         itemprice="{{$menuitem['price']}}"
+                         itemsize="{{ getsize($menuitem['item'], $isfree) }}"
+                         itemcat="{{$menuitem['category']}}"
+                    <?php
+                        $total = 0;
+                        foreach ($tables as $table) {
+                            echo $table . '="' . $menuitem[$table] . '" ';
+                            $total += $menuitem[$table];
+                        }
+                        if ($total) {
+                            $HTML = ' data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
+                            $icon = '+';
+                        } else {
+                            $HTML = ' onclick="additemtoorder(this, -1);"';
+                            $icon = '';
+                        }
+                        echo $HTML;
+                        ?>
+                    >
+                        <div class="bg-warning pull-left sprite sprite-<?= $catclass; ?> sprite-medium"></div>
+                        <span class="pull-left itemname">{{$menuitem['item']}} </span>
+                        <span class="pull-right text-muted itemname"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
+                        <div class="clearfix"></div>
+
+                    </div>
+
+                @endforeach
+            </div>
+
+            @if($catclass=="dips" || $catclass=="sides")
+    </div>
+    <div class="col-md-3">
+        @endif
 
 
-
-
-
-            @endforeach
-        </div>
-    @endforeach
-</div>
-
+        @endforeach
+    </div>
 
 <!-- order menu item Modal -->
 <!-- order menu item Modal -->
@@ -200,7 +198,7 @@ $tables = array("toppings", "wings_sauce");
 
             <div class="modal-footer">
                 <button data-popup-close="menumodal" old-data-dismiss="modal" id="additemtoorder" class="btn btn-warning-outline pull-right" onclick="additemtoorder();"> ADD TO ORDER</button>
-                <div class="pull-right btn"> $<SPAN ID="modal-itemtotalprice"></SPAN></div>
+                <div class="pull-right btn dont"> $<SPAN ID="modal-itemtotalprice"></SPAN></div>
             </div>
 
         </div>

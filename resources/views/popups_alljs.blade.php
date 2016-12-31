@@ -355,7 +355,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
             return false;
         }
         var HTML = '', tempHTML = "", subtotal = 0;
-        var itemnames = {toppings: "Pizza", wings_sauce: "Pound"};
+        var itemnames = {toppings: "Pizza", wings_sauce: "Lb"};
         var nonames = {toppings: "toppings", wings_sauce: "sauces"};
         for (var itemid = 0; itemid < theorder.length; itemid++) {
             var item = theorder[itemid];
@@ -431,7 +431,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
             tempHTML = '<br><span class="pull-right category-parent"> <SPAN CLASS="category">Sub-total8 </SPAN>$' + subtotal.toFixed(2) + '</span><br>';
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Delivery </SPAN>$' + deliveryfee.toFixed(2) + '</span><br>';
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Tax </SPAN>$' + taxes.toFixed(2) + '</span><br>';
-            tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Total </SPAN>$' + totalcost.toFixed(2) + '</span>';
+            tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Total </SPAN>$' + totalcost.toFixed(2) + '</span><span class=""><br>&nbsp;</span>';
 
            $("#checkout-total").text('$' + totalcost.toFixed(2));
             $("#checkout-btn").show();

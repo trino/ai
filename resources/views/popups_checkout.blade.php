@@ -1,27 +1,24 @@
 <?php startfile("popups_checkout"); ?>
 
-<div class="card-blocktext-white bg-danger">
-    <div class="row">
-        <div class="col-md-12">
-            <a class="pull-right text-white cursor-pointer" ONCLICK="confirmclearorder();">
-                <i class="fa fa-close"></i>
-            </a>
-            <strong class="pull-left text-white">
-                My Order
+<div class="row ">
+    <div class="col-md-12  bg-danger text-white pt-1">
+
+            <strong class="text-white py-1">
+                My Order <a class="text-white cursor-pointer" ONCLICK="confirmclearorder();">
+                    <i class="fa fa-close"></i>
+                </a>
             </strong>
-            <div class="clearfix" style="margin:.5rem 0 1rem 0 !Important;"></div>
-            <div id="myorder"></div>
-        </div>
+        <div class="clearfix"></div>
+        <div id="myorder"></div>
+
+        <button id="checkout-btn" class="btn btn-warning btn-block" onclick="showcheckout();">
+            CHECKOUT
+        </button>
+
+
     </div>
 </div>
 
-<div id="checkout-btn" class="row">
-    <div class="col-md-12">
-        <button class="btn btn-warning btn-block" onclick="showcheckout();">
-            CHECKOUT
-        </button>
-    </div>
-</div>
 
 <div class="modal" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
      data-keyboard="false" data-backdrop="static">
@@ -47,23 +44,23 @@
                                    placeholder="Card Number">
 
                             <div class="credit-info row">
-                                <DIV CLASS="col-xs-4">
+                                <DIV CLASS="col-xs-4 pr-0">
                                     <SELECT CLASS="form-control proper-height" data-stripe="exp_month">
-                                        <OPTION VALUE="01">01 - Jan</OPTION>
-                                        <OPTION VALUE="02">02 - Feb</OPTION>
-                                        <OPTION VALUE="03">03 - Mar</OPTION>
-                                        <OPTION VALUE="04">04 - Apr</OPTION>
-                                        <OPTION VALUE="05">05 - May</OPTION>
-                                        <OPTION VALUE="06">06 - Jun</OPTION>
-                                        <OPTION VALUE="07">07 - Jul</OPTION>
-                                        <OPTION VALUE="08">08 - Aug</OPTION>
-                                        <OPTION VALUE="09">09 - Sep</OPTION>
-                                        <OPTION VALUE="10">10 - Oct</OPTION>
-                                        <OPTION VALUE="11">11 - Nov</OPTION>
-                                        <OPTION VALUE="12">12 - Dec</OPTION>
+                                        <OPTION VALUE="01">01/Jan</OPTION>
+                                        <OPTION VALUE="02">02/Feb</OPTION>
+                                        <OPTION VALUE="03">03/Mar</OPTION>
+                                        <OPTION VALUE="04">04/Apr</OPTION>
+                                        <OPTION VALUE="05">05/May</OPTION>
+                                        <OPTION VALUE="06">06/Jun</OPTION>
+                                        <OPTION VALUE="07">07/Jul</OPTION>
+                                        <OPTION VALUE="08">08/Aug</OPTION>
+                                        <OPTION VALUE="09">09/Sep</OPTION>
+                                        <OPTION VALUE="10">10/Oct</OPTION>
+                                        <OPTION VALUE="11">11/Nov</OPTION>
+                                        <OPTION VALUE="12">12/Dec</OPTION>
                                     </SELECT>
                                 </DIV>
-                                <DIV CLASS="col-xs-4">
+                                <DIV CLASS="col-xs-4  px-0">
                                     <SELECT CLASS="form-control proper-height" data-stripe="exp_year">
                                         <?php
                                         $CURRENT_YEAR = date("Y");
@@ -74,7 +71,7 @@
                                         ?>
                                     </SELECT>
                                 </DIV>
-                                <DIV CLASS="col-xs-4">
+                                <DIV CLASS="col-xs-4  pl-0">
                                     <input type="text" size="4" data-stripe="cvc" CLASS="form-control proper-height"
                                            PLACEHOLDER="CVC">
                                     <INPUT TYPE="hidden" name="istest" id="istest">
