@@ -111,7 +111,7 @@ $tables = array("toppings", "wings_sauce");
         @foreach ($categories as $category)
 
             <div class="list-group">
-                <div class="btn-block text-danger text-xs-center" style="font-weight: bold;padding-top:1rem !important;">  {{$category['category']}}  </div>
+                <div class="btn-block text-danger text-xs-center text-uppercase" style="font-weight: bold;padding-top:1rem !important;">  {{$category['category']}}  </div>
 
                 <?php
                 $catclass = toclass($category['category']);
@@ -197,13 +197,18 @@ $tables = array("toppings", "wings_sauce");
 
             <div class="modal-body" style="padding: 0 !important;">
                 <DIV ID="addonlist" class="addonlist"></DIV>
-                <DIV ID="removelist" style="color: red;"></div>
                 <div class="clearfix"></div>
             </div>
 
-            <div class="modal-footer">
-                <button data-popup-close="menumodal" old-data-dismiss="modal" id="additemtoorder" class="btn btn-warning-outline pull-right" onclick="additemtoorder();"> ADD TO ORDER</button>
+            <div class="modal-footer row">
+                <div class="col-md-5">
+                <DIV ID="removelist" style="color: red;"></div>
+
+                </div>                <div class="col-md-7">
+
+                <button data-popup-close="menumodal" old-data-dismiss="modal" id="additemtoorder" class="btn btn-warning pull-right" onclick="additemtoorder();"> ADD TO ORDER</button>
                 <div class="pull-right btn dont"> $<SPAN ID="modal-itemtotalprice"></SPAN></div>
+            </div>
             </div>
 
         </div>

@@ -1,4 +1,9 @@
-#snackbar {
+body{
+
+    font-family: 'Roboto', sans-serif;
+}
+*{BACKGROUND:TRANSPARENT;}
+  #snackbar {
     visibility: hidden;
     min-width: 250px;
     margin-left: -125px;
@@ -64,32 +69,6 @@
     }
 }
 
-* {
-    font-family: 'Roboto', sans-serif;
-
-}
-.row .no-float {
-    display: table-cell;
-    float: none;
-}
-
-@media (min-width: 75em) {
-    .card-columns {
-        -webkit-column-count: 4;
-        -moz-column-count: 4;
-        column-count: 4;
-    }
-}
-
-.modal-header {
-    background: #d9534f !important;
-    color: white !important;
-}
-
-.btn-secondary {
-    border: 0 !important;
-}
-
 .toppings_btn {
     overflow: hidden;
     white-space: nowrap;
@@ -97,25 +76,18 @@
     text-align: left !important;
 }
 
-.btn {
-    border-radius: 0 !important;
-}
-
-.full {/*
+.full {
     background: url(http://placehold.it/1920x1080) no-repeat center center fixed;
-    */
+
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
 }
 
-input {
-}
-
 input, textarea, select {
     border-radius: 0 !important;
-    border: 3px solid #dadada !important;
+    border: 1px solid #dadada !important;
     margin-bottom: .5rem !important;
 
 }

@@ -51,7 +51,7 @@
             var tempstr = '';
             var classname = 'itemcontents itemcontents' + itemindex;
 
-            HTML += '<DIV style="border:1px solid transparent;" ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="currentitem currentitem' + itemindex;
+            HTML += '<DIV style="border:3px solid transparent;border-radius:5px;" ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="currentitem currentitem' + itemindex;
             if (currentitemindex == itemindex) {
                 HTML += ' thisside';
             }

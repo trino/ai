@@ -4,13 +4,13 @@
 
 <!--div class="modal" id="loginmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"  data-keyboard="false" data-backdrop="static"-->
 
-                <div class="row py-1">
+                <div class="row py-1 " STYLE="background: white;">
 
-                    <DIV CLASS="col-md-12">
+                    <DIV CLASS="col-md-12 py-1">
 
                     <h3>Precise Pizza Delivery</h3>
 </div>
-                    <DIV CLASS="col-md-6">
+                    <DIV CLASS="col-md-4">
 
                         <!-- Bootstrap CSS -->
                         <!-- jQuery first, then Bootstrap JS. -->
@@ -35,7 +35,6 @@
 
                                 <INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control" onkeydown="enterkey(event, 'login');">
 
-                                <div class="pb-1 clearfix"></div>
                                 <BUTTON CLASS="btn btn-primary pull-right" onclick="handlelogin('login');">Log In</BUTTON>
                                 <BUTTON CLASS="btn btn-secondary pull-left" onclick="handlelogin('forgotpassword');">Forgot Password</BUTTON>
                             </div>

@@ -738,7 +738,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
 
     //generate a list of addresses and send it to the alert modal
     function addresses() {
-        var HTML = '<BR><DIV CLASS="section"><strong>Addresses</strong><br>';
+        var HTML = '<DIV CLASS="section"><strong>ADDRESS</strong><br>';
         var number = $("#add_number").val();
         var street = $("#add_street").val();
         var city = $("#add_city").val();
@@ -760,7 +760,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
     }
 
     function creditcards() {
-        var HTML = '<BR><DIV CLASS="section"><strong>Credit Cards</strong>';
+        var HTML = '<DIV CLASS="section"><strong>CREDIT CARD</strong>';
         if (userdetails.Stripe.length == 0) {
             return HTML + "<br>No Credit Cards";
         }

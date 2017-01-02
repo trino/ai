@@ -376,11 +376,11 @@ if (!function_exists("inline")) {
     </TABLE>
 
 
+<div class="text-xs-center bg-danger text-white">
 
-
-    <br> CHECK US OUT ON SOCIAL MEDIA
-    <br> FOOD DRIVE PROGRAM
-    <br> EMAIL US
-    <br> SEARCH GOOGLE
-
-
+    <br><br> CHECK US OUT ON SOCIAL MEDIA
+    <br><br> FOOD DRIVE PROGRAM
+    <br><br> EMAIL US
+    <br><br> SEARCH GOOGLE
+    <br><br>
+</div>

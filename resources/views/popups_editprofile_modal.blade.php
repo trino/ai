@@ -5,7 +5,7 @@ data-keyboard="false" data-backdrop="static">
 <div class="modal-content">
 <div class="modal-header">
 <button type="button" class="close" data-popup-close="profilemodal" old-data-dismiss="modal" aria-label="Close"><i class="fa fa-close"></i></button>
-<strong id="myModalLabel">My Account</strong>
+<strong id="myModalLabel">MY ACCOUNT</strong>
 </div>
 
 <div class="modal-body">
