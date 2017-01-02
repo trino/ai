@@ -420,7 +420,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
 
         createCookieValue("theorder", JSON.stringify(theorder));
         if (theorder.length == 0) {
-            HTML = '<div class="row text-xs-center"> <span class="">Order is empty</SPAN></div>';
+            HTML = '<div class="row text-xs-center"><i class="fa fa-shopping-cart fa-5x" style="color: darkred !important;"></i><br> <br>  <span class="">Order is Empty</SPAN></div>';
             $("#checkout").hide();
             $("#checkoutbutton").hide();
             removeCookie("theorder");

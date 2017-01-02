@@ -111,7 +111,7 @@ $tables = array("toppings", "wings_sauce");
         @foreach ($categories as $category)
 
             <div class="list-group">
-                <div class="btn-block text-danger text-xs-center text-uppercase" style="font-weight: bold;padding-top:1rem !important;">  {{$category['category']}}  </div>
+                <div class="btn-block text-danger text-xs-center text-uppercase" style="font-weight: bold;padding-top:1.5rem !important;">  {{$category['category']}}  </div>
 
                 <?php
                 $catclass = toclass($category['category']);
@@ -121,7 +121,7 @@ $tables = array("toppings", "wings_sauce");
 
                 @foreach ($menuitems as $menuitem)
 
-                    <div style="" class="list-group-item-action item_{{ $catclass }}"
+                    <div style="padding:2px" class="list-group-item-action item_{{ $catclass }}"
                          itemid="{{$menuitem["id"]}}"
                          itemname="{{$menuitem['item']}}"
                          itemprice="{{$menuitem['price']}}"
@@ -143,7 +143,7 @@ $tables = array("toppings", "wings_sauce");
                         echo $HTML;
                         ?>
                     >
-                        <div class="bg-warning pull-left sprite sprite-<?= $catclass; ?> sprite-medium"></div>
+                        <div class="rounded-circle bg-warning pull-left sprite sprite-<?= $catclass; ?> sprite-medium"></div>
                         <span style="padding-top:.45rem !important;" class="pull-left itemname">{{$menuitem['item']}} </span>
                         <span style="padding-top:.45rem !important;" class="pull-right text-muted itemname"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
                         <div class="clearfix"></div>

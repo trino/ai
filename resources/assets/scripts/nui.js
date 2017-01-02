@@ -790,7 +790,7 @@ function generatereceipt(index, totaladdons){
     var text, subtotal = 0, items = 0;
     if(isUndefined(index)){//do entire order
         if(order.length == 0){
-            text = "Your order is empty";
+            text = "Your Order is Empty";
         } else {
             text =  '<BUTTON ID="saveitems" STYLE="float:right;display:none;width:100px;height:100px;" ONCLICK="saveitem();">Save</BUTTON>' +
                 '<TABLE BORDER="1"><TR><TH>Index</TH><TH>Item</TH><TH>QTY</TH><TH>Price</TH><TH>Items</TH><TH>Actions</TH></TR>';

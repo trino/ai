@@ -3,7 +3,7 @@
     <div class="container">
 <span class="nav-link navbar-brand" style="font-weight:600;">
 <a HREF="<?= webroot("public/index"); ?>" class=" pull-left" style="color:white;cursor:pointer;">
-<i class="fa fa-car" style="width: 25px;" aria-hidden="true"></i>  MENU</a>
+<i class="fa fa-car" style="width: 25px;" aria-hidden="true"></i>  Menu</a>
 </span>
     @if(read("id"))
         <div class="pull-right">

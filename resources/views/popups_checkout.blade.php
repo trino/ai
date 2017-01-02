@@ -6,7 +6,7 @@
         <div class="text-white text-xs-center pb-1">
             <strong>MY ORDER</strong>
             <a class="text-white" ONCLICK="confirmclearorder();">
-                <i class="fa fa-close"></i>
+                <i class="fa fa-close" style="width: 25px;"></i>
             </a>
         </div>
         <div id="myorder" style="font-size: .9rem !important;"></div>
@@ -89,7 +89,7 @@
                         </div>
                         <div class="col-xs-8">
                             <DIV ID="form_integrity">
-                                <DIV class="payment-errors red"></DIV>
+                                <DIV class="payment-errors"></DIV>
                             </div>
                         </DIV>
                         <div class="col-xs-4">
