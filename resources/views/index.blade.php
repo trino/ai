@@ -8,7 +8,7 @@
     } else {
     ?>
 
-    <div class="row mt-1">
+    <div class="row" style="border:10px solid black;">
             <?php
             if (islive()) {
                 function like_match($pattern, $subject)
@@ -30,7 +30,7 @@
             }
 
             //menu caching
-            $doCache = true;//disabled for development
+            $doCache = false;//disabled for development
             $menucache_filename = resource_path() . "/menucache.html";
             $menublade_filename = resource_path() . "/views/popups_menu.blade.php";
             $menucache_uptodate = isFileUpToDate("menucache", $menucache_filename) && !isFileUpToDate("menucache", $menublade_filename);
@@ -46,7 +46,7 @@
             }
             ?>
 
-        <div class="col-md-3">
+        <div class="col-md-3" style="">
             @include("popups_checkout")
             <?= view("popups_toppings"); ?>
         </div>

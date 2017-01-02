@@ -8,7 +8,6 @@
         unset($user["password"]);
     }
     ?>
-
     <script type="text/javascript">
         var timerStart = Date.now();
         var currentURL = "<?= Request::url(); ?>";
@@ -27,11 +26,11 @@
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <meta http-equiv="content-language" content="en-CA">
     <meta name="mobile-web-app-capable" content="yes">
+
     <link rel="manifest" href="<?= webroot("resources/assets/manifest.json"); ?>">
     <link rel="icon" sizes="128x128" href="<?= webroot("resources/assets/images/pizza128.png"); ?>">
     <link rel="icon" sizes="192x192" href="<?= webroot("resources/assets/images/pizza192.png"); ?>">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet'
-          type='text/css'>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css">
@@ -42,136 +41,26 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js"></script>
     <SCRIPT SRC="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></SCRIPT>
     @include("popups_alljs")
-
 </head>
 
 <body>
 
-
 <?= view("popups_navbar")->render(); ?>
-<div class="container">@yield('content')</div>
-<?= view("popups_sticky_footer")->render(); ?>
 
+<div class="container" style="background: #d9534f !important;">
+    @yield('content')
+    <div class="clearfix"></div>
+</div>
+
+<?= view("popups_sticky_footer")->render(); ?>
 
 <div class="modal loading" ID="loadingmodal"></div>
 
-
-<style>
-    #snackbar {
-        visibility: hidden;
-        min-width: 250px;
-        margin-left: -125px;
-        background-color: #333;
-        color: #fff;
-        text-align: center;
-        border-radius: 2px;
-        padding: 16px;
-        position: fixed;
-        z-index: 1;
-        left: 50%;
-        bottom: 20px;
-        font-size: 17px;
-    }
-
-    #snackbar.show {
-        visibility: visible;
-        -webkit-animation: fadein 0.75s, fadeout 0.75s 3.5s;
-        animation: fadein 0.75s, fadeout 0.75s 3.5s;
-    }
-
-    @-webkit-keyframes fadein {
-        from {
-            bottom: 0;
-            opacity: 0;
-        }
-        to {
-            bottom: 20px;
-            opacity: 1;
-        }
-    }
-
-    @keyframes fadein {
-        from {
-            bottom: 0;
-            opacity: 0;
-        }
-        to {
-            bottom: 20px;
-            opacity: 1;
-        }
-    }
-
-    @-webkit-keyframes fadeout {
-        from {
-            bottom: 20px;
-            opacity: 1;
-        }
-        to {
-            bottom: 0;
-            opacity: 0;
-        }
-    }
-
-    @keyframes fadeout {
-        from {
-            bottom: 20px;
-            opacity: 1;
-        }
-        to {
-            bottom: 0;
-            opacity: 0;
-        }
-    }
-</style>
 <div id="snackbar">Order Updated</div>
-
 
 <div class="pa-1 bg-danger"> &nbsp;</div>
 
-
-
-
-
-<style>
-
-/*
-
-    input,select,textarea{
-        border:1px solid green !important;
-        background: #dadada !important;
-    }
-    div {
-        border: 1px solid red !important;
-    }
-
-    .row {
-        border: 1px solid blue !important;
-    }
-
-    .col- * {
-        border: 1px solid red !important;
-    }
-
-    table {
-        border: 1px solid yellow !important;
-    }
-
-    tr {
-        border: 1px solid pink !important;
-    }
-
-    td {
-        border: 1px solid black !important;
-    }
-
-*/
-
-</style>
-
-
-
 </body>
-
 
 <script type="text/javascript">
     $(window).load(function () {
@@ -215,7 +104,6 @@
         echo '<TR><TD>DOM Ready</TD><TD ID="td_ready"></TD></TR>';
         echo '</TABLE>';
     }
-    ?></div>
-
-
+    ?>
+</div>
 </html>

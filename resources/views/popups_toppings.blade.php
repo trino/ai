@@ -1,17 +1,20 @@
 <?php startfile("popups_toppings"); ?>
 <STYLE>
     .addon-selected, .thisside {
-       background:  #dadada !important;
+        background: #dadada !important;border-color: #0275d8 !important;
     }
-.addonlist{background: #efefef;}
 
-/*
-    .addon-selected::before, .currentitem.thisside::before {
-        font-family: FontAwesome;
-        content: "\f0da  ";
-        color:red;
+    .addonlist {
+        background: #efefef;
     }
-*/
+
+    /*
+        .addon-selected::before, .currentitem.thisside::before {
+            font-family: FontAwesome;
+            content: "\f0da  ";
+            color:red;
+        }
+    */
 </STYLE>
 
 <SCRIPT>
@@ -48,20 +51,22 @@
             var tempstr = '';
             var classname = 'itemcontents itemcontents' + itemindex;
 
-            HTML += '<DIV style="" ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="currentitem currentitem' + itemindex;
-            if (currentitemindex == itemindex) {HTML += ' thisside';}
-            HTML += '">'  + ' #' + (itemindex + 1) + ' ';
+            HTML += '<DIV style="border:1px solid transparent;" ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="currentitem currentitem' + itemindex;
+            if (currentitemindex == itemindex) {
+                HTML += ' thisside';
+            }
+            HTML += '">' + ' #' + (itemindex + 1) + ' ';
 
             if (currentaddonlist[itemindex].length == 0) {
                 tempstr += '<div class="btn btn-sm btn-secondary">No ' + addonname + '</div>';
             }
 
             for (var i = 0; i < currentaddonlist[itemindex].length; i++) {
-                 /*
+                /*
                  if (qualifiers[currentaddontype].hasOwnProperty(addonname)) {
-                    qualifier = qualifiers[currentaddontype][addonname][currentaddon.qual];
+                 qualifier = qualifiers[currentaddontype][addonname][currentaddon.qual];
                  } else {
-                    qualifier = qualifiers["DEFAULT"][currentaddon.qual];
+                 qualifier = qualifiers["DEFAULT"][currentaddon.qual];
                  }
                  */
 
@@ -84,7 +89,7 @@
             totaltoppings += Math.ceil(paidtoppings);
             HTML += ucfirst(addonname);
             //if(paidtoppings > 0 || freetoppings > 0){
-                HTML += " (Paid: " + paidtoppings + " Free: " + freetoppings + ')';
+            HTML += " (Paid: " + paidtoppings + " Free: " + freetoppings + ')';
             //}
             HTML += '<br>' + tempstr + '</DIV>';
         }
@@ -95,9 +100,9 @@
         $(".currentitem.thisside").trigger("click");
     }
 
-    function getcost(Toppings){
+    function getcost(Toppings) {
         //itemcost, itemname, size, toppingcost
-        if(currentitem.toppingcost){
+        if (currentitem.toppingcost) {
             var itemcost = parseFloat(currentitem.itemcost.replace("$", ""));
             itemcost += parseFloat(currentitem.toppingcost) * Number(Toppings);
             return itemcost.toFixed(2) + " (" + Toppings + " addons)";
@@ -143,15 +148,14 @@
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
                     HTML += '<div class="col-xs-4 col-sm-3 btn-sm toppings_btn btn addon-addon';
-                    if(isaddon_free(String(currentaddontype), String(addon))){
+                    if (isaddon_free(String(currentaddontype), String(addon))) {
                         HTML += ' btn-secondary';
                         title = "Free addon";
-                    }else {
+                    } else {
                         HTML += ' btn-secondary'
                     }
                     HTML += '" TITLE="' + title + '">' + addon + '</div>';
                 }
-
 
 
             }
@@ -172,7 +176,7 @@
         hashalves = halves;
         generateaddons();
     }
-    
+
     function list_addon_type(e) {
         $(".addon-type").removeClass("addon-selected");
         $(e.target).addClass("addon-selected");
@@ -224,7 +228,7 @@
         HTML += '<BUTTON ONCLICK="addtoitem();"">Add to item</BUTTON>';
         $(e.target).after(HTML + '</DIV>');
     }
-    
+
     function makelist(Title, classname, data, defaultindex) {
         var HTML = '<DIV><DIV CLASS="">' + Title + ':</DIV>';
         var selected;
@@ -245,7 +249,7 @@
         }
         return HTML + '</DIV>';
     }
-    
+
     function list_addon_list(e, classname, index) {
         var listitemname = $(e.target).text();
         //if(classname == "addon-qualifier" && index == 0){index = "0.5";}
@@ -275,11 +279,13 @@
             type: currentaddontype,
             group: group
         });
-        if(group>0){
-            for(var i = currentaddonlist[currentitemindex].length-2; i>-1; i--){
-                if(currentaddonlist[currentitemindex][i]["group"] == group){
+        if (group > 0) {
+            for (var i = currentaddonlist[currentitemindex].length - 2; i > -1; i--) {
+                if (currentaddonlist[currentitemindex][i]["group"] == group) {
                     removed = currentaddonlist[currentitemindex][i]["name"];
-                    if(removed == addonname){removed = "";}
+                    if (removed == addonname) {
+                        removed = "";
+                    }
                     removelistitem(currentitemindex, i);
                 }
             }
@@ -289,7 +295,9 @@
             $("#addonall").remove();
             $("#addonedit").remove();
         }
-        if(removed){removed += " was removed";}
+        if (removed) {
+            removed += " was removed";
+        }
         $("#removelist").text(removed);
         generateaddons();
     }
@@ -298,9 +306,9 @@
         $(".currentitem").removeClass("thisside");
         $(".currentitem" + index).addClass("thisside");
         /*
-        $(".itemcontents").hide();
-        $(".itemcontents" + index).show();
-        */
+         $(".itemcontents").hide();
+         $(".itemcontents" + index).show();
+         */
         currentitemindex = index;
     }
 

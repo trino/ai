@@ -1,35 +1,76 @@
-
-/*
-.modal-dialog {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
+#snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 20px;
+    font-size: 17px;
 }
 
-.modal-content {
-    height: auto;
-    min-height: 100%;
-    border-radius: 0;
+#snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.75s, fadeout 0.75s 3.5s;
+    animation: fadein 0.75s, fadeout 0.75s 3.5s;
 }
-*/
+
+@-webkit-keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+    to {
+        bottom: 20px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+    to {
+        bottom: 20px;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeout {
+    from {
+        bottom: 20px;
+        opacity: 1;
+    }
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        bottom: 20px;
+        opacity: 1;
+    }
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
 
 * {
+    font-family: 'Roboto', sans-serif;
 
 }
 .row .no-float {
     display: table-cell;
     float: none;
-}
-
-
-
-.card-columns {
-    /* -webkit-column-gap: 1.25rem; */
-    /*
-    -moz-column-gap: 1.25rem;
-    column-gap: .25rem;
-    */
 }
 
 @media (min-width: 75em) {
@@ -45,11 +86,6 @@
     color: white !important;
 }
 
-.card {
-    border-radius: 0 !important;
-    border: 0 !important;
-}
-
 .btn-secondary {
     border: 0 !important;
 }
@@ -61,16 +97,13 @@
     text-align: left !important;
 }
 
-body {
-
-}
-
 .btn {
     border-radius: 0 !important;
 }
 
-.full {
+.full {/*
     background: url(http://placehold.it/1920x1080) no-repeat center center fixed;
+    */
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -78,18 +111,13 @@ body {
 }
 
 input {
-    padding-left: 17px !important;
-    padding-right: 17px !important;
 }
 
-input[type="text"], input[type="date"], input[type="email"], input[type="password"], textarea, select {
-    /*
-        border: 0 !important;
-        border-bottom: 1px solid #eceeef !important;
-        border-radius: 0 !important;
-        color: #373a3c !important;
-        background: transparent !important;
-        */
+input, textarea, select {
+    border-radius: 0 !important;
+    border: 3px solid #dadada !important;
+    margin-bottom: .5rem !important;
+
 }
 
 .fab {
@@ -118,38 +146,6 @@ input[type="text"], input[type="date"], input[type="email"], input[type="passwor
     z-index: 998;
 }
 
-/*
-@media screen and (max-width: 400px) {
-    .modal-dialog {
-        margin: 0 !important;
-    }
-
-    .row, .container, .modal-image {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-    }
-
-    .card, .list-group-item {
-    }
-
-    .col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12 {
-        padding: 0 !important;
-        margin: 0 !important;
-    }
-}
-
-@media screen and (max-width: 768px) {
-    .navbar {
-        padding: 0rem;
-    }
-
-    .list-group, .list-group-item, .card {
-        border-radius: 0 !important;
-    }
-}
-*/
 .modal-backdrop.fade {
     opacity: 0.9;
     filter: alpha(opacity=90);
@@ -198,8 +194,8 @@ input[type="text"], input[type="date"], input[type="email"], input[type="passwor
 }
 
 .sprite-medium {
-    zoom: 0.5;
-    -moz-transform: scale(0.5);
+    zoom: 0.6;
+    -moz-transform: scale(0.6);
     -moz-transform-origin: 0 0;
 }
 
@@ -229,31 +225,21 @@ body.loading #loadingmodal {
 .dont-show {
     display: none;
 }
+.red {
+    border: 2px solid red !important;
+}
+/*
 
 .proper-height, .proper-height > select {
     height: 37px !important;
 }
 
-.red {
-    border: 2px solid red !important;
-}
+
 
 select.red {
     padding-top: 5px;
 }
 
-.basecost {
-    height: 32px;
-    padding-top: 16px;
-}
-
-.category-parent {
-    margin-right: 17px;
-}
-
-.error, .payment-errors {
-    color: red;
-}
 
 .pull-center {
     text-align: center;
@@ -261,4 +247,47 @@ select.red {
 
 .cursor-pointer {
     cursor: pointer;
+}*/
+
+
+
+
+
+
+
+
+/*
+
+*{padding:3px;}
+
+
+input,select,textarea{
+    border:1px solid green !important;
+    background: #dadada !important;
 }
+div {
+    border: 1px solid orange !important;
+}
+
+.row {
+    border: 1px solid blue !important;
+}
+
+.col-* {
+    border: 41px solid red !important;
+}
+
+table {
+    border: 1px solid yellow !important;
+}
+
+tr {
+    border: 1px solid pink !important;
+}
+
+td {
+    border: 1px solid black !important;
+}
+
+
+*/

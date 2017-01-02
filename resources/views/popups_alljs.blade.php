@@ -297,7 +297,6 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
         }, 500);
 
 
-
         var itemid = 0, itemname = "", itemprice = 0.00, itemaddons = new Array, itemsize = "", toppingcost = 0.00, toppingscount = 0, itemcat = "";
         if (!isUndefined(Index)) {
             currentitemID = Index;
@@ -371,10 +370,11 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
             subtotal += Number(totalcost);
 
             tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item">';
-            tempHTML += '<span class="pull-left"> <DIV CLASS="sprite sprite-' + category + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
-            tempHTML += '<span class="pull-right basecost" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings567: ' + item["toppingcount"] + ' Topping cost345: $' + item["toppingcost"] + '">';
+            tempHTML += '<span class="pull-left"> <DIV CLASS="sprite bg-warning sprite-' + category + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
+            tempHTML += '<span class="pull-right" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '">';
 
             tempHTML += ' <i class="fa fa-close pull-right" onclick="removeorderitem(' + itemid + ');"></i>';
+
             if (hasaddons) {
                 tempHTML += ' <i class="fa fa-pencil pull-right" onclick="edititem(this, ' + itemid + ');"></i>';
             }
@@ -420,7 +420,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
 
         createCookieValue("theorder", JSON.stringify(theorder));
         if (theorder.length == 0) {
-            HTML = '<span class="pull-left">Order is empty</SPAN><BR>';
+            HTML = '<div class="row text-xs-center"> <span class="">Order is empty</SPAN></div>';
             $("#checkout").hide();
             $("#checkoutbutton").hide();
             removeCookie("theorder");
@@ -428,12 +428,12 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
             $("#checkout-btn").hide();
             $("#checkout-total").text('$0.00');
         } else {
-            tempHTML = '<br><span class="pull-right category-parent"> <SPAN CLASS="category">Sub-total8 </SPAN>$' + subtotal.toFixed(2) + '</span><br>';
+            tempHTML = '<br><span class="pull-right category-parent"> <SPAN CLASS="category">Sub-total </SPAN>$' + subtotal.toFixed(2) + '</span><br>';
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Delivery </SPAN>$' + deliveryfee.toFixed(2) + '</span><br>';
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Tax </SPAN>$' + taxes.toFixed(2) + '</span><br>';
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Total </SPAN>$' + totalcost.toFixed(2) + '</span><span class=""><br>&nbsp;</span>';
 
-           $("#checkout-total").text('$' + totalcost.toFixed(2));
+            $("#checkout-total").text('$' + totalcost.toFixed(2));
             $("#checkout-btn").show();
         }
         $("#myorder").html(HTML + tempHTML);
@@ -448,7 +448,6 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
 
     function confirmclearorder() {
         if (theorder.length > 0) {
-
             confirm2('', 'Clear Order?', function () {
                 clearorder();
             });
@@ -993,10 +992,12 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
                 title = arguments[1];
             }
             $("#alert-cancel").hide();
+            /*
             $("#alert-ok").click(function () {
             });
+
             $("#alert-confirm").click(function () {
-            });
+            });   */
             $("#alertmodalbody").html(arguments[0]);
             $("#alertmodallabel").text(title);
             $("#alertmodal").modal('show');
@@ -1520,12 +1521,20 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
 <div class="modal" id="alertmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static" style="z-index: 9999;">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-body">
+            <div class="modal-header">
+
+
                 <button type="button" class="close" data-popup-close="alertmodal" old-data-dismiss="modal" aria-label="Close">
                     <i class="fa fa-close"></i>
                 </button>
 
                 <strong class="modal-title" id="alertmodallabel">Title</strong>
+
+
+
+
+            </div>
+            <div class="modal-body">
 
                 <DIV ID="alertmodalbody"></DIV>
 
@@ -1534,7 +1543,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
                         Cancel
                     </button>
                     <button class="btn btn-secondary" id="alert-confirm" data-dismiss="modal">
-                        OK555
+                        OK
                     </button>
                 </div>
                 <DIV CLASS="clearfix"></DIV>

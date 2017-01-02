@@ -1,9 +1,9 @@
-<nav class="navbar-default navbar-top navbar navbar-full navbar-dark bg-danger dont-print" style="padding:.75rem 0 !important;z-index: 1;">
+<nav class="navbar-default navbar-top navbar navbar-full navbar-dark bg-danger dont-print" style="padding:.5rem 0 !important;z-index: 1;">
 
     <div class="container">
-<span class="nav-link navbar-brand" style="font-weight:600;line-height: 1.5 !important;">
+<span class="nav-link navbar-brand" style="font-weight:600;">
 <a HREF="<?= webroot("public/index"); ?>" class=" pull-left" style="color:white;cursor:pointer;">
-<i class="fa fa-car" style="width: 25px;" aria-hidden="true"></i> Delivery Menu</a>
+<i class="fa fa-car" style="width: 25px;" aria-hidden="true"></i>  Menu</a>
 </span>
     @if(read("id"))
         <div class="pull-right">
@@ -14,7 +14,7 @@
                         <i class="fa fa-user no-padding-margin"></i>
                     </a>
                 </li>
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown dont-show">
 
                     <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i class="fa fa-user no-padding-margin"></i>

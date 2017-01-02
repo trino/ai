@@ -106,11 +106,12 @@ $wings_display = getaddons("wings_sauce", $isfree, $qualifiers, $addons, $groups
 $tables = array("toppings", "wings_sauce");
 ?>
 
-    <div class="col-md-3" style="min-height: 100% !important;height: 100% !important;">
+<div class="col-md-9" style="background:white;padding:0 0 1rem 0 !important;">
+    <div class="col-md-4" style="background:white;">
         @foreach ($categories as $category)
 
-            <div class="card">
-                <div class="text-danger  " style="font-weight: bold">{{$category['category']}}</div>
+            <div class="card list-group">
+                <div class="btn-block text-danger text-xs-center" style="font-weight: bold;padding-top:1rem !important;">  {{$category['category']}}  </div>
 
                 <?php
                 $catclass = toclass($category['category']);
@@ -120,7 +121,7 @@ $tables = array("toppings", "wings_sauce");
 
                 @foreach ($menuitems as $menuitem)
 
-                    <div class="btn-secondary btn-sm btn-block btn pa-0 item_{{ $catclass }}"
+                    <div style="" class="list-group-item-action item_{{ $catclass }}"
                          itemid="{{$menuitem["id"]}}"
                          itemname="{{$menuitem['item']}}"
                          itemprice="{{$menuitem['price']}}"
@@ -143,23 +144,27 @@ $tables = array("toppings", "wings_sauce");
                         ?>
                     >
                         <div class="bg-warning pull-left sprite sprite-<?= $catclass; ?> sprite-medium"></div>
-                        <span class="pull-left itemname">{{$menuitem['item']}} </span>
-                        <span class="pull-right text-muted itemname"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
+                        <span style="padding-top:.45rem !important;" class="pull-left itemname">{{$menuitem['item']}} </span>
+                        <span style="padding-top:.45rem !important;" class="pull-right text-muted itemname"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
                         <div class="clearfix"></div>
 
                     </div>
 
                 @endforeach
+
+
             </div>
 
             @if($catclass=="dips" || $catclass=="sides")
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4" style="background:white;">
         @endif
+
 
 
         @endforeach
     </div>
+</div>
 
 <!-- order menu item Modal -->
 <!-- order menu item Modal -->
