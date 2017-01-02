@@ -110,7 +110,7 @@ $tables = array("toppings", "wings_sauce");
     <div class="col-md-4" style="background:white;">
         @foreach ($categories as $category)
 
-            <div class="card list-group">
+            <div class="list-group">
                 <div class="btn-block text-danger text-xs-center" style="font-weight: bold;padding-top:1rem !important;">  {{$category['category']}}  </div>
 
                 <?php
