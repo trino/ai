@@ -1704,13 +1704,13 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
 
             $("#addonlist").html(HTML);
             $(".addon-addon").click(
-                    function () {
+                    function (event) {
                         list_addon_addon(event);
                     }
             );
         }
         $(".addon-type").click(
-                function () {
+                function (event) {
                     list_addon_type(event);
                 }
         );
