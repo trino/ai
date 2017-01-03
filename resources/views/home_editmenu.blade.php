@@ -55,7 +55,7 @@
                                 You are not authorized to view this page
                             @else
                                 <div class="col-md-2">
-                                    <DIV CLASS="stayhere">
+                                    <DIV oldCLASS="stayhere">
                                         <UL ID="catlist">
                                             <LI class="main hyperlink" onclick="main_click(this);" table="additional_toppings">Size costs</LI>
                                             <LI class="main hyperlink" onclick="main_click(this);" table="toppings">Pizza Toppings</LI>
@@ -108,18 +108,22 @@
                     case "menu":                    type = "menu item"; break;
                 }
 
-                confirm2("Are you sure you want to delete the '" + name + "' " + type + "?", 'Delete Item', function(){
+                confirm2("Are you sure you want to delete the '" + name + "' " + type + "?", 'Delete Item', function() {
                     var index = findwhere(changes[table], "id", keyid);
-                    if (index > -1) {removeindex(changes[table], index);}//remove from changes
-                    if(!isNaN(keyid)) {
+                    if (index > -1) {
+                        removeindex(changes[table], index);
+                    }//remove from changes
+                    if (!isNaN(keyid)) {
                         haschanged();
                         deleted.push({table: table, keyid: keyid});//send
 
                         index = findwhere(alldata[table], "id", keyid);
-                        if (index > -1) {removeindex(alldata[table], index);}//remove from all data
+                        if (index > -1) {
+                            removeindex(alldata[table], index);
+                        }//remove from all data
                     }
                     $("." + table + "_" + keyid).remove();
-                );
+                });
             }
 
             function undo(table, keyid){
