@@ -72,17 +72,17 @@
     <TABLE ID="maintable" <?= inline("table table-sm table-bordered");?> >
         <TR>
             <TD class="align-center">
-                <strong>Arriving in 35:55 countdown</strong><br>
+                <strong>Arriving in <SPAN CLASS="countdown" minutes="40" seconds="0" title="COUNTDOWN TIMER IS APPROXIMATE!"></SPAN> countdown</strong><br>
                 @if($Order["deliverytime"])
                     <?php
-                    $Time = right($Order["deliverytime"], 4);
-                    if (is_numeric($Time)) {
-                        echo left($Order["deliverytime"], strlen($Order["deliverytime"]) - 4) . GenerateTime(intval($Time));
-                    } else if ($Order["deliverytime"] == "Deliver Now") {
-                        echo "ASAP";
-                    } else {
-                        echo $Order["deliverytime"];
-                    }
+                        $Time = right($Order["deliverytime"], 4);
+                        if (is_numeric($Time)) {
+                            echo left($Order["deliverytime"], strlen($Order["deliverytime"]) - 4) . GenerateTime(intval($Time));
+                        } else if ($Order["deliverytime"] == "Deliver Now") {
+                            echo "ASAP";
+                        } else {
+                            echo $Order["deliverytime"];
+                        }
                     ?>
                 @endif
             </TD>
@@ -353,3 +353,34 @@
         endfile("popups_receipt");
         ?>
     </TABLE>
+    <SCRIPT>
+        var countdown = window.setTimeout(function(){incrementtime()}, 1000);
+        function incrementtime(){
+            var seconds = $(".countdown").attr("seconds");
+            var minutes = $(".countdown").attr("minutes");
+            var result = false;
+            if(seconds == 0){
+                if(minutes == 0){
+                    result = "[Time's up.]";
+                    window.clearInterval(countdown);
+                } else {
+                    minutes -= 1;
+                }
+                seconds = 59;
+            } else {
+                seconds -= 1;
+            }
+            if(!result){
+                result = minutes + ":";
+                if(seconds < 10){
+                    result += "0" + seconds;
+                } else {
+                    result += seconds;
+                }
+            }
+            $(".countdown").attr("seconds", seconds);
+            $(".countdown").attr("minutes", minutes);
+            $(".countdown").text(result);
+            countdown = window.setTimeout(function(){incrementtime()}, 1000);
+        }
+    </SCRIPT>
