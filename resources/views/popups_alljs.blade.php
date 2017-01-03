@@ -1312,6 +1312,24 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
         });
     }
 
+    function testclosest(){
+        var formdata = getform("#orderinfo");
+        formdata.limit = 10;
+        if (!formdata.latitude || !formdata.longitude) {
+            alert("longitude/latitude missing");
+            return;
+        }
+        $.post(webroot + "placeorder", {
+            _token: token,
+            info: formdata,
+            action: "closestrestaurant"
+        }, function (result) {
+            if (handleresult(result)) {
+                alert(result, "10 closest restaurants");
+            }
+        });
+    }
+
     function loadsavedcreditinfo() {
         if (userdetails.stripecustid.length > 0) {
             return userdetails.Stripe.length > 0;
