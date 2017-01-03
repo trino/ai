@@ -1160,6 +1160,10 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
             if (text.indexOf('Whoops, looks like something went wrong.') > -1) {
                 text = text.between('<span class="exception_title">', '</h2>');
                 text = text.replace(/<(?:.|\n)*?>/gm, '');
+                if (text.indexOf('TokenMismatchException') > -1){
+                    text = "Your session has expired. Starting a new one.";
+                    $.get(webroot + "auth/gettoken", function( data ) {token = data;});
+                }
             } else {
                 text = request.statusText;
             }
