@@ -1203,10 +1203,10 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
         $('input[data-stripe=cvc]').val(rnd(100, 999));
         $('select[data-stripe=exp_year]').val({{ right($CURRENT_YEAR,2) }} +1);
         @if(islive())
-        log("Changing stripe key");
-        $("#istest").val("true");
-        Stripe.setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf');
-        log("Stripe key changed");
+            log("Changing stripe key");
+            $("#istest").val("true");
+            setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', "test");
+            log("Stripe key changed");
         @endif
     }
 
@@ -1890,12 +1890,21 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
             $("#add_unit").hide();
         }
     }
-    <?php if (islive() || $GLOBALS["testlive"]) {
-        echo "Stripe.setPublishableKey('pk_vnR0dLVmyF34VAqSegbpBvhfhaLNi'); //live";
-    } else {
-        echo "Stripe.setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf'); //test";
-    }?>
-    //uses showcheckout();
+
+    $( document ).ready(function() {
+        <?php if (islive() || $GLOBALS["testlive"]) {
+            echo "setPublishableKey('pk_vnR0dLVmyF34VAqSegbpBvhfhaLNi', 'live')";
+        } else {
+            echo "setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', 'test');";
+        }?>
+    });
+
+    function setPublishableKey(Key, mode){
+        Stripe.setPublishableKey(Key);
+        @if(!islive())
+            log(mode + " stripe mode");
+        @endif
+    }
 </SCRIPT>
 
 
