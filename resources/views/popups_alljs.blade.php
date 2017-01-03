@@ -370,7 +370,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
             subtotal += Number(totalcost);
 
             tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item">';
-            tempHTML += '<span class="pull-left"> <DIV CLASS="sprite bg-warning sprite-' + category + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
+            tempHTML += '<span class=""> <DIV CLASS="sprite pull-left rounded-circle bg-warning sprite-' + category + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
             tempHTML += '<span class="pull-right" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '">';
 
             tempHTML += ' <i class="fa fa-close pull-right" onclick="removeorderitem(' + itemid + ');"></i>';
@@ -420,7 +420,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
 
         createCookieValue("theorder", JSON.stringify(theorder));
         if (theorder.length == 0) {
-            HTML = '<div class="row text-xs-center"><i class="fa fa-shopping-cart fa-5x" style="color: darkred !important;"></i><br> <br>  <span class="">Order is Empty</SPAN></div>';
+            HTML = '<div class="row text-xs-center"><i class="fa fa-shopping-cart fa-5x" style="color: #c9312c !important;"></i><br> <br>  <span class="">Order is Empty</SPAN></div>';
             $("#checkout").hide();
             $("#checkoutbutton").hide();
             removeCookie("theorder");

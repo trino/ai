@@ -14,7 +14,7 @@
                         <i class="fa fa-user no-padding-margin"></i>
                     </a>
                 </li>
-                <li class="nav-item dropdown dont-show">
+                <li class="nav-item dropdown">
 
                     <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i class="fa fa-user no-padding-margin"></i>
@@ -39,6 +39,7 @@
 <i class="fa fa-user"></i> <SPAN CLASS="session_name"></SPAN>
 </A>
 </li>
+<LI>
 <LI>
 <A ONCLICK="handlelogin('logout');" CLASS="dropdown-item" href="#"><i class="fa fa-home"></i> Log Out</A>
 </LI>
