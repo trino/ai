@@ -7,9 +7,9 @@
                 <div class="row py-1 " STYLE="background: white;">
 
                     <DIV CLASS="col-md-12 py-1">
+                        <h3>Precise Pizza Delivery</h3>
+                    </div>
 
-                    <h3>Precise Pizza Delivery</h3>
-</div>
                     <DIV CLASS="col-md-4">
 
                         <!-- Bootstrap CSS -->
@@ -18,10 +18,10 @@
 
                         <ul class="nav nav-tabs mb-1" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" href="#profile" role="tab" data-toggle="tab" id="logintab">Login</a>
+                                <a class="nav-link active" href="#profile" role="tab" data-toggle="tab" id="logintab" onclick="skiploadingscreen = false;">Login</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#buzz" role="tab" data-toggle="tab">Signup</a>
+                                <a class="nav-link" href="#buzz" role="tab" data-toggle="tab" onclick="skiploadingscreen = true;">Signup</a>
                             </li>
                         </ul>
 
@@ -80,7 +80,6 @@
     redirectonlogin = true;
     var minlength = 5;
     var getcloseststore = false;
-    //skiploadingscreen = true;
     lockloading=true;
 
     $(function () {

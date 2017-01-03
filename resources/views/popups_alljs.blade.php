@@ -785,6 +785,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
     //handles the orders list modal
     function orders(ID, getJSON) {
         if (isUndefined(ID)) {//no ID specified, get a list of order IDs from the user's profile and make buttons
+            $("#profilemodal").modal("hide");
             var HTML = '<ul class="list-group">';
             var First = false;
             for (var i = 0; i < userdetails["Orders"].length; i++) {
@@ -819,9 +820,6 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
                 orderid: ID,
                 JSON: getJSON
             }, function (result) {
-                setTimeout(function () {
-                    loading(true, "SHOWRESULT");
-                }, 10);
                 if (getJSON) {//JSON recieved, put it in the order
                     result = JSON.parse(result);
                     theorder = result["Order"];
@@ -829,6 +827,9 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
                     generatereceipt();
                     $("#alertmodal").modal('hide');
                 } else {//HTML recieved, put it in the pastreceipt element
+                    setTimeout(function () {
+                        loading(true, "SHOWRESULT");
+                    }, 10);
                     $("#pastreceipt" + ID).html(result);
                     if (Index > -1) {
                         userdetails["Orders"][Index]["Contents"] = result;
