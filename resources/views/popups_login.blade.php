@@ -77,9 +77,7 @@
 
 
 <SCRIPT>
-
-        redirectonlogin = true;
-
+    redirectonlogin = true;
     var minlength = 5;
     var getcloseststore = false;
     //skiploadingscreen = true;

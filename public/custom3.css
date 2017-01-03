@@ -19,6 +19,7 @@ body{
     font-size: 17px;
 }
 
+
 #snackbar.show {
     visibility: visible;
     -webkit-animation: fadein 0.75s, fadeout 0.75s 3.5s;
@@ -202,7 +203,7 @@ body.loading #loadingmodal {
 }
 
 .cursor-pointer {
-    cursor: pointer;
+    cursor: pointer; /* stop removing this */
 }
 
 /*

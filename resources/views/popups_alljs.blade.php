@@ -288,8 +288,6 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
 
     //get the data from the modal and add it to the order
     function additemtoorder(element, Index) {
-
-
         var x = document.getElementById("snackbar")
         x.className = "show";
         setTimeout(function () {
@@ -883,23 +881,28 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
         $("#loginmodal").modal("show");
         @endif
 
-        //----- OPEN
-        $('[data-popup-open]').on('click', function (e) {
-            var targeted_popup_class = jQuery(this).attr('data-popup-open');
-            $('#' + targeted_popup_class).fadeIn("fast");
-            e.preventDefault();
-        });
+        /*
+            //----- OPEN (manual fade-in)
+            $('[data-popup-open]').on('click', function (e) {
+                var targeted_popup_class = jQuery(this).attr('data-popup-open');
+                $('#' + targeted_popup_class).fadeIn("fast");
+                e.preventDefault();
+            });
+        */
 
-//----- CLOSE
+        //----- CLOSE
         $('[data-popup-close]').on('click', function (e) {
             var targeted_popup_class = jQuery(this).attr('data-popup-close');
-            $('#' + targeted_popup_class).fadeOut("fast", function () {
+            /*$('#' + targeted_popup_class).fadeOut("fast", function () {
                 $(".modal-backdrop").fadeOut("fast", function () {
                     $('#' + targeted_popup_class).modal("hide");
                 });
             });
             e.preventDefault();
+            */
+            $('#' + targeted_popup_class).modal("hide");
         });
+        
     });
 
     function enterkey(e, action) {
@@ -1522,24 +1525,18 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
 </STYLE>
 
 
-<div class="modal" id="alertmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static" style="z-index: 9999;">
+<div class="modal fade" id="alertmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static" style="z-index: 9999;">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-
-
                 <button type="button" class="close" data-popup-close="alertmodal" old-data-dismiss="modal" aria-label="Close">
                     <i class="fa fa-close"></i>
                 </button>
 
                 <strong class="modal-title" id="alertmodallabel">Title</strong>
-
-
-
-
             </div>
-            <div class="modal-body">
 
+            <div class="modal-body">
                 <DIV ID="alertmodalbody"></DIV>
 
                 <div CLASS="pull-right">
@@ -1551,7 +1548,6 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
                     </button>
                 </div>
                 <DIV CLASS="clearfix"></DIV>
-
             </div>
         </div>
     </div>
@@ -1901,4 +1897,5 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
         }
     }
 </script>
+
 <?php endfile("popups_alljs"); ?>
