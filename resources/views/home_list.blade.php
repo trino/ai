@@ -220,7 +220,7 @@
             <div class="row m-t-1">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-block bg-danger" >
+                        <div class="card-block bg-danger">
                             <strong class="pull-left">
                                 <A HREF="<?= webroot("public/list/all"); ?>"><i class="fa fa-{{ $faicon }}" aria-hidden="true"></i></A> {{ ucfirst($table) . ' list ' . $extratitle }}
                             </strong>
@@ -236,7 +236,7 @@
                                 @endif
                             </h4>
                         </div>
-                        <div class="card-block">
+                        <div class="card-block" style="overflow-x: scroll;">
                             <div class="row">
                                 <div class="col-md-12">
                                     @if(read("profiletype") != 1 && $adminsonly)
@@ -342,7 +342,8 @@
                     };
                     var restaurantID = Number("<?= $RestaurantID; ?>");
 
-                    $(document).ready(function() {
+                    $(window).load(function () {
+                    //$(document).ready(function() {
                         log("GETPAGE 0");
                         getpage(0);
                     });

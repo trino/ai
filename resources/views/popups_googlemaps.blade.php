@@ -6,15 +6,17 @@
 </style>
 <script>
     var map, infowindow, service, markers = new Array();
-
-    <?php
-        startfile("popups_googlemaps");
-        if(isset($latitude) && isset($longitude)){
-            echo 'initMap(' . $latitude . ', ' . $longitude . ');';
-        }
-    ?>
+    $(window).load(function () {
+        <?php
+            startfile("popups_googlemaps");
+            if(isset($latitude) && isset($longitude)){
+                echo 'initMap(' . $latitude . ', ' . $longitude . ');';
+            }
+        ?>
+    });
 
     function initMap(latitude, longitude) {
+        if(isUndefined(latitude) || isUndefined(longitude)){log("FAILURE TO INIT MAPS"); return;}
         log("initMap: " + latitude + ", " + longitude);
         map = new google.maps.Map(document.getElementById('map'), {
             center: {lat: latitude, lng: longitude},
@@ -61,9 +63,9 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWSUc8EbZYVKF37jWVCb3lpBQwWqXUZw8&signed_in=true&libraries=places&callback=initMap" async defer></script>
 @else
     <SCRIPT>
-        $(window).load(function() {
-           initMap();
-        });
+        //$(window).load(function() {
+           //initMap();
+        //});
     </SCRIPT>
 @endif
 <?php endfile("popups_googlemaps"); ?>
