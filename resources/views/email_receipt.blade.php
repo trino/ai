@@ -13,4 +13,11 @@
         }
         echo $HTML;
     ?>
+    <div class="text-xs-center bg-danger text-white">
+        <br><br> CHECK US OUT ON SOCIAL MEDIA
+        <br><br> FOOD DRIVE PROGRAM
+        <br><br> EMAIL US
+        <br><br> SEARCH GOOGLE
+        <br><br>
+    </div>
 </HTML>

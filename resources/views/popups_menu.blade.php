@@ -1,109 +1,92 @@
 <?php
-startfile("popups_menu");
+    startfile("popups_menu");
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-
-if (!function_exists("getsize")) {
-//gets the size of the pizza
-    function getsize($itemname, &$isfree)
-    {
-        $currentsize = "";
-        foreach ($isfree as $size => $cost) {
-            if (!is_array($cost)) {
-                if (textcontains($itemname, $size) && strlen($size) > strlen($currentsize)) {
-                    $currentsize = $size;
+    if (!function_exists("getsize")) {
+        //gets the size of the pizza
+        function getsize($itemname, &$isfree) {
+            $currentsize = "";
+            foreach ($isfree as $size => $cost) {
+                if (!is_array($cost)) {
+                    if (textcontains($itemname, $size) && strlen($size) > strlen($currentsize)) {
+                        $currentsize = $size;
+                    }
                 }
             }
+            return $currentsize;
         }
-        return $currentsize;
-    }
 
-//checks if $text contains $searchfor, case insensitive
-    function textcontains($text, $searchfor)
-    {
-        return strpos(strtolower($text), strtolower($searchfor)) !== false;
-    }
+        //checks if $text contains $searchfor, case insensitive
+        function textcontains($text, $searchfor) {
+            return strpos(strtolower($text), strtolower($searchfor)) !== false;
+        }
 
-//process addons, generating the option group dropdown HTML, enumerating free toppings and qualifiers
-    function getaddons($Table, &$isfree, &$qualifiers, &$addons, &$groups)
-    {
-        $toppings = Query("SELECT * FROM " . $Table . " ORDER BY type ASC, name ASC", true);
-        $toppings_display = '';
-        $currentsection = "";
-        $isfree[$Table] = array();
-        foreach ($toppings as $ID => $topping) {
-            if ($currentsection != $topping["type"]) {
-                if ($toppings_display) {
-                    $toppings_display .= '</optgroup>';
+        //process addons, generating the option group dropdown HTML, enumerating free toppings and qualifiers
+        function getaddons($Table, &$isfree, &$qualifiers, &$addons, &$groups) {
+            $toppings = Query("SELECT * FROM " . $Table . " ORDER BY type ASC, name ASC", true);
+            $toppings_display = '';
+            $currentsection = "";
+            $isfree[$Table] = array();
+            foreach ($toppings as $ID => $topping) {
+                if ($currentsection != $topping["type"]) {
+                    if ($toppings_display) {
+                        $toppings_display .= '</optgroup>';
+                    }
+                    $toppings_display .= '<optgroup label="' . $topping["type"] . '">';
+                    $currentsection = $topping["type"];
                 }
-                $toppings_display .= '<optgroup label="' . $topping["type"] . '">';
-                $currentsection = $topping["type"];
-            }
 
-            $addons[$Table][$topping["type"]][] = explodetrim($topping["name"]);
-            $topping["displayname"] = $topping["name"];
-            if ($topping["isfree"]) {
-                $isfree[$Table][] = $topping["name"];
-                $topping["displayname"] .= " (free)";
+                $addons[$Table][$topping["type"]][] = explodetrim($topping["name"]);
+                $topping["displayname"] = $topping["name"];
+                if ($topping["isfree"]) {
+                    $isfree[$Table][] = $topping["name"];
+                    $topping["displayname"] .= " (free)";
+                }
+                if ($topping["qualifiers"]) {
+                    $qualifiers[$Table][$topping["name"]] = explodetrim($topping["qualifiers"]);
+                }
+                if ($topping["isall"]) {
+                    $isfree["isall"][$Table][] = $topping["name"];
+                }
+                if ($topping["group"] > 0) {
+                    $groups[$Table][$topping["name"]] = $topping["group"];
+                }
+                $toppings_display .= '<option value="' . $topping["id"] . '" type="' . $topping["type"] . '">' . $topping["displayname"] . '</option>';
             }
-            if ($topping["qualifiers"]) {
-                $qualifiers[$Table][$topping["name"]] = explodetrim($topping["qualifiers"]);
-            }
-            if ($topping["isall"]) {
-                $isfree["isall"][$Table][] = $topping["name"];
-            }
-            if ($topping["group"] > 0) {
-                $groups[$Table][$topping["name"]] = $topping["group"];
-            }
-            $toppings_display .= '<option value="' . $topping["id"] . '" type="' . $topping["type"] . '">' . $topping["displayname"] . '</option>';
+            return $toppings_display . '</optgroup>';
         }
-        return $toppings_display . '</optgroup>';
-    }
 
-//same as explode, but makes sure each cell is trimmed
-    function explodetrim($text, $delimiter = ",", $dotrim = true)
-    {
-        if (is_array($text)) {
+        //same as explode, but makes sure each cell is trimmed
+        function explodetrim($text, $delimiter = ",", $dotrim = true) {
+            if (is_array($text)) {
+                return $text;
+            }
+            $text = explode($delimiter, $text);
+            if (!$dotrim) {
+                return $text;
+            }
+            foreach ($text as $ID => $Word) {
+                $text[$ID] = trim($Word);
+            }
             return $text;
         }
-        $text = explode($delimiter, $text);
-        if (!$dotrim) {
-            return $text;
+
+        //converts a string to a class name (lowercase, replace spaces with underscores)
+        function toclass($text) {
+            return strtolower(str_replace(" ", "_", $text));
         }
-        foreach ($text as $ID => $Word) {
-            $text[$ID] = trim($Word);
-        }
-        return $text;
     }
 
-//converts a string to a class name (lowercase, replace spaces with underscores)
-    function toclass($text)
-    {
-        return strtolower(str_replace(" ", "_", $text));
-    }
-}
+    $qualifiers = array("DEFAULT" => array("1/2", "1x", "2x", "3x"));
+    $categories = Query("SELECT * FROM menu GROUP BY category ORDER BY id", true);
+    $isfree = collapsearray(Query("SELECT * FROM additional_toppings", true), "price", "size");
+    $deliveryfee = $isfree["Delivery"];
+    $addons = array();
+    $classlist = array();
+    $groups = array();
 
-$qualifiers = array("DEFAULT" => array("1/2", "1x", "2x", "3x"));
-$categories = Query("SELECT * FROM menu GROUP BY category ORDER BY id", true);
-$isfree = collapsearray(Query("SELECT * FROM additional_toppings", true), "price", "size");
-$deliveryfee = $isfree["Delivery"];
-$addons = array();
-$classlist = array();
-$groups = array();
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-$toppings_display = getaddons("toppings", $isfree, $qualifiers, $addons, $groups);
-$wings_display = getaddons("wings_sauce", $isfree, $qualifiers, $addons, $groups);
-$tables = array("toppings", "wings_sauce");
+    $toppings_display = getaddons("toppings", $isfree, $qualifiers, $addons, $groups);
+    $wings_display = getaddons("wings_sauce", $isfree, $qualifiers, $addons, $groups);
+    $tables = array("toppings", "wings_sauce");
 ?>
 
 <div class="col-md-9" style="background:white;padding:0 0 1rem 0 !important;">
@@ -114,9 +97,9 @@ $tables = array("toppings", "wings_sauce");
                 <div class="btn-block text-danger text-xs-center text-uppercase" style="font-weight: bold;padding-top:1.5rem !important;">  {{$category['category']}}  </div>
 
                 <?php
-                $catclass = toclass($category['category']);
-                $classlist[] = $catclass;
-                $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
+                    $catclass = toclass($category['category']);
+                    $classlist[] = $catclass;
+                    $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
                 ?>
 
                 @foreach ($menuitems as $menuitem)
@@ -160,24 +143,11 @@ $tables = array("toppings", "wings_sauce");
     <div class="col-md-4" style="background:white;">
         @endif
 
-
-
         @endforeach
     </div>
 </div>
 
 <!-- order menu item Modal -->
-<!-- order menu item Modal -->
-<!-- order menu item Modal -->
-<!-- order menu item Modal -->
-<!-- order menu item Modal -->
-<!-- order menu item Modal -->
-<!-- order menu item Modal -->
-<!-- order menu item Modal -->
-<!-- order menu item Modal -->
-<!-- order menu item Modal -->
-
-
 <div class="modal" id="menumodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -200,14 +170,15 @@ $tables = array("toppings", "wings_sauce");
                 <div class="clearfix"></div>
             </div>
 
-            <div class="modal-footer row">
+            <div class="modal-footer">
                 <div class="col-md-5">
-                <DIV ID="removelist" style="color: red;"></div>
+                    <DIV ID="removelist" style="color: red;"></div>
+                </div>
 
-                </div>                <div class="col-md-7">
-
-                <button data-popup-close="menumodal" old-data-dismiss="modal" id="additemtoorder" class="btn btn-warning pull-right" onclick="additemtoorder();"> ADD TO ORDER</button>
-                <div class="pull-right btn dont"> $<SPAN ID="modal-itemtotalprice"></SPAN></div>
+                <div class="col-md-7">
+                    <button data-popup-close="menumodal" old-data-dismiss="modal" id="additemtoorder" class="btn btn-warning pull-right" onclick="additemtoorder();"> ADD TO ORDER</button>
+                    <div class="pull-right btn dont"> $<SPAN ID="modal-itemtotalprice"></SPAN>
+                </div>
             </div>
             </div>
 
