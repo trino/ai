@@ -210,21 +210,33 @@ class HomeController extends Controller {
     }
 
     function closestrestaurant($data, $gethours = false){
-        //if(!isset($data['radius'])){$data['radius'] = 100;}
+        //if(!isset($data['radius'])){$data['radius'] = 100;}//default radius
         $owners = implode(",", collapsearray(Query("SELECT address_id FROM restaurants WHERE address_id > 0", true), "address_id"));
         $SQL = "SELECT *, ( 6371 * acos( cos( radians('" . $data['latitude'] . "') ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians('" . $data['longitude']."') ) + sin( radians('" . $data['latitude']."') ) * sin( radians( latitude ) ) ) ) AS distance FROM useraddresses WHERE id IN (" . $owners . ")";
         if(isset($data['radius'])){
             $SQL .= " HAVING distance <= " . $data['radius'];
         }
-        $SQL .= " ORDER BY distance ASC LIMIT 1";
-
-        $Restaurant = first($SQL);//useraddresses
-        if($Restaurant && $gethours){
-            $Restaurant["SQL"] = $SQL;
-            $Restaurant["hours"] = gethours($Restaurant["id"]);
-            $Restaurant["restaurant"] = first("SELECT * FROM restaurants WHERE address_id = " . $Restaurant["id"]);
-            $Restaurant["user"] = first("SELECT * FROM users WHERE id = " . $Restaurant["user_id"]);
+        if(!isset($data["limit"])){$data["limit"] = 1;}
+        $SQL .= " ORDER BY distance ASC LIMIT " . $data["limit"];
+        $Restaurants = Query($SQL, true);//useraddresses
+        if($Restaurants) {
+            if($gethours) {
+                if ($data["limit"] == 1) {
+                    $Restaurants = $this->processrestaurant($Restaurants[0]);
+                    $Restaurants["SQL"] = $SQL;
+                } else {
+                    foreach ($Restaurants as $Index => $Restaurant) {
+                        $Restaurants[$Index] = $this->processrestaurant($Restaurant);
+                    }
+                }
+            }
         }
+        return $Restaurants;
+    }
+    function processrestaurant($Restaurant){
+        $Restaurant["hours"] = gethours($Restaurant["id"]);
+        $Restaurant["restaurant"] = first("SELECT * FROM restaurants WHERE address_id = " . $Restaurant["id"]);
+        $Restaurant["user"] = first("SELECT id, name, phone, email FROM users WHERE id = " . $Restaurant["user_id"]);//do not send password
         return $Restaurant;
     }
 
