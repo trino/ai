@@ -164,6 +164,7 @@
             function discard(force){
                 if(force) {force_discard();} else {confirm2("Are you sure you want to discard all changes you've made?", 'Discard Changes', function(){force_discard();});}
             }
+
             function force_discard(){
                 var tables = Object.keys(alldata);
                 for (var tableindex = 0; tableindex < tables.length; tableindex++) {
@@ -203,6 +204,7 @@
                 $("#table_menu").html(HTML).show();
                 $('input.currency').currencyInput();
             }
+
             function main_click(element){
                 $(".currenttable").removeClass("currenttable");
                 $(element).addClass("currenttable");
@@ -212,7 +214,8 @@
                 $("#table_" + current_table).show();
             }
 
-            $( document ).ready(function() {
+            $(window).load(function () {
+                //$( document ).ready(function() {
                 processAll();
                 $(".main").first().trigger("click");
             });
@@ -287,6 +290,7 @@
                     $("#catlist").append('<LI class="category hyperlink" onclick="cat_click(this);">' + catname + '</LI>');
                 }
             }
+
             function categoryexists(cattype, catname){
                 for(var i=0; i< categories[cattype].length; i++){
                     if(catname.isEqual(categories[cattype][i])){return true;}
@@ -378,6 +382,7 @@
                 }
                 return makeinput(table, data["id"], text, column, type, data[column], title, newddata);
             }
+
             function makeinput(table, primarykeyID, text, column, type, value, title, newddata){
                 if(isUndefined(newddata)){newddata = value;}
                 var HTML = ' onchange="autoupdate(this);" class="autoupdate form-control';
@@ -417,10 +422,11 @@
                             var min = parseFloat($(this).attr("min"));
                             var max = parseFloat($(this).attr("max"));
                             var value = this.valueAsNumber;
-                            if(value < min)
+                            if(value < min) {
                                 value = min;
-                            else if(value > max)
+                            } else if(value > max) {
                                 value = max;
+                            }
                             $(this).val(value.toFixed(2));
                         });
                     });

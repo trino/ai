@@ -205,7 +205,26 @@ body.loading #loadingmodal {
     cursor: pointer; /* stop removing this */
 }
 
+.editprofilediv{
+    padding: 15px;
+    border-top: 1px solid #e5e5e5;
+}
+
+.addon-selected, .thisside {
+    background: #dadada !important;border-color: #0275d8 !important;
+}
+
+.addonlist {
+    background: #efefef;
+}
+
 /*
+.addon-selected::before, .currentitem.thisside::before {
+    font-family: FontAwesome;
+    content: "\f0da  ";
+    color:red;
+}
+
 .proper-height, .proper-height > select {
     height: 37px !important;
 }
@@ -248,6 +267,4 @@ tr {
 td {
     border: 1px solid black !important;
 }
-
-
 */

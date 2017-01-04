@@ -66,13 +66,17 @@
             }
         }
     }
+
+    //edit countdown timer duration
+    $minutes = 40;
+    $seconds = 0;
 ?>
 
 @if($style==1)
     <TABLE ID="maintable" <?= inline("table table-sm table-bordered");?> >
         <TR>
             <TD class="align-center">
-                <strong>Arriving in <SPAN CLASS="countdown" minutes="40" seconds="0" title="COUNTDOWN TIMER IS APPROXIMATE!"></SPAN> countdown</strong><br>
+                <strong>Arriving in <SPAN CLASS="countdown" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>" title="COUNTDOWN TIMER IS APPROXIMATE!"></SPAN> countdown</strong><br>
                 @if($Order["deliverytime"])
                     <?php
                         $Time = right($Order["deliverytime"], 4);

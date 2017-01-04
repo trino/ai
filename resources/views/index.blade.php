@@ -48,7 +48,6 @@
 
         <div class="col-md-3" style="">
             @include("popups_checkout")
-            <?= view("popups_toppings"); ?>
         </div>
 
     </div>

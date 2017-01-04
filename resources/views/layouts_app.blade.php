@@ -78,32 +78,32 @@
 
     <div style="display: none;">
         <?php
-        if (isset($GLOBALS["filetimes"])) {
-            // && !islive()){
-            echo '<TABLE><TR><TH COLSPAN="2">File times</TH></TR>';
-            $total = 0;
-            foreach ($GLOBALS["filetimes"] as $Index => $Values) {
-                echo '<TR><TD>' . $Index . '</TD><TD>';
-                if (isset($Values["start"]) && isset($Values["end"])) {
-                    $val = round($Values["end"] - $Values["start"], 4);
-                    if (strpos($val, ".") === false) {
-                        $val .= ".000";
+            if (isset($GLOBALS["filetimes"])) {
+                // && !islive()){
+                echo '<TABLE><TR><TH COLSPAN="2">File times</TH></TR>';
+                $total = 0;
+                foreach ($GLOBALS["filetimes"] as $Index => $Values) {
+                    echo '<TR><TD>' . $Index . '</TD><TD>';
+                    if (isset($Values["start"]) && isset($Values["end"])) {
+                        $val = round($Values["end"] - $Values["start"], 4);
+                        if (strpos($val, ".") === false) {
+                            $val .= ".000";
+                        } else {
+                            $val = str_pad($val, 4, "0");
+                        }
+                        echo $val . "s";
+                        $total += $val;
                     } else {
-                        $val = str_pad($val, 4, "0");
+                        echo "Unended";
                     }
-                    echo $val . "s";
-                    $total += $val;
-                } else {
-                    echo "Unended";
+                    echo '</TD></TR>';
                 }
-                echo '</TD></TR>';
+                $total = str_pad(round($total, 4), 5, "0");
+                echo '<TR><TD>Total</TD><TD>' . $total . 's</TD></TR>';
+                echo '<TR><TD>DOM Loaded</TD><TD ID="td_loaded"></TD></TR>';
+                echo '<TR><TD>DOM Ready</TD><TD ID="td_ready"></TD></TR>';
+                echo '</TABLE>';
             }
-            $total = str_pad(round($total, 4), 5, "0");
-            echo '<TR><TD>Total</TD><TD>' . $total . 's</TD></TR>';
-            echo '<TR><TD>DOM Loaded</TD><TD ID="td_loaded"></TD></TR>';
-            echo '<TR><TD>DOM Ready</TD><TD ID="td_ready"></TD></TR>';
-            echo '</TABLE>';
-        }
         ?>
     </div>
 </html>
