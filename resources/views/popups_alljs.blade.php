@@ -1543,8 +1543,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
     }
 </STYLE>
 
-
-<div class="modal fade" id="alertmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static" style="z-index: 9999;">
+<div class="modal" id="alertmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static" style="z-index: 9999;">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -1571,7 +1570,6 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
         </div>
     </div>
 </DIV>
-
 
 <SCRIPT>
     var oneclick = true, currentstyle = 1, currentbasecost = 0, currentaddoncost = 0;
@@ -1703,7 +1701,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
-                    HTML += '<div class="col-xs-4 col-sm-3 btn-sm toppings_btn btn addon-addon';
+                    HTML += '<div class="col-xs-4 col-sm-3 btn-sm  toppings_btn btn addon-addon';
                     if (isaddon_free(String(currentaddontype), String(addon))) {
                         HTML += ' btn-secondary';
                         title = "Free addon";
@@ -1906,7 +1904,6 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
         @endif
     }
 </SCRIPT>
-
 
 <script type="text/javascript">
     function checkblock(e) {

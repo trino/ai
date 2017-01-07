@@ -21,7 +21,7 @@
                                 <a class="nav-link active" href="#profile" role="tab" data-toggle="tab" id="logintab" onclick="skiploadingscreen = false;">Login</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#buzz" role="tab" data-toggle="tab" onclick="skiploadingscreen = true;">Signup</a>
+                                <a class="nav-link" href="#buzz" role="tab" data-toggle="tab" onclick="skiploadingscreen = false;">Signup</a>
                             </li>
                         </ul>
 
