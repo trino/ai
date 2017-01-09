@@ -1607,7 +1607,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
             var tempstr = '';
             var classname = 'itemcontents itemcontents' + itemindex;
 
-            HTML += '<DIV style="border:2px solid transparent;border-radius:.2rem;" ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="col-xs-6 currentitem currentitem' + itemindex;
+            HTML += '<DIV style="border:2px solid transparent;border-radius:.2rem;padding:.25rem;" ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="col-xs-12 currentitem currentitem' + itemindex;
             if (currentitemindex == itemindex) {
                 HTML += ' thisside';
             }

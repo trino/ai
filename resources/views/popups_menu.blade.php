@@ -165,7 +165,7 @@ $tables = array("toppings", "wings_sauce");
                 <SPAN ID="modal-itemcat"></SPAN>
             </div>
 
-            <div class="modal-header"  style="background: #dadada !important;">
+            <div class="modal-header bg-danger text-white"  style="padding:.5rem;">
                 <button type="button" class="close" data-popup-close="menumodal" old-data-dismiss="modal" aria-label="Close"><i class="fa fa-close"></i></button>
                 <strong id="myModalLabel"> <SPAN ID="modal-itemname"></SPAN> </strong>
             </div>
@@ -182,8 +182,8 @@ $tables = array("toppings", "wings_sauce");
                 </div>
 
                 <div class="col-md-7">
-                    <button data-popup-close="menumodal" old-data-dismiss="modal" id="additemtoorder" class="btn btn-sm btn-success pull-right" onclick="additemtoorder();"></button>
-                    <div class="pull-right btn btn-sm dont"> $<SPAN ID="modal-itemtotalprice"></SPAN>
+                    <button data-popup-close="menumodal" old-data-dismiss="modal" id="additemtoorder" class="btn btn-danger pull-right" onclick="additemtoorder();"></button>
+                    <div class="pull-right btn dont"> $<SPAN ID="modal-itemtotalprice"></SPAN>
                         <div class="clearfix"></div>
 
                     </div>

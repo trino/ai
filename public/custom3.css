@@ -226,8 +226,8 @@ body.loading #loadingmodal {
 }
 
 .addon-selected, .thisside {
-    background: #dadada !important;
-    border-color: #5cb85c !important;
+    background: #fbfbfb !important;
+    border-color: #d9534f!important;
 }
 
 .addonlist {
