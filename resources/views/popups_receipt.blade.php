@@ -73,12 +73,15 @@
 ?>
 
 @if($style==1)
-    <TABLE ID="maintable" <?= inline("table table-sm table-bordered");?> >
+    <TABLE ID="maintable" <?= inline("table table-sm");?> >
         <TR>
-            <TD class="align-center">
-                <strong>Arriving in <SPAN CLASS="countdown" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>" title="COUNTDOWN TIMER IS APPROXIMATE!"></SPAN> countdown</strong><br>
-                @if($Order["deliverytime"])
-                    <?php
+            <TD>
+
+
+                <div class="card text-xs-center">
+                    <h2>ARRIVING IN<BR><SPAN CLASS="countdown" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>" ></SPAN></h2><br>
+                    @if($Order["deliverytime"])
+                        <?php
                         $Time = right($Order["deliverytime"], 4);
                         if (is_numeric($Time)) {
                             echo left($Order["deliverytime"], strlen($Order["deliverytime"]) - 4) . GenerateTime(intval($Time));
@@ -87,15 +90,19 @@
                         } else {
                             echo $Order["deliverytime"];
                         }
+                        ?>
+                    @endif
+
+                </div>
+                <div class="card">
+
+                    <strong>Delivery Address</strong><br>
+                    <?php
+                    echo $Order["name"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . " "
+                        . $Order["province"] . " " . $Order["postalcode"] . '<BR>' . $Order["unit"] . '';
                     ?>
-                @endif
-            </TD>
-            <TD>
-                <strong>Delivery Address</strong><br>
-                <?php
-                echo $Order["name"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . " "
-                    . $Order["province"] . " " . $Order["postalcode"] . '<BR>' . $Order["unit"] . '';
-                ?>
+                </div>
+
             </TD>
         </TR>
     </TABLE <?= inline("table table-sm table-bordered");?>>
@@ -106,25 +113,31 @@
     @if(!isset($JSON))
         <TR>
             <TD colspan="2">
-                Order #<span ID="receipt_id"><?= $orderid; ?></span>
-                <br><?php
+                <div class="py-1">
+                    <strong>Restaurant</strong><br>
+                Order #<span ID="receipt_id"><?= $orderid; ?></span><br>
+              <?php
                 /*
                   $Status = array("Pending", "Confirmed", "Declined", "Delivered", "Canceled");
                   $Status = $Status[$Order["status"]];
                 */
                 $Restaurant = first("SELECT * FROM restaurants WHERE id = " . $Order["restaurant_id"]);
                 $Raddress = first("SELECT * FROM useraddresses WHERE id = " . $Restaurant["address_id"]);
-                echo $Restaurant["name"] . "<BR>" . $Raddress["number"] . " " . $Raddress["street"] . ", " . $Raddress["city"] . " " . $Raddress["province"] . " " . $Raddress["postalcode"] . '<BR>' . $Raddress["unit"] . " " . $Restaurant["phone"];
+                echo $Restaurant["name"] . "<BR>" . $Raddress["number"] . " " . $Raddress["street"] . "<br>" . $Raddress["city"] . " " . $Raddress["province"] . " "
+                    . $Raddress["postalcode"] . '<BR>' . $Raddress["unit"] . " " . $Restaurant["phone"];
                 echo '<INPUT TYPE="HIDDEN" ID="cust_latitude" VALUE="' . $Order["latitude"] . '">
 <INPUT TYPE="HIDDEN" ID="cust_longitude" VALUE="' . $Order["longitude"] . '">
 <INPUT TYPE="HIDDEN" ID="rest_latitude" VALUE="' . $Raddress["latitude"] . '">
 <INPUT TYPE="HIDDEN" ID="rest_longitude" VALUE="' . $Raddress["longitude"] . '">';
-                ?></TD>
+                ?>
+
+              </div>
+            </TD>
         </TR>
         </TABLE>
     @endif
 
-    <TABLE ID="receipttable" <?= inline("table table-sm table-bordered"); ?> >
+    <TABLE ID="receipttable" <?= inline("table table-sm table-bordered table-responsive"); ?> >
         <TR>
             <TH>#</TH>
             <TH>Name</TH>
@@ -357,6 +370,10 @@
         endfile("popups_receipt");
         ?>
     </TABLE>
+
+
+
+
     <SCRIPT>
         var countdown = window.setTimeout(function(){incrementtime()}, 1000);
         function incrementtime(){

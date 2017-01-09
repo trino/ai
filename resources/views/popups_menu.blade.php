@@ -109,7 +109,7 @@ $tables = array("toppings", "wings_sauce");
 
                 @foreach ($menuitems as $menuitem)
 
-                    <div style="padding:2px" class="list-group-item-action item_{{ $catclass }}"
+                    <div style="padding:4px 2px" class="list-group-item-action item_{{ $catclass }}"
                          itemid="{{$menuitem["id"]}}"
                          itemname="{{$menuitem['item']}}"
                          itemprice="{{$menuitem['price']}}"
@@ -131,7 +131,7 @@ $tables = array("toppings", "wings_sauce");
                         echo $HTML;
                         ?>
                     >
-                        <div class="rounded-circle bg-warning pull-left sprite sprite-<?= $catclass; ?> sprite-medium"></div>
+                        <div class="rounded bg-warning pull-left sprite sprite-<?= $catclass; ?> sprite-medium"></div>
                         <span style="padding-top:.45rem !important;" class="pull-left itemname">{{$menuitem['item']}} </span>
                         <span style="padding-top:.45rem !important;" class="pull-right text-muted itemname"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
                         <div class="clearfix"></div>
@@ -165,12 +165,12 @@ $tables = array("toppings", "wings_sauce");
                 <SPAN ID="modal-itemcat"></SPAN>
             </div>
 
-            <div class="modal-header">
+            <div class="modal-header"  style="background: #dadada !important;">
                 <button type="button" class="close" data-popup-close="menumodal" old-data-dismiss="modal" aria-label="Close"><i class="fa fa-close"></i></button>
                 <strong id="myModalLabel"> <SPAN ID="modal-itemname"></SPAN> </strong>
             </div>
 
-            <div class="modal-body" >
+            <div class="modal-body"  style="background: #dadada !important;padding-top:0 !important;">
             <div class="row">
                 <DIV ID="addonlist" class="addonlist"></DIV>
                 <div class="clearfix"></div>
@@ -182,7 +182,7 @@ $tables = array("toppings", "wings_sauce");
                 </div>
 
                 <div class="col-md-7">
-                    <button data-popup-close="menumodal" old-data-dismiss="modal" id="additemtoorder" class="btn btn-sm btn-warning pull-right" onclick="additemtoorder();"></button>
+                    <button data-popup-close="menumodal" old-data-dismiss="modal" id="additemtoorder" class="btn btn-sm btn-success pull-right" onclick="additemtoorder();"></button>
                     <div class="pull-right btn btn-sm dont"> $<SPAN ID="modal-itemtotalprice"></SPAN>
                         <div class="clearfix"></div>
 

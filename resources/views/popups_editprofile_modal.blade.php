@@ -10,12 +10,13 @@
             <div class="modal-body">
                 <FORM NAME="user" id="userform">
                 @include("popups_edituser", array("showpass" => true, "email" => false))
-                <DIV class="clearfix mt-1"></DIV><BUTTON CLASS="btn btn-primary" onclick="userform_submit();">SAVE</BUTTON></FORM></div>
+                <DIV class="clearfix mt-1"></DIV><BUTTON CLASS="btn btn-success" onclick="userform_submit();">SAVE</BUTTON></FORM></div>
                 <div CLASS="editprofilediv"><DIV ID="addresslist"></DIV></div>
                 <div CLASS="editprofilediv"><DIV ID="cardlist"></DIV></div>
+                <div CLASS="editprofilediv">                    <button ONCLICK="orders();" CLASS="btn btn-success" href="#">PAST ORDERS</button>
+                </div>
                 <div CLASS="editprofilediv">
-                    <button ONCLICK="handlelogin('logout');" CLASS="btn btn-primary pull-left" href="#">LOG OUT</button>
-                    <button ONCLICK="orders();" CLASS="btn btn-primary pull-right" href="#">PAST ORDERS</button>
+                    <button ONCLICK="handlelogin('logout');" CLASS="btn btn-success pull-left" href="#">LOG OUT</button>
                 <div class="clearfix"></div>
             </div>
         </div>

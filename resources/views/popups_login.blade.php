@@ -35,7 +35,7 @@
 
                                 <INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control" onkeydown="enterkey(event, 'login');">
 
-                                <BUTTON CLASS="btn btn-primary pull-right" onclick="handlelogin('login');">Log In</BUTTON>
+                                <BUTTON CLASS="btn btn-success pull-right" onclick="handlelogin('login');">Log In</BUTTON>
                                 <BUTTON CLASS="btn btn-secondary pull-left" onclick="handlelogin('forgotpassword');">Forgot Password</BUTTON>
                             </div>
 
@@ -57,7 +57,7 @@
 
                                 <div class="clearfix"></div>
 
-                                <button class="btn btn-primary pull-right" onclick="$('#regform').submit();">
+                                <button class="btn btn-success pull-right" onclick="$('#regform').submit();">
                                     Register
                                 </button>
                             </div>
