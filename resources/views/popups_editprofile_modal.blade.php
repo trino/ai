@@ -9,7 +9,7 @@
             
             <div class="modal-body">
                 <FORM NAME="user" id="userform">
-                @include("popups_edituser", array("showpass" => true, "email" => false))
+                @include("popups_edituser", array("showpass" => true))
                 <DIV class="clearfix mt-1"></DIV><BUTTON CLASS="btn btn-success" onclick="userform_submit();">SAVE</BUTTON></FORM></div>
                 <div CLASS="editprofilediv"><DIV ID="addresslist"></DIV></div>
                 <div CLASS="editprofilediv"><DIV ID="cardlist"></DIV></div>
