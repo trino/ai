@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 07, 2016 at 04:56 PM
+-- Generation Time: Jan 10, 2017 at 03:58 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -182,14 +182,46 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `status` tinyint(4) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=34 ;
 
 --
 -- Dumping data for table `orders`
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `placed_at`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `accepted_at`, `restaurant_id`, `type`, `payment_type`, `phone`, `cell`, `paid`, `stripeToken`, `deliverytime`, `cookingnotes`, `status`, `price`) VALUES
-(1, 1, '2016-12-07 19:58:21', 483, '', '', 'Dundas Street', 'N6B 1W4', 'London', 'Ontario', '42.9871816000000', '-81.236422800000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 1, '13.53');
+(1, 1, '2016-12-07 19:58:21', 483, '', '', 'Dundas Street', 'N6B 1W4', 'London', 'Ontario', '42.9871816000000', '-81.236422800000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 1, '13.53'),
+(2, 1, '2016-12-20 19:57:11', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '24.81'),
+(3, 1, '2016-12-20 19:57:28', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '24.81'),
+(4, 1, '2016-12-20 20:00:58', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '24.81'),
+(5, 1, '2016-12-20 20:01:46', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '24.81'),
+(6, 1, '2016-12-20 20:06:47', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '24.81'),
+(7, 1, '2016-12-20 20:09:17', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '24.81'),
+(8, 1, '2016-12-20 20:13:57', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '24.81'),
+(9, 1, '2016-12-20 20:19:37', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '24.81'),
+(10, 1, '2016-12-21 19:58:43', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '18.03'),
+(11, 1, '2016-12-21 20:04:35', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '18.03'),
+(12, 1, '2016-12-21 20:08:24', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '22.54'),
+(13, 1, '2016-12-21 21:41:34', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '30.15'),
+(14, 1, '2016-12-21 21:45:33', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, 'tok_9mmncxUAJ1EPuG', 'Deliver Now', '', 0, '12.18'),
+(15, 1, '2016-12-21 23:33:35', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '17.71'),
+(16, 1, '2016-12-21 23:50:19', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, 'tok_9monJMP7j1kbws', 'Deliver Now', '', 0, '11.11'),
+(17, 1, '2016-12-21 23:54:59', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, 'tok_9mosKRlrUMvJWp', 'Deliver Now', '', 0, '11.11'),
+(18, 1, '2016-12-21 23:57:47', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, 'tok_9movgvCYr1hxzV', 'Deliver Now', '', 0, '11.11'),
+(19, 1, '2016-12-22 00:09:44', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, 'tok_9mp7FO29EmeQm5', 'Deliver Now', '', 0, '11.11'),
+(20, 1, '2016-12-22 00:13:58', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, 'tok_9mpBwEX1AX1Wng', 'Deliver Now', '', 0, '11.11'),
+(21, 1, '2016-12-22 00:15:05', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, 'tok_9mpBwEX1AX1Wng', 'Deliver Now', '', 0, '11.11'),
+(22, 1, '2016-12-22 00:15:31', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, 'tok_9mpDkMg2QcZU3v', 'Deliver Now', '', 0, '11.11'),
+(23, 1, '2016-12-22 00:17:26', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, 'tok_9mpFI3vNUcM5kV', 'Deliver Now', '', 0, '11.11'),
+(24, 1, '2016-12-22 00:18:00', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, 'tok_9mpF1gtscrzseU', 'Deliver Now', '', 0, '11.11'),
+(25, 1, '2016-12-22 00:18:58', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, 'tok_9mpGx1buGGhQbB', 'Deliver Now', '', 0, '11.11'),
+(26, 1, '2016-12-22 00:20:36', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, 'tok_9mpIn5R0tR6oVR', 'Deliver Now', '', 0, '11.11'),
+(27, 1, '2016-12-22 00:21:34', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, 'tok_9mpJVOqR5Vm4cp', 'Deliver Now', '', 0, '11.11'),
+(28, 1, '2016-12-22 00:28:30', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 0, 'tok_9mpQDudtJAafhB', 'Deliver Now', '', 0, '11.11'),
+(29, 1, '2016-12-22 00:29:32', 2396, '', '', 'Kingsway', 'V5R 5G9', 'Vancouver', 'British Columbia', '49.2408347', '-123.05659100000', '0000-00-00 00:00:00', 1, 0, 0, '905 531 5331', '', 0, 'tok_9mpRKVt7tuyJyT', 'Deliver Now', '', 0, '11.11'),
+(30, 1, '2017-01-03 23:42:14', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 1, 'tok_9rgbMJHhxUY8N0', 'Deliver Now', '', 0, '15.57'),
+(31, 1, '2017-01-03 23:43:28', 2396, '', '', 'Queen Street East', 'M4E 1H4', 'Toronto', 'Ontario', '43.6743479', '-79.2804175', '0000-00-00 00:00:00', 1, 0, 0, '', '', 1, 'tok_9rgdlCSjJ7Hz43', 'Deliver Now', '', 0, '22.32'),
+(32, 1, '2017-01-03 23:49:28', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 1, '', 'Deliver Now', '', 0, '7.73'),
+(33, 1, '2017-01-03 23:49:58', 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 1, '', 'Deliver Now', '', 0, '10.03');
 
 -- --------------------------------------------------------
 
@@ -264,17 +296,17 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=50 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=132 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1481060320'),
+(1, 'lastSQL', '1481126173'),
 (20, 'orders', '1481122592'),
-(24, 'menucache', '1479345609'),
-(25, 'useraddresses', '1478971665'),
+(24, 'menucache', '1482348740'),
+(25, 'useraddresses', '1483468204'),
 (37, 'users', '1479345588'),
 (38, 'additional_toppings', '1479345609');
 
@@ -360,7 +392,7 @@ CREATE TABLE IF NOT EXISTS `useraddresses` (
   `phone` varchar(16) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=46 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=53 ;
 
 --
 -- Dumping data for table `useraddresses`
@@ -368,13 +400,14 @@ CREATE TABLE IF NOT EXISTS `useraddresses` (
 
 INSERT INTO `useraddresses` (`id`, `user_id`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `phone`) VALUES
 (1, 21, 483, '', '', 'Dundas Street', 'N6B 1W4', 'London', 'Ontario', '42.9871816', '-81.2386115', ''),
-(28, 1, 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', ''),
 (29, 20, 2396, '', '', 'Kingsway', 'V5R 5G9', 'Vancouver', 'British Columbia', '49.2408347', '-123.05659100000', ''),
 (31, 22, 2396, '', '', 'Kingsway', 'V5R 5G9', 'Vancouver', 'British Columbia', '49.2408347', '-123.05659100000', ''),
-(32, 1, 1234, '', '', 'King Street West', 'M6K 1G4', 'Toronto', 'Ontario', '43.6387913000000', '-79.4286783', ''),
 (43, 0, 483, '', '', 'Dundas Street', 'N6B 1W4', 'London', 'Ontario', '42.9871816000000', '-81.236422800000', ''),
 (44, 0, 483, '', '', 'Dundas Street', 'N6B 1W4', 'London', 'Ontario', '42.9871816000000', '-81.236422800000', ''),
-(45, 1, 483, '', '', 'Dundas Street', 'N6B 1W4', 'London', 'Ontario', '42.9871816000000', '-81.236422800000', '');
+(48, 1, 2396, '', '', 'Sinclair Circle', 'L7P 3C3', 'Burlington', 'Ontario', '43.3657646', '-79.836220299999', ''),
+(50, 28, 2396, 'home', '', 'Queen Street East', 'M4E 1H4', 'Toronto', 'Ontario', '43.6743479', '-79.2804175', ''),
+(51, 1, 2396, '', '', 'Queen Street East', 'M4E 1H4', 'Toronto', 'Ontario', '43.6743479', '-79.2804175', ''),
+(52, 30, 2396, '', '', 'Queen Street East', 'M4E 1H4', 'Toronto', 'Ontario', '43.6743479', '-79.2804175', '');
 
 -- --------------------------------------------------------
 
@@ -398,17 +431,18 @@ CREATE TABLE IF NOT EXISTS `users` (
   `stripecustid` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=28 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=31 ;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `phone`, `lastlogin`, `loginattempts`, `profiletype`, `authcode`, `stripecustid`) VALUES
-(1, 'Roy Hodson', 'roy@trinoweb.com', '$2y$10$XqUn.RNhx0YbcZUQXWYP0eHIz0aLK8xX00cd.PLVRQsafF9Frod6K', '', '0000-00-00 00:00:00', '2016-10-26 18:22:14', '9055315331', 1479912217, 6, 1, '', 'cus_9eWsGq9LgH0kpX'),
+(1, 'Roy Wall', 'roy@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '0000-00-00 00:00:00', '2017-01-03 23:29:36', '905 531 5331', 1479912217, 6, 1, '', 'cus_9rgc8wsT5ZzV05'),
 (20, 'no', 'roy+test@trinoweb.com', '$2y$10$XqUn.RNhx0YbcZUQXWYP0eHIz0aLK8xX00cd.PLVRQsafF9Frod6K', '', '2016-11-16 20:20:28', '0000-00-00 00:00:00', '9055315331', 0, 0, 0, '', ''),
 (21, 'Jonas Morse', 'roy+rest@trinoweb.com', '$2y$10$XqUn.RNhx0YbcZUQXWYP0eHIz0aLK8xX00cd.PLVRQsafF9Frod6K', '', '2016-11-16 20:49:31', '0000-00-00 00:00:00', '9055315331', 1481048458, 1, 2, '', ''),
-(22, 'Van Trinh', 'info+logintest@trinoweb.com', '$2y$10$XqUn.RNhx0YbcZUQXWYP0eHIz0aLK8xX00cd.PLVRQsafF9Frod6K', '', '2016-11-23 20:18:07', '0000-00-00 00:00:00', '9055315331', 0, 0, 0, '', '');
+(22, 'Van Trinh', 'info+logintest@trinoweb.com', '$2y$10$XqUn.RNhx0YbcZUQXWYP0eHIz0aLK8xX00cd.PLVRQsafF9Frod6K', '', '2016-11-23 20:18:07', '0000-00-00 00:00:00', '9055315331', 0, 0, 0, '', ''),
+(28, 'Van Trinh', 'roy+testing@trinoweb.com', '$2y$10$CorqChmOPGd9R4Ht7zaR4.p5fQOVQMyZW7WytqPYodvuxGHewf7lK', '', '2017-01-03 23:28:44', '0000-00-00 00:00:00', '', 0, 0, 0, '', '');
 
 -- --------------------------------------------------------
 
@@ -425,7 +459,7 @@ CREATE TABLE IF NOT EXISTS `wings_sauce` (
   `isall` tinyint(4) NOT NULL DEFAULT '1',
   `group` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `wings_sauce`
@@ -439,7 +473,8 @@ INSERT INTO `wings_sauce` (`id`, `name`, `type`, `isfree`, `qualifiers`, `isall`
 (5, 'BBQ', 'Sauce', 0, '', 1, 2),
 (6, 'Honey Garlic', 'Sauce', 0, '', 1, 2),
 (7, 'Well Done', 'Preparation', 1, 'Lightly done, Regular, Well done', 1, 1),
-(8, 'Lightly Done', 'Preparation', 1, '', 1, 1);
+(8, 'Lightly Done', 'Preparation', 1, '', 1, 1),
+(9, 'Sauce on the side', 'Preparation', 1, '', 1, 3);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

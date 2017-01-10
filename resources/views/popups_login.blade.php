@@ -137,7 +137,6 @@
                     if (result) {
                         try {
                             var data = JSON.parse(result);
-                            //alert(data["Reason"], "Registration");
                             $("#logintab").trigger("click");
                             $("#login_email").val(formdata["email"]);
                             $("#login_password").val(formdata["password"]);

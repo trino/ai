@@ -138,6 +138,7 @@ class AuthController extends Controller {
                         $oldpassword = $_POST["password"];
 
                         $address = $_POST["address"];
+                        unset($address["formatted_address"]);
                         unset($_POST["action"]);
                         unset($_POST["_token"]);
                         unset($_POST["address"]);
