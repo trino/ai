@@ -57,7 +57,7 @@
 
                                 <div class="clearfix"></div>
 
-                                <button class="btn btn-primary pull-right" onclick="$('#regform').submit();">
+                                <button class="btn btn-primary pull-right" onclick="register();">
                                     Register
                                 </button>
                             </div>
@@ -72,7 +72,7 @@
                         <DIV CLASS="clearfix"></DIV>
 
                     </DIV>
-                    </div>
+                </div>
 
 
 
@@ -82,11 +82,23 @@
     var getcloseststore = false;
     lockloading=true;
 
+    function register(){
+        if (isvalidaddress()) {
+            $("#reg_address-error").remove();
+        } else if ($("#reg_address-error").length == 0) {
+            $( '<label id="reg_address-error" class="error" for="reg_name">Please enter your address</label>' ).insertAfter( "#formatted_address" );
+        }
+        $('#regform').submit();
+    }
+
     $(function () {
         $("form[name='regform']").validate({
             rules: {
                 name: "required",
-                //phone: "phonenumber",
+                formatted_address: {
+                    validaddress: true,
+                    required: true
+                },
                 email: {
                     required: true,
                     email: true,
@@ -113,9 +125,10 @@
                     required: "Please provide a password",
                     minlength: "Your new password must be at least " + minlength + " characters long"
                 },
-                email: "Please enter a valid and unique email address"
+                email: "Please enter a valid and unique email address",
             },
             submitHandler: function (form) {
+                if (!isvalidaddress()) {return false;}
                 var formdata = getform("#regform");
                 formdata["action"] = "registration";
                 formdata["_token"] = token;

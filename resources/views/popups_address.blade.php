@@ -3,10 +3,10 @@
     if (!isset($style)) {$style = 0;}
     switch ($style) {
         case 0:
-            echo '<DIV CLASS="form-control row"><DIV CLASS="form-control col-md-2">Address:</DIV><DIV CLASS="form-control col-md-10"><INPUT TYPE="text" ID="formatted_address"></div></DIV>';
+            echo '<DIV CLASS="form-control row"><DIV CLASS="form-control col-md-2">Address:</DIV><DIV CLASS="form-control col-md-10"><INPUT TYPE="text" ID="formatted_address" name="formatted_address"></div></DIV>';
             break;
         case 1:
-            echo '<INPUT TYPE="text" ID="formatted_address" PLACEHOLDER="Delivery Address" CLASS="form-control formatted_address">';
+            echo '<INPUT TYPE="text" ID="formatted_address" PLACEHOLDER="Delivery Address" CLASS="form-control formatted_address" name="formatted_address">';
             echo '<STYLE>.address.:focus{z-index: 999;}</STYLE>';
             break;
     }

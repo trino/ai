@@ -1,9 +1,8 @@
 <?php
-startfile("popups_alljs");
-$CURRENT_YEAR = date("Y");
-$STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
+    startfile("popups_alljs");
+    $CURRENT_YEAR = date("Y");
+    $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
 ?>
-
 
 <script>
     var currentitemID = -1;
@@ -146,7 +145,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
 
     //creates a cookie value that expires in 1 year
     function createCookieValue(cname, cvalue) {
-//log("Creating cookie value: '" + cname + "' with: " + cvalue);
+        //log("Creating cookie value: '" + cname + "' with: " + cvalue);
         setCookie(cname, cvalue, 365);
     }
 
@@ -172,8 +171,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
 
     function confirm2() {
         var Title = "Confirm";
-        var action = function () {
-        };
+        var action = function () {};
         $('#alert-confirm').unbind('click');
         if (arguments.length > 1) {
             for (var index = 0; index < arguments.length; index++) {
@@ -231,6 +229,20 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
         }
         return Data.length == 10;
     }, "Please enter a valid phone number");
+
+    $.validator.addMethod('validaddress', function (Data, element) {
+        log("TESTING ADDRESS");
+
+    }, "Please enter a valid address");
+
+    function isvalidaddress(){
+        var fields = ["formatted_address", "add_postalcode", "add_latitude", "add_longitude"];
+        for(i=0;i<fields.length;i++){
+            log(fields[i] + ": " + $("#" + fields[i]).val().length);
+            if($("#" + fields[i]).val().length == 0){return false;}
+        }
+        return true;
+    }
 
     function findwhere(data, key, value) {
         for (var i = 0; i < data.length; i++) {
@@ -586,14 +598,8 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
 
     function validaddress() {
         var savedaddress = $("#saveaddresses").val();
-        if (savedaddress == 0) {
-            return false;
-        }
-        if (savedaddress == "addaddress") {
-            if ($("#add_latitude").val().length == 0 || $("#add_longitude").val().length == 0) {
-                return false;
-            }
-        }
+        if (savedaddress == 0) {return false;}
+        if (savedaddress == "addaddress") {return isvalidaddress();}
         return true;
     }
 
@@ -1013,11 +1019,11 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
     var lockloading = false, previoushash = "";
 
     $(document).ready(function () {
-//make every AJAX request show the loading animation
+        //make every AJAX request show the loading animation
         $body = $("body");
         $(document).on({
             ajaxStart: function () {
-//ajaxSend: function ( event, jqxhr, settings ) {log("settings.url: " + settings.url);//use this event if you need the URL
+            //ajaxSend: function ( event, jqxhr, settings ) {log("settings.url: " + settings.url);//use this event if you need the URL
                 if (skiploadingscreen) {
                     if (!lockloading) {
                         skiploadingscreen = false;
@@ -1104,7 +1110,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
         }
         var tempHTML = '<OPTION';
         var streetformat = "<?= $STREET_FORMAT; ?>";
-//if (address["unit"].trim()) {streetformat = "[unit] - " + streetformat;}
+        //if (address["unit"].trim()) {streetformat = "[unit] - " + streetformat;}
         for (var keyID = 0; keyID < addresskeys.length; keyID++) {
             var keyname = addresskeys[keyID];
             if (address.hasOwnProperty(keyname)) {
@@ -1229,37 +1235,20 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
             log("Use saved data");
             placeorder("");//no stripe token, use customer ID on the server side
         }
-//canplaceorder=false;
+        //canplaceorder=false;
     }
 
     function stripeResponseHandler(status, response) {
         var errormessage = "";
         log("Stripe response");
         switch (status) {
-            case 400:
-                errormessage = "Bad Request:<BR>The request was unacceptable, often due to missing a required parameter.";
-                break;
-            case 401:
-                errormessage = "Unauthorized:<BR>No valid API key provided.";
-                break;
-            case 402:
-                errormessage = "Request Failed:<BR>The parameters were valid but the request failed.";
-                break;
-            case 404:
-                errormessage = "Not Found:<BR>The requested resource doesn't exist.";
-                break;
-            case 409:
-                errormessage = "Conflict:<BR>The request conflicts with another request (perhaps due to using the same idempotent key).";
-                break;
-            case 429:
-                errormessage = "Too Many Requests:<BR>Too many requests hit the API too quickly. We recommend an exponential backoff of your requests.";
-                break;
-            case 500:
-            case 502:
-            case 503:
-            case 504:
-                errormessage = "Server Errors:<BR>Something went wrong on Stripe's end.";
-                break;
+            case 400: errormessage = "Bad Request:<BR>The request was unacceptable, often due to missing a required parameter."; break;
+            case 401: errormessage = "Unauthorized:<BR>No valid API key provided."; break;
+            case 402: errormessage = "Request Failed:<BR>The parameters were valid but the request failed."; break;
+            case 404: errormessage = "Not Found:<BR>The requested resource doesn't exist."; break;
+            case 409: errormessage = "Conflict:<BR>The request conflicts with another request (perhaps due to using the same idempotent key)."; break;
+            case 429: errormessage = "Too Many Requests:<BR>Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."; break;
+            case 500: case 502: case 503: case 504:errormessage = "Server Errors:<BR>Something went wrong on Stripe's end.";break;
             case 200:// - OK	Everything worked as expected.
                 if (response.error) {
                     $('.payment-errors').html(response.error.message);
@@ -1270,7 +1259,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
                 break;
         }
         if (errormessage) {
-//$(".payment-errors").html(errormessage + "<BR><BR>" + response["error"]["type"] + ":<BR>" + response["error"]["message"]);
+            //$(".payment-errors").html(errormessage + "<BR><BR>" + response["error"]["type"] + ":<BR>" + response["error"]["message"]);
             $(".payment-errors").html(response["error"]["message"]);
         }
     }
@@ -1287,7 +1276,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
             formdata.radius = MAX_DISTANCE;
         }
         skiploadingscreen = true;
-//canplaceorder = false;
+        //canplaceorder = false;
 
         $.post(webroot + "placeorder", {
             _token: token,
@@ -1297,13 +1286,13 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
             if (handleresult(result)) {
                 var closest = JSON.parse(result)["closest"];
                 var restaurant = "No restaurant is within range";
-//canplaceorder = false;
+                //canplaceorder = false;
                 if (closest.hasOwnProperty("id")) {
                     if (parseFloat(closest.distance) <= MAX_DISTANCE || debugmode) {
                         if (parseFloat(closest.distance) >= MAX_DISTANCE) {
                             closest.restaurant.name += " [DEBUG]"
                         }
-//canplaceorder = true;
+                        //canplaceorder = true;
                         restaurant = closest.restaurant.name;
                         GenerateHours(closest["hours"]);
                     }
@@ -1351,7 +1340,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
     }
 
     function showcheckout() {
-//canplaceorder=false;
+        //canplaceorder=false;
         if (userdetails["Addresses"].length == 0) {
             setTimeout(function () {
                 $("#saveaddresses").val("addaddress");
@@ -1382,7 +1371,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
         $(function () {
             $("#orderinfo").validate({
                 submitHandler: function (form) {
-//handled by placeorder
+                    //handled by placeorder
                 }
             });
         });
@@ -1695,11 +1684,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
 
 
             for (var i = 0; i < types.length; i++) {
-
-
                 HTML += '<strong class="col-xs-12 btn-sm" id="' + toclassname(types[i]) + '">' + types[i] + '</strong>';
-
-
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
@@ -1712,10 +1697,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
                     }
                     HTML += '" TITLE="' + title + '">' + addon + '</div>';
                 }
-
-
             }
-
 
             $("#addonlist").html(HTML);
             $(".addon-addon").click(
@@ -1891,20 +1873,22 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
         }
     }
 
-    $( document ).ready(function() {
-        <?php if (islive() || $GLOBALS["testlive"]) {
-            echo "setPublishableKey('pk_vnR0dLVmyF34VAqSegbpBvhfhaLNi', 'live')";
-        } else {
-            echo "setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', 'test');";
-        }?>
-    });
+    @if(read("id"))
+        $( document ).ready(function() {
+            <?php if (islive() || $GLOBALS["testlive"]) {
+                echo "setPublishableKey('pk_vnR0dLVmyF34VAqSegbpBvhfhaLNi', 'live')";
+            } else {
+                echo "setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', 'test');";
+            }?>
+        });
 
-    function setPublishableKey(Key, mode){
-        Stripe.setPublishableKey(Key);
-        @if(!islive())
-            log(mode + " stripe mode");
-        @endif
-    }
+        function setPublishableKey(Key, mode){
+            Stripe.setPublishableKey(Key);
+            @if(!islive())
+                log(mode + " stripe mode");
+            @endif
+        }
+    @endif
 </SCRIPT>
 
 
