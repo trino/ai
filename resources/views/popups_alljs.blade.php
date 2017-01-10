@@ -278,12 +278,12 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "use
             }
         }
         currentitemID = -1;
-        var title = "ADD TO ORDER";
+        var title = "<i class='fa fa-plus'></i>";
         if (!isUndefined(notparent)) {
             $("#menumodal").modal("show");
-            title = "EDIT ITEM";
+            title = "SAVE";
         }
-        $("#additemtoorder").text(title);
+        $("#additemtoorder").html(title);
     }
 
     //get the data from the modal and add it to the order
