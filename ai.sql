@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 10, 2017 at 03:58 PM
+-- Generation Time: Jan 10, 2017 at 04:42 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -125,7 +125,7 @@ INSERT INTO `menu` (`id`, `category_id`, `category`, `item`, `price`, `toppings`
 (25, 5, 'Sides', 'Large Caesar Salad', 6.99, 0, 0),
 (26, 6, 'Dips', 'Tomato', 0.7, 0, 0),
 (27, 6, 'Dips', 'Hot ', 0.7, 0, 0),
-(28, 6, 'Dips', 'Garlic Bread', 0.7, 0, 0),
+(28, 6, 'Dips', 'Garlic', 0.7, 0, 0),
 (29, 6, 'Dips', 'Cheddar', 0.7, 0, 0),
 (30, 6, 'Dips', 'Marinara', 0.7, 0, 0),
 (31, 6, 'Dips', 'Ranch', 0.7, 0, 0),
@@ -296,14 +296,14 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=132 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=133 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1481126173'),
+(1, 'lastSQL', '1484060328'),
 (20, 'orders', '1481122592'),
 (24, 'menucache', '1482348740'),
 (25, 'useraddresses', '1483468204'),

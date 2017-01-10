@@ -1651,7 +1651,7 @@
         if (currentitem.toppingcost) {
             var itemcost = parseFloat(currentitem.itemcost.replace("$", ""));
             itemcost += parseFloat(currentitem.toppingcost) * Number(Toppings);
-            return itemcost.toFixed(2) + " (" + Toppings + " addons)";
+            return itemcost.toFixed(2);// + " (" + Toppings + " addons)";
         }
         return $("#modal-itemprice").text();
     }

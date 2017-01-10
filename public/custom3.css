@@ -138,36 +138,72 @@ input, textarea, select {
 }
 
 .sprite {
-    background-image: url('grid.png');
+    background-image: url('grid3.png');
     background-repeat: no-repeat;
-    width: 60px;
-    height: 60px;
+    width: 64px;
+    height: 64px;
     margin-right: .5rem;
     display: inline-block;
 }
 
+.sprite-pizza {
+    background-position: 0px 0px;
+}
+
+.sprite-salad {
+    background-position: -96px 0px;
+}
+
 .sprite-dips {
-    background-position: -0px -0px;
+    background-position: -768px 0px;
 }
 
 .sprite-wings {
-    background-position: -66px -0px;
+    background-position: -480px 0px;
 }
 
 .sprite-drinks {
-    background-position: -132px -0px;
+    background-position: -1056px 0px;
 }
 
 .sprite-panzerotti {
-    background-position: 0px -66px;
+    background-position: -288px 0px;
 }
 
-.sprite-pizza {
-    background-position: -66px -66px;
+.sprite-garlic-bread {
+    background-position: -864px 0px;
 }
 
-.sprite-sides {
-    background-position: -132px -66px;
+.sprite-french-fries {
+    background-position: -960px 0px;
+}
+
+.sprite-potato-wedges {
+    background-position: -192px 0px;
+}
+
+.sprite-onion-rings {
+    background-position: -384px 0px;
+}
+
+.sprite-chicken-nuggets {
+    background-position: -1152px 0px;
+}
+
+.sprite-lasagna {
+    background-position: -672px 0px;
+}
+
+.sprite-veggie-sticks {
+    background-position: -1248px 0px;
+}
+
+.sprite-salad {
+    background-position: -96px 0px;
+}
+
+.sprite-2_for_1_pizza {
+    background-position: -576px 0px;
 }
 
 .sprite-medium {
