@@ -70,8 +70,8 @@
                                                 }
                                             ?>
                                         </UL>
-                                        <button class="btn btn-block btn-warning" onclick="$('.newitembtn').trigger('click');">New</button>
-                                        <button ID="savechanges" class="btn btn-block btn-primary changes" style="display:none;" onclick="savechanges();">Save Changes</button>
+                                        <button class="btn btn-block btn-success" onclick="$('.newitembtn').trigger('click');">New</button>
+                                        <button ID="savechanges" class="btn btn-block btn-success changes" style="display:none;" onclick="savechanges();">Save Changes</button>
                                         <button ID="discardchanges" class="btn btn-block  btn-secondary changes" style="display:none;" onclick="discard(false);">Discard Changes</button>
                                     </div>
                                 </DIV>
@@ -225,7 +225,7 @@
                 for(var tableindex = 0; tableindex < tables.length; tableindex++){
                     var table_name = tables[tableindex];
                     var table_data = alldata[table_name];
-                    var HTML = '<button class="btn btn-block btn-warning newitembtn" onclick="newitem(' + "'" + table_name + "'" + ');">New</button><BR>';
+                    var HTML = '<button class="btn btn-block btn-success newitembtn" onclick="newitem(' + "'" + table_name + "'" + ');">New</button><BR>';
                     for(var dataindex = 0; dataindex < table_data.length; dataindex++){
                         HTML += makeHTML(table_data[dataindex], table_name);
                     }
@@ -270,7 +270,7 @@
 
             function getmenuitems(category){
                 category=category.trim();
-                var HTML = '<button class="btn btn-block btn-warning" onclick="newitem(' + "'menu', '" + category + "'" + ');">New</button><BR>';
+                var HTML = '<button class="btn btn-block btn-success" onclick="newitem(' + "'menu', '" + category + "'" + ');">New</button><BR>';
                 for(var index = 0; index< alldata["menu"].length; index++){
                     var data = alldata["menu"][index];
                     if(data["category"].trim().isEqual(category)){
@@ -370,7 +370,7 @@
 
                 HTML = '<DIV CLASS="col-md-11' + HTMLclass +  '">' + HTML + '</DIV><DIV CLASS="col-md-1' + HTMLclass +  '">';
                 HTML += '<BUTTON class="btn btn-danger" TITLE="Delete this item" onclick="deleteitem(' + "'" + table_name + "', '" + data["id"] + "'" + ');"><i class="fa fa-times"></i></BUTTON><BR>';
-                HTML += '<BUTTON class="btn btn-warning' + HTMLclass + 'undo" TITLE="Undo all changes to this item" onclick="undo(' + "'" + table_name + "', '" + data["id"] + "'" + ');"' + undostyle + '><i class="fa fa-undo"></i></BUTTON>';
+                HTML += '<BUTTON class="btn btn-success' + HTMLclass + 'undo" TITLE="Undo all changes to this item" onclick="undo(' + "'" + table_name + "', '" + data["id"] + "'" + ');"' + undostyle + '><i class="fa fa-undo"></i></BUTTON>';
                 return HTML + '</DIV><DIV CLASS="col-md-12' + HTMLclass +  '"><HR></DIV>';
             }
 

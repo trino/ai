@@ -21,7 +21,7 @@
                                 <a class="nav-link active" href="#profile" role="tab" data-toggle="tab" id="logintab" onclick="skiploadingscreen = false;">Login</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#buzz" role="tab" data-toggle="tab" onclick="skiploadingscreen = true;">Signup</a>
+                                <a class="nav-link" href="#buzz" role="tab" data-toggle="tab" onclick="skiploadingscreen = false;">Signup</a>
                             </li>
                         </ul>
 
@@ -35,7 +35,7 @@
 
                                 <INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control" onkeydown="enterkey(event, 'login');">
 
-                                <BUTTON CLASS="btn btn-primary pull-right" onclick="handlelogin('login');">Log In</BUTTON>
+                                <BUTTON CLASS="btn btn-success pull-right" onclick="handlelogin('login');">Log In</BUTTON>
                                 <BUTTON CLASS="btn btn-secondary pull-left" onclick="handlelogin('forgotpassword');">Forgot Password</BUTTON>
                             </div>
 

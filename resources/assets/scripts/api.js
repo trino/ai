@@ -1,7 +1,7 @@
 //Mini Jquery replacement
 //get more functionality from http://youmightnotneedjquery.com/
 //Siblings, Prev, Prepend, Position Relative To Viewport, Position, Parent, Outer Width With Margin, Outer Width, Outer Height With Margin, Outer Height, Offset Parent, Offset, Next, Matches Selector, matches, Find Children, Filter, Contains Selector, Contains, Clone, Children, Append
-var debugmode = true;
+var debugmode = false;
 var todoonload = new Array;
 Date.now = function(verbose) {
     if(isUndefined(verbose)) {return new Date().getTime();}
@@ -769,7 +769,7 @@ function cleantext(text){
  }
 
 
- //Damerau–Levenshtein distance
+ //Damerauï¿½Levenshtein distance
  //https://gist.github.com/doukremt/9473228
  function levenshteinWeighted (seq1,seq2) {
  var len1=seq1.length, len2=seq2.length, i, j, dist, ic, dc, rc, last, old, column;

@@ -287,7 +287,7 @@
                                             <?php
                                                 switch($table){
                                                     case "useraddresses":
-                                                        echo '<A ONCLICK="saveaddress(0);" CLASS="btn btn-sm btn-primary">New</A> ';
+                                                        echo '<A ONCLICK="saveaddress(0);" CLASS="btn btn-sm btn-success">New</A> ';
                                                         echo '<A ONCLICK="saveaddress(selecteditem);" CLASS="btn btn-sm  btn-secondary" id="saveaddress" DISABLED>Save</A>';
                                                         echo view("popups_address", $_GET)->render();
                                                         break;
@@ -391,15 +391,15 @@
                                         tempHTML += '<TD>';
                                         switch(table){
                                             case "users":
-                                                tempHTML += '<A CLASS="btn btn-sm btn-primary" href="' + baseURL + 'useraddresses?user_id=' + ID + '">Addresses</A> ';
+                                                tempHTML += '<A CLASS="btn btn-sm btn-success" href="' + baseURL + 'useraddresses?user_id=' + ID + '">Addresses</A> ';
                                                 tempHTML += '<A CLASS="btn btn-sm  btn-secondary" href="{{ webroot("public/user/info/") }}' + ID + '">Edit</A> ';
-                                                tempHTML += '<A CLASS="btn btn-sm btn-warning" ONCLICK="changepass(' + ID + ');" TITLE="Change their password">Password</A> ';
+                                                tempHTML += '<A CLASS="btn btn-sm btn-success" ONCLICK="changepass(' + ID + ');" TITLE="Change their password">Password</A> ';
                                                 break;
                                             case "useraddresses":
-                                                tempHTML += '<A CLASS="btn btn-sm btn-primary" onclick="editaddress(' + ID + ');">Edit</A> ';
+                                                tempHTML += '<A CLASS="btn btn-sm btn-success" onclick="editaddress(' + ID + ');">Edit</A> ';
                                                 break;
                                             case "orders":
-                                                tempHTML += '<A CLASS="btn btn-sm btn-primary" onclick="vieworder(' + ID + ');">View</A> ';
+                                                tempHTML += '<A CLASS="btn btn-sm btn-success" onclick="vieworder(' + ID + ');">View</A> ';
                                                 if(restaurantID){
                                                     var Name = ID;
                                                     if(data.table[i]["unit"].length > 0){
@@ -410,7 +410,7 @@
                                                 }
                                                 break;
                                             case "restaurants":
-                                                tempHTML += '<A CLASS="btn btn-sm btn-primary" HREF="{{ webroot("public/list/orders?restaurant=") }}' + ID + '">View</A> ';
+                                                tempHTML += '<A CLASS="btn btn-sm btn-success" HREF="{{ webroot("public/list/orders?restaurant=") }}' + ID + '">View</A> ';
                                                 break;
                                         }
                                         HTML += tempHTML + '<A CLASS="btn btn-sm btn-danger" onclick="deleteitem(' + ID + ');">Delete</A></TD></TR>';
@@ -577,7 +577,7 @@
                         currentpage = Number(currentpage);
                         var pages = Math.ceil(Number(itemcount) / itemsperpage);
                         lastpage = pages-1;
-                        var HTML = '<BUTTON CLASS="btn btn-sm btn-primary" onclick="newitem();">New</BUTTON><TABLE BORDER="1" CLASS="pull-right"><TR>';
+                        var HTML = '<BUTTON CLASS="btn btn-sm btn-success" onclick="newitem();">New</BUTTON><TABLE BORDER="1" CLASS="pull-right"><TR>';
                         var printpages = 10;
                         if(pages > 1){
                             if(currentpage > 0){HTML += '<TD><A CLASS="page" page="0" title="Page 1 of ' + pages + '"> First </A></TD>';}
@@ -925,7 +925,7 @@
                 </SCRIPT>
             @endif
 
-            <div class="modal fade" id="ordermodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+            <div class="modal" id="ordermodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-body">

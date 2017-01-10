@@ -58,7 +58,7 @@
 
     <div id="snackbar">Order Updated</div>
 
-    <div class="pa-1 bg-danger"> &nbsp;</div>
+    <div class="pa-2 bg-danger"> &nbsp;</div>
 
     </body>
 

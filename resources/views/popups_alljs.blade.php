@@ -7,7 +7,7 @@
 <script>
     var currentitemID = -1;
     var MAX_DISTANCE = 20;//km
-    var debugmode = true;//'<?= !islive(); ?>' == '1';
+    var debugmode = false;//'<?= !islive(); ?>' == '1';
 
     String.prototype.isEqual = function (str) {
         if (isUndefined(str)) {
@@ -290,12 +290,12 @@
             }
         }
         currentitemID = -1;
-        var title = "ADD TO ORDER";
+        var title = "<i class='fa fa-plus'></i>";
         if (!isUndefined(notparent)) {
             $("#menumodal").modal("show");
-            title = "EDIT ITEM";
+            title = "SAVE";
         }
-        $("#additemtoorder").text(title);
+        $("#additemtoorder").html(title);
     }
 
     //get the data from the modal and add it to the order
@@ -750,14 +750,14 @@
         $("#saveaddresses option").each(function () {
             var ID = $(this).val();
             if (ID > 0) {
-                HTML += '<DIV><A ID="add_' + ID + '" TITLE="Delete this address" onclick="deleteaddress(' + ID + ');" class="cursor-pointer"><i style="color:red" class="fa fa-fw fa-times"></i> ';
-                HTML += $(this).text() + '</A></DIV>';
-//if (number.isEqual($(this).attr("number")) && street.isEqual($(this).attr("street")) && city.isEqual($(this).attr("city"))) {AddNew = false;}
+                HTML += '<DIV><A ID="add_' + ID + '" TITLE="Delete this address" onclick="deleteaddress(' + ID + ');" class="cursor-pointer"><i style="color:red" class="fa fa-fw fa-times"></i></A> ';
+                HTML += $(this).text() + '</DIV>';
+                //if (number.isEqual($(this).attr("number")) && street.isEqual($(this).attr("street")) && city.isEqual($(this).attr("city"))) {AddNew = false;}
                 AddNew = true;
             }
         });
         if (!AddNew) {
-//HTML += '<A ONCLICK="deleteaddress(-1);" CLASS="cursor-pointer">Add ' + "'" + number + " " + street + ", " + city + "' to the list</A>";} else {
+            //HTML += '<A ONCLICK="deleteaddress(-1);" CLASS="cursor-pointer">Add ' + "'" + number + " " + street + ", " + city + "' to the list</A>";} else {
             HTML += 'No addresses';
         }
         return HTML + "</DIV>";
@@ -771,7 +771,7 @@
         for (var i = 0; i < userdetails.Stripe.length; i++) {
             var card = userdetails.Stripe[i];
             HTML += '<DIV><A ONCLICK="deletecard(' + "'" + card.id + "', " + card.last4 + ", '" + card.exp_month.pad(2) + "', " + right(card.exp_year, 2) + ');" CLASS="cursor-pointer">';
-            HTML += '<i style="color:red" class="fa fa-fw fa-times"></i> **** **** **** ' + card.last4 + ' EXP: ' + card.exp_month.pad(2) + '/' + right(card.exp_year, 2) + '</A></DIV>';
+            HTML += '<i style="color:red" class="fa fa-fw fa-times"></i></A> **** **** **** ' + card.last4 + ' Expires: ' + card.exp_month.pad(2) + '/' + right(card.exp_year, 2) + '</DIV>';
         }
         return HTML + '</DIV>';
     }
@@ -889,27 +889,28 @@
         @endif
 
         /*
-            //----- OPEN (manual fade-in)
-            $('[data-popup-open]').on('click', function (e) {
-                var targeted_popup_class = jQuery(this).attr('data-popup-open');
-                $('#' + targeted_popup_class).fadeIn("fast");
-                e.preventDefault();
-            });
+             //----- OPEN (manual fade-in)
+             $('[data-popup-open]').on('click', function (e) {
+                 var targeted_popup_class = jQuery(this).attr('data-popup-open');
+                 $('#' + targeted_popup_class).fadeIn("fast");
+                 e.preventDefault();
+             });
         */
 
         //----- CLOSE
         $('[data-popup-close]').on('click', function (e) {
             var targeted_popup_class = jQuery(this).attr('data-popup-close');
-            /*$('#' + targeted_popup_class).fadeOut("fast", function () {
-                $(".modal-backdrop").fadeOut("fast", function () {
-                    $('#' + targeted_popup_class).modal("hide");
+            /*
+                $('#' + targeted_popup_class).fadeOut("fast", function () {
+                    $(".modal-backdrop").fadeOut("fast", function () {
+                        $('#' + targeted_popup_class).modal("hide");
+                    });
                 });
-            });
-            e.preventDefault();
+                e.preventDefault();
             */
             $('#' + targeted_popup_class).modal("hide");
         });
-        
+
     });
 
     function enterkey(e, action) {
@@ -1003,11 +1004,11 @@
             }
             $("#alert-cancel").hide();
             /*
-            $("#alert-ok").click(function () {
-            });
+             $("#alert-ok").click(function () {
+             });
 
-            $("#alert-confirm").click(function () {
-            });   */
+             $("#alert-confirm").click(function () {
+             });   */
             $("#alertmodalbody").html(arguments[0]);
             $("#alertmodallabel").text(title);
             $("#alertmodal").modal('show');
@@ -1170,9 +1171,11 @@
             if (text.indexOf('Whoops, looks like something went wrong.') > -1) {
                 text = text.between('<span class="exception_title">', '</h2>');
                 text = text.replace(/<(?:.|\n)*?>/gm, '');
-                if (text.indexOf('TokenMismatchException') > -1){
+                if (text.indexOf('TokenMismatchException') > -1) {
                     text = "Your session has expired. Starting a new one.";
-                    $.get(webroot + "auth/gettoken", function( data ) {token = data;});
+                    $.get(webroot + "auth/gettoken", function (data) {
+                        token = data;
+                    });
                 }
             } else {
                 text = request.statusText;
@@ -1210,9 +1213,9 @@
         $('select[data-stripe=exp_year]').val({{ right($CURRENT_YEAR,2) }} +1);
         @if(islive())
             log("Changing stripe key");
-            $("#istest").val("true");
-            setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', "test");
-            log("Stripe key changed");
+        $("#istest").val("true");
+        setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', "test");
+        log("Stripe key changed");
         @endif
     }
 
@@ -1302,7 +1305,7 @@
         });
     }
 
-    function testclosest(){
+    function testclosest() {
         var formdata = getform("#orderinfo");
         formdata.limit = 10;
         if (!formdata.latitude || !formdata.longitude) {
@@ -1360,7 +1363,7 @@
                 if (i == userdetails.Stripe.length - 1) {
                     creditHTML += ' SELECTED';
                 }
-                creditHTML += '>**** **** **** ' + card.last4 + ' EXP: ' + card.exp_month.pad(2) + '/' + right(card.exp_year, 2) + '</OPTION><OPTION value="">Add Card</OPTION>';
+                creditHTML += '>**** **** **** ' + card.last4 + ' Expires: ' + card.exp_month.pad(2) + '/' + right(card.exp_year, 2) + '</OPTION><OPTION value="">Add Card</OPTION>';
             }
             $("#credit-info").html(creditHTML + '</SELECT>');
         } else {
@@ -1532,8 +1535,7 @@
     }
 </STYLE>
 
-
-<div class="modal fade" id="alertmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static" style="z-index: 9999;">
+<div class="modal" id="alertmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static" style="z-index: 9999;">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -1560,7 +1562,6 @@
         </div>
     </div>
 </DIV>
-
 
 <SCRIPT>
     var oneclick = true, currentstyle = 1, currentbasecost = 0, currentaddoncost = 0;
@@ -1596,14 +1597,14 @@
             var tempstr = '';
             var classname = 'itemcontents itemcontents' + itemindex;
 
-            HTML += '<DIV style="border:3px solid transparent;border-radius:5px;" ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="currentitem currentitem' + itemindex;
+            HTML += '<DIV style="border:2px solid transparent;border-radius:.2rem;padding:.25rem;" ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="col-xs-12 currentitem currentitem' + itemindex;
             if (currentitemindex == itemindex) {
                 HTML += ' thisside';
             }
-            HTML += '">' + ' #' + (itemindex + 1) + ' ';
+            HTML += '">' +         ucfirst(addonname) +            ' #' + (itemindex + 1) + ' ';
 
             if (currentaddonlist[itemindex].length == 0) {
-                tempstr += '<div class="btn btn-sm btn-secondary">No ' + addonname + '</div>';
+                tempstr += '<div class="">No ' + addonname + ' Yet</div>';
             }
 
             for (var i = 0; i < currentaddonlist[itemindex].length; i++) {
@@ -1632,9 +1633,8 @@
                 }
             }
             totaltoppings += Math.ceil(paidtoppings);
-            HTML += ucfirst(addonname);
-            if(debugmode){//if(paidtoppings > 0 || freetoppings > 0){
-                HTML += " (Paid: " + paidtoppings + " Free: " + freetoppings + ')';
+            if (debugmode) {//if(paidtoppings > 0 || freetoppings > 0){
+                 HTML += " (Paid: " + paidtoppings + " Free: " + freetoppings + ')';
             }
             HTML += '<br>' + tempstr + '</DIV>';
         }
@@ -1669,7 +1669,7 @@
 
     function list_addons(table, halves) {
         currentaddontype = table;
-        var HTML = '<DIV style="height:130px;overflow-y: scroll; padding:5px;"><DIV id="theaddons"></DIV></DIV>';
+        var HTML = '<DIV style="height:130px;overflow-y: auto; overflow-x: auto; padding:5px;"><DIV id="theaddons"></DIV></DIV>';
         if (currentstyle == 0) {
             HTML += '<DIV CLASS=" addonlist" ID="addontypes">';
         } else {
@@ -1684,11 +1684,12 @@
 
 
             for (var i = 0; i < types.length; i++) {
-                HTML += '<strong class="col-xs-12 btn-sm" id="' + toclassname(types[i]) + '">' + types[i] + '</strong>';
+                //HTML += '<strong class="col-xs-12 btn-sm" id="' + toclassname(types[i]) + '">' + types[i] + '</strong>';
+                HTML += '<div style="background:#dadada; border-radius:0 !important;font-weight: bold;" class="col-xs-12 btn-sm" id="' + toclassname(types[i]) + '">' + types[i] + '</div>';
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
-                    HTML += '<div class="col-xs-4 col-sm-3 btn-sm toppings_btn btn addon-addon';
+                    HTML += '<div class="col-xs-4 col-sm-3 btn-sm  toppings_btn btn addon-addon';
                     if (isaddon_free(String(currentaddontype), String(addon))) {
                         HTML += ' btn-secondary';
                         title = "Free addon";
@@ -1701,15 +1702,15 @@
 
             $("#addonlist").html(HTML);
             $(".addon-addon").click(
-                    function (event) {
-                        list_addon_addon(event);
-                    }
+                function (event) {
+                    list_addon_addon(event);
+                }
             );
         }
         $(".addon-type").click(
-                function (event) {
-                    list_addon_type(event);
-                }
+            function (event) {
+                list_addon_type(event);
+            }
         );
         hashalves = halves;
         generateaddons();
@@ -1728,9 +1729,9 @@
         }
         $(e.target).after(HTML + '</DIV>');
         $(".addon-addon").click(
-                function () {
-                    list_addon_addon(event);
-                }
+            function () {
+                list_addon_addon(event);
+            }
         );
     }
 
@@ -1873,6 +1874,7 @@
         }
     }
 
+
     @if(read("id"))
         $( document ).ready(function() {
             <?php if (islive() || $GLOBALS["testlive"]) {
@@ -1890,7 +1892,6 @@
         }
     @endif
 </SCRIPT>
-
 
 <script type="text/javascript">
     function checkblock(e) {

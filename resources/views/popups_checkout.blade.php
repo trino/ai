@@ -2,21 +2,19 @@
 
 <div class="row">
     <div class="col-md-12  bg-danger text-white pt-1">
-
         <div class="text-white text-xs-center pb-1">
             <strong>MY ORDER</strong>
             <a class="text-white" ONCLICK="confirmclearorder();">
                 <i class="fa fa-close" style="width: 25px;"></i>
             </a>
         </div>
-        <div id="myorder" style="font-size: .9rem !important;"></div>
+        <div id="myorder"></div>
         <button id="checkout-btn" class="btn btn-warning btn-block" onclick="showcheckout();">
             CHECKOUT
         </button>
-
     </div>
 </div>
-<div class="modal fade" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+<div class="modal" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <FORM ID="orderinfo" name="orderinfo">
@@ -27,14 +25,14 @@
                             <strong id="myModalLabel">CHECKOUT</strong>
                         </DIV>
                         <div class="col-xs-12">
-                            <?= view("popups_edituser", array("email" => false, "password" => false, "phone" => false))->render(); ?>
+                            <?= view("popups_edituser", array("email" => false, "password" => false, "phone" => true))->render(); ?>
                             <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
                         </div>
                         <div class="col-xs-12">
                             <?php
-                                if (read("id")) {
-                                    echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
-                                }
+                            if (read("id")) {
+                                echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
+                            }
                             ?>
                         </DIV>
                         <div class="col-xs-12">
@@ -65,11 +63,11 @@
                             <DIV CLASS="col-xs-4  px-0">
                                 <SELECT CLASS="form-control proper-height" data-stripe="exp_year">
                                     <?php
-                                        $CURRENT_YEAR = date("Y");
-                                        $TOTAL_YEARS = 6;
-                                        for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
-                                            echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
-                                        }
+                                    $CURRENT_YEAR = date("Y");
+                                    $TOTAL_YEARS = 6;
+                                    for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
+                                        echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
+                                    }
                                     ?>
                                 </SELECT>
                             </DIV>
@@ -94,21 +92,27 @@
                         </div>
                     </div>
                 </div>
+
+
+
             </FORM>
+
+
+
+
         </div>
     </div>
 </div>
 
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-
 <SCRIPT>
     //https://stripe.com/docs/custom-form
     @if(read("id"))
         $(document).ready(function () {
-            getcloseststore = true;
-            visible_address(false);
-            $("#saveaddresses").append('<OPTION VALUE="addaddress" ID="addaddress">Add Address</OPTION>');
-        });
+        getcloseststore = true;
+        visible_address(false);
+        $("#saveaddresses").append('<OPTION VALUE="addaddress" ID="addaddress">Add Address</OPTION>');
+    });
     @endif
 </SCRIPT>
 

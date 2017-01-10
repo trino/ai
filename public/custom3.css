@@ -1,9 +1,12 @@
-body{
-
+body {
     font-family: 'Roboto', sans-serif;
 }
-*{BACKGROUND:TRANSPARENT;}
-  #snackbar {
+
+* {
+    BACKGROUND: TRANSPARENT;
+}
+
+#snackbar {
     visibility: hidden;
     min-width: 250px;
     margin-left: -125px;
@@ -18,7 +21,6 @@ body{
     bottom: 20px;
     font-size: 17px;
 }
-
 
 #snackbar.show {
     visibility: visible;
@@ -74,7 +76,10 @@ body{
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    text-align: left !important;
+    text-align: center !important;
+background: #dadada;
+    border-radius: 0 !important;
+    border:1px solid #d2d2d2;
 }
 
 .full {
@@ -188,6 +193,14 @@ body.loading {
     overflow: hidden;
 }
 
+a:focus, .btn:focus {
+    outline: none !important;
+    outline: 0;
+
+}
+
+
+
 /* Anytime the body has the loading class, our modal element will be visible */
 body.loading #loadingmodal {
     display: block;
@@ -197,6 +210,7 @@ body.loading #loadingmodal {
 .dont-show {
     display: none;
 }
+
 .red {
     border: 2px solid red !important;
 }
@@ -205,17 +219,18 @@ body.loading #loadingmodal {
     cursor: pointer; /* stop removing this */
 }
 
-.editprofilediv{
+.editprofilediv {
     padding: 15px;
     border-top: 1px solid #e5e5e5;
 }
 
 .addon-selected, .thisside {
-    background: #dadada !important;border-color: #0275d8 !important;
+    background: #fbfbfb !important;
+    border-color: #d9534f!important;
 }
 
 .addonlist {
-    background: #efefef;
+    background: #fff;
 }
 
 /*

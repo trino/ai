@@ -1,5 +1,5 @@
 <!-- edit profile Modal -->
-<div class="modal fade" id="profilemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+<div class="modal" id="profilemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,13 +9,14 @@
             
             <div class="modal-body">
                 <FORM NAME="user" id="userform">
-                @include("popups_edituser", array("showpass" => true, "email" => false))
-                <DIV class="clearfix mt-1"></DIV><BUTTON CLASS="btn btn-primary" onclick="userform_submit();">SAVE</BUTTON></FORM></div>
+                @include("popups_edituser", array("showpass" => true))
+                <DIV class="clearfix mt-1"></DIV><BUTTON CLASS="btn btn-success" onclick="userform_submit();">SAVE</BUTTON></FORM></div>
                 <div CLASS="editprofilediv"><DIV ID="addresslist"></DIV></div>
                 <div CLASS="editprofilediv"><DIV ID="cardlist"></DIV></div>
+                <div CLASS="editprofilediv">                    <button ONCLICK="orders();" CLASS="btn btn-success" href="#">PAST ORDERS</button>
+                </div>
                 <div CLASS="editprofilediv">
-                    <button ONCLICK="handlelogin('logout');" CLASS="btn btn-primary pull-left" href="#">LOG OUT</button>
-                    <button ONCLICK="orders();" CLASS="btn btn-primary pull-right" href="#">PAST ORDERS</button>
+                    <button ONCLICK="handlelogin('logout');" CLASS="btn btn-success pull-left" href="#">LOG OUT</button>
                 <div class="clearfix"></div>
             </div>
         </div>
