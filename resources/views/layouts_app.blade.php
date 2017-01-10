@@ -4,8 +4,13 @@
         <?php
             $time = microtime(true); // Gets microseconds
             if (read("id")) {
-                $user = getuser(read("id"));
-                unset($user["password"]);
+                $user = getuser(false);
+                if(!$user){//check for deleted user
+                    unset($user);
+                    write("id", false);
+                } else {
+                    unset($user["password"]);
+                }
             }
         ?>
         <script type="text/javascript">

@@ -13,7 +13,8 @@
                 <DIV class="clearfix mt-1"></DIV><BUTTON CLASS="btn btn-success" onclick="userform_submit();">SAVE</BUTTON></FORM></div>
                 <div CLASS="editprofilediv"><DIV ID="addresslist"></DIV></div>
                 <div CLASS="editprofilediv"><DIV ID="cardlist"></DIV></div>
-                <div CLASS="editprofilediv">                    <button ONCLICK="orders();" CLASS="btn btn-success" href="#">PAST ORDERS</button>
+                <div CLASS="editprofilediv">
+                    <button ONCLICK="orders();" CLASS="btn btn-success" href="#">PAST ORDERS</button>
                 </div>
                 <div CLASS="editprofilediv">
                     <button ONCLICK="handlelogin('logout');" CLASS="btn btn-success pull-left" href="#">LOG OUT</button>
