@@ -281,9 +281,9 @@
             }
 
             function newcategory(){
-                var catname = prompt("What name would you like the category to be?\r\nIt will only be saved when you add an item to the category").trim();
+                var catname = prompt(makestring("{cat_name}")).trim();
                 if(categoryexists("menu", catname)){
-                    alert("'" + catname + "' exists already");
+                    alert(makestring("{exists_already}", {name: catname}));
                 } else {
                     categories["menu"].push(catname);
                     $("#categories_menu").append('<OPTION VALUE="' + catname + '">');

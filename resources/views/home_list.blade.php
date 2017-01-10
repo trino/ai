@@ -437,7 +437,7 @@
                                                     window.location = webroot + "list/useraddresses?key=id&value=" + ID;
                                                 });
                                                 break;
-                                            default: alert(table + "." + field + " can not be edited");
+                                            default: alert(makestring("{cant_edit}", {table: table, field: field}));
                                         }
                                     } else if(column["Key"] != "PRI"){//primary key can't be edited
                                         selecteditem = ID;
@@ -487,7 +487,7 @@
                                                     switch(colname){
                                                         case "users.authcode":
                                                             edititem(ID, "authcode", "");
-                                                            alert("User is now authorized");
+                                                            alert(makestring("{user_auth}"));
                                                             return;
                                                             break;
                                                         default:
@@ -707,7 +707,7 @@
                                 if (newdata) {
                                     data = newdata;
                                 } else {
-                                    alert("'" + data + "' is not a valid " + datatype);
+                                    alert(makestring("{not_valid}", {data: data, datatype: datatype}));//alert("'" + data + "' is not a valid " + datatype);
                                     return false;
                                 }
                             }
@@ -756,7 +756,8 @@
                                 case "unit": case "buzzcode": break;
                                 default:
                                     if(formdata[key].trim().length == 0){
-                                        alert($(".data_" + key).text().replace(":", "") + " can not be empty");
+                                        //alert($(".data_" + key).text().replace(":", "") + " can not be empty");
+                                        alert(makestring("{not_empty}", {data: $(".data_" + key).text().replace(":", "")}));
                                         return false;
                                     }
                             }
@@ -863,7 +864,7 @@
                                     Data = clean_data(Data, "number");
                                     return Data && !isNaN(Data);
                                 default:
-                                    alert("'" + DataType + "' is unhandled");
+                                    alert(makestring("{unhandled}", {datatype: DataType}));
                             }
                         }
                         return true;
@@ -918,6 +919,14 @@
                         initMap(parseFloat($("#rest_latitude").val()), parseFloat($("#rest_longitude").val()));
                         addmarker("Customer", parseFloat($("#cust_latitude").val()), parseFloat($("#cust_longitude").val()));
                     }
+
+                    unikeys = {
+                        cant_edit: '[table].[field] can not be edited',
+                        user_auth: 'User is now authorized',
+                        not_valid: "'[data]' is not a valid [datatype]",
+                        not_empty: "[data] can not be empty",
+                        unhandled: "'[datatype]' is unhandled"
+                    };
                 </SCRIPT>
             @else
                 <SCRIPT>

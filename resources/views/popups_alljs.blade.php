@@ -48,6 +48,10 @@
         return this.toLowerCase().indexOf(str.toLowerCase()) > -1;
     };
 
+    //returns true if the string starts with str
+    String.prototype.startswith = function(str) {
+        return this.substring(0, str.length).isEqual(str);
+    };
     String.prototype.endswith = function (str) {
         return this.right(str.length).isEqual(str);
     };
@@ -700,7 +704,7 @@
                     });
                     clearorder();
                 } else {
-                    alert("Error:".result, "Order was not placed!");
+                    alert("Error:".result, makestring("{not_placed}"));
                 }
             });
         } else {
@@ -929,7 +933,7 @@
             action = "verify";
         }
         if (!$("#login_email").val() && action !== "logout") {
-            alert("Please enter an email address");
+            alert(makestring("{email_needed}"));
             return;
         }
         $.post(webroot + "auth/login", {
@@ -942,7 +946,7 @@
                 var data = JSON.parse(result);
                 if (data["Status"] == "false" || !data["Status"]) {
                     data["Reason"] = data["Reason"].replace('[verify]', '<A onclick="handlelogin();" CLASS="hyperlink" TITLE="Click here to resend the email">verify</A>');
-                    alert(data["Reason"], "Error logging in");
+                    alert(data["Reason"], makestring("{error_login}"));
                 } else {
                     switch (action) {
                         case "login":
@@ -987,7 +991,7 @@
                     }
                 }
             } catch (err) {
-                alert(err.message + "<BR>" + result, "Login Error");
+                alert(err.message + "<BR>" + result, makestring("{error_login}"));
             }
         });
     }
@@ -1310,7 +1314,7 @@
         var formdata = getform("#orderinfo");
         formdata.limit = 10;
         if (!formdata.latitude || !formdata.longitude) {
-            alert("longitude/latitude missing");
+            alert(makestring("{long_lat}"));
             return;
         }
         $.post(webroot + "placeorder", {
@@ -1319,7 +1323,7 @@
             action: "closestrestaurant"
         }, function (result) {
             if (handleresult(result)) {
-                alert(result, "10 closest restaurants");
+                alert(result, makestring("{ten_closest}"));
             }
         });
     }
@@ -1519,7 +1523,35 @@
             return this.id;
         }).get();
     }
+</SCRIPT>
 
+<SCRIPT>
+    if(isUndefined(unikeys)) {
+        var unikeys = {
+            exists_already:     "'[name]' exists already",
+            cat_name:           "What name would you like the category to be?\r\nIt will only be saved when you add an item to the category"
+            not_placed:         "Order was not placed!",
+            error_login:        "Error logging in",
+            email_needed:       "Please enter an email address",
+            long_lat:           "Longitude and/or latitude missing",
+            ten_closest:        "10 closest restaurants"
+        };
+    }
+
+    function makestring(Text, Variables){
+        if (Text.startswith("{") && Text.endswith("}")){
+            Text = unikeys[Text.mid(1, Text.length - 2)];
+        }
+        if(!isUndefined(Variables)) {
+            var keys = Object.keys(Variables);
+            for (var i = 0; i < keys.length; i++) {
+                var key = keys[i];
+                var value = Variables[key];
+                Text = Text.replaceAll("\\[" + key + "\\]", value);
+            }
+        }
+        return Text;
+    }
 </SCRIPT>
 
 <STYLE>
