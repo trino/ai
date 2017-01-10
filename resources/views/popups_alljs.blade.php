@@ -1042,9 +1042,9 @@
             }
         });
 
-        @if(isset($user))
-        login(<?= json_encode($user); ?>, false); //user is already logged in, use the data
-                @endif
+        @if(isset($user) && $user)
+            login(<?= json_encode($user); ?>, false); //user is already logged in, use the data
+        @endif
 
         var HTML = '';
         var todaysdate = isopen(generalhours);
@@ -1083,6 +1083,7 @@
         var HTML = '';
         var FirstAddress = false;
         HTML += '<SELECT class="form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION value="0">Delivery Address</OPTION>';
+        
         if (user["Addresses"].length > 0) {
             addresskeys = Object.keys(user["Addresses"][0]);
             for (i = 0; i < user["Addresses"].length; i++) {
