@@ -1,8 +1,9 @@
 <nav class="navbar bg-danger dont-print text-white" style="z-index: 1;border-radius: 0 !important;">
     <a HREF="<?= webroot("public/index"); ?>" onclick="history.go(0);" class="pull-left text-white" style="font-weight:600;letter-spacing: .03rem !important;" href="#">
-        <i class="fa fa-car icon-width" aria-hidden="true"></i> Menu</a>
-    <div class="pull-right">
-        <ul class="nav navbar-nav pull-lg-right">
+        <i class="fa fa-car icon-width" aria-hidden="true"></i> Menu
+    </a>
+    <DIV class="pull-right" style="position: absolute; top: 9px; right: 12px;">
+        <ul class="nav navbar-nav pull-lg-right pull-right">
             <li class="nav-item dropdown">
                 <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-bars no-padding-margin text-white"></i> </a>
                 <ul class="dropdown-menu dropdown-menu-right">
@@ -35,5 +36,5 @@
                 </ul>
             </li>
         </ul>
-    </div>
+    </DIV>
 </nav>
