@@ -274,8 +274,18 @@ body.loading #loadingmodal {
 
 .addonlist {
     background: #fff;
+    width: 100%;
 }
 
+#removelist{
+    width: 100%;
+}
+
+#additemtoorder{
+    width: 43px;
+    padding-top: 10px;
+    padding-left: 14px;
+}
 /*
 .addon-selected::before, .currentitem.thisside::before {
     font-family: FontAwesome;

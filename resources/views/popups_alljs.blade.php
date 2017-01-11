@@ -347,7 +347,8 @@
             category: itemcat,
             toppingcost: toppingcost,
             toppingcount: toppingscount,
-            itemaddons: itemaddons
+            itemaddons: itemaddons,
+            isnew: true
         };
         if (currentitemID == -1) {
             theorder.push(data);
@@ -367,7 +368,7 @@
         if ($("#myorder").length == 0) {
             return false;
         }
-        var HTML = '', tempHTML = "", subtotal = 0;
+        var HTML = '', tempHTML = "", subtotal = 0, fadein = false;
         var itemnames = {toppings: "Pizza", wings_sauce: "Lb"};
         var nonames = {toppings: "toppings", wings_sauce: "sauces"};
         for (var itemid = 0; itemid < theorder.length; itemid++) {
@@ -378,6 +379,12 @@
                 category = item["category"].toLowerCase().replaceAll(" ", "_");
                 if (category.endswith("pizza")) {
                     category = "pizza";
+                }
+            }
+            if (item.hasOwnProperty("isnew")) {
+                if (item["isnew"]){
+                    item["isnew"] = false;
+                    fadein = "#receipt_item_" + itemid;
                 }
             }
             var hasaddons = item.hasOwnProperty("itemaddons") && item["itemaddons"].length > 0;
@@ -451,6 +458,10 @@
             $("#checkout-btn").show();
         }
         $("#myorder").html(HTML + tempHTML);
+        if(fadein){
+            $(fadein).hide();
+            $(fadein).fadeIn();
+        }
     }
 
     //hides the checkout form
@@ -462,7 +473,7 @@
 
     function confirmclearorder() {
         if (theorder.length > 0) {
-            confirm2('', 'Clear Order?', function () {
+            confirm2(makestring("{clear_order}"), 'Clear Order?', function () {
                 clearorder();
             });
         }
@@ -608,18 +619,10 @@
     }
 
     function isvalidcreditcard(CardNumber, Month, Year, CVV) {
-        if (isUndefined(CardNumber)) {
-            CardNumber = $("[data-stripe=number]").val();
-        }
-        if (isUndefined(Month)) {
-            Month = $("[data-stripe=exp_month]").val();
-        }
-        if (isUndefined(Year)) {
-            Year = $("[data-stripe=exp_year]").val();
-        }
-        if (isUndefined(CVV)) {
-            CVV = $("[data-stripe=cvc]").val();
-        }
+        if (isUndefined(CardNumber)) {CardNumber = $("[data-stripe=number]").val();}
+        if (isUndefined(Month)) {Month = $("[data-stripe=exp_month]").val();}
+        if (isUndefined(Year)) {Year = $("[data-stripe=exp_year]").val();}
+        if (isUndefined(CVV)) {CVV = $("[data-stripe=cvc]").val();}
         CardNumber = CardNumber.replace(/\D/g, '');
         var nCheck = 0, nDigit = 0, bEven = false;
         for (var n = CardNumber.length - 1; n >= 0; n--) {
@@ -658,12 +661,8 @@
 
     //send an order to the server
     function placeorder(StripeResponse) {
-        if (!canplaceanorder()) {
-            return cantplaceorder();
-        }
-        if (isUndefined(StripeResponse)) {
-            StripeResponse = "";
-        }
+        if (!canplaceanorder()) {return cantplaceorder();}
+        if (isUndefined(StripeResponse)) {StripeResponse = "";}
         if (isObject(userdetails)) {
             var addressinfo = getform("#orderinfo");//i don't know why the below 2 won't get included. this forces them to be
             addressinfo["cookingnotes"] = $("#cookingnotes").val();
@@ -736,9 +735,7 @@
 
     $(window).on('hashchange', function (event) {//delete button closes modal
         if (window.location.hash != "#modal" && window.location.hash != "#loading") {
-            if (skipone > Date.now()) {
-                return;
-            }
+            if (skipone > Date.now()) {return;}
             $('#' + modalID).modal('hide');
             log("AUTOHIDE " + modalID);
         }
@@ -801,19 +798,13 @@
             for (var i = 0; i < userdetails["Orders"].length; i++) {
                 var order = userdetails["Orders"][i];
                 ID = order["id"];
-                if (!First) {
-                    First = ID;
-                }
+                if (!First) {First = ID;}
                 HTML += '<li class="list-group-item" ONCLICK="orders(' + ID + ');">' + '<SPAN ID="pastreceipt' + ID + '"></SPAN>' + '<span class="tag tag-default tag-pill pull-xs-right">ID: ' + ID + '</span>' + order["placed_at"] + '</li>';
             }
             HTML += '</ul>';
-            if (!First) {
-                HTML = "No orders placed yet";
-            }
+            if (!First) {HTML = "No orders placed yet";}
             alert(HTML, "Orders");
-            if (First) {
-                orders(First);
-            }
+            if (First) {orders(First)}
         } else {
             if (isUndefined(getJSON)) {
                 getJSON = false;
@@ -837,6 +828,7 @@
                     generatereceipt();
                     $("#alertmodal").modal('hide');
                 } else {//HTML recieved, put it in the pastreceipt element
+                    skipunloadingscreen=true;
                     setTimeout(function () {
                         loading(true, "SHOWRESULT");
                     }, 10);
@@ -997,7 +989,7 @@
     }
 
     var skiploadingscreen = false;
-
+    var skipunloadingscreen = false;
     //overwrites javascript's alert and use the modal popup
     (function () {
         var proxied = window.alert;
@@ -1040,7 +1032,11 @@
                 }
             },
             ajaxStop: function () {
-                loading(false, "ajaxStop");
+                if(skipunloadingscreen){
+                    skipunloadingscreen = false;
+                } else {
+                    loading(false, "ajaxStop");
+                }
                 skipone = Date.now() + 100;//
                 window.location.hash = previoushash;
             }
@@ -1534,7 +1530,8 @@
             error_login:        "Error logging in",
             email_needed:       "Please enter an email address",
             long_lat:           "Longitude and/or latitude missing",
-            ten_closest:        "10 closest restaurants"
+            ten_closest:        "10 closest restaurants",
+            clear_order:        "Are you sure you want to empty your cart?"
         };
     }
 
