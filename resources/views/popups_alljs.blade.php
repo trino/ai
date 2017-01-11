@@ -434,7 +434,6 @@
 
         createCookieValue("theorder", JSON.stringify(theorder));
         if (theorder.length == 0) {
-            HTML = '<div class="row text-xs-center"><i class="fa fa-shopping-cart fa-5x" style="color: #c9312c !important;"></i><br> <br>  <span class="">Order is Empty</SPAN></div>';
             $("#checkout").hide();
             $("#checkoutbutton").hide();
             removeCookie("theorder");
