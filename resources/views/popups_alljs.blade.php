@@ -704,7 +704,7 @@
                     });
                     clearorder();
                 } else {
-                    alert("Error:".result, makestring("{not_placed}"));
+                    alert("Error:" + result, makestring("{not_placed}"));
                 }
             });
         } else {
@@ -1529,7 +1529,7 @@
     if(isUndefined(unikeys)) {
         var unikeys = {
             exists_already:     "'[name]' exists already",
-            cat_name:           "What name would you like the category to be?\r\nIt will only be saved when you add an item to the category"
+            cat_name:           "What name would you like the category to be?\r\nIt will only be saved when you add an item to the category",
             not_placed:         "Order was not placed!",
             error_login:        "Error logging in",
             email_needed:       "Please enter an email address",

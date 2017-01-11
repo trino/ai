@@ -53,7 +53,10 @@ class HomeController extends Controller {
     public function placeorder(){
         if(!read("id")){return array("Status" => false, "Reason" => "You are not logged in");}
         $info="";
-        if(isset($_POST["info"])){$info = $_POST["info"];}
+        if(isset($_POST["info"])){
+            $info = $_POST["info"];
+            unset($info["formatted_address"]);
+        }
         if(isset($_POST["action"])){
             $ret = array("Status" => true, "Reason" => "");
             switch($_POST["action"]){
