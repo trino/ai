@@ -1,5 +1,5 @@
 <nav class="navbar bg-danger dont-print text-white" style="z-index: 1;border-radius: 0 !important;">
-    <a HREF="<?= webroot("public/index"); ?>" onclick="history.go(0);" class="pull-left text-white" style="font-weight:600;letter-spacing: .03rem !important;" href="#">
+    <a HREF="<?= webroot("public/index"); ?>" onclick="history.go(0);" class="pull-left text-white" style="font-weight:600;letter-spacing: .03rem !important; width: 100px;" href="#">
         <i class="fa fa-car icon-width" aria-hidden="true"></i> Menu
     </a>
     <DIV class="pull-right" style="position: absolute; top: 9px; right: 12px;">

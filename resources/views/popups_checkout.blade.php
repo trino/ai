@@ -14,12 +14,13 @@
         </button>
     </div>
 </div>
+
 <div class="modal" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <FORM ID="orderinfo" name="orderinfo">
+            <FORM ID="orderinfo" name="orderinfo" STYLE="margin-bottom: 15px;">
                 <div class="modal-body pa-0">
-                    <div class="row">
+                    <div>
                         <DIV CLASS="col-xs-12 " style="padding-bottom: .25rem !important; ">
                             <button type="button" class="close" data-popup-close="checkoutmodal" old-data-dismiss="modal" aria-label="Close"><i class="fa fa-close"></i></button>
                             <strong id="myModalLabel">CHECKOUT</strong>
@@ -96,10 +97,6 @@
 
 
             </FORM>
-
-
-
-
         </div>
     </div>
 </div>
