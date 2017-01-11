@@ -561,4 +561,8 @@
     function endfile($filename){
         $GLOBALS["filetimes"][$filename]["end"] = microtime(true);
     }
+
+    function countSQL($table, $SQL = "*"){
+        return first("SELECT COUNT(" . $SQL  . ") as count FROM " . $table)["count"];
+    }
 ?>

@@ -92,21 +92,29 @@
     $toppings_display = getaddons("toppings", $isfree, $qualifiers, $addons, $groups);
     $wings_display = getaddons("wings_sauce", $isfree, $qualifiers, $addons, $groups);
     $tables = array("toppings", "wings_sauce");
+    $totalmenuitems = countSQL("menu");
+    $maxmenuitemspercol = $totalmenuitems/3; //17
+    $itemsInCol = 0;
+    $CurrentCol = 1;
 ?>
 
-<div class="col-md-9" style="background:white;padding:0 0 1rem 0 !important;">
+<div class="col-md-9 row" style="background:white;padding:0 0 1rem 0 !important;">
     <div class="col-md-4" style="background:white;">
         @foreach ($categories as $category)
-
+            <?php
+                $catclass = toclass($category['category']);
+                $classlist[] = $catclass;
+                $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
+                $menuitemcount = count($menuitems);
+                if($itemsInCol + $menuitemcount > $maxmenuitemspercol && $CurrentCol < 3){
+                    $itemsInCol = 0;
+                    $CurrentCol += 1;
+                    //echo '</DIV><div class="col-md-4" style="background:white;">';
+                }
+                $itemsInCol+=$menuitemcount;
+            ?>
             <div class="list-group">
                 <div class="btn-block text-danger text-uppercase" style="font-weight: bold;padding-top:.5rem !important;">  {{$category['category']}}  </div>
-
-                <?php
-                    $catclass = toclass($category['category']);
-                    $classlist[] = $catclass;
-                    $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
-                ?>
-
                 @foreach ($menuitems as $menuitem)
                     <div style="padding:4px 2px" class="list-group-item-action item_{{ $catclass }}"
                          itemid="{{$menuitem["id"]}}"
@@ -142,7 +150,6 @@
                         <span style="padding-top:.45rem !important;" class="pull-left itemname">{{$menuitem['item']}} </span>
                         <span style="padding-top:.45rem !important;" class="pull-right text-muted itemname"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
                         <div class="clearfix"></div>
-
                     </div>
 
                 @endforeach
@@ -150,10 +157,12 @@
 
             </div>
 
-            @if($catclass=="dips" || $catclass=="sides")
-    </div>
-    <div class="col-md-4" style="background:white;">
-        @endif
+
+            @if($catclass=="dips" || $catclass=="wings")
+                </div>
+                <div class="col-md-4" style="background:white;">
+            @endif
+
 
         @endforeach
     </div>

@@ -46,7 +46,7 @@
                 }
             ?>
 
-        <div class="col-md-3" style="">
+        <div class="col-md-3" style="margin-left: 15px;">
             @include("popups_checkout")
         </div>
 
