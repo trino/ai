@@ -1,4 +1,4 @@
-<nav class="navbar bg-danger dont-print text-white" style="z-index: 1;border-radius: 0 !important;">
+<nav class="navbar dont-print text-white container" style="padding:1rem 0;z-index: 1;border-radius: 0 !important;">
     <a HREF="<?= webroot("public/index"); ?>" onclick="history.go(0);" class="pull-left text-white" style="font-weight:600;letter-spacing: .03rem !important; width: 100px;" href="#">
         <i class="fa fa-car icon-width" aria-hidden="true"></i> Menu
     </a>

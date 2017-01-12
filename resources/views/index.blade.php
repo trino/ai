@@ -8,7 +8,7 @@
         } else {
     ?>
 
-    <div class="row" style="border:10px solid #fff !important;">
+    <div class="row" style="border:0px solid #fff !important;">
             <?php
                 if (islive()) {
                     function like_match($pattern, $subject)
@@ -46,7 +46,7 @@
                 }
             ?>
 
-        <div class="col-md-3" style="margin-left: 15px;">
+        <div class="col-md-3">
             @include("popups_checkout")
         </div>
 

@@ -939,7 +939,7 @@
                     <div class="modal-content">
                         <div class="modal-body">
 
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-close"></i></button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
 
                             <h4 id="myModalLabel">View Order</h4>
 

@@ -1,8 +1,8 @@
 <?php startfile("popups_checkout"); ?>
 
-<div class="row">
-    <div class="col-md-12  bg-danger text-white pt-1">
-        <div class="text-white text-xs-center pb-1">
+<div class="pa-3" style="padding:1rem !important;">
+    <div class=" text-white">
+        <div class="text-white text-xs-center">
             <strong>MY ORDER</strong>
             <a class="text-white" ONCLICK="confirmclearorder();">
                 <i class="fa fa-close" style="width: 25px;"></i>
@@ -22,24 +22,16 @@
                 <div class="modal-body pa-0">
                     <div>
                         <DIV CLASS="col-xs-12 " style="padding-bottom: .25rem !important; ">
-                            <button type="button" class="close" data-popup-close="checkoutmodal" old-data-dismiss="modal" aria-label="Close"><i class="fa fa-close"></i></button>
+                            <button type="button" class="close" data-popup-close="checkoutmodal" old-data-dismiss="modal" aria-label="Close">&times;</button>
                             <strong id="myModalLabel">CHECKOUT</strong>
                         </DIV>
+
+
                         <div class="col-xs-12">
                             <?= view("popups_edituser", array("email" => false, "password" => false, "phone" => true))->render(); ?>
-                            <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
                         </div>
-                        <div class="col-xs-12">
-                            <?php
-                            if (read("id")) {
-                                echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
-                            }
-                            ?>
-                        </DIV>
-                        <div class="col-xs-12">
-                            <input type="text" class="form-control" ID="restaurant" placeholder="Closest Restaurant" READONLY TITLE="Closest restaurant"/>
-                            <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook" maxlength="255"/>
-                        </DIV>
+
+
                         <div class="col-xs-12">
                             <DIV ID="credit-info"></DIV>
                             <input type="text" size="20" class="form-control credit-info" data-stripe="number" placeholder="Card Number">
@@ -78,6 +70,27 @@
                             </DIV>
                             <a class="pull-right btn" onclick="testcard();">Test CreditCard</a>
                         </div>
+
+
+                        <div class="col-xs-12">
+                            <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
+
+
+                            <input type="text" class="form-control" ID="restaurant" placeholder="Closest Restaurant" READONLY TITLE="Closest restaurant"/>
+                        </DIV>
+                        <div class="col-xs-12">
+
+                            <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook" maxlength="255"/>
+                        </div>
+                        <div class="col-xs-12">
+                            <?php
+                            if (read("id")) {
+                                echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
+                            }
+                            ?>
+                        </DIV>
+
+
                         <div class="col-xs-12">
                             <SELECT id="deliverytime" TITLE="Delivery Time" class="form-control proper-height"/>
                             <OPTION>Deliver Now</OPTION>
@@ -93,7 +106,6 @@
                         </div>
                     </div>
                 </div>
-
 
 
             </FORM>
