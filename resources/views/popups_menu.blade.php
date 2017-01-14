@@ -1,6 +1,5 @@
 <?php
 startfile("popups_menu");
-
 if (!function_exists("getsize")) {
     //gets the size of the pizza
     function getsize($itemname, &$isfree)
@@ -86,7 +85,6 @@ if (!function_exists("getsize")) {
         return strtolower(right($Text, strlen($WithWhat))) == strtolower($WithWhat);
     }
 }
-
 $qualifiers = array("DEFAULT" => array("1/2", "1x", "2x", "3x"));
 $categories = Query("SELECT * FROM menu GROUP BY category ORDER BY id", true);
 $isfree = collapsearray(Query("SELECT * FROM additional_toppings", true), "price", "size");
@@ -94,7 +92,6 @@ $deliveryfee = $isfree["Delivery"];
 $addons = array();
 $classlist = array();
 $groups = array();
-
 $toppings_display = getaddons("toppings", $isfree, $qualifiers, $addons, $groups);
 $wings_display = getaddons("wings_sauce", $isfree, $qualifiers, $addons, $groups);
 $tables = array("toppings", "wings_sauce");
@@ -104,81 +101,73 @@ $itemsInCol = 0;
 $CurrentCol = 1;
 ?>
 
-<div class="col-md-9 row" style="background:white;padding:0 0 1rem 0 !important;">
-    <div class="col-md-4 " style="background:white;padding:0 !important;">
-        @foreach ($categories as $category)
-            <?php
-            $catclass = toclass($category['category']);
-            $classlist[] = $catclass;
-            $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
-            $menuitemcount = count($menuitems);
-            if ($itemsInCol + $menuitemcount > $maxmenuitemspercol && $CurrentCol < 3) {
-                $itemsInCol = 0;
-                $CurrentCol += 1;
-                //echo '</DIV><div class="col-md-4" style="background:white;">';
-            }
-            $itemsInCol += $menuitemcount;
-            ?>
-            <div class=" card card-block ma-1" style="margin: 1rem !important;">
-                <div class="btn-block text-danger text-uppercase" style="font-weight: bold;padding-top:.5rem !important;">  {{$category['category']}}  </div>
-                @foreach ($menuitems as $menuitem)
-                    <div style="padding:1px 1px" class="list-group-item-action item_{{ $catclass }}"
-                         itemid="{{$menuitem["id"]}}"
-                         itemname="{{$menuitem['item']}}"
-                         itemprice="{{$menuitem['price']}}"
-                         itemsize="{{ getsize($menuitem['item'], $isfree) }}"
-                         itemcat="{{$menuitem['category']}}"
-                    <?php
-                        $itemclass = $catclass;
-                        if ($itemclass == "sides") {
-                            $itemclass = str_replace("_", "-", toclass($menuitem['item']));
-                            if (endwith($itemclass, "lasagna")) {
-                                $itemclass = "lasagna";
-                            }
-                            if (endwith($itemclass, "chicken-nuggets")) {
-                                $itemclass = "chicken-nuggets";
-                            }
-                            if (endwith($itemclass, "salad")) {
-                                $itemclass = "salad";
-                            }
+<div class="col-md-3">
+    @foreach ($categories as $category)
+        <?php
+        $catclass = toclass($category['category']);
+        $classlist[] = $catclass;
+        $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
+        $menuitemcount = count($menuitems);
+        if ($itemsInCol + $menuitemcount > $maxmenuitemspercol && $CurrentCol < 3) {
+            $itemsInCol = 0;
+            $CurrentCol += 1;
+            //echo '</DIV><div class="col-md-4" style="background:white;">';
+        }
+        $itemsInCol += $menuitemcount;
+        ?>
+        <div class=" card card-block mb-3" style="">
+            <h6 class="btn-block text-danger text-uppercase" style="">  {{$category['category']}}  </h6>
+            @foreach ($menuitems as $menuitem)
+                <div style="padding:1px 1px" class="list-group-item-action item_{{ $catclass }}"
+                     itemid="{{$menuitem["id"]}}"
+                     itemname="{{$menuitem['item']}}"
+                     itemprice="{{$menuitem['price']}}"
+                     itemsize="{{ getsize($menuitem['item'], $isfree) }}"
+                     itemcat="{{$menuitem['category']}}"
+                <?php
+                    $itemclass = $catclass;
+                    if ($itemclass == "sides") {
+                        $itemclass = str_replace("_", "-", toclass($menuitem['item']));
+                        if (endwith($itemclass, "lasagna")) {
+                            $itemclass = "lasagna";
                         }
-
-                        $total = 0;
-                        foreach ($tables as $table) {
-                            echo $table . '="' . $menuitem[$table] . '" ';
-                            $total += $menuitem[$table];
+                        if (endwith($itemclass, "chicken-nuggets")) {
+                            $itemclass = "chicken-nuggets";
                         }
-                        if ($total) {
-                            $HTML = ' data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
-                            $icon = '+';
-                        } else {
-                            $HTML = ' onclick="additemtoorder(this, -1);"';
-                            $icon = '';
+                        if (endwith($itemclass, "salad")) {
+                            $itemclass = "salad";
                         }
-                        echo $HTML;
-                        ?>
-                    >
-                        <div class="rounded  pull-left sprite sprite-<?= $itemclass; ?> sprite-medium"></div>
-                        <span style="padding-top:.45rem !important;" class="pull-left itemname">{{$menuitem['item']}} </span>
-                        <span style="padding-top:.45rem !important;" class="pull-right text-muted itemname"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
-                        <div class="clearfix"></div>
-                    </div>
+                    }
 
-                @endforeach
-
-
-            </div>
-
-
-            @if($catclass=="dips" || $catclass=="wings")
-    </div>
-    <div class="col-md-4" style="padding:0 !important;margin:0 !important;">
-        @endif
-
-
-        @endforeach
-    </div>
+                    $total = 0;
+                    foreach ($tables as $table) {
+                        echo $table . '="' . $menuitem[$table] . '" ';
+                        $total += $menuitem[$table];
+                    }
+                    if ($total) {
+                        $HTML = ' data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
+                        $icon = '+';
+                    } else {
+                        $HTML = ' onclick="additemtoorder(this, -1);"';
+                        $icon = '';
+                    }
+                    echo $HTML;
+                    ?>
+                >
+                    <div class="rounded  pull-left sprite sprite-<?= $itemclass; ?> sprite-medium"></div>
+                    <span style="padding-top:.45rem !important;" class="pull-left itemname">{{$menuitem['item']}} </span>
+                    <span style="padding-top:.45rem !important;" class="pull-right text-muted itemname"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
+                    <div class="clearfix"></div>
+                </div>
+            @endforeach
+        </div>
+        @if($catclass=="dips" || $catclass=="sides")
 </div>
+<div class="col-md-3">
+    @endif
+    @endforeach
+</div>
+
 
 <!-- order menu item Modal -->
 <div class="modal" id="menumodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
@@ -193,9 +182,10 @@ $CurrentCol = 1;
                 <SPAN ID="modal-itemcat"></SPAN>
             </div>
 
-            <div class="modal-header bg-danger text-white" style="padding:.5rem;">
+            <div class="modal-header">
+                <div id="myModalLabel"><SPAN ID="modal-itemname"></SPAN> <span class="text-muted">+$0.79 per topping</span></div>
                 <button type="button" class="close" data-popup-close="menumodal" old-data-dismiss="modal" aria-label="Close">&times;</button>
-                <strong id="myModalLabel"> <SPAN ID="modal-itemname"></SPAN> </strong>
+
             </div>
 
             <div class="modal-body" style="background: #dadada !important;padding-top:0 !important;">
@@ -209,7 +199,12 @@ $CurrentCol = 1;
                     </div>
 
                     <div class="col-md-7">
-                        <button data-popup-close="menumodal" old-data-dismiss="modal" id="additemtoorder" class="btn btn-danger rounded-circle pull-right" onclick="additemtoorder();"></button>
+
+
+                        <button type="button" data-popup-close="menumodal" old-data-dismiss="modal" id="additemtoorder" class="btn btn-danger btn-circle btn-lg pull-right"
+                                onclick="additemtoorder();"><i class="fa fa-plus"></i></button>
+
+
                         <div class="pull-right btn dont"> $<SPAN ID="modal-itemtotalprice"></SPAN>
                             <div class="clearfix"></div>
                         </div>

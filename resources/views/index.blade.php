@@ -8,7 +8,7 @@
         } else {
     ?>
 
-    <div class="row" style="border:0px solid #fff !important;">
+    <div class="row">
             <?php
                 if (islive()) {
                     function like_match($pattern, $subject)
@@ -57,3 +57,4 @@
     ?>
 
 @endsection
+

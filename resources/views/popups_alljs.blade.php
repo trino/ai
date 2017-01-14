@@ -743,7 +743,7 @@
 
     //generate a list of addresses and send it to the alert modal
     function addresses() {
-        var HTML = '<DIV CLASS="section"><strong>ADDRESS</strong><br>';
+        var HTML = '<DIV CLASS="section"><h6>ADDRESS</h6><br>';
         var number = $("#add_number").val();
         var street = $("#add_street").val();
         var city = $("#add_city").val();
@@ -765,7 +765,7 @@
     }
 
     function creditcards() {
-        var HTML = '<DIV CLASS="section"><strong>CREDIT CARD</strong>';
+        var HTML = '<DIV CLASS="section"><h6>CREDIT CARD</h6>';
         if (userdetails.Stripe.length == 0) {
             return HTML + "<br>No Credit Cards";
         }
@@ -1569,11 +1569,15 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-popup-close="alertmodal" old-data-dismiss="modal" aria-label="Close">
+
+                <h6 class="modal-title" id="alertmodallabel">Title</h6>
+
+
+
+                <button type="button" class="close  pull-right" data-popup-close="alertmodal" old-data-dismiss="modal" aria-label="Close">
                     &times;
                 </button>
 
-                <strong class="modal-title" id="alertmodallabel">Title</strong>
             </div>
 
             <div class="modal-body">
@@ -1627,7 +1631,7 @@
             var tempstr = '';
             var classname = 'itemcontents itemcontents' + itemindex;
 
-            HTML += '<DIV style="border:2px solid transparent;border-radius:.2rem;padding:.25rem;" ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="col-xs-12 currentitem currentitem' + itemindex;
+            HTML += '<DIV style="border:2px solid transparent;border-radius:.2rem;padding:.25rem;width:33% !important;float:left;" ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="currentitem currentitem' + itemindex;
             if (currentitemindex == itemindex) {
                 HTML += ' thisside';
             }
@@ -1712,10 +1716,9 @@
         } else {
             //var colors = ["secondary", "secondary", "secondary", "secondary", "secondary"];//' + colors[i] + '
 
-
             for (var i = 0; i < types.length; i++) {
-                //HTML += '<strong class="col-xs-12 btn-sm" id="' + toclassname(types[i]) + '">' + types[i] + '</strong>';
-                HTML += '<div style="background:#dadada; border-radius:0 !important;font-weight: bold;" class="col-xs-12 btn-sm" id="' + toclassname(types[i]) + '">' + types[i] + '</div>';
+                //HTML += '<h6 class="col-xs-12 btn-sm" id="' + toclassname(types[i]) + '">' + types[i] + '</h6>';
+               // HTML += '<div id="' + toclassname(types[i]) + '">' + types[i] + '</div>';
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
