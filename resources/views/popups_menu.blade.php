@@ -101,7 +101,7 @@ $itemsInCol = 0;
 $CurrentCol = 1;
 ?>
 
-<div class="col-md-3">
+<div class="col-md-3" style="background: white;">
     @foreach ($categories as $category)
         <?php
         $catclass = toclass($category['category']);
@@ -115,7 +115,7 @@ $CurrentCol = 1;
         }
         $itemsInCol += $menuitemcount;
         ?>
-        <div class=" card card-block mb-3" style="">
+        <div class="" >
             <h6 class="btn-block text-danger text-uppercase" style="">  {{$category['category']}}  </h6>
             @foreach ($menuitems as $menuitem)
                 <div style="padding:1px 1px" class="list-group-item-action item_{{ $catclass }}"
@@ -163,7 +163,7 @@ $CurrentCol = 1;
         </div>
         @if($catclass=="dips" || $catclass=="sides")
 </div>
-<div class="col-md-3">
+<div class="col-md-3" style="background: white;">
     @endif
     @endforeach
 </div>
