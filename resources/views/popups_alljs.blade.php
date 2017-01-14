@@ -392,12 +392,13 @@
 
             tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item">';
             tempHTML += '<span class=""> <DIV CLASS="sprite pull-left rounded-circle bg-warning sprite-' + category + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
+         //   tempHTML += '<span class=""></DIV> ' + item["itemname"] + '</span>';
             tempHTML += '<span class="pull-right" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '">';
 
-            tempHTML += ' <i class="fa fa-close pull-right" onclick="removeorderitem(' + itemid + ');"></i>';
+            tempHTML += ' <button class="fa fa-close pull-right btn btn-sm btn-danger" onclick="removeorderitem(' + itemid + ');"></button>';
 
             if (hasaddons) {
-                tempHTML += ' <i class="fa fa-pencil pull-right" onclick="edititem(this, ' + itemid + ');"></i>';
+                tempHTML += ' <button class="fa fa-pencil pull-right btn btn-sm btn-danger" onclick="edititem(this, ' + itemid + ');"></button>';
             }
             tempHTML += '$' + totalcost + '</span><div class="clearfix"></div>';
 
@@ -743,7 +744,7 @@
 
     //generate a list of addresses and send it to the alert modal
     function addresses() {
-        var HTML = '<DIV CLASS="section"><h6>ADDRESS</h6><br>';
+        var HTML = '<DIV CLASS="section"><h2>ADDRESS</h2><br>';
         var number = $("#add_number").val();
         var street = $("#add_street").val();
         var city = $("#add_city").val();
@@ -765,7 +766,7 @@
     }
 
     function creditcards() {
-        var HTML = '<DIV CLASS="section"><h6>CREDIT CARD</h6>';
+        var HTML = '<DIV CLASS="section"><h2>CREDIT CARD</h2>';
         if (userdetails.Stripe.length == 0) {
             return HTML + "<br>No Credit Cards";
         }
@@ -1570,7 +1571,7 @@
         <div class="modal-content">
             <div class="modal-header">
 
-                <h6 class="modal-title" id="alertmodallabel">Title</h6>
+                <h2 class="modal-title" id="alertmodallabel">Title</h2>
 
 
 
@@ -1631,7 +1632,7 @@
             var tempstr = '';
             var classname = 'itemcontents itemcontents' + itemindex;
 
-            HTML += '<DIV style="border:2px solid transparent;border-radius:.2rem;padding:.25rem;width:33% !important;float:left;" ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="currentitem currentitem' + itemindex;
+            HTML += '<DIV style="border:2px solid transparent;border-radius:.2rem;padding:.25rem;width:50% !important;float:left;" ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="currentitem currentitem' + itemindex;
             if (currentitemindex == itemindex) {
                 HTML += ' thisside';
             }
@@ -1717,7 +1718,7 @@
             //var colors = ["secondary", "secondary", "secondary", "secondary", "secondary"];//' + colors[i] + '
 
             for (var i = 0; i < types.length; i++) {
-                //HTML += '<h6 class="col-xs-12 btn-sm" id="' + toclassname(types[i]) + '">' + types[i] + '</h6>';
+                //HTML += '<h2 class="col-xs-12 btn-sm" id="' + toclassname(types[i]) + '">' + types[i] + '</h2>';
                // HTML += '<div id="' + toclassname(types[i]) + '">' + types[i] + '</div>';
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];

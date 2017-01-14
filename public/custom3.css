@@ -1,8 +1,14 @@
+.navbar, .dropdown-menu, .shadow, .btn, .bg-danger ,.col-md-3{
+    border: 0 !important;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12) !important;
+}
 body {
     font-family: 'Roboto', sans-serif;
-    background:#d9534f!important;
-}
 
+    background:#eee!important;
+
+}
+.col-md-3{background:white;}
 /* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
 body.loading {
     overflow: hidden;
@@ -13,9 +19,14 @@ body.loading #loadingmodal {
     display: block;
     z-index: 999999;
 }
-* {
-line-height: 1rem !important;
 
+
+h2 {
+    font-weight: bold;
+    color: #d9534f !important;
+    font-size: 1rem !important;
+    margin-bottom: 1rem !important;
+    margin-top: 1rem !important;
 }
 
 .btn-circle {
@@ -27,6 +38,7 @@ line-height: 1rem !important;
     line-height: 1.428571429;
     border-radius: 15px;
 }
+
 .btn-circle.btn-lg {
     width: 50px;
     height: 50px;
@@ -35,6 +47,7 @@ line-height: 1rem !important;
     line-height: 1.33;
     border-radius: 25px;
 }
+
 .btn-circle.btn-xl {
     width: 70px;
     height: 70px;
@@ -43,9 +56,6 @@ line-height: 1rem !important;
     line-height: 1.33;
     border-radius: 35px;
 }
-
-
-
 
 #snackbar {
     visibility: hidden;
@@ -120,11 +130,7 @@ line-height: 1rem !important;
     text-align: center !important;
     background: #dadada;
     border-radius: 0 !important;
-    border:1px solid #d2d2d2;
 }
-
-
-
 
 .full {
     /* background: url(http://placehold.it/1920x1080) no-repeat center center fixed; */
@@ -167,12 +173,10 @@ input, textarea, select {
     z-index: 998;
 }
 
-
-
-
 .dont-show {
     display: none;
 }
+
 .red {
     border: 2px solid red !important;
 }
@@ -181,7 +185,6 @@ input, textarea, select {
     cursor: pointer; /* stop removing this */
 }
 
-
 a:focus, .btn:focus {
     outline: none !important;
     outline: 0;
@@ -189,10 +192,8 @@ a:focus, .btn:focus {
 
 .addon-selected, .thisside {
     background: #fbfbfb !important;
-    border-color: #d9534f!important;
+    border-color: #d9534f !important;
 }
-
-
 
 /*
 
@@ -237,22 +238,6 @@ a:focus, .btn:focus {
 }
 
 */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .sprite {
     background-image: url('grid3.png');
@@ -340,3 +325,35 @@ a:focus, .btn:focus {
     -moz-transform: scale(0.20);
     -moz-transform-origin: 0 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

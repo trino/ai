@@ -1,11 +1,15 @@
-<nav class="navbar dont-print bg-danger text-white " style="padding:1rem 0;z-index: 1;border-radius: 0 !important;">
+<nav class="navbar dont-print bg-danger text-white " style="padding:1.25rem 0;z-index: 1;border-radius: 0 !important;">
     <div class="container">
-        <a HREF="<?= webroot("public/index"); ?>" onclick="history.go(0);" class="pull-left text-white" style="font-weight:600;letter-spacing: .03rem !important; width: 100px;" href="#">
-            <i class="fa fa-car icon-width" aria-hidden="true"></i> Menu
-        </a>
+
             <ul class="nav navbar-nav">
                 <li class="nav-item dropdown">
-                    <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-bars no-padding-margin text-white"></i> </a>
+
+                    <a HREF="<?= webroot("public/index"); ?>" onclick="history.go(0);" class="pull-left text-white" style="font-weight:600;letter-spacing: .03rem !important; width: 100px;" href="#">
+                        <i class="fa fa-car icon-width" aria-hidden="true"></i> Menu
+                    </a>
+
+
+                    <a class="pull-right" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-bars text-white"></i> </a>
                     <ul class="dropdown-menu dropdown-menu-right">
                     <SPAN class="loggedin profiletype profiletype1">
                         <?php

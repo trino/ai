@@ -44,9 +44,9 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-block bg-danger">
-                    <h4 class="pull-left">
+                    <h2 class="pull-left">
                         <i class="fa fa-home" aria-hidden="true"></i> Edit menu
-                    </h4>
+                    </h2>
                 </div>
                 <div class="card-block">
                     <div class="row">

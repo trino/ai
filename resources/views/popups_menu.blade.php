@@ -101,7 +101,7 @@ $itemsInCol = 0;
 $CurrentCol = 1;
 ?>
 
-<div class="col-md-3" style="background: white;">
+<div class="col-md-3">
     @foreach ($categories as $category)
         <?php
         $catclass = toclass($category['category']);
@@ -115,8 +115,8 @@ $CurrentCol = 1;
         }
         $itemsInCol += $menuitemcount;
         ?>
-        <div class="" >
-            <h6 class="btn-block text-danger text-uppercase" style="">  {{$category['category']}}  </h6>
+        <div class="pb-3 mb-3">
+            <h2 class="btn-block text-danger text-uppercase" style="">  {{$category['category']}}  </h2>
             @foreach ($menuitems as $menuitem)
                 <div style="padding:1px 1px" class="list-group-item-action item_{{ $catclass }}"
                      itemid="{{$menuitem["id"]}}"
@@ -160,14 +160,14 @@ $CurrentCol = 1;
                     <div class="clearfix"></div>
                 </div>
             @endforeach
+            <div class="clearfix"></div>
         </div>
         @if($catclass=="dips" || $catclass=="sides")
 </div>
-<div class="col-md-3" style="background: white;">
+<div class="col-md-3">
     @endif
     @endforeach
 </div>
-
 
 <!-- order menu item Modal -->
 <div class="modal" id="menumodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
@@ -183,7 +183,7 @@ $CurrentCol = 1;
             </div>
 
             <div class="modal-header">
-                <div id="myModalLabel"><SPAN ID="modal-itemname"></SPAN> <span class="text-muted">+$0.79 per topping</span></div>
+                <h2 id="myModalLabel"><SPAN ID="modal-itemname"></SPAN> <span class="text-muted">+$0.79 per topping</span></h2>
                 <button type="button" class="close" data-popup-close="menumodal" old-data-dismiss="modal" aria-label="Close">&times;</button>
 
             </div>

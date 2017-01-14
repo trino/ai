@@ -69,73 +69,45 @@ if (!function_exists("inline")) {
 $minutes = 40;
 $seconds = 0;
 ?>
-
-
-
 @if($style==1)
-
-
-    <div class="card text-xs-center">
-        <h2>ARRIVING IN</h2>
-        <h2 CLASS="countdown" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>">123123</h2>
-        @if($Order["deliverytime"])
-            <?php
-            $Time = right($Order["deliverytime"], 4);
-            if (is_numeric($Time)) {
-                echo left($Order["deliverytime"], strlen($Order["deliverytime"]) - 4) . GenerateTime(intval($Time));
-            } else if ($Order["deliverytime"] == "Deliver Now") {
-                echo "ASAP";
-            } else {
-                echo $Order["deliverytime"];
-            }
-            ?>
-        @endif
-    </div>
-    <div class="card">
-        <h6>Delivery Address</h6>
+    <h2>Order Arriving In</h2>
+    <h2 CLASS="countdown" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"></h2>
+    @if($Order["deliverytime"])
+        <?php
+        $Time = right($Order["deliverytime"], 4);
+        if (is_numeric($Time)) {
+            echo left($Order["deliverytime"], strlen($Order["deliverytime"]) - 4) . GenerateTime(intval($Time));
+        } else if ($Order["deliverytime"] == "Deliver Now") {
+            echo "ASAP";
+        } else {
+            echo $Order["deliverytime"];
+        }
+        ?>
+    @endif
+    <h2>Delivery Address</h2>
     <?php
-    echo $Order["name"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . " "
-        . $Order["province"] . " " . $Order["postalcode"] . '<BR>' . $Order["unit"] . '';
+    echo $Order["name"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . " " . $Order["province"] . " " . $Order["postalcode"] . '<BR>' . $Order["unit"];
     ?>
-    <!--TR>
-        <TD>Ordered On</TD>
-        <TD ID="receipt_placed_at"><?= verbosedate($Order["placed_at"]); ?></TD>
-        </TR-->
-    </div>
-
-
-
-
-
     @if(!isset($JSON))
-        <TR>
-            <TD>
-                <h6>Restaurant</h6><br>
-                Order #<span ID="receipt_id"><?= $orderid; ?></span><br>
-                <?php
-                /*
-                $Status = array("Pending", "Confirmed", "Declined", "Delivered", "Canceled");
-                $Status = $Status[$Order["status"]];
-                */
-                $Restaurant = first("SELECT * FROM restaurants WHERE id = " . $Order["restaurant_id"]);
-                $Raddress = first("SELECT * FROM useraddresses WHERE id = " . $Restaurant["address_id"]);
-                echo $Restaurant["name"] . "<BR>" . $Raddress["number"] . " " . $Raddress["street"] . "<br>" . $Raddress["city"] . " " . $Raddress["province"] . " "
-                    . $Raddress["postalcode"] . '<BR>' . $Raddress["unit"] . " " . $Restaurant["phone"];
-                echo '<INPUT TYPE="HIDDEN" ID="cust_latitude" VALUE="' . $Order["latitude"] . '">
-<INPUT TYPE="HIDDEN" ID="cust_longitude" VALUE="' . $Order["longitude"] . '">
-<INPUT TYPE="HIDDEN" ID="rest_latitude" VALUE="' . $Raddress["latitude"] . '">
-<INPUT TYPE="HIDDEN" ID="rest_longitude" VALUE="' . $Raddress["longitude"] . '">';
-                ?>
 
-            </TD>
-        </TR>
-        </TABLE>
+
+        <h2>Restaurant</h2>
+        Order #<span ID="receipt_id"><?= $orderid; ?></span><br>
+        <?php
+        $Restaurant = first("SELECT * FROM restaurants WHERE id = " . $Order["restaurant_id"]);
+        $Raddress = first("SELECT * FROM useraddresses WHERE id = " . $Restaurant["address_id"]);
+
+        echo $Restaurant["name"] . "<BR>" . $Raddress["number"] . " " . $Raddress["street"] . "<br>" .
+            $Raddress["city"] . " " . $Raddress["province"] . " " . $Raddress["postalcode"] . '<BR>' . $Raddress["unit"] . " " . $Restaurant["phone"];
+
+        echo '<INPUT TYPE="HIDDEN" ID="cust_latitude" VALUE="' . $Order["latitude"] . '"><INPUT TYPE="HIDDEN" ID="cust_longitude" VALUE="' . $Order["longitude"]
+            . '"><INPUT TYPE="HIDDEN" ID="rest_latitude" VALUE="' . $Raddress["latitude"]
+            . '"><INPUT TYPE="HIDDEN" ID="rest_longitude" VALUE="' . $Raddress["longitude"] . '">';
+        ?>
+
     @endif
 
-
-
-
-
+    <h2>Receipt</h2>
     <TABLE <?= inline("table table-sm table-bordered table-responsive"); ?> >
         <TR>
             <TH>#</TH>
@@ -369,6 +341,18 @@ $seconds = 0;
 
 
             </TABLE>
+
+
+
+            <div>
+                <br><br> CHECK US OUT ON SOCIAL MEDIA
+                <br><br> FOOD DRIVE PROGRAM
+                <br><br> EMAIL US
+                <br><br> SEARCH GOOGLE
+                <br><br>
+            </div>
+
+
 
             <SCRIPT>
                 var countdown = window.setTimeout(function () {

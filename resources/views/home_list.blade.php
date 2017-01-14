@@ -221,10 +221,10 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-block bg-danger">
-                            <h6 class="pull-left">
+                            <h2 class="pull-left">
                                 <A HREF="<?= webroot("public/list/all"); ?>"><i class="fa fa-{{ $faicon }}" aria-hidden="true"></i></A> {{ ucfirst($table) . ' list ' . $extratitle }}
-                            </h6>
-                            <h4 CLASS="pull-right spacing">
+                            </h2>
+                            <h2 CLASS="pull-right spacing">
                                 @if($table != "all" && read("profiletype") == 1)
                                     @if($table == "debug")
                                         <A onclick="testemail();" TITLE="Send a test email" class="hyperlink" id="testemail"><i class="fa fa-envelope"></i></A>
@@ -234,7 +234,7 @@
                                     @endif
                                     <A HREF="{{ webroot("public/list/all") }}" TITLE="Back"><i class="fa fa-arrow-left"></i></A>
                                 @endif
-                            </h4>
+                            </h2>
                         </div>
                         <div class="card-block" style="overflow-x: scroll;">
                             <div class="row">
@@ -941,7 +941,7 @@
 
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
 
-                            <h4 id="myModalLabel">View Order</h4>
+                            <h2 id="myModalLabel">View Order</h2>
 
                             <SPAN ID="ordercontents"></SPAN><P>
 

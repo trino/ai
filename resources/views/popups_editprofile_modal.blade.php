@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-popup-close="profilemodal" old-data-dismiss="modal" aria-label="Close">&times;</button>
-                <h6 id="myModalLabel">MY ACCOUNT</h6>
+                <h2 id="myModalLabel">MY ACCOUNT</h2>
             </div>
             
             <div class="modal-body">

@@ -4,10 +4,10 @@
 
 <!--div class="modal" id="loginmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"  data-keyboard="false" data-backdrop="static"-->
 
-<div class="row py-1 " STYLE="background: white;">
+<div class="row py-1 ">
 
     <DIV CLASS="col-md-12 py-1">
-        <h3>Precise Pizza Delivery</h3>
+        <h2>Precise Pizza Delivery</h2>
     </div>
 
     <DIV CLASS="col-md-4">
