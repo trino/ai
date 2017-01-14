@@ -96,7 +96,7 @@
                 </div>
                 <div class="card">
 
-                    <strong>Delivery Address</strong><br>
+                    <h6>Delivery Address</h6><br>
                     <?php
                     echo $Order["name"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . " "
                         . $Order["province"] . " " . $Order["postalcode"] . '<BR>' . $Order["unit"] . '';
@@ -114,7 +114,7 @@
         <TR>
             <TD colspan="2">
                 <div class="py-1">
-                    <strong>Restaurant</strong><br>
+                    <h6>Restaurant</h6><br>
                 Order #<span ID="receipt_id"><?= $orderid; ?></span><br>
               <?php
                 /*
