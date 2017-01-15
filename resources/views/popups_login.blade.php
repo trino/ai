@@ -9,7 +9,7 @@
 
     <DIV CLASS="col-md-4" >
     <DIV CLASS="card card-block shadow" >
-        <h2 style="margin-top: 0 !important;">Precise Pizza Delivery</h2>
+        <h2 style="margin-top: 0 !important;color:#333 !important;">Precise Pizza Delivery</h2>
 
         <!-- Bootstrap CSS -->
         <!-- jQuery first, then Bootstrap JS. -->
@@ -35,7 +35,7 @@
                 <INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control" onkeydown="enterkey(event, 'login');">
 
                 <BUTTON CLASS="btn btn-danger pull-right" onclick="handlelogin('login');">LOG IN</BUTTON>
-                <BUTTON CLASS="btn btn-link pull-left" onclick="handlelogin('forgotpassword');">FORGOT PASSWORD</BUTTON>
+                <BUTTON CLASS="btn btn-link text-muted pull-left" onclick="handlelogin('forgotpassword');">FORGOT PASSWORD</BUTTON>
             </div>
 
             <div role="tabpanel" class="tab-pane fade" id="buzz">

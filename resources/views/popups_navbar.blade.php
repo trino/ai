@@ -1,4 +1,4 @@
-<nav class=" dont-print bg-danger text-white " style="padding:1.25rem 0;z-index: 1;border-radius: 0 !important;">
+<nav class=" dont-print bg-danger text-white " style="padding:1rem 0;z-index: 1;border-radius: 0 !important;">
     <div class="container-fluid">
 
 
