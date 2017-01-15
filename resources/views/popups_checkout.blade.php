@@ -1,7 +1,7 @@
 <?php startfile("popups_checkout"); ?>
 
 <div>
-    <h2 style="color:white !important;">MY ORDER  <button class="btn btn-danger btn-sm pull-right" ONCLICK="confirmclearorder();">
+    <h2 style="color:white !important;">MY ORDER  <button class="btn btn-danger pull-right btn-sm" ONCLICK="confirmclearorder();">
             <i class="fa fa-close"></i>
         </button></h2>
 
@@ -9,30 +9,22 @@
 </div>
 
 <div id="myorder" class="text-white"></div>
-
-
 <button id="checkout-btn" class="btn btn-warning btn-block mb-1" onclick="showcheckout();">
     CHECKOUT
 </button>
 
-
 <div class="modal" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
+            <div class="modal-header">
+                    <h2 id="myModalLabel">CHECKOUT</h2>
+                <button type="button" class="close pull-right" data-popup-close="checkoutmodal" old-data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
             <div class="modal-body pa-0">
-
             <!-------------------------------------------------------------->
             <!-------------------------------------------------------------->
             <!-------------------------------------------------------------->
-
             <FORM ID="orderinfo" name="orderinfo">
-
-
-                        <DIV CLASS="col-xs-12">
-                            <button type="button" class="close" data-popup-close="checkoutmodal" old-data-dismiss="modal" aria-label="Close">&times;</button>
-                            <h2 id="myModalLabel">CHECKOUT</h2>
-                        </DIV>
-
                         <div class="col-xs-12">
                             <?= view("popups_edituser", array("email" => true, "password" => false, "phone" => true))->render(); ?>
                         </div>

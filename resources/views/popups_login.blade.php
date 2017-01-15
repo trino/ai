@@ -4,13 +4,12 @@
 
 <!--div class="modal" id="loginmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"  data-keyboard="false" data-backdrop="static"-->
 
-<div class="row py-1 ">
+<div class="row py-1">
 
-    <DIV CLASS="col-md-12 py-1">
-        <h2>Precise Pizza Delivery</h2>
-    </div>
 
-    <DIV CLASS="col-md-4">
+    <DIV CLASS="col-md-4" >
+    <DIV CLASS="card card-block shadow" >
+        <h2 style="margin-top: 0 !important;">Precise Pizza Delivery</h2>
 
         <!-- Bootstrap CSS -->
         <!-- jQuery first, then Bootstrap JS. -->
@@ -35,8 +34,8 @@
 
                 <INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control" onkeydown="enterkey(event, 'login');">
 
-                <BUTTON CLASS="btn btn-success pull-right" onclick="handlelogin('login');">Log In</BUTTON>
-                <BUTTON CLASS="btn btn-secondary pull-left" onclick="handlelogin('forgotpassword');">Forgot Password</BUTTON>
+                <BUTTON CLASS="btn btn-danger pull-right" onclick="handlelogin('login');">LOG IN</BUTTON>
+                <BUTTON CLASS="btn btn-link pull-left" onclick="handlelogin('forgotpassword');">FORGOT PASSWORD</BUTTON>
             </div>
 
             <div role="tabpanel" class="tab-pane fade" id="buzz">
@@ -65,7 +64,7 @@
 
         <DIV CLASS="clearfix"></DIV>
 
-    </DIV>
+    </DIV></DIV>
 
     <DIV CLASS="col-md-6" id="loginpanel">
         <DIV CLASS="clearfix"></DIV>

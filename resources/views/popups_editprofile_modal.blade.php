@@ -3,10 +3,9 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-popup-close="profilemodal" old-data-dismiss="modal" aria-label="Close">&times;</button>
                 <h2 id="myModalLabel">MY ACCOUNT</h2>
+                <button type="button" class="close pull-right" data-popup-close="profilemodal" old-data-dismiss="modal" aria-label="Close">&times;</button>
             </div>
-            
             <div class="modal-body">
                 <FORM NAME="user" id="userform">
                 @include("popups_edituser", array("showpass" => true))

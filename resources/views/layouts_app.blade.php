@@ -38,9 +38,13 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
+
+        <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
           crossorigin="anonymous">
-    <link rel="stylesheet" href="<?= webroot("public/custom3.css?v=") . time(); ?>">
+    <link rel="stylesheet" href="<?= webroot("resources/views/custom3.css?v=") . time(); ?>">
     <script src="<?= webroot("resources/views/jquery.min.js"); ?>"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
             crossorigin="anonymous"></script>
@@ -56,20 +60,16 @@
         * {
             padding: 3px;
         }
-
         input, select, textarea {
             border: 1px solid green !important;
             background: #dadada !important;
         }
-
         div {
             border: 1px solid orange !important;
         }
-
         .row {
             border: 1px solid blue !important;
         }
-
         div[class^="col-"], div[class*=" col-"] {
             border: 5px solid purple !important;
         }
@@ -89,7 +89,7 @@
 @endif
 <body>
 <?= view("popups_navbar")->render(); ?>
-<div class="container  pt-3" style="">
+<div class="container-fluid  py-3" style="">
     @yield('content')
 </div>
 
@@ -99,20 +99,12 @@
 
 <div id="snackbar">Order Updated</div>
 
-
-
-
-
-
-
-
-
-
-<footer class="" style="background: #efefef;padding:2rem 0 !important;">
-    <div class="container">
-        <div class="row">
+    <nav class="navbar shadow fixed-bottom" style="">
+    <div class="container-fluid">
+        <a href="#" class="text-white">About</a>
+        <!--div class="row">
             <div class="col-6 col-sm-3">
-                <h6 class="text-uppercase">More</h6>
+                <h2 class="text-uppercase">More</h2>
                 <ul class="list-unstyled">
                     <li><a href="//theme.cards" title="Free themes">Theme.cards</a></li>
                     <li><a href="//www.bootply.com" title="Bootstrap Editor">Bootply</a></li>
@@ -121,7 +113,7 @@
                 </ul>
             </div>
             <div class="col-6 col-sm-3 column">
-                <h6 class="text-uppercase">About</h6>
+                <h2 class="text-uppercase">About</h2>
                 <ul class="list-unstyled">
                     <li><a href="#" data-toggle="modal" data-target="#alertModal">Contact Us</a></li>
                     <li><a href="#" data-toggle="modal" data-target="#alertModal">Delivery Information</a></li>
@@ -130,7 +122,7 @@
                 </ul>
             </div>
             <div class="col-12 col-sm-3 column">
-                <h6 class="text-uppercase">Stay Posted</h6>
+                <h2 class="text-uppercase">Stay Posted</h2>
                 <form>
                     <div class="form-group">
                         <input type="text" class="form-control" title="No spam, we promise!" placeholder="Tell us your email">
@@ -141,18 +133,16 @@
                 </form>
             </div>
             <div class="col-12 col-sm-3 text-xs-right">
-                <h6 class="text-uppercase">Follow</h6>
+                <h2 class="text-uppercase">Follow</h2>
                 <ul class="list-inline">
                     <li class="list-inline-item"><a rel="nofollow" href="" title="Twitter"><i class="icon-lg ion-social-twitter-outline"></i></a>&nbsp;</li>
                     <li class="list-inline-item"><a rel="nofollow" href="" title="Facebook"><i class="icon-lg ion-social-facebook-outline"></i></a></li>
                 </ul>
             </div>
-        </div>
+        </div-->
 
     </div>
-</footer>
-
-
+</nav>
 </body>
 
 <script type="text/javascript">

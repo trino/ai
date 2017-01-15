@@ -115,8 +115,8 @@ $CurrentCol = 1;
         }
         $itemsInCol += $menuitemcount;
         ?>
-        <div class="pb-3 mb-3">
-            <h2 class="btn-block text-danger text-uppercase" style="">  {{$category['category']}}  </h2>
+        <div class="" style="margin-bottom:1rem !important;">
+            <h2 class="text-danger text-uppercase" style="">  {{$category['category']}}  </h2>
             @foreach ($menuitems as $menuitem)
                 <div style="padding:1px 1px" class="list-group-item-action item_{{ $catclass }}"
                      itemid="{{$menuitem["id"]}}"
@@ -156,7 +156,7 @@ $CurrentCol = 1;
                 >
                     <div class="rounded  pull-left sprite sprite-<?= $itemclass; ?> sprite-medium"></div>
                     <span style="padding-top:.45rem !important;" class="pull-left itemname">{{$menuitem['item']}} </span>
-                    <span style="padding-top:.45rem !important;" class="pull-right text-muted itemname"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
+                    <span style="padding-top:.45rem !important;" class="pull-right itemname"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
                     <div class="clearfix"></div>
                 </div>
             @endforeach
@@ -169,11 +169,11 @@ $CurrentCol = 1;
     @endforeach
 </div>
 
+
 <!-- order menu item Modal -->
 <div class="modal" id="menumodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-
             <div style="display: none;" id="modal-hiddendata">
                 <SPAN ID="modal-itemprice"></SPAN>
                 <SPAN ID="modal-itemid"></SPAN>
@@ -183,41 +183,32 @@ $CurrentCol = 1;
             </div>
 
             <div class="modal-header">
-                <h2 id="myModalLabel"><SPAN ID="modal-itemname"></SPAN> <span class="text-muted">+$0.79 per topping</span></h2>
+                <h2 id="myModalLabel"><SPAN ID="modal-itemname"></SPAN></h2> <div class="tag tag-danger">+$0.79 per topping</div>
                 <button type="button" class="close" data-popup-close="menumodal" old-data-dismiss="modal" aria-label="Close">&times;</button>
-
             </div>
-
             <div class="modal-body" style="background: #dadada !important;padding-top:0 !important;">
                 <div class="row">
                     <DIV ID="addonlist" class="addonlist"></DIV>
                     <div class="clearfix"></div>
-
                     <div class="col-md-5">
                         <DIV ID="removelist" style="color: red;"></div>
                         <div class="clearfix"></div>
                     </div>
-
                     <div class="col-md-7">
-
-
-                        <button type="button" data-popup-close="menumodal" old-data-dismiss="modal" id="additemtoorder" class="btn btn-danger btn-circle btn-lg pull-right"
+                        <button type="button" data-popup-close="menumodal" old-data-dismiss="modal"
+                                id="additemtoorder" class="btn btn-danger btn-circle btn-lg pull-right"
                                 onclick="additemtoorder();"><i class="fa fa-plus"></i></button>
-
-
-                        <div class="pull-right btn dont"> $<SPAN ID="modal-itemtotalprice"></SPAN>
-                            <div class="clearfix"></div>
-                        </div>
+                        <div class="pull-right"> $<SPAN ID="modal-itemtotalprice"></SPAN></div>
                     </div>
                     <div class="clearfix"></div>
-
                 </div>
             </div>
-
         </div>
     </div>
 </div>
 <!-- end order menu item Modal -->
+
+
 
 <script>
     var tables = <?= json_encode($tables); ?>;

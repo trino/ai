@@ -393,7 +393,7 @@
                                             case "users":
                                                 tempHTML += '<A CLASS="btn btn-sm btn-success" href="' + baseURL + 'useraddresses?user_id=' + ID + '">Addresses</A> ';
                                                 tempHTML += '<A CLASS="btn btn-sm  btn-secondary" href="{{ webroot("public/user/info/") }}' + ID + '">Edit</A> ';
-                                                tempHTML += '<A CLASS="btn btn-sm btn-success" ONCLICK="changepass(' + ID + ');" TITLE="Change their password">Password</A> ';
+                                                tempHTML += '<A CLASS="btn btn-sm btn-success" ONCLICK="changepass(' + ID + ');" TITLE="Change their password">Password2 </A> ';
                                                 break;
                                             case "useraddresses":
                                                 tempHTML += '<A CLASS="btn btn-sm btn-success" onclick="editaddress(' + ID + ');">Edit</A> ';
@@ -937,23 +937,21 @@
             <div class="modal" id="ordermodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
+                        <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                        <h2 id="myModalLabel">View Order</h2>
+                        </div>
                         <div class="modal-body">
-
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
-
-                            <h2 id="myModalLabel">View Order</h2>
-
                             <SPAN ID="ordercontents"></SPAN><P>
-
                             @if(!$showmap)
                                 <?= view("popups_googlemaps"); ?>
                             @endif
-
                             <div class="clearfix"></div>
                         </div>
                     </div>
                 </div>
             </div>
+
             <?php endfile("home_list"); ?>
         @endsection
         <?php

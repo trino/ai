@@ -297,7 +297,7 @@
         var title = "<i class='fa fa-plus'></i>";
         if (!isUndefined(notparent)) {
             $("#menumodal").modal("show");
-            title = "SAVE";
+            title = "+";
         }
         $("#additemtoorder").html(title);
     }
@@ -442,7 +442,7 @@
 
         createCookieValue("theorder", JSON.stringify(theorder));
         if (theorder.length == 0) {
-            HTML = '<DIV CLASS="text-center" style="position: relative; top: 55px;">Order is Empty</DIV><i class="fa fa-shopping-cart fa-5x center" style="color: #c9312c !important;"></i>';
+            HTML = '<DIV CLASS="text-center">Order is Empty<br><i class="fa fa-shopping-cart fa-5x center" style="color: #c9312c !important;"></i></div>';
             $("#checkout").hide();
             $("#checkoutbutton").hide();
             removeCookie("theorder");
@@ -678,7 +678,7 @@
             }, function (result) {
                 $("#checkoutmodal").modal("hide");
                 if (result.contains("ordersuccess")) {
-                    handleresult(result, "Order Placed Successfully!");
+                    handleresult(result, "THANK YOU FOR YOUR ORDER!");
                     if ($("#saveaddresses").val() == "addaddress") {
                         var Address = {
                             id: $(".ordersuccess").attr("addressid"),
@@ -1570,20 +1570,13 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-
                 <h2 class="modal-title" id="alertmodallabel">Title</h2>
-
-
-
                 <button type="button" class="close  pull-right" data-popup-close="alertmodal" old-data-dismiss="modal" aria-label="Close">
                     &times;
                 </button>
-
             </div>
-
             <div class="modal-body">
                 <DIV ID="alertmodalbody"></DIV>
-
                 <div CLASS="pull-right">
                     <button class="btn btn-secondary" id="alert-cancel" data-dismiss="modal">
                         Cancel
@@ -1723,7 +1716,7 @@
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
-                    HTML += '<div class="col-xs-4 col-sm-3 btn-sm  toppings_btn btn addon-addon';
+                    HTML += '<div style="width:33.3%;" class="btn-sm  toppings_btn btn addon-addon';
                     if (isaddon_free(String(currentaddontype), String(addon))) {
                         HTML += ' btn-secondary';
                         title = "Free addon";

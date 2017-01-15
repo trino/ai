@@ -70,8 +70,8 @@ $minutes = 40;
 $seconds = 0;
 ?>
 @if($style==1)
-    <h2>Order Arriving In</h2>
-    <h2 CLASS="countdown" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"></h2>
+    <h2 class="mt-0">Order Arriving In <span CLASS="countdown" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"></span></h2>
+
     @if($Order["deliverytime"])
         <?php
         $Time = right($Order["deliverytime"], 4);
@@ -344,13 +344,13 @@ $seconds = 0;
 
 
 
-            <div>
+            <!--div>
                 <br><br> CHECK US OUT ON SOCIAL MEDIA
                 <br><br> FOOD DRIVE PROGRAM
                 <br><br> EMAIL US
                 <br><br> SEARCH GOOGLE
                 <br><br>
-            </div>
+            </div-->
 
 
 
