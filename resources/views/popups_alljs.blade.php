@@ -294,7 +294,7 @@
             }
         }
         currentitemID = -1;
-        var title = "<i class='fa fa-plus'></i>";
+        var title = "<i class='fa fa-check'></i>";
         if (!isUndefined(notparent)) {
             $("#menumodal").modal("show");
             title = "+";

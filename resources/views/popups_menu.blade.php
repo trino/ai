@@ -191,7 +191,7 @@ $CurrentCol = 1;
                     <div class="col-md-7">
                         <button type="button" data-popup-close="menumodal" old-data-dismiss="modal"
                                 id="additemtoorder" class="btn btn-danger btn-circle btn-lg pull-right"
-                                onclick="additemtoorder();"><i class="fa fa-plus"></i></button>
+                                onclick="additemtoorder();"><i class="fa fa-check"></i></button>
                         <div class="pull-right"> $<SPAN ID="modal-itemtotalprice"></SPAN></div>
                     </div>
                     <div class="clearfix"></div>

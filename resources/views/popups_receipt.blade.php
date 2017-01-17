@@ -1,110 +1,113 @@
 <?php
-startfile("popups_receipt");
-$debugmode = !islive();
-$debug = "";
-$Order = first("SELECT orders.*, users.name, users.id as userid, users.email FROM orders, users WHERE orders.id = " . $orderid . " HAVING user_id = users.id");
-$filename = resource_path("orders") . "/" . $orderid . ".json";
-if (isset($JSON)) {//get raw JSON instead
-    $style = 2;
-    if ($JSON && $JSON != "false") {
-        if (file_exists($filename)) {
-            $Order["Order"] = json_decode(file_get_contents($filename));
-            echo json_encode($Order);
-            die();//only the JSON is desired, send it
-        }
-        echo json_encode(array("Status" => false, "Reason" => "File not found"));
-        die();
-    }
-} else if (!isset($style)) {
-    $style = 1;
-}
-if (!$Order) {
-    echo 'Order not found';
-    return false;
-}
-switch ($style) {
-    case 1:
-        $colspan = 6;
-        break;
-    case 2:
-        $colspan = 3;
-        $ordinals = array("1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th");
-        break;
-}
-//Hack to put CSS inline for emails
-if (!isset($inline)) {
-    $inline = false;
-}
-$GLOBALS["inline"] = $inline;
-if (!function_exists("inline")) {
-    function inline($Class, $OnlyInline = false)
-    {
-        if ($GLOBALS["inline"]) {
-            $Style = array();
-            $Class = explode(" ", $Class);
-            foreach ($Class as $Classname) {
-                switch (strtolower($Classname)) {
-//table-sm
-                    case "table":
-                        $Style[] = "width: 100%; max-width: 100%; margin-bottom: 0; border-collapse: collapse; background-color: transparent; display: table; border-spacing: 2px;";
-                        break;
-                    case "table-bordered":
-                        $Style[] = "border: 1px solid #eceeef; ";
-                        break;
-                    case "bg-danger":
-                        $Style[] = "background-color: #d9534f!important;";
-                        break;
-                    case "table-inverse":
-                        $Style[] = "border: 0; color: #eceeef; background-color: #373a3c;";
-                        break;
-                }
+    startfile("popups_receipt");
+    $debugmode = !islive();
+    $debug = "";
+    $Order = first("SELECT orders.*, users.name, users.id as userid, users.email FROM orders, users WHERE orders.id = " . $orderid . " HAVING user_id = users.id");
+    $filename = resource_path("orders") . "/" . $orderid . ".json";
+    if (isset($JSON)) {//get raw JSON instead
+        $style = 2;
+        if ($JSON && $JSON != "false") {
+            if (file_exists($filename)) {
+                $Order["Order"] = json_decode(file_get_contents($filename));
+                echo json_encode($Order);
+                die();//only the JSON is desired, send it
             }
-            return ' style="' . implode(" ", $Style) . '"';
-        } else if (!$OnlyInline) {
-            return ' class="' . $Class . '"';
+            echo json_encode(array("Status" => false, "Reason" => "File not found"));
+            die();
+        }
+    } else if (!isset($style)) {
+        $style = 1;
+    }
+    if (!$Order) {
+        echo 'Order not found';
+        return false;
+    }
+    switch ($style) {
+        case 1:
+            $colspan = 6;
+            break;
+        case 2:
+            $colspan = 3;
+            $ordinals = array("1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th");
+            break;
+    }
+    //Hack to put CSS inline for emails
+    if (!isset($inline)) {
+        $inline = false;
+    }
+$timer=true;
+    if (!isset($timer)){
+        $timer = false;
+    }
+    $GLOBALS["inline"] = $inline;
+    if (!function_exists("inline")) {
+        function inline($Class, $OnlyInline = false) {
+            if ($GLOBALS["inline"]) {
+                $Style = array();
+                $Class = explode(" ", $Class);
+                foreach ($Class as $Classname) {
+                    switch (strtolower($Classname)) {
+                        //table-sm
+                        case "table":
+                            $Style[] = "width: 100%; max-width: 100%; margin-bottom: 0; border-collapse: collapse; background-color: transparent; display: table; border-spacing: 2px;";
+                            break;
+                        case "table-bordered":
+                            $Style[] = "border: 1px solid #eceeef; ";
+                            break;
+                        case "bg-danger":
+                            $Style[] = "background-color: #d9534f!important;";
+                            break;
+                        case "table-inverse":
+                            $Style[] = "border: 0; color: #eceeef; background-color: #373a3c;";
+                            break;
+                    }
+                }
+                return ' style="' . implode(" ", $Style) . '"';
+            } else if (!$OnlyInline) {
+                return ' class="' . $Class . '"';
+            }
         }
     }
-}
-//edit countdown timer duration
-$minutes = 40;
-$seconds = 0;
+    //edit countdown timer duration
+    $minutes = 30;
+    $seconds = 0;
 ?>
 @if($style==1)
     <h2 class="mt-0">Order Arriving In <span CLASS="countdown" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"></span></h2>
 
-    @if($Order["deliverytime"])
+    @if($Order["deliverytime"] && $timer)
         <?php
-        $Time = right($Order["deliverytime"], 4);
-        if (is_numeric($Time)) {
-            echo left($Order["deliverytime"], strlen($Order["deliverytime"]) - 4) . GenerateTime(intval($Time));
-        } else if ($Order["deliverytime"] == "Deliver Now") {
-            echo "ASAP";
-        } else {
-            echo $Order["deliverytime"];
-        }
+            $Time = right($Order["deliverytime"], 4);
+            if (is_numeric($Time)) {
+                echo left($Order["deliverytime"], strlen($Order["deliverytime"]) - 4) . GenerateTime(intval($Time));
+                $timer=false;
+            } else if ($Order["deliverytime"] == "Deliver Now") {
+                echo "ASAP";
+                $timer = true;
+            } else {
+                echo $Order["deliverytime"];
+                $timer= false;
+            }
         ?>
     @endif
     <h2>Delivery Address</h2>
     <?php
-    echo $Order["name"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . " " . $Order["province"] . " " . $Order["postalcode"] . '<BR>' . $Order["unit"];
+        echo $Order["name"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . " " . $Order["province"] . " " . $Order["postalcode"] . '<BR>' . $Order["unit"];
     ?>
     @if(!isset($JSON))
-
-
         <h2>Restaurant</h2>
         Order #<span ID="receipt_id"><?= $orderid; ?></span><br>
         <?php
-        $Restaurant = first("SELECT * FROM restaurants WHERE id = " . $Order["restaurant_id"]);
-        $Raddress = first("SELECT * FROM useraddresses WHERE id = " . $Restaurant["address_id"]);
+            $Restaurant = first("SELECT * FROM restaurants WHERE id = " . $Order["restaurant_id"]);
+            $Raddress = first("SELECT * FROM useraddresses WHERE id = " . $Restaurant["address_id"]);
 
-        echo $Restaurant["name"] . "<BR>" . $Raddress["number"] . " " . $Raddress["street"] . "<br>" .
-            $Raddress["city"] . " " . $Raddress["province"] . " " . $Raddress["postalcode"] . '<BR>' . $Raddress["unit"] . " " . $Restaurant["phone"];
+            echo $Restaurant["name"] . "<BR>" . $Raddress["number"] . " " . $Raddress["street"] . "<br>" .
+                $Raddress["city"] . " " . $Raddress["province"] . " " . $Raddress["postalcode"] . '<BR>' . $Raddress["unit"] . " " . $Restaurant["phone"];
 
-        echo '<INPUT TYPE="HIDDEN" ID="cust_latitude" VALUE="' . $Order["latitude"] . '"><INPUT TYPE="HIDDEN" ID="cust_longitude" VALUE="' . $Order["longitude"]
-            . '"><INPUT TYPE="HIDDEN" ID="rest_latitude" VALUE="' . $Raddress["latitude"]
-            . '"><INPUT TYPE="HIDDEN" ID="rest_longitude" VALUE="' . $Raddress["longitude"] . '">';
+            echo '<INPUT TYPE="HIDDEN" ID="cust_latitude" VALUE="' . $Order["latitude"] . '"><INPUT TYPE="HIDDEN" ID="cust_longitude" VALUE="' . $Order["longitude"]
+                . '"><INPUT TYPE="HIDDEN" ID="rest_latitude" VALUE="' . $Raddress["latitude"]
+                . '"><INPUT TYPE="HIDDEN" ID="rest_longitude" VALUE="' . $Raddress["longitude"] . '">';
         ?>
-
     @endif
 
     <h2>Receipt</h2>
@@ -123,14 +126,12 @@ $seconds = 0;
                 <?php
                 $integrity = true;
                 if (!function_exists("findkey")) {
-                    function findkey($arr, $key, $value)
-                    {
+                    function findkey($arr, $key, $value) {
                         return array_search($value, array_column($arr, $key));
                     }
 
-//finds the size of the item
-                    function getsize($itemname, $isfree)
-                    {
+                    //finds the size of the item
+                    function getsize($itemname, $isfree) {
                         $currentsize = "";
                         foreach ($isfree as $value) {
                             $size = $value["size"];
@@ -144,8 +145,7 @@ $seconds = 0;
                         return $currentsize;
                     }
 
-                    function textcontains($text, $searchfor)
-                    {
+                    function textcontains($text, $searchfor) {
                         return strpos(strtolower($text), strtolower($searchfor)) !== false;
                     }
                 }
@@ -176,7 +176,7 @@ $seconds = 0;
 
                         $menu = Query("SELECT * FROM menu WHERE id IN(" . $itemIDs . ")", true);
 
-//convert the JSON into an HTML receipt, using only item/addon IDs, reobtaining cost/names from the database for security
+                        //convert the JSON into an HTML receipt, using only item/addon IDs, reobtaining cost/names from the database for security
                         $subtotal = 0;
                         foreach ($items as $ID => $item) {
                             if (is_object($item)) {
@@ -353,39 +353,40 @@ $seconds = 0;
             </div-->
 
 
-
-            <SCRIPT>
-                var countdown = window.setTimeout(function () {
-                    incrementtime()
-                }, 1000);
-                function incrementtime() {
-                    var seconds = $(".countdown").attr("seconds");
-                    var minutes = $(".countdown").attr("minutes");
-                    var result = false;
-                    if (seconds == 0) {
-                        if (minutes == 0) {
-                            result = "[Time's up.]";
-                            window.clearInterval(countdown);
-                        } else {
-                            minutes -= 1;
-                        }
-                        seconds = 59;
-                    } else {
-                        seconds -= 1;
-                    }
-                    if (!result) {
-                        result = minutes + ":";
-                        if (seconds < 10) {
-                            result += "0" + seconds;
-                        } else {
-                            result += seconds;
-                        }
-                    }
-                    $(".countdown").attr("seconds", seconds);
-                    $(".countdown").attr("minutes", minutes);
-                    $(".countdown").text(result);
-                    countdown = window.setTimeout(function () {
-                        incrementtime()
-                    }, 1000);
+@if($timer)
+    <SCRIPT>
+        var countdown = window.setTimeout(function () {
+            incrementtime()
+        }, 1000);
+        function incrementtime() {
+            var seconds = $(".countdown").attr("seconds");
+            var minutes = $(".countdown").attr("minutes");
+            var result = false;
+            if (seconds == 0) {
+                if (minutes == 0) {
+                    result = "[Time's up.]";
+                    window.clearInterval(countdown);
+                } else {
+                    minutes -= 1;
                 }
-            </SCRIPT>
+                seconds = 59;
+            } else {
+                seconds -= 1;
+            }
+            if (!result) {
+                result = minutes + ":";
+                if (seconds < 10) {
+                    result += "0" + seconds;
+                } else {
+                    result += seconds;
+                }
+            }
+            $(".countdown").attr("seconds", seconds);
+            $(".countdown").attr("minutes", minutes);
+            $(".countdown").text(result);
+            countdown = window.setTimeout(function () {
+                incrementtime()
+            }, 1000);
+        }
+    </SCRIPT>
+@endif

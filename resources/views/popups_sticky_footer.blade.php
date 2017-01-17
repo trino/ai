@@ -6,9 +6,6 @@
     </div>
 @endif
 
-
-
-
 @if(false)
     <style>
         * {
