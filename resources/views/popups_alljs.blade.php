@@ -753,7 +753,7 @@
         $("#saveaddresses option").each(function () {
             var ID = $(this).val();
             if (ID > 0) {
-                HTML += '<DIV><A ID="add_' + ID + '" TITLE="Delete this address" onclick="deleteaddress(' + ID + ');" class="cursor-pointer"><i style="color:red" class="fa fa-fw fa-times"></i></A> ';
+                HTML += '<DIV ID="add_' + ID + '"><ATITLE="Delete this address" onclick="deleteaddress(' + ID + ');" class="cursor-pointer"><i style="color:red" class="fa fa-fw fa-times"></i></A> ';
                 HTML += $(this).text() + '</DIV>';
                 //if (number.isEqual($(this).attr("number")) && street.isEqual($(this).attr("street")) && city.isEqual($(this).attr("city"))) {AddNew = false;}
                 AddNew = true;
@@ -773,20 +773,22 @@
         }
         for (var i = 0; i < userdetails.Stripe.length; i++) {
             var card = userdetails.Stripe[i];
-            HTML += '<DIV><A ONCLICK="deletecard(' + "'" + card.id + "', " + card.last4 + ", '" + card.exp_month.pad(2) + "', " + right(card.exp_year, 2) + ');" CLASS="cursor-pointer">';
+            HTML += '<DIV id="card_' + i + '"><A ONCLICK="deletecard(' + i + ", '" + card.id + "', " + card.last4 + ", '" + card.exp_month.pad(2) + "', " + right(card.exp_year, 2) + ');" CLASS="cursor-pointer">';
             HTML += '<i style="color:red" class="fa fa-fw fa-times"></i></A> **** **** **** ' + card.last4 + ' Expires: ' + card.exp_month.pad(2) + '/' + right(card.exp_year, 2) + '</DIV>';
         }
         return HTML + '</DIV>';
     }
 
-    function deletecard(ID, last4, month, year) {
+    function deletecard(Index, ID, last4, month, year) {
         confirm2("Are you sure you want to delete the credit card **** **** **** " + last4 + " Expiring on " + month + "/" + year + "?", 'Delete Credit Card', function () {
             $.post(webroot + "placeorder", {
                 _token: token,
                 action: "deletecard",
                 cardid: ID
             }, function (result) {
-                alert(result);
+                $("#card_" + Index).fadeOut("fast", function () {
+                    $("#card_" + Index).remove();
+                });
             });
         });
     }
