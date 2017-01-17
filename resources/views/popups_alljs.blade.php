@@ -236,7 +236,6 @@
 
     $.validator.addMethod('validaddress', function (Data, element) {
         log("TESTING ADDRESS");
-
     }, "Please enter a valid address");
 
     function isvalidaddress(){
@@ -1131,11 +1130,15 @@
         return tempHTML + '>' + streetformat + '</OPTION>';
     }
 
+    function clearphone(){
+        $('#reg_phone').attr("style", "");
+        $(".payment-errors").text("");
+    }
+
     //address dropdown changed
     function addresschanged() {
         $("#saveaddresses").removeClass("red");
-        $('#reg_phone').attr("style", "");
-        $(".payment-errors").text("");
+        clearphone();
         var Selected = $("#saveaddresses option:selected");
         var SelectedVal = $(Selected).val();
 //log("Selected: " + SelectedVal);

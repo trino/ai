@@ -35,7 +35,6 @@
     if (!isset($inline)) {
         $inline = false;
     }
-$timer=true;
     if (!isset($timer)){
         $timer = false;
     }
