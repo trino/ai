@@ -11,15 +11,15 @@ body {
     font-family: 'Roboto', sans-serif;
     background: transparent !important;
 }
+
 .full {
-
-    background: url(http://ollies.ca/wp-content/uploads/2016/01/Ollies-Pizza-Background-3.png) no-repeat center center fixed;
-
+    background: url(../../public/background.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
 }
+
 .modal-header {
     background: #d9534f !important;
 }
@@ -153,13 +153,10 @@ body.loading #loadingmodal {
     border-radius: 0 !important;
 }
 
-
-
 input, textarea, select {
     border-radius: 0 !important;
     border: 1px solid #dadada !important;
     margin-bottom: .5rem !important;
-
 }
 
 .fab {

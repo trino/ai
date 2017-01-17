@@ -130,7 +130,11 @@
                     required: "Please provide a new password",
                     minlength: "Your new password must be at least " + minlength + " characters long"
                 },
-                email: "Please enter a valid and unique email address"
+                email: {
+                    required: "Please enter an email address",
+                    email: "Please enter a valid email address",
+                    remote: "Please enter a unique email address"
+                }
             }
         });
 

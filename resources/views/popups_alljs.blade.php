@@ -445,6 +445,7 @@
             HTML = '<DIV CLASS="text-center" style="color: #c9312c !important;"><i class="fa fa-shopping-cart" style="font-size: 5rem;"></i><br><h5>Order is empty</h5></div>';
             $("#checkout").hide();
             $("#checkoutbutton").hide();
+            $("#confirmclearorder").hide();
             removeCookie("theorder");
             collapsecheckout();
             $("#checkout-btn").hide();
@@ -454,7 +455,7 @@
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Delivery </SPAN>$' + deliveryfee.toFixed(2) + '</span><br>';
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Tax </SPAN>$' + taxes.toFixed(2) + '</span><br>';
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Total </SPAN>$' + totalcost.toFixed(2) + '</span><span class=""><br>&nbsp;</span>';
-
+            $("#confirmclearorder").show();
             $("#checkout-total").text('$' + totalcost.toFixed(2));
             $("#checkout-btn").show();
         }

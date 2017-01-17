@@ -2,8 +2,7 @@
 startfile("popups_menu");
 if (!function_exists("getsize")) {
     //gets the size of the pizza
-    function getsize($itemname, &$isfree)
-    {
+    function getsize($itemname, &$isfree){
         $currentsize = "";
         foreach ($isfree as $size => $cost) {
             if (!is_array($cost)) {
@@ -16,14 +15,12 @@ if (!function_exists("getsize")) {
     }
 
     //checks if $text contains $searchfor, case insensitive
-    function textcontains($text, $searchfor)
-    {
+    function textcontains($text, $searchfor){
         return strpos(strtolower($text), strtolower($searchfor)) !== false;
     }
 
     //process addons, generating the option group dropdown HTML, enumerating free toppings and qualifiers
-    function getaddons($Table, &$isfree, &$qualifiers, &$addons, &$groups)
-    {
+    function getaddons($Table, &$isfree, &$qualifiers, &$addons, &$groups){
         $toppings = Query("SELECT * FROM " . $Table . " ORDER BY type ASC, name ASC", true);
         $toppings_display = '';
         $currentsection = "";
@@ -58,8 +55,7 @@ if (!function_exists("getsize")) {
     }
 
     //same as explode, but makes sure each cell is trimmed
-    function explodetrim($text, $delimiter = ",", $dotrim = true)
-    {
+    function explodetrim($text, $delimiter = ",", $dotrim = true){
         if (is_array($text)) {
             return $text;
         }
@@ -74,14 +70,12 @@ if (!function_exists("getsize")) {
     }
 
     //converts a string to a class name (lowercase, replace spaces with underscores)
-    function toclass($text)
-    {
+    function toclass($text){
         $text = strtolower(str_replace(" ", "_", trim($text)));
         return $text;
     }
 
-    function endwith($Text, $WithWhat)
-    {
+    function endwith($Text, $WithWhat){
         return strtolower(right($Text, strlen($WithWhat))) == strtolower($WithWhat);
     }
 }
@@ -124,34 +118,34 @@ $CurrentCol = 1;
                      itemprice="{{$menuitem['price']}}"
                      itemsize="{{ getsize($menuitem['item'], $isfree) }}"
                      itemcat="{{$menuitem['category']}}"
-                <?php
-                    $itemclass = $catclass;
-                    if ($itemclass == "sides") {
-                        $itemclass = str_replace("_", "-", toclass($menuitem['item']));
-                        if (endwith($itemclass, "lasagna")) {
-                            $itemclass = "lasagna";
+                    <?php
+                        $itemclass = $catclass;
+                        if ($itemclass == "sides") {
+                            $itemclass = str_replace("_", "-", toclass($menuitem['item']));
+                            if (endwith($itemclass, "lasagna")) {
+                                $itemclass = "lasagna";
+                            }
+                            if (endwith($itemclass, "chicken-nuggets")) {
+                                $itemclass = "chicken-nuggets";
+                            }
+                            if (endwith($itemclass, "salad")) {
+                                $itemclass = "salad";
+                            }
                         }
-                        if (endwith($itemclass, "chicken-nuggets")) {
-                            $itemclass = "chicken-nuggets";
+    
+                        $total = 0;
+                        foreach ($tables as $table) {
+                            echo $table . '="' . $menuitem[$table] . '" ';
+                            $total += $menuitem[$table];
                         }
-                        if (endwith($itemclass, "salad")) {
-                            $itemclass = "salad";
+                        if ($total) {
+                            $HTML = ' data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
+                            $icon = '+';
+                        } else {
+                            $HTML = ' onclick="additemtoorder(this, -1);"';
+                            $icon = '';
                         }
-                    }
-
-                    $total = 0;
-                    foreach ($tables as $table) {
-                        echo $table . '="' . $menuitem[$table] . '" ';
-                        $total += $menuitem[$table];
-                    }
-                    if ($total) {
-                        $HTML = ' data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
-                        $icon = '+';
-                    } else {
-                        $HTML = ' onclick="additemtoorder(this, -1);"';
-                        $icon = '';
-                    }
-                    echo $HTML;
+                        echo $HTML;
                     ?>
                 >
                     <div class="rounded  pull-left sprite sprite-<?= $itemclass; ?> sprite-medium"></div>
@@ -206,10 +200,6 @@ $CurrentCol = 1;
         </div>
     </div>
 </div>
-<!-- end order menu item Modal -->
-
-
-
 <script>
     var tables = <?= json_encode($tables); ?>;
     var alladdons = <?= json_encode($addons); ?>;
@@ -221,6 +211,6 @@ $CurrentCol = 1;
     var classlist = <?= json_encode($classlist); ?>;
     var ordinals = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th"];
 </script>
-
+<!-- end order menu item Modal -->
 <!-- end menu cache -->
 <?php endfile("popups_menu"); ?>
