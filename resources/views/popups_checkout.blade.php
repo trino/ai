@@ -9,7 +9,7 @@
 </div>
 
 <div id="myorder" class="text-white"></div>
-<button id="checkout-btn" class="btn btn-warning btn-block mb-1" onclick="showcheckout();">
+<button id="checkout-btn" class="btn btn-warning btn-block mb-3 " onclick="showcheckout();">
     CHECKOUT
 </button>
 

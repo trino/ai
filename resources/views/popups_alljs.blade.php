@@ -442,7 +442,7 @@
 
         createCookieValue("theorder", JSON.stringify(theorder));
         if (theorder.length == 0) {
-            HTML = '<DIV CLASS="text-center">Order is Empty<br><i class="fa fa-shopping-cart fa-5x center" style="color: #c9312c !important;"></i></div>';
+            HTML = '<DIV CLASS="text-center" style="color: #c9312c !important;"><i class="fa fa-shopping-cart" style="font-size: 5rem;"></i><br><h5>Order is empty</h5></div>';
             $("#checkout").hide();
             $("#checkoutbutton").hide();
             removeCookie("theorder");
@@ -744,7 +744,7 @@
 
     //generate a list of addresses and send it to the alert modal
     function addresses() {
-        var HTML = '<DIV CLASS="section"><h2>ADDRESS</h2><br>';
+        var HTML = '<DIV CLASS="section"><h2>ADDRESS</h2>';
         var number = $("#add_number").val();
         var street = $("#add_street").val();
         var city = $("#add_city").val();

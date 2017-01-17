@@ -55,38 +55,6 @@
 </head>
 
 
-@if(false)
-    <style>
-        * {
-            padding: 3px;
-        }
-        input, select, textarea {
-            border: 1px solid green !important;
-            background: #dadada !important;
-        }
-        div {
-            border: 1px solid orange !important;
-        }
-        .row {
-            border: 1px solid blue !important;
-        }
-        div[class^="col-"], div[class*=" col-"] {
-            border: 5px solid purple !important;
-        }
-
-        table {
-            border: 1px solid yellow !important;
-        }
-
-        tr {
-            border: 1px solid pink !important;
-        }
-
-        td {
-            border: 1px solid black !important;
-        }
-    </style>
-@endif
 <body>
 <?= view("popups_navbar")->render(); ?>
 <div class="container-fluid  py-3" style="">
