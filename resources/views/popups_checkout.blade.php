@@ -79,7 +79,9 @@
                         <div class="col-xs-12">
                             <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook" maxlength="255"/>
                         </div>
-                        <input type="text" class="form-control" ID="restaurant" placeholder="Closest Restaurant" READONLY TITLE="Closest restaurant"/>
+                        <SELECT class="form-control" ID="restaurant" ONCHANGE="restchange();">
+                            <OPTION VALUE="0">Closest Restaurant</OPTION>
+                        </SELECT>
                     </DIV>
 
                     <div class="col-xs-12">
@@ -119,6 +121,12 @@
             }
         });
     @endif
+
+    function restchange(){
+        var value = $("#restaurant").val();
+        var index = findwhere(closest, "id", value);
+        GenerateHours(closest[index]["hours"]);
+    }
 </SCRIPT>
 
 <?php endfile("popups_checkout"); ?>

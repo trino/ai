@@ -114,12 +114,17 @@ class HomeController extends Controller {
         if(!isset($info["user_id"]) || !$info["user_id"]) {$info["user_id"] = read("id");}
         $addressID = $this->processaddress($info);
         if(isset($_POST["order"])) {
+            $restaurant = $this->processrestaurant($info["restaurant_id"]);
+            /*
             $restaurant = $this->closestrestaurant($info,true);
             if(!isset($restaurant["id"])){return false;}
-            $info["placed_at"] = now();
             $info["restaurant_id"] = $restaurant["id"];
+            */
+
+            $info["placed_at"] = now();
             unset($info["name"]);
             unset($info["creditcard"]);
+            unset($info["restaurant"]);
             if(isset($_POST["stripe"])){$info["stripeToken"] = $_POST["stripe"];}
 
             $order = $_POST["order"];
@@ -213,14 +218,19 @@ class HomeController extends Controller {
         }
     }
 
+    /**
+     * @param $data
+     * @param bool|false $gethours
+     * @return array|bool|\mysqli_result
+     */
     function closestrestaurant($data, $gethours = false){
         //if(!isset($data['radius'])){$data['radius'] = 100;}//default radius
-        $owners = implode(",", collapsearray(Query("SELECT address_id FROM restaurants WHERE address_id > 0", true), "address_id"));
-        $SQL = "SELECT *, ( 6371 * acos( cos( radians('" . $data['latitude'] . "') ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians('" . $data['longitude']."') ) + sin( radians('" . $data['latitude']."') ) * sin( radians( latitude ) ) ) ) AS distance FROM useraddresses WHERE id IN (" . $owners . ")";
-        if(isset($data['radius'])){
-            $SQL .= " HAVING distance <= " . $data['radius'];
-        }
-        if(!isset($data["limit"])){$data["limit"] = 1;}
+        $SQL = "SELECT address_id FROM restaurants WHERE address_id > 0";
+        if(isset($data["restaurant_id"])){$SQL .= " AND id = " . $data["restaurant_id"];}
+        $owners = implode(",", collapsearray(Query($SQL, true), "address_id"));
+        $SQL = "SELECT *, ( 6371 * acos( cos( radians('" . $data['latitude'] . "') ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians('" . $data['longitude'] . "') ) + sin( radians('" . $data['latitude'] . "') ) * sin( radians( latitude ) ) ) ) AS distance FROM useraddresses WHERE id IN (" . $owners . ")";
+        if (isset($data['radius'])) {$SQL .= " HAVING distance <= " . $data['radius'];}
+        if (!isset($data["limit"])) {$data["limit"] = 1;}
         $SQL .= " ORDER BY distance ASC LIMIT " . $data["limit"];
         $Restaurants = Query($SQL, true);//useraddresses
         if($Restaurants) {
@@ -238,8 +248,15 @@ class HomeController extends Controller {
         return $Restaurants;
     }
     function processrestaurant($Restaurant){
+        if(!is_array($Restaurant)) {
+            $Restaurant = array("id" => $Restaurant);
+            $Restaurant["restaurant"] = first("SELECT * FROM restaurants WHERE id = " . $Restaurant["id"]);
+            $UserID = first("SELECT user_id FROM useraddresses WHERE id = " . $Restaurant["restaurant"]["address_id"]);
+            $Restaurant["user_id"] = $UserID["user_id"];
+        } else {
+            $Restaurant["restaurant"] = first("SELECT * FROM restaurants WHERE address_id = " . $Restaurant["id"]);
+        }
         $Restaurant["hours"] = gethours($Restaurant["id"]);
-        $Restaurant["restaurant"] = first("SELECT * FROM restaurants WHERE address_id = " . $Restaurant["id"]);
         $Restaurant["user"] = first("SELECT id, name, phone, email FROM users WHERE id = " . $Restaurant["user_id"]);//do not send password
         return $Restaurant;
     }

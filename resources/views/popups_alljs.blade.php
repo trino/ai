@@ -657,7 +657,7 @@
                 return false;
             }
         }
-        return $(".error:visible").length == 0 && $("#restaurant").val().length > 0 && $("#reg_phone").val().length > 0 && validaddress();
+        return $(".error:visible").length == 0 && $("#restaurant").val() > 0 && $("#reg_phone").val().length > 0 && validaddress();
     }
 
     //send an order to the server
@@ -668,6 +668,7 @@
             var addressinfo = getform("#orderinfo");//i don't know why the below 2 won't get included. this forces them to be
             addressinfo["cookingnotes"] = $("#cookingnotes").val();
             addressinfo["deliverytime"] = $("#deliverytime").val();
+            addressinfo["restaurant_id"] = $("#restaurant").val();
             $.post(webroot + "placeorder", {
                 _token: token,
                 info: addressinfo,
@@ -802,7 +803,7 @@
                 var order = userdetails["Orders"][i];
                 ID = order["id"];
                 if (!First) {First = ID;}
-                HTML += '<li class="list-group-item" ONCLICK="orders(' + ID + ');">' + '<SPAN ID="pastreceipt' + ID + '"></SPAN>' + '<span class="tag tag-default tag-pill pull-xs-right">ID: ' + ID + '</span>' + order["placed_at"] + '</li>';
+                HTML += '<li class="list-group-item" ONCLICK="orders(' + ID + ');">' + '<SPAN ID="pastreceipt' + ID + '"></SPAN>' + '<span class="tag tag-default tag-pill pull-xs-right">ID: ' + ID + '</span> AT: ' + order["placed_at"] + '</li>';
             }
             HTML += '</ul>';
             if (!First) {HTML = "No orders placed yet";}
@@ -1275,11 +1276,13 @@
         }
     }
 
+    var closest = false;
     function addresshaschanged() {
         if (!getcloseststore) {
             return;
         }
         var formdata = getform("#orderinfo");
+        formdata.limit = 10;
         if (!formdata.latitude || !formdata.longitude) {
             return;
         }
@@ -1292,23 +1295,32 @@
         $.post(webroot + "placeorder", {
             _token: token,
             info: formdata,
-            action: "closestrestaurant"
+            action: "closestrestaurant",
         }, function (result) {
             if (handleresult(result)) {
-                var closest = JSON.parse(result)["closest"];
-                var restaurant = "No restaurant is within range";
+                closest = JSON.parse(result)["closest"];
+                var HTML = '<OPTION VALUE="0">No restaurant is within range</OPTION>';
                 //canplaceorder = false;
-                if (closest.hasOwnProperty("id")) {
-                    if (parseFloat(closest.distance) <= MAX_DISTANCE || debugmode) {
-                        if (parseFloat(closest.distance) >= MAX_DISTANCE) {
-                            closest.restaurant.name += " [DEBUG]"
+                if (closest.length>0){//} closest.hasOwnProperty("id")) {
+                    HTML='';
+                    var smallest = "0"; var distance = -1;
+                    for(var i=0; i< closest.length; i++){
+                        var restaurant = closest[i];
+                        restaurant.distance = parseFloat(restaurant.distance);
+                        if (restaurant.distance <= MAX_DISTANCE || debugmode) {
+                            if (restaurant.distance >= MAX_DISTANCE) {
+                                restaurant.restaurant.name += " [DEBUG]"
+                            }
+                            if(distance == -1 || distance > restaurant.distance){
+                                smallest = restaurant.restaurant.id;
+                                distance = restaurant.distance;
+                            }
+                            HTML += '<OPTION VALUE="' + restaurant.restaurant.id + '">' + restaurant.restaurant.name + ' (' + restaurant.distance.toFixed(2) + ' km)</OPTION>';
                         }
-                        //canplaceorder = true;
-                        restaurant = closest.restaurant.name;
-                        GenerateHours(closest["hours"]);
                     }
                 }
-                $("#restaurant").val(restaurant);
+                $("#restaurant").html(HTML);
+                $("#restaurant").val(smallest);
             }
         });
     }
