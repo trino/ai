@@ -227,8 +227,8 @@
                             <h2 CLASS="pull-right spacing">
                                 @if($table != "all" && read("profiletype") == 1)
                                     @if($table == "debug")
-                                        <A onclick="testemail();" TITLE="Send a test email" class="hyperlink" id="testemail"><i class="fa fa-envelope"></i></A>
-                                        <A onclick="deletedebug();" TITLE="Delete the debug log" class="hyperlink" id="deletedebug"><i class="fa fa-trash-o"></i></A>
+                                        <A onclick="testemail();" TITLE="Send a test email" class="hyperlink" id="testemail" href="#"><i class="fa fa-envelope"></i></A>
+                                        <A onclick="deletedebug();" TITLE="Delete the debug log" class="hyperlink" id="deletedebug" href="#"><i class="fa fa-trash-o"></i></A>
                                     @else
                                         <A onclick="deletetable();" TITLE="Delete the table data" class="hyperlink" id="deletetable"><i class="fa fa-trash-o"></i></A>
                                     @endif

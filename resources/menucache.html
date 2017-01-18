@@ -553,13 +553,12 @@
             <div style="display: none;" id="modal-hiddendata">
                 <SPAN ID="modal-itemprice"></SPAN>
                 <SPAN ID="modal-itemid"></SPAN>
-                <SPAN ID="modal-toppingcost"></SPAN>
                 <SPAN ID="modal-itemsize"></SPAN>
                 <SPAN ID="modal-itemcat"></SPAN>
             </div>
 
             <div class="modal-header">
-                <h2 id="myModalLabel"><SPAN ID="modal-itemname"></SPAN></h2> <div class="tag tag-danger">+$0.79 per topping</div>
+                <h2 id="myModalLabel"><SPAN ID="modal-itemname"></SPAN></h2> <div class="tag tag-danger">+$<SPAN id="modal-toppingcost">0.79</SPAN> per topping</div>
                 <button type="button" class="close" data-popup-close="menumodal" old-data-dismiss="modal" aria-label="Close">&times;</button>
             </div>
             <div class="modal-body" style="background: #dadada !important;padding-top:0 !important;">
@@ -585,7 +584,7 @@
 <script>
     var tables = ["toppings","wings_sauce"];
     var alladdons = {"toppings":{"Meat":[["Anchovies"],["Bacon"],["Beef Salami"],["Chicken"],["Ground Beef"],["Ham"],["Hot Italian Sausage"],["Hot Sausage"],["Italian Sausage"],["Mild Sausage"],["Pepperoni"],["Salami"]],"Vegetable":[["Artichoke Heart"],["Black Olives"],["Broccoli"],["Green Olives"],["Green Peppers"],["Hot Banana Peppers"],["Hot Peppers"],["Jalapeno Peppers"],["Mushrooms"],["Onions"],["Pineapple"],["Red Onions"],["Red Peppers"],["Spinach"],["Sundried Tomatoes"],["Tomatoes"]],"zPreparation":[["Lightly Done"],["Well Done"]]},"wings_sauce":{"Preparation":[["Lightly Done"],["Sauce on the side"],["Well Done"]],"Sauce":[["BBQ"],["Honey Garlic"],["Hot"],["Medium"],["Mild"],["Suicide"]]}};
-    var freetoppings = {"Small":"0.79","Medium":"0.79","Large":"0.79","X-Large":"0.79","Panzerotti":"1.2","Delivery":"3.99","toppings":["Lightly Done","Well Done"],"isall":{"toppings":["Lightly Done","Well Done"],"wings_sauce":["Lightly Done","Sauce on the side","Well Done","BBQ","Honey Garlic","Hot","Medium","Mild","Suicide"]},"wings_sauce":["Lightly Done","Sauce on the side","Well Done"]};
+    var freetoppings = {"Small":"0.95","Medium":"1.2","Large":"1.5","X-Large":"1.7","Panzerotti":"1.2","Delivery":"3.99","toppings":["Lightly Done","Well Done"],"isall":{"toppings":["Lightly Done","Well Done"],"wings_sauce":["Lightly Done","Sauce on the side","Well Done","BBQ","Honey Garlic","Hot","Medium","Mild","Suicide"]},"wings_sauce":["Lightly Done","Sauce on the side","Well Done"]};
     var qualifiers = {"DEFAULT":["1\/2","1x","2x","3x"],"toppings":{"Well Done":["Lightly done","Regular","Well done"]},"wings_sauce":{"Well Done":["Lightly done","Regular","Well done"]}};
     var groups = {"toppings":{"Lightly Done":"1","Well Done":"1"},"wings_sauce":{"Lightly Done":"1","Sauce on the side":"3","Well Done":"1","BBQ":"2","Honey Garlic":"2","Hot":"2","Medium":"2","Mild":"2","Suicide":"2"}};
     var theorder = new Array;

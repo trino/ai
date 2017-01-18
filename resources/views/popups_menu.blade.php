@@ -171,13 +171,12 @@ $CurrentCol = 1;
             <div style="display: none;" id="modal-hiddendata">
                 <SPAN ID="modal-itemprice"></SPAN>
                 <SPAN ID="modal-itemid"></SPAN>
-                <SPAN ID="modal-toppingcost"></SPAN>
                 <SPAN ID="modal-itemsize"></SPAN>
                 <SPAN ID="modal-itemcat"></SPAN>
             </div>
 
             <div class="modal-header">
-                <h2 id="myModalLabel"><SPAN ID="modal-itemname"></SPAN></h2> <div class="tag tag-danger">+$0.79 per topping</div>
+                <h2 id="myModalLabel"><SPAN ID="modal-itemname"></SPAN></h2> <div class="tag tag-danger">+$<SPAN id="modal-toppingcost">0.79</SPAN> per topping</div>
                 <button type="button" class="close" data-popup-close="menumodal" old-data-dismiss="modal" aria-label="Close">&times;</button>
             </div>
             <div class="modal-body" style="background: #dadada !important;padding-top:0 !important;">

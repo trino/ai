@@ -296,7 +296,6 @@
         var title = "<i class='fa fa-check'></i>";
         if (!isUndefined(notparent)) {
             $("#menumodal").modal("show");
-            //title = "+";
         }
         $("#additemtoorder").html(title);
     }
@@ -568,8 +567,7 @@
     //checks if an addon is free
     function isaddon_free(Table, Addon) {
         switch (Addon.toLowerCase()) {
-            case "lightly done":
-            case "well done":
+            case "lightly done": case "well done":
                 return true;
                 break;
             default:
@@ -586,9 +584,7 @@
     var removeorderitemdisabled = false;
 
     function removeorderitem(index) {
-        if (removeorderitemdisabled) {
-            return;
-        }
+        if (removeorderitemdisabled) {return;}
         removeindex(theorder, index);
         removeorderitemdisabled = true;
         $("#receipt_item_" + index).fadeOut("fast", function () {
@@ -755,12 +751,10 @@
             if (ID > 0) {
                 HTML += '<DIV ID="add_' + ID + '"><ATITLE="Delete this address" onclick="deleteaddress(' + ID + ');" class="cursor-pointer"><i style="color:red" class="fa fa-fw fa-times"></i></A> ';
                 HTML += $(this).text() + '</DIV>';
-                //if (number.isEqual($(this).attr("number")) && street.isEqual($(this).attr("street")) && city.isEqual($(this).attr("city"))) {AddNew = false;}
                 AddNew = true;
             }
         });
         if (!AddNew) {
-            //HTML += '<A ONCLICK="deleteaddress(-1);" CLASS="cursor-pointer">Add ' + "'" + number + " " + street + ", " + city + "' to the list</A>";} else {
             HTML += 'No addresses';
         }
         return HTML + "</DIV>";
@@ -954,8 +948,7 @@
                                 location.reload();
                             }
                             break;
-                        case "forgotpassword":
-                        case "verify":
+                        case "forgotpassword": case "verify":
                             alert(data["Reason"], "Login");
                             break;
                         case "logout":
@@ -1278,17 +1271,11 @@
 
     var closest = false;
     function addresshaschanged() {
-        if (!getcloseststore) {
-            return;
-        }
+        if (!getcloseststore) {return;}
         var formdata = getform("#orderinfo");
         formdata.limit = 10;
-        if (!formdata.latitude || !formdata.longitude) {
-            return;
-        }
-        if (!debugmode) {
-            formdata.radius = MAX_DISTANCE;
-        }
+        if (!formdata.latitude || !formdata.longitude) {return;}
+        if (!debugmode) {formdata.radius = MAX_DISTANCE;}
         skiploadingscreen = true;
         //canplaceorder = false;
 
@@ -1520,7 +1507,7 @@
         }
         if (today.open > -1 && today.close > -1) {
             if (today.close < today.open) {
-//log("Day: " + dayofweek + " time: " + time + " open: " + today.open + " close: " + today.close );
+                //log("Day: " + dayofweek + " time: " + time + " open: " + today.open + " close: " + today.close );
                 if (time >= today.open || time < today.close) {
                     return dayofweek;
                 }
@@ -1634,7 +1621,7 @@
                 break;
         }
 
-        var thisside = ' CLASS="thisside" ><I CLASS="fa fa-check text-danger"></I>';
+        var thisside = ' CLASS="thisside"><I CLASS="fa fa-check text-danger"></I>';
 
         for (var itemindex = 0; itemindex < currentaddonlist.length; itemindex++) {
             var freetoppings = 0;
@@ -1650,7 +1637,7 @@
             HTML += '">' +         ucfirst(addonname) +            ' #' + (itemindex + 1) + ' ';
 
             if (currentaddonlist[itemindex].length == 0) {
-                tempstr += '<div class="">No ' + addonname + ' Yet</div>';
+                tempstr += '<div >No ' + addonname + ' Yet</div>';
             }
 
             for (var i = 0; i < currentaddonlist[itemindex].length; i++) {
@@ -1718,7 +1705,6 @@
         var HTML = '<DIV style="height:130px;overflow-y: auto; overflow-x: auto; padding:5px;"><DIV id="theaddons"></DIV></DIV>';
         if (currentstyle == 0) {
             HTML += '<DIV CLASS=" addonlist" ID="addontypes">';
-        } else {
         }
 
         var types = Object.keys(alladdons[table]);

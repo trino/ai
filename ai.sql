@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 17, 2017 at 04:51 PM
+-- Generation Time: Jan 18, 2017 at 03:39 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -38,10 +38,10 @@ CREATE TABLE IF NOT EXISTS `additional_toppings` (
 --
 
 INSERT INTO `additional_toppings` (`id`, `size`, `price`) VALUES
-(1, 'Small', 0.79),
-(2, 'Medium', 0.79),
-(3, 'Large', 0.79),
-(4, 'X-Large', 0.79),
+(1, 'Small', 0.95),
+(2, 'Medium', 1.2),
+(3, 'Large', 1.5),
+(4, 'X-Large', 1.7),
 (6, 'Panzerotti', 1.2),
 (7, 'Delivery', 3.99);
 
@@ -174,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `price` decimal(10,2) NOT NULL,
   `email` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=65 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=69 ;
 
 --
 -- Dumping data for table `orders`
@@ -201,7 +201,11 @@ INSERT INTO `orders` (`id`, `user_id`, `placed_at`, `number`, `unit`, `buzzcode`
 (61, 32, '2017-01-15 22:47:55', 567, '567', '', 'Queen Street West', 'M5V 2B6', 'Toronto', 'Ontario', '43.6477016', '-79.400757199999', '0000-00-00 00:00:00', 1, 0, 0, '9055315332', '', 1, '', 'Deliver Now', '', 0, '19.19', 'info@trinoweb.com'),
 (62, 32, '2017-01-15 22:49:11', 567, '567', '', 'Queen Street West', 'M5V 2B6', 'Toronto', 'Ontario', '43.6477016', '-79.400757199999', '0000-00-00 00:00:00', 1, 0, 0, '9055315332', '', 1, '', 'Deliver Now', '', 0, '7.89', 'info@trinoweb.com'),
 (63, 32, '2017-01-15 22:51:10', 567, '567', '', 'Queen Street West', 'M5V 2B6', 'Toronto', 'Ontario', '43.6477016', '-79.400757199999', '0000-00-00 00:00:00', 1, 0, 0, '9055315332', '', 1, '', 'Deliver Now', '', 0, '22.95', 'info@trinoweb.com'),
-(64, 32, '2017-01-15 23:48:26', 567, '567', '', 'Queen Street West', 'M5V 2B6', 'Toronto', 'Ontario', '43.6477016', '-79.400757199999', '0000-00-00 00:00:00', 1, 0, 0, '9055315332', '', 1, 'tok_9wBQSfQBol9w6h', 'Deliver Now', '', 0, '24.84', 'info@trinoweb.com');
+(64, 32, '2017-01-15 23:48:26', 567, '567', '', 'Queen Street West', 'M5V 2B6', 'Toronto', 'Ontario', '43.6477016', '-79.400757199999', '0000-00-00 00:00:00', 1, 0, 0, '9055315332', '', 1, 'tok_9wBQSfQBol9w6h', 'Deliver Now', '', 0, '24.84', 'info@trinoweb.com'),
+(65, 1, '2017-01-17 21:22:26', 490, 'A', '', 'Dundas Street', 'N6B 1W4', 'London', 'Ontario', '42.9871816', '-81.2386115', '0000-00-00 00:00:00', 1, 0, 0, '905 531 5331', '', 1, 'tok_9wtWWeePGr89V4', 'Deliver Now', '', 0, '13.41', 'roy@trinoweb.com'),
+(66, 1, '2017-01-17 23:51:28', 490, 'A', '', 'Dundas Street', 'N6B 1W4', 'London', 'Ontario', '42.9871816', '-81.2386115', '0000-00-00 00:00:00', 1, 0, 0, '905 531 5331', '', 1, '', 'Deliver Now', '', 0, '20.17', 'roy@trinoweb.com'),
+(67, 1, '2017-01-17 23:51:54', 490, 'A', '', 'Dundas Street', 'N6B 1W4', 'London', 'Ontario', '42.9871816', '-81.2386115', '0000-00-00 00:00:00', 58, 0, 0, '905 531 5331', '', 0, '', 'Deliver Now', '', 0, '0.00', 'roy@trinoweb.com'),
+(68, 1, '2017-01-18 00:00:09', 490, 'A', '', 'Dundas Street', 'N6B 1W4', 'London', 'Ontario', '42.9871816', '-81.2386115', '0000-00-00 00:00:00', 2, 0, 0, '905 531 5331', '', 1, '', 'Deliver Now', '', 0, '9.88', 'roy@trinoweb.com');
 
 -- --------------------------------------------------------
 
@@ -255,14 +259,15 @@ CREATE TABLE IF NOT EXISTS `restaurants` (
   `franchise` int(11) NOT NULL,
   `address_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `restaurants`
 --
 
 INSERT INTO `restaurants` (`id`, `name`, `slug`, `email`, `phone`, `cuisine`, `website`, `description`, `logo`, `is_delivery`, `is_pickup`, `max_delivery_distance`, `delivery_fee`, `minimum`, `is_complete`, `lastorder_id`, `franchise`, `address_id`) VALUES
-(1, 'Fabulous 2 for 1 Pizza & Wings', '', '', '(905) 512-3067', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 1);
+(1, 'Fabulous 2 for 1 Pizza & Wings', '', '', '(905) 512-3067', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 1),
+(2, 'Fabulous 2 for 1 Pizza & Wings test', '', '', '(905) 512-3000', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 58);
 
 -- --------------------------------------------------------
 
@@ -276,16 +281,16 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=119 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=142 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1484666526'),
+(1, 'lastSQL', '1484668317'),
 (20, 'orders', '1481122592'),
-(24, 'menucache', '1484668245'),
+(24, 'menucache', '1484750372'),
 (25, 'useraddresses', '1484430787'),
 (37, 'users', '1479345588'),
 (38, 'additional_toppings', '1479345609');
@@ -372,7 +377,7 @@ CREATE TABLE IF NOT EXISTS `useraddresses` (
 
 INSERT INTO `useraddresses` (`id`, `user_id`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `phone`) VALUES
 (1, 21, 483, '', '', 'Dundas Street', 'N6B 1W4', 'London', 'Ontario', '42.9871816', '-81.2386115', ''),
-(58, 32, 567, '567', '', 'Queen Street West', 'M5V 2B6', 'Toronto', 'Ontario', '43.6477016', '-79.400757199999', '');
+(58, 1, 490, 'A', '', 'Dundas Street', 'N6B 1W4', 'London', 'Ontario', '42.9871816', '-81.2386115', '');
 
 -- --------------------------------------------------------
 
