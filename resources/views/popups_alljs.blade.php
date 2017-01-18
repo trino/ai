@@ -296,7 +296,7 @@
         var title = "<i class='fa fa-check'></i>";
         if (!isUndefined(notparent)) {
             $("#menumodal").modal("show");
-            title = "+";
+            //title = "+";
         }
         $("#additemtoorder").html(title);
     }
