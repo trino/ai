@@ -938,8 +938,13 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
-                        <h2 id="myModalLabel">View Order</h2>
+
+
+                            <button  data-dismiss="modal" class="btn btn-sm  btn-danger" ><i class="fa fa-close"></i> </button>
+
+
+
+                            <h2 id="myModalLabel">View Order</h2>
                         </div>
                         <div class="modal-body">
                             <SPAN ID="ordercontents"></SPAN><P>

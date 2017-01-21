@@ -389,7 +389,7 @@
             subtotal += Number(totalcost);
 
             tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item">';
-            tempHTML += '<span class=""> <DIV CLASS="sprite pull-left rounded-circle bg-warning sprite-' + category + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
+            tempHTML += '<span class=""> <DIV style="margin:2px !important;" CLASS="sprite pull-left rounded sprite-' + category + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
          //   tempHTML += '<span class=""></DIV> ' + item["itemname"] + '</span>';
             tempHTML += '<span class="pull-right" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '">';
 
@@ -675,7 +675,7 @@
             }, function (result) {
                 $("#checkoutmodal").modal("hide");
                 if (result.contains("ordersuccess")) {
-                    handleresult(result, "THANK YOU FOR YOUR ORDER!");
+                    handleresult(result, "Thank you for your Order");
                     if ($("#saveaddresses").val() == "addaddress") {
                         var Address = {
                             id: $(".ordersuccess").attr("addressid"),
@@ -1576,15 +1576,15 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title" id="alertmodallabel">Title</h2>
-                <button type="button" class="close  pull-right" data-popup-close="alertmodal" old-data-dismiss="modal" aria-label="Close">
-                    &times;
-                </button>
+
+                <button  data-dismiss="modal" class="btn btn-sm  btn-danger pull-right" ><i class="fa fa-close"></i> </button>
+
             </div>
             <div class="modal-body">
                 <DIV ID="alertmodalbody"></DIV>
                 <div CLASS="pull-right">
                     <button class="btn btn-secondary" id="alert-cancel" data-dismiss="modal">
-                        Cancel
+                        CANCEL
                     </button>
                     <button class="btn btn-secondary" id="alert-confirm" data-dismiss="modal">
                         OK
@@ -1630,7 +1630,7 @@
             var tempstr = '';
             var classname = 'itemcontents itemcontents' + itemindex;
 
-            HTML += '<DIV style="border:2px solid transparent;border-radius:.2rem;padding:.25rem;width:50% !important;float:left;" ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="currentitem currentitem' + itemindex;
+            HTML += '<DIV style="border:2px solid transparent;border-radius:.2rem;padding:.25rem;width:100% !important;float:left;" ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="currentitem currentitem' + itemindex;
             if (currentitemindex == itemindex) {
                 HTML += ' thisside';
             }
@@ -1702,7 +1702,7 @@
 
     function list_addons(table, halves) {
         currentaddontype = table;
-        var HTML = '<DIV style="height:130px;overflow-y: auto; overflow-x: auto; padding:5px;"><DIV id="theaddons"></DIV></DIV>';
+        var HTML = '<DIV style="height:130px;overflow-y: auto;overflow-x: auto; overflow-x: auto; padding:5px;"><DIV id="theaddons"></DIV></DIV>';
         if (currentstyle == 0) {
             HTML += '<DIV CLASS=" addonlist" ID="addontypes">';
         }

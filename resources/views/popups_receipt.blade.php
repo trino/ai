@@ -28,7 +28,7 @@
             break;
         case 2:
             $colspan = 3;
-            $ordinals = array("1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th");
+            $ordinals = array("11st", "21nd", "31rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th");
             break;
     }
     //Hack to put CSS inline for emails
@@ -71,6 +71,8 @@
     $minutes = 30;
     $seconds = 0;
 ?>
+
+
 @if($style==1)
     <h2 class="mt-0">Order Arriving In <span CLASS="countdown" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"></span></h2>
 
@@ -110,6 +112,7 @@
     @endif
 
     <h2>Receipt</h2>
+
     <TABLE <?= inline("table table-sm table-bordered table-responsive"); ?> >
         <TR>
             <TH>#</TH>
@@ -251,7 +254,6 @@
                                                     $toppingkey = findkey($tables[$tablename], "id", $topping->id);
                                                 } else {//search by name
                                                     $toppingkey = findkey($tables[$tablename], "name", $topping->text);
-//$id = $tables[$tablename][$id]["id"];
                                                 }
 
                                                 $topping = $tables[$tablename][$toppingkey];
@@ -326,7 +328,7 @@
                     if ($style == 2) {
                         echo '<TR><TD COLSPAN="' . $colspan . '">';
                         if (isset($JSON)) {
-                            echo '<BUTTON CLASS="btn  btn-secondary" ONCLICK="orders(' . $orderid . ', true);">Load Order</BUTTON>';
+                            echo '<BUTTON CLASS="btn btn-block btn-warning" ONCLICK="orders(' . $orderid . ', true);">LOAD ORDER</BUTTON>';
                         } else {
                             echo $Order["name"] . " - " . $Order["email"] . "<BR>" . $Order["phone"] . " " . $Order["cell"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . ", " . $Order["province"] . "<BR>" . $Order["postalcode"] . '<BR>' . $Order["unit"];
                         }
@@ -388,4 +390,6 @@
             }, 1000);
         }
     </SCRIPT>
+
+
 @endif

@@ -15,7 +15,8 @@
         <div class="modal-content">
             <div class="modal-header">
                     <h2 id="myModalLabel">CHECKOUT</h2>
-                <button type="button" class="close pull-right" data-popup-close="checkoutmodal" old-data-dismiss="modal" aria-label="Close">&times;</button>
+                <button  data-dismiss="modal" data-popup-close="checkoutmodal"  class="btn btn-sm  btn-danger" ><i class="fa fa-close"></i> </button>
+
             </div>
             <div class="modal-body pa-0">
                 <FORM ID="orderinfo" name="orderinfo">

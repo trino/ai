@@ -1,19 +1,26 @@
 .container-fluid {
     max-width: 1300px !important;
 }
-
+.sprite{background:orange;}
 .navbar, .dropdown-menu, .shadow, .btn, .bg-danger, .col-md-3, .modal-header {
+    /*
     border: 0 !important;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12) !important;
+    */
 }
-
+.btn{font-weight: 500}
+*{border:0 !important;
+border-radius: 0;
+}
 body {
     font-family: 'Roboto', sans-serif;
-    background: transparent !important;
+background: transparent !important;
 }
 
 .full {
+
     background: url(../../public/background.jpg) no-repeat center center fixed;
+
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -337,6 +344,21 @@ a:focus, .btn:focus {
     -moz-transform: scale(0.20);
     -moz-transform-origin: 0 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
