@@ -370,7 +370,7 @@
 
                 HTML = '<DIV CLASS="col-md-11' + HTMLclass +  '">' + HTML + '</DIV><DIV CLASS="col-md-1' + HTMLclass +  '">';
                 HTML += '<BUTTON class="btn btn-danger" TITLE="Delete this item" onclick="deleteitem(' + "'" + table_name + "', '" + data["id"] + "'" + ');"><i class="fa fa-times"></i></BUTTON><BR>';
-                HTML += '<BUTTON class="btn btn-success' + HTMLclass + 'undo" TITLE="Undo all changes to this item" onclick="undo(' + "'" + table_name + "', '" + data["id"] + "'" + ');"' + undostyle + '><i class="fa fa-undo"></i></BUTTON>';
+                HTML += '<BUTTON class="btn btn-primary' + HTMLclass + 'undo" TITLE="Undo all changes to this item" onclick="undo(' + "'" + table_name + "', '" + data["id"] + "'" + ');"' + undostyle + '><i class="fa fa-undo"></i></BUTTON>';
                 return HTML + '</DIV><DIV CLASS="col-md-12' + HTMLclass +  '"><HR></DIV>';
             }
 

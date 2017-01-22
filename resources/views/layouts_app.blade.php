@@ -52,7 +52,7 @@
 
     <body>
         <?= view("popups_navbar")->render(); ?>
-        <div class="container-fluid  py-3" style="">
+        <div class="container-fluid" style="">
             @yield('content')
         </div>
 
@@ -62,7 +62,7 @@
 
         <div id="snackbar">Order Updated</div>
 
-            <nav class="navbar shadow fixed-bottom" style="">
+            <nav class="navbar shadow dont-show">
             <div class="container-fluid">
                 <a href="#" class="text-white">About</a>
                 <!--div class="row">
@@ -123,7 +123,7 @@
 
 
 
-    @if(false)
+    @if(true)
 
 
     <style>
@@ -224,17 +224,6 @@
             padding: .5rem 1.25rem !important;
         }
 
-        .navbar, .dropdown-menu, .shadow ,.ui-autocomplete{
-            border: 0 !important;
-            box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
-        }
-
-        .navbar {
-            line-height: 1rem !important;
-            padding: 1rem 1.25rem !important;
-            border-radius: 0 !important;
-            background: #00467f !important;
-        }
 
         body {
             /*  prevents horizontal scroll for full width container-fluid */

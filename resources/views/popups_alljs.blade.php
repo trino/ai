@@ -1,10 +1,12 @@
 <?php
-    startfile("popups_alljs");
-    $CURRENT_YEAR = date("Y");
-    $STREET_FORMAT = "[number] [street], [city] [postalcode]";//["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
+startfile("popups_alljs");
+$CURRENT_YEAR = date("Y");
+$STREET_FORMAT = "[number] [street], [city] [postalcode]";
+//["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
 ?>
 
 <script>
+
     var currentitemID = -1;
     var MAX_DISTANCE = 20;//km
     var debugmode = false;//'<?= !islive(); ?>' == '1';
@@ -49,7 +51,7 @@
     };
 
     //returns true if the string starts with str
-    String.prototype.startswith = function(str) {
+    String.prototype.startswith = function (str) {
         return this.substring(0, str.length).isEqual(str);
     };
     String.prototype.endswith = function (str) {
@@ -175,7 +177,8 @@
 
     function confirm2() {
         var Title = "Confirm";
-        var action = function () {};
+        var action = function () {
+        };
         $('#alert-confirm').unbind('click');
         if (arguments.length > 1) {
             for (var index = 0; index < arguments.length; index++) {
@@ -238,11 +241,13 @@
         log("TESTING ADDRESS");
     }, "Please enter a valid address");
 
-    function isvalidaddress(){
+    function isvalidaddress() {
         var fields = ["formatted_address", "add_postalcode", "add_latitude", "add_longitude"];
-        for(i=0;i<fields.length;i++){
+        for (i = 0; i < fields.length; i++) {
             log(fields[i] + ": " + $("#" + fields[i]).val().length);
-            if($("#" + fields[i]).val().length == 0){return false;}
+            if ($("#" + fields[i]).val().length == 0) {
+                return false;
+            }
         }
         return true;
     }
@@ -302,12 +307,16 @@
 
     //get the data from the modal and add it to the order
     function additemtoorder(element, Index) {
-        var x = document.getElementById("snackbar")
-        x.className = "show";
-        setTimeout(function () {
-            x.className = x.className.replace("show", "");
-        }, 500);
 
+
+        // Get the snackbar DIV
+        var x = document.getElementById("snackbar")
+
+        // Add the "show" class to DIV
+        x.className = "show";
+
+        // After 3 seconds, remove the show class from DIV
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 1200);
 
         var itemid = 0, itemname = "", itemprice = 0.00, itemaddons = new Array, itemsize = "", toppingcost = 0.00, toppingscount = 0, itemcat = "";
         if (!isUndefined(Index)) {
@@ -380,7 +389,7 @@
                 }
             }
             if (item.hasOwnProperty("isnew")) {
-                if (item["isnew"]){
+                if (item["isnew"]) {
                     item["isnew"] = false;
                     fadein = "#receipt_item_" + itemid;
                 }
@@ -390,13 +399,13 @@
 
             tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item">';
             tempHTML += '<span class=""> <DIV style="margin:2px !important;" CLASS="sprite pull-left rounded sprite-' + category + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
-         //   tempHTML += '<span class=""></DIV> ' + item["itemname"] + '</span>';
+            //   tempHTML += '<span class=""></DIV> ' + item["itemname"] + '</span>';
             tempHTML += '<span class="pull-right" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '">';
 
             tempHTML += ' <button class="fa fa-close pull-right btn btn-sm btn-danger" onclick="removeorderitem(' + itemid + ');"></button>';
 
             if (hasaddons) {
-                tempHTML += ' <button class="fa fa-pencil pull-right btn btn-sm btn-danger" onclick="edititem(this, ' + itemid + ');"></button>';
+                tempHTML += ' <button class="fa fa-pencil btn btn-sm btn-danger" onclick="edititem(this, ' + itemid + ');"></button>';
             }
             tempHTML += '$' + totalcost + '</span><div class="clearfix"></div>';
 
@@ -458,7 +467,7 @@
             $("#checkout-btn").show();
         }
         $("#myorder").html(HTML + tempHTML);
-        if(fadein){
+        if (fadein) {
             $(fadein).hide();
             $(fadein).fadeIn();
         }
@@ -567,7 +576,8 @@
     //checks if an addon is free
     function isaddon_free(Table, Addon) {
         switch (Addon.toLowerCase()) {
-            case "lightly done": case "well done":
+            case "lightly done":
+            case "well done":
                 return true;
                 break;
             default:
@@ -584,7 +594,9 @@
     var removeorderitemdisabled = false;
 
     function removeorderitem(index) {
-        if (removeorderitemdisabled) {return;}
+        if (removeorderitemdisabled) {
+            return;
+        }
         removeindex(theorder, index);
         removeorderitemdisabled = true;
         $("#receipt_item_" + index).fadeOut("fast", function () {
@@ -610,16 +622,28 @@
 
     function validaddress() {
         var savedaddress = $("#saveaddresses").val();
-        if (savedaddress == 0) {return false;}
-        if (savedaddress == "addaddress") {return isvalidaddress();}
+        if (savedaddress == 0) {
+            return false;
+        }
+        if (savedaddress == "addaddress") {
+            return isvalidaddress();
+        }
         return true;
     }
 
     function isvalidcreditcard(CardNumber, Month, Year, CVV) {
-        if (isUndefined(CardNumber)) {CardNumber = $("[data-stripe=number]").val();}
-        if (isUndefined(Month)) {Month = $("[data-stripe=exp_month]").val();}
-        if (isUndefined(Year)) {Year = $("[data-stripe=exp_year]").val();}
-        if (isUndefined(CVV)) {CVV = $("[data-stripe=cvc]").val();}
+        if (isUndefined(CardNumber)) {
+            CardNumber = $("[data-stripe=number]").val();
+        }
+        if (isUndefined(Month)) {
+            Month = $("[data-stripe=exp_month]").val();
+        }
+        if (isUndefined(Year)) {
+            Year = $("[data-stripe=exp_year]").val();
+        }
+        if (isUndefined(CVV)) {
+            CVV = $("[data-stripe=cvc]").val();
+        }
         CardNumber = CardNumber.replace(/\D/g, '');
         var nCheck = 0, nDigit = 0, bEven = false;
         for (var n = CardNumber.length - 1; n >= 0; n--) {
@@ -658,8 +682,12 @@
 
     //send an order to the server
     function placeorder(StripeResponse) {
-        if (!canplaceanorder()) {return cantplaceorder();}
-        if (isUndefined(StripeResponse)) {StripeResponse = "";}
+        if (!canplaceanorder()) {
+            return cantplaceorder();
+        }
+        if (isUndefined(StripeResponse)) {
+            StripeResponse = "";
+        }
         if (isObject(userdetails)) {
             var addressinfo = getform("#orderinfo");//i don't know why the below 2 won't get included. this forces them to be
             addressinfo["cookingnotes"] = $("#cookingnotes").val();
@@ -733,7 +761,9 @@
 
     $(window).on('hashchange', function (event) {//delete button closes modal
         if (window.location.hash != "#modal" && window.location.hash != "#loading") {
-            if (skipone > Date.now()) {return;}
+            if (skipone > Date.now()) {
+                return;
+            }
             $('#' + modalID).modal('hide');
             log("AUTOHIDE " + modalID);
         }
@@ -774,7 +804,7 @@
     }
 
     function deletecard(Index, ID, last4, month, year) {
-        confirm2("Are you sure you want to delete the credit card **** **** **** " + last4 + " Expiring on " + month + "/" + year + "?", 'Delete Credit Card', function () {
+        confirm2("Are you sure you want to delete credit card:<br>**** **** **** " + last4 + " Expiring on " + month + "/" + year + "?", 'Delete Credit Card', function () {
             $.post(webroot + "placeorder", {
                 _token: token,
                 action: "deletecard",
@@ -786,23 +816,34 @@
             });
         });
     }
-
     //handles the orders list modal
     function orders(ID, getJSON) {
         if (isUndefined(ID)) {//no ID specified, get a list of order IDs from the user's profile and make buttons
+
             $("#profilemodal").modal("hide");
+
             var HTML = '<ul class="list-group">';
             var First = false;
             for (var i = 0; i < userdetails["Orders"].length; i++) {
                 var order = userdetails["Orders"][i];
                 ID = order["id"];
-                if (!First) {First = ID;}
-                HTML += '<li class="list-group-item" ONCLICK="orders(' + ID + ');">' + '<SPAN ID="pastreceipt' + ID + '"></SPAN>' + '<span class="tag tag-default tag-pill pull-xs-right">ID: ' + ID + '</span> AT: ' + order["placed_at"] + '</li>';
+                if (!First) {
+                    First = ID;
+                }
+                HTML += '<li class="list-group-item" ONCLICK="orders(' + ID + ');">' + '<SPAN ID="pastreceipt' + ID + '"></SPAN>' +
+                    '<span class="tag tag-default tag-pill pull-xs-right">ID: ' + ID + '</span> AT: ' + order["placed_at"] + '</li>';
             }
             HTML += '</ul>';
-            if (!First) {HTML = "No orders placed yet";}
+            if (!First) {
+                HTML = "No orders placed yet";
+            }
+
             alert(HTML, "Orders");
-            if (First) {orders(First)}
+
+
+            if (First) {
+                orders(First)
+            }
         } else {
             if (isUndefined(getJSON)) {
                 getJSON = false;
@@ -819,14 +860,21 @@
                 orderid: ID,
                 JSON: getJSON
             }, function (result) {
-                if (getJSON) {//JSON recieved, put it in the order
+                if (getJSON) {
+
+                    //JSON recieved, put it in the order
+
                     result = JSON.parse(result);
                     theorder = result["Order"];
                     $("#cookingnotes").val(result["cookingnotes"]);
                     generatereceipt();
                     $("#alertmodal").modal('hide');
+
+
                 } else {//HTML recieved, put it in the pastreceipt element
-                    skipunloadingscreen=true;
+
+
+                    skipunloadingscreen = true;
                     setTimeout(function () {
                         loading(true, "SHOWRESULT");
                     }, 10);
@@ -834,7 +882,10 @@
                     if (Index > -1) {
                         userdetails["Orders"][Index]["Contents"] = result;
                     }
+
                     GetNextOrder(ID);
+
+
                 }
             });
         }
@@ -883,25 +934,25 @@
         @endif
 
         /*
-             //----- OPEN (manual fade-in)
-             $('[data-popup-open]').on('click', function (e) {
-                 var targeted_popup_class = jQuery(this).attr('data-popup-open');
-                 $('#' + targeted_popup_class).fadeIn("fast");
-                 e.preventDefault();
-             });
-        */
+         //----- OPEN (manual fade-in)
+         $('[data-popup-open]').on('click', function (e) {
+         var targeted_popup_class = jQuery(this).attr('data-popup-open');
+         $('#' + targeted_popup_class).fadeIn("fast");
+         e.preventDefault();
+         });
+         */
 
         //----- CLOSE
         $('[data-popup-close]').on('click', function (e) {
             var targeted_popup_class = jQuery(this).attr('data-popup-close');
             /*
-                $('#' + targeted_popup_class).fadeOut("fast", function () {
-                    $(".modal-backdrop").fadeOut("fast", function () {
-                        $('#' + targeted_popup_class).modal("hide");
-                    });
-                });
-                e.preventDefault();
-            */
+             $('#' + targeted_popup_class).fadeOut("fast", function () {
+             $(".modal-backdrop").fadeOut("fast", function () {
+             $('#' + targeted_popup_class).modal("hide");
+             });
+             });
+             e.preventDefault();
+             */
             $('#' + targeted_popup_class).modal("hide");
         });
 
@@ -948,7 +999,8 @@
                                 location.reload();
                             }
                             break;
-                        case "forgotpassword": case "verify":
+                        case "forgotpassword":
+                        case "verify":
                             alert(data["Reason"], "Login");
                             break;
                         case "logout":
@@ -1017,7 +1069,7 @@
         $body = $("body");
         $(document).on({
             ajaxStart: function () {
-            //ajaxSend: function ( event, jqxhr, settings ) {log("settings.url: " + settings.url);//use this event if you need the URL
+                //ajaxSend: function ( event, jqxhr, settings ) {log("settings.url: " + settings.url);//use this event if you need the URL
                 if (skiploadingscreen) {
                     if (!lockloading) {
                         skiploadingscreen = false;
@@ -1029,7 +1081,7 @@
                 }
             },
             ajaxStop: function () {
-                if(skipunloadingscreen){
+                if (skipunloadingscreen) {
                     skipunloadingscreen = false;
                 } else {
                     loading(false, "ajaxStop");
@@ -1041,7 +1093,7 @@
 
         @if(isset($user) && $user)
             login(<?= json_encode($user); ?>, false); //user is already logged in, use the data
-        @endif
+                @endif
 
         var HTML = '';
         var todaysdate = isopen(generalhours);
@@ -1080,7 +1132,7 @@
         var HTML = '';
         var FirstAddress = false;
         HTML += '<SELECT class="form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION value="0">Delivery Address</OPTION>';
-        
+
         if (user["Addresses"].length > 0) {
             addresskeys = Object.keys(user["Addresses"][0]);
             for (i = 0; i < user["Addresses"].length; i++) {
@@ -1124,7 +1176,7 @@
         return tempHTML + '>' + streetformat + '</OPTION>';
     }
 
-    function clearphone(){
+    function clearphone() {
         $('#reg_phone').attr("style", "");
         $(".payment-errors").text("");
     }
@@ -1247,13 +1299,30 @@
         var errormessage = "";
         log("Stripe response");
         switch (status) {
-            case 400: errormessage = "Bad Request:<BR>The request was unacceptable, often due to missing a required parameter."; break;
-            case 401: errormessage = "Unauthorized:<BR>No valid API key provided."; break;
-            case 402: errormessage = "Request Failed:<BR>The parameters were valid but the request failed."; break;
-            case 404: errormessage = "Not Found:<BR>The requested resource doesn't exist."; break;
-            case 409: errormessage = "Conflict:<BR>The request conflicts with another request (perhaps due to using the same idempotent key)."; break;
-            case 429: errormessage = "Too Many Requests:<BR>Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."; break;
-            case 500: case 502: case 503: case 504:errormessage = "Server Errors:<BR>Something went wrong on Stripe's end.";break;
+            case 400:
+                errormessage = "Bad Request:<BR>The request was unacceptable, often due to missing a required parameter.";
+                break;
+            case 401:
+                errormessage = "Unauthorized:<BR>No valid API key provided.";
+                break;
+            case 402:
+                errormessage = "Request Failed:<BR>The parameters were valid but the request failed.";
+                break;
+            case 404:
+                errormessage = "Not Found:<BR>The requested resource doesn't exist.";
+                break;
+            case 409:
+                errormessage = "Conflict:<BR>The request conflicts with another request (perhaps due to using the same idempotent key).";
+                break;
+            case 429:
+                errormessage = "Too Many Requests:<BR>Too many requests hit the API too quickly. We recommend an exponential backoff of your requests.";
+                break;
+            case 500:
+            case 502:
+            case 503:
+            case 504:
+                errormessage = "Server Errors:<BR>Something went wrong on Stripe's end.";
+                break;
             case 200:// - OK	Everything worked as expected.
                 if (response.error) {
                     $('.payment-errors').html(response.error.message);
@@ -1271,11 +1340,17 @@
 
     var closest = false;
     function addresshaschanged() {
-        if (!getcloseststore) {return;}
+        if (!getcloseststore) {
+            return;
+        }
         var formdata = getform("#orderinfo");
         formdata.limit = 10;
-        if (!formdata.latitude || !formdata.longitude) {return;}
-        if (!debugmode) {formdata.radius = MAX_DISTANCE;}
+        if (!formdata.latitude || !formdata.longitude) {
+            return;
+        }
+        if (!debugmode) {
+            formdata.radius = MAX_DISTANCE;
+        }
         skiploadingscreen = true;
         //canplaceorder = false;
 
@@ -1288,17 +1363,18 @@
                 closest = JSON.parse(result)["closest"];
                 var HTML = '<OPTION VALUE="0">No restaurant is within range</OPTION>';
                 //canplaceorder = false;
-                if (closest.length>0){//} closest.hasOwnProperty("id")) {
-                    HTML='';
-                    var smallest = "0"; var distance = -1;
-                    for(var i=0; i< closest.length; i++){
+                if (closest.length > 0) {//} closest.hasOwnProperty("id")) {
+                    HTML = '';
+                    var smallest = "0";
+                    var distance = -1;
+                    for (var i = 0; i < closest.length; i++) {
                         var restaurant = closest[i];
                         restaurant.distance = parseFloat(restaurant.distance);
                         if (restaurant.distance <= MAX_DISTANCE || debugmode) {
                             if (restaurant.distance >= MAX_DISTANCE) {
                                 restaurant.restaurant.name += " [DEBUG]"
                             }
-                            if(distance == -1 || distance > restaurant.distance){
+                            if (distance == -1 || distance > restaurant.distance) {
                                 smallest = restaurant.restaurant.id;
                                 distance = restaurant.distance;
                             }
@@ -1525,27 +1601,28 @@
             return this.id;
         }).get();
     }
+
 </SCRIPT>
 
 <SCRIPT>
-    if(isUndefined(unikeys)) {
+    if (isUndefined(unikeys)) {
         var unikeys = {
-            exists_already:     "'[name]' exists already",
-            cat_name:           "What name would you like the category to be?\r\nIt will only be saved when you add an item to the category",
-            not_placed:         "Order was not placed!",
-            error_login:        "Error logging in",
-            email_needed:       "Please enter an email address",
-            long_lat:           "Longitude and/or latitude missing",
-            ten_closest:        "10 closest restaurants",
-            clear_order:        "Are you sure you want to empty your cart?"
+            exists_already: "'[name]' exists already",
+            cat_name: "What name would you like the category to be?\r\nIt will only be saved when you add an item to the category",
+            not_placed: "Order was not placed!",
+            error_login: "Error logging in",
+            email_needed: "Please enter an email address",
+            long_lat: "Longitude and/or latitude missing",
+            ten_closest: "10 closest restaurants",
+            clear_order: "Are you sure you want to empty your cart?"
         };
     }
 
-    function makestring(Text, Variables){
-        if (Text.startswith("{") && Text.endswith("}")){
+    function makestring(Text, Variables) {
+        if (Text.startswith("{") && Text.endswith("}")) {
             Text = unikeys[Text.mid(1, Text.length - 2)];
         }
-        if(!isUndefined(Variables)) {
+        if (!isUndefined(Variables)) {
             var keys = Object.keys(Variables);
             for (var i = 0; i < keys.length; i++) {
                 var key = keys[i];
@@ -1577,7 +1654,7 @@
             <div class="modal-header">
                 <h2 class="modal-title" id="alertmodallabel">Title</h2>
 
-                <button  data-dismiss="modal" class="btn btn-sm  btn-danger pull-right" ><i class="fa fa-close"></i> </button>
+                <button data-dismiss="modal" class="btn btn-sm  btn-danger pull-right"><i class="fa fa-close"></i></button>
 
             </div>
             <div class="modal-body">
@@ -1598,7 +1675,7 @@
 
 <SCRIPT>
     var oneclick = true, currentstyle = 1, currentbasecost = 0, currentaddoncost = 0;
-    var currentaddontype = "", currentside = "", currentqualifier = "", addonname = "", hashalves = true;
+    var currentaddontype = "", currentside = "", currentqualifier = "", addonname = "", item_name = "", hashalves = true;
     var currentaddonlist = new Array, currentitemindex = 0, currentitemname = "";
 
     function toclassname(text) {
@@ -1612,46 +1689,51 @@
         switch (currentaddontype) {
             case "toppings":
                 addonname = "Toppings";
+                item_name = "Pizza";
                 break;
             case "wings_sauce":
-                addonname = "Sauces";
+                addonname = "Sauce";
+                item_name = "Wings";
                 break;
             default:
                 addonname = "Error: " + currentaddontype;
                 break;
         }
 
-        var thisside = ' CLASS="thisside"><I CLASS="fa fa-check text-danger"></I>';
+
+        var thisside = ' CLASS="thisside">';
 
         for (var itemindex = 0; itemindex < currentaddonlist.length; itemindex++) {
+
             var freetoppings = 0;
             var paidtoppings = 0;
-
             var tempstr = '';
+
             var classname = 'itemcontents itemcontents' + itemindex;
 
-            HTML += '<DIV style="border:2px solid transparent;border-radius:.2rem;padding:.25rem;width:100% !important;float:left;" ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="currentitem currentitem' + itemindex;
+            HTML += '<DIV style="border:2px solid transparent;border-radius:.2rem;padding:.5rem;width:100% !important;float:left;color:white !important;" ' +
+                'ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="currentitem currentitem' + itemindex;
+
             if (currentitemindex == itemindex) {
                 HTML += ' thisside';
             }
-            HTML += '">' +         ucfirst(addonname) +            ' #' + (itemindex + 1) + ' ';
+
+            HTML += '">'+ '<div class="btn btn-sm" >'+ ucfirst(item_name) + ' #' + (itemindex + 1) + '</div>';
 
             if (currentaddonlist[itemindex].length == 0) {
-                tempstr += '<div >No ' + addonname + ' Yet</div>';
+                tempstr += '<div class="btn btn-sm btn-secondary" >No ' + addonname + '</div>';
             }
 
+
             for (var i = 0; i < currentaddonlist[itemindex].length; i++) {
-                /*
-                 if (qualifiers[currentaddontype].hasOwnProperty(addonname)) {
-                 qualifier = qualifiers[currentaddontype][addonname][currentaddon.qual];
-                 } else {
-                 qualifier = qualifiers["DEFAULT"][currentaddon.qual];
-                 }
-                 */
 
                 var currentaddon = currentaddonlist[itemindex][i];
                 var qualifier = "";
-                tempstr += '<DIV CLASS="pill btn btn-sm btn-secondary ' + classname + '">' + currentaddon.name + '<span CLASS="pull-right" ONCLICK="removelistitem(' + itemindex + ', ' + i + ');">&nbsp; <i CLASS="fa fa-times"></i> </span></div>&nbsp;';
+
+                tempstr += '<DIV CLASS="pill btn btn-sm btn-secondary ' + classname + '">' + currentaddon.name +
+                    '<span CLASS="pull-right" ONCLICK="removelistitem(' + itemindex + ', ' + i + ');">&nbsp; <i CLASS="fa fa-times"></i> </span></div>&nbsp;';
+
+
 
                 qualifier = currentaddon.qual;
                 if (qualifier == 0) {
@@ -1664,12 +1746,17 @@
                 } else {
                     paidtoppings += qualifier;
                 }
+
+
             }
+
+
             totaltoppings += Math.ceil(paidtoppings);
-            if (debugmode) {//if(paidtoppings > 0 || freetoppings > 0){
-                 HTML += " (Paid: " + paidtoppings + " Free: " + freetoppings + ')';
+            if (debugmode) {
+                HTML += " (Paid: " + paidtoppings + " Free: " + freetoppings + ')';
             }
-            HTML += '<br>' + tempstr + '</DIV>';
+
+            HTML += tempstr + '</DIV>';
         }
 
         var totalcost = getcost(totaltoppings);
@@ -1702,7 +1789,7 @@
 
     function list_addons(table, halves) {
         currentaddontype = table;
-        var HTML = '<DIV style="height:130px;overflow-y: auto;overflow-x: auto; overflow-x: auto; padding:5px;"><DIV id="theaddons"></DIV></DIV>';
+        var HTML = '<DIV style="height:150px;overflow-y: auto;overflow-x: auto; overflow-x: auto; padding:5px;"><DIV id="theaddons"></DIV></DIV>';
         if (currentstyle == 0) {
             HTML += '<DIV CLASS=" addonlist" ID="addontypes">';
         }
@@ -1716,7 +1803,7 @@
 
             for (var i = 0; i < types.length; i++) {
                 //HTML += '<h2 class="col-xs-12 btn-sm" id="' + toclassname(types[i]) + '">' + types[i] + '</h2>';
-               // HTML += '<div id="' + toclassname(types[i]) + '">' + types[i] + '</div>';
+                // HTML += '<div id="' + toclassname(types[i]) + '">' + types[i] + '</div>';
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
@@ -1907,20 +1994,20 @@
 
 
     @if(read("id"))
-        $( document ).ready(function() {
-            <?php if (islive() || $GLOBALS["testlive"]) {
-                echo "setPublishableKey('pk_vnR0dLVmyF34VAqSegbpBvhfhaLNi', 'live')";
-            } else {
-                echo "setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', 'test');";
-            }?>
-        });
+        $(document).ready(function () {
+        <?php if (islive() || $GLOBALS["testlive"]) {
+        echo "setPublishableKey('pk_vnR0dLVmyF34VAqSegbpBvhfhaLNi', 'live')";
+    } else {
+        echo "setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', 'test');";
+    }?>
+    });
 
-        function setPublishableKey(Key, mode){
-            Stripe.setPublishableKey(Key);
-            @if(!islive())
-                log(mode + " stripe mode");
-            @endif
-        }
+    function setPublishableKey(Key, mode) {
+        Stripe.setPublishableKey(Key);
+        @if(!islive())
+            log(mode + " stripe mode");
+        @endif
+    }
     @endif
 </SCRIPT>
 

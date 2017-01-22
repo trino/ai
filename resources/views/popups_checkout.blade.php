@@ -6,7 +6,7 @@
 </div>
 
 <div id="myorder" class="text-white"></div>
-<button id="checkout-btn" class="btn btn-warning btn-block mb-3 " onclick="showcheckout();">
+<button id="checkout-btn" class="btn btn-warning btn-lg btn-block mb-3 " onclick="showcheckout();">
     CHECKOUT
 </button>
 
@@ -30,7 +30,7 @@
                     </div>
 
                     <div class="credit-info">
-                        <DIV CLASS="col-xs-4 pr-0">
+                        <DIV style="">
                             <SELECT CLASS="form-control proper-height" data-stripe="exp_month">
                                 <OPTION VALUE="01">01/Jan</OPTION>
                                 <OPTION VALUE="02">02/Feb</OPTION>
@@ -46,7 +46,7 @@
                                 <OPTION VALUE="12">12/Dec</OPTION>
                             </SELECT>
                         </DIV>
-                        <DIV CLASS="col-xs-4  px-0">
+                        <DIV CLASS="">
                             <SELECT CLASS="form-control proper-height" data-stripe="exp_year">
                                 <?php
                                     $CURRENT_YEAR = date("Y");
@@ -57,7 +57,7 @@
                                 ?>
                             </SELECT>
                         </DIV>
-                        <DIV CLASS="col-xs-4  pl-0">
+                        <DIV CLASS="">
                             <input type="text" size="4" data-stripe="cvc" CLASS="form-control proper-height" PLACEHOLDER="CVC">
                             <INPUT TYPE="hidden" name="istest" id="istest">
                         </DIV>
@@ -77,12 +77,12 @@
                     </DIV>
 
                     <div class="col-xs-12">
-                        <div class="col-xs-12">
-                            <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook" maxlength="255"/>
-                        </div>
+
                         <SELECT class="form-control" ID="restaurant" ONCHANGE="restchange();">
                             <OPTION VALUE="0">Closest Restaurant</OPTION>
-                        </SELECT>
+                        </SELECT>   <div class="col-xs-12">
+                            <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook" maxlength="255"/>
+                        </div>
                     </DIV>
 
                     <div class="col-xs-12">
@@ -99,7 +99,7 @@
                     </DIV>
 
                     <div class="col-xs-4">
-                        <a class="btn btn-warning text-white pull-right" onclick="payfororder();">PLACE ORDER</a>
+                        <a class="btn btn-primary text-white pull-right" onclick="payfororder();">PLACE ORDER</a>
                     </div>
                 </FORM>
             </div>

@@ -172,7 +172,7 @@
     @include("popups_edituser")
     <DIV CLASS="row">
         <DIV CLASS="col-md-12" align="center">
-            <BUTTON CLASS="btn btn-success" onclick="userform_submit();">Save</BUTTON>
+            <BUTTON CLASS="btn btn-primary" onclick="userform_submit();">Save</BUTTON>
         </DIV>
     </DIV>
 </FORM>

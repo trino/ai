@@ -16,7 +16,7 @@
     if (!function_exists("printarow")) {
         function printarow($Name, $Prepend, $field) {
             if ($field["type"] != "hidden")     {echo '';}
-            echo '<INPUT  TYPE="' . $field["type"] . '" NAME="' . $field["name"] . '" ID="' . $Prepend . '_' . $field["name"] . '"';
+            echo '<INPUT TYPE="' . $field["type"] . '" NAME="' . $field["name"] . '" ID="' . $Prepend . '_' . $field["name"] . '"';
             if (isset($field["class"]))         {echo ' CLASS="' . $field["class"] . '" ';}
             if (isset($field["value"]))         {echo ' value="' . $field["value"] . '" ';}
             if (isset($field["min"]))           {echo ' min="' . $field["min"] . '" ';}

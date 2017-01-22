@@ -11,7 +11,7 @@
                 <FORM NAME="user" id="userform">
                     @include("popups_edituser", array("showpass" => true))
                     <DIV class="clearfix mt-1"></DIV>
-                    <BUTTON CLASS="btn btn-success" onclick="userform_submit();">SAVE</BUTTON>
+                    <BUTTON CLASS="btn btn-primary" onclick="userform_submit();">SAVE</BUTTON>
                 </FORM>
 
 
@@ -22,10 +22,10 @@
                 <DIV ID="cardlist"></DIV>
             </div>
             <div CLASS="editprofilediv mt-2">
-                <button ONCLICK="orders();" CLASS="btn btn-success" href="#">PAST ORDERS</button>
+                <button ONCLICK="orders();" CLASS="btn btn-primary" href="#">PAST ORDERS</button>
             </div>
             <div CLASS="editprofilediv mt-2">
-                <button ONCLICK="handlelogin('logout');" CLASS="btn btn-success pull-left" href="#">LOG OUT</button>
+                <button ONCLICK="handlelogin('logout');" CLASS="btn btn-primary pull-left" href="#">LOG OUT</button>
                 <div class="clearfix"></div>
             </div>
 

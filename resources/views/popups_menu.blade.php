@@ -112,7 +112,7 @@ $CurrentCol = 1;
         <div class="" style="margin-bottom:1rem !important;">
             <h2 class="text-danger text-uppercase" style="">  {{$category['category']}}  </h2>
             @foreach ($menuitems as $menuitem)
-                <div style="padding:1px 1px" class="list-group-item-action item_{{ $catclass }}"
+                <div style="padding:5px 3px" class="list-group-item-action item_{{ $catclass }}"
                      itemid="{{$menuitem["id"]}}"
                      itemname="{{$menuitem['item']}}"
                      itemprice="{{$menuitem['price']}}"
@@ -187,11 +187,10 @@ $CurrentCol = 1;
                 <div class="row">
                     <DIV ID="addonlist" class="addonlist"></DIV>
                     <div class="clearfix"></div>
-                    <div class="col-md-5">
-                        <DIV ID="removelist" style="color: red;"></div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="col-md-7 mt-1 pt-1">
+                    <div class="col-md-12 mt-3">
+                        <DIV ID="removelist" style="color: red;" class="pull-left"></div>
+
+
                         <button type="button" data-popup-close="menumodal" old-data-dismiss="modal"
                                 id="additemtoorder" class="btn btn-danger btn-circle btn-lg pull-right"
                                 onclick="additemtoorder();"><i class="fa fa-check"></i></button>

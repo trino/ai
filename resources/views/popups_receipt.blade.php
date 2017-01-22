@@ -328,7 +328,7 @@
                     if ($style == 2) {
                         echo '<TR><TD COLSPAN="' . $colspan . '">';
                         if (isset($JSON)) {
-                            echo '<BUTTON CLASS="btn btn-block btn-warning" ONCLICK="orders(' . $orderid . ', true);">LOAD ORDER</BUTTON>';
+                            echo '<BUTTON CLASS="btn btn-block btn-primary" ONCLICK="orders(' . $orderid . ', true);">LOAD ORDER</BUTTON>';
                         } else {
                             echo $Order["name"] . " - " . $Order["email"] . "<BR>" . $Order["phone"] . " " . $Order["cell"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . ", " . $Order["province"] . "<BR>" . $Order["postalcode"] . '<BR>' . $Order["unit"];
                         }
