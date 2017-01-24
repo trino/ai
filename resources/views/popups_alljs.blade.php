@@ -287,6 +287,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             $(".toppings_price").text(toppingcost);
         }
         $("#modal-toppingcost").text(toppingcost);
+        if(toppingcost>0){$("#toppingcost").show();} else {$("#toppingcost").hide();}
         currentitem = {itemname: itemname, itemcost: itemcost, size: size, toppingcost: toppingcost};
 
         for (var tableid = 0; tableid < tables.length; tableid++) {
@@ -302,19 +303,25 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         if (!isUndefined(notparent)) {
             $("#menumodal").modal("show");
         }
+        refreshremovebutton();
+        $("#removelist").text("");
         $("#additemtoorder").html(title);
+    }
+
+    function refreshremovebutton(){
+        if(theorder.length == 0){
+            $("#removeitemfromorder").hide();
+        } else {
+            $("#removeitemfromorder").show().attr("title", "Remove: " + theorder[theorder.length-1].itemname).attr("onclick", "removeorderitem(" + (theorder.length-1) + "); refreshremovebutton();");
+        }
     }
 
     //get the data from the modal and add it to the order
     function additemtoorder(element, Index) {
-
-
         // Get the snackbar DIV
-        var x = document.getElementById("snackbar")
-
+        var x = document.getElementById("snackbar");
         // Add the "show" class to DIV
         x.className = "show";
-
         // After 3 seconds, remove the show class from DIV
         setTimeout(function(){ x.className = x.className.replace("show", ""); }, 1200);
 

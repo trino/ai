@@ -176,13 +176,10 @@ $CurrentCol = 1;
             </div>
 
             <div class="modal-header">
-                <h2 id="myModalLabel"><SPAN ID="modal-itemname"></SPAN> <small>+$<SPAN id="modal-toppingcost">0.79</SPAN> per topping</small></h2>
-
+                <h2 id="myModalLabel"><SPAN ID="modal-itemname"></SPAN> <small ID="toppingcost">+$<SPAN id="modal-toppingcost">0.79</SPAN> per topping</small></h2>
                 <button  data-dismiss="modal" class="btn btn-sm  btn-danger" ><i class="fa fa-close"></i> </button>
-
-
-
             </div>
+
             <div class="modal-body" style="background: #dadada !important;padding-top:0 !important;">
                 <div class="row">
                     <DIV ID="addonlist" class="addonlist"></DIV>
@@ -190,10 +187,12 @@ $CurrentCol = 1;
                     <div class="col-md-12 mt-3">
                         <DIV ID="removelist" style="color: red;" class="pull-left"></div>
 
-
                         <button type="button" data-popup-close="menumodal" old-data-dismiss="modal"
                                 id="additemtoorder" class="btn btn-danger btn-circle btn-lg pull-right"
                                 onclick="additemtoorder();"><i class="fa fa-check"></i></button>
+
+                        <button type="button" id="removeitemfromorder" class="btn btn-danger btn-circle btn-lg pull-right" style="margin-left: 10px;margin-right: 10px;"><i class="fa fa-trash"></i></button>
+
                         <div class="pull-right"> $<SPAN ID="modal-itemtotalprice"></SPAN></div>
                     </div>
                     <div class="clearfix"></div>
