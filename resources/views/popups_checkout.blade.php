@@ -30,7 +30,7 @@
                     </div>
 
                     <div class="credit-info">
-                        <DIV style="">
+                        <DIV class="col-xs-4">
                             <SELECT CLASS="form-control proper-height" data-stripe="exp_month">
                                 <OPTION VALUE="01">01/Jan</OPTION>
                                 <OPTION VALUE="02">02/Feb</OPTION>
@@ -46,7 +46,7 @@
                                 <OPTION VALUE="12">12/Dec</OPTION>
                             </SELECT>
                         </DIV>
-                        <DIV CLASS="">
+                        <DIV CLASS="col-xs-4">
                             <SELECT CLASS="form-control proper-height" data-stripe="exp_year">
                                 <?php
                                     $CURRENT_YEAR = date("Y");
@@ -57,7 +57,7 @@
                                 ?>
                             </SELECT>
                         </DIV>
-                        <DIV CLASS="">
+                        <DIV CLASS="col-xs-4">
                             <input type="text" size="4" data-stripe="cvc" CLASS="form-control proper-height" PLACEHOLDER="CVC">
                             <INPUT TYPE="hidden" name="istest" id="istest">
                         </DIV>
@@ -68,7 +68,7 @@
                         <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
                     </div>
 
-                    <div class="col-xs-12">
+                    <div class="col-xs-4">
                         <?php
                             if (read("id")) {
                                 echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
@@ -76,7 +76,7 @@
                         ?>
                     </DIV>
 
-                    <div class="col-xs-12">
+                    <div class="col-xs-4">
 
                         <SELECT class="form-control" ID="restaurant" ONCHANGE="restchange();">
                             <OPTION VALUE="0">Closest Restaurant</OPTION>
@@ -85,7 +85,7 @@
                         </div>
                     </DIV>
 
-                    <div class="col-xs-12">
+                    <div class="col-xs-4">
                         <SELECT id="deliverytime" TITLE="Delivery Time" class="form-control proper-height"/>
                         <OPTION>Deliver Now</OPTION>
                         </SELECT>

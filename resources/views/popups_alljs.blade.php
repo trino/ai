@@ -398,7 +398,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             subtotal += Number(totalcost);
 
             tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item">';
-            tempHTML += '<span class=""> <DIV style="margin:2px !important;" CLASS="sprite pull-left rounded sprite-' + category + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
+            tempHTML += '<span style="margin-top:10px; padding:8px 2px !important;"> <DIV  CLASS="sprite pull-left rounded sprite-' + category + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
             //   tempHTML += '<span class=""></DIV> ' + item["itemname"] + '</span>';
             tempHTML += '<span class="pull-right" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '">';
 
@@ -1711,7 +1711,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
             var classname = 'itemcontents itemcontents' + itemindex;
 
-            HTML += '<DIV style="border:2px solid transparent;border-radius:.2rem;padding:.5rem;width:100% !important;float:left;color:white !important;" ' +
+            HTML += '<DIV style="border:2px solid transparent;border-radius:.2rem;padding:.75rem .5rem;width:100% !important;float:left;color:white !important;" ' +
                 'ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="currentitem currentitem' + itemindex;
 
             if (currentitemindex == itemindex) {

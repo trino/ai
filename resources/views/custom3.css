@@ -1,12 +1,13 @@
 .container-fluid {
     max-width: 1300px !important;
 }
-.sprite{background:orange;}
-.dropdown-menu, .shadow, .btn, .bg-danger, .modal-header {
+.sprite{}
+.dropdown-menu, .shadow, .modal-header {
 
-    border: 0 !important;
-
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
 }
+
+
 .btn{font-weight: 500}
 
 body {
@@ -22,7 +23,7 @@ background: transparent !important;
     -o-background-size: cover;
     background-size: cover;
 }
-*{line-height: 1.5rem}
+
 .modal-header {
     background: #d9534f !important;
 }
