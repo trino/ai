@@ -215,9 +215,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     }
 
     function visible(selector, status) {
-        if (isUndefined(status)) {
-            status = false;
-        }
+        if (isUndefined(status)) {status = false;}
         if (status) {
             $(selector).show();
         } else {
@@ -1153,7 +1151,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         }
         var tempHTML = '<OPTION';
         var streetformat = "<?= $STREET_FORMAT; ?>";
-        //if (address["unit"].trim()) {streetformat = "[unit] - " + streetformat;}
+        if (address["unit"].trim()) {streetformat = "[unit] - " + streetformat;}
         for (var keyID = 0; keyID < addresskeys.length; keyID++) {
             var keyname = addresskeys[keyID];
             if (address.hasOwnProperty(keyname)) {
@@ -1182,6 +1180,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 //log("Selected: " + SelectedVal);
         var Text = '<?= $STREET_FORMAT; ?>';
         visible_address(false);
+        $("#add_unit").hide();
         if (addresskeys.length == 0) {
             addresskeys = ["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
         }
@@ -1201,9 +1200,9 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             $("#formatted_address").hide();
             if (SelectedVal == "addaddress") {
                 visible_address(true);
+                $("#add_unit").show();
                 Text = "";
             }
-            $("#add_unit").show();
         }
         $("#formatted_address").val(Text);
         addresshaschanged();
@@ -1982,15 +1981,9 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     }
 
     function visible_address(state) {
-        if (state) {
-            $("#formatted_address").show();
-            $("#add_unit").show();
-        } else {
-            $("#formatted_address").hide();
-            $("#add_unit").hide();
-        }
+        visible("#formatted_address", state);
+        visible("#add_unit", state);
     }
-
 
     @if(read("id"))
         $(document).ready(function () {
