@@ -106,13 +106,11 @@
                     }
                 },
                 oldpassword: {
-                    //required: function(element){return $("#user_newpassword").val()!="";},
+                    required: function(element){return $("#user_newpassword").val().length > 0;},
                     minlength: minlength
                 },
                 newpassword: {
-                    required: function (element) {
-                        return $("#user_oldpassword").val() != "";
-                    },
+                    required: function (element) {return $("#user_oldpassword").val().length > 0;},
                     minlength: minlength
                 }
             },
