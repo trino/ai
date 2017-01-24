@@ -211,8 +211,8 @@ class HomeController extends Controller {
                     return $error;// The card has been declined
                 }
             }
-            $timer = $info["deliverytime"] == "Deliver Now";
-            return '<div CLASS="ordersuccess" addressid="' . $addressID . '"></div>' . view("popups_receipt", array("orderid" => $orderid, "timer" => $timer))->render();
+            //$timer = $info["deliverytime"] == "Deliver Now";
+            return '<div CLASS="ordersuccess" addressid="' . $addressID . '"></div>' . view("popups_receipt", array("orderid" => $orderid, "timer" => true))->render();
         } else {
             return $addressID;
         }

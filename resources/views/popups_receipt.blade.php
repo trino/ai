@@ -32,14 +32,17 @@
             break;
     }
     //Hack to put CSS inline for emails
-    if (!isset($inline)) {
-        $inline = false;
-    }
-    if (!isset($timer)){
-        $timer = false;
-    }
+    if (!isset($inline)) {$inline = false;}
+    if (!isset($timer)){$timer = false;}
     $GLOBALS["inline"] = $inline;
     if (!function_exists("inline")) {
+        function tomin($time){
+            return left($time, strlen($time) - 2) * 60 + right($time, 2);
+        }
+        function minpad($time){
+            if($time<10){return "0" . $time;}
+            return $time;
+        }
         function inline($Class, $OnlyInline = false) {
             if ($GLOBALS["inline"]) {
                 $Style = array();
@@ -68,31 +71,41 @@
         }
     }
     //edit countdown timer duration
-    $minutes = 30;
+    $minutes = 40;
     $seconds = 0;
+    $duration = "";
+
+    if($Order["deliverytime"] && $timer){
+        $duration = $Order["deliverytime"];
+        $Time = trim(right($Order["deliverytime"], 4));//1500
+        if (is_numeric($Time)) {
+            $CurrentTime = date("Gi");
+            $duration = left($Order["deliverytime"], strlen($Order["deliverytime"]) - 4) . GenerateTime(intval($Time));
+            if($CurrentTime <= $Time){
+                $minutes = tomin($Time) - tomin($CurrentTime) + 1;
+            } else {$timer = false;}
+        } else if ($Order["deliverytime"] == "Deliver Now") {
+            $duration = "ASAP";
+        } else {
+            $timer = false;
+        }
+    }
+    $time="";
+    if($timer){
+        if($minutes<60){
+            $time = $minutes;
+        } else {
+            $time = floor($minutes / 60) . ":" . minpad($minutes % 60);
+        }
+        $time .= ":" . minpad($seconds);
+    }
 ?>
 
 
 @if($style==1)
-    <h2 class="mt-0">Order Arriving In <span CLASS="countdown" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"></span></h2>
-
-    @if($Order["deliverytime"] && $timer)
-        <?php
-            $Time = right($Order["deliverytime"], 4);
-            if (is_numeric($Time)) {
-                echo left($Order["deliverytime"], strlen($Order["deliverytime"]) - 4) . GenerateTime(intval($Time));
-                $timer=false;
-            } else if ($Order["deliverytime"] == "Deliver Now") {
-                echo "ASAP";
-                $timer = true;
-            } else {
-                echo $Order["deliverytime"];
-                $timer= false;
-            }
-        ?>
-    @endif
-    <h2>Delivery Address</h2>
+    <h2 class="mt-0">Order Arriving In <span CLASS="countdown" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"><?= $time; ?></span></h2>
     <?php
+        echo $duration . '<h2>Delivery Address</h2>';
         echo $Order["name"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . " " . $Order["province"] . " " . $Order["postalcode"] . '<BR>' . $Order["unit"];
     ?>
     @if(!isset($JSON))
@@ -126,218 +139,218 @@
             <TABLE WIDTH="100%" class="noborder" cellspacing="0" cellpadding="0">
                 @endif
                 <?php
-                $integrity = true;
-                if (!function_exists("findkey")) {
-                    function findkey($arr, $key, $value) {
-                        return array_search($value, array_column($arr, $key));
-                    }
+                    $integrity = true;
+                    if (!function_exists("findkey")) {
+                        function findkey($arr, $key, $value) {
+                            return array_search($value, array_column($arr, $key));
+                        }
 
-                    //finds the size of the item
-                    function getsize($itemname, $isfree) {
-                        $currentsize = "";
-                        foreach ($isfree as $value) {
-                            $size = $value["size"];
-                            $cost = $value["price"];
-                            if (!is_array($cost)) {
-                                if (textcontains($itemname, $size) && strlen($size) > strlen($currentsize)) {
-                                    $currentsize = $size;
+                        //finds the size of the item
+                        function getsize($itemname, $isfree) {
+                            $currentsize = "";
+                            foreach ($isfree as $value) {
+                                $size = $value["size"];
+                                $cost = $value["price"];
+                                if (!is_array($cost)) {
+                                    if (textcontains($itemname, $size) && strlen($size) > strlen($currentsize)) {
+                                        $currentsize = $size;
+                                    }
                                 }
                             }
+                            return $currentsize;
                         }
-                        return $currentsize;
+
+                        function textcontains($text, $searchfor) {
+                            return strpos(strtolower($text), strtolower($searchfor)) !== false;
+                        }
                     }
 
-                    function textcontains($text, $searchfor) {
-                        return strpos(strtolower($text), strtolower($searchfor)) !== false;
+                    //check all data again, do not trust the prices from the user!!
+                    $tables = array("toppings", "wings_sauce", "additional_toppings");
+                    foreach ($tables as $ID => $table) {
+                        $tables[$table] = Query("SELECT * FROM " . $table, true);
+                        unset($tables[$ID]);
                     }
-                }
 
-                //check all data again, do not trust the prices from the user!!
-                $tables = array("toppings", "wings_sauce", "additional_toppings");
-                foreach ($tables as $ID => $table) {
-                    $tables[$table] = Query("SELECT * FROM " . $table, true);
-                    unset($tables[$ID]);
-                }
-
-                $deliveryfee = findkey($tables["additional_toppings"], "size", "Delivery");
-                $deliveryfee = $tables["additional_toppings"][$deliveryfee]["price"];
-                if (file_exists($filename)) {
-                    $filename = file_get_contents($filename);
-                    try {
-                        $items = json_decode($filename);
-                        $itemIDs = array();
-                        foreach ($items as $item) {
-                            if (isset($item->itemid)) {
-                                $itemIDs[] = $item->itemid;
+                    $deliveryfee = findkey($tables["additional_toppings"], "size", "Delivery");
+                    $deliveryfee = $tables["additional_toppings"][$deliveryfee]["price"];
+                    if (file_exists($filename)) {
+                        $filename = file_get_contents($filename);
+                        try {
+                            $items = json_decode($filename);
+                            $itemIDs = array();
+                            foreach ($items as $item) {
+                                if (isset($item->itemid)) {
+                                    $itemIDs[] = $item->itemid;
+                                }
                             }
-                        }
-                        $itemIDs = implode(",", array_unique($itemIDs));
-                        if (!$itemIDs) {
-                            die("Order is empty");
-                        }
+                            $itemIDs = implode(",", array_unique($itemIDs));
+                            if (!$itemIDs) {
+                                die("Order is empty");
+                            }
 
-                        $menu = Query("SELECT * FROM menu WHERE id IN(" . $itemIDs . ")", true);
+                            $menu = Query("SELECT * FROM menu WHERE id IN(" . $itemIDs . ")", true);
 
-                        //convert the JSON into an HTML receipt, using only item/addon IDs, reobtaining cost/names from the database for security
-                        $subtotal = 0;
-                        foreach ($items as $ID => $item) {
-                            if (is_object($item)) {
-                                $menukey = findkey($menu, "id", $item->itemid);
+                            //convert the JSON into an HTML receipt, using only item/addon IDs, reobtaining cost/names from the database for security
+                            $subtotal = 0;
+                            foreach ($items as $ID => $item) {
+                                if (is_object($item)) {
+                                    $menukey = findkey($menu, "id", $item->itemid);
 
-                                if (true) {
-                                    $menuitem = $menu[$menukey];
-                                    $size = getsize($menuitem["item"], $tables["additional_toppings"]);
-                                    $addonscost = "0.00";
-                                    if ($size) {
-                                        $addonscost = findkey($tables["additional_toppings"], "size", $size);
-                                        $addonscost = $tables["additional_toppings"][$addonscost]["price"];
-                                    }
-                                    $itemtotal = $menuitem["price"];
-                                    $paidtoppings = 0;
-                                    $freetoppings = 0;
-
-                                    $totaladdons = 0;
-                                    foreach ($tables as $name => $data) {
-                                        if (isset($menuitem[$name])) {
-                                            $totaladdons += $menuitem[$name];
+                                    if (true) {
+                                        $menuitem = $menu[$menukey];
+                                        $size = getsize($menuitem["item"], $tables["additional_toppings"]);
+                                        $addonscost = "0.00";
+                                        if ($size) {
+                                            $addonscost = findkey($tables["additional_toppings"], "size", $size);
+                                            $addonscost = $tables["additional_toppings"][$addonscost]["price"];
                                         }
-                                    }
+                                        $itemtotal = $menuitem["price"];
+                                        $paidtoppings = 0;
+                                        $freetoppings = 0;
 
-                                    switch ($style) {
-                                        case 1:
-                                            if ($debugmode) {
-                                                $debug = ' TITLE="' . var_export($item, true) . '"';
+                                        $totaladdons = 0;
+                                        foreach ($tables as $name => $data) {
+                                            if (isset($menuitem[$name])) {
+                                                $totaladdons += $menuitem[$name];
                                             }
-                                            echo '<TR><TD>' . ($ID + 1) . '</TD><TD' . $debug . '>' . $item->itemname . '</TD>';
-                                            if ($debugmode) {
-                                                $debug = ' TITLE="' . print_r($menuitem, true) . '"';
-                                            }
-                                            echo '<TD ALIGN="RIGHT"' . $debug . '>$' . number_format($menuitem["price"], 2) . '</TD><TD>';
-                                            break;
-                                        case 2:
-                                            $imagefile = str_replace(" ", "_", strtolower($menuitem["category"]));
-                                            if (right($imagefile, 5) == "pizza" || !file_exists(public_path() . '/' . $imagefile . ".png")) {
-                                                $imagefile = "pizza";
-                                            }
-
-                                            $imagefile = '<img class="pull-left" src="' . webroot("public/" . $imagefile . ".png") . '" style="width:22px;margin-right:5px;">';
-                                            echo '<TR><TD width="1%">' . $imagefile . '</TD><TD valign="middle">' . $item->itemname . '</TD><TD ALIGN="RIGHT" WIDTH="5%">';
-                                            break;
-                                    }
-
-                                    $HTML = "";
-                                    if (isset($item->itemaddons)) {
-                                        if ($style == 1) {
-                                            $HTML = '<TABLE BORDER="1" WIDTH="100%">';
                                         }
-                                        $addoncount = count($item->itemaddons);
-                                        foreach ($item->itemaddons as $addonID => $addon) {
-                                            $toppings = array();
-                                            if (isset($addon->tablename)) {
-                                                $tablename = $addon->tablename;
-                                                switch ($tablename) {
-                                                    case "toppings":
-                                                        $itemtype = "Pizza";
-                                                        break;
-                                                    case "wings_sauce":
-                                                        $itemtype = "Lb";
-                                                        break;
-                                                }
-                                                if (isset($addon->addons)) {
-                                                    $toppings = $addon->addons;
-                                                }
-                                            }
-                                            $newtoppings = array();
-                                            foreach ($toppings as $topping) {
-                                                if (isset($topping->id)) {//search by id
-                                                    $id = $topping->id;
-                                                    $toppingkey = findkey($tables[$tablename], "id", $topping->id);
-                                                } else {//search by name
-                                                    $toppingkey = findkey($tables[$tablename], "name", $topping->text);
-                                                }
 
-                                                $topping = $tables[$tablename][$toppingkey];
-                                                if ($topping["isfree"]) {
-                                                    $freetoppings++;
-                                                    $topping["name"] = '<I>' . $topping["name"] . '</I>';
-                                                } else {
-                                                    $paidtoppings++;
-                                                }
+                                        switch ($style) {
+                                            case 1:
                                                 if ($debugmode) {
-                                                    $debug = ' TITLE="' . print_r($topping, true) . '"';
+                                                    $debug = ' TITLE="' . var_export($item, true) . '"';
                                                 }
-                                                $newtoppings[] = '<SPAN' . $debug . '>' . $topping["name"] . '</SPAN>';
-                                            }
+                                                echo '<TR><TD>' . ($ID + 1) . '</TD><TD' . $debug . '>' . $item->itemname . '</TD>';
+                                                if ($debugmode) {
+                                                    $debug = ' TITLE="' . print_r($menuitem, true) . '"';
+                                                }
+                                                echo '<TD ALIGN="RIGHT"' . $debug . '>$' . number_format($menuitem["price"], 2) . '</TD><TD>';
+                                                break;
+                                            case 2:
+                                                $imagefile = str_replace(" ", "_", strtolower($menuitem["category"]));
+                                                if (right($imagefile, 5) == "pizza" || !file_exists(public_path() . '/' . $imagefile . ".png")) {
+                                                    $imagefile = "pizza";
+                                                }
 
+                                                $imagefile = '<img class="pull-left" src="' . webroot("public/" . $imagefile . ".png") . '" style="width:22px;margin-right:5px;">';
+                                                echo '<TR><TD width="1%">' . $imagefile . '</TD><TD valign="middle">' . $item->itemname . '</TD><TD ALIGN="RIGHT" WIDTH="5%">';
+                                                break;
+                                        }
+
+                                        $HTML = "";
+                                        if (isset($item->itemaddons)) {
                                             if ($style == 1) {
-                                                $itemtitle = $itemtype . ' #' . ($addonID + 1);
-                                                $HTML .= '<TR><TD NOWRAP>' . $itemtitle . '</TD><TD>' . implode(", ", $newtoppings) . '</TD></TR>';
-                                            } else {
-                                                $itemtitle = "";
-                                                if ($addoncount > 1) {
-                                                    $itemtitle = $ordinals[$addonID] . " " . $itemtype . ": ";
+                                                $HTML = '<TABLE BORDER="1" WIDTH="100%">';
+                                            }
+                                            $addoncount = count($item->itemaddons);
+                                            foreach ($item->itemaddons as $addonID => $addon) {
+                                                $toppings = array();
+                                                if (isset($addon->tablename)) {
+                                                    $tablename = $addon->tablename;
+                                                    switch ($tablename) {
+                                                        case "toppings":
+                                                            $itemtype = "Pizza";
+                                                            break;
+                                                        case "wings_sauce":
+                                                            $itemtype = "Lb";
+                                                            break;
+                                                    }
+                                                    if (isset($addon->addons)) {
+                                                        $toppings = $addon->addons;
+                                                    }
                                                 }
-                                                $HTML .= $itemtitle . implode(", ", $newtoppings);
+                                                $newtoppings = array();
+                                                foreach ($toppings as $topping) {
+                                                    if (isset($topping->id)) {//search by id
+                                                        $id = $topping->id;
+                                                        $toppingkey = findkey($tables[$tablename], "id", $topping->id);
+                                                    } else {//search by name
+                                                        $toppingkey = findkey($tables[$tablename], "name", $topping->text);
+                                                    }
+
+                                                    $topping = $tables[$tablename][$toppingkey];
+                                                    if ($topping["isfree"]) {
+                                                        $freetoppings++;
+                                                        $topping["name"] = '<I>' . $topping["name"] . '</I>';
+                                                    } else {
+                                                        $paidtoppings++;
+                                                    }
+                                                    if ($debugmode) {
+                                                        $debug = ' TITLE="' . print_r($topping, true) . '"';
+                                                    }
+                                                    $newtoppings[] = '<SPAN' . $debug . '>' . $topping["name"] . '</SPAN>';
+                                                }
+
+                                                if ($style == 1) {
+                                                    $itemtitle = $itemtype . ' #' . ($addonID + 1);
+                                                    $HTML .= '<TR><TD NOWRAP>' . $itemtitle . '</TD><TD>' . implode(", ", $newtoppings) . '</TD></TR>';
+                                                } else {
+                                                    $itemtitle = "";
+                                                    if ($addoncount > 1) {
+                                                        $itemtitle = $ordinals[$addonID] . " " . $itemtype . ": ";
+                                                    }
+                                                    $HTML .= $itemtitle . implode(", ", $newtoppings);
+                                                }
+                                            }
+                                            if ($style == 1) {
+                                                echo $HTML . '</TABLE>';
                                             }
                                         }
+
+                                        $toppingscost = $addonscost * $paidtoppings;
+                                        $itemtotal = $menuitem["price"] + $toppingscost;
+
                                         if ($style == 1) {
-                                            echo $HTML . '</TABLE>';
+                                            echo '</TD><TD NOWRAP>';
+                                            if ($totaladdons) {
+                                                echo $paidtoppings . ' paid<BR>' . $freetoppings . ' free';
+                                                echo '<BR>$' . number_format($addonscost, 2) . '<BR>each';//'<BR>' . $size .
+                                            }
+                                            if ($debugmode) {
+                                                $debug = ' TITLE="User side: $' . $item->itemprice . '"';
+                                            }
+                                            echo '</TD><TD ALIGN="RIGHT"' . $debug . '>';
                                         }
-                                    }
-
-                                    $toppingscost = $addonscost * $paidtoppings;
-                                    $itemtotal = $menuitem["price"] + $toppingscost;
-
-                                    if ($style == 1) {
-                                        echo '</TD><TD NOWRAP>';
-                                        if ($totaladdons) {
-                                            echo $paidtoppings . ' paid<BR>' . $freetoppings . ' free';
-                                            echo '<BR>$' . number_format($addonscost, 2) . '<BR>each';//'<BR>' . $size .
+                                        echo '$' . number_format($itemtotal, 2) . '</TD></TR>';
+                                        if ($style == 2 && $HTML) {
+                                            echo '<TR><TD COLSPAN="' . $colspan . '">' . $HTML . '</TD></TR>';
                                         }
-                                        if ($debugmode) {
-                                            $debug = ' TITLE="User side: $' . $item->itemprice . '"';
-                                        }
-                                        echo '</TD><TD ALIGN="RIGHT"' . $debug . '>';
+                                        $subtotal += $itemtotal;
                                     }
-                                    echo '$' . number_format($itemtotal, 2) . '</TD></TR>';
-                                    if ($style == 2 && $HTML) {
-                                        echo '<TR><TD COLSPAN="' . $colspan . '">' . $HTML . '</TD></TR>';
-                                    }
-                                    $subtotal += $itemtotal;
                                 }
                             }
-                        }
 
-                        $tax_percent = 0.13;
-                        $tax = ($subtotal + $deliveryfee) * $tax_percent;
-                        $total = $subtotal + $deliveryfee + $tax;
-                        $colspanminus1 = $colspan - 1;
-                        echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Sub-total&nbsp;</TD><TD ALIGN="RIGHT">$' . number_format($subtotal, 2) . '</TD></TR>';
-                        echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Delivery&nbsp;</TD><TD ALIGN="RIGHT">$' . number_format($deliveryfee, 2) . '</TD></TR>';
-                        echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Tax&nbsp;</TD><TD ALIGN="RIGHT">$' . number_format($tax, 2) . '</TD></TR>';
-                        echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Total&nbsp;</TD><TD ALIGN="RIGHT">$' . number_format($total, 2) . '</TD></TR>';
-                        if ($Order["cookingnotes"]) {
-                            echo '<TR><TD COLSPAN="' . $colspan . '"><B>Notes for the Cook: </B>' . $Order["cookingnotes"] . '</TD></TR>';
-                        }
+                            $tax_percent = 0.13;
+                            $tax = ($subtotal + $deliveryfee) * $tax_percent;
+                            $total = $subtotal + $deliveryfee + $tax;
+                            $colspanminus1 = $colspan - 1;
+                            echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Sub-total&nbsp;</TD><TD ALIGN="RIGHT">$' . number_format($subtotal, 2) . '</TD></TR>';
+                            echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Delivery&nbsp;</TD><TD ALIGN="RIGHT">$' . number_format($deliveryfee, 2) . '</TD></TR>';
+                            echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Tax&nbsp;</TD><TD ALIGN="RIGHT">$' . number_format($tax, 2) . '</TD></TR>';
+                            echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Total&nbsp;</TD><TD ALIGN="RIGHT">$' . number_format($total, 2) . '</TD></TR>';
+                            if ($Order["cookingnotes"]) {
+                                echo '<TR><TD COLSPAN="' . $colspan . '"><B>Notes for the Cook: </B>' . $Order["cookingnotes"] . '</TD></TR>';
+                            }
 
-                        insertdb("orders", array("id" => $orderid, "price" => $total));//saved for stripe
-                    } catch (exception $e) {
-                        echo 'Caught exception: ', $e->getMessage() . " on line " . $e->getLine() . "<BR>";
-                        echo $filename;
-                    }
-                    if ($style == 2) {
-                        echo '<TR><TD COLSPAN="' . $colspan . '">';
-                        if (isset($JSON)) {
-                            echo '<BUTTON CLASS="btn btn-block btn-primary" ONCLICK="orders(' . $orderid . ', true);">LOAD ORDER</BUTTON>';
-                        } else {
-                            echo $Order["name"] . " - " . $Order["email"] . "<BR>" . $Order["phone"] . " " . $Order["cell"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . ", " . $Order["province"] . "<BR>" . $Order["postalcode"] . '<BR>' . $Order["unit"];
+                            insertdb("orders", array("id" => $orderid, "price" => $total));//saved for stripe
+                        } catch (exception $e) {
+                            echo 'Caught exception: ', $e->getMessage() . " on line " . $e->getLine() . "<BR>";
+                            echo $filename;
                         }
-                        echo '</TD></TR>';
+                        if ($style == 2) {
+                            echo '<TR><TD COLSPAN="' . $colspan . '">';
+                            if (isset($JSON)) {
+                                echo '<BUTTON CLASS="btn btn-block btn-primary" ONCLICK="orders(' . $orderid . ', true);">LOAD ORDER</BUTTON>';
+                            } else {
+                                echo $Order["name"] . " - " . $Order["email"] . "<BR>" . $Order["phone"] . " " . $Order["cell"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . ", " . $Order["province"] . "<BR>" . $Order["postalcode"] . '<BR>' . $Order["unit"];
+                            }
+                            echo '</TD></TR>';
+                        }
+                    } else {
+                        echo '<TR><TD COLSPAN="' . $colspan . '" ALIGN="CENTER"><B>FILE NOT FOUND</B></TD></TR>';
                     }
-                } else {
-                    echo '<TR><TD COLSPAN="' . $colspan . '" ALIGN="CENTER"><B>FILE NOT FOUND</B></TD></TR>';
-                }
-                endfile("popups_receipt");
+                    endfile("popups_receipt");
                 ?>
 
 
@@ -362,6 +375,8 @@
         function incrementtime() {
             var seconds = $(".countdown").attr("seconds");
             var minutes = $(".countdown").attr("minutes");
+            var hours = Math.floor(minutes / 60);
+
             var result = false;
             if (seconds == 0) {
                 if (minutes == 0) {
@@ -375,12 +390,12 @@
                 seconds -= 1;
             }
             if (!result) {
-                result = minutes + ":";
-                if (seconds < 10) {
-                    result += "0" + seconds;
+                if(hours==0) {
+                    result = minutes;
                 } else {
-                    result += seconds;
+                    result = hours + ":" + minpad(minutes % 60);
                 }
+                result += ":" + minpad(seconds);
             }
             $(".countdown").attr("seconds", seconds);
             $(".countdown").attr("minutes", minutes);
@@ -388,6 +403,11 @@
             countdown = window.setTimeout(function () {
                 incrementtime()
             }, 1000);
+        }
+
+        function minpad(time){
+            if(time<10){return "0" + time;}
+            return time;
         }
     </SCRIPT>
 

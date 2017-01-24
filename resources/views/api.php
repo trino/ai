@@ -1,6 +1,7 @@
 <?php
     $webroot = webroot();
     define("debugmode", true);
+    date_default_timezone_set("America/Toronto");
 
     function webroot($file = "") {
         $webroot = $_SERVER["REQUEST_URI"];
@@ -556,6 +557,7 @@
     }
 
     function startfile($filename){
+        date_default_timezone_set("America/Toronto");
         $GLOBALS["filetimes"][$filename]["start"] = microtime(true);
     }
     function endfile($filename){
