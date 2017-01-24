@@ -79,15 +79,16 @@
                     <div class="col-xs-4">
 
                         <SELECT class="form-control" ID="restaurant" ONCHANGE="restchange();">
-                            <OPTION VALUE="0">Closest Restaurant</OPTION>
-                        </SELECT>   <div class="col-xs-12">
+                            <OPTION VALUE="0" SELECTED>Closest Restaurant</OPTION>
+                        </SELECT>
+                        <div class="col-xs-12">
                             <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook" maxlength="255"/>
                         </div>
                     </DIV>
 
                     <div class="col-xs-4">
                         <SELECT id="deliverytime" TITLE="Delivery Time" class="form-control proper-height"/>
-                        <OPTION>Deliver Now</OPTION>
+                            <OPTION>Deliver Now</OPTION>
                         </SELECT>
                     </div>
 

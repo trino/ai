@@ -1357,11 +1357,11 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         }, function (result) {
             if (handleresult(result)) {
                 closest = JSON.parse(result)["closest"];
+                var smallest = "0";
                 var HTML = '<OPTION VALUE="0">No restaurant is within range</OPTION>';
                 //canplaceorder = false;
                 if (closest.length > 0) {//} closest.hasOwnProperty("id")) {
                     HTML = '';
-                    var smallest = "0";
                     var distance = -1;
                     for (var i = 0; i < closest.length; i++) {
                         var restaurant = closest[i];
@@ -1378,6 +1378,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                         }
                     }
                 }
+                if(!smallest){smallest = 0;}
                 $("#restaurant").html(HTML);
                 $("#restaurant").val(smallest);
             }
@@ -1430,7 +1431,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             }, 100);
         }
         addresschanged();
-        $("#restaurant").val("");
+        $("#restaurant").val("0");
         var HTML = $("#checkoutaddress").html();
         HTML = HTML.replace('class="', 'class="corner-top ');
         if (loadsavedcreditinfo()) {
@@ -1449,6 +1450,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             $("#credit-info").html('<INPUT TYPE="hidden" VALUE="" ID="saved-credit-info">');
         }
         $("#checkoutaddress").html(HTML);
+        $("#deliverytime").val($("#deliverytime option:first").val());
         $("#checkoutmodal").modal("show");
         $(function () {
             $("#orderinfo").validate({
