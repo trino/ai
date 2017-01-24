@@ -33,8 +33,8 @@
         <meta name="mobile-web-app-capable" content="yes">
 
         <link rel="manifest" href="<?= webroot("resources/assets/manifest.json"); ?>">
-        <link rel="icon" sizes="128x128" href="<?= webroot("resources/assets/images/pizza128.png"); ?>">
-        <link rel="icon" sizes="192x192" href="<?= webroot("resources/assets/images/pizza192.png"); ?>">
+        <link rel="icon" sizes="128x128" href="<?= webroot("public/pizza128.png"); ?>">
+        <link rel="icon" sizes="192x192" href="<?= webroot("public/pizza192.png"); ?>">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
         <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
         <link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>

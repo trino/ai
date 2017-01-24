@@ -1641,7 +1641,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         left: 0;
         height: 100%;
         width: 100%;
-        background: rgba(255, 255, 255, .8) url('<?= webroot("resources/assets/images/slice.gif"); ?>') 50% 50% no-repeat;
+        background: rgba(255, 255, 255, .8) url('<?= webroot("public/slice.gif"); ?>') 50% 50% no-repeat;
     }
 </STYLE>
 
