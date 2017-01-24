@@ -826,9 +826,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     //handles the orders list modal
     function orders(ID, getJSON) {
         if (isUndefined(ID)) {//no ID specified, get a list of order IDs from the user's profile and make buttons
-
             $("#profilemodal").modal("hide");
-
             var HTML = '<ul class="list-group">';
             var First = false;
             for (var i = 0; i < userdetails["Orders"].length; i++) {
@@ -837,17 +835,13 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 if (!First) {
                     First = ID;
                 }
-                HTML += '<li class="list-group-item" ONCLICK="orders(' + ID + ');">' + '<SPAN ID="pastreceipt' + ID + '"></SPAN>' +
-                    '<span class="tag tag-default tag-pill pull-xs-right">ID: ' + ID + '</span> AT: ' + order["placed_at"] + '</li>';
+                HTML += '<li class="list-group-item" ONCLICK="orders(' + ID + ');"><span class="tag tag-default tag-pill pull-xs-right pad5">ID: ' + ID + ' </span> AT: ' + order["placed_at"] + '<SPAN ID="pastreceipt' + ID + '"></SPAN></li>';
             }
             HTML += '</ul>';
             if (!First) {
                 HTML = "No orders placed yet";
             }
-
             alert(HTML, "Orders");
-
-
             if (First) {
                 orders(First)
             }
@@ -868,19 +862,13 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 JSON: getJSON
             }, function (result) {
                 if (getJSON) {
-
                     //JSON recieved, put it in the order
-
                     result = JSON.parse(result);
                     theorder = result["Order"];
                     $("#cookingnotes").val(result["cookingnotes"]);
                     generatereceipt();
                     $("#alertmodal").modal('hide');
-
-
                 } else {//HTML recieved, put it in the pastreceipt element
-
-
                     skipunloadingscreen = true;
                     setTimeout(function () {
                         loading(true, "SHOWRESULT");
@@ -889,10 +877,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                     if (Index > -1) {
                         userdetails["Orders"][Index]["Contents"] = result;
                     }
-
                     GetNextOrder(ID);
-
-
                 }
             });
         }
@@ -1100,7 +1085,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
         @if(isset($user) && $user)
             login(<?= json_encode($user); ?>, false); //user is already logged in, use the data
-                @endif
+        @endif
 
         var HTML = '';
         var todaysdate = isopen(generalhours);
@@ -1226,7 +1211,11 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     //universal AJAX error handling
     $(document).ajaxComplete(function (event, request, settings) {
-        loading(false, "ajaxComplete");
+        if(skipunloadingscreen){
+            skipunloadingscreen = false;
+        } else {
+            loading(false, "ajaxComplete");
+        }
         if (request.status != 200 && request.status > 0) {//not OK, or aborted
             var text = request.responseText;
             if (text.indexOf('Whoops, looks like something went wrong.') > -1) {
@@ -1523,7 +1512,8 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         var time = now.getHours() * 100 + now.getMinutes();
         time = time + (increments - (time % increments));
         var oldValue = $("#deliverytime").val();
-        var HTML = '<option>Deliver Now</option>';
+        var HTML = '';
+        if (isopen(hours, dayofweek, time) > -1) {HTML = '<option>Deliver Now</option>';}
         var totalInc = (minutesinaday * totaldays) / increments;
         for (var i = 0; i < totalInc; i++) {
             if (isopen(hours, dayofweek, time) > -1) {

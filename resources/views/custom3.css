@@ -1,9 +1,8 @@
 .container-fluid {
     max-width: 1300px !important;
 }
-.sprite{}
-.dropdown-menu, .shadow, .modal-header {
 
+.dropdown-menu, .shadow, .modal-header {
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
 }
 
@@ -12,11 +11,10 @@
 
 body {
     font-family: 'Roboto', sans-serif;
-background: transparent !important;
+    background: transparent !important;
 }
 
 .full {
-
     background: url(../../public/background.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -104,7 +102,6 @@ body.loading #loadingmodal {
 /* Show the snackbar when clicking on a button (class added with JavaScript) */
 #snackbar.show {
     visibility: visible; /* Show the snackbar */
-
     /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
     However, delay the fade out process for 2.5 seconds */
     -webkit-animation: fadein 0.5s, fadeout 0.5s 1s;
@@ -187,7 +184,11 @@ a:focus, .btn:focus,button {
     outline: none !important;
     outline: 0;
 }
-.dont-show{display: none;}
+
+.dont-show{
+    display: none;
+}
+
 .addon-selected, .thisside {
     background: #d9534f !important;
     border-color: #d9534f !important;
@@ -324,7 +325,9 @@ a:focus, .btn:focus,button {
     -moz-transform-origin: 0 0;
 }
 
-
+.pad5{
+    margin-right: 5px;
+}
 
 
 
