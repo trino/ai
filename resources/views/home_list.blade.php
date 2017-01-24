@@ -35,6 +35,7 @@
     }
 
     //sets permissions, SQL, fields for each whitelisted table
+    $TableStyle = 0;
     $namefield = "name";//which field acts as the name for the confirm delete popup
     $where = "";
     $inlineedit = true;//allow inline editing of a row
@@ -57,6 +58,7 @@
             $SQL='SELECT restaurants.id, restaurants.name, restaurants.phone, restaurants.email, restaurants.address_id, useraddresses.number, useraddresses.street, useraddresses.postalcode, useraddresses.city, useraddresses.province, useraddresses.latitude, useraddresses.longitude, useraddresses.phone as user_phone FROM useraddresses AS useraddresses RIGHT JOIN restaurants ON restaurants.address_id = useraddresses.id';
             break;
         case "orders":
+            $TableStyle=1;
             $fields=array("id", "user_id", "placed_at", "status", "restaurant_id", "number", "unit", "street", "postalcode", "city", "province", "longitude", "latitude");
             $specialformats=array("placed_at" => "date");
             $namefield="placed_at";
@@ -266,18 +268,23 @@
                                         <TABLE WIDTH="100%" BORDER="1" ID="data">
                                             <THEAD>
                                                 <TR>
-                                                    <TH CLASS="th-left">ID</TH>
-                                                    <?php
-                                                        if(isset($fields)){
-                                                            $last = lastkey($fields);
-                                                            foreach($fields as $field){
-                                                                if($field != "id"){
-                                                                    echo '<TH CLASS="th-left" NOWRAP>' . formatfield($field) . '</TH>';
+                                                    @if($TableStyle == 0)
+                                                        <TH CLASS="th-left">ID</TH>
+                                                        <?php
+                                                            if(isset($fields)){
+                                                                $last = lastkey($fields);
+                                                                foreach($fields as $field){
+                                                                    if($field != "id"){
+                                                                        echo '<TH CLASS="th-left" NOWRAP>' . formatfield($field) . '</TH>';
+                                                                    }
                                                                 }
                                                             }
-                                                        }
-                                                    ?>
-                                                    <TH>Actions</TH>
+                                                        ?>
+                                                        <TH>Actions</TH>
+                                                    @else
+                                                        <TH CLASS="th-left">Field</TH>
+                                                        <TH CLASS="th-left">Value</TH>
+                                                    @endif
                                                 </TR>
                                             </THEAD>
                                             <TBODY></TBODY>
@@ -320,6 +327,7 @@
                     var statuses = ["Pending", "Confirmed", "Declined", "Delivered", "Canceled"];
                     var usertype = ["Customer", "Admin", "Restaurant"];
 
+                    var TableStyle = '<?= $TableStyle; ?>';
                     var selecteditem = 0;
                     var itemsperpage = 25;
                     var currentpage = 0;
@@ -348,6 +356,19 @@
                         getpage(0);
                     });
 
+                    function ucfirst(string) {
+                        return string.charAt(0).toUpperCase() + string.slice(1);
+                    }
+
+                    function tofieldname(name){
+                        name = name.replaceAll("_", " ").replace("code", " code").split(" ");
+                        for(var i=0; i<name.length; i++){
+                            name[i] = ucfirst(name[i]);
+                            if(name[i] == "Id"){name[i] = "ID";}
+                        }
+                        return name.join(" ");
+                    }
+
                     //gets a page of data from the server, convert it to HTML
                     function getpage(index, makenew){
                         if(index==-1){index = lastpage;}
@@ -369,9 +390,14 @@
                                     var fields = Object.keys(data.table[0]);
                                     items = 0;
                                     for (var i = 0; i < data.table.length; i++) {
+                                        var evenodd = "odd";
+                                        if(i % 2 == 0){evenodd = "even";}
+                                        evenodd = "item_" + ID + ' table-' + evenodd;
+
                                         var Address = "[number] [street]<BR>[city] [province]<BR>[postalcode]";
                                         var ID = data.table[i]["id"];
                                         var tempHTML = '<TR ID="' + table + "_" + ID + '">';
+                                        if(TableStyle == '1'){tempHTML += '<TR><TD COLSPAN="2" CLASS="' + evenodd + '" ALIGN="CENTER"><B>' + ID + '</B></TD></TR>';}
                                         for (var v = 0; v < fields.length; v++) {
                                             var field = data.table[i][fields[v]];
                                             switch(table + "." + fields[v]){
@@ -385,10 +411,16 @@
                                                     }
                                                     break;
                                             }
-                                            tempHTML += '<TD NOWRAP ID="' + table + "_" + ID + "_" + fields[v] + '" class="field" field="' + fields[v] + '" index="' + ID + '">' + field + '</TD>';
+
+                                            if(TableStyle == '1'){tempHTML += '<TR><TD CLASS="' + evenodd + '">' + tofieldname(fields[v]) + '</TD>';}
+                                            tempHTML += '<TD NOWRAP ID="' + table + "_" + ID + "_" + fields[v] + '" class="field ' + evenodd + '" field="' + fields[v] + '" index="' + ID + '">' + field + '</TD>';
+                                            if(TableStyle == '1'){tempHTML += '</TR>';}
                                             Address = Address.replace("[" + fields[v] + "]", field);
                                         }
-                                        tempHTML += '<TD>';
+                                        if(TableStyle == '1'){
+                                            tempHTML += '<TR><TD CLASS="' + evenodd + '">Actions</TD>';
+                                        }
+                                        tempHTML += '<TD CLASS="' + evenodd + '">';
                                         switch(table){
                                             case "users":
                                                 tempHTML += '<A CLASS="btn btn-sm btn-success" href="' + baseURL + 'useraddresses?user_id=' + ID + '">Addresses</A> ';
@@ -415,6 +447,9 @@
                                         }
                                         HTML += tempHTML + '<A CLASS="btn btn-sm btn-danger" onclick="deleteitem(' + ID + ');">Delete</A></TD></TR>';
                                         items++;
+                                        if(TableStyle == '1'){
+                                            HTML += '</TR>';
+                                        }
                                     }
                                     if(needsAddresses) {addmarker2();}
                                 } else {
@@ -577,7 +612,9 @@
                         currentpage = Number(currentpage);
                         var pages = Math.ceil(Number(itemcount) / itemsperpage);
                         lastpage = pages-1;
-                        var HTML = '<BUTTON CLASS="btn btn-sm btn-success" onclick="newitem();">New</BUTTON><TABLE BORDER="1" CLASS="pull-right"><TR>';
+                        var HTML = '<BUTTON CLASS="btn btn-sm btn-success" onclick="newitem();">New</BUTTON>';
+                        if(TableStyle == '1'){HTML = "";}
+                        HTML += '<TABLE BORDER="1" CLASS="pull-right"><TR>';
                         var printpages = 10;
                         if(pages > 1){
                             if(currentpage > 0){HTML += '<TD><A CLASS="page" page="0" title="Page 1 of ' + pages + '"> First </A></TD>';}
@@ -630,9 +667,15 @@
                                 if(handleresult(result)) {
                                     selecteditem=0;
                                     $("#saveaddress").attr("disabled", true);
-                                    $("#" + table + "_" + ID).fadeOut(500, function(){
-                                        $("#" + table + "_" + ID).remove();
-                                    });
+                                    if(TableStyle == '0') {
+                                        $("#" + table + "_" + ID).fadeOut(500, function () {
+                                            $("#" + table + "_" + ID).remove();
+                                        });
+                                    } else {
+                                        $(".item_" + ID).fadeOut(500, function () {
+                                            $(".item_" + ID).remove();
+                                        });
+                                    }
                                     items--;
                                     if(items == 0){
                                         location.reload();
@@ -938,16 +981,13 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-
-
                             <button  data-dismiss="modal" class="btn btn-sm  btn-danger" ><i class="fa fa-close"></i> </button>
-
-
-
                             <h2 id="myModalLabel">View Order</h2>
                         </div>
+
                         <div class="modal-body">
                             <SPAN ID="ordercontents"></SPAN><P>
+                            <div class="clearfix"></div>
                             @if(!$showmap)
                                 <?= view("popups_googlemaps"); ?>
                             @endif

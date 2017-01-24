@@ -194,6 +194,10 @@ a:focus, .btn:focus,button {
     border-color: #d9534f !important;
 }
 .btn{border:0 !important;}
+
+.table-even{
+    background: lightgrey;
+}
 /*
 
 .modal-backdrop.fade {
