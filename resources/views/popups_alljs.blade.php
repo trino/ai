@@ -846,9 +846,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 orders(First)
             }
         } else {
-            if (isUndefined(getJSON)) {
-                getJSON = false;
-            }
+            if (isUndefined(getJSON)) {getJSON = false;}
             var Index = getIterator(userdetails["Orders"], "id", ID);
             if (!getJSON && userdetails["Orders"][Index].hasOwnProperty("Contents")) {
                 $("#pastreceipt" + ID).html(userdetails["Orders"][Index]["Contents"]);
@@ -868,6 +866,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                     $("#cookingnotes").val(result["cookingnotes"]);
                     generatereceipt();
                     $("#alertmodal").modal('hide');
+                    scrolltobottom();
                 } else {//HTML recieved, put it in the pastreceipt element
                     skipunloadingscreen = true;
                     setTimeout(function () {
@@ -1123,9 +1122,8 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
         var HTML = '';
         var FirstAddress = false;
-        HTML += '<SELECT class="form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION value="0">Delivery Address</OPTION>';
-
         if (user["Addresses"].length > 0) {
+            HTML += '<SELECT class="form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION value="0">Delivery Address</OPTION>';
             addresskeys = Object.keys(user["Addresses"][0]);
             for (i = 0; i < user["Addresses"].length; i++) {
                 if (!FirstAddress) {
@@ -1133,8 +1131,10 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 }
                 HTML += AddressToOption(user["Addresses"][i], addresskeys);
             }
+            HTML += '</SELECT>';
+        } else {
+            HTML += '<SELECT class="form-control saveaddresses dont-show" id="saveaddresses" onchange="addresschanged();"><OPTION value="0">Delivery Address</OPTION></SELECT>';
         }
-        HTML += '</SELECT>';
         $(".addressdropdown").html(HTML);
         if (user["profiletype"] == 2) {
             user["restaurant_id"] = FirstAddress;
@@ -2006,6 +2006,11 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         @endif
     }
     @endif
+
+    function scrolltobottom(){
+        //window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);//instantaneous
+        $('html,body').animate({scrollTop: document.body.scrollHeight},"slow");
+    }
 </SCRIPT>
 
 <script type="text/javascript">

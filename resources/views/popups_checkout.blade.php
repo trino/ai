@@ -29,8 +29,8 @@
                         <input type="text" size="20" class="form-control credit-info" data-stripe="number" placeholder="Card Number">
                     </div>
 
-                    <div class="credit-info">
-                        <DIV class="col-xs-4">
+                    <div class="credit-info row">
+                        <DIV class="col-md-4">
                             <SELECT CLASS="form-control proper-height" data-stripe="exp_month">
                                 <OPTION VALUE="01">01/Jan</OPTION>
                                 <OPTION VALUE="02">02/Feb</OPTION>
@@ -46,7 +46,7 @@
                                 <OPTION VALUE="12">12/Dec</OPTION>
                             </SELECT>
                         </DIV>
-                        <DIV CLASS="col-xs-4">
+                        <DIV CLASS="col-md-4">
                             <SELECT CLASS="form-control proper-height" data-stripe="exp_year">
                                 <?php
                                     $CURRENT_YEAR = date("Y");
@@ -57,7 +57,7 @@
                                 ?>
                             </SELECT>
                         </DIV>
-                        <DIV CLASS="col-xs-4">
+                        <DIV CLASS="col-md-4">
                             <input type="text" size="4" data-stripe="cvc" CLASS="form-control proper-height" PLACEHOLDER="CVC">
                             <INPUT TYPE="hidden" name="istest" id="istest">
                         </DIV>
