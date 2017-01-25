@@ -1,8 +1,8 @@
 <?php
-startfile("popups_alljs");
-$CURRENT_YEAR = date("Y");
-$STREET_FORMAT = "[number] [street], [city] [postalcode]";
-//["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
+    startfile("popups_alljs");
+    $CURRENT_YEAR = date("Y");
+    $STREET_FORMAT = "[number] [street], [city] [postalcode]";
+    //["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
 ?>
 
 <script>
@@ -300,17 +300,19 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         var title = "<i class='fa fa-check'></i>";
         if (!isUndefined(notparent)) {
             $("#menumodal").modal("show");
+            refreshremovebutton();
         }
-        refreshremovebutton();
         $("#removelist").text("");
         $("#additemtoorder").html(title);
     }
 
     function refreshremovebutton(){
-        if(theorder.length == 0){
+        if(currentaddonlist[currentitemindex].length == 0){
             $("#removeitemfromorder").hide();
         } else {
-            $("#removeitemfromorder").show().attr("title", "Remove: " + theorder[theorder.length-1].itemname).attr("onclick", "removeorderitem(" + (theorder.length-1) + "); refreshremovebutton();");
+            var index = currentaddonlist[currentitemindex].length - 1;
+            var lastitem = currentaddonlist[currentitemindex][ index ];
+            $("#removeitemfromorder").show().attr("title", "Remove: " + lastitem.name + " from " + $("#item_" + currentitemindex).text() ).attr("onclick", "removelistitem(" + currentitemindex + ", " + index + ");");
         }
     }
 
@@ -406,7 +408,6 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             tempHTML += '<span style="margin-top:10px; padding:8px 2px !important;"> <DIV  CLASS="sprite pull-left rounded sprite-' + category + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
             //   tempHTML += '<span class=""></DIV> ' + item["itemname"] + '</span>';
             tempHTML += '<span class="pull-right" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '">';
-
             tempHTML += ' <button class="fa fa-close pull-right btn btn-sm btn-danger" onclick="removeorderitem(' + itemid + ');"></button>';
 
             if (hasaddons) {
@@ -901,9 +902,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     }
 
     function loading(state, where) {
-        if (isUndefined(where)) {
-            where = "UNKNOWN";
-        }
+        if (isUndefined(where)) {where = "UNKNOWN";}
         if (state) {
             log("Loading: " + where);
             $body.addClass("loading");
@@ -919,7 +918,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         }
         generatereceipt();
         @if(!read("id"))
-        $("#loginmodal").modal("show");
+            $("#loginmodal").modal("show");
         @endif
 
         /*
@@ -1651,9 +1650,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title" id="alertmodallabel">Title</h2>
-
-                <button data-dismiss="modal" class="btn btn-sm  btn-danger pull-right"><i class="fa fa-close"></i></button>
-
+                <button data-dismiss="modal" class="btn btn-sm btn-danger pull-right"><i class="fa fa-close"></i></button>
             </div>
             <div class="modal-body">
                 <DIV ID="alertmodalbody"></DIV>
@@ -1698,15 +1695,12 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 break;
         }
 
-
         var thisside = ' CLASS="thisside">';
 
         for (var itemindex = 0; itemindex < currentaddonlist.length; itemindex++) {
-
             var freetoppings = 0;
             var paidtoppings = 0;
             var tempstr = '';
-
             var classname = 'itemcontents itemcontents' + itemindex;
 
             HTML += '<DIV style="border:2px solid transparent;border-radius:.2rem;padding:.75rem .5rem;width:100% !important;float:left;color:white !important;" ' +
@@ -1715,23 +1709,16 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             if (currentitemindex == itemindex) {
                 HTML += ' thisside';
             }
-
-            HTML += '">'+ '<div class="btn btn-sm" >'+ ucfirst(item_name) + ' #' + (itemindex + 1) + '</div>';
-
+            HTML += '">'+ '<div class="btn btn-sm" id="item_' + itemindex + '">'+ ucfirst(item_name) + ' #' + (itemindex + 1) + '</div>';
             if (currentaddonlist[itemindex].length == 0) {
                 tempstr += '<div class="btn btn-sm btn-secondary" >No ' + addonname + '</div>';
             }
 
-
             for (var i = 0; i < currentaddonlist[itemindex].length; i++) {
-
                 var currentaddon = currentaddonlist[itemindex][i];
                 var qualifier = "";
-
                 tempstr += '<DIV CLASS="pill btn btn-sm btn-secondary ' + classname + '">' + currentaddon.name +
                     '<span CLASS="pull-right" ONCLICK="removelistitem(' + itemindex + ', ' + i + ');">&nbsp; <i CLASS="fa fa-times"></i> </span></div>&nbsp;';
-
-
 
                 qualifier = currentaddon.qual;
                 if (qualifier == 0) {
@@ -1744,16 +1731,11 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 } else {
                     paidtoppings += qualifier;
                 }
-
-
             }
-
-
             totaltoppings += Math.ceil(paidtoppings);
             if (debugmode) {
                 HTML += " (Paid: " + paidtoppings + " Free: " + freetoppings + ')';
             }
-
             HTML += tempstr + '</DIV>';
         }
 
@@ -1761,6 +1743,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         $("#modal-itemtotalprice").text(totalcost);
         $("#theaddons").html(HTML);
         $(".currentitem.thisside").trigger("click");
+        refreshremovebutton();
     }
 
     function getcost(Toppings) {
@@ -1798,16 +1781,15 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             $("#addonlist").html(HTML + '</DIV>');
         } else {
             //var colors = ["secondary", "secondary", "secondary", "secondary", "secondary"];//' + colors[i] + '
-
             for (var i = 0; i < types.length; i++) {
                 //HTML += '<h2 class="col-xs-12 btn-sm" id="' + toclassname(types[i]) + '">' + types[i] + '</h2>';
                 // HTML += '<div id="' + toclassname(types[i]) + '">' + types[i] + '</div>';
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
-                    HTML += '<div style="width:33.3%;" class="btn-sm  toppings_btn btn addon-addon';
+                    HTML += '<div style="width:33.3%;" class="btn-sm toppings_btn btn addon-addon';
                     if (isaddon_free(String(currentaddontype), String(addon))) {
-                        HTML += ' btn-secondary';
+                        HTML += ' btn-secondary';//this should be different from a paid topping
                         title = "Free addon";
                     } else {
                         HTML += ' btn-secondary'
@@ -1965,6 +1947,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
          $(".itemcontents" + index).show();
          */
         currentitemindex = index;
+        refreshremovebutton();
     }
 
     function removelistitem(index, subindex) {
