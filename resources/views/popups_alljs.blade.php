@@ -389,8 +389,10 @@
             var item = theorder[itemid];
             var totalcost = (Number(item["itemprice"]) + (Number(item["toppingcost"]) * Number(item["toppingcount"]))).toFixed(2);
             var category = "pizza";
+            var sprite = "pizza";
             if (item.hasOwnProperty("category")) {
                 category = item["category"].toLowerCase().replaceAll(" ", "_");
+                sprite = category.trim();
                 if (category.endswith("pizza")) {
                     category = "pizza";
                 }
@@ -404,8 +406,21 @@
             var hasaddons = item.hasOwnProperty("itemaddons") && item["itemaddons"].length > 0;
             subtotal += Number(totalcost);
 
+            if (sprite == "sides"){
+                sprite = toclassname( item["itemname"].trim() ).replaceAll("_", "-");
+                if (sprite.endswith("lasagna")) {
+                    sprite = "lasagna";
+                } else if (sprite.endswith("chicken-nuggets")) {
+                    sprite = "chicken-nuggets";
+                } else if (sprite.endswith("salad")) {
+                    sprite = "salad";
+                }
+            } else {
+                log(item);
+            }
+
             tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item">';
-            tempHTML += '<span style="margin-top:10px; padding:8px 2px !important;"> <DIV  CLASS="sprite pull-left rounded sprite-' + category + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
+            tempHTML += '<span style="margin-top:10px; padding:8px 2px !important;"> <DIV  CLASS="sprite pull-left rounded sprite-' + sprite + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
             //   tempHTML += '<span class=""></DIV> ' + item["itemname"] + '</span>';
             tempHTML += '<span class="pull-right" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '">';
             tempHTML += ' <button class="fa fa-close pull-right btn btn-sm btn-danger" onclick="removeorderitem(' + itemid + ');"></button>';
