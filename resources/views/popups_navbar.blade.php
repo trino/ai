@@ -1,6 +1,6 @@
 <nav class="shadow dont-print bg-danger text-white " style="padding:1rem 0;z-index: 1;border-radius: 0 !important;">
     <div class="container-fluid">
-        <a HREF="<?= webroot("public/index"); ?>" onclick="history.go(0);" class="text-white text-center" style="font-family: 'Pacifico', cursive;letter-spacing: .2rem !important;font-size: 1.25rem "
+        <a HREF="<?= webroot("public/index"); ?>" onclick="history.go(0);" class="text-white text-center" style="letter-spacing: .2rem !important;font-size: 1.25rem "
            href="/">
             LondonPizza.ca
         </a>

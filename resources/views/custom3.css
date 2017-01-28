@@ -143,8 +143,15 @@ body.loading #loadingmodal {
 input, textarea, select {
     border-radius: 0 !important;
     border: 1px solid #dadada !important;
-    margin-bottom: .5rem !important;
+    margin-bottom: -1px !important;
+
+
 }
+input {
+padding-left:1rem !important;
+}
+
+
 
 .fab {
     border: none;

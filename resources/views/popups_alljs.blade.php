@@ -724,7 +724,7 @@
             }, function (result) {
                 $("#checkoutmodal").modal("hide");
                 if (result.contains("ordersuccess")) {
-                    handleresult(result, "Thank you for your Order");
+                    handleresult(result, "Thank you for your order.");
                     if ($("#saveaddresses").val() == "addaddress") {
                         var Address = {
                             id: $(".ordersuccess").attr("addressid"),
@@ -1725,10 +1725,12 @@
                 HTML += ' thisside';
             }
             HTML += '">'+ '<div class="btn btn-sm" id="item_' + itemindex + '">'+ ucfirst(item_name) + ' #' + (itemindex + 1) + '</div>';
+
+            /*
             if (currentaddonlist[itemindex].length == 0) {
                 tempstr += '<div class="btn btn-sm btn-secondary" >No ' + addonname + '</div>';
             }
-
+*/
             for (var i = 0; i < currentaddonlist[itemindex].length; i++) {
                 var currentaddon = currentaddonlist[itemindex][i];
                 var qualifier = "";

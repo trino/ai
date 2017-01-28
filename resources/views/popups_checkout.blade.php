@@ -1,37 +1,49 @@
 <?php startfile("popups_checkout"); ?>
 
-<div>
-    <h2 style="color:white !important;">MY ORDER  <button class="btn btn-danger pull-right btn-sm dont-show" ONCLICK="confirmclearorder();" id="confirmclearorder"><i class="fa fa-close"></i></button></h2>
-    <div class="clearfix"></div>
-</div>
+<h2 style="color:white !important;">MY ORDER
+    <button class="btn btn-danger pull-right btn-sm dont-show" ONCLICK="confirmclearorder();" id="confirmclearorder"><i class="fa fa-close"></i></button>
+</h2>
 
 <div id="myorder" class="text-white"></div>
+
 <button id="checkout-btn" class="btn btn-warning btn-lg btn-block mb-3 " onclick="showcheckout();">
-    CHECKOUT
+    <i class="fa fa-shopping-cart fa-2x"></i>
 </button>
 
 <div class="modal" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                    <h2 id="myModalLabel">CHECKOUT</h2>
-                <button  data-dismiss="modal" data-popup-close="checkoutmodal"  class="btn btn-sm  btn-danger" ><i class="fa fa-close"></i> </button>
 
+
+            <div class="modal-header">
+                <h2 id="myModalLabel">CHECKOUT</h2>
+                <button data-dismiss="modal" data-popup-close="checkoutmodal" class="btn btn-sm  btn-danger"><i class="fa fa-close"></i></button>
             </div>
-            <div class="modal-body pa-0">
-                <FORM ID="orderinfo" name="orderinfo">
-                    <div class="col-xs-12">
-                        <?= view("popups_edituser", array("email" => true, "password" => false, "phone" => true))->render(); ?>
+
+            <div class="modal-body">
+
+                <FORM ID="orderinfo" name="orderinfo" class="row">
+
+                    <div class="col-md-12">
+                        <?= view("popups_edituser", array("email" => false, "password" => false, "phone" => true))->render(); ?>
+                        <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
+                        <?php
+                        if (read("id")) {
+                            echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
+                        }
+                        ?>
+
+                            <span class="payment-errors"></span>
+
+
                     </div>
 
-                    <div class="col-xs-12">
+                    <div class="col-md-12">
+                        <h2 class="text-danger">Payment</h2>
                         <DIV ID="credit-info"></DIV>
                         <input type="text" size="20" class="form-control credit-info" data-stripe="number" placeholder="Card Number">
-                    </div>
-
-                    <div class="credit-info row">
-                        <DIV class="col-md-4">
-                            <SELECT CLASS="form-control proper-height" data-stripe="exp_month">
+                        <div class="credit-info">
+                            <SELECT CLASS="form-control proper-height col-xs-4" data-stripe="exp_month">
                                 <OPTION VALUE="01">01/Jan</OPTION>
                                 <OPTION VALUE="02">02/Feb</OPTION>
                                 <OPTION VALUE="03">03/Mar</OPTION>
@@ -45,65 +57,41 @@
                                 <OPTION VALUE="11">11/Nov</OPTION>
                                 <OPTION VALUE="12">12/Dec</OPTION>
                             </SELECT>
-                        </DIV>
-                        <DIV CLASS="col-md-4">
-                            <SELECT CLASS="form-control proper-height" data-stripe="exp_year">
+                            <SELECT CLASS="form-control proper-height col-xs-4" data-stripe="exp_year">
                                 <?php
-                                    $CURRENT_YEAR = date("Y");
-                                    $TOTAL_YEARS = 6;
-                                    for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
-                                        echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
-                                    }
+                                $CURRENT_YEAR = date("Y");
+                                $TOTAL_YEARS = 6;
+                                for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
+                                    echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
+                                }
                                 ?>
                             </SELECT>
-                        </DIV>
-                        <DIV CLASS="col-md-4">
-                            <input type="text" size="4" data-stripe="cvc" CLASS="form-control proper-height" PLACEHOLDER="CVC">
+                            <input type="text" size="4" data-stripe="cvc" CLASS="form-control proper-height col-xs-4" PLACEHOLDER="CVC">
                             <INPUT TYPE="hidden" name="istest" id="istest">
-                        </DIV>
-                        <a class="pull-right btn" onclick="testcard();">Test CreditCard</a>
+                            <a class="pull-right btn" onclick="testcard();">Test CreditCard</a>
+                        </div>
                     </div>
 
-                    <div class="col-xs-12">
-                        <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
-                    </div>
-
-                    <div class="col-xs-4">
-                        <?php
-                            if (read("id")) {
-                                echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
-                            }
-                        ?>
-                    </DIV>
-
-                    <div class="col-xs-4">
-
+                    <div class="col-md-12">
+                        <h2 class="text-danger">Checkout</h2>
                         <SELECT class="form-control" ID="restaurant" ONCHANGE="restchange();">
-                            <OPTION VALUE="0" SELECTED>Closest Restaurant</OPTION>
+                            <OPTION VALUE="0" SELECTED>Select Restaurant</OPTION>
                         </SELECT>
-                        <div class="col-xs-12">
-                            <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook" maxlength="255"/>
-                        </div>
-                    </DIV>
-
-                    <div class="col-xs-4">
+                        <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook" maxlength="255"/>
                         <SELECT id="deliverytime" TITLE="Delivery Time" class="form-control proper-height"/>
-                            <OPTION>Deliver Now</OPTION>
+                        <OPTION>Deliver ASAP</OPTION>
                         </SELECT>
-                    </div>
 
-
-                    <div class="col-xs-8">
-                        <DIV ID="form_integrity">
-                            <DIV class="payment-errors"></DIV>
-                        </div>
-                    </DIV>
-
-                    <div class="col-xs-4">
+                        <!-- why is it when i change this to a button that clicking on please neter abn address closes the modal -->
                         <a class="btn btn-primary text-white pull-right" onclick="payfororder();">PLACE ORDER</a>
+                        <div class="clearfix"></div>
                     </div>
+
                 </FORM>
+
             </div>
+
+
         </div>
     </div>
 </div>
@@ -111,24 +99,21 @@
 <SCRIPT>
     //https://stripe.com/docs/custom-form
     @if(read("id"))
-        $(document).ready(function () {
-            getcloseststore = true;
-            visible_address(false);
-            $("#saveaddresses").append('<OPTION VALUE="addaddress" ID="addaddress">Add Address</OPTION>');
-        });
-
-        $('#reg_phone').keypress(function() {
-            if($('#reg_phone').valid()){
-                clearphone();
-            }
-        });
+    $(document).ready(function () {
+        getcloseststore = true;
+        visible_address(false);
+        $("#saveaddresses").append('<OPTION VALUE="addaddress" ID="addaddress">Add Address</OPTION>');
+    });
+    $('#reg_phone').keypress(function () {
+        if ($('#reg_phone').valid()) {
+            clearphone();
+        }
+    });
     @endif
-
-    function restchange(){
+    function restchange() {
         var value = $("#restaurant").val();
         var index = findwhere(closest, "id", value);
         GenerateHours(closest[index]["hours"]);
     }
 </SCRIPT>
-
 <?php endfile("popups_checkout"); ?>
