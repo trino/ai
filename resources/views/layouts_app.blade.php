@@ -56,6 +56,8 @@
 <div class="modal loading" ID="loadingmodal"></div>
 
 <?= view("popups_navbar")->render(); ?>
+
+
 <div class="container-fluid" style="">
     @yield('content')
 </div>

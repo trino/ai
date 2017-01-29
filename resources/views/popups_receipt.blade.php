@@ -249,7 +249,7 @@ if ($timer) {
                                                 $imagefile = "pizza";
                                             }
 
-                                            $imagefile = '<img class="pull-left" src="' . webroot("public/" . $imagefile . ".png") . '" style="width:22px;margin-right:5px;">';
+                                            $imagefile = '<img class="pull-left" src="' . webroot("public/menu/" . $imagefile . ".png") . '" style="width:22px;margin-right:5px;">';
                                             echo '<TR><TD width="1%">' . $imagefile . '</TD><TD valign="middle">' . $item->itemname . '</TD><TD ALIGN="RIGHT" WIDTH="5%">';
                                             break;
                                     }

@@ -200,12 +200,12 @@ $CurrentCol = 1;
                         <!--DIV ID="removelist" style="color: red;" class="pull-left"></div-->
 
                         <button type="button" data-popup-close="menumodal" old-data-dismiss="modal"
-                                id="additemtoorder" class="btn btn-primary btn-sm pull-right"
+                                id="additemtoorder" class="btn btn-primary pull-right"
                                 onclick="additemtoorder();"><i class="fa fa-check"></i></button>
 
-                        <button type="button" id="removeitemfromorder" class="btn btn-danger btn-sm  pull-right" style="margin-left: 10px;margin-right: 10px;"><i class="fa fa-trash"></i></button>
+                        <button type="button" id="removeitemfromorder" class="btn btn-danger  pull-right" style="margin-left: 10px;margin-right: 10px;"><i class="fa fa-trash"></i></button>
 
-                        <button class="btn btn-secondary btn-sm  pull-right"> $<SPAN ID="modal-itemtotalprice"></SPAN></button>
+                        <button class="btn btn-secondary  pull-right pr-0"> $<SPAN ID="modal-itemtotalprice"></SPAN></button>
                     </div>
                     <div class="clearfix"></div>
                 </div>

@@ -1,4 +1,4 @@
-<nav class="shadow dont-print bg-danger text-white " style="padding:1rem 0;z-index: 1;border-radius: 0 !important;">
+<nav class="shadow dont-print bg-danger text-white " style="padding:1rem 0;z-index: 1;border-radius: 0 !important;margin:0 0 1rem 0 !important;">
     <div class="container-fluid">
 
             <a HREF="<?= webroot("public/index"); ?>" onclick="history.go(0);" class="text-white text-center" style="font-weight: bold; "                                             href="/">
