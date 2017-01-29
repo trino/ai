@@ -6,8 +6,8 @@
 
 <div id="myorder" class="text-white"></div>
 
-<button id="checkout-btn" class="btn btn-warning btn-lg btn-block mb-3 " onclick="showcheckout();">
-    <i class="fa fa-shopping-cart fa-2x"></i>
+<button id="checkout-btn" class="btn btn-warning btn-lg btn-circle pull-right" onclick="showcheckout();">
+    <i class="fa fa-shopping-cart"></i>
 </button>
 
 <div class="modal" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
@@ -24,8 +24,9 @@
 
                 <FORM ID="orderinfo" name="orderinfo" class="row">
 
-                    <div class="col-md-12">
-                        <?= view("popups_edituser", array("email" => false, "password" => false, "phone" => true))->render(); ?>
+                    <div class="col-md-12">                        <h2 class="text-danger">Profile</h2>
+
+                    <?= view("popups_edituser", array("email" => false, "password" => false, "phone" => true))->render(); ?>
                         <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
                         <?php
                         if (read("id")) {
@@ -73,7 +74,7 @@
                     </div>
 
                     <div class="col-md-12">
-                        <h2 class="text-danger">Checkout</h2>
+                        <h2 class="text-danger">Restaurant</h2>
                         <SELECT class="form-control" ID="restaurant" ONCHANGE="restchange();">
                             <OPTION VALUE="0" SELECTED>Select Restaurant</OPTION>
                         </SELECT>
@@ -83,7 +84,7 @@
                         </SELECT>
 
                         <!-- why is it when i change this to a button that clicking on please neter abn address closes the modal -->
-                        <a class="btn btn-primary text-white pull-right" onclick="payfororder();">PLACE ORDER</a>
+                        <a class="btn btn-primary text-white pull-right mt-3" onclick="payfororder();">PLACE ORDER</a>
                         <div class="clearfix"></div>
                     </div>
 

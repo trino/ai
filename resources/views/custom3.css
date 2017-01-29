@@ -1,3 +1,45 @@
+.c-rays {
+    width: 100%;
+    padding-top: 40%;
+    position: relative;
+    overflow: hidden
+}
+
+@media (min-width: 48em) {
+    .c-rays {
+        padding-top: 23.5%
+    }
+}
+
+.c-rays svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (min-width: 48em) {
+    .c-rays svg {
+        min-width: 100%
+    }
+}
+
 .container-fluid {
     max-width: 1300px !important;
 }
@@ -6,16 +48,20 @@
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
 }
 
-
-.btn{font-weight: 500}
+.btn {
+    font-weight: 500
+}
 
 body {
     font-family: 'Roboto', sans-serif;
-    background: transparent !important;
+    background: #efefef !important;
+
 }
 
 .full {
+    /*
     background: url(../../public/background.jpg) no-repeat center center fixed;
+    */
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -34,23 +80,30 @@ body {
 h2 {
     color: #d9534f !important;
     font-size: 1.25rem !important;
-    margin: 1rem 0 !important;
+    margin: 1.5rem 0 .25rem 0 !important;
 }
 
-.col-md-3 {
-    background: white;
-    padding: 0 1rem;
-}
-.row{}
 /* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
 body.loading {
+
     overflow: hidden;
+
 }
 
 /* Anytime the body has the loading class, our modal element will be visible */
 body.loading #loadingmodal {
+
     display: block;
     z-index: 999999;
+
+}
+
+.pad5 {
+    margin-right: 5px;
+}
+
+* {
+    line-height: 1rem !important;
 }
 
 .btn-circle {
@@ -83,101 +136,7 @@ body.loading #loadingmodal {
 
 
 
-/* The snackbar - position it at the bottom and in the middle of the screen */
-#snackbar {
-    visibility: hidden; /* Hidden by default. Visible on click */
-    min-width: 250px; /* Set a default minimum width */
-    margin-left: -125px; /* Divide value of min-width by 2 */
-    background-color: #333; /* Black background color */
-    color: #fff; /* White text color */
-    text-align: center; /* Centered text */
-    border-radius: 2px; /* Rounded borders */
-    padding: 16px; /* Padding */
-    position: fixed; /* Sit on top of the screen */
-    z-index: 1; /* Add a z-index if needed */
-    left: 50%; /* Center the snackbar */
-    bottom: 30px; /* 30px from the bottom */
-}
 
-/* Show the snackbar when clicking on a button (class added with JavaScript) */
-#snackbar.show {
-    visibility: visible; /* Show the snackbar */
-    /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
-    However, delay the fade out process for 2.5 seconds */
-    -webkit-animation: fadein 0.5s, fadeout 0.5s 1s;
-    animation: fadein 0.5s, fadeout 0.5s 1s;
-}
-
-/* Animations to fade the snackbar in and out */
-@-webkit-keyframes fadein {
-    from {bottom: 0; opacity: 0;}
-    to {bottom: 30px; opacity: 1;}
-}
-
-@keyframes fadein {
-    from {bottom: 0; opacity: 0;}
-    to {bottom: 30px; opacity: 1;}
-}
-
-@-webkit-keyframes fadeout {
-    from {bottom: 30px; opacity: 1;}
-    to {bottom: 0; opacity: 0;}
-}
-
-@keyframes fadeout {
-    from {bottom: 30px; opacity: 1;}
-    to {bottom: 0; opacity: 0;}
-}
-
-
-.tab-content{border:0 !important;}
-
-.toppings_btn {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    text-align: center !important;
-    border-radius: 0 !important;
-}
-
-input, textarea, select {
-    border-radius: 0 !important;
-    border: 1px solid #dadada !important;
-    margin-bottom: -1px !important;
-
-
-}
-input {
-padding-left:1rem !important;
-}
-
-
-
-.fab {
-    border: none;
-    font-size: 1em;
-    color: white;
-    border-radius: 50%;
-    width: 73px;
-    height: 73px;
-    margin: auto;
-    -webkit-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
-    -moz-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
-    box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
-}
-
-.fab:hover {
-    background-color: #ff4060;
-}
-
-.fixed-action-btn {
-    position: fixed;
-    right: 20px;
-    bottom: 10px !important;
-    padding-top: 15px;
-    margin-bottom: 0;
-    z-index: 998;
-}
 
 .red {
     border: 2px solid red !important;
@@ -187,12 +146,12 @@ padding-left:1rem !important;
     cursor: pointer; /* stop removing this */
 }
 
-a:focus, .btn:focus,button {
+a:focus, .btn:focus, button {
     outline: none !important;
     outline: 0;
 }
 
-.dont-show{
+.dont-show {
     display: none;
 }
 
@@ -200,54 +159,14 @@ a:focus, .btn:focus,button {
     background: #d9534f !important;
     border-color: #d9534f !important;
 }
-.btn{border:0 !important;}
 
-.table-even{
+.btn {
+    border: 0 !important;
+}
+
+.table-even {
     background: lightgrey;
 }
-/*
-
-.modal-backdrop.fade {
-    opacity: 0.9;
-    filter: alpha(opacity=90);
-}
-.card{border:0 !important;}
-.modal-backdrop.in {
-    opacity: 0.9;
-    filter: alpha(opacity=90);
-}
-
-.btn-block + .btn-block {
-    margin: 0 !important;
-}
-
-
-
-.center{
-    display: table;
-    margin: 0 auto;
-}
-
-.text-center{
-    text-align:center;
-}
-
-.editprofilediv {
-    padding: 15px;
-    border-top: 1px solid #e5e5e5;
-}
-
-
-.addonlist {
-    background: #fff;
-    width: 100%;
-}
-
-#removelist{
-    width: 100%;
-}
-
-*/
 
 .sprite {
     background-image: url('../../public/grid3.png');
@@ -336,51 +255,47 @@ a:focus, .btn:focus,button {
     -moz-transform-origin: 0 0;
 }
 
-.pad5{
-    margin-right: 5px;
+.toppings_btn {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center !important;
+    border-radius: 0 !important;
 }
 
+input, textarea, select {
+    border-radius: 0 !important;
+    border: 1px solid #dadada !important;
+    margin-bottom: -1px !important;
 
+}
 
+input {
+    padding-left: 1rem !important;
+}
 
+.fab {
+    border: none;
+    font-size: 1em;
+    color: white;
+    border-radius: 50%;
+    width: 73px;
+    height: 73px;
+    margin: auto;
+    -webkit-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
+    -moz-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
+    box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
+}
 
+.fab:hover {
+    background-color: #ff4060;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.fixed-action-btn {
+    position: fixed;
+    right: 20px;
+    bottom: 10px !important;
+    padding-top: 15px;
+    margin-bottom: 0;
+    z-index: 998;
+}

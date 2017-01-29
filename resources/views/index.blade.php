@@ -8,7 +8,7 @@
         } else {
     ?>
 
-    <div class="row">
+    <div class="row shadow">
             <?php
                 if (islive()) {
                     function like_match($pattern, $subject) {

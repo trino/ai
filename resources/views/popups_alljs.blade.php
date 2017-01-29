@@ -308,7 +308,7 @@
 
     function refreshremovebutton(){
         if(currentaddonlist[currentitemindex].length == 0){
-            $("#removeitemfromorder").hide();
+          //  $("#removeitemfromorder").hide();
         } else {
             var index = currentaddonlist[currentitemindex].length - 1;
             var lastitem = currentaddonlist[currentitemindex][ index ];
@@ -319,11 +319,11 @@
     //get the data from the modal and add it to the order
     function additemtoorder(element, Index) {
         // Get the snackbar DIV
-        var x = document.getElementById("snackbar");
+       // var x = document.getElementById("snackbar");
         // Add the "show" class to DIV
-        x.className = "show";
+      //  x.className = "show";
         // After 3 seconds, remove the show class from DIV
-        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 1200);
+      //  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 1200);
 
         var itemid = 0, itemname = "", itemprice = 0.00, itemaddons = new Array, itemsize = "", toppingcost = 0.00, toppingscount = 0, itemcat = "";
         if (!isUndefined(Index)) {
@@ -420,7 +420,7 @@
             }
 
             tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item">';
-            tempHTML += '<span style="margin-top:10px; padding:8px 2px !important;"> <DIV  CLASS="sprite pull-left rounded sprite-' + sprite + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
+            tempHTML += '<span style="margin-top:1px; padding:8px 2px !important;"> <DIV  CLASS="sprite pull-left rounded sprite-' + sprite + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
             //   tempHTML += '<span class=""></DIV> ' + item["itemname"] + '</span>';
             tempHTML += '<span class="pull-right" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '">';
             tempHTML += ' <button class="fa fa-close pull-right btn btn-sm btn-danger" onclick="removeorderitem(' + itemid + ');"></button>';
@@ -1670,10 +1670,10 @@
             <div class="modal-body">
                 <DIV ID="alertmodalbody"></DIV>
                 <div CLASS="pull-right">
-                    <button class="btn btn-secondary" id="alert-cancel" data-dismiss="modal">
+                    <button class="btn btn-link" id="alert-cancel" data-dismiss="modal">
                         CANCEL
                     </button>
-                    <button class="btn btn-secondary" id="alert-confirm" data-dismiss="modal">
+                    <button class="btn btn-link" id="alert-confirm" data-dismiss="modal">
                         OK
                     </button>
                 </div>
@@ -1787,7 +1787,7 @@
 
     function list_addons(table, halves) {
         currentaddontype = table;
-        var HTML = '<DIV style="height:150px;overflow-y: auto;overflow-x: auto; overflow-x: auto; padding:5px;"><DIV id="theaddons"></DIV></DIV>';
+        var HTML = '<DIV style="background:#efefef;height:150px;overflow-y: auto;overflow-x: auto; overflow-x: auto; padding:5px;"><DIV id="theaddons"></DIV></DIV>';
         if (currentstyle == 0) {
             HTML += '<DIV CLASS=" addonlist" ID="addontypes">';
         }
@@ -1804,7 +1804,7 @@
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
-                    HTML += '<div style="width:33.3%;" class="btn-sm toppings_btn btn addon-addon';
+                    HTML += '<div style="width:33.3%;text-align:left !important;" class="btn-sm toppings_btn btn addon-addon';
                     if (isaddon_free(String(currentaddontype), String(addon))) {
                         HTML += ' btn-secondary';//this should be different from a paid topping
                         title = "Free addon";
