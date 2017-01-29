@@ -81,8 +81,8 @@
 <?= view("popups_sticky_footer")->render(); ?>
 
 
-<nav class="navbar container-fluid">
-    <div>
+<nav class="navbar container-fluid  bg-secondary dont-show">
+    <div class="">
         <a href="#" class="text-white">About</a>
         <div class="row dont-show">
             <div class="col-6 col-sm-3">

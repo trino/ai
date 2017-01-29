@@ -1,9 +1,14 @@
-<nav class="shadow dont-print bg-danger text-white " style="padding:1rem 0;z-index: 1;border-radius: 0 !important;margin-bottom: 1rem !important;">
+<nav class="shadow dont-print bg-danger text-white " style="padding:1rem 0;z-index: 1;border-radius: 0 !important;">
     <div class="container-fluid">
-        <a HREF="<?= webroot("public/index"); ?>" onclick="history.go(0);" class="text-white text-center" style="font-size: 1.25rem "
-           href="/">
-            LondonPizza.ca
-        </a>
+
+            <a HREF="<?= webroot("public/index"); ?>" onclick="history.go(0);" class="text-white text-center" style="font-weight: bold; "                                             href="/">
+                londonpizza.ca
+            </a>
+
+
+
+
+
         <a style="font-size: 1.25rem " class="pull-right" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-bars text-white"></i>
         </a>

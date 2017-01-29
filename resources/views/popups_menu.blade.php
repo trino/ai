@@ -2,7 +2,8 @@
 startfile("popups_menu");
 if (!function_exists("getsize")) {
     //gets the size of the pizza
-    function getsize($itemname, &$isfree){
+    function getsize($itemname, &$isfree)
+    {
         $currentsize = "";
         foreach ($isfree as $size => $cost) {
             if (!is_array($cost)) {
@@ -15,12 +16,14 @@ if (!function_exists("getsize")) {
     }
 
     //checks if $text contains $searchfor, case insensitive
-    function textcontains($text, $searchfor){
+    function textcontains($text, $searchfor)
+    {
         return strpos(strtolower($text), strtolower($searchfor)) !== false;
     }
 
     //process addons, generating the option group dropdown HTML, enumerating free toppings and qualifiers
-    function getaddons($Table, &$isfree, &$qualifiers, &$addons, &$groups){
+    function getaddons($Table, &$isfree, &$qualifiers, &$addons, &$groups)
+    {
         $toppings = Query("SELECT * FROM " . $Table . " ORDER BY type ASC, name ASC", true);
         $toppings_display = '';
         $currentsection = "";
@@ -55,7 +58,8 @@ if (!function_exists("getsize")) {
     }
 
     //same as explode, but makes sure each cell is trimmed
-    function explodetrim($text, $delimiter = ",", $dotrim = true){
+    function explodetrim($text, $delimiter = ",", $dotrim = true)
+    {
         if (is_array($text)) {
             return $text;
         }
@@ -70,15 +74,18 @@ if (!function_exists("getsize")) {
     }
 
     //converts a string to a class name (lowercase, replace spaces with underscores)
-    function toclass($text){
+    function toclass($text)
+    {
         $text = strtolower(str_replace(" ", "_", trim($text)));
         return $text;
     }
 
-    function endwith($Text, $WithWhat){
+    function endwith($Text, $WithWhat)
+    {
         return strtolower(right($Text, strlen($WithWhat))) == strtolower($WithWhat);
     }
 }
+
 $qualifiers = array("DEFAULT" => array("1/2", "1x", "2x", "3x"));
 $categories = Query("SELECT * FROM menu GROUP BY category ORDER BY id", true);
 $isfree = collapsearray(Query("SELECT * FROM additional_toppings", true), "price", "size");
@@ -95,12 +102,13 @@ $itemsInCol = 0;
 $CurrentCol = 1;
 ?>
 
+
 <div class="col-md-3">
     @foreach ($categories as $category)
         <?php
         $catclass = toclass($category['category']);
         $classlist[] = $catclass;
-        $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "'", true);
+        $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "' order by id", true);
         $menuitemcount = count($menuitems);
         if ($itemsInCol + $menuitemcount > $maxmenuitemspercol && $CurrentCol < 3) {
             $itemsInCol = 0;
@@ -110,7 +118,8 @@ $CurrentCol = 1;
         $itemsInCol += $menuitemcount;
         ?>
         <div class="" style="margin-bottom:1rem !important;">
-            <h2 class="text-danger text-uppercase" style="">  {{$category['category']}}  </h2>
+            <h2 class=" text-uppercase" style="">  {{$category['category']}}  </h2>
+
             @foreach ($menuitems as $menuitem)
                 <div style="padding:5px 3px" class="list-group-item-action item_{{ $catclass }}"
                      itemid="{{$menuitem["id"]}}"
@@ -118,34 +127,34 @@ $CurrentCol = 1;
                      itemprice="{{$menuitem['price']}}"
                      itemsize="{{ getsize($menuitem['item'], $isfree) }}"
                      itemcat="{{$menuitem['category']}}"
-                    <?php
-                        $itemclass = $catclass;
-                        if ($itemclass == "sides") {
-                            $itemclass = str_replace("_", "-", toclass($menuitem['item']));
-                            if (endwith($itemclass, "lasagna")) {
-                                $itemclass = "lasagna";
-                            }
-                            if (endwith($itemclass, "chicken-nuggets")) {
-                                $itemclass = "chicken-nuggets";
-                            }
-                            if (endwith($itemclass, "salad")) {
-                                $itemclass = "salad";
-                            }
+                <?php
+                    $itemclass = $catclass;
+                    if ($itemclass == "sides") {
+                        $itemclass = str_replace("_", "-", toclass($menuitem['item']));
+                        if (endwith($itemclass, "lasagna")) {
+                            $itemclass = "lasagna";
                         }
-    
-                        $total = 0;
-                        foreach ($tables as $table) {
-                            echo $table . '="' . $menuitem[$table] . '" ';
-                            $total += $menuitem[$table];
+                        if (endwith($itemclass, "chicken-nuggets")) {
+                            $itemclass = "chicken-nuggets";
                         }
-                        if ($total) {
-                            $HTML = ' data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
-                            $icon = '+';
-                        } else {
-                            $HTML = ' onclick="additemtoorder(this, -1);"';
-                            $icon = '';
+                        if (endwith($itemclass, "salad")) {
+                            $itemclass = "salad";
                         }
-                        echo $HTML;
+                    }
+
+                    $total = 0;
+                    foreach ($tables as $table) {
+                        echo $table . '="' . $menuitem[$table] . '" ';
+                        $total += $menuitem[$table];
+                    }
+                    if ($total) {
+                        $HTML = ' data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
+                        $icon = '+';
+                    } else {
+                        $HTML = ' onclick="additemtoorder(this, -1);"';
+                        $icon = '';
+                    }
+                    echo $HTML;
                     ?>
                 >
                     <div class="rounded  pull-left sprite sprite-<?= $itemclass; ?> sprite-medium"></div>
@@ -157,12 +166,13 @@ $CurrentCol = 1;
             <div class="clearfix"></div>
         </div>
         @if($catclass=="dips" || $catclass=="sides")
+
 </div>
 <div class="col-md-3">
+
     @endif
     @endforeach
 </div>
-
 
 <!-- order menu item Modal -->
 <div class="modal" id="menumodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
@@ -176,8 +186,10 @@ $CurrentCol = 1;
             </div>
 
             <div class="modal-header">
-                <h2 id="myModalLabel"><SPAN ID="modal-itemname"></SPAN><br> <small ID="toppingcost">+$<SPAN id="modal-toppingcost">0.79</SPAN> per topping</small></h2>
-                <button  data-dismiss="modal" class="btn btn-sm  btn-danger" ><i class="fa fa-close"></i> </button>
+                <h2 id="myModalLabel"><SPAN ID="modal-itemname"></SPAN><br>
+                    <small ID="toppingcost">+$<SPAN id="modal-toppingcost">0.79</SPAN> per topping</small>
+                </h2>
+                <button data-dismiss="modal" class="btn btn-sm  btn-danger"><i class="fa fa-close"></i></button>
             </div>
 
             <div class="modal-body" style="padding-top:0 !important;">
@@ -185,15 +197,15 @@ $CurrentCol = 1;
                     <DIV ID="addonlist" class="addonlist"></DIV>
                     <div class="clearfix"></div>
                     <div class="col-md-12">
-                        <DIV ID="removelist" style="color: red;" class="pull-left"></div>
+                        <!--DIV ID="removelist" style="color: red;" class="pull-left"></div-->
 
                         <button type="button" data-popup-close="menumodal" old-data-dismiss="modal"
-                                id="additemtoorder" class="btn btn-danger btn-sm pull-right"
+                                id="additemtoorder" class="btn btn-primary btn-sm pull-right"
                                 onclick="additemtoorder();"><i class="fa fa-check"></i></button>
 
                         <button type="button" id="removeitemfromorder" class="btn btn-danger btn-sm  pull-right" style="margin-left: 10px;margin-right: 10px;"><i class="fa fa-trash"></i></button>
 
-                        <button class="btn btn-danger btn-sm  pull-right" > $<SPAN ID="modal-itemtotalprice"></SPAN></button>
+                        <button class="btn btn-secondary btn-sm  pull-right"> $<SPAN ID="modal-itemtotalprice"></SPAN></button>
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -212,6 +224,7 @@ $CurrentCol = 1;
     var classlist = <?= json_encode($classlist); ?>;
     var ordinals = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th"];
 </script>
+
 <!-- end order menu item Modal -->
 <!-- end menu cache -->
 <?php endfile("popups_menu"); ?>

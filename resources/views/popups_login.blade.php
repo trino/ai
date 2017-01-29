@@ -4,12 +4,12 @@
 
 <!--div class="modal" id="loginmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"  data-keyboard="false" data-backdrop="static"-->
 
-<div class="row py-1">
+<div class="row py-2">
 
 
     <DIV CLASS="col-md-4" >
-    <DIV CLASS="card card-block shadow" >
-        <h2 style="margin-top: 0 !important;color:#333 !important;">Fast Pizza Delivery</h2>
+    <DIV CLASS="card card-block" >
+        <h2 style="margin: 0 0 1rem 0 !important;color:#333 !important;">Fast Pizza Delivery</h2>
 
         <!-- Bootstrap CSS -->
         <!-- jQuery first, then Bootstrap JS. -->
@@ -33,17 +33,20 @@
                 <div class="clearfix"></div>
 
                 <INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control" onkeydown="enterkey(event, 'login');">
+                <div class="clearfix mt-2"></div>
 
-                <BUTTON CLASS="btn btn-danger pull-right" onclick="handlelogin('login');">LOG IN</BUTTON>
-                <BUTTON CLASS="btn btn-link text-muted pull-left" onclick="handlelogin('forgotpassword');">FORGOT PASSWORD</BUTTON>
+                <BUTTON CLASS="btn btn-primary pull-right" onclick="handlelogin('login');">LOG IN</BUTTON>
+                <BUTTON CLASS="btn btn-link pull-left" onclick="handlelogin('forgotpassword');">FORGOT PASSWORD</BUTTON>
             </div>
 
             <div role="tabpanel" class="tab-pane fade" id="buzz">
 
                 <div class="clearfix"></div>
+
                 <FORM Name="regform" id="regform">
                     <?= view("popups_edituser", array("phone" => false, "autocomplete" => "new-password"))->render(); ?>
                 </FORM>
+
                 <div class="clearfix"></div>
 
                 <FORM id="addform">
@@ -54,7 +57,7 @@
                     ?>
                 </FORM>
 
-                <div class="clearfix"></div>
+                <div class="clearfix mt-2"></div>
 
                 <button class="btn btn-primary pull-right" onclick="register();">
                     Register

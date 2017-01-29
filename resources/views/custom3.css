@@ -1,55 +1,8 @@
-.c-rays {
-    width: 100%;
-    padding-top: 40%;
-    position: relative;
-    overflow: hidden
-}
-
-@media (min-width: 48em) {
-    .c-rays {
-        padding-top: 23.5%
-    }
-}
-
-.c-rays svg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@media (min-width: 48em) {
-    .c-rays svg {
-        min-width: 100%
-    }
-}
-
-.container-fluid {
-    max-width: 1300px !important;
-}
-
-.dropdown-menu, .shadow, .modal-header {
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
-}
 
 .btn {
-    font-weight: 500
+    text-transform: uppercase;
+    border:0 !important;
+    cursor: pointer;
 }
 
 body {
@@ -79,23 +32,9 @@ body {
 
 h2 {
     color: #d9534f !important;
-    font-size: 1.25rem !important;
+    font-weight: bold;
+    font-size: 1rem !important;
     margin: 1.5rem 0 .25rem 0 !important;
-}
-
-/* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
-body.loading {
-
-    overflow: hidden;
-
-}
-
-/* Anytime the body has the loading class, our modal element will be visible */
-body.loading #loadingmodal {
-
-    display: block;
-    z-index: 999999;
-
 }
 
 .pad5 {
@@ -106,70 +45,24 @@ body.loading #loadingmodal {
     line-height: 1rem !important;
 }
 
-.btn-circle {
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    padding: 6px 0;
-    font-size: 12px;
-    line-height: 1.428571429;
-    border-radius: 15px;
-}
-
-.btn-circle.btn-lg {
-    width: 50px;
-    height: 50px;
-    padding: 10px 16px;
-    font-size: 18px;
-    line-height: 1.33;
-    border-radius: 25px;
-}
-
-.btn-circle.btn-xl {
-    width: 70px;
-    height: 70px;
-    padding: 10px 16px;
-    font-size: 24px;
-    line-height: 1.33;
-    border-radius: 35px;
-}
-
-
-
-
-
 .red {
     border: 2px solid red !important;
 }
 
 .cursor-pointer {
-    cursor: pointer; /* stop removing this */
-}
-
-a:focus, .btn:focus, button {
-    outline: none !important;
-    outline: 0;
-}
-
-.dont-show {
-    display: none;
+    /*
+    cursor: pointer;
+    */
+    /* stop removing this */
 }
 
 .addon-selected, .thisside {
     background: #d9534f !important;
-    border-color: #d9534f !important;
-}
-
-.btn {
-    border: 0 !important;
-}
-
-.table-even {
-    background: lightgrey;
+    border-color: transparent !important;
 }
 
 .sprite {
-    background-image: url('../../public/grid3.png');
+    background-image: url('../../public/menu/grid3.png');
     background-repeat: no-repeat;
     width: 64px;
     height: 64px;
@@ -265,7 +158,7 @@ a:focus, .btn:focus, button {
 
 input, textarea, select {
     border-radius: 0 !important;
-    border: 1px solid #dadada !important;
+    border: 1px solid #ddd !important;
     margin-bottom: -1px !important;
 
 }
@@ -299,3 +192,89 @@ input {
     margin-bottom: 0;
     z-index: 998;
 }
+
+.c-rays {
+    width: 100%;
+    padding-top: 40%;
+    position: relative;
+    overflow: hidden
+}
+
+@media (min-width: 48em) {
+    .c-rays {
+        padding-top: 23.5%
+    }
+}
+
+.c-rays svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%
+}
+
+@media (min-width: 48em) {
+    .c-rays svg {
+        min-width: 100%
+    }
+}
+
+/* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
+body.loading {
+
+    overflow: hidden;
+
+}
+
+/* Anytime the body has the loading class, our modal element will be visible */
+body.loading #loadingmodal {
+    display: block;
+    z-index: 999999;
+}
+
+.container-fluid {
+    max-width: 1300px !important;
+}
+
+.dropdown-menu,.shadow ,.modal-header, nav {
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+}
+
+.btn-circle.btn-lg {
+    width: 50px;
+    height: 50px;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.33;
+    border-radius: 25px;
+}
+
+.btn-circle.btn-xl {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    font-size: 24px;
+    line-height: 1.33;
+    border-radius: 35px;
+}
+
+a:focus, .btn:focus, button {
+    outline: none !important;
+    outline: 0;
+}
+
+.dont-show {
+    display: none;
+}
+
+

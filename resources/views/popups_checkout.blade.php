@@ -24,55 +24,60 @@
 
                 <FORM ID="orderinfo" name="orderinfo" class="row">
 
-                    <div class="col-md-12">                        <h2 class="text-danger">Profile</h2>
-
-                    <?= view("popups_edituser", array("email" => false, "password" => false, "phone" => true))->render(); ?>
+                    <div class="col-md-12">
+                        <h2 class="text-danger mt-0">Profile</h2>
+                        <?= view("popups_edituser", array("email" => false, "password" => false, "phone" => true))->render(); ?>
                         <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
                         <?php
                         if (read("id")) {
                             echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
                         }
                         ?>
-
-                            <span class="payment-errors"></span>
-
-
+                        <span class="payment-errors"></span>
                     </div>
 
                     <div class="col-md-12">
                         <h2 class="text-danger">Payment</h2>
                         <DIV ID="credit-info"></DIV>
-                        <input type="text" size="20" class="form-control credit-info" data-stripe="number" placeholder="Card Number">
-                        <div class="credit-info">
-                            <SELECT CLASS="form-control proper-height col-xs-4" data-stripe="exp_month">
-                                <OPTION VALUE="01">01/Jan</OPTION>
-                                <OPTION VALUE="02">02/Feb</OPTION>
-                                <OPTION VALUE="03">03/Mar</OPTION>
-                                <OPTION VALUE="04">04/Apr</OPTION>
-                                <OPTION VALUE="05">05/May</OPTION>
-                                <OPTION VALUE="06">06/Jun</OPTION>
-                                <OPTION VALUE="07">07/Jul</OPTION>
-                                <OPTION VALUE="08">08/Aug</OPTION>
-                                <OPTION VALUE="09">09/Sep</OPTION>
-                                <OPTION VALUE="10">10/Oct</OPTION>
-                                <OPTION VALUE="11">11/Nov</OPTION>
-                                <OPTION VALUE="12">12/Dec</OPTION>
-                            </SELECT>
-                            <SELECT CLASS="form-control proper-height col-xs-4" data-stripe="exp_year">
-                                <?php
-                                $CURRENT_YEAR = date("Y");
-                                $TOTAL_YEARS = 6;
-                                for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
-                                    echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
-                                }
-                                ?>
-                            </SELECT>
-                            <input type="text" size="4" data-stripe="cvc" CLASS="form-control proper-height col-xs-4" PLACEHOLDER="CVC">
-                            <INPUT TYPE="hidden" name="istest" id="istest">
-                            <a class="pull-right btn" onclick="testcard();">Test CreditCard</a>
-                        </div>
                     </div>
+                    <div class="col-md-12">
 
+                    <input type="text" size="20" class="form-control credit-info" data-stripe="number" placeholder="Card Number">
+                    </div>
+                    <div class="col-md-12">
+
+                    <SELECT CLASS="credit-info form-control proper-height col-md-4" data-stripe="exp_month">
+                        <OPTION VALUE="01">01/Jan</OPTION>
+                        <OPTION VALUE="02">02/Feb</OPTION>
+                        <OPTION VALUE="03">03/Mar</OPTION>
+                        <OPTION VALUE="04">04/Apr</OPTION>
+                        <OPTION VALUE="05">05/May</OPTION>
+                        <OPTION VALUE="06">06/Jun</OPTION>
+                        <OPTION VALUE="07">07/Jul</OPTION>
+                        <OPTION VALUE="08">08/Aug</OPTION>
+                        <OPTION VALUE="09">09/Sep</OPTION>
+                        <OPTION VALUE="10">10/Oct</OPTION>
+                        <OPTION VALUE="11">11/Nov</OPTION>
+                        <OPTION VALUE="12">12/Dec</OPTION>
+                    </SELECT>
+
+                    <SELECT CLASS="credit-info form-control proper-height col-md-4" data-stripe="exp_year">
+                        <?php
+                        $CURRENT_YEAR = date("Y");
+                        $TOTAL_YEARS = 6;
+                        for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
+                            echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
+                        }
+                        ?>
+                    </SELECT>
+
+                    <input type="text" size="4" data-stripe="cvc" CLASS=" credit-info form-control proper-height col-md-4 pull-left" PLACEHOLDER="CVC">
+
+                    <INPUT class="credit-info" TYPE="hidden" name="istest" id="istest">
+
+                    <a class="credit-info pull-right btn" onclick="testcard();">Card</a>
+
+                    </div>
                     <div class="col-md-12">
                         <h2 class="text-danger">Restaurant</h2>
                         <SELECT class="form-control" ID="restaurant" ONCHANGE="restchange();">
@@ -84,7 +89,7 @@
                         </SELECT>
 
                         <!-- why is it when i change this to a button that clicking on please neter abn address closes the modal -->
-                        <a class="btn btn-primary text-white pull-right mt-3" onclick="payfororder();">PLACE ORDER</a>
+                        <a class="btn btn-primary text-white pull-right mt-3" onclick="payfororder();"><i class="fa fa-check"></i> PLACE ORDER </a>
                         <div class="clearfix"></div>
                     </div>
 

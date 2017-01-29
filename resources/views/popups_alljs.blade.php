@@ -302,7 +302,7 @@
             $("#menumodal").modal("show");
             refreshremovebutton();
         }
-        $("#removelist").text("");
+       // $("#removelist").text("");
         $("#additemtoorder").html(title);
     }
 
@@ -1718,7 +1718,7 @@
             var tempstr = '';
             var classname = 'itemcontents itemcontents' + itemindex;
 
-            HTML += '<DIV style="border:2px solid transparent;border-radius:.2rem;padding:.75rem .5rem;width:100% !important;float:left;color:white !important;" ' +
+            HTML += '<DIV style="margin-bottom:10px;border:1px solid #dadada;border-radius:.2rem;padding:.25rem .25rem;width:100% !important;float:left" ' +
                 'ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="currentitem currentitem' + itemindex;
 
             if (currentitemindex == itemindex) {
@@ -1952,7 +1952,7 @@
         if (removed) {
             removed += " was removed";
         }
-        $("#removelist").text(removed);
+       // $("#removelist").text(removed);
         generateaddons();
     }
 
