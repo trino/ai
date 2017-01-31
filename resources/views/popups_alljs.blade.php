@@ -1162,7 +1162,6 @@
             var URL = '<?= webroot("public/list/orders"); ?>';
             if (window.location.href != URL && isJSON) {
                 window.location.href = URL;
-                //die();
             }
         }
     }

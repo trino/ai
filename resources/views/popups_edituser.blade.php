@@ -94,8 +94,11 @@ echo '</DIV>';
     var minlength = 5;
     redirectonlogout = true;
 
-    function userform_submit() {
+    function userform_submit(isSelf) {
         var formdata = getform("#userform");
+        $("#edituser_error").text("");
+        //if(isSelf){if(formdata["oldpassword"] || formdata["newpassword"]){if(!formdata["oldpassword"] || !formdata["newpassword"]){//$("#edituser_error").text("Please fill in either both or neither password boxes");return false;}}}
+
         var keys = ["name", "email", "phone"];
         for (var keyid = 0; keyid < keys.length; keyid++) {
             var key = keys[keyid];
@@ -110,6 +113,7 @@ echo '</DIV>';
             value: formdata
         }, function (result) {
             if (result) {
+                if(result == "Data saved"){result = "Changes to your profile have been saved";}
                 alert(result);
             }
         });
@@ -142,13 +146,13 @@ echo '</DIV>';
                 },
                 oldpassword: {
                     required: function (element) {
-                        return $("#user_newpassword").val().length > 0;
+                        return $("form[name='user']").find("input[name=newpassword]").val().length > 0;
                     },
                     minlength: minlength
                 },
                 newpassword: {
                     required: function (element) {
-                        return $("#user_oldpassword").val().length > 0;
+                        return $("form[name='user']").find("input[name=oldpassword]").val().length > 0;
                     },
                     minlength: minlength
                 }
