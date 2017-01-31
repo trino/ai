@@ -924,15 +924,15 @@
     }
 
     function loading(state, where) {
-        if (isUndefined(where)) {
-            where = "UNKNOWN";
-        }
+        if (isUndefined(where)) {where = "UNKNOWN";}
         if (state) {
             log("Loading: " + where);
             $body.addClass("loading");
+            $("#loadingmodal").show();
         } else {
             log("Done Loading: " + where);
             $body.removeClass("loading");
+            $("#loadingmodal").hide();
         }
     }
 
@@ -1804,11 +1804,7 @@
         currentaddontype = table;
         var HTML = '<DIV style="background:#efefef;height:150px;overflow-y: auto;overflow-x: auto; overflow-x: auto; padding:5px;"><DIV id="theaddons"></DIV></DIV>';
 
-
-HTML +=
-'<button type="button" style="width:33.3%;text-align: left;" data-popup-close="menumodal" old-data-dismiss="modal" id="additemtoorder" class="btn btn-sm  bg-secondary pull-right" onclick="additemtoorder();">ADD TO ORDER</button>'
-+ '<button type="button" style="width:33.3%;text-align: left;" id="removeitemfromorder" class="btn  bg-secondary btn-sm pull-right" style="margin-left: 10px;margin-right: 10px;"><i class="fa fa-arrow-left"></i></button>'
-+ '<button style="width:33.3%;text-align: left;" class="btn bg-secondary btn-sm pull-right pr-0"> $<SPAN ID="modal-itemtotalprice"></SPAN></button><div class="clearfix"></div> ';
+        HTML += '<button type="button" style="width:33.3%;text-align: left;" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" class="btn btn-sm  bg-secondary pull-right" onclick="additemtoorder();">ADD TO ORDER</button><button type="button" style="width:33.3%;text-align: left;" id="removeitemfromorder" class="btn  bg-secondary btn-sm pull-right" style="margin-left: 10px;margin-right: 10px;"><i class="fa fa-arrow-left"></i></button><button style="width:33.3%;text-align: left;" class="btn bg-secondary btn-sm pull-right pr-0"> $<SPAN ID="modal-itemtotalprice"></SPAN></button><div class="clearfix"></div> ';
 
         if (currentstyle == 0) {
             HTML += '<DIV CLASS=" addonlist" ID="addontypes">';

@@ -189,9 +189,9 @@ $CurrentCol = 1;
 
             <div class="modal-header">
                 <h2 id="myModalLabel"><SPAN ID="modal-itemname"></SPAN><br>
-                    <small ID="toppingcost">+$<SPAN id="modal-toppingcost">0.79</SPAN> per topping</small>
+                    <small ID="toppingcost">+$<SPAN id="modal-toppingcost"></SPAN> per topping</small>
                 </h2>
-                <button data-dismiss="modal" class="btn btn-sm  btn-danger"><i class="fa fa-close"></i></button>
+                <button data-dismiss="modal" class="btn btn-sm btn-danger"><i class="fa fa-close"></i></button>
             </div>
 
             <div class="modal-body" style="padding-top:0 !important;">

@@ -468,112 +468,114 @@
                                 $("#data > TBODY").html(HTML);
                                 generatepagelist(data.count, index);
 
-                                $(".field").dblclick(function() {//set field double click handler
-                                    var field = $(this).attr("field");
-                                    var columnindex = findwhere(datafields, "Field", field);
-                                    var column = datafields[columnindex];
-                                    var ID = $(this).attr("index");
-                                    if (isUndefined(column)) {
-                                        switch(table){
-                                            case "restaurants":
-                                                confirm2('The restaurant address can not be edited directly from here. Would you like to go to the address editor?', 'Edit Address', function(){
-                                                    ID = $("#restaurants_" + ID + "_address_id").text();
-                                                    window.location = webroot + "list/useraddresses?key=id&value=" + ID;
-                                                });
-                                                break;
-                                            default: alert(makestring("{cant_edit}", {table: table, field: field}));
-                                        }
-                                    } else if(column["Key"] != "PRI"){//primary key can't be edited
-                                        selecteditem = ID;
-                                        var HTML = $(this).html();
-                                        var isHTML = containsHTML(HTML);
-                                        var isText = false;
-                                        var colname = table + "." + field;
-                                        switch(colname){
-                                            case "orders.latitude": case "orders.longitude":
-                                                column["Type"] = "int";
-                                                break;
-                                        }
-                                        if(!isHTML && inlineedit){//check what datatype the column is, and switch the text with the appropriate input type
-                                            isText=true;
-                                            var isSelect=false;
-                                            var title="";
-                                            switch(column["Type"]){
-                                                //timestamp (date)
-                                                case "tinyint": case "smallint": case "mediumint": case "bigint":case "int":case "double":
-                                                case "tinyintunsigned": case "smallintunsigned": case "mediumintunsigned": case "bigintunsigned": case "intunsigned":
-                                                    var min = intranges[column["Type"]]["min"];
-                                                    var max = intranges[column["Type"]]["max"];
-                                                    switch(colname){
-                                                        case "orders.placed_at": return; break;
-                                                        case "orders.status":
-                                                            isSelect=true;
-                                                            HTML = makeselect(ID + "_" + field, "selectfield form-control", colname, HTML, arraytooptions(statuses));
-                                                            break;
-
-                                                        case "users.profiletype":
-                                                            isSelect=true;
-                                                            HTML = makeselect(ID + "_" + field, "selectfield form-control", colname, HTML, arraytooptions(usertype));
-                                                            break;
-
-                                                        case "restaurants.address_id":
-                                                            isSelect=true;
-                                                            console.log(HTML + " was selected");
-                                                            HTML = $("#addressdropdown").html().replace('class="form-control" id="saveaddresses"', 'CLASS="selectfield form-control" ID="' + ID + "_" + field + '" COLNAME="' + colname + '"').replace('value="' + HTML + '"', 'value="' + HTML + '" SELECTED');
-                                                            console.log(HTML + " was edited");
-                                                            break;
-                                                        default:
-                                                            HTML = '<INPUT TYPE="NUMBER" ID="' + ID + "_" + field + '" VALUE="' + HTML + '" CLASS="textfield" TITLE="' + title + '" MIN="';
-                                                            HTML += min + '" MAX="' + max + '" COLNAME="' + colname + '">';
-                                                    }
-                                                    break;
-                                                default://simple text
-                                                    switch(colname){
-                                                        case "users.authcode":
-                                                            edititem(ID, "authcode", "");
-                                                            alert(makestring("{user_auth}"));
-                                                            return;
-                                                            break;
-                                                        default:
-                                                            HTML = '<INPUT TYPE="TEXT" ID="' + ID + "_" + field + '" VALUE="' + HTML + '" CLASS="textfield" COLNAME="' + colname;
-                                                            HTML += '" maxlength="' + column["Len"] + '" TITLE="' + title + '">';
-                                                    }
-                                            }
-                                            console.log(HTML);
-                                            $(this).html(HTML);
-                                           if(isSelect){
-                                                $("#" + ID + "_" + field).focus().change(function () {
-                                                    if(table == "restaurants"){
-                                                        var Selected = $("#" + ID + "_" + field + " option:selected");
-                                                        for(var keyID = 0; keyID < addresskeys.length; keyID++){
-                                                            var keyname = addresskeys[keyID];
-                                                            var keyvalue= $(Selected).attr(keyname);
-                                                            if(keyname == "phone"){keyname="user_phone";}
-                                                            var elementID = "#" + table + "_" + ID + "_" + keyname;
-                                                            $(elementID).text(keyvalue);
-                                                        }
-                                                    }
-                                                    edititem(ID, field, $(this).val());
-                                                });
-                                           } else if(isText) {
-                                                $("#" + ID + "_" + field).focus().select().keypress(function (ev) {
-                                                    var keycode = (ev.keyCode ? ev.keyCode : ev.which);
-                                                    if (keycode == '13') {
-                                                        edititem(ID, field, $(this).val());
-                                                    }
-                                                }).blur(function(){
-                                                    edititem(ID, field, $(this).val());
-                                                });
-                                           }
-                                        } else if (!isHTML) {
+                                @if(read("profiletype") == 1)
+                                    $(".field").dblclick(function() {//set field double click handler
+                                        var field = $(this).attr("field");
+                                        var columnindex = findwhere(datafields, "Field", field);
+                                        var column = datafields[columnindex];
+                                        var ID = $(this).attr("index");
+                                        if (isUndefined(column)) {
                                             switch(table){
-                                                case "useraddresses":
-                                                    editaddress(ID);
+                                                case "restaurants":
+                                                    confirm2('The restaurant address can not be edited directly from here. Would you like to go to the address editor?', 'Edit Address', function(){
+                                                        ID = $("#restaurants_" + ID + "_address_id").text();
+                                                        window.location = webroot + "list/useraddresses?key=id&value=" + ID;
+                                                    });
+                                                    break;
+                                                default: alert(makestring("{cant_edit}", {table: table, field: field}));
+                                            }
+                                        } else if(column["Key"] != "PRI"){//primary key can't be edited
+                                            selecteditem = ID;
+                                            var HTML = $(this).html();
+                                            var isHTML = containsHTML(HTML);
+                                            var isText = false;
+                                            var colname = table + "." + field;
+                                            switch(colname){
+                                                case "orders.latitude": case "orders.longitude":
+                                                    column["Type"] = "int";
                                                     break;
                                             }
+                                            if(!isHTML && inlineedit){//check what datatype the column is, and switch the text with the appropriate input type
+                                                isText=true;
+                                                var isSelect=false;
+                                                var title="";
+                                                switch(column["Type"]){
+                                                    //timestamp (date)
+                                                    case "tinyint": case "smallint": case "mediumint": case "bigint":case "int":case "double":
+                                                    case "tinyintunsigned": case "smallintunsigned": case "mediumintunsigned": case "bigintunsigned": case "intunsigned":
+                                                        var min = intranges[column["Type"]]["min"];
+                                                        var max = intranges[column["Type"]]["max"];
+                                                        switch(colname){
+                                                            case "orders.placed_at": return; break;
+                                                            case "orders.status":
+                                                                isSelect=true;
+                                                                HTML = makeselect(ID + "_" + field, "selectfield form-control", colname, HTML, arraytooptions(statuses));
+                                                                break;
+
+                                                            case "users.profiletype":
+                                                                isSelect=true;
+                                                                HTML = makeselect(ID + "_" + field, "selectfield form-control", colname, HTML, arraytooptions(usertype));
+                                                                break;
+
+                                                            case "restaurants.address_id":
+                                                                isSelect=true;
+                                                                console.log(HTML + " was selected");
+                                                                HTML = $("#addressdropdown").html().replace('class="form-control" id="saveaddresses"', 'CLASS="selectfield form-control" ID="' + ID + "_" + field + '" COLNAME="' + colname + '"').replace('value="' + HTML + '"', 'value="' + HTML + '" SELECTED');
+                                                                console.log(HTML + " was edited");
+                                                                break;
+                                                            default:
+                                                                HTML = '<INPUT TYPE="NUMBER" ID="' + ID + "_" + field + '" VALUE="' + HTML + '" CLASS="textfield" TITLE="' + title + '" MIN="';
+                                                                HTML += min + '" MAX="' + max + '" COLNAME="' + colname + '">';
+                                                        }
+                                                        break;
+                                                    default://simple text
+                                                        switch(colname){
+                                                            case "users.authcode":
+                                                                edititem(ID, "authcode", "");
+                                                                alert(makestring("{user_auth}"));
+                                                                return;
+                                                                break;
+                                                            default:
+                                                                HTML = '<INPUT TYPE="TEXT" ID="' + ID + "_" + field + '" VALUE="' + HTML + '" CLASS="textfield" COLNAME="' + colname;
+                                                                HTML += '" maxlength="' + column["Len"] + '" TITLE="' + title + '">';
+                                                        }
+                                                }
+                                                console.log(HTML);
+                                                $(this).html(HTML);
+                                               if(isSelect){
+                                                    $("#" + ID + "_" + field).focus().change(function () {
+                                                        if(table == "restaurants"){
+                                                            var Selected = $("#" + ID + "_" + field + " option:selected");
+                                                            for(var keyID = 0; keyID < addresskeys.length; keyID++){
+                                                                var keyname = addresskeys[keyID];
+                                                                var keyvalue= $(Selected).attr(keyname);
+                                                                if(keyname == "phone"){keyname="user_phone";}
+                                                                var elementID = "#" + table + "_" + ID + "_" + keyname;
+                                                                $(elementID).text(keyvalue);
+                                                            }
+                                                        }
+                                                        edititem(ID, field, $(this).val());
+                                                    });
+                                               } else if(isText) {
+                                                    $("#" + ID + "_" + field).focus().select().keypress(function (ev) {
+                                                        var keycode = (ev.keyCode ? ev.keyCode : ev.which);
+                                                        if (keycode == '13') {
+                                                            edititem(ID, field, $(this).val());
+                                                        }
+                                                    }).blur(function(){
+                                                        edititem(ID, field, $(this).val());
+                                                    });
+                                               }
+                                            } else if (!isHTML) {
+                                                switch(table){
+                                                    case "useraddresses":
+                                                        editaddress(ID);
+                                                        break;
+                                                }
+                                            }
                                         }
-                                    }
-                                });
+                                    });
+                                @endif
                             } catch (e){
                                 $("#body").html(e + " NON-JSON DETECTED: <BR>" + result);
                                 return false;
