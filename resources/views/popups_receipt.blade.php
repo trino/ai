@@ -84,13 +84,13 @@
     $seconds = 0;
     $duration = "";
 
-    if ($Order["deliverytime"] && $timer) {
+    if ($Order["deliverytime"]) {
         $duration = $Order["deliverytime"];
         $Time = trim(right($Order["deliverytime"], 4));//1500
         if (is_numeric($Time)) {
             $CurrentTime = date("Gi");
             $duration = left($Order["deliverytime"], strlen($Order["deliverytime"]) - 4) . GenerateTime(intval($Time));
-            if ($CurrentTime <= $Time) {
+            if ($CurrentTime <= $Time && $timer) {
                 $minutes = tomin($Time) - tomin($CurrentTime) + 1;
             } else {
                 $timer = false;
@@ -109,6 +109,8 @@
             $time = floor($minutes / 60) . ":" . minpad($minutes % 60);
         }
         $time .= ":" . minpad($seconds);
+    } else {
+
     }
 ?>
 
