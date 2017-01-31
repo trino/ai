@@ -1,8 +1,8 @@
 <?php
-    startfile("popups_alljs");
-    $CURRENT_YEAR = date("Y");
-    $STREET_FORMAT = "[number] [street], [city] [postalcode]";
-    //["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
+startfile("popups_alljs");
+$CURRENT_YEAR = date("Y");
+$STREET_FORMAT = "[number] [street], [city] [postalcode]";
+//["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
 ?>
 
 <script>
@@ -215,7 +215,9 @@
     }
 
     function visible(selector, status) {
-        if (isUndefined(status)) {status = false;}
+        if (isUndefined(status)) {
+            status = false;
+        }
         if (status) {
             $(selector).show();
         } else {
@@ -285,7 +287,11 @@
             $(".toppings_price").text(toppingcost);
         }
         $("#modal-toppingcost").text(toppingcost);
-        if(toppingcost>0){$("#toppingcost").show();} else {$("#toppingcost").hide();}
+        if (toppingcost > 0) {
+            $("#toppingcost").show();
+        } else {
+            $("#toppingcost").hide();
+        }
         currentitem = {itemname: itemname, itemcost: itemcost, size: size, toppingcost: toppingcost};
 
         for (var tableid = 0; tableid < tables.length; tableid++) {
@@ -297,33 +303,33 @@
             }
         }
         currentitemID = -1;
-        var title = "<i class='fa fa-check'></i>";
+        var title = "<i class='fa fa-plus'></i> ADD TO ORDER";
         if (!isUndefined(notparent)) {
             $("#menumodal").modal("show");
             refreshremovebutton();
         }
-       // $("#removelist").text("");
+        // $("#removelist").text("");
         $("#additemtoorder").html(title);
     }
 
-    function refreshremovebutton(){
-        if(currentaddonlist[currentitemindex].length == 0){
-          //  $("#removeitemfromorder").hide();
+    function refreshremovebutton() {
+        if (currentaddonlist[currentitemindex].length == 0) {
+            //  $("#removeitemfromorder").hide();
         } else {
             var index = currentaddonlist[currentitemindex].length - 1;
-            var lastitem = currentaddonlist[currentitemindex][ index ];
-            $("#removeitemfromorder").show().attr("title", "Remove: " + lastitem.name + " from " + $("#item_" + currentitemindex).text() ).attr("onclick", "removelistitem(" + currentitemindex + ", " + index + ");");
+            var lastitem = currentaddonlist[currentitemindex][index];
+            $("#removeitemfromorder").show().attr("title", "Remove: " + lastitem.name + " from " + $("#item_" + currentitemindex).text()).attr("onclick", "removelistitem(" + currentitemindex + ", " + index + ");");
         }
     }
 
     //get the data from the modal and add it to the order
     function additemtoorder(element, Index) {
         // Get the snackbar DIV
-       // var x = document.getElementById("snackbar");
+        // var x = document.getElementById("snackbar");
         // Add the "show" class to DIV
-      //  x.className = "show";
+        //  x.className = "show";
         // After 3 seconds, remove the show class from DIV
-      //  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 1200);
+        //  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 1200);
 
         var itemid = 0, itemname = "", itemprice = 0.00, itemaddons = new Array, itemsize = "", toppingcost = 0.00, toppingscount = 0, itemcat = "";
         if (!isUndefined(Index)) {
@@ -406,8 +412,8 @@
             var hasaddons = item.hasOwnProperty("itemaddons") && item["itemaddons"].length > 0;
             subtotal += Number(totalcost);
 
-            if (sprite == "sides"){
-                sprite = toclassname( item["itemname"].trim() ).replaceAll("_", "-");
+            if (sprite == "sides") {
+                sprite = toclassname(item["itemname"].trim()).replaceAll("_", "-");
                 if (sprite.endswith("lasagna")) {
                     sprite = "lasagna";
                 } else if (sprite.endswith("chicken-nuggets")) {
@@ -860,7 +866,9 @@
                 orders(First)
             }
         } else {
-            if (isUndefined(getJSON)) {getJSON = false;}
+            if (isUndefined(getJSON)) {
+                getJSON = false;
+            }
             var Index = getIterator(userdetails["Orders"], "id", ID);
             if (!getJSON && userdetails["Orders"][Index].hasOwnProperty("Contents")) {
                 $("#pastreceipt" + ID).html(userdetails["Orders"][Index]["Contents"]);
@@ -917,7 +925,9 @@
     }
 
     function loading(state, where) {
-        if (isUndefined(where)) {where = "UNKNOWN";}
+        if (isUndefined(where)) {
+            where = "UNKNOWN";
+        }
         if (state) {
             log("Loading: " + where);
             $body.addClass("loading");
@@ -1096,7 +1106,7 @@
 
         @if(isset($user) && $user)
             login(<?= json_encode($user); ?>, false); //user is already logged in, use the data
-        @endif
+                @endif
 
         var HTML = '';
         var todaysdate = isopen(generalhours);
@@ -1165,7 +1175,9 @@
         }
         var tempHTML = '<OPTION';
         var streetformat = "<?= $STREET_FORMAT; ?>";
-        if (address["unit"].trim()) {streetformat = "[unit] - " + streetformat;}
+        if (address["unit"].trim()) {
+            streetformat = "[unit] - " + streetformat;
+        }
         for (var keyID = 0; keyID < addresskeys.length; keyID++) {
             var keyname = addresskeys[keyID];
             if (address.hasOwnProperty(keyname)) {
@@ -1224,7 +1236,7 @@
 
     //universal AJAX error handling
     $(document).ajaxComplete(function (event, request, settings) {
-        if(skipunloadingscreen){
+        if (skipunloadingscreen) {
             skipunloadingscreen = false;
         } else {
             loading(false, "ajaxComplete");
@@ -1391,7 +1403,9 @@
                         }
                     }
                 }
-                if(!smallest){smallest = 0;}
+                if (!smallest) {
+                    smallest = 0;
+                }
                 $("#restaurant").html(HTML);
                 $("#restaurant").val(smallest);
             }
@@ -1528,7 +1542,9 @@
         time = time + (increments - (time % increments));
         var oldValue = $("#deliverytime").val();
         var HTML = '';
-        if (isopen(hours, dayofweek, time) > -1) {HTML = '<option>Deliver Now</option>';}
+        if (isopen(hours, dayofweek, time) > -1) {
+            HTML = '<option>Deliver Now</option>';
+        }
         var totalInc = (minutesinaday * totaldays) / increments;
         for (var i = 0; i < totalInc; i++) {
             if (isopen(hours, dayofweek, time) > -1) {
@@ -1724,13 +1740,13 @@
             if (currentitemindex == itemindex) {
                 HTML += ' thisside';
             }
-            HTML += '">'+ '<div class="btn btn-sm" id="item_' + itemindex + '">'+ ucfirst(item_name) + ' #' + (itemindex + 1) + '</div>';
+            HTML += '">' + '<div class="btn btn-sm" id="item_' + itemindex + '">' + ucfirst(item_name) + ' #' + (itemindex + 1) + '</div>';
 
             /*
-            if (currentaddonlist[itemindex].length == 0) {
-                tempstr += '<div class="btn btn-sm btn-secondary" >No ' + addonname + '</div>';
-            }
-*/
+             if (currentaddonlist[itemindex].length == 0) {
+             tempstr += '<div class="btn btn-sm btn-secondary" >No ' + addonname + '</div>';
+             }
+             */
             for (var i = 0; i < currentaddonlist[itemindex].length; i++) {
                 var currentaddon = currentaddonlist[itemindex][i];
                 var qualifier = "";
@@ -1788,6 +1804,13 @@
     function list_addons(table, halves) {
         currentaddontype = table;
         var HTML = '<DIV style="background:#efefef;height:150px;overflow-y: auto;overflow-x: auto; overflow-x: auto; padding:5px;"><DIV id="theaddons"></DIV></DIV>';
+
+
+HTML +=
+'<button type="button" style="width:33.3%;text-align: left;" data-popup-close="menumodal" old-data-dismiss="modal" id="additemtoorder" class="btn btn-sm  bg-secondary pull-right" onclick="additemtoorder();">ADD TO ORDER</button>'
++ '<button type="button" style="width:33.3%;text-align: left;" id="removeitemfromorder" class="btn  bg-secondary btn-sm pull-right" style="margin-left: 10px;margin-right: 10px;"><i class="fa fa-arrow-left"></i></button>'
++ '<button style="width:33.3%;text-align: left;" class="btn bg-secondary btn-sm pull-right pr-0"> $<SPAN ID="modal-itemtotalprice"></SPAN></button><div class="clearfix"></div> ';
+
         if (currentstyle == 0) {
             HTML += '<DIV CLASS=" addonlist" ID="addontypes">';
         }
@@ -1952,7 +1975,7 @@
         if (removed) {
             removed += " was removed";
         }
-       // $("#removelist").text(removed);
+        // $("#removelist").text(removed);
         generateaddons();
     }
 
@@ -2002,9 +2025,9 @@
     }
     @endif
 
-    function scrolltobottom(){
+    function scrolltobottom() {
         //window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);//instantaneous
-        $('html,body').animate({scrollTop: document.body.scrollHeight},"slow");
+        $('html,body').animate({scrollTop: document.body.scrollHeight}, "slow");
     }
 </SCRIPT>
 

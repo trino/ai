@@ -1,3 +1,4 @@
+
 .btn {
     text-transform: uppercase;
     border:0 !important;
@@ -230,16 +231,15 @@ body.loading #loadingmodal {
     display: block;
     z-index: 999999;
 }
-
+.bg-secondary{border-radius: 0 !important;}
 .container-fluid {
     max-width: 1300px !important;
 }
 
 .dropdown-menu,.shadow ,.modal-header, nav {
-
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
 }
-
+.col-md-3{background: white;}
 .btn-circle {
     width: 30px;
     height: 30px;
@@ -276,5 +276,4 @@ a:focus, .btn:focus, button {
 .dont-show {
     display: none;
 }
-
 

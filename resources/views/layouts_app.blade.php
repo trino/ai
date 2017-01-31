@@ -63,7 +63,7 @@
 </div>
 
 
-<div class="c-rays">
+<!--div class="c-rays">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 335">
         <path fill="#FA0029" d="M.2 218.7l503.5-44.1L.2 0z"></path>
         <path fill="#FF5959" d="M.2 207.7v67.5l503.5-100.6z"></path>
@@ -77,7 +77,7 @@
         <path fill="#2BACE4" d="M762.9 333.5h205.5L503.7 174.6z"></path>
         <path fill="#FF5000" d="M1377 333.5h63v-80.6l-936.3-78.3z"></path>
     </svg>
-</div>
+</div-->
 
 
 <?= view("popups_sticky_footer")->render(); ?>
@@ -129,11 +129,6 @@
 </nav>
 
 
-@if(false)
-
-
-
-@endif
 </body>
 
 <script type="text/javascript">
