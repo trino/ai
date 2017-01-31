@@ -245,7 +245,9 @@
         for (i = 0; i < fields.length; i++) {
             log(fields[i] + ": " + $("#" + fields[i]).val().length);
             if ($("#" + fields[i]).val().length == 0) {
-                return false;
+                if(!(fields[i] == "add_postalcode" && $("#add_city").val().toLowerCase() == "london")){
+                    return false;
+                }
             }
         }
         return true;
