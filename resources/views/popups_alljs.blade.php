@@ -1,12 +1,11 @@
 <?php
-startfile("popups_alljs");
-$CURRENT_YEAR = date("Y");
-$STREET_FORMAT = "[number] [street], [city] [postalcode]";
-//["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
+    startfile("popups_alljs");
+    $CURRENT_YEAR = date("Y");
+    $STREET_FORMAT = "[number] [street], [city] [postalcode]";
+    //["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
 ?>
 
 <script>
-
     var currentitemID = -1;
     var MAX_DISTANCE = 20;//km
     var debugmode = false;//'<?= !islive(); ?>' == '1';
@@ -1163,7 +1162,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             var URL = '<?= webroot("public/list/orders"); ?>';
             if (window.location.href != URL && isJSON) {
                 window.location.href = URL;
-                die();
+                //die();
             }
         }
     }
