@@ -25,6 +25,7 @@
     switch ($style) {
         case 1:
             $colspan = 6;
+            if(!$debugmode){$colspan-=1;}
             break;
         case 2:
             $colspan = 3;
@@ -141,7 +142,9 @@
             <TH>Name</TH>
             <TH class="text-xs-right"> Sub-total</TH>
             <TH>Addons</TH>
-            <TH>Addon Count</TH>
+            @if($debugmode)
+                <TH>Addon Count</TH>
+            @endif
             <th class="text-xs-right">Total</th>
         </TR>
         @else
@@ -311,15 +314,19 @@
                                         $itemtotal = $menuitem["price"] + $toppingscost;
 
                                         if ($style == 1) {
-                                            echo '</TD><TD NOWRAP>';
-                                            if ($totaladdons) {
-                                                echo $paidtoppings . ' paid<BR>' . $freetoppings . ' free';
-                                                echo '<BR>$' . number_format($addonscost, 2) . '<BR>each';//'<BR>' . $size .
+                                            echo '</TD>';
+                                            if($debugmode){
+                                                echo '<TD NOWRAP>';
+                                                if ($totaladdons) {
+                                                    echo $paidtoppings . ' paid<BR>' . $freetoppings . ' free';
+                                                    echo '<BR>$' . number_format($addonscost, 2) . '<BR>each';//'<BR>' . $size .
+                                                }
+                                                if ($debugmode) {
+                                                    $debug = ' TITLE="User side: $' . $item->itemprice . '"';
+                                                }
+                                                echo '</TD>';
                                             }
-                                            if ($debugmode) {
-                                                $debug = ' TITLE="User side: $' . $item->itemprice . '"';
-                                            }
-                                            echo '</TD><TD ALIGN="RIGHT"' . $debug . '>';
+                                            echo '<TD ALIGN="RIGHT"' . $debug . '>';
                                         }
                                         echo '$' . number_format($itemtotal, 2) . '</TD></TR>';
                                         if ($style == 2 && $HTML) {

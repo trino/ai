@@ -140,6 +140,8 @@ $CurrentCol = 1;
                         if (endwith($itemclass, "salad")) {
                             $itemclass = "salad";
                         }
+                    } else if($itemclass == "drinks"){
+                        $itemclass .= " sprite-" . str_replace(".", "", str_replace("_", "-", toclass($menuitem['item'])));
                     }
 
                     $total = 0;

@@ -420,8 +420,8 @@
                 } else if (sprite.endswith("salad")) {
                     sprite = "salad";
                 }
-            } else {
-                log(item);
+            } else if (sprite == "drinks") {
+                sprite += " sprite-" + toclassname(item["itemname"].trim()).replaceAll("_", "-").replace(/\./g, '');
             }
 
             tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item">';
@@ -805,7 +805,7 @@
         $("#saveaddresses option").each(function () {
             var ID = $(this).val();
             if (ID > 0) {
-                HTML += '<DIV ID="add_' + ID + '"><ATITLE="Delete this address" onclick="deleteaddress(' + ID + ');" class="cursor-pointer"><i style="color:red" class="fa fa-fw fa-times"></i></A> ';
+                HTML += '<DIV ID="add_' + ID + '"><A TITLE="Delete this address" onclick="deleteaddress(' + ID + ');" class="cursor-pointer"><i style="color:red" class="fa fa-fw fa-times"></i></A> ';
                 HTML += $(this).text() + '</DIV>';
                 AddNew = true;
             }
@@ -2009,19 +2009,25 @@ HTML +=
 
     @if(read("id"))
         $(document).ready(function () {
-        <?php if (islive() || $GLOBALS["testlive"]) {
-        echo "setPublishableKey('pk_vnR0dLVmyF34VAqSegbpBvhfhaLNi', 'live')";
-    } else {
-        echo "setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', 'test');";
-    }?>
-    });
+            <?php
+                if (islive() || $GLOBALS["testlive"]) {
+                    echo "setPublishableKey('pk_vnR0dLVmyF34VAqSegbpBvhfhaLNi', 'live')";
+                } else {
+                    echo "setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', 'test');";
+                }
+            ?>
+        });
 
-    function setPublishableKey(Key, mode) {
-        Stripe.setPublishableKey(Key);
-        @if(!islive())
-            log(mode + " stripe mode");
-        @endif
-    }
+        function setPublishableKey(Key, mode) {
+            try {
+                Stripe.setPublishableKey(Key);
+                @if(!islive())
+                    log(mode + " stripe mode");
+                @endif
+                } catch (error){
+                log("Stripe not available on this page");
+            }
+        }
     @endif
 
     function scrolltobottom() {

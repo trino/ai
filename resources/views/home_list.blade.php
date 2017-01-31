@@ -218,6 +218,15 @@
                     cursor: not-allowed;
                     opacity: 0.5;
                 }
+
+                .table-even {
+                    background: lightgrey;
+                    border-color: transparent;
+                }
+
+                .table-odd{
+                    border-color: transparent;
+                }
             </STYLE>
             <div class="row m-t-1">
                 <div class="col-md-12">
@@ -392,10 +401,10 @@
                                     for (var i = 0; i < data.table.length; i++) {
                                         var evenodd = "odd";
                                         if(i % 2 == 0){evenodd = "even";}
+                                        var ID = data.table[i]["id"];
                                         evenodd = "item_" + ID + ' table-' + evenodd;
 
                                         var Address = "[number] [street]<BR>[city] [province]<BR>[postalcode]";
-                                        var ID = data.table[i]["id"];
                                         var tempHTML = '<TR ID="' + table + "_" + ID + '">';
                                         if(TableStyle == '1'){tempHTML += '<TR><TD COLSPAN="2" CLASS="' + evenodd + '" ALIGN="CENTER"><B>' + ID + '</B></TD></TR>';}
                                         for (var v = 0; v < fields.length; v++) {

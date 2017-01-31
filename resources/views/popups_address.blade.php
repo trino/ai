@@ -75,7 +75,7 @@
                 }
             });
         } else {
-            confirm2("Are you sure you want to delete '" + $("#add_" + ID).text().trim() + "'?", 'Delete Address', function () {
+            //confirm2("Are you sure you want to delete '" + $("#add_" + ID).text().trim() + "'?", 'Delete Address', function () {
                 $.post("<?= webroot("public/list/useraddresses"); ?>", {
                     _token: token,
                     action: "deleteitem",
@@ -88,7 +88,7 @@
                         $(".saveaddresses option[value=" + ID + "]").remove();
                     }
                 });
-            });
+            //});
         }
     }
 
