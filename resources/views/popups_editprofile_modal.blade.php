@@ -12,7 +12,7 @@
                     @include("popups_edituser", array("showpass" => true, "email" => false))
                     <DIV class="clearfix mt-1"></DIV>
                     <DIV CLASS="error" id="edituser_error"></DIV>
-                    <BUTTON CLASS="btn btn-primary" onclick="userform_submit(true);">SAVE</BUTTON>
+                    <BUTTON CLASS="btn btn-primary" onclick="return userform_submit(true);">SAVE</BUTTON>
                 </FORM>
 
                 <div CLASS="editprofilediv">

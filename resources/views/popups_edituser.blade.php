@@ -1,94 +1,93 @@
 <?php
-startfile("popups_edituser");
-$currentURL = webroot("public/user/info");
-if (isset($user_id)) {
-    $user = first("SELECT * FROM users WHERE id=" . $user_id);
-    echo '<INPUT TYPE="HIDDEN" NAME="id" VALUE="' . $user_id . '">';
-    if (!isset($name)) {
-        $name = "user";
-    }
-} else {
-    $user = array("name" => "", "phone" => "", "email" => "");
-    if (!isset($name)) {
-        $name = "reg";
-    }
-}
-if (!function_exists("printarow")) {
-    function printarow($Name, $Prepend, $field)
-    {
-        if ($field["type"] != "hidden") {
-            echo '';
+    startfile("popups_edituser");
+    $currentURL = webroot("public/user/info");
+    if (isset($user_id)) {
+        $user = first("SELECT * FROM users WHERE id=" . $user_id);
+        echo '<INPUT TYPE="HIDDEN" NAME="id" VALUE="' . $user_id . '">';
+        if (!isset($name)) {
+            $name = "user";
         }
-        echo '<INPUT TYPE="' . $field["type"] . '" NAME="' . $field["name"] . '" ID="' . $Prepend . '_' . $field["name"] . '"';
-        if (isset($field["class"])) {
-            echo ' CLASS="' . $field["class"] . '" ';
-        }
-        if (isset($field["value"])) {
-            echo ' value="' . $field["value"] . '" ';
-        }
-        if (isset($field["min"])) {
-            echo ' min="' . $field["min"] . '" ';
-        }
-        if (isset($field["maxlen"])) {
-            echo ' min="' . $field["maxlen"] . '" ';
-        }
-        if (isset($field["max"])) {
-            echo ' max="' . $field["max"] . '" ';
-        }
-        if (isset($field["readonly"])) {
-            echo ' readonly';
-        }
-        if (isset($field["autocomplete"]) && $field["autocomplete"]) {
-            echo ' autocomplete="' . $field["autocomplete"] . '"';
-        }
-        if (isset($field["placeholder"])) {
-            echo ' placeholder="' . $field["placeholder"] . '" ';
-        }
-        if (isset($field["corner"])) {
-            echo ' STYLE="border-' . $field["corner"] . '-radius: 5px;"';
-        }
-        if (isset($field["required"]) && $field["required"]) {
-            echo ' REQUIRED';
-        }
-        echo '>';
-        if ($field["type"] != "hidden") {
-            echo '';
+    } else {
+        $user = array("name" => "", "phone" => "", "email" => "");
+        if (!isset($name)) {
+            $name = "reg";
         }
     }
-}
+    if (!function_exists("printarow")) {
+        function printarow($Name, $Prepend, $field) {
+            if ($field["type"] != "hidden") {
+                echo '';
+            }
+            echo '<INPUT TYPE="' . $field["type"] . '" NAME="' . $field["name"] . '" ID="' . $Prepend . '_' . $field["name"] . '"';
+            if (isset($field["class"])) {
+                echo ' CLASS="' . $field["class"] . '" ';
+            }
+            if (isset($field["value"])) {
+                echo ' value="' . $field["value"] . '" ';
+            }
+            if (isset($field["min"])) {
+                echo ' min="' . $field["min"] . '" ';
+            }
+            if (isset($field["maxlen"])) {
+                echo ' min="' . $field["maxlen"] . '" ';
+            }
+            if (isset($field["max"])) {
+                echo ' max="' . $field["max"] . '" ';
+            }
+            if (isset($field["readonly"])) {
+                echo ' readonly';
+            }
+            if (isset($field["autocomplete"]) && $field["autocomplete"]) {
+                echo ' autocomplete="' . $field["autocomplete"] . '"';
+            }
+            if (isset($field["placeholder"])) {
+                echo ' placeholder="' . $field["placeholder"] . '" ';
+            }
+            if (isset($field["corner"])) {
+                echo ' STYLE="border-' . $field["corner"] . '-radius: 5px;"';
+            }
+            if (isset($field["required"]) && $field["required"]) {
+                echo ' REQUIRED';
+            }
+            echo '>';
+            if ($field["type"] != "hidden") {
+                echo '';
+            }
+        }
+    }
 
-if (!isset($password)) {
-    $password = true;
-}
-if (!isset($email)) {
-    $email = true;
-}
-if (!isset($autocomplete)) {
-    $autocomplete = "";
-}
-
-echo '<DIV>';
-printarow("Name", $name, array("name" => "name", "value" => $user["name"], "type" => "text", "placeholder" => "Name", "class" => "form-control session_name_val"));
-if (!isset($phone) || $phone) {
-    if (!isset($phone)) {
-        $phone = false;
+    if (!isset($password)) {
+        $password = true;
     }
-    printarow("Phone", $name, array("name" => "phone", "value" => $user["phone"], "type" => "tel", "placeholder" => "Cell", "class" => "form-control session_phone_val", "required" => $phone));
-}
-if ($email) {
-    printarow("Email", $name, array("name" => "email", "value" => $user["email"], "type" => "email", "placeholder" => "Email", "class" => "form-control session_email_val"));
-}
-if (isset($user_id) || isset($showpass)) {
-    printarow("Old Password", $name, array("name" => "oldpassword", "type" => "password", "class" => "form-control", "placeholder" => "Old Password", "autocomplete" => $autocomplete));
-    printarow("New Password", $name, array("name" => "newpassword", "type" => "password", "class" => "form-control", "placeholder" => "New Password", "autocomplete" => $autocomplete));
-} else if ($password) {
-    printarow("Password", $name, array("name" => "password", "type" => "password", "class" => "form-control", "placeholder" => "Password", "autocomplete" => $autocomplete));
-}
-if (isset($address) && $address) {
-    echo view("popups_address", array("style" => 1))->render();
-}
+    if (!isset($email)) {
+        $email = true;
+    }
+    if (!isset($autocomplete)) {
+        $autocomplete = "";
+    }
 
-echo '</DIV>';
+    echo '<DIV>';
+    printarow("Name", $name, array("name" => "name", "value" => $user["name"], "type" => "text", "placeholder" => "Name", "class" => "form-control session_name_val"));
+    if (!isset($phone) || $phone) {
+        if (!isset($phone)) {
+            $phone = false;
+        }
+        printarow("Phone", $name, array("name" => "phone", "value" => $user["phone"], "type" => "tel", "placeholder" => "Cell", "class" => "form-control session_phone_val", "required" => $phone));
+    }
+    if ($email) {
+        printarow("Email", $name, array("name" => "email", "value" => $user["email"], "type" => "email", "placeholder" => "Email", "class" => "form-control session_email_val"));
+    }
+    if (isset($user_id) || isset($showpass)) {
+        printarow("Old Password", $name, array("name" => "oldpassword", "type" => "password", "class" => "form-control", "placeholder" => "Old Password", "autocomplete" => $autocomplete));
+        printarow("New Password", $name, array("name" => "newpassword", "type" => "password", "class" => "form-control", "placeholder" => "New Password", "autocomplete" => $autocomplete));
+    } else if ($password) {
+        printarow("Password", $name, array("name" => "password", "type" => "password", "class" => "form-control", "placeholder" => "Password", "autocomplete" => $autocomplete));
+    }
+    if (isset($address) && $address) {
+        echo view("popups_address", array("style" => 1))->render();
+    }
+
+    echo '</DIV>';
 ?>
 <SCRIPT>
     var minlength = 5;
@@ -97,8 +96,6 @@ echo '</DIV>';
     function userform_submit(isSelf) {
         var formdata = getform("#userform");
         $("#edituser_error").text("");
-        //if(isSelf){if(formdata["oldpassword"] || formdata["newpassword"]){if(!formdata["oldpassword"] || !formdata["newpassword"]){//$("#edituser_error").text("Please fill in either both or neither password boxes");return false;}}}
-
         var keys = ["name", "email", "phone"];
         for (var keyid = 0; keyid < keys.length; keyid++) {
             var key = keys[keyid];
@@ -115,6 +112,7 @@ echo '</DIV>';
             if (result) {
                 if(result == "Data saved"){result = "Changes to your profile have been saved";}
                 alert(result);
+                return true;
             }
         });
         return false;
