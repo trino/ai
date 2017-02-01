@@ -117,11 +117,11 @@ $CurrentCol = 1;
         }
         $itemsInCol += $menuitemcount;
         ?>
-        <div class="" style="margin-bottom:1rem !important;">
-            <h2 class=" text-uppercase" style="">  {{$category['category']}}  </h2>
+        <div style="margin-bottom:1rem !important;">
+            <h2 class="text-xs-center">  {{$category['category']}}  </h2>
 
             @foreach ($menuitems as $menuitem)
-                <div style="padding:5px 3px" class="list-group-item-action item_{{ $catclass }}"
+                <div  class="list-group-item-action item_{{ $catclass }}"
                      itemid="{{$menuitem["id"]}}"
                      itemname="{{$menuitem['item']}}"
                      itemprice="{{$menuitem['price']}}"
@@ -158,7 +158,9 @@ $CurrentCol = 1;
                     }
                     echo $HTML;
                     ?>
+
                 >
+
                     <div class="rounded  pull-left sprite sprite-<?= $itemclass; ?> sprite-medium"></div>
                     <span style="padding-top:.45rem !important;" class="pull-left itemname">{{$menuitem['item']}} </span>
                     <span style="padding-top:.45rem !important;" class="pull-right itemname"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
