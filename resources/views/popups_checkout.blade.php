@@ -39,44 +39,46 @@
                         <h2 class="text-danger">Payment</h2>
                         <DIV ID="credit-info"></DIV>
                     </div>
+
                     <div class="col-md-12">
-
-                    <input type="text" size="20" class="form-control credit-info" data-stripe="number" placeholder="Card Number">
+                        <input type="text" size="20" class="form-control credit-info" data-stripe="number" placeholder="Card Number">
                     </div>
+
                     <div class="col-md-12">
+                        <DIV CLASS="row col-md-12" style="padding-right: 0px;">
+                            <SELECT CLASS="credit-info form-control proper-height col-md-4" data-stripe="exp_month">
+                                <OPTION VALUE="01">01/Jan</OPTION>
+                                <OPTION VALUE="02">02/Feb</OPTION>
+                                <OPTION VALUE="03">03/Mar</OPTION>
+                                <OPTION VALUE="04">04/Apr</OPTION>
+                                <OPTION VALUE="05">05/May</OPTION>
+                                <OPTION VALUE="06">06/Jun</OPTION>
+                                <OPTION VALUE="07">07/Jul</OPTION>
+                                <OPTION VALUE="08">08/Aug</OPTION>
+                                <OPTION VALUE="09">09/Sep</OPTION>
+                                <OPTION VALUE="10">10/Oct</OPTION>
+                                <OPTION VALUE="11">11/Nov</OPTION>
+                                <OPTION VALUE="12">12/Dec</OPTION>
+                            </SELECT>
 
-                    <SELECT CLASS="credit-info form-control proper-height col-md-4" data-stripe="exp_month">
-                        <OPTION VALUE="01">01/Jan</OPTION>
-                        <OPTION VALUE="02">02/Feb</OPTION>
-                        <OPTION VALUE="03">03/Mar</OPTION>
-                        <OPTION VALUE="04">04/Apr</OPTION>
-                        <OPTION VALUE="05">05/May</OPTION>
-                        <OPTION VALUE="06">06/Jun</OPTION>
-                        <OPTION VALUE="07">07/Jul</OPTION>
-                        <OPTION VALUE="08">08/Aug</OPTION>
-                        <OPTION VALUE="09">09/Sep</OPTION>
-                        <OPTION VALUE="10">10/Oct</OPTION>
-                        <OPTION VALUE="11">11/Nov</OPTION>
-                        <OPTION VALUE="12">12/Dec</OPTION>
-                    </SELECT>
+                            <SELECT CLASS="credit-info form-control proper-height col-md-4" data-stripe="exp_year">
+                                <?php
+                                    $CURRENT_YEAR = date("Y");
+                                    $TOTAL_YEARS = 6;
+                                    for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
+                                        echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
+                                    }
+                                ?>
+                            </SELECT>
 
-                    <SELECT CLASS="credit-info form-control proper-height col-md-4" data-stripe="exp_year">
-                        <?php
-                            $CURRENT_YEAR = date("Y");
-                            $TOTAL_YEARS = 6;
-                            for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
-                                echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
-                            }
-                        ?>
-                    </SELECT>
+                            <input type="text" size="4" data-stripe="cvc" CLASS="credit-info form-control proper-height col-md-4 pull-left" PLACEHOLDER="CVC">
 
-                    <input type="text" size="4" data-stripe="cvc" CLASS=" credit-info form-control proper-height col-md-4 pull-left" PLACEHOLDER="CVC">
+                            <INPUT class="credit-info" TYPE="hidden" name="istest" id="istest">
 
-                    <INPUT class="credit-info" TYPE="hidden" name="istest" id="istest">
-
-                    <a class="credit-info pull-right btn" onclick="testcard();">Card</a>
-
+                            <a class="credit-info pull-right btn" onclick="testcard();">Test Card</a>
+                        </div>
                     </div>
+
                     <div class="col-md-12">
                         <h2 class="text-danger">Restaurant</h2>
                         <SELECT class="form-control" ID="restaurant" ONCHANGE="restchange();">
