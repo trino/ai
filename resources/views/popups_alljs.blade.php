@@ -386,10 +386,9 @@
 
     //convert the order to an HTML receipt
     function generatereceipt() {
-        if ($("#myorder").length == 0) {
-            return false;
-        }
-        var HTML = '', tempHTML = "", subtotal = 0, fadein = false;
+        if ($("#myorder").length == 0) {return false;}
+        var HTML = '<div class="clearfix"></div>', tempHTML = "", subtotal = 0, fadein = false, oldvalues ="";
+        if($("#newvalues").length > 0){oldvalues = $("#newvalues").html();}
         var itemnames = {toppings: "Pizza", wings_sauce: "Lb"};
         var nonames = {toppings: "toppings", wings_sauce: "sauces"};
         for (var itemid = 0; itemid < theorder.length; itemid++) {
@@ -486,18 +485,21 @@
             $("#checkout-btn").hide();
             $("#checkout-total").text('$0.00');
         } else {
-            tempHTML = '<br><span class="pull-right category-parent"> <SPAN CLASS="category">Sub-total </SPAN>$' + subtotal.toFixed(2) + '</span><br>';
+            tempHTML = '<DIV id="newvalues"';
+            if(fadein){tempHTML += ' STYLE="display: none;"';}
+            tempHTML += '><br><span class="pull-right category-parent"> <SPAN CLASS="category">Sub-total </SPAN>$' + subtotal.toFixed(2) + '</span><br>';
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Delivery </SPAN>$' + deliveryfee.toFixed(2) + '</span><br>';
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Tax </SPAN>$' + taxes.toFixed(2) + '</span><br>';
-            tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Total </SPAN>$' + totalcost.toFixed(2) + '</span><span class=""><br>&nbsp;</span>';
+            tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Total </SPAN>$' + totalcost.toFixed(2) + '</span><span><br>&nbsp;</span></DIV>';
             $("#confirmclearorder").show();
             $("#checkout-total").text('$' + totalcost.toFixed(2));
             $("#checkout-btn").show();
         }
+        if(fadein){tempHTML += '<DIV id="oldvalues">' + oldvalues + '</div>';}
         $("#myorder").html(HTML + tempHTML);
         if (fadein) {
-            $(fadein).hide();
-            $(fadein).fadeIn();
+            $(fadein).hide().fadeIn();
+            $( "#oldvalues" ).fadeOut("slow", function() {$("#newvalues").fadeIn();});
         }
     }
 
@@ -1006,7 +1008,7 @@
                     switch (action) {
                         case "login":
                             token = data["Token"];
-                            login(data["User"], true);
+                            if(!login(data["User"], true)){redirectonlogin=false;}
                             $("#loginmodal").modal("hide");
                             if (redirectonlogin) {
                                 log("Login reload");
@@ -1162,11 +1164,14 @@
         if (user["profiletype"] == 2) {
             user["restaurant_id"] = FirstAddress;
             var URL = '<?= webroot("public/list/orders"); ?>';
+
             if (window.location.href != URL && isJSON) {
+                redirectonlogin=false;
                 window.location.href = URL;
-                die();
+                return false;
             }
         }
+        return true;
     }
 
     //convert an address to a dropdown option

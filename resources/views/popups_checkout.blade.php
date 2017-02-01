@@ -14,7 +14,6 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
 
-
             <div class="modal-header">
                 <h2 id="myModalLabel">CHECKOUT</h2>
                 <button data-dismiss="modal" data-popup-close="checkoutmodal" class="btn btn-sm  btn-danger"><i class="fa fa-close"></i></button>
@@ -29,9 +28,9 @@
                         <?= view("popups_edituser", array("email" => false, "password" => false, "phone" => true))->render(); ?>
                         <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
                         <?php
-                        if (read("id")) {
-                            echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
-                        }
+                            if (read("id")) {
+                                echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
+                            }
                         ?>
                         <span class="payment-errors"></span>
                     </div>
@@ -63,11 +62,11 @@
 
                     <SELECT CLASS="credit-info form-control proper-height col-md-4" data-stripe="exp_year">
                         <?php
-                        $CURRENT_YEAR = date("Y");
-                        $TOTAL_YEARS = 6;
-                        for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
-                            echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
-                        }
+                            $CURRENT_YEAR = date("Y");
+                            $TOTAL_YEARS = 6;
+                            for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
+                                echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
+                            }
                         ?>
                     </SELECT>
 
@@ -85,7 +84,7 @@
                         </SELECT>
                         <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook" maxlength="255"/>
                         <SELECT id="deliverytime" TITLE="Delivery Time" class="form-control proper-height"/>
-                        <OPTION>Deliver ASAP</OPTION>
+                            <OPTION>Deliver ASAP</OPTION>
                         </SELECT>
 
                         <!-- why is it when i change this to a button that clicking on please neter abn address closes the modal -->
@@ -105,17 +104,18 @@
 <SCRIPT>
     //https://stripe.com/docs/custom-form
     @if(read("id"))
-    $(document).ready(function () {
-        getcloseststore = true;
-        visible_address(false);
-        $("#saveaddresses").append('<OPTION VALUE="addaddress" ID="addaddress">Add Address</OPTION>');
-    });
-    $('#reg_phone').keypress(function () {
-        if ($('#reg_phone').valid()) {
-            clearphone();
-        }
-    });
+        $(document).ready(function () {
+            getcloseststore = true;
+            visible_address(false);
+            $("#saveaddresses").append('<OPTION VALUE="addaddress" ID="addaddress">Add Address</OPTION>');
+        });
+        $('#reg_phone').keypress(function () {
+            if ($('#reg_phone').valid()) {
+                clearphone();
+            }
+        });
     @endif
+
     function restchange() {
         var value = $("#restaurant").val();
         var index = findwhere(closest, "id", value);
