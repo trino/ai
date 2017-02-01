@@ -315,11 +315,15 @@
 
     function refreshremovebutton() {
         if (currentaddonlist[currentitemindex].length == 0) {
-            //  $("#removeitemfromorder").hide();
+            log("FADE OUT");
+            $(".removeitemarrow").fadeTo("fast", 0.50);
+            $("#removeitemfromorder").attr("title", "").attr("onclick", "").attr("style", "cursor: not-allowed");
         } else {
             var index = currentaddonlist[currentitemindex].length - 1;
             var lastitem = currentaddonlist[currentitemindex][index];
-            $("#removeitemfromorder").show().attr("title", "Remove: " + lastitem.name + " from " + $("#item_" + currentitemindex).text()).attr("onclick", "removelistitem(" + currentitemindex + ", " + index + ");");
+            log("FADE IN");
+            $(".removeitemarrow").fadeTo("fast", 1.00);
+            $("#removeitemfromorder").attr("title", "Remove: " + lastitem.name + " from " + $("#item_" + currentitemindex).text()).attr("onclick", "removelistitem(" + currentitemindex + ", " + index + ");").attr("style", "");
         }
     }
 
@@ -401,6 +405,9 @@
                 sprite = category.trim();
                 if (category.endswith("pizza")) {
                     category = "pizza";
+                    if (item["itemname"].startswith("2")){
+                        sprite = "241_pizza";
+                    }
                 }
             }
             if (item.hasOwnProperty("isnew")) {
@@ -482,6 +489,7 @@
             $("#confirmclearorder").hide();
             removeCookie("theorder");
             collapsecheckout();
+            $("#checkout-btn").hide();
             $("#checkout-btn").hide();
             $("#checkout-total").text('$0.00');
         } else {
@@ -1811,7 +1819,9 @@
         currentaddontype = table;
         var HTML = '<DIV style="background:#efefef;height:150px;overflow-y: auto;overflow-x: auto; overflow-x: auto; padding:5px;"><DIV id="theaddons"></DIV></DIV>';
 
-        HTML += '<button type="button" style="width:33.3%;text-align: left;" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" class="btn btn-sm  bg-secondary pull-right" onclick="additemtoorder();">ADD TO ORDER</button><button type="button" style="width:33.3%;text-align: left;" id="removeitemfromorder" class="btn  bg-secondary btn-sm pull-right" style="margin-left: 10px;margin-right: 10px;"><i class="fa fa-arrow-left"></i></button><button style="width:33.3%;text-align: left;" class="btn bg-secondary btn-sm pull-right pr-0"> $<SPAN ID="modal-itemtotalprice"></SPAN></button><div class="clearfix"></div> ';
+        HTML += '<button type="button" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" class="btn btn-sm kbbtn bg-secondary pull-right" onclick="additemtoorder();">ADD TO ORDER</button>';
+        HTML += '<button type="button" id="removeitemfromorder" class="btn kbbtn bg-secondary btn-sm pull-right"><i class="fa fa-arrow-left removeitemarrow"></i></button>';
+        HTML += '<button class="btn kbbtn bg-secondary btn-sm pull-right pr-0"> $<SPAN ID="modal-itemtotalprice"></SPAN></button><div class="clearfix"></div> ';
 
         if (currentstyle == 0) {
             HTML += '<DIV CLASS=" addonlist" ID="addontypes">';

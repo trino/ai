@@ -60,6 +60,11 @@ h2 {
     border-color: transparent !important;
 }
 
+.kbbtn{
+    width:33.3%;
+    text-align: left;
+}
+
 .sprite {
     background-image: url('../../public/menu/grid3.png');
     background-repeat: no-repeat;

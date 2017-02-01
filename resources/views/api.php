@@ -4,14 +4,17 @@
     date_default_timezone_set("America/Toronto");
 
     function webroot($file = "") {
+        $isSecure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443;
         $webroot = $_SERVER["REQUEST_URI"];
         $start = strpos($webroot, "/", 1) + 1;
         $webroot = substr($webroot, 0, $start);
+        $protocol = "http";
         if ($_SERVER["SERVER_NAME"] != "localhost") {
             $webroot = str_replace("application/", "", $webroot);
             $webroot = str_replace("public/", "", $webroot);
+            if($isSecure){$protocol = "https";}
         }
-        return 'http://' . $_SERVER['HTTP_HOST'] . $webroot . $file;
+        return $protocol . '://' . $_SERVER['HTTP_HOST'] . $webroot . $file;
     }
 
     $dirroot = getcwd();
