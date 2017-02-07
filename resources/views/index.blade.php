@@ -45,7 +45,7 @@
                 }
             ?>
 
-                <div class="col-md-3 bg-danger" style="padding-bottom:.5rem !important;" >
+        <div class="col-md-3 bg-danger padding-bottom-5em">
             @include("popups_checkout")
         </div>
 

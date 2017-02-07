@@ -23,10 +23,10 @@
         <INPUT TYPE="text" NAME="number" ID="add_number" PLACEHOLDER="Street Number" CLASS="form-control street_number address dont-show">
         <INPUT TYPE="text" NAME="street" ID="add_street" PLACEHOLDER="Street" CLASS="form-control route address dont-show">
         <INPUT TYPE="text" NAME="city" ID="add_city" PLACEHOLDER="City" CLASS="form-control locality address dont-show">
-        <INPUT TYPE="text" NAME="province" ID="add_province" PLACEHOLDER="Province" CLASS="form-control administrative_area_level_1 address  dont-show">
+        <INPUT TYPE="text" NAME="province" ID="add_province" PLACEHOLDER="Province" CLASS="form-control administrative_area_level_1 address dont-show">
         <INPUT TYPE="text" NAME="postalcode" ID="add_postalcode" PLACEHOLDER="Postal Code" CLASS="form-control postal_code address dont-show">
-        <INPUT TYPE="text" NAME="latitude" ID="add_latitude" PLACEHOLDER="Latitude" CLASS="form-control latitude address" style="display: none;">
-        <INPUT TYPE="text" NAME="longitude" ID="add_longitude" PLACEHOLDER="Longitude" CLASS="form-control longitude address"  style="display: none;">
+        <INPUT TYPE="text" NAME="latitude" ID="add_latitude" PLACEHOLDER="Latitude" CLASS="form-control latitude address dont-show">
+        <INPUT TYPE="text" NAME="longitude" ID="add_longitude" PLACEHOLDER="Longitude" CLASS="form-control longitude address dont-show>
         <INPUT TYPE="hidden" NAME="user_id" ID="add_user_id" PLACEHOLDER="user_id" CLASS="form-control session_id_val address" value="{{$user_id}}">
     @if($form) </FORM> @endif
 

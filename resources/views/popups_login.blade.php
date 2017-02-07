@@ -9,7 +9,7 @@
 
     <DIV CLASS="col-md-4" >
     <DIV CLASS="card card-block" >
-        <h2 style="margin: 0 0 1rem 0 !important;">Fast Pizza Delivery</h2>
+        <h2 class="small-margin">Fast Pizza Delivery</h2>
 
         <!-- Bootstrap CSS -->
         <!-- jQuery first, then Bootstrap JS. -->

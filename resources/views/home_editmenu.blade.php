@@ -71,15 +71,15 @@
                                             ?>
                                         </UL>
                                         <button class="btn btn-block btn-success" onclick="$('.newitembtn').trigger('click');">New</button>
-                                        <button ID="savechanges" class="btn btn-block btn-success changes" style="display:none;" onclick="savechanges();">Save Changes</button>
-                                        <button ID="discardchanges" class="btn btn-block  btn-secondary changes" style="display:none;" onclick="discard(false);">Discard Changes</button>
+                                        <button ID="savechanges" class="btn btn-block btn-success changes dont-show" onclick="savechanges();">Save Changes</button>
+                                        <button ID="discardchanges" class="btn btn-block  btn-secondary changes dont-show" onclick="discard(false);">Discard Changes</button>
                                     </div>
                                 </DIV>
                                 <?php
                                     $addon_tables = array("toppings", "wings_sauce");
                                     $tables = array_merge($addon_tables, array("menu", "additional_toppings"));
                                     foreach($tables as $table){
-                                        echo '<DIV ID="table_' . $table . '" CLASS="col-md-10 table_main" STYLE="display:none;">Test ' . $table . '</DIV>' . "\r\n";
+                                        echo '<DIV ID="table_' . $table . '" CLASS="col-md-10 table_main dont-show">Test ' . $table . '</DIV>' . "\r\n";
                                         echo '<datalist ID="categories_' . $table . '"></datalist>' . "\r\n";
                                     }
                                 ?>

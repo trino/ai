@@ -168,7 +168,7 @@
     }
 
     function inputbox2(Text, Title, Default, retfnc) {
-        Text += '<INPUT TYPE="TEXT" ID="modal_inputbox" CLASS="form-control" VALUE="' + Default + '" STYLE="margin-top: 15px;">';
+        Text += '<INPUT TYPE="TEXT" ID="modal_inputbox" CLASS="form-control margin-top-15px" VALUE="' + Default + '">';
         confirm2(Text, Title, function () {
             retfnc($("#modal_inputbox").val());
         });
@@ -433,7 +433,7 @@
             }
 
             tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item">';
-            tempHTML += '<span style="margin-top:1px; padding:8px 2px !important;"> <DIV  CLASS="sprite pull-left rounded sprite-' + sprite + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
+            tempHTML += '<span class="receipt-itemname"> <DIV CLASS="sprite pull-left rounded sprite-' + sprite + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
             //   tempHTML += '<span class=""></DIV> ' + item["itemname"] + '</span>';
             tempHTML += '<span class="pull-right" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '">';
             tempHTML += ' <button class="fa fa-close pull-right btn btn-sm btn-danger" onclick="removeorderitem(' + itemid + ');"></button>';
@@ -483,7 +483,7 @@
 
         createCookieValue("theorder", JSON.stringify(theorder));
         if (theorder.length == 0) {
-            HTML = '<DIV CLASS="text-center" style="color: #c9312c !important;"><i class="fa fa-shopping-cart" style="font-size: 5rem;"></i><br><h5>Order is empty</h5></div>';
+            HTML = '<DIV CLASS="text-center receipt-empty"><i class="fa fa-shopping-cart" style="fontsize-5rem"></i><br><h5>Order is empty</h5></div>';
             $("#checkout").hide();
             $("#checkoutbutton").hide();
             $("#confirmclearorder").hide();
@@ -494,7 +494,7 @@
             $("#checkout-total").text('$0.00');
         } else {
             tempHTML = '<DIV id="newvalues"';
-            if(fadein){tempHTML += ' STYLE="display: none;"';}
+            if(fadein){tempHTML += ' CLASS="dont-show"';}
             tempHTML += '><br><span class="pull-right category-parent"> <SPAN CLASS="category">Sub-total </SPAN>$' + subtotal.toFixed(2) + '</span><br>';
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Delivery </SPAN>$' + deliveryfee.toFixed(2) + '</span><br>';
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Tax </SPAN>$' + taxes.toFixed(2) + '</span><br>';
@@ -817,7 +817,7 @@
         $("#saveaddresses option").each(function () {
             var ID = $(this).val();
             if (ID > 0) {
-                HTML += '<DIV ID="add_' + ID + '"><A TITLE="Delete this address" onclick="deleteaddress(' + ID + ');" class="cursor-pointer"><i style="color:red" class="fa fa-fw fa-times"></i></A> ';
+                HTML += '<DIV ID="add_' + ID + '"><A TITLE="Delete this address" onclick="deleteaddress(' + ID + ');" class="cursor-pointer"><i class="fa fa-fw fa-times error"></i></A> ';
                 HTML += $(this).text() + '</DIV>';
                 AddNew = true;
             }
@@ -837,7 +837,7 @@
             var card = userdetails.Stripe[i];
             //id,object=card,brand,country,customer,cvc_check=pass,exp_month,exp_year=2018,funding=credit,last4=4242
             HTML += '<DIV id="card_' + i + '"><A ONCLICK="deletecard(' + i + ", '" + card.id + "', " + card.last4 + ", '" + card.exp_month.pad(2) + "', " + right(card.exp_year, 2) + ');" CLASS="cursor-pointer">';
-            HTML += '<i style="color:red" class="fa fa-fw fa-times"></i></A> ' + card.brand + ' x-' + card.last4 + ' Expires: ' + card.exp_month.pad(2) + '/' + right(card.exp_year, 2) + '</DIV>';
+            HTML += '<i class="fa fa-fw fa-times error"></i></A> ' + card.brand + ' x-' + card.last4 + ' Expires: ' + card.exp_month.pad(2) + '/' + right(card.exp_year, 2) + '</DIV>';
         }
         return HTML + '</DIV>';
     }
@@ -1691,7 +1691,7 @@
     }
 </STYLE>
 
-<div class="modal" id="alertmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static" style="z-index: 9999;">
+<div class="modal z-index-9999" id="alertmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -1749,9 +1749,7 @@
             var tempstr = '';
             var classname = 'itemcontents itemcontents' + itemindex;
 
-            HTML += '<DIV style="margin-bottom:10px;border:1px solid #dadada;border-radius:.2rem;padding:.25rem .25rem;width:100% !important;float:left" ' +
-                'ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="currentitem currentitem' + itemindex;
-
+            HTML += '<DIV class="receipt-addons" ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="currentitem currentitem' + itemindex;
             if (currentitemindex == itemindex) {
                 HTML += ' thisside';
             }
@@ -1818,7 +1816,7 @@
 
     function list_addons(table, halves) {
         currentaddontype = table;
-        var HTML = '<DIV style="background:#efefef;height:150px;overflow-y: auto;overflow-x: auto; overflow-x: auto; padding:5px;"><DIV id="theaddons"></DIV></DIV>';
+        var HTML = '<DIV class="receipt-addons-list"><DIV id="theaddons"></DIV></DIV>';
 
         HTML += '<button type="button" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" class="btn btn-sm kbbtn bg-secondary pull-right" onclick="additemtoorder();">ADD TO ORDER</button>';
         HTML += '<button type="button" id="removeitemfromorder" class="btn kbbtn bg-secondary btn-sm pull-right"><i class="fa fa-arrow-left removeitemarrow"></i></button>';
@@ -1840,7 +1838,7 @@
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
-                    HTML += '<div style="width:33.3%;text-align:left !important;" class="btn-sm toppings_btn btn addon-addon';
+                    HTML += '<div class="btn-sm toppings_btn btn addon-addon';
                     if (isaddon_free(String(currentaddontype), String(addon))) {
                         HTML += ' btn-secondary';//this should be different from a paid topping
                         title = "Free addon";

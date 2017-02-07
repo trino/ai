@@ -227,6 +227,10 @@
                 .table-odd{
                     border-color: transparent;
                 }
+
+                .overflow-x-scroll{
+                    overflow-x: scroll;
+                }
             </STYLE>
             <div class="row m-t-1">
                 <div class="col-md-12">
@@ -247,7 +251,7 @@
                                 @endif
                             </h2>
                         </div>
-                        <div class="card-block" style="overflow-x: scroll;">
+                        <div class="card-block overflow-x-scroll">
                             <div class="row">
                                 <div class="col-md-12">
                                     @if(read("profiletype") != 1 && $adminsonly)
@@ -308,7 +312,7 @@
                                                         echo view("popups_address", $_GET)->render();
                                                         break;
                                                     case "restaurants":
-                                                        echo '<DIV ID="addressdropdown" STYLE="display: none;" class="addressdropdown"></DIV>';
+                                                        echo '<DIV ID="addressdropdown" class="addressdropdown dont-show"></DIV>';
                                                         break;
                                                     case "orders":
                                                         if(isset($_GET["restaurant"]) && $_GET["restaurant"]){
@@ -837,7 +841,7 @@
                             orderid: ID
                         }, function (result) {
                             if(result) {
-                                var button = '<DIV CLASS="col-md-4"><button style="width: 100%;" data-dismiss="modal" class="btn btn-';
+                                var button = '<DIV CLASS="col-md-4"><button data-dismiss="modal" class="width-full btn btn-';
                                 var HTML = button + 'primary" onclick="changeorderstatus(' + ID + ', 1);">Confirm</button></DIV>';
                                 HTML += button + 'secondary pull-center" onclick="changeorderstatus(' + ID + ');"><i class="fa fa-envelope"></I> Email</button></DIV>';
                                 HTML += button + 'danger pull-right" onclick="changeorderstatus(' + ID + ', 2);">Decline</button></DIV>';

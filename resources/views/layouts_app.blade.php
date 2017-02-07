@@ -56,7 +56,7 @@
 
 <?= view("popups_navbar")->render(); ?>
 
-<div class="container-fluid" style="">
+<div class="container-fluid">
     @yield('content')
 </div>
 

@@ -184,8 +184,31 @@ input, textarea, select {
     border-radius: 0 !important;
     border: 1px solid #ddd !important;
     margin-bottom: -1px !important;
-
 }
+
+.float-right{float: right;}
+.padding-bottom-5em{padding-bottom:.5rem !important;}
+.z-index-9999{z-index: 9999;}
+.white{color:white !important;}
+.padding-right-0{padding-right: 0px;}
+.padding-top-0{padding-top:0 !important;}
+.small-margin{margin: 0 0 1rem 0 !important;}
+.sticky-footer{bottom: 45px; right: 10px;}
+.padding-top-45rem{padding-top:.45rem !important;}
+.margin-x-10px{margin-left: 10px;margin-right: 10px;}
+.bold{font-weight: bold;}
+.fontsize-1p25rem{font-size: 1.25rem;}
+.fontsize-5rem{font-size: 5rem;}
+.navbar{padding:1rem 0;z-index: 1;border-radius: 0 !important;margin:0 0 1rem 0 !important;}
+.margin-bottom-1rem{margin-bottom:1rem !important;}
+.width-full{width: 100%;}
+.margin-top-15px{margin-top: 15px;}
+
+.receipt-itemname{margin-top:1px; padding:8px 2px !important;}
+.receipt-empty{color: #c9312c !important;}
+.receipt-addons{margin-bottom:10px;border:1px solid #dadada;border-radius:.2rem;padding:.25rem .25rem;width:100% !important;float:left;}
+.receipt-addons-list{background:#efefef;height:150px;overflow-y: auto;overflow-x: auto; overflow-x: auto; padding:5px;}
+.addon-addon{width:33.3%;text-align:left !important;}
 
 input {
     padding-left: 1rem !important;

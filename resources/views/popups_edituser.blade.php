@@ -4,74 +4,38 @@
     if (isset($user_id)) {
         $user = first("SELECT * FROM users WHERE id=" . $user_id);
         echo '<INPUT TYPE="HIDDEN" NAME="id" VALUE="' . $user_id . '">';
-        if (!isset($name)) {
-            $name = "user";
-        }
+        if (!isset($name)) {$name = "user";}
     } else {
         $user = array("name" => "", "phone" => "", "email" => "");
-        if (!isset($name)) {
-            $name = "reg";
-        }
+        if (!isset($name)) {$name = "reg";}
     }
     if (!function_exists("printarow")) {
         function printarow($Name, $Prepend, $field) {
-            if ($field["type"] != "hidden") {
-                echo '';
-            }
+            if ($field["type"] != "hidden") {echo '';}
             echo '<INPUT TYPE="' . $field["type"] . '" NAME="' . $field["name"] . '" ID="' . $Prepend . '_' . $field["name"] . '"';
-            if (isset($field["class"])) {
-                echo ' CLASS="' . $field["class"] . '" ';
-            }
-            if (isset($field["value"])) {
-                echo ' value="' . $field["value"] . '" ';
-            }
-            if (isset($field["min"])) {
-                echo ' min="' . $field["min"] . '" ';
-            }
-            if (isset($field["maxlen"])) {
-                echo ' min="' . $field["maxlen"] . '" ';
-            }
-            if (isset($field["max"])) {
-                echo ' max="' . $field["max"] . '" ';
-            }
-            if (isset($field["readonly"])) {
-                echo ' readonly';
-            }
-            if (isset($field["autocomplete"]) && $field["autocomplete"]) {
-                echo ' autocomplete="' . $field["autocomplete"] . '"';
-            }
-            if (isset($field["placeholder"])) {
-                echo ' placeholder="' . $field["placeholder"] . '" ';
-            }
-            if (isset($field["corner"])) {
-                echo ' STYLE="border-' . $field["corner"] . '-radius: 5px;"';
-            }
-            if (isset($field["required"]) && $field["required"]) {
-                echo ' REQUIRED';
-            }
+            if (isset($field["class"]))                                     {echo ' CLASS="' . $field["class"] . '" ';}
+            if (isset($field["value"]))                                     {echo ' value="' . $field["value"] . '" ';}
+            if (isset($field["min"]))                                       {echo ' min="' . $field["min"] . '" ';}
+            if (isset($field["maxlen"]))                                    {echo ' min="' . $field["maxlen"] . '" ';}
+            if (isset($field["max"]))                                       {echo ' max="' . $field["max"] . '" ';}
+            if (isset($field["readonly"]))                                  {echo ' readonly';}
+            if (isset($field["autocomplete"]) && $field["autocomplete"])    {echo ' autocomplete="' . $field["autocomplete"] . '"';}
+            if (isset($field["placeholder"]))                               {echo ' placeholder="' . $field["placeholder"] . '" ';}
+            if (isset($field["corner"]))                                    {echo ' STYLE="border-' . $field["corner"] . '-radius: 5px;"';}
+            if (isset($field["required"]) && $field["required"])            {echo ' REQUIRED';}
             echo '>';
-            if ($field["type"] != "hidden") {
-                echo '';
-            }
+            //if ($field["type"] != "hidden")                               {echo '';}
         }
     }
 
-    if (!isset($password)) {
-        $password = true;
-    }
-    if (!isset($email)) {
-        $email = true;
-    }
-    if (!isset($autocomplete)) {
-        $autocomplete = "";
-    }
+    if (!isset($password)) {$password = true;}
+    if (!isset($email)) {$email = true;}
+    if (!isset($autocomplete)) {$autocomplete = "";}
 
     echo '<DIV>';
     printarow("Name", $name, array("name" => "name", "value" => $user["name"], "type" => "text", "placeholder" => "Name", "class" => "form-control session_name_val"));
     if (!isset($phone) || $phone) {
-        if (!isset($phone)) {
-            $phone = false;
-        }
+        if (!isset($phone)) {$phone = false;}
         printarow("Phone", $name, array("name" => "phone", "value" => $user["phone"], "type" => "tel", "placeholder" => "Cell", "class" => "form-control session_phone_val", "required" => $phone));
     }
     if ($email) {

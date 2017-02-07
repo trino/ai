@@ -111,7 +111,7 @@
             }
             $itemsInCol += $menuitemcount;
         ?>
-        <div style="margin-bottom:1rem !important;">
+        <div class="margin-bottom-1rem">
             <h2 class="text-xs-center">  {{$category['category']}}  </h2>
 
             @foreach ($menuitems as $menuitem)
@@ -159,8 +159,8 @@
                 >
 
                     <div class="rounded  pull-left sprite sprite-<?= $itemclass; ?> sprite-medium"></div>
-                    <span style="padding-top:.45rem !important;" class="pull-left itemname">{{$menuitem['item']}} </span>
-                    <span style="padding-top:.45rem !important;" class="pull-right itemname"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
+                    <span class="padding-top-45rem" class="pull-left itemname">{{$menuitem['item']}} </span>
+                    <span class="pull-right itemname padding-top-45rem"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
                     <div class="clearfix"></div>
                 </div>
             @endforeach
@@ -179,7 +179,7 @@
 <div class="modal" id="menumodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div style="display: none;" id="modal-hiddendata">
+            <div class="dont-show" id="modal-hiddendata">
                 <SPAN ID="modal-itemprice"></SPAN>
                 <SPAN ID="modal-itemid"></SPAN>
                 <SPAN ID="modal-itemsize"></SPAN>
@@ -193,7 +193,7 @@
                 <button data-dismiss="modal" class="btn btn-sm btn-danger"><i class="fa fa-close"></i></button>
             </div>
 
-            <div class="modal-body" style="padding-top:0 !important;">
+            <div class="modal-body padding-top-0">
                 <div class="row">
                     <DIV ID="addonlist" class="addonlist"></DIV>
                     <div class="clearfix"></div>
@@ -204,9 +204,9 @@
                                 id="additemtoorder" class="btn btn-primary btn-sm pull-right"
                                 onclick="additemtoorder();"><i class="fa fa-check"></i></button>
 
-                        <button type="button" id="removeitemfromorder" class="btn btn-danger btn-sm  pull-right" style="margin-left: 10px;margin-right: 10px;"><i class="fa fa-trash"></i></button>
+                        <button type="button" id="removeitemfromorder" class="btn btn-danger btn-sm pull-right margin-x-10px"><i class="fa fa-trash"></i></button>
 
-                        <button class="btn btn-secondary btn-sm  pull-right"> $<SPAN ID="modal-itemtotalprice"></SPAN></button>
+                        <button class="btn btn-secondary btn-sm pull-right"> $<SPAN ID="modal-itemtotalprice"></SPAN></button>
                     </div>
                     <div class="clearfix"></div>
                 </div>

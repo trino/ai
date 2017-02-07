@@ -1,6 +1,6 @@
 <?php startfile("popups_checkout"); ?>
 
-<h2 style="color:white !important;">MY ORDER
+<h2 class="white">MY ORDER
     <button class="btn btn-danger pull-right btn-sm dont-show" ONCLICK="confirmclearorder();" id="confirmclearorder"><i class="fa fa-close"></i></button>
 </h2>
 
@@ -45,7 +45,7 @@
                     </div>
 
                     <div class="col-md-12">
-                        <DIV CLASS="row col-md-12" style="padding-right: 0px;">
+                        <DIV CLASS="row col-md-12 padding-right-0">
                             <SELECT CLASS="credit-info form-control proper-height col-md-4" data-stripe="exp_month">
                                 <OPTION VALUE="01">01/Jan</OPTION>
                                 <OPTION VALUE="02">02/Feb</OPTION>
