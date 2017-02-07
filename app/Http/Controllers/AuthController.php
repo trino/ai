@@ -153,7 +153,28 @@ class AuthController extends Controller {
                         $address["user_id"] = insertdb("users", $_POST);
                         insertdb("useraddresses", $address);
 
-                        $this->sendverifemail($_POST["email"], $RequireAuthorization, $oldpassword);
+                        $actions = actions("user_registered");//phone sms email
+                        foreach($actions as $action){
+                            switch($action["party"]){
+                                case 0://customer
+                                    if($action["email"]){$this->sendverifemail($_POST["email"], $RequireAuthorization, $oldpassword);}
+                                    if($action["phone"]){$this->sendSMS($_POST["phone"], $action["message"], true);}
+                                    if($action["sms"]){$this->sendSMS($_POST["phone"], $action["message"]);}
+                                    break;
+                                case 1://admin
+                                    if($action["email"]){
+                                        $this->sendEMail("email_test", array(
+                                            'mail_subject' => "A new user has registered",
+                                            "email" => "admin",
+                                            "body" => $_POST["name"] . " has registered"
+                                        ));
+                                    }
+                                    if($action["phone"]){$this->sendSMS("van", $action["message"], true);}
+                                    if($action["sms"]){$this->sendSMS("van", $action["message"]);}
+                                    break;
+                                //case 2://restaurant
+                            }
+                        }
                         break;
                     case "forgotpassword":
                         $ret["Status"] = false;

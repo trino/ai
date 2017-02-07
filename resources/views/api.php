@@ -570,4 +570,12 @@
     function countSQL($table, $SQL = "*"){
         return first("SELECT COUNT(" . $SQL  . ") as count FROM " . $table)["count"];
     }
+
+    function actions($eventname, $party = -1){
+        //party:  0=customer, 1=admin, 2=restaurant
+        //events: order_placed, order_canceled/order_pending/order_confirmed/order_declined/order_delivered (done), user_registered (done)
+        $SQL = "SELECT party, sms, phone, email, message FROM actions WHERE eventname = '" . $eventname . "'";
+        if($party>-1){$SQL .= " AND party = " . $party;}
+        return first($SQL, $party>-1);
+    }
 ?>

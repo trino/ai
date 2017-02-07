@@ -50,7 +50,7 @@
             $datafields=false;
             break;
         case "actions":
-            $fields=array("id", "eventname", "party", "sms", "phone", "email");//all fields
+            $fields=true;
             break;
         case "users":
             $faicon = "user";
