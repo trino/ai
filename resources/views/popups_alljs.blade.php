@@ -835,8 +835,9 @@
         }
         for (var i = 0; i < userdetails.Stripe.length; i++) {
             var card = userdetails.Stripe[i];
+            //id,object=card,brand,country,customer,cvc_check=pass,exp_month,exp_year=2018,funding=credit,last4=4242
             HTML += '<DIV id="card_' + i + '"><A ONCLICK="deletecard(' + i + ", '" + card.id + "', " + card.last4 + ", '" + card.exp_month.pad(2) + "', " + right(card.exp_year, 2) + ');" CLASS="cursor-pointer">';
-            HTML += '<i style="color:red" class="fa fa-fw fa-times"></i></A> **** **** **** ' + card.last4 + ' Expires: ' + card.exp_month.pad(2) + '/' + right(card.exp_year, 2) + '</DIV>';
+            HTML += '<i style="color:red" class="fa fa-fw fa-times"></i></A> ' + card.brand + ' x-' + card.last4 + ' Expires: ' + card.exp_month.pad(2) + '/' + right(card.exp_year, 2) + '</DIV>';
         }
         return HTML + '</DIV>';
     }
@@ -1686,7 +1687,7 @@
         left: 0;
         height: 100%;
         width: 100%;
-        background: rgba(255, 255, 255, .8) url('<?= webroot("public/slice.gif"); ?>') 50% 50% no-repeat;
+        background: rgba(255, 255, 255, .8) url('<?= webroot("public/images/slice.gif"); ?>') 50% 50% no-repeat;
     }
 </STYLE>
 
