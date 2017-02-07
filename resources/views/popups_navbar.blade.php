@@ -1,5 +1,5 @@
 <nav class="shadow dont-print bg-danger text-white navbar">
-    <div class="container-fluid">
+    <div class="margin-x-10px" oldclass="container-fluid">
         <a HREF="<?= webroot("public/index"); ?>" onclick="history.go(0);" class="text-white text-center bold" href="/">
             londonpizza.ca
         </a>

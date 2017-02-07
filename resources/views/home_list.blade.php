@@ -49,6 +49,9 @@
         case "all":case "debug"://system value
             $datafields=false;
             break;
+        case "actions":
+            $fields=array("id", "eventname", "party", "sms", "phone", "email");//all fields
+            break;
         case "users":
             $faicon = "user";
             $fields = array("id", "name", "phone", "profiletype", "authcode", "email");
@@ -260,7 +263,7 @@
                                     @elseif($table == "all")
                                         <?php
                                             //show all administratable tables
-                                            foreach(array("users", "restaurants", "useraddresses", "orders") as $table){
+                                            foreach(array("users", "restaurants", "useraddresses", "orders", "actions") as $table){
                                                 echo '<A HREF="' . webroot("public/list/" . $table) . '">' . ucfirst($table) . ' list</A><BR>';
                                             }
                                         ?>
@@ -414,13 +417,21 @@
                                         for (var v = 0; v < fields.length; v++) {
                                             var field = data.table[i][fields[v]];
                                             switch(table + "." + fields[v]){
-                                                case "orders.status": field = statuses[field]; break;
-                                                case "users.profiletype": field = usertype[field]; break;
+                                                case "orders.status":                               field = statuses[field]; break;
+                                                case "users.profiletype":case "actions.party":      field = usertype[field]; break;
                                                 case "users.authcode":
                                                     if(field){
                                                         field = "Not Authorized";
                                                     } else {
                                                         field = "Authorized";
+                                                    }
+                                                    break;
+
+                                                case "actions.sms":case "actions.phone":case "actions.email":
+                                                    if(field == 1){
+                                                        field = "Yes";
+                                                    } else {
+                                                        field = "No";
                                                     }
                                                     break;
                                             }
@@ -437,7 +448,7 @@
                                         switch(table){
                                             case "users":
                                                 tempHTML += '<A CLASS="btn btn-sm btn-success" href="' + baseURL + 'useraddresses?user_id=' + ID + '">Addresses</A> ';
-                                                tempHTML += '<A CLASS="btn btn-sm  btn-secondary" href="{{ webroot("public/user/info/") }}' + ID + '">Edit</A> ';
+                                                tempHTML += '<A CLASS="btn btn-sm btn-secondary" href="{{ webroot("public/user/info/") }}' + ID + '">Edit</A> ';
                                                 tempHTML += '<A CLASS="btn btn-sm btn-success" ONCLICK="changepass(' + ID + ');" TITLE="Change their password">Password2 </A> ';
                                                 break;
                                             case "useraddresses":
@@ -503,13 +514,14 @@
                                                 isText=true;
                                                 var isSelect=false;
                                                 var title="";
+                                                log("Type clicked: " + column["Type"] + " Colname: " + colname);
                                                 switch(column["Type"]){
                                                     //timestamp (date)
                                                     case "tinyint": case "smallint": case "mediumint": case "bigint":case "int":case "double":
                                                     case "tinyintunsigned": case "smallintunsigned": case "mediumintunsigned": case "bigintunsigned": case "intunsigned":
                                                         var min = intranges[column["Type"]]["min"];
                                                         var max = intranges[column["Type"]]["max"];
-                                                        switch(colname){
+                                                        switch(colname){//numbers only
                                                             case "orders.placed_at": return; break;
                                                             case "orders.status":
                                                                 isSelect=true;
@@ -527,7 +539,14 @@
                                                                 HTML = $("#addressdropdown").html().replace('class="form-control" id="saveaddresses"', 'CLASS="selectfield form-control" ID="' + ID + "_" + field + '" COLNAME="' + colname + '"').replace('value="' + HTML + '"', 'value="' + HTML + '" SELECTED');
                                                                 console.log(HTML + " was edited");
                                                                 break;
+
+                                                            case "actions.sms":case "actions.phone":case "actions.email"://boolean values
+                                                                isSelect=true;
+                                                                HTML = makeselect(ID + "_" + field, "selectfield form-control", colname, HTML, [{value: 0, text: "No"}, {value: 1, text: "Yes"}]   );
+                                                                break;
+
                                                             default:
+                                                                title= "Type: " + colname;
                                                                 HTML = '<INPUT TYPE="NUMBER" ID="' + ID + "_" + field + '" VALUE="' + HTML + '" CLASS="textfield" TITLE="' + title + '" MIN="';
                                                                 HTML += min + '" MAX="' + max + '" COLNAME="' + colname + '">';
                                                         }
@@ -538,6 +557,10 @@
                                                                 edititem(ID, "authcode", "");
                                                                 alert(makestring("{user_auth}"));
                                                                 return;
+                                                                break;
+                                                            case "actions.party":
+                                                                isSelect=true;
+                                                                HTML = makeselect(ID + "_" + field, "selectfield form-control", colname, HTML, arraytooptions(usertype));
                                                                 break;
                                                             default:
                                                                 HTML = '<INPUT TYPE="TEXT" ID="' + ID + "_" + field + '" VALUE="' + HTML + '" CLASS="textfield" COLNAME="' + colname;
@@ -759,6 +782,9 @@
                                 case "orders.status":
                                     newdata = statuses[data];
                                     break;
+                                case "actions.sms":case "actions.phone":case "actions.email":
+                                    if(data == 1){newdata = "Yes";} else {newdata = "No";}
+                                break;
                             }
                             log("Verifying: " + colname + " = '" + data + "' (" + datatype + ")");
                             if(datatype) {

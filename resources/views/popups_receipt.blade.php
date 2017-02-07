@@ -109,9 +109,8 @@
             $time = floor($minutes / 60) . ":" . minpad($minutes % 60);
         }
         $time .= ":" . minpad($seconds);
-    } else {
-
     }
+    $onlydebug = "Only shows in debug mode! - ";
 ?>
 
 @if($style==1)
@@ -145,13 +144,13 @@
             <TH class="text-xs-right"> Sub-total</TH>
             <TH>Addons</TH>
             @if($debugmode)
-                <TH>Addon Count</TH>
+                <TH TITLE="<?= $onlydebug; ?>">Addon Count</TH>
             @endif
             <th class="text-xs-right">Total</th>
         </TR>
-        @else
-            <TABLE WIDTH="100%" class="noborder" cellspacing="0" cellpadding="0">
-                @endif
+@else
+    <TABLE WIDTH="100%" class="noborder" cellspacing="0" cellpadding="0">
+@endif
                 <?php
                     $integrity = true;
                     if (!function_exists("findkey")) {
@@ -233,11 +232,11 @@
                                         switch ($style) {
                                             case 1:
                                                 if ($debugmode) {
-                                                    $debug = ' TITLE="' . var_export($item, true) . '"';
+                                                    $debug = ' TITLE="' . $onlydebug . var_export($item, true) . '"';
                                                 }
                                                 echo '<TR><TD>' . ($ID + 1) . '</TD><TD' . $debug . '>' . $item->itemname . '</TD>';
                                                 if ($debugmode) {
-                                                    $debug = ' TITLE="' . print_r($menuitem, true) . '"';
+                                                    $debug = ' TITLE="' . $onlydebug . print_r($menuitem, true) . '"';
                                                 }
                                                 echo '<TD ALIGN="RIGHT"' . $debug . '>$' . number_format($menuitem["price"], 2) . '</TD><TD>';
                                                 break;
@@ -291,7 +290,7 @@
                                                         $paidtoppings++;
                                                     }
                                                     if ($debugmode) {
-                                                        $debug = ' TITLE="' . print_r($topping, true) . '"';
+                                                        $debug = ' TITLE="' . $onlydebug . print_r($topping, true) . '"';
                                                     }
                                                     $newtoppings[] = '<SPAN' . $debug . '>' . $topping["name"] . '</SPAN>';
                                                 }
@@ -324,7 +323,7 @@
                                                     echo '<BR>$' . number_format($addonscost, 2) . '<BR>each';//'<BR>' . $size .
                                                 }
                                                 if ($debugmode) {
-                                                    $debug = ' TITLE="User side: $' . $item->itemprice . '"';
+                                                    $debug = ' TITLE="' . $onlydebug . 'User side: $' . $item->itemprice . '"';
                                                 }
                                                 echo '</TD>';
                                             }

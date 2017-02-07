@@ -162,7 +162,7 @@
         var data = $(ID).serializeArray();
         var ret = {};
         for (var i = 0; i < data.length; i++) {
-            ret[data[i].name] = data[i].value;
+            ret[data[i].name] = data[i].value.trim();
         }
         return ret;
     }
@@ -1075,7 +1075,7 @@
             $("#alert-cancel").hide();
             /*
              $("#alert-ok").click(function () {
-             });
+             });  //why are these commented out? these are needed!
 
              $("#alert-confirm").click(function () {
              });   */
@@ -1102,7 +1102,7 @@
                 } else {
                     loading(true, "ajaxStart");
                     previoushash = window.location.hash;
-                    window.location.hash = "loading";
+                    window.history.pushState({}, '', '#loading');
                 }
             },
             ajaxStop: function () {
@@ -1110,15 +1110,15 @@
                     skipunloadingscreen = false;
                 } else {
                     loading(false, "ajaxStop");
+                    window.history.pushState({}, '', '#' + previoushash);
                 }
                 skipone = Date.now() + 100;//
-                window.location.hash = previoushash;
             }
         });
 
         @if(isset($user) && $user)
             login(<?= json_encode($user); ?>, false); //user is already logged in, use the data
-                @endif
+        @endif
 
         var HTML = '';
         var todaysdate = isopen(generalhours);
@@ -1218,7 +1218,7 @@
         clearphone();
         var Selected = $("#saveaddresses option:selected");
         var SelectedVal = $(Selected).val();
-//log("Selected: " + SelectedVal);
+    //log("Selected: " + SelectedVal);
         var Text = '<?= $STREET_FORMAT; ?>';
         visible_address(false);
         $("#add_unit").hide();
@@ -1258,7 +1258,7 @@
         }
         if (request.status != 200 && request.status > 0) {//not OK, or aborted
             var text = request.responseText;
-            if (text.indexOf('Whoops, looks like something went wrong.') > -1) {
+            if (text.indexOf('Whoops, looks like something went wrong.') > -1 && text.indexOf('<span class="exception_title">') > -1) {
                 text = text.between('<span class="exception_title">', '</h2>');
                 text = text.replace(/<(?:.|\n)*?>/gm, '');
                 if (text.indexOf('TokenMismatchException') > -1) {
@@ -1376,17 +1376,11 @@
 
     var closest = false;
     function addresshaschanged() {
-        if (!getcloseststore) {
-            return;
-        }
+        if (!getcloseststore) {return;}
         var formdata = getform("#orderinfo");
         formdata.limit = 10;
-        if (!formdata.latitude || !formdata.longitude) {
-            return;
-        }
-        if (!debugmode) {
-            formdata.radius = MAX_DISTANCE;
-        }
+        if (!formdata.latitude || !formdata.longitude) {return;}
+        if (!debugmode) {formdata.radius = MAX_DISTANCE;}
         skiploadingscreen = true;
         //canplaceorder = false;
 
@@ -2046,6 +2040,29 @@
         //window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);//instantaneous
         $('html,body').animate({scrollTop: document.body.scrollHeight}, "slow");
     }
+
+
+    /*
+    function OnFirstLoad() {
+        if (document.attachEvent) {
+            document.attachEvent('onscroll', scrollEvent);
+        } else if (document.addEventListener) {
+            document.addEventListener('scroll', scrollEvent, false);
+        }
+        log("Scroll monitor!");
+    }
+    $(document).ready(function () {
+        OnFirstLoad();
+    });
+    function stackTrace() {
+        var err = new Error();
+        return err.stack;
+    }
+    function scrollEvent(e) {
+        var caller = stackTrace();
+        log("SCROLLING: " + caller);
+    }
+    */
 </SCRIPT>
 
 <script type="text/javascript">
