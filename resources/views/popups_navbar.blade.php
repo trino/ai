@@ -11,7 +11,7 @@
         <ul class="dropdown-menu dropdown-menu-right">
             <SPAN class="loggedin profiletype profiletype1">
                 <?php
-                    foreach (array("users", "restaurants", "useraddresses", "orders", "additional_toppings") as $table) {
+                    foreach (array("users", "restaurants", "useraddresses", "orders", "additional_toppings", "actions") as $table) {
                         echo '  <li><A HREF="' . webroot("public/list/" . $table) . '" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> ' . ucfirst($table) . ' list</A></li>';
                     }
                 ?>
