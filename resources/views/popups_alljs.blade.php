@@ -393,6 +393,7 @@
         if ($("#myorder").length == 0) {return false;}
         var HTML = '<div class="clearfix"></div>', tempHTML = "", subtotal = 0, fadein = false, oldvalues ="";
         if($("#newvalues").length > 0){oldvalues = $("#newvalues").html();}
+        $("#oldvalues").html("");
         var itemnames = {toppings: "Pizza", wings_sauce: "Lb"};
         var nonames = {toppings: "toppings", wings_sauce: "sauces"};
         for (var itemid = 0; itemid < theorder.length; itemid++) {
