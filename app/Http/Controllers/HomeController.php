@@ -160,19 +160,23 @@ class HomeController extends Controller {
             foreach($actions as $action) {
                 switch ($action["party"]) {
                     case 0://customer
+                        $party = "customer";
                         $email = $user["email"];
                         $phone = $user["phone"];
                         break;
                     case 1://admin
+                        $party = "admin";
                         $email = "admin";
                         $phone = "van";
                         break;
                     case 2://restaurant
+                        $party = "restaurant";
                         $email = $restaurant["user"]["email"];
                         $phone = $restaurant["user"]["phone"];
                         break;
                 }
                 if($action["email"]) {
+                    debugprint("Sending email to " . $party . ": " . $email);
                     $this->sendEMail("email_receipt", ["orderid" => $orderid, "email" => $email, "mail_subject" => $action["message"]]);//send emails to customer also generates the cost
                 }
                 if($action["sms"]){$this->sendSMS($phone, $action["message"]);}
