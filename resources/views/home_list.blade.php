@@ -528,7 +528,7 @@
                                                                 HTML = makeselect(ID + "_" + field, "selectfield form-control", colname, HTML, arraytooptions(statuses));
                                                                 break;
 
-                                                            case "users.profiletype":
+                                                            case "users.profiletype": case "actions.party":
                                                                 isSelect=true;
                                                                 HTML = makeselect(ID + "_" + field, "selectfield form-control", colname, HTML, arraytooptions(usertype));
                                                                 break;
@@ -557,10 +557,6 @@
                                                                 edititem(ID, "authcode", "");
                                                                 alert(makestring("{user_auth}"));
                                                                 return;
-                                                                break;
-                                                            case "actions.party":
-                                                                isSelect=true;
-                                                                HTML = makeselect(ID + "_" + field, "selectfield form-control", colname, HTML, arraytooptions(usertype));
                                                                 break;
                                                             default:
                                                                 HTML = '<INPUT TYPE="TEXT" ID="' + ID + "_" + field + '" VALUE="' + HTML + '" CLASS="textfield" COLNAME="' + colname;
@@ -772,7 +768,7 @@
                                     newdata = clean_data(data, "phone");
                                     datatype="phone number";
                                     break;
-                                case "users.profiletype":
+                                case "users.profiletype":case "actions.party":
                                     newdata = usertype[data];
                                     break;
                                 case "users.email":case "restaurants.email":
