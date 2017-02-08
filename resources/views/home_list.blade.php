@@ -257,9 +257,14 @@
                         <div class="card-block overflow-x-scroll">
                             <div class="row">
                                 <div class="col-md-12">
-                                    @if(read("profiletype") != 1 && $adminsonly)
+                                    @if(read("profiletype") != 1 && $adminsonly || !read("id"))
                                         You are not authorized to view this page
-                                        <a class="loggedout dropdown-item hyperlink" data-toggle="modal" data-target="#loginmodal"> <i class="fa fa-home"></i> Log In</a>
+                                        <!--a class="loggedout dropdown-item hyperlink" data-toggle="modal" data-target="#loginmodal"> <i class="fa fa-home"></i> Log In</a-->
+                                        <?php
+                                            if(!read("id")){
+                                                echo view("popups_login")->render();
+                                            }
+                                        ?>
                                     @elseif($table == "all")
                                         <?php
                                             //show all administratable tables
@@ -385,6 +390,29 @@
                         return name.join(" ");
                     }
 
+                    function getdata(field, data){
+                        switch(table + "." + field){
+                            case "orders.status":                               return statuses[data]; break;
+                            case "users.profiletype":case "actions.party":      return usertype[data]; break;
+                            case "users.authcode":
+                                if(data){
+                                    return "Not Authorized";
+                                } else {
+                                    return "Authorized";
+                                }
+                                break;
+
+                            case "actions.sms":case "actions.phone":case "actions.email":
+                            if(data == 1){
+                                return "Yes";
+                            } else {
+                                return "No";
+                            }
+                            break;
+                        }
+                        return data;
+                    }
+
                     //gets a page of data from the server, convert it to HTML
                     function getpage(index, makenew){
                         if(index==-1){index = lastpage;}
@@ -416,26 +444,7 @@
                                         if(TableStyle == '1'){tempHTML += '<TR><TD COLSPAN="2" CLASS="' + evenodd + '" ALIGN="CENTER"><B>' + ID + '</B></TD></TR>';}
                                         for (var v = 0; v < fields.length; v++) {
                                             var field = data.table[i][fields[v]];
-                                            switch(table + "." + fields[v]){
-                                                case "orders.status":                               field = statuses[field]; break;
-                                                case "users.profiletype":case "actions.party":      field = usertype[field]; break;
-                                                case "users.authcode":
-                                                    if(field){
-                                                        field = "Not Authorized";
-                                                    } else {
-                                                        field = "Authorized";
-                                                    }
-                                                    break;
-
-                                                case "actions.sms":case "actions.phone":case "actions.email":
-                                                    if(field == 1){
-                                                        field = "Yes";
-                                                    } else {
-                                                        field = "No";
-                                                    }
-                                                    break;
-                                            }
-
+                                            field = getdata(fields[v], field);
                                             if(TableStyle == '1'){tempHTML += '<TR><TD CLASS="' + evenodd + '">' + tofieldname(fields[v]) + '</TD>';}
                                             tempHTML += '<TD NOWRAP ID="' + table + "_" + ID + "_" + fields[v] + '" class="field ' + evenodd + '" field="' + fields[v] + '" index="' + ID + '">' + field + '</TD>';
                                             if(TableStyle == '1'){tempHTML += '</TR>';}
@@ -763,25 +772,19 @@
                         var newdata=data;
                         if(data) {
                             var datatype="";
+                            newdata = getdata(field, data);
+
                             switch (colname) {
                                 case "users.phone":case "restaurants.phone":
-                                    newdata = clean_data(data, "phone");
+                                    newdata = clean_data(newdata, "phone");
                                     datatype="phone number";
-                                    break;
-                                case "users.profiletype":case "actions.party":
-                                    newdata = usertype[data];
                                     break;
                                 case "users.email":case "restaurants.email":
                                     if(validate_data(data, "email")){newdata = clean_data(data, "email");}
                                     datatype="email address";
                                     break;
-                                case "orders.status":
-                                    newdata = statuses[data];
-                                    break;
-                                case "actions.sms":case "actions.phone":case "actions.email":
-                                    if(data == 1){newdata = "Yes";} else {newdata = "No";}
-                                break;
                             }
+
                             log("Verifying: " + colname + " = '" + data + "' (" + datatype + ")");
                             if(datatype) {
                                 if (newdata) {
