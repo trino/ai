@@ -574,7 +574,7 @@
                                                 }
                                                 console.log(HTML);
                                                 $(this).html(HTML);
-                                               if(isSelect){
+                                                if(isSelect){
                                                     $("#" + ID + "_" + field).focus().change(function () {
                                                         if(table == "restaurants"){
                                                             var Selected = $("#" + ID + "_" + field + " option:selected");
@@ -587,8 +587,10 @@
                                                             }
                                                         }
                                                         edititem(ID, field, $(this).val());
+                                                    }).blur(function(){
+                                                        edititem(ID, field, $(this).val());
                                                     });
-                                               } else if(isText) {
+                                                } else if(isText) {
                                                     $("#" + ID + "_" + field).focus().select().keypress(function (ev) {
                                                         var keycode = (ev.keyCode ? ev.keyCode : ev.which);
                                                         if (keycode == '13') {
@@ -597,7 +599,7 @@
                                                     }).blur(function(){
                                                         edititem(ID, field, $(this).val());
                                                     });
-                                               }
+                                                }
                                             } else if (!isHTML) {
                                                 switch(table){
                                                     case "useraddresses":
@@ -773,7 +775,6 @@
                         if(data) {
                             var datatype="";
                             newdata = getdata(field, data);
-
                             switch (colname) {
                                 case "users.phone":case "restaurants.phone":
                                     newdata = clean_data(newdata, "phone");
@@ -784,7 +785,6 @@
                                     datatype="email address";
                                     break;
                             }
-
                             log("Verifying: " + colname + " = '" + data + "' (" + datatype + ")");
                             if(datatype) {
                                 if (newdata) {
@@ -793,12 +793,6 @@
                                     alert(makestring("{not_valid}", {data: data, datatype: datatype}));//alert("'" + data + "' is not a valid " + datatype);
                                     return false;
                                 }
-                            }
-                        } else {
-                            switch(colname){
-                                case "users.authcode":
-                                    newdata = "Authorized";
-                                    break;
                             }
                         }
                         $.post(currentURL, {
