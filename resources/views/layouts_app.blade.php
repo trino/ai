@@ -42,16 +42,19 @@
     <link href='<?= $css; ?>/Roboto-slab.css' rel='stylesheet' type='text/css'>
 
 
-    <link rel="stylesheet" href="<?= $css; ?>/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="<?= $css; ?>/bootstrap.min.css" >
     <link rel="stylesheet" href="<?= $css . "/custom3.css?v=" . time(); ?>">
     <script src="<?= $scripts; ?>/jquery.min.js"></script>
-    <script src="<?= $scripts; ?>/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="<?= $scripts; ?>/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script src="<?= $scripts; ?>/tether.min.js" ></script>
+    <script src="<?= $scripts; ?>/bootstrap.min.js" ></script>
     <SCRIPT SRC="<?= $scripts; ?>/jquery.validate.min.js"></SCRIPT>
     @include("popups_alljs")
 </head>
 
 <body>
+
+
+
 <div class="modal loading" ID="loadingmodal"></div>
 
 <?= view("popups_navbar")->render(); ?>
@@ -61,51 +64,6 @@
 </div>
 
 <?= view("popups_sticky_footer")->render(); ?>
-
-<nav class="navbar container-fluid  bg-secondary dont-show">
-    <div class="">
-        <a href="#" class="text-white">About</a>
-        <div class="row dont-show">
-            <div class="col-6 col-sm-3">
-                <h2 class="text-uppercase">More</h2>
-                <ul class="list-unstyled">
-                    <li><a href="//theme.cards" title="Free themes">Theme.cards</a></li>
-                    <li><a href="//www.bootply.com" title="Bootstrap Editor">Bootply</a></li>
-                    <li><a href="//www.codeply.com" title="Frontend Editor Online">Codeply</a></li>
-                    <li><a href="//www.wdstack.com" title="Best Developer Designer Resources">WDStack</a></li>
-                </ul>
-            </div>
-            <div class="col-6 col-sm-3 column">
-                <h2 class="text-uppercase">About</h2>
-                <ul class="list-unstyled">
-                    <li><a href="#" data-toggle="modal" data-target="#alertModal">Contact Us</a></li>
-                    <li><a href="#" data-toggle="modal" data-target="#alertModal">Delivery Information</a></li>
-                    <li><a href="#" data-toggle="modal" data-target="#alertModal">Privacy Policy</a></li>
-                    <li><a href="#" data-toggle="modal" data-target="#alertModal">Terms &amp; Conditions</a></li>
-                </ul>
-            </div>
-            <div class="col-12 col-sm-3 column">
-                <h2 class="text-uppercase">Stay Posted</h2>
-                <form>
-                    <div class="form-group">
-                        <input type="text" class="form-control" title="No spam, we promise!" placeholder="Tell us your email">
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#alertModal" type="button">Subscribe for updates</button>
-                    </div>
-                </form>
-            </div>
-            <div class="col-12 col-sm-3 text-xs-right">
-                <h2 class="text-uppercase">Follow</h2>
-                <ul class="list-inline">
-                    <li class="list-inline-item"><a rel="nofollow" href="" title="Twitter"><i class="icon-lg ion-social-twitter-outline"></i></a>&nbsp;</li>
-                    <li class="list-inline-item"><a rel="nofollow" href="" title="Facebook"><i class="icon-lg ion-social-facebook-outline"></i></a></li>
-                </ul>
-            </div>
-        </div>
-
-    </div>
-</nav>
 
 
 </body>

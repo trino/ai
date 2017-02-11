@@ -28,11 +28,10 @@
                         <?= view("popups_edituser", array("email" => false, "password" => false, "phone" => true))->render(); ?>
                         <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
                         <?php
-                            if (read("id")) {
-                                echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
-                            }
+                        if (read("id")) {
+                            echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
+                        }
                         ?>
-                        <span class="payment-errors"></span>
                     </div>
 
                     <div class="col-md-12">
@@ -63,11 +62,11 @@
 
                             <SELECT CLASS="credit-info form-control proper-height col-md-4" data-stripe="exp_year">
                                 <?php
-                                    $CURRENT_YEAR = date("Y");
-                                    $TOTAL_YEARS = 6;
-                                    for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
-                                        echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
-                                    }
+                                $CURRENT_YEAR = date("Y");
+                                $TOTAL_YEARS = 6;
+                                for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
+                                    echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
+                                }
                                 ?>
                             </SELECT>
 
@@ -85,12 +84,30 @@
                             <OPTION VALUE="0" SELECTED>Select Restaurant</OPTION>
                         </SELECT>
                         <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook" maxlength="255"/>
-                        <SELECT id="deliverytime" TITLE="Delivery Time" class="form-control proper-height"/>
-                            <OPTION>Deliver ASAP</OPTION>
-                        </SELECT>
 
-                        <!-- why is it when i change this to a button that clicking on please neter abn address closes the modal -->
-                        <a class="btn btn-primary text-white pull-right mt-3" onclick="payfororder();"><i class="fa fa-check"></i> PLACE ORDER </a>
+
+                        <div class="input-group mt-3">
+
+
+                            <SELECT id="deliverytime" TITLE="Delivery Time" class="form-control"/>
+                            <OPTION>Deliver ASAP</OPTION>
+                            </SELECT>
+
+
+                            <span class="input-group-btn">
+
+                                <!-- why is it when i change this to a button that clicking on please neter abn address closes the modal -->
+                        <a class="btn btn-primary text-white pull-righ" onclick="payfororder();"><i class="fa fa-check"></i> PLACE ORDER </a>
+
+
+
+
+  </span>
+
+                        </div>
+
+                        <span class="payment-errors"></span>
+
                         <div class="clearfix"></div>
                     </div>
 
@@ -107,15 +124,15 @@
     //https://stripe.com/docs/custom-form
     @if(read("id"))
         $(document).ready(function () {
-            getcloseststore = true;
-            visible_address(false);
-            $("#saveaddresses").append('<OPTION VALUE="addaddress" ID="addaddress">Add Address</OPTION>');
-        });
-        $('#reg_phone').keypress(function () {
-            if ($('#reg_phone').valid()) {
-                clearphone();
-            }
-        });
+        getcloseststore = true;
+        visible_address(false);
+        $("#saveaddresses").append('<OPTION VALUE="addaddress" ID="addaddress">Add Address</OPTION>');
+    });
+    $('#reg_phone').keypress(function () {
+        if ($('#reg_phone').valid()) {
+            clearphone();
+        }
+    });
     @endif
 
     function restchange() {

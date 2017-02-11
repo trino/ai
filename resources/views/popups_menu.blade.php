@@ -115,7 +115,7 @@
             <h2 class="text-xs-center">  {{$category['category']}}  </h2>
 
             @foreach ($menuitems as $menuitem)
-                <div class="list-group-item-action item_{{ $catclass }}"
+                <div class="list-group-item-action py-1 item_{{ $catclass }}"
                      itemid="{{$menuitem["id"]}}"
                      itemname="{{$menuitem['item']}}"
                      itemprice="{{$menuitem['price']}}"
@@ -193,20 +193,20 @@
                 <button data-dismiss="modal" class="btn btn-sm btn-danger"><i class="fa fa-close"></i></button>
             </div>
 
-            <div class="modal-body padding-top-0">
+            <div class="modal-body py-0">
                 <div class="row">
                     <DIV ID="addonlist" class="addonlist"></DIV>
                     <div class="clearfix"></div>
                     <div class="col-md-12">
                         <!--DIV ID="removelist" style="color: red;" class="pull-left"></div-->
 
-                        <button type="button" data-popup-close="menumodal" old-data-dismiss="modal"
+                        <!--button type="button" data-popup-close="menumodal" old-data-dismiss="modal"
                                 id="additemtoorder" class="btn btn-primary btn-sm pull-right"
                                 onclick="additemtoorder();"><i class="fa fa-check"></i></button>
 
                         <button type="button" id="removeitemfromorder" class="btn btn-danger btn-sm pull-right margin-x-10px"><i class="fa fa-trash"></i></button>
 
-                        <button class="btn btn-secondary btn-sm pull-right"> $<SPAN ID="modal-itemtotalprice"></SPAN></button>
+                        <button class="btn btn-secondary btn-sm pull-right"> $<SPAN ID="modal-itemtotalprice"></SPAN></button-->
                     </div>
                     <div class="clearfix"></div>
                 </div>

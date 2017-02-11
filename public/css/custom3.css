@@ -1,14 +1,13 @@
 .btn {
-    text-transform: uppercase;
-    border:0 !important;
     cursor: pointer;
 }
+.btn-sm{border-color: #f8f8f8}
 
 body {
     font-family: 'Roboto', sans-serif;
     background: #efefef !important;
 }
-
+span{line-height: 1rem !important;}
 .full {
     /*
     background: url(../../public/images/background.jpg) no-repeat center center fixed;

@@ -304,7 +304,7 @@
             }
         }
         currentitemID = -1;
-        var title = "<i class='fa fa-plus'></i> ADD TO ORDER";
+        var title = "<i class='fa fa-check'></i>";
         if (!isUndefined(notparent)) {
             $("#menumodal").modal("show");
             refreshremovebutton();
@@ -315,14 +315,14 @@
 
     function refreshremovebutton() {
         if (currentaddonlist[currentitemindex].length == 0) {
-            log("FADE OUT");
-            $(".removeitemarrow").fadeTo("fast", 0.50);
-            $("#removeitemfromorder").attr("title", "").attr("onclick", "").attr("style", "cursor: not-allowed");
+           // log("FADE OUT");
+         //   $(".removeitemarrow").fadeTo("fast", 0.50);
+        //    $("#removeitemfromorder").attr("title", "").attr("onclick", "").attr("style", "cursor: not-allowed");
         } else {
             var index = currentaddonlist[currentitemindex].length - 1;
             var lastitem = currentaddonlist[currentitemindex][index];
-            log("FADE IN");
-            $(".removeitemarrow").fadeTo("fast", 1.00);
+         //   log("FADE IN");
+         //   $(".removeitemarrow").fadeTo("fast", 1.00);
             $("#removeitemfromorder").attr("title", "Remove: " + lastitem.name + " from " + $("#item_" + currentitemindex).text()).attr("onclick", "removelistitem(" + currentitemindex + ", " + index + ");").attr("style", "");
         }
     }
@@ -742,7 +742,7 @@
             }, function (result) {
                 $("#checkoutmodal").modal("hide");
                 if (result.contains("ordersuccess")) {
-                    handleresult(result, "Thank you for your order.");
+                    handleresult(result, "Thank you for your order");
                     if ($("#saveaddresses").val() == "addaddress") {
                         var Address = {
                             id: $(".ordersuccess").attr("addressid"),
@@ -1813,18 +1813,18 @@
         currentaddontype = table;
         var HTML = '<DIV class="receipt-addons-list"><DIV id="theaddons"></DIV></DIV>';
 
-        HTML += '<button type="button" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" class="btn btn-sm kbbtn bg-secondary pull-right" onclick="additemtoorder();">ADD TO ORDER</button>';
-        HTML += '<button type="button" id="removeitemfromorder" class="btn kbbtn bg-secondary btn-sm pull-right"><i class="fa fa-arrow-left removeitemarrow"></i></button>';
-        HTML += '<button class="btn kbbtn bg-secondary btn-sm pull-right pr-0"> $<SPAN ID="modal-itemtotalprice"></SPAN></button><div class="clearfix"></div> ';
-
         if (currentstyle == 0) {
             HTML += '<DIV CLASS=" addonlist" ID="addontypes">';
         }
+
+
 
         var types = Object.keys(alladdons[table]);
 
         if (currentstyle == 0) {
             $("#addonlist").html(HTML + '</DIV>');
+
+
         } else {
             //var colors = ["secondary", "secondary", "secondary", "secondary", "secondary"];//' + colors[i] + '
             for (var i = 0; i < types.length; i++) {
@@ -1844,6 +1844,11 @@
                 }
             }
 
+            HTML += '<button type="button" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" class="btn btn-sm kbbtn bg-secondary pull-right" onclick="additemtoorder();">ADD</button>';
+            HTML += '<button type="button" id="removeitemfromorder" class="btn kbbtn bg-secondary btn-sm pull-right"><i class="fa fa-arrow-left removeitemarrow"></i></button>';
+            HTML += '<button class="btn kbbtn bg-secondary btn-sm pull-right pr-0"> $<SPAN ID="modal-itemtotalprice"></SPAN></button>';
+
+
             $("#addonlist").html(HTML);
             $(".addon-addon").click(
                 function (event) {
@@ -1857,7 +1862,15 @@
             }
         );
         hashalves = halves;
+
+
+
         generateaddons();
+
+
+
+
+
     }
 
     function list_addon_type(e) {

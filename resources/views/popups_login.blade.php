@@ -9,7 +9,7 @@
 
     <DIV CLASS="col-md-4" >
     <DIV CLASS="card card-block" >
-        <h2 class="small-margin">Fast Pizza Delivery</h2>
+        <h2 class="small-margin">Mobile Pizza Delivery</h2>
 
         <!-- Bootstrap CSS -->
         <!-- jQuery first, then Bootstrap JS. -->
@@ -36,19 +36,13 @@
                 <div class="clearfix mt-2"></div>
 
                 <BUTTON CLASS="btn btn-primary pull-right" onclick="handlelogin('login');">LOG IN</BUTTON>
-                <BUTTON CLASS="btn btn-link pull-left" onclick="handlelogin('forgotpassword');">FORGOT PASSWORD</BUTTON>
+                <BUTTON CLASS="btn btn-link pl-0 text-muted pull-left" onclick="handlelogin('forgotpassword');">Forgot Password</BUTTON>
             </div>
 
             <div role="tabpanel" class="tab-pane fade" id="buzz">
 
                 <div class="clearfix"></div>
-
-                <FORM Name="regform" id="regform">
-                    <?= view("popups_edituser", array("phone" => false, "autocomplete" => "new-password"))->render(); ?>
-                </FORM>
-
-                <div class="clearfix"></div>
-
+<h2 class="mt-0">Delivery</h2>
                 <FORM id="addform">
                     <?php
                         if (!read("id")) {
@@ -56,6 +50,16 @@
                         }
                     ?>
                 </FORM>
+<comments>if city not london then display: sorry we are not in your area yet.</comments>
+
+                <h2>Profile</h2>
+
+                <FORM Name="regform" id="regform">
+                    <?= view("popups_edituser", array("phone" => false, "autocomplete" => "new-password"))->render(); ?>
+                </FORM>
+
+
+
 
                 <div class="clearfix mt-2"></div>
 
