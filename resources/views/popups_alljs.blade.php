@@ -440,9 +440,13 @@
             tempHTML += ' <button class="fa fa-close pull-right btn btn-sm btn-danger" onclick="removeorderitem(' + itemid + ');"></button>';
 
             if (hasaddons) {
-                tempHTML += ' <button class="fa fa-pencil btn btn-sm btn-danger" onclick="edititem(this, ' + itemid + ');"></button>';
+                tempHTML += ' <button class="fa fa-pencil  pull-right  btn btn-sm btn-danger" onclick="edititem(this, ' + itemid + ');"></button>';
             }
-            tempHTML += '$' + totalcost + '</span><div class="clearfix"></div>';
+
+
+
+            tempHTML += '$' + totalcost + '</span>';
+            tempHTML += '<div class="clearfix"></div>';
 
             var itemname = "";
             if (hasaddons) {
@@ -478,13 +482,12 @@
         }
         var taxes = (subtotal + deliveryfee) * 0.13;//ontario only
         totalcost = subtotal + deliveryfee + taxes;
-
         $("#checkoutbutton").show();
         visible("#checkout", userdetails);
 
         createCookieValue("theorder", JSON.stringify(theorder));
         if (theorder.length == 0) {
-            HTML = '<DIV CLASS="text-center receipt-empty"><i class="fa fa-shopping-cart" style="fontsize-5rem"></i><br><h5>Order is empty</h5></div>';
+            HTML = '<DIV CLASS="text-center receipt-empty"><br><br><i class="fa fa-shopping-cart" style="font-size:3rem"></i><br><br><h5>Order is Empty</h5><br><br><br><br></div>';
             $("#checkout").hide();
             $("#checkoutbutton").hide();
             $("#confirmclearorder").hide();
@@ -844,7 +847,7 @@
     }
 
     function deletecard(Index, ID, last4, month, year) {
-        confirm2("Are you sure you want to delete credit card:<br>**** **** **** " + last4 + " Expiring on " + month + "/" + year + "?", 'Delete Credit Card', function () {
+        confirm2("Are you sure you want to delete credit card:<br>x- " + last4 + " Expiring on " + month + "/" + year + "?", 'Delete Credit Card', function () {
             $.post(webroot + "placeorder", {
                 _token: token,
                 action: "deletecard",
@@ -1652,7 +1655,7 @@
             email_needed: "Please enter an email address",
             long_lat: "Longitude and/or latitude missing",
             ten_closest: "10 closest restaurants",
-            clear_order: "Are you sure you want to empty your cart?"
+            clear_order: ""
         };
     }
 
@@ -1826,6 +1829,12 @@
 
 
         } else {
+
+
+            HTML +='  <div class="card-columns">';
+
+
+
             //var colors = ["secondary", "secondary", "secondary", "secondary", "secondary"];//' + colors[i] + '
             for (var i = 0; i < types.length; i++) {
                 //HTML += '<h2 class="col-xs-12 btn-sm" id="' + toclassname(types[i]) + '">' + types[i] + '</h2>';
@@ -1833,22 +1842,22 @@
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
-                    HTML += '<div class="btn-sm toppings_btn btn addon-addon';
+                    HTML += '<div class="card"><button class="btn-sm toppings_btn btn addon-addon';
                     if (isaddon_free(String(currentaddontype), String(addon))) {
                         HTML += ' btn-secondary';//this should be different from a paid topping
                         title = "Free addon";
                     } else {
                         HTML += ' btn-secondary'
                     }
-                    HTML += '" TITLE="' + title + '">' + addon + '</div>';
+                    HTML += '" TITLE="' + title + '">' + addon + '</button></div>';
                 }
             }
 
-            HTML += '<button type="button" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" class="btn btn-sm kbbtn bg-secondary pull-right" onclick="additemtoorder();">ADD</button>';
-            HTML += '<button type="button" id="removeitemfromorder" class="btn kbbtn bg-secondary btn-sm pull-right"><i class="fa fa-arrow-left removeitemarrow"></i></button>';
-            HTML += '<button class="btn kbbtn bg-secondary btn-sm pull-right pr-0"> $<SPAN ID="modal-itemtotalprice"></SPAN></button>';
+            HTML += '<div class="card"><button class="btn btn-sm bg-secondary" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button></div>';
+            HTML += '<div class="card"><button class="btn bg-secondary btn-sm" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button></div>';
+            HTML += '<div class="card"><button class="btn bg-secondary btn-sm" > $<SPAN ID="modal-itemtotalprice"></SPAN></button></div>';
 
-
+            HTML +='</div>';
             $("#addonlist").html(HTML);
             $(".addon-addon").click(
                 function (event) {

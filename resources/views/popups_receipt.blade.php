@@ -119,13 +119,32 @@ $onlydebug = "Only shows in debug mode! - ";
 ?>
 
 @if($style==1)
-    <h2 class="mt-0">Order Arriving In <span CLASS="countdown" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"><?= $time; ?></span></h2>
+
+
+    <h2 class="mt-0">Order arriving    {{$duration  }}</h2>
+
+
+    <div CLASS="countdown badge badge-pill badge-success" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"><?= $time; ?></div>
+
+<div class="clearfix"></div>
+
+
+
+    <h2>Delivery Info</h2>
+
     <?php
-    echo $duration . '<h2>Delivery Address</h2>';
+
     echo $Order["name"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . " " . $Order["province"] . " " . $Order["postalcode"] . '<BR>' . $Order["unit"];
     ?>
+
+
+
     @if(!isset($JSON))
+
         <h2>Restaurant</h2>
+
+
+
         Order #<span ID="receipt_id"><?= $orderid; ?></span><br>
         <?php
         $Restaurant = first("SELECT * FROM restaurants WHERE id = " . $Order["restaurant_id"]);
@@ -146,7 +165,11 @@ $onlydebug = "Only shows in debug mode! - ";
         <TR>
             <TH>#</TH>
             <TH>Name</TH>
+            @if($debugmode)
+
             <TH class="text-xs-right"> Sub-total</TH>
+
+            @endif
             <TH>Addons</TH>
             @if($debugmode)
                 <TH TITLE="<?= $onlydebug; ?>">Addon Count</TH>
@@ -361,7 +384,7 @@ $onlydebug = "Only shows in debug mode! - ";
                         echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Tax&nbsp;</TD><TD ALIGN="RIGHT">$' . number_format($tax, 2) . '</TD></TR>';
                         echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Total&nbsp;</TD><TD ALIGN="RIGHT">$' . number_format($total, 2) . '</TD></TR>';
                         if ($Order["cookingnotes"]) {
-                            echo '<TR><TD COLSPAN="' . $colspan . '"><B>Notes for the Cook99999999999999999999: </B>' . $Order["cookingnotes"] . '</TD></TR>';
+                            echo '<TR><TD COLSPAN="' . $colspan . '"><B>Notes: </B>' . $Order["cookingnotes"] . '</TD></TR>';
                         }
 
                         insertdb("orders", array("id" => $orderid, "price" => $total));//saved for stripe
@@ -380,17 +403,7 @@ $onlydebug = "Only shows in debug mode! - ";
                     }
 
 
-
-
-
-
-
-
-                }
-
-                else
-
-                    {
+                } else {
                     echo '<TR><TD COLSPAN="' . $colspan . '" ALIGN="CENTER"><B>FILE NOT FOUND</B></TD></TR>';
                 }
 
@@ -399,22 +412,20 @@ $onlydebug = "Only shows in debug mode! - ";
                 ?>
 
 
-
-
             </TABLE>
             @if ($style == 1)
 
-                    <div>
-                        <h2>Issues with your order?</h2>
-                        Please contact the restaurant first
-                        <br> Then call us at 905.531.5331
-                    </div>
+                <div>
+                    <h2>Issues with your order?</h2>
+                    Please contact the restaurant first
+                    <br> Then call us at 905.531.5331
+                </div>
 
 
-@endif
+            @endif
 
 
-            <!--div>
+        <!--div>
                 <br><br> CHECK US OUT ON SOCIAL MEDIA
                 <br><br> FOOD DRIVE PROGRAM
                 <br><br> EMAIL US

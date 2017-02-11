@@ -195,7 +195,7 @@
 
             <div class="modal-body py-0">
                 <div class="row">
-                    <DIV ID="addonlist" class="addonlist"></DIV>
+                    <DIV ID="addonlist" class="addonlist  no-gutters " style="width: 100%"></DIV>
                     <div class="clearfix"></div>
                     <div class="col-md-12">
                         <!--DIV ID="removelist" style="color: red;" class="pull-left"></div-->
