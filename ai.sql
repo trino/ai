@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 14, 2017 at 10:42 AM
+-- Generation Time: Feb 14, 2017 at 10:54 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -45,9 +45,9 @@ INSERT INTO `actions` (`id`, `eventname`, `party`, `sms`, `phone`, `email`, `mes
 (1, 'order_placed', 2, 1, 1, 1, 'londonpizza.ca - A new order was placed'),
 (2, 'order_placed', 0, 1, 0, 0, 'londonpizza.ca - A new order was placed'),
 (3, 'order_placed', 0, 0, 0, 1, 'londonpizza.ca - Here is your receipt'),
-(4, 'order_canceled', 0, 1, 0, 1, 'londonpizza.ca - Your order was cancelled: [reason]'),
-(5, 'order_canceled', 1, 1, 0, 1, 'londonpizza.ca - An order was cancelled: [reason]'),
-(6, 'order_approved', 1, 1, 0, 0, 'londonpizza.ca - An order was approved: [reason]'),
+(4, 'order_declined', 0, 1, 0, 1, 'londonpizza.ca - Your order was cancelled: [reason]'),
+(5, 'order_declined', 1, 1, 0, 1, 'londonpizza.ca - An order was cancelled: [reason]'),
+(6, 'order_confirmed', 1, 1, 0, 0, 'londonpizza.ca - An order was approved: [reason]'),
 (7, 'user_registered', 0, 0, 0, 1, 'londonpizza.ca - Thank you for registering');
 
 -- --------------------------------------------------------
@@ -200,7 +200,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `price` decimal(10,2) NOT NULL,
   `email` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=46 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=47 ;
 
 --
 -- Dumping data for table `orders`
@@ -213,7 +213,8 @@ INSERT INTO `orders` (`id`, `user_id`, `placed_at`, `number`, `unit`, `buzzcode`
 (42, 32, '2017-02-12 02:21:22', 400, '', '', 'Dundas Street', 'N6B 1V7', 'London', 'Ontario', '42.9866144999999', '-81.240151500000', '0000-00-00 00:00:00', 1, 0, 0, '9055315332', '', 1, '', 'Deliver Now', '', 0, '85.36', 'info@trinoweb.com'),
 (43, 32, '2017-02-12 02:25:11', 400, '', '', 'Dundas Street', 'N6B 1V7', 'London', 'Ontario', '42.9866144999999', '-81.240151500000', '0000-00-00 00:00:00', 1, 0, 0, '9055315332', '', 1, '', 'Deliver Now', '', 0, '15.72', 'info@trinoweb.com'),
 (44, 32, '2017-02-12 02:26:39', 400, '', '', 'Dundas Street', 'N6B 1V7', 'London', 'Ontario', '42.9866144999999', '-81.240151500000', '0000-00-00 00:00:00', 1, 0, 0, '9055315332', '', 1, '', 'Deliver Now', '', 0, '7.89', 'info@trinoweb.com'),
-(45, 32, '2017-02-14 07:49:53', 400, '', '', 'Dundas Street', 'N6B 1V7', 'London', 'Ontario', '42.9866144999999', '-81.240151500000', '0000-00-00 00:00:00', 1, 0, 0, '9055315332', '', 1, '', 'Deliver Now', '', 0, '39.37', 'info@trinoweb.com');
+(45, 32, '2017-02-14 07:49:53', 400, '', '', 'Dundas Street', 'N6B 1V7', 'London', 'Ontario', '42.9866144999999', '-81.240151500000', '0000-00-00 00:00:00', 1, 0, 0, '9055315332', '', 1, '', 'Deliver Now', '', 0, '39.37', 'info@trinoweb.com'),
+(46, 1, '2017-02-14 20:44:29', 400, '', '', 'Upper Queen Street', '', 'London', 'Ontario', '42.9570522', '-81.2414875', '0000-00-00 00:00:00', 2, 0, 0, '905 531 5331', '', 1, '', 'February 14 at 1100', '', 2, '10.95', 'roy@trinoweb.com');
 
 -- --------------------------------------------------------
 
@@ -289,14 +290,14 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=89 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=90 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1487083058'),
+(1, 'lastSQL', '1487086961'),
 (20, 'orders', '1485879223'),
 (24, 'menucache', '1486843299'),
 (25, 'useraddresses', '1486787209'),
@@ -379,7 +380,7 @@ CREATE TABLE IF NOT EXISTS `useraddresses` (
   `phone` varchar(16) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=75 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=76 ;
 
 --
 -- Dumping data for table `useraddresses`
@@ -392,7 +393,8 @@ INSERT INTO `useraddresses` (`id`, `user_id`, `number`, `unit`, `buzzcode`, `str
 (71, 34, 400, '', '', 'Dundas Street', 'N6B 1V7', 'London', 'Ontario', '42.9866144999999', '-81.240151500000', ''),
 (72, 34, 666, '', '', 'Dundas Street', 'N5W 2Y8', 'London', 'Ontario', '42.9895098', '-81.229440299999', ''),
 (73, 32, 400, '', '', 'Dundas Street', 'N6B 1V7', 'London', 'Ontario', '42.9866144999999', '-81.240151500000', ''),
-(74, 35, 1569, '', '', 'Oxford Street East', 'N5V 1W5', 'London', 'Ontario', '43.0109195', '-81.198983600000', '');
+(74, 35, 1569, '', '', 'Oxford Street East', 'N5V 1W5', 'London', 'Ontario', '43.0109195', '-81.198983600000', ''),
+(75, 1, 400, '', '', 'Upper Queen Street', '', 'London', 'Ontario', '42.9570522', '-81.2414875', '');
 
 -- --------------------------------------------------------
 
