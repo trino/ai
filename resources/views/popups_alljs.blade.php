@@ -1039,7 +1039,7 @@
                             userdetails = false;
                             if (redirectonlogout) {
                                 log("Logout reload");
-                                window.location = "<?= webroot("public/index"); ?>";
+                                window.location = "<?= webroot(""); ?>";
                             } else {
                                 switch (currentRoute) {
                                     case "index"://resave order as it's deleted in removeCookie();
