@@ -1,30 +1,19 @@
-.btn {
-    cursor: pointer;
+.btn-sm {
 }
-.btn-sm{border:0 ; text-align: left !important;}
 
 body {
     font-family: 'Roboto', sans-serif;
-    background: #efefef !important;
+    background: transparent !important;
 }
-span{line-height: 1rem !important;}
+
 .full {
-    /*
+
     background: url(../../public/images/background.jpg) no-repeat center center fixed;
-    */
+
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-}
-
-.modal-header {
-    background: #d9534f !important;
-}
-
-.modal-header h2 {
-    margin: 0 !important;
-    color: #fff !important;
 }
 
 h2 {
@@ -34,31 +23,23 @@ h2 {
     margin: 1.5rem 0 .25rem 0 !important;
 }
 
-.pad5 {
-    margin-right: 5px;
-}
-
 * {
     line-height: 1rem !important;
 }
 
 .red {
-    border: 2px solid red !important;
+    border: 1px solid red !important;
 }
 
-.error{color: red}
+.error {
+    color: red
+}
 
 .cursor-pointer {
     /* !!!!!!!!!!!!!stop removing this!!!!!!!!!!!! */
     cursor: pointer;
     /* !!!!!!!!!!!!!stop removing this!!!!!!!!!!!! */
 }
-
-.addon-selected, .thisside {
-    background: #d9534f !important;
-    border-color: transparent !important;
-}
-
 
 .sprite {
     background-image: url('../../public/images/grid.png');
@@ -72,82 +53,106 @@ h2 {
 .sprite-pizza {
     background-position: 0px 0px;
 }
+
 .sprite-salad {
     background-position: -96px 0px;
 }
+
 .sprite-potato-wedges {
     background-position: -192px 0px;
 }
+
 .sprite-panzerotti {
     background-position: -288px 0px;
 }
+
 .sprite-onion-rings {
     background-position: -384px 0px;
 }
+
 .sprite-wings {
     background-position: -480px 0px;
 }
+
 .sprite-241_pizza {
     background-position: -576px 0px;
 }
+
 .sprite-lasagna {
     background-position: -672px 0px;
 }
+
 .sprite-dips {
     background-position: -768px 0px;
 }
+
 .sprite-garlic-bread {
     background-position: -864px 0px;
 }
+
 .sprite-french-fries {
     background-position: -960px 0px;
 }
+
 .sprite-drinks {
     background-position: -1056px 0px;
 }
+
 .sprite-chicken-nuggets {
     background-position: -1152px 0px;
 }
+
 .sprite-veggie-sticks {
     background-position: -1248px 0px;
 }
+
 .sprite-pepsi {
     background-position: -1344px 0px;
 }
+
 .sprite-diet-pepsi {
     background-position: -1440px 0px;
 }
+
 .sprite-2l-sprite {
     background-position: -1536px 0px;
 }
+
 .sprite-sprite {
     background-position: -1632px 0px;
 }
+
 .sprite-water-bottle {
     background-position: -1728px 0px;
 }
+
 .sprite-2l-coca-cola {
     background-position: -1824px 0px;
 }
+
 .sprite-crush-orange {
     background-position: -1920px 0px;
 }
+
 .sprite-ginger-ale {
     background-position: -2016px 0px;
 }
+
 .sprite-diet-coca-cola {
     background-position: -2112px 0px;
 }
+
 .sprite-nestea {
     background-position: -2208px 0px;
 }
-.sprite-2l-brisk-iced-tea{
+
+.sprite-2l-brisk-iced-tea {
     background-position: -2304px 0px;
 }
-.sprite-dr-pepper{
+
+.sprite-dr-pepper {
     background-position: -2400px 0px;
 }
-
 
 .sprite-medium {
     zoom: 0.6;
@@ -167,7 +172,17 @@ h2 {
     -moz-transform-origin: 0 0;
 }
 
-.toppings_btn {border-left:5px solid yellow;
+.modal-header {
+    background: #d9534f !important;
+}
+
+.modal-header h2 {
+    margin: 0 !important;
+    color: #fff !important;
+}
+
+.toppings_btn {
+    border-left: 5px solid yellow;
     /*
     overflow: hidden;
     white-space: nowrap;
@@ -175,42 +190,125 @@ h2 {
     */
     text-align: left !important;
     border-radius: 0 !important;
-    border:0 !important;
+    border: 0 !important;
 }
+.card-columns .card{
 
+    margin-bottom:0 !important;
+}
 input, textarea, select {
-    border-radius: 0 !important;
     border: 1px solid #ddd !important;
     margin-bottom: -1px !important;
+    border-radius:0 !important;
 }
 
-.float-right{float: right;}
-.padding-bottom-5em{padding-bottom:.5rem !important;}
-.z-index-9999{z-index: 9999;}
-.white{color:white !important;}
-.padding-right-0{padding-right: 0px;}
-.padding-top-0{padding-top:0 !important;}
-.small-margin{margin: 0 0 1rem 0 !important;}
-.sticky-footer{bottom: 45px; right: 10px;}
-.padding-top-45rem{padding-top:.45rem !important;}
-.margin-x-10px{margin-left: 10px;margin-right: 10px;}
-.bold{font-weight: bold;}
-.fontsize-1p25rem{font-size: 1.25rem;}
-.fontsize-5rem{font-size: 5rem;}
-.navbar{padding:1rem 0;z-index: 1;border-radius: 0 !important;margin:0 0 1rem 0 !important;}
-.margin-bottom-1rem{margin-bottom:1rem !important;}
-.width-full{width: 100%;}
-.margin-top-15px{margin-top: 15px;}
+.float-right {
+    float: right;
+}
 
-.receipt-itemname{margin-top:1px; padding:8px 2px !important;}
-.receipt-empty{color: #c9312c !important;}
-.receipt-addons{margin-bottom:10px;border:1px solid #dadada;border-radius:.2rem;padding:.25rem .25rem;width:100% !important;float:left;}
-.receipt-addons-list{background:#efefef;height:150px;overflow-y: auto;overflow-x: auto; overflow-x: auto; padding:5px;}
+.padding-bottom-5em {
+    padding-bottom: .5rem !important;
+}
+
+.z-index-9999 {
+    z-index: 9999;
+}
+
+.white {
+    color: white !important;
+}
+
+.padding-right-0 {
+    padding-right: 0px;
+}
+
+.padding-top-0 {
+    padding-top: 0 !important;
+}
+
+.small-margin {
+    margin: 0 0 1rem 0 !important;
+}
+
+.sticky-footer {
+    bottom: 45px;
+    right: 10px;
+}
+
+.padding-top-45rem {
+    padding-top: .45rem !important;
+}
+
+.margin-x-10px {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.fontsize-1p25rem {
+    font-size: 1.25rem;
+}
+
+.fontsize-5rem {
+    font-size: 5rem;
+}
+
+.navbar {
+    padding: 1rem 0;
+    z-index: 1;
+    border-radius: 0 !important;
+    margin: 0 0 1rem 0 !important;
+}
+
+.margin-bottom-1rem {
+    margin-bottom: 1rem !important;
+}
+
+.width-full {
+    width: 100%;
+}
+
+.margin-top-15px {
+    margin-top: 15px;
+}
+
+.receipt-itemname {
+    margin-top: 1px;
+    padding: 8px 2px !important;
+}
+
+.receipt-empty {
+    color: #c9312c !important;
+}
+
+.receipt-addons {
+    margin-bottom: 10px;
+    border: 1px solid #dadada;
+    border-radius: .2rem;
+    padding: .25rem .25rem;
+    width: 100% !important;
+    float: left;
+}
+
+.receipt-addons-list {
+    background: #efefef;
+    height: 150px;
+    overflow-y: auto;
+    overflow-x: auto;
+    overflow-x: auto;
+    padding: 5px;
+}
 
 .card-columns {
-    column-count: 3;
+    column-count: 3 !important;
 }
-.card{border:0}
+
+.card {
+    border: 0
+}
 
 input {
     padding-left: 1rem !important;
@@ -278,15 +376,23 @@ body.loading #loadingmodal {
     display: block;
     z-index: 999999;
 }
-.bg-secondary{border-radius: 0 !important;}
+
+.bg-secondary {
+    border-radius: 0 !important;
+}
+
 .container-fluid {
     max-width: 1300px !important;
 }
 
-.dropdown-menu,.shadow ,.modal-header, nav {
+.dropdown-menu, .shadow, .modal-header, nav {
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
 }
-.col-md-3{background: white;}
+
+.col-md-3 {
+    background: white;
+}
+
 .btn-circle {
     width: 30px;
     height: 30px;
@@ -323,4 +429,7 @@ a:focus, .btn:focus, button {
 .dont-show {
     display: none;
 }
-
+.addon-selected, .thisside {
+    background: #dadada !important;
+    border-color: transparent !important;
+}

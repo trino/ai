@@ -1842,7 +1842,7 @@
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
-                    HTML += '<div class="card"><button class="btn-sm toppings_btn btn addon-addon';
+                    HTML += '<div class="card"><button class="btn-sm toppings_btn btn addon-addon btn-block';
                     if (isaddon_free(String(currentaddontype), String(addon))) {
                         HTML += ' btn-secondary';//this should be different from a paid topping
                         title = "Free addon";
@@ -1852,10 +1852,10 @@
                     HTML += '" TITLE="' + title + '">' + addon + '</button></div>';
                 }
             }
+            HTML += '<div class="card"><button class="btn bg-secondary btn-sm btn-block" > $<SPAN ID="modal-itemtotalprice"></SPAN></button></div>';
 
-            HTML += '<div class="card"><button class="btn btn-sm bg-secondary" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button></div>';
-            HTML += '<div class="card"><button class="btn bg-secondary btn-sm" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button></div>';
-            HTML += '<div class="card"><button class="btn bg-secondary btn-sm" > $<SPAN ID="modal-itemtotalprice"></SPAN></button></div>';
+            HTML += '<div class="card"><button class="btn bg-secondary btn-sm btn-block" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button></div>';
+            HTML += '<div class="card"><button class="btn btn-sm bg-secondary btn-block" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button></div>';
 
             HTML +='</div>';
             $("#addonlist").html(HTML);

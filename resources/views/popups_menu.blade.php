@@ -179,6 +179,7 @@
 <div class="modal" id="menumodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
+
             <div class="dont-show" id="modal-hiddendata">
                 <SPAN ID="modal-itemprice"></SPAN>
                 <SPAN ID="modal-itemid"></SPAN>
@@ -187,7 +188,7 @@
             </div>
 
             <div class="modal-header">
-                <h2 id="myModalLabel"><SPAN ID="modal-itemname"></SPAN><br>
+                <h2 id="myModalLabel"><SPAN ID="modal-itemname"></SPAN>
                     <small ID="toppingcost">+$<SPAN id="modal-toppingcost"></SPAN> per topping</small>
                 </h2>
                 <button data-dismiss="modal" class="btn btn-sm btn-danger"><i class="fa fa-close"></i></button>
@@ -197,19 +198,7 @@
                 <div class="row">
                     <DIV ID="addonlist" class="addonlist  no-gutters " style="width: 100%"></DIV>
                     <div class="clearfix"></div>
-                    <div class="col-md-12">
-                        <!--DIV ID="removelist" style="color: red;" class="pull-left"></div-->
-
-                        <!--button type="button" data-popup-close="menumodal" old-data-dismiss="modal"
-                                id="additemtoorder" class="btn btn-primary btn-sm pull-right"
-                                onclick="additemtoorder();"><i class="fa fa-check"></i></button>
-
-                        <button type="button" id="removeitemfromorder" class="btn btn-danger btn-sm pull-right margin-x-10px"><i class="fa fa-trash"></i></button>
-
-                        <button class="btn btn-secondary btn-sm pull-right"> $<SPAN ID="modal-itemtotalprice"></SPAN></button-->
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
+                        </div>
             </div>
         </div>
     </div>
