@@ -122,7 +122,7 @@ class AuthController extends Controller {
                             $ret["Status"] = false;
                             $ret["Reason"] = $text;
                         } else {//only save change if email was sent
-                            $ret["Reason"] = "Password reset";
+                            $ret["Reason"] = "A new password has been emailed to you";
                             $user["password"] = \Hash::make($user["password"]);
                             unset($user["mail_subject"]);
                             unset($user["Addresses"]);
