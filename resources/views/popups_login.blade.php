@@ -51,8 +51,6 @@
                     ?>
                 </FORM>
 
-                <comments>if city not london then display: sorry we are not in your area yet.</comments>
-
                 <h2>Profile</h2>
 
                 <FORM Name="regform" id="regform">

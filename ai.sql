@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 07, 2017 at 01:46 PM
+-- Generation Time: Feb 14, 2017 at 10:42 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `actions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `eventname` varchar(64) NOT NULL,
-  `party` tinyint(4) NOT NULL,
+  `party` tinyint(4) NOT NULL COMMENT '0=user,1=admin,2=restaurant',
   `sms` tinyint(1) NOT NULL,
   `phone` tinyint(1) NOT NULL,
   `email` tinyint(1) NOT NULL,
@@ -42,13 +42,13 @@ CREATE TABLE IF NOT EXISTS `actions` (
 --
 
 INSERT INTO `actions` (`id`, `eventname`, `party`, `sms`, `phone`, `email`, `message`) VALUES
-(1, 'order_placed', 2, 1, 1, 1, 'A new order was placed'),
-(2, 'order_placed', 1, 1, 0, 0, 'A new order was placed'),
-(3, 'order_placed', 0, 0, 0, 1, 'Your receipt'),
-(4, 'order_canceled', 0, 1, 0, 1, 'Your order was cancelled: [reason]'),
-(5, 'order_canceled', 1, 1, 0, 1, 'An order was cancelled: [reason]'),
-(6, 'order_approved', 1, 1, 0, 0, 'An order was approved: [reason]'),
-(7, 'user_registered', 0, 0, 0, 1, 'Thank you for registering');
+(1, 'order_placed', 2, 1, 1, 1, 'londonpizza.ca - A new order was placed'),
+(2, 'order_placed', 0, 1, 0, 0, 'londonpizza.ca - A new order was placed'),
+(3, 'order_placed', 0, 0, 0, 1, 'londonpizza.ca - Here is your receipt'),
+(4, 'order_canceled', 0, 1, 0, 1, 'londonpizza.ca - Your order was cancelled: [reason]'),
+(5, 'order_canceled', 1, 1, 0, 1, 'londonpizza.ca - An order was cancelled: [reason]'),
+(6, 'order_approved', 1, 1, 0, 0, 'londonpizza.ca - An order was approved: [reason]'),
+(7, 'user_registered', 0, 0, 0, 1, 'londonpizza.ca - Thank you for registering');
 
 -- --------------------------------------------------------
 
@@ -200,17 +200,20 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `price` decimal(10,2) NOT NULL,
   `email` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=46 ;
 
 --
 -- Dumping data for table `orders`
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `placed_at`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `accepted_at`, `restaurant_id`, `type`, `payment_type`, `phone`, `cell`, `paid`, `stripeToken`, `deliverytime`, `cookingnotes`, `status`, `price`, `email`) VALUES
-(1, 32, '2017-01-30 01:49:33', 400, '', '', 'Dundas Street', 'N6B 1V7', 'London', 'Ontario', '42.9866144999999', '-81.240151500000', '0000-00-00 00:00:00', 1, 0, 0, '9055315332', '', 1, 'tok_A1SXBSzbQntVqk', 'January 30 at 1100', '', 2, '45.17', NULL),
-(2, 32, '2017-01-30 02:34:12', 400, '', '', 'Dundas Street', 'N6B 1V7', 'London', 'Ontario', '42.9866144999999', '-81.240151500000', '0000-00-00 00:00:00', 1, 0, 0, '9055315332', '', 1, 'tok_A1TFeO07cBS3MB', 'January 30 at 1515', '', 0, '47.71', NULL),
-(3, 32, '2017-01-30 02:40:11', 400, '', '', 'Dundas Street', 'N6B 1V7', 'London', 'Ontario', '42.9866144999999', '-81.240151500000', '0000-00-00 00:00:00', 1, 0, 0, '9055315332', '', 1, '', 'January 30 at 1100', '', 0, '47.71', NULL),
-(4, 1, '2017-02-07 20:38:29', 2396, '', '', 'Main Street', 'N6P 1A8', 'London', 'Ontario', '42.9109850999999', '-81.294483799999', '0000-00-00 00:00:00', 1, 0, 0, '905 531 5331', '', 1, '', 'February 7 at 1100', '', 0, '16.48', NULL);
+(39, 32, '2017-02-12 01:48:37', 400, '', '', 'Dundas Street', 'N6B 1V7', 'London', 'Ontario', '42.9866144999999', '-81.240151500000', '0000-00-00 00:00:00', 1, 0, 0, '9055315332', '', 1, '', 'Deliver Now', '', 0, '5.58', 'info@trinoweb.com'),
+(40, 32, '2017-02-12 01:48:59', 400, '', '', 'Dundas Street', 'N6B 1V7', 'London', 'Ontario', '42.9866144999999', '-81.240151500000', '0000-00-00 00:00:00', 1, 0, 0, '9055315332', '', 1, '', 'Deliver Now', '', 0, '5.58', 'info@trinoweb.com'),
+(41, 32, '2017-02-12 01:54:42', 400, '', '', 'Dundas Street', 'N6B 1V7', 'London', 'Ontario', '42.9866144999999', '-81.240151500000', '0000-00-00 00:00:00', 1, 0, 0, '9055315332', '', 1, '', 'February 11 at 1815', '', 0, '7.89', 'info@trinoweb.com'),
+(42, 32, '2017-02-12 02:21:22', 400, '', '', 'Dundas Street', 'N6B 1V7', 'London', 'Ontario', '42.9866144999999', '-81.240151500000', '0000-00-00 00:00:00', 1, 0, 0, '9055315332', '', 1, '', 'Deliver Now', '', 0, '85.36', 'info@trinoweb.com'),
+(43, 32, '2017-02-12 02:25:11', 400, '', '', 'Dundas Street', 'N6B 1V7', 'London', 'Ontario', '42.9866144999999', '-81.240151500000', '0000-00-00 00:00:00', 1, 0, 0, '9055315332', '', 1, '', 'Deliver Now', '', 0, '15.72', 'info@trinoweb.com'),
+(44, 32, '2017-02-12 02:26:39', 400, '', '', 'Dundas Street', 'N6B 1V7', 'London', 'Ontario', '42.9866144999999', '-81.240151500000', '0000-00-00 00:00:00', 1, 0, 0, '9055315332', '', 1, '', 'Deliver Now', '', 0, '7.89', 'info@trinoweb.com'),
+(45, 32, '2017-02-14 07:49:53', 400, '', '', 'Dundas Street', 'N6B 1V7', 'London', 'Ontario', '42.9866144999999', '-81.240151500000', '0000-00-00 00:00:00', 1, 0, 0, '9055315332', '', 1, '', 'Deliver Now', '', 0, '39.37', 'info@trinoweb.com');
 
 -- --------------------------------------------------------
 
@@ -272,7 +275,7 @@ CREATE TABLE IF NOT EXISTS `restaurants` (
 
 INSERT INTO `restaurants` (`id`, `name`, `slug`, `email`, `phone`, `cuisine`, `website`, `description`, `logo`, `is_delivery`, `is_pickup`, `max_delivery_distance`, `delivery_fee`, `minimum`, `is_complete`, `lastorder_id`, `franchise`, `address_id`) VALUES
 (1, 'Fabulous 2 for 1 Pizza & Wings', '', '', '(905) 512-3067', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 1),
-(2, 'TEST RESTRAUNT', '', '', '(905) 512-3000', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 0);
+(2, 'Marvellous 2 for 1 Pizza', '', '', '(519) 452-1044', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 74);
 
 -- --------------------------------------------------------
 
@@ -286,20 +289,21 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=72 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=89 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1486492196'),
+(1, 'lastSQL', '1487083058'),
 (20, 'orders', '1485879223'),
-(24, 'menucache', '1484882445'),
-(25, 'useraddresses', '1485873261'),
+(24, 'menucache', '1486843299'),
+(25, 'useraddresses', '1486787209'),
 (37, 'users', '1479345588'),
 (38, 'additional_toppings', '1479345609'),
-(43, 'actions', '1486492059');
+(43, 'actions', '1486525538'),
+(87, 'restaurants', '1486525593');
 
 -- --------------------------------------------------------
 
@@ -308,15 +312,14 @@ INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `toppings` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `type` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `isfree` tinyint(1) NOT NULL,
   `qualifiers` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'comma delimited list of the names for 1/2,x1,x2 if applicable',
   `isall` tinyint(4) NOT NULL DEFAULT '0',
-  `group` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=41 ;
+  `group` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `toppings`
@@ -324,35 +327,36 @@ CREATE TABLE IF NOT EXISTS `toppings` (
 
 INSERT INTO `toppings` (`id`, `name`, `type`, `isfree`, `qualifiers`, `isall`, `group`) VALUES
 (1, 'Anchovies', 'Meat', 0, '', 0, 0),
-(2, 'Artichoke Heart', 'Vegetable', 0, '', 0, 0),
-(3, 'Bacon', 'Meat', 0, '', 0, 0),
-(4, 'Beef Salami', 'Meat', 0, '', 0, 0),
-(5, 'Black Olives', 'Vegetable', 0, '', 0, 0),
-(6, 'Broccoli', 'Vegetable', 0, '', 0, 0),
-(9, 'Chicken', 'Meat', 0, '', 0, 0),
-(13, 'Green Olives', 'Vegetable', 0, '', 0, 0),
-(14, 'Green Peppers', 'Vegetable', 0, '', 0, 0),
-(15, 'Ground Beef', 'Meat', 0, '', 0, 0),
-(16, 'Ham', 'Meat', 0, '', 0, 0),
-(17, 'Hot Banana Peppers', 'Vegetable', 0, '', 0, 0),
-(18, 'Hot Italian Sausage', 'Meat', 0, '', 0, 0),
+(13, 'Artichoke Heart', 'Vegetable', 0, '', 0, 0),
+(3, 'Beef Salami', 'Meat', 0, '', 0, 0),
+(14, 'Black Olives', 'Vegetable', 0, '', 0, 0),
+(15, 'Broccoli', 'Vegetable', 0, '', 0, 0),
+(4, 'Chicken', 'Meat', 0, '', 0, 0),
+(16, 'Green Olives', 'Vegetable', 0, '', 0, 0),
+(17, 'Green Peppers', 'Vegetable', 0, '', 0, 0),
+(5, 'Ground Beef', 'Meat', 0, '', 0, 0),
+(6, 'Ham', 'Meat', 0, '', 0, 0),
+(18, 'Hot Banana Peppers', 'Vegetable', 0, '', 0, 0),
+(7, 'Hot Italian Sausage', 'Meat', 0, '', 0, 0),
 (19, 'Hot Peppers', 'Vegetable', 0, '', 0, 0),
-(20, 'Hot Sausage', 'Meat', 0, '', 0, 0),
-(21, 'Italian Sausage', 'Meat', 0, '', 0, 0),
-(23, 'Jalapeno Peppers', 'Vegetable', 0, '', 0, 0),
-(24, 'Mild Sausage', 'Meat', 0, '', 0, 0),
-(27, 'Mushrooms', 'Vegetable', 0, '', 0, 0),
-(28, 'Onions', 'Vegetable', 0, '', 0, 0),
-(30, 'Pepperoni', 'Meat', 0, '', 0, 0),
-(31, 'Pineapple', 'Vegetable', 0, '', 0, 0),
-(32, 'Red Onions', 'Vegetable', 0, '', 0, 0),
-(33, 'Red Peppers', 'Vegetable', 0, '', 0, 0),
-(34, 'Salami', 'Meat', 0, '', 0, 0),
-(35, 'Spinach', 'Vegetable', 0, '', 0, 0),
-(36, 'Sundried Tomatoes', 'Vegetable', 0, '', 0, 0),
-(37, 'Tomatoes', 'Vegetable', 0, '', 0, 0),
-(38, 'Well Done', 'zPreparation', 1, 'Lightly done, Regular, Well done', 1, 1),
-(40, 'Lightly Done', 'zPreparation', 1, '', 1, 1);
+(8, 'Hot Sausage', 'Meat', 0, '', 0, 0),
+(9, 'Italian Sausage', 'Meat', 0, '', 0, 0),
+(20, 'Jalapeno Peppers', 'Vegetable', 0, '', 0, 0),
+(10, 'Mild Sausage', 'Meat', 0, '', 0, 0),
+(21, 'Mushrooms', 'Vegetable', 0, '', 0, 0),
+(22, 'Onions', 'Vegetable', 0, '', 0, 0),
+(11, 'Pepperoni', 'Meat', 0, '', 0, 0),
+(23, 'Pineapple', 'Vegetable', 0, '', 0, 0),
+(24, 'Red Onions', 'Vegetable', 0, '', 0, 0),
+(25, 'Red Peppers', 'Vegetable', 0, '', 0, 0),
+(12, 'Salami', 'Meat', 0, '', 0, 0),
+(26, 'Spinach', 'Vegetable', 0, '', 0, 0),
+(27, 'Sundried Tomatoes', 'Vegetable', 0, '', 0, 0),
+(28, 'Tomatoes', 'Vegetable', 0, '', 0, 0),
+(31, 'Well Done', 'zPreparation', 1, '', 1, 1),
+(30, 'Lightly Done', 'zPreparation', 1, '', 1, 1),
+(2, 'Bacon', 'Meat', 0, '', 0, 0),
+(29, 'Extra Cheese', 'Vegetable', 0, '', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -375,7 +379,7 @@ CREATE TABLE IF NOT EXISTS `useraddresses` (
   `phone` varchar(16) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=68 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=75 ;
 
 --
 -- Dumping data for table `useraddresses`
@@ -384,12 +388,11 @@ CREATE TABLE IF NOT EXISTS `useraddresses` (
 INSERT INTO `useraddresses` (`id`, `user_id`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `phone`) VALUES
 (1, 21, 483, '', '', 'Dundas Street', 'N6B 1W4', 'London', 'Ontario', '42.9871816', '-81.2386115', ''),
 (60, 33, 400, '123', '', 'Dundas Street', 'N6B 1V7', 'London', 'Ontario', '42.9866144999999', '-81.240151500000', ''),
-(61, 33, 420, '', '', 'Dundas Street', 'N6B 1V7', 'London', 'Ontario', '42.9864902', '-81.240078499999', ''),
-(63, 34, 2345, 'Ieufx', '', 'Bloor Street West', 'M6S 1P4', 'Toronto', 'Ontario', '43.64993', '-79.480810000000', ''),
-(64, 34, 400, '', '', 'Dundas Street', 'N6B 1V7', 'London', 'Ontario', '42.9866144999999', '-81.240151500000', ''),
-(65, 32, 400, '', '', 'Dundas Street', 'N6B 1V7', 'London', 'Ontario', '42.9866144999999', '-81.240151500000', ''),
-(66, 35, 444, '', '', 'Dundas Street', 'N6B 3K3', 'London', 'Ontario', '42.9868405', '-81.238882900000', ''),
-(67, 1, 2396, '', '', 'Main Street', 'N6P 1A8', 'London', 'Ontario', '42.9109850999999', '-81.294483799999', '');
+(70, 34, 1001, 'basement', '', 'Fanshawe College Boulevard', 'N5V 2A5', 'London', 'Ontario', '43.013414', '-81.199466000000', ''),
+(71, 34, 400, '', '', 'Dundas Street', 'N6B 1V7', 'London', 'Ontario', '42.9866144999999', '-81.240151500000', ''),
+(72, 34, 666, '', '', 'Dundas Street', 'N5W 2Y8', 'London', 'Ontario', '42.9895098', '-81.229440299999', ''),
+(73, 32, 400, '', '', 'Dundas Street', 'N6B 1V7', 'London', 'Ontario', '42.9866144999999', '-81.240151500000', ''),
+(74, 35, 1569, '', '', 'Oxford Street East', 'N5V 1W5', 'London', 'Ontario', '43.0109195', '-81.198983600000', '');
 
 -- --------------------------------------------------------
 
@@ -413,17 +416,20 @@ CREATE TABLE IF NOT EXISTS `users` (
   `stripecustid` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=33 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=36 ;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `phone`, `lastlogin`, `loginattempts`, `profiletype`, `authcode`, `stripecustid`) VALUES
-(1, 'Roy Wall', 'roy@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '0000-00-00 00:00:00', '2017-02-01 15:15:40', '905 531 5331', 1479912217, 6, 1, '', 'cus_9rgc8wsT5ZzV05'),
+(1, 'Roy Wall', 'roy@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '0000-00-00 00:00:00', '2017-02-01 15:15:40', '905 531 5331', 1479912217, 0, 1, '', 'cus_9rgc8wsT5ZzV05'),
 (20, 'Roy Test', 'roy+test@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2016-11-16 20:20:28', '0000-00-00 00:00:00', '9055315331', 0, 0, 0, '', ''),
-(21, 'Jonas Morse', 'info+rest@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2016-11-16 20:49:31', '0000-00-00 00:00:00', '9055315331', 1481048458, 1, 2, '', 'cus_9yYE78hosPbuGH'),
-(32, 'Van Trinh', 'info@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-01-14 22:07:38', '2017-01-26 01:50:19', '9055315332', 1485713654, 2, 0, '', 'cus_9zK5kmVw7FLvt8');
+(21, 'Jonas Morse', 'info+rest@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2016-11-16 20:49:31', '0000-00-00 00:00:00', '9055315331', 1481048458, 0, 2, '', 'cus_9yYE78hosPbuGH'),
+(32, 'Van Trinh', 'info@trinoweb.com', '$2y$10$.8LsWefe6zXZMuF.S701MubOPTmCTiMGaqGB.n/HwSczdhp4ehMRi', '', '2017-01-14 22:07:38', '2017-02-11 20:46:23', '9055315332', 1486845936, 2, 0, '', 'cus_9zK5kmVw7FLvt8'),
+(33, 'Van', 'dvt1985@hotmail.com', '$2y$10$qbDiHZYqeftig.1V6ZuGfey9erSORqgGKwXlDUYsU31NSp/G5auBe', '', '2017-02-11 23:21:15', '0000-00-00 00:00:00', '', 0, 0, 0, '', ''),
+(34, 'van man2', 'odealyonline@gmail.com', '$2y$10$ocs0VNRnkAUkYYSnLQn88..W8kA0pNmrkJctyOAJoSz5A501bqXEq', '', '2017-02-11 23:45:39', '0000-00-00 00:00:00', '9055315332', 0, 0, 0, '', 'cus_A6IfT9crWQQfnq'),
+(35, 'Marvellous 2 for 1 Pizza', 'roy+rest@trinoweb.com', '$2y$10$hXkB3xLn0h2xgI/3HO4tKu2ayGmMPGEHVgHM4VqCkyGkSRBuwl76y', '', '2017-02-14 20:28:50', '0000-00-00 00:00:00', '', 0, 0, 2, '', '');
 
 -- --------------------------------------------------------
 
@@ -432,29 +438,26 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `creat
 --
 
 CREATE TABLE IF NOT EXISTS `wings_sauce` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `type` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `isfree` tinyint(1) NOT NULL,
   `qualifiers` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'comma delimited list of the names for 1/2,x1,x2 if applicable',
   `isall` tinyint(4) NOT NULL DEFAULT '1',
-  `group` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=10 ;
+  `group` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `wings_sauce`
 --
 
 INSERT INTO `wings_sauce` (`id`, `name`, `type`, `isfree`, `qualifiers`, `isall`, `group`) VALUES
-(1, 'Mild', 'Sauce', 0, '', 1, 2),
-(2, 'Medium', 'Sauce', 0, '', 1, 2),
-(3, 'Hot', 'Sauce', 0, '', 1, 2),
-(4, 'Suicide', 'Sauce', 0, '', 1, 2),
-(5, 'BBQ', 'Sauce', 0, '', 1, 2),
-(6, 'Honey Garlic', 'Sauce', 0, '', 1, 2),
-(7, 'Well Done', 'zPreparation', 1, 'Lightly done, Regular, Well done', 1, 1),
-(9, 'Sauce on Side', 'zPreparation', 1, '', 1, 3);
+(1, 'Honey Garlic', 'Sauce', 0, '', 1, 1),
+(2, 'BBQ', 'Sauce', 0, '', 1, 1),
+(3, 'Hot', 'Sauce', 0, '', 1, 1),
+(4, 'Suicide', 'Sauce', 0, '', 1, 1),
+(5, 'Well Done', 'zPreparation', 1, '', 1, 2),
+(6, 'Sauce on Side', 'zPreparation', 1, '', 1, 3);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
