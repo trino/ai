@@ -238,16 +238,15 @@
 
     $.validator.addMethod('validaddress', function (Data, element) {
         log("TESTING ADDRESS");
-    }, "Please enter a valid address");
+    }, "Please enter a valid London address");
 
     function isvalidaddress() {
-        var fields = ["formatted_address", "add_postalcode", "add_latitude", "add_longitude"];
+        var fields = ["formatted_address", "add_latitude", "add_longitude"];//, "add_postalcode"
+        if($("#add_city").val().toLowerCase() != "london"){return false;}
         for (i = 0; i < fields.length; i++) {
             log(fields[i] + ": " + $("#" + fields[i]).val().length);
             if ($("#" + fields[i]).val().length == 0) {
-                if(!(fields[i] == "add_postalcode" && $("#add_city").val().toLowerCase() == "london")){
-                    return false;
-                }
+                return false;
             }
         }
         return true;
@@ -1106,7 +1105,7 @@
                 } else {
                     loading(true, "ajaxStart");
                     previoushash = window.location.hash;
-                    window.history.pushState({}, '', '#loading');
+                    window.history.pushState({}, document.title, '#loading');
                 }
             },
             ajaxStop: function () {
@@ -1114,7 +1113,11 @@
                     skipunloadingscreen = false;
                 } else {
                     loading(false, "ajaxStop");
-                    window.history.pushState({}, '', '#' + previoushash);
+                    if(previoushash) {
+                        window.history.pushState({}, document.title, '#' + previoushash);
+                    } else {
+                        history.pushState("", document.title, window.location.pathname);
+                    }
                 }
                 skipone = Date.now() + 100;//
             }
