@@ -73,7 +73,7 @@
             $user = getuser();
             if($user["profiletype"] == 2){
                 if(isset($user["Addresses"][0])){
-                    $_GET["restaurant"] = $user["Addresses"][0]["id"];
+                    $_GET["restaurant"] = first("SELECT id FROM restaurants WHERE address_id = " . $user["Addresses"][0]["id"])["id"];
                     $adminsonly=false;
                 }
             }
@@ -486,7 +486,7 @@
                                     }
                                     if(needsAddresses) {addmarker2();}
                                 } else {
-                                    HTML = '<TR><TD COLSPAN="100">No results found</TD></TR>';
+                                    HTML = '<TR><TD COLSPAN="100">No results found' + result + '</TD></TR>';
                                 }
                                 currentpage=index;
                                 $("#data > TBODY").html(HTML);

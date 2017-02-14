@@ -412,7 +412,7 @@
                 <div>
                     <h2>Issues with your order?</h2>
                     Please contact the restaurant first
-                    <br> Then call us at 905.531.5331
+                    <br> Then call us at (905) 531-5331
                 </div>
             @endif
 
