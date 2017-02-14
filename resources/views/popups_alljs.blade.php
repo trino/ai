@@ -1750,7 +1750,7 @@
             var tempstr = '';
             var classname = 'itemcontents itemcontents' + itemindex;
 
-            HTML += '<DIV class="receipt-addons" ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="currentitem currentitem' + itemindex;
+            HTML += '<DIV ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="receipt-addons currentitem currentitem' + itemindex;
             if (currentitemindex == itemindex) {
                 HTML += ' thisside';
             }
