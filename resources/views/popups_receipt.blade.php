@@ -106,7 +106,8 @@
                 $timer = false;
             }
         } else if ($Order["deliverytime"] == "Deliver Now") {
-            $duration = "Today at " . date("H:i A", time()+($minutes*60));
+            $time = strtotime($Order["placed_at"]);
+            $duration = GenerateDate(date("F j", $time)) . " at " . date("g:i A", $time+($minutes*60));
         } else {
             $timer = false;
         }

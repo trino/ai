@@ -15,8 +15,8 @@ class HomeController extends Controller {
         return view("home_keyword")->render();
     }
 
-    public function getjs(Request $request) {
-        return view("home_getjs")->render();
+    public function help(Request $request) {
+        return view("home_help")->render();
     }
 
     public function tablelist($table) {

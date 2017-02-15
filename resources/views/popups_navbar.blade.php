@@ -4,12 +4,12 @@
             londonpizza.ca
         </a>
 
-        @if(read("id"))
-            <a class="pull-right fontsize-1p25rem" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-bars text-white"></i>
-            </a>
+        <a class="pull-right fontsize-1p25rem" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-bars text-white"></i>
+        </a>
 
-            <ul class="dropdown-menu dropdown-menu-right">
+        <ul class="dropdown-menu dropdown-menu-right">
+            @if(read("id"))
                 <SPAN class="loggedin profiletype profiletype1">
                     <?php
                         foreach (array("users", "restaurants", "useraddresses", "orders", "additional_toppings", "actions") as $table) {
@@ -36,7 +36,11 @@
                         <A ONCLICK="handlelogin('logout');" CLASS="dropdown-item" href="#"><i class="fa fa-home icon-width"></i> Log Out</A>
                     </LI>
                 </SPAN>
-            </ul>
-        @endif
+                <LI>
+                    <A CLASS="dropdown-item" href="help"><i class="fa fa-question-circle icon-width"></i> Help</A>
+                </LI>
+            @endif
+        </ul>
+
     </div>
 </nav>
