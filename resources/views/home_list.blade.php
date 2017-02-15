@@ -143,6 +143,7 @@
                 touchtable($table);
                 switch($table){
                     case "orders":
+                        $actions = actions("order_declined");
                         deletefile(resource_path("orders") . "/" . $_POST["id"] . ".json");//deletes the order file
                         break;
                     case "useraddresses":
@@ -456,15 +457,15 @@
                                         tempHTML += '<TD CLASS="' + evenodd + '">';
                                         switch(table){
                                             case "users":
-                                                tempHTML += '<A CLASS="btn btn-sm btn-success" href="' + baseURL + 'useraddresses?user_id=' + ID + '">Addresses</A> ';
-                                                tempHTML += '<A CLASS="btn btn-sm btn-secondary" href="{{ webroot("public/user/info/") }}' + ID + '">Edit</A> ';
-                                                tempHTML += '<A CLASS="btn btn-sm btn-success" ONCLICK="changepass(' + ID + ');" TITLE="Change their password">Password2 </A> ';
+                                                tempHTML += '<A CLASS="btn btn-sm btn-success cursor-pointer" href="' + baseURL + 'useraddresses?user_id=' + ID + '">Addresses</A> ';
+                                                tempHTML += '<A CLASS="btn btn-sm btn-secondary cursor-pointer" href="{{ webroot("public/user/info/") }}' + ID + '">Edit</A> ';
+                                                tempHTML += '<A CLASS="btn btn-sm btn-success cursor-pointer" ONCLICK="changepass(' + ID + ');" TITLE="Change their password">Password2 </A> ';
                                                 break;
                                             case "useraddresses":
-                                                tempHTML += '<A CLASS="btn btn-sm btn-success" onclick="editaddress(' + ID + ');">Edit</A> ';
+                                                tempHTML += '<A CLASS="btn btn-sm btn-success cursor-pointer" onclick="editaddress(' + ID + ');">Edit</A> ';
                                                 break;
                                             case "orders":
-                                                tempHTML += '<A CLASS="btn btn-sm btn-success" onclick="vieworder(' + ID + ');">View</A> ';
+                                                tempHTML += '<A CLASS="btn btn-sm btn-success cursor-pointer" onclick="vieworder(' + ID + ');">View</A> ';
                                                 if(restaurantID){
                                                     var Name = ID;
                                                     if(data.table[i]["unit"].length > 0){
@@ -475,10 +476,10 @@
                                                 }
                                                 break;
                                             case "restaurants":
-                                                tempHTML += '<A CLASS="btn btn-sm btn-success" HREF="{{ webroot("public/list/orders?restaurant=") }}' + ID + '">View</A> ';
+                                                tempHTML += '<A CLASS="btn btn-sm btn-success cursor-pointer" HREF="{{ webroot("public/list/orders?restaurant=") }}' + ID + '">View</A> ';
                                                 break;
                                         }
-                                        HTML += tempHTML + '<A CLASS="btn btn-sm btn-danger" onclick="deleteitem(' + ID + ');">Delete</A></TD></TR>';
+                                        HTML += tempHTML + '<A CLASS="btn btn-sm btn-danger cursor-pointer" onclick="deleteitem(' + ID + ');">Delete</A></TD></TR>';
                                         items++;
                                         if(TableStyle == '1'){
                                             HTML += '</TR>';
@@ -704,6 +705,9 @@
                     function deleteitem(ID){
                         var name = $("#" + table + "_" + ID + "_" + namefield).text();
                         confirm2("Are you sure you want to delete item ID: " + ID + " (" + name + ") ?", "Delete Item", function(){
+                            if(table == "orders"){
+                                changeorderstatus(ID, 2);
+                            }
                             $.post(currentURL, {
                                 action: "deleteitem",
                                 _token: token,

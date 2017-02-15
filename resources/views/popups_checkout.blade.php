@@ -10,9 +10,6 @@
     <i class="fa fa-shopping-cart"></i>
 </button>
 
-
-
-
 <div class="modal" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -28,7 +25,6 @@
 
                     <div class="col-md-12">
                         <?= view("popups_edituser", array("email" => true, "password" => false, "phone" => true))->render(); ?>
-
                     </div>
 
                     <div class="col-md-12">
@@ -59,11 +55,11 @@
 
                             <SELECT CLASS="credit-info form-control proper-height col-md-4" data-stripe="exp_year">
                                 <?php
-                                $CURRENT_YEAR = date("Y");
-                                $TOTAL_YEARS = 6;
-                                for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
-                                    echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
-                                }
+                                    $CURRENT_YEAR = date("Y");
+                                    $TOTAL_YEARS = 6;
+                                    for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
+                                        echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
+                                    }
                                 ?>
                             </SELECT>
 
@@ -83,23 +79,20 @@
 
                         <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
                         <?php
-                        if (read("id")) {
-                            echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
-                        }
+                            if (read("id")) {
+                                echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
+                            }
                         ?>
                         <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook or Driver" maxlength="255"/>
 
 
                         <div class="input-group">
 
-
                             <SELECT id="deliverytime" TITLE="Delivery Time" class="form-control"/>
-                            <OPTION>Deliver ASAP</OPTION>
+                                <OPTION>Deliver ASAP</OPTION>
                             </SELECT>
 
-
                             <span class="input-group-btn">
-
                                 <!-- why is it when i change this to a button that clicking on please neter abn address closes the modal -->
                         <a class="btn btn-primary text-white pull-righ" onclick="payfororder();">PLACE ORDER </a>
 
@@ -113,13 +106,9 @@
                         <span class="payment-errors error"></span>
 </div>
                         <style>
-
                             option:nth-child(1), option:nth-child(2), option:nth-child(3) {
                                 font-weight:bold;
                             }
-
-
-
                         </style>
 
                         <div class="clearfix"></div>
@@ -142,15 +131,15 @@
     //https://stripe.com/docs/custom-form
     @if(read("id"))
         $(document).ready(function () {
-        getcloseststore = true;
-        visible_address(false);
-        $("#saveaddresses").append('<OPTION VALUE="addaddress" ID="addaddress">Add Address</OPTION>');
-    });
-    $('#reg_phone').keypress(function () {
-        if ($('#reg_phone').valid()) {
-            clearphone();
-        }
-    });
+            getcloseststore = true;
+            visible_address(false);
+            $("#saveaddresses").append('<OPTION VALUE="addaddress" ID="addaddress">Add Address</OPTION>');
+        });
+        $('#reg_phone').keypress(function () {
+            if ($('#reg_phone').valid()) {
+                clearphone();
+            }
+        });
     @endif
 
     function restchange() {

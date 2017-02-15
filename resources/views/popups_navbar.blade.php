@@ -36,10 +36,14 @@
                         <A ONCLICK="handlelogin('logout');" CLASS="dropdown-item" href="#"><i class="fa fa-home icon-width"></i> Log Out</A>
                     </LI>
                 </SPAN>
+            @else
                 <LI>
-                    <A CLASS="dropdown-item" href="help"><i class="fa fa-question-circle icon-width"></i> Help</A>
+                    <A CLASS="dropdown-item" href="<?= webroot("/"); ?>"><i class="fa fa-user icon-width"></i> Log In</A>
                 </LI>
             @endif
+            <LI>
+                <A CLASS="dropdown-item" href="help"><i class="fa fa-question-circle icon-width"></i> Help</A>
+            </LI>
         </ul>
 
     </div>

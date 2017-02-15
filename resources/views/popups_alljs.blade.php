@@ -315,14 +315,12 @@
 
     function refreshremovebutton() {
         if (currentaddonlist[currentitemindex].length == 0) {
-           // log("FADE OUT");
-         //   $(".removeitemarrow").fadeTo("fast", 0.50);
-        //    $("#removeitemfromorder").attr("title", "").attr("onclick", "").attr("style", "cursor: not-allowed");
+            $(".removeitemarrow").fadeTo("fast", 0.50);
+            $("#removeitemfromorder").attr("title", "").attr("onclick", "").attr("style", "cursor: not-allowed");
         } else {
             var index = currentaddonlist[currentitemindex].length - 1;
             var lastitem = currentaddonlist[currentitemindex][index];
-         //   log("FADE IN");
-         //   $(".removeitemarrow").fadeTo("fast", 1.00);
+            $(".removeitemarrow").fadeTo("fast", 1.00);
             $("#removeitemfromorder").attr("title", "Remove: " + lastitem.name + " from " + $("#item_" + currentitemindex).text()).attr("onclick", "removelistitem(" + currentitemindex + ", " + index + ");").attr("style", "");
         }
     }
@@ -440,7 +438,7 @@
             tempHTML += ' <button class="fa fa-close pull-right btn btn-sm btn-danger" onclick="removeorderitem(' + itemid + ');"></button>';
 
             if (hasaddons) {
-                tempHTML += ' <button class="fa fa-pencil  pull-right  btn btn-sm btn-danger" onclick="edititem(this, ' + itemid + ');"></button>';
+                tempHTML += ' <button class="fa fa-pencil pull-right btn btn-sm btn-danger" onclick="edititem(this, ' + itemid + ');"></button>';
             }
 
 
@@ -859,7 +857,7 @@
                 if (!First) {
                     First = ID;
                 }
-                HTML += '<li class="list-group-item" ONCLICK="orders(' + ID + ');"><span class="tag tag-default tag-pill pull-xs-right pad5">ID: ' + ID + ' </span> AT: ' + order["placed_at"] + '<SPAN ID="pastreceipt' + ID + '"></SPAN></li>';
+                HTML += '<li class="list-group-item" ONCLICK="orders(' + ID + ');"><span class="tag tag-default tag-pill pull-xs-right pad5">ID: ' + ID + ' </span> &nbsp;AT: ' + order["placed_at"] + '<SPAN ID="pastreceipt' + ID + '"></SPAN></li>';
             }
             HTML += '</ul>';
             if (!First) {
@@ -1065,12 +1063,9 @@
                 title = arguments[1];
             }
             $("#alert-cancel").hide();
-            /*
-             $("#alert-ok").click(function () {
-             });  //why are these commented out? these are needed!
+            $("#alert-ok").off("click");
+            $("#alert-confirm").off("click");
 
-             $("#alert-confirm").click(function () {
-             });   */
             $("#alertmodalbody").html(arguments[0]);
             $("#alertmodallabel").text(title);
             $("#alertmodal").modal('show');

@@ -46,8 +46,8 @@
                 if ($topping["isall"]) {
                     $isfree["isall"][$Table][] = $topping["name"];
                 }
-                if ($topping["group"] > 0) {
-                    $groups[$Table][$topping["name"]] = $topping["group"];
+                if ($topping["groupid"] > 0) {
+                    $groups[$Table][$topping["name"]] = $topping["groupid"];
                 }
                 $toppings_display .= '<option value="' . $topping["id"] . '" type="' . $topping["type"] . '">' . $topping["displayname"] . '</option>';
             }

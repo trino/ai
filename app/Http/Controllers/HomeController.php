@@ -78,15 +78,8 @@ class HomeController extends Controller {
                     break;
                 case "changestatus":
                     if($_POST["status"] == -1){//email out
-                        $user = first("SELECT * FROM users WHERE id = " . read("id"));
-                        $user["orderid"] = $_POST["orderid"];
-                        $user["mail_subject"] = "Receipt";
-                        $ret["Reason"] =  $this->sendEMail("email_receipt", $user);
-                        if($ret["Reason"]){
-                            $ret["Status"] = false;
-                        } else {
-                            $ret["Reason"] = "Receipt for order ID " . $user["orderid"] . " sent to '" . $user["email"] . "'";
-                        }
+                        $user = $this->order_placed($_POST["orderid"], false, 0);
+                        $ret["Reason"] = "Receipt for order ID " . $user["orderid"] . " sent to '" . $user["email"] . "'";
                     } else {
                         $Status = array("Pending", "Confirmed", "Declined", "Delivered", "Canceled");
                         insertdb("orders", array("id" => $_POST["orderid"], "status" => $_POST["status"]));
@@ -111,20 +104,24 @@ class HomeController extends Controller {
                             }
                             $action["message"] = str_replace("[reason]", $ret["Reason"], $action["message"]);
                             if($action["email"]){
-                                $this->sendEMail("email_test", array(
-                                    'mail_subject' => $ret["Reason"],
-                                    "email" => $user["email"],
-                                    "body" => $action["message"]
-                                ));
-                                $ret["Reason"] .= "<BR>Emailed: " . $user["email"];
+                                if(isset($user["email"])) {
+                                    $this->sendEMail("email_test", array(
+                                        'mail_subject' => $ret["Reason"],
+                                        "email" => $user["email"],
+                                        "body" => $action["message"]
+                                    ));
+                                    $ret["Reason"] .= "<BR>Emailed: " . $user["email"];
+                                }
                             }
-                            if($action["phone"]) {
-                                $this->sendSMS($user["phone"], $action["message"], true);
-                                $ret["Reason"] .= "<BR>Phoned: " . $user["phone"];
-                            }
-                            if($action["sms"]) {
-                                $this->sendSMS($user["phone"], $action["message"]);
-                                $ret["Reason"] .= "<BR>Texted: " . $user["phone"];
+                            if(isset($user["phone"])) {
+                                if ($action["phone"]) {
+                                    $this->sendSMS($user["phone"], $action["message"], true);
+                                    $ret["Reason"] .= "<BR>Phoned: " . $user["phone"];
+                                }
+                                if ($action["sms"]) {
+                                    $this->sendSMS($user["phone"], $action["message"]);
+                                    $ret["Reason"] .= "<BR>Texted: " . $user["phone"];
+                                }
                             }
                         }
                     }
@@ -138,8 +135,7 @@ class HomeController extends Controller {
         if(!isset($info["user_id"]) || !$info["user_id"]) {$info["user_id"] = read("id");}
         $addressID = $this->processaddress($info);
         if(isset($_POST["order"])) {
-            $restaurant = $this->processrestaurant($info["restaurant_id"]);
-            /*
+                        /*
             $restaurant = $this->closestrestaurant($info,true);
             if(!isset($restaurant["id"])){return false;}
             $info["restaurant_id"] = $restaurant["id"];
@@ -157,38 +153,12 @@ class HomeController extends Controller {
             $dir = resource_path("orders");//no / at the end
             if (!is_dir($dir)) {mkdir($dir, 0777, true);}
             file_put_contents($dir . "/" . $orderid . ".json", json_encode($order, JSON_PRETTY_PRINT));
-            $user = first("SELECT * FROM users WHERE id = " . $info["user_id"]);
+
+            $user = $this->order_placed($orderid, $info);
             if($user["name"] != $_POST["name"] || $user["phone"] != $_POST["phone"]){
                 $user["name"] = $_POST["name"];
                 $user["phone"] = $_POST["phone"];
                 insertdb("users", array("id" => $info["user_id"], "name" => $_POST["name"], "phone" => $_POST["phone"]));//attempt to update user profile
-            }
-
-            $actions = actions("order_placed");
-            foreach($actions as $action) {
-                switch ($action["party"]) {
-                    case 0://customer
-                        $party = "customer";
-                        $email = $user["email"];
-                        $phone = $user["phone"];
-                        break;
-                    case 1://admin
-                        $party = "admin";
-                        $email = "admin";
-                        $phone = "van";
-                        break;
-                    case 2://restaurant
-                        $party = "restaurant";
-                        $email = $restaurant["user"]["email"];
-                        $phone = $restaurant["user"]["phone"];
-                        break;
-                }
-                if($action["email"]) {
-                    debugprint("Sending email to " . $party . ": " . $email);
-                    $this->sendEMail("email_receipt", ["orderid" => $orderid, "email" => $email, "mail_subject" => $action["message"]]);//send emails to customer also generates the cost
-                }
-                if($action["sms"]){$this->sendSMS($phone, $action["message"]);}
-                if($action["phone"]){$this->sendSMS($phone, $action["message"], true);}
             }
 
             //$user["orderid"] = $orderid;
@@ -265,6 +235,39 @@ class HomeController extends Controller {
         } else {
             return $addressID;
         }
+    }
+
+    function order_placed($orderid, $info = false, $party = -1){
+        if(!$info){$info = first("SELECT * FROM orders WHERE id = " . $orderid);}
+        $user = first("SELECT * FROM users WHERE id = " . $info["user_id"]);
+        $restaurant = $this->processrestaurant($info["restaurant_id"]);
+        $actions = actions("order_placed", $party);
+        foreach($actions as $action) {
+            switch ($action["party"]) {
+                case 0://customer
+                    $party = "customer";
+                    $email = $user["email"];
+                    $phone = $user["phone"];
+                    break;
+                case 1://admin
+                    $party = "admin";
+                    $email = "admin";
+                    $phone = "van";
+                    break;
+                case 2://restaurant
+                    $party = "restaurant";
+                    $email = $restaurant["user"]["email"];
+                    $phone = $restaurant["user"]["phone"];
+                    break;
+            }
+            if($action["email"]) {
+                debugprint("Sending email to " . $party . ": " . $email);
+                $this->sendEMail("email_receipt", ["orderid" => $orderid, "email" => $email, "mail_subject" => $action["message"]]);//send emails to customer also generates the cost
+            }
+            if($action["sms"]){$this->sendSMS($phone, $action["message"]);}
+            if($action["phone"]){$this->sendSMS($phone, $action["message"], true);}
+        }
+        return $user;
     }
 
     /**

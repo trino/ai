@@ -354,6 +354,7 @@
                         HTML = makeinput2(table_name, data, "Name", "name", "text");
                         HTML += makeinput2(table_name, data, "Category", "type", "category");
                         HTML += makeinput2(table_name, data, "Is Free", "isfree", "checkbox", "For free addons like 'well done', or 'easy on the sauce'");
+                        HTML += makeinput2(table_name, data, "Group #", "groupid", "number", "If the Group # is above 0, only 1 item in this group can be added to the menu item");
                         break;
                     case 'menu':
                         HTML = makeinput2(table_name, data, "Name", "item", "text");
