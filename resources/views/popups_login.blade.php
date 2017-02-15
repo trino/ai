@@ -6,14 +6,9 @@
 
 <div class="row py-2">
 
-
     <DIV CLASS="col-md-4" >
     <DIV CLASS="card card-block" >
         <h2 class="small-margin">Mobile Pizza Delivery</h2>
-
-        <!-- Bootstrap CSS -->
-        <!-- jQuery first, then Bootstrap JS. -->
-        <!-- Nav tabs -->
 
         <ul class="nav nav-tabs mb-1" role="tablist">
             <li class="nav-item">
@@ -42,7 +37,7 @@
             <div role="tabpanel" class="tab-pane fade" id="buzz">
 
                 <div class="clearfix"></div>
-<h2 class="mt-0">Delivery</h2>
+                <h2 class="mt-0">Delivery</h2>
                 <FORM id="addform">
                     <?php
                         if (!read("id")) {
@@ -86,7 +81,7 @@
         if (isvalidaddress()) {
             $("#reg_address-error").remove();
         } else if ($("#reg_address-error").length == 0) {
-            $( '<label id="reg_address-error" class="error" for="reg_name">Please enter your address</label>' ).insertAfter( "#formatted_address" );
+            $( '<label id="reg_address-error" class="error" for="reg_name">Please enter a valid London address</label>' ).insertAfter( "#formatted_address" );
         }
         $('#regform').submit();
     }

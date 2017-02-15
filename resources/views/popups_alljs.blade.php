@@ -244,8 +244,9 @@
         var fields = ["formatted_address", "add_latitude", "add_longitude"];//, "add_postalcode"
         if($("#add_city").val().toLowerCase() != "london"){return false;}
         for (i = 0; i < fields.length; i++) {
-            log(fields[i] + ": " + $("#" + fields[i]).val().length);
-            if ($("#" + fields[i]).val().length == 0) {
+            var value = $("#" + fields[i]).val();
+            log(fields[i] + ": " + value.length + " chars = " + value);
+            if (value.length == 0 || (value.indexOf("[") > -1 && value.indexOf("]") > -1)) {
                 return false;
             }
         }
@@ -663,28 +664,16 @@
 
     function validaddress() {
         var savedaddress = $("#saveaddresses").val();
-        if (savedaddress == 0) {
-            return false;
-        }
-        if (savedaddress == "addaddress") {
-            return isvalidaddress();
-        }
+        if (savedaddress == 0) {return false;}
+        if (savedaddress == "addaddress") {return isvalidaddress();}
         return true;
     }
 
     function isvalidcreditcard(CardNumber, Month, Year, CVV) {
-        if (isUndefined(CardNumber)) {
-            CardNumber = $("[data-stripe=number]").val();
-        }
-        if (isUndefined(Month)) {
-            Month = $("[data-stripe=exp_month]").val();
-        }
-        if (isUndefined(Year)) {
-            Year = $("[data-stripe=exp_year]").val();
-        }
-        if (isUndefined(CVV)) {
-            CVV = $("[data-stripe=cvc]").val();
-        }
+        if (isUndefined(CardNumber)) {CardNumber = $("[data-stripe=number]").val();}
+        if (isUndefined(Month)) {Month = $("[data-stripe=exp_month]").val();}
+        if (isUndefined(Year)) {Year = $("[data-stripe=exp_year]").val();}
+        if (isUndefined(CVV)) {CVV = $("[data-stripe=cvc]").val();}
         CardNumber = CardNumber.replace(/\D/g, '');
         var nCheck = 0, nDigit = 0, bEven = false;
         for (var n = CardNumber.length - 1; n >= 0; n--) {
@@ -1317,12 +1306,8 @@
     }
 
     function payfororder() {
-        if (!canplaceanorder()) {
-            return cantplaceorder();
-        }
-        if ($("#orderinfo").find(".error:visible[for]").length > 0) {
-            return false;
-        }
+        if (!canplaceanorder()) {return cantplaceorder();}
+        if ($("#orderinfo").find(".error:visible[for]").length > 0) {return false;}
         var $form = $('#orderinfo');
         $(".payment-errors").html("");
 
@@ -1342,30 +1327,13 @@
         var errormessage = "";
         log("Stripe response");
         switch (status) {
-            case 400:
-                errormessage = "Bad Request:<BR>The request was unacceptable, often due to missing a required parameter.";
-                break;
-            case 401:
-                errormessage = "Unauthorized:<BR>No valid API key provided.";
-                break;
-            case 402:
-                errormessage = "Request Failed:<BR>The parameters were valid but the request failed.";
-                break;
-            case 404:
-                errormessage = "Not Found:<BR>The requested resource doesn't exist.";
-                break;
-            case 409:
-                errormessage = "Conflict:<BR>The request conflicts with another request (perhaps due to using the same idempotent key).";
-                break;
-            case 429:
-                errormessage = "Too Many Requests:<BR>Too many requests hit the API too quickly. We recommend an exponential backoff of your requests.";
-                break;
-            case 500:
-            case 502:
-            case 503:
-            case 504:
-                errormessage = "Server Errors:<BR>Something went wrong on Stripe's end.";
-                break;
+            case 400:errormessage = "Bad Request:<BR>The request was unacceptable, often due to missing a required parameter.";break;
+            case 401:errormessage = "Unauthorized:<BR>No valid API key provided.";break;
+            case 402:errormessage = "Request Failed:<BR>The parameters were valid but the request failed.";break;
+            case 404:errormessage = "Not Found:<BR>The requested resource doesn't exist.";break;
+            case 409:errormessage = "Conflict:<BR>The request conflicts with another request (perhaps due to using the same idempotent key).";break;
+            case 429:errormessage = "Too Many Requests:<BR>Too many requests hit the API too quickly. We recommend an exponential backoff of your requests.";break;
+            case 500:case 502:case 503:case 504:errormessage = "Server Errors:<BR>Something went wrong on Stripe's end.";break;
             case 200:// - OK	Everything worked as expected.
                 if (response.error) {
                     $('.payment-errors').html(response.error.message);

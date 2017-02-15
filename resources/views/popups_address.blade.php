@@ -93,8 +93,14 @@
     }
 
     function initAutocomplete() {
+        var cityBounds = new google.maps.LatLngBounds(
+                new google.maps.LatLng(42.873863, -81.501312),//southWest
+                new google.maps.LatLng(43.043212, -81.092071)//northEast
+        );//london ontario boundaries
+
         formatted_address = new google.maps.places.Autocomplete(
                 /** @type {!HTMLInputElement} */(document.getElementById('formatted_address')), {
+                    bounds: cityBounds,//limit to London Ontario
                     types: ['geocode'],
                     componentRestrictions: {country: "ca"}
                 });
@@ -123,7 +129,7 @@
             postal_code: 'short_name'
         };
         //2396 Kingsway, locality: Vancouver, administrative_area_level_1: British Columbia, country: Canada, postal_code: V5R 5G9
-        var streetformat = "[street_number] [route], [locality], [administrative_area_level_1_s] [postal_code]";
+        var streetformat = "[street_number] [route], [locality], [administrative_area_level_1_s]";// [postal_code]";
         for (var i = 0; i < place.address_components.length; i++) {
             var addressType = place.address_components[i].types[0];
             if (componentForm[addressType]) {
@@ -147,6 +153,8 @@
         if (isFunction(addresshaschanged)) {
             addresshaschanged();
         }
+        //log("fillInAddress: " + JSON.stringify(place));
+        place.formatted_address = streetformat;
         return place;
     }
 </SCRIPT>
