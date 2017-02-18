@@ -111,8 +111,8 @@
             }
             $itemsInCol += $menuitemcount;
         ?>
-        <div class="margin-bottom-1rem">
-            <h2 class="text-xs-center">  {{$category['category']}}  </h2>
+        <div class=" text-xs-center">
+            <h2>{{$category['category']}}  </h2>
 
             @foreach ($menuitems as $menuitem)
                 <div class="list-group-item-action py-1 item_{{ $catclass }}"
@@ -158,7 +158,7 @@
                      ?>
                 >
 
-                    <div class="rounded  pull-left sprite sprite-<?= $itemclass; ?> sprite-medium"></div>
+                    <div class="rounded  pull-left sprite sprite-{{$itemclass}} sprite-medium"></div>
                     <span class="padding-top-45rem" class="pull-left itemname">{{$menuitem['item']}} </span>
                     <span class="pull-right itemname padding-top-45rem"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
                     <div class="clearfix"></div>

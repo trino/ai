@@ -1,6 +1,13 @@
-<nav class="shadow dont-print bg-danger text-white navbar">
-    <div class="margin-x-10px" oldclass="container-fluid">
-        <a HREF="<?= webroot("public/index"); ?>" onclick="history.go(0);" class="text-white text-center bold" href="/">
+
+
+
+
+<div class=" bg-danger">
+<div class=" text-white container-fluid">
+    <div class=" ">
+    <div class=" row ">
+    <div class=" col-xs-12 ">
+        <a HREF="<?= webroot("public/index"); ?>" onclick="history.go(0);" class="text-white pull-left" href="/">
             londonpizza.ca
         </a>
 
@@ -47,4 +54,28 @@
         </ul>
 
     </div>
-</nav>
+    </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>

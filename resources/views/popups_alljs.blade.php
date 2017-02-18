@@ -304,7 +304,7 @@
             }
         }
         currentitemID = -1;
-        var title = "<i class='fa fa-check'></i>";
+        var title = " $<SPAN ID='modal-itemtotalprice'></SPAN> <i class='fa fa-check'></i>";
         if (!isUndefined(notparent)) {
             $("#menumodal").modal("show");
             refreshremovebutton();
@@ -1148,7 +1148,7 @@
         var HTML = '';
         var FirstAddress = false;
         if (user["Addresses"].length > 0) {
-            HTML += '<SELECT class="form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION value="0">Delivery Address</OPTION>';
+            HTML += '<SELECT class="form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION value="0">Delivery Address44444</OPTION>';
             addresskeys = Object.keys(user["Addresses"][0]);
             for (i = 0; i < user["Addresses"].length; i++) {
                 if (!FirstAddress) {
@@ -1818,7 +1818,7 @@
                     HTML += '" TITLE="' + title + '">' + addon + '</button></div>';
                 }
             }
-            HTML += '<div class="card"><button class="btn bg-secondary btn-sm btn-block" > $<SPAN ID="modal-itemtotalprice"></SPAN></button></div>';
+            HTML += '<div class="card"><button class="btn bg-secondary btn-sm btn-block" ></button></div>';
 
             HTML += '<div class="card"><button class="btn bg-secondary btn-sm btn-block" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button></div>';
             HTML += '<div class="card"><button class="btn btn-sm bg-secondary btn-block" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button></div>';

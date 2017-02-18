@@ -25,6 +25,18 @@
 
                     <div class="col-md-12">
                         <?= view("popups_edituser", array("email" => true, "password" => false, "phone" => true))->render(); ?>
+
+
+
+                            <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
+                            <?php
+                            if (read("id")) {
+                                echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
+                            }
+                            ?>
+
+
+
                     </div>
 
                     <div class="col-md-12">
@@ -77,12 +89,6 @@
                             <OPTION VALUE="0" SELECTED>Select Restaurant</OPTION>
                         </SELECT>
 
-                        <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
-                        <?php
-                            if (read("id")) {
-                                echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
-                            }
-                        ?>
                         <input type="text" id="cookingnotes" class="form-control" placeholder="Notes for the Cook or Driver" maxlength="255"/>
 
 

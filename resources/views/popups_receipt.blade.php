@@ -128,7 +128,12 @@
 
 
     <h2 class="mt-0">Order arriving {{ $duration }}</h2>
+<comments>
 
+    Order arriving Tomorrow at 1:34 AM
+but it shows the 40 min countdown
+
+</comments>
     <div CLASS="countdown badge badge-pill badge-success" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"><?= $time; ?></div>
 
     <div class="clearfix"></div>
