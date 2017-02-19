@@ -1,26 +1,52 @@
-
-
-
-
-.full {
-
-        background: url(../../public/images/background.jpg) no-repeat center center fixed;
-    
+.icon-width{
+    width:24px;text-align:center;
+}
+.list-group-item{padding:.25rem 0;border:0}
+full {
+    /*
+            background: url(../../public/images/background.jpg) no-repeat center center fixed;
+    */
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+}
+hr{
+    margin-bottom:0;
+    margin-top:.55rem;
+}
+
+body {
+
+    /*  prevents horizontal scroll for full width container-fluid */
+    overflow-x: hidden;
+    color: #373a3c;
+    background: #fbfbfb;
+    font-family: 'Roboto', sans-serif;
+    animation: fadein 1s;
+    -moz-animation: fadein 1s; /* Firefox */
+    -webkit-animation: fadein 1s; /* Safari and Chrome */
+    -o-animation: fadein 1s; /* Opera */
+    background: transparent;
+    background: #404040;
+}
+
+/* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
+body.loading {
+    overflow: hidden;
+}
+
+/* Anytime the body has the loading class, our modal element will be visible */
+body.loading #loadingmodal {
+    display: block;
+    z-index: 999999;
 }
 
 h2 {
     color: #d9534f !important;
     font-weight: bold;
     font-size: 1rem !important;
-    margin: 1.5rem 0 .25rem 0 !important;
-}
-
-* {
-    line-height: 1rem !important;
+    margin: 1rem 0 .25rem 0 !important;
 }
 
 .red {
@@ -31,7 +57,7 @@ h2 {
     color: red
 }
 
-.cursor-pointer {
+.cursor-pointer,.btn, .list-group-item {
     /* !!!!!!!!!!!!!stop removing this!!!!!!!!!!!! */
     cursor: pointer;
     /* !!!!!!!!!!!!!stop removing this!!!!!!!!!!!! */
@@ -45,6 +71,7 @@ h2 {
     margin-right: .5rem;
     display: inline-block;
 }
+
 .sprite-none {
     background-position: 110px 110px;
 }
@@ -191,14 +218,16 @@ h2 {
     border-radius: 0 !important;
     border: 0 !important;
 }
-.card-columns .card{
 
-    margin-bottom:0 !important;
+.card-columns .card {
+
+    margin-bottom: 0 !important;
 }
+
 input, textarea, select {
     border: 1px solid #ddd !important;
     margin-bottom: -1px !important;
-    border-radius:0 !important;
+    border-radius: 0 !important;
 }
 
 .float-right {
@@ -255,8 +284,6 @@ input, textarea, select {
     font-size: 5rem;
 }
 
-
-
 .margin-bottom-1rem {
     margin-bottom: 1rem !important;
 }
@@ -275,7 +302,7 @@ input, textarea, select {
 }
 
 .receipt-empty {
-    color: #c9312c !important;
+    color: #d9534f !important;
 }
 
 .receipt-addons {
@@ -360,31 +387,125 @@ input {
     }
 }
 
-/* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
-body.loading {
-    overflow: hidden;
+.loader {
+    visibility: hidden;
+    background-color: #000;
+    z-index: 10000;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    opacity: .7;
 }
 
-/* Anytime the body has the loading class, our modal element will be visible */
-body.loading #loadingmodal {
+.loader:after {
+    z-index: 10001;
     display: block;
-    z-index: 999999;
+    position: absolute;
+    content: "";
+    left: -200px;
+    width: 200px;
+    height: 5px;
+    background-color: #023fd8;
+    animation: loading 1s linear infinite;
 }
+
+@keyframes loading {
+    from {
+        left: -200px;
+        width: 30%;
+    }
+    50% {
+        width: 30%;
+    }
+    70% {
+        width: 70%;
+    }
+    80% {
+        left: 50%;
+    }
+    95% {
+        left: 120%;
+    }
+    to {
+        left: 100%;
+    }
+}
+
+/************************************ end loader */
+
+/************************************ fade in */
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes fadein { /* Firefox */
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadein { /* Safari and Chrome */
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@-o-keyframes fadein { /* Opera */
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/************************************ end fade in */
 
 .bg-secondary {
     border-radius: 0 !important;
 }
 
 .container-fluid {
-    max-width: 1200px !important;
+    max-width: 1300px !important;
 }
 
-.dropdown-menu, .shadow, .modal-header, nav {
+.dropdown-menu{
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 
 }
+
+.btn-black {
+    color: #fff;
+    background-color: #444;
+    border-color: #444 ;
+}
+.bg-white {
+    background-color: #fff;
+}.bg-black {
+     background-color: #444;
+ }
 
 .col-md-3 {
+
     background: white;
+
+
+
+    border-right: 1px solid rgba(0,0,0,.1);
 }
 
 .btn-circle {
@@ -415,7 +536,7 @@ body.loading #loadingmodal {
     border-radius: 35px;
 }
 
-a:focus, .btn:focus, button {
+a:focus, .btn:focus, button,.btn {
     outline: none !important;
     outline: 0;
 }
@@ -423,9 +544,109 @@ a:focus, .btn:focus, button {
 .dont-show {
     display: none;
 }
+
 .addon-selected, .thisside {
     background: #dadada !important;
     border-color: transparent !important;
+}
+
+/*
+@media screen and (max-width: 400px) {
+    .modal-dialog {
+        margin: 0 !important;
+    }
+
+    .main-bg-image {
+
+        padding: 2rem 0 3rem 0 !important;
+    }
+
+    .pading-left-mobile {
+        padding-left: .9rem !important;
+    }
+
+    .row, .container, .modal-image {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    .card, .list-group-item {
+        border-left: 0 !important;
+        border-right: 0 !important;
+    }
+
+    .col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12 {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .worksImg {
+        padding-right: 6px;
+        padding-bottom: 3px !important;
+        float: left
+    }
+
+    .bigBlt {
+        line-height: 1.15 !important;
+        margin-top: 0px !important
+    }
+
+    .mobile-p-r-0 {
+        padding-right: 0px !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+
+    body {
+        margin-top: 45px !important;
+    }
+
+    h1 {
+        font-size: 1.3rem !important;
+    }
+
+    h2 {
+        font-size: 1.3rem !important;
+    }
+
+    h3 {
+        font-size: 1.30rem !important;
+    }
+
+    h4 {
+        font-size: 1.25rem !important;
+    }
+
+    h5 {
+        font-size: 1rem !important;
+    }
+
+    h6 {
+        font-size: 1.15rem !important;
+    }
+
+    .navbar {
+        padding: 0rem;
+    }
+
+    .list-group, .list-group-item, .card {
+        border-radius: 0 !important;
+    }
+
+    .worksImg {
+        padding-right: 8px;
+        padding-bottom: 2px !important;
+        float: left
+    }
+
+    .bigBlt {
+        line-height: 1.25 !important;
+        margin-top: 0px !important
+    }
+
 }
 
 
@@ -435,28 +656,7 @@ a:focus, .btn:focus, button {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+*/
 
 
 

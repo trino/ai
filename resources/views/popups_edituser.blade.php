@@ -33,7 +33,11 @@
     if (!isset($autocomplete)) {$autocomplete = "";}
 
     echo '<DIV>';
-    printarow("Name", $name, array("name" => "name", "value" => $user["name"], "type" => "text", "placeholder" => "Name", "class" => "form-control session_name_val"));
+if (!isset($profile1) || $profile1) {
+
+printarow("Name", $name, array("name" => "name", "value" => $user["name"], "type" => "text", "placeholder" => "Name", "class" => "form-control session_name_val"));
+
+}
     if (!isset($phone) || $phone) {
         if (!isset($phone)) {$phone = false;}
         printarow("Phone", $name, array("name" => "phone", "value" => $user["phone"], "type" => "tel", "placeholder" => "Cell", "class" => "form-control session_phone_val", "required" => $phone));

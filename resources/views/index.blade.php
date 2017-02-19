@@ -29,7 +29,7 @@
                 }
 
                 //menu caching
-                $doCache = false;//disabled for development
+                $doCache = true;//disabled for development
                 $menucache_filename = resource_path() . "/menucache.html";
                 $menublade_filename = resource_path() . "/views/popups_menu.blade.php";
                 $menucache_uptodate = isFileUpToDate("menucache", $menucache_filename) && !isFileUpToDate("menucache", $menublade_filename);
@@ -45,7 +45,7 @@
                 }
             ?>
 
-        <div class="col-md-3 bg-danger padding-bottom-5em">
+        <div class="col-md-3 bg-inverse padding-bottom-5em">
             @include("popups_checkout")
         </div>
 

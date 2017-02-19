@@ -1,8 +1,8 @@
 <?php
-    startfile("popups_alljs");
-    $CURRENT_YEAR = date("Y");
-    $STREET_FORMAT = "[number] [street], [city] [postalcode]";
-    //["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
+startfile("popups_alljs");
+$CURRENT_YEAR = date("Y");
+$STREET_FORMAT = "[number] [street], [city] [postalcode]";
+//["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
 ?>
 
 <script>
@@ -242,7 +242,9 @@
 
     function isvalidaddress() {
         var fields = ["formatted_address", "add_latitude", "add_longitude"];//, "add_postalcode"
-        if($("#add_city").val().toLowerCase() != "london"){return false;}
+        if ($("#add_city").val().toLowerCase() != "london") {
+            return false;
+        }
         for (i = 0; i < fields.length; i++) {
             var value = $("#" + fields[i]).val();
             log(fields[i] + ": " + value.length + " chars = " + value);
@@ -304,7 +306,7 @@
             }
         }
         currentitemID = -1;
-        var title = " $<SPAN ID='modal-itemtotalprice'></SPAN> <i class='fa fa-check'></i>";
+        var title = " <div class='pull-left'>$<SPAN ID='modal-itemtotalprice'></SPAN></div> <div class='pull-right'> <i class='fa fa-check'></i></div>";
         if (!isUndefined(notparent)) {
             $("#menumodal").modal("show");
             refreshremovebutton();
@@ -388,12 +390,16 @@
 
     //convert the order to an HTML receipt
     function generatereceipt() {
-        if ($("#myorder").length == 0) {return false;}
-        var HTML = '<div class="clearfix"></div>', tempHTML = "", subtotal = 0, fadein = false, oldvalues ="";
-        if($("#newvalues").length > 0){oldvalues = $("#newvalues").html();}
+        if ($("#myorder").length == 0) {
+            return false;
+        }
+        var HTML = '<div class="clearfix"></div>', tempHTML = "", subtotal = 0, fadein = false, oldvalues = "";
+        if ($("#newvalues").length > 0) {
+            oldvalues = $("#newvalues").html();
+        }
         $("#oldvalues").html("");
-        var itemnames = {toppings: "Pizza", wings_sauce: "Lb"};
-        var nonames = {toppings: "toppings", wings_sauce: "sauces"};
+        var itemnames = {toppings: "Pizza", wings_sauce: "lb"};
+        var nonames = {toppings: "toppings", wings_sauce: "sauce"};
         for (var itemid = 0; itemid < theorder.length; itemid++) {
             var item = theorder[itemid];
             var totalcost = (Number(item["itemprice"]) + (Number(item["toppingcost"]) * Number(item["toppingcount"]))).toFixed(2);
@@ -404,7 +410,7 @@
                 sprite = category.trim();
                 if (category.endswith("pizza")) {
                     category = "pizza";
-                    if (item["itemname"].startswith("2")){
+                    if (item["itemname"].startswith("2")) {
                         sprite = "241_pizza";
                     }
                 }
@@ -431,19 +437,29 @@
                 sprite += " sprite-" + toclassname(item["itemname"].trim()).replaceAll("_", "-").replace(/\./g, '');
             }
 
-            tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item">';
-            tempHTML += '<span class="receipt-itemname"> <DIV CLASS="sprite pull-left rounded sprite-' + sprite + ' sprite-medium"></DIV> ' + item["itemname"] + '</span>';
-            //   tempHTML += '<span class=""></DIV> ' + item["itemname"] + '</span>';
-            tempHTML += '<span class="pull-right" title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '">';
-            tempHTML += ' <button class="fa fa-close pull-right btn btn-sm btn-danger" onclick="removeorderitem(' + itemid + ');"></button>';
+            tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item " style="padding:.5rem 0 !important;border-bottom:1px solid #444">';
+
+            tempHTML += '<span class="receipt-itemname "> ';
+
+            tempHTML += '<DIV CLASS="sprite pull-left rounded bg-black sprite-' + sprite + ' sprite-medium"></DIV></span>';
+
+            tempHTML += '<span  title="Base cost: ' + item["itemprice"]
+                + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '">';
+
+
+
+            tempHTML += item["itemname"];
+
+            tempHTML += ' <button class="fa fa-close pull-right btn btn-sm btn-black" onclick="removeorderitem(' + itemid + ');"></button>';
 
             if (hasaddons) {
-                tempHTML += ' <button class="fa fa-pencil pull-right btn btn-sm btn-danger" onclick="edititem(this, ' + itemid + ');"></button>';
+                tempHTML += '<button class="fa fa-pencil pull-right btn btn-sm btn-black" onclick="edititem(this, ' + itemid + ');"></button>';
             }
 
+            tempHTML += '<span  class="pull-right" >$' + totalcost + '</span>';
+            tempHTML += '<div class="clearfix"></div>';
 
-
-            tempHTML += '$' + totalcost + '</span>';
+            tempHTML += '</span>';
             tempHTML += '<div class="clearfix"></div>';
 
             var itemname = "";
@@ -476,6 +492,8 @@
                     tempHTML += '<BR>';
                 }
             }
+
+
             HTML += tempHTML + '</DIV>';
         }
         var taxes = (subtotal + deliveryfee) * 0.13;//ontario only
@@ -485,7 +503,7 @@
 
         createCookieValue("theorder", JSON.stringify(theorder));
         if (theorder.length == 0) {
-            HTML = '<DIV CLASS="text-center receipt-empty"><br><br><i class="fa fa-shopping-cart" style="font-size:3rem"></i><br><br><h5>Order is Empty</h5><br><br><br><br></div>';
+            HTML = '<DIV CLASS="text-center receipt-empty"><br><i class="fa fa-shopping-cart" style="font-size:1.5rem"></i><br><h6>Order is Empty</h6><br><br><br></div>';
             $("#checkout").hide();
             $("#checkoutbutton").hide();
             $("#confirmclearorder").hide();
@@ -496,7 +514,9 @@
             $("#checkout-total").text('$0.00');
         } else {
             tempHTML = '<DIV id="newvalues"';
-            if(fadein){tempHTML += ' CLASS="dont-show"';}
+            if (fadein) {
+                tempHTML += ' CLASS="dont-show"';
+            }
             tempHTML += '><br><span class="pull-right category-parent"> <SPAN CLASS="category">Sub-total </SPAN>$' + subtotal.toFixed(2) + '</span><br>';
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Delivery </SPAN>$' + deliveryfee.toFixed(2) + '</span><br>';
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Tax </SPAN>$' + taxes.toFixed(2) + '</span><br>';
@@ -505,11 +525,15 @@
             $("#checkout-total").text('$' + totalcost.toFixed(2));
             $("#checkout-btn").show();
         }
-        if(fadein){tempHTML += '<DIV id="oldvalues">' + oldvalues + '</div>';}
+        if (fadein) {
+            tempHTML += '<DIV id="oldvalues">' + oldvalues + '</div>';
+        }
         $("#myorder").html(HTML + tempHTML);
         if (fadein) {
             $(fadein).hide().fadeIn();
-            $( "#oldvalues" ).fadeOut("slow", function() {$("#newvalues").fadeIn();});
+            $("#oldvalues").fadeOut("slow", function () {
+                $("#newvalues").fadeIn();
+            });
         }
     }
 
@@ -662,16 +686,28 @@
 
     function validaddress() {
         var savedaddress = $("#saveaddresses").val();
-        if (savedaddress == 0) {return false;}
-        if (savedaddress == "addaddress") {return isvalidaddress();}
+        if (savedaddress == 0) {
+            return false;
+        }
+        if (savedaddress == "addaddress") {
+            return isvalidaddress();
+        }
         return true;
     }
 
     function isvalidcreditcard(CardNumber, Month, Year, CVV) {
-        if (isUndefined(CardNumber)) {CardNumber = $("[data-stripe=number]").val();}
-        if (isUndefined(Month)) {Month = $("[data-stripe=exp_month]").val();}
-        if (isUndefined(Year)) {Year = $("[data-stripe=exp_year]").val();}
-        if (isUndefined(CVV)) {CVV = $("[data-stripe=cvc]").val();}
+        if (isUndefined(CardNumber)) {
+            CardNumber = $("[data-stripe=number]").val();
+        }
+        if (isUndefined(Month)) {
+            Month = $("[data-stripe=exp_month]").val();
+        }
+        if (isUndefined(Year)) {
+            Year = $("[data-stripe=exp_year]").val();
+        }
+        if (isUndefined(CVV)) {
+            CVV = $("[data-stripe=cvc]").val();
+        }
         CardNumber = CardNumber.replace(/\D/g, '');
         var nCheck = 0, nDigit = 0, bEven = false;
         for (var n = CardNumber.length - 1; n >= 0; n--) {
@@ -927,7 +963,9 @@
     }
 
     function loading(state, where) {
-        if (isUndefined(where)) {where = "UNKNOWN";}
+        if (isUndefined(where)) {
+            where = "UNKNOWN";
+        }
         if (state) {
             log("Loading: " + where);
             $body.addClass("loading");
@@ -1007,7 +1045,9 @@
                     switch (action) {
                         case "login":
                             token = data["Token"];
-                            if(!login(data["User"], true)){redirectonlogin=false;}
+                            if (!login(data["User"], true)) {
+                                redirectonlogin = false;
+                            }
                             $("#loginmodal").modal("hide");
                             if (redirectonlogin) {
                                 log("Login reload");
@@ -1097,7 +1137,7 @@
                     skipunloadingscreen = false;
                 } else {
                     loading(false, "ajaxStop");
-                    if(previoushash) {
+                    if (previoushash) {
                         window.history.pushState({}, document.title, '#' + previoushash);
                     } else {
                         history.pushState("", document.title, window.location.pathname);
@@ -1109,7 +1149,7 @@
 
         @if(isset($user) && $user)
             login(<?= json_encode($user); ?>, false); //user is already logged in, use the data
-        @endif
+                @endif
 
         var HTML = '';
         var todaysdate = isopen(generalhours);
@@ -1148,7 +1188,7 @@
         var HTML = '';
         var FirstAddress = false;
         if (user["Addresses"].length > 0) {
-            HTML += '<SELECT class="form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION value="0">Delivery Address44444</OPTION>';
+            HTML += '<SELECT class="form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION value="0">Delivery Address</OPTION>';
             addresskeys = Object.keys(user["Addresses"][0]);
             for (i = 0; i < user["Addresses"].length; i++) {
                 if (!FirstAddress) {
@@ -1166,7 +1206,7 @@
             var URL = '<?= webroot("public/list/orders"); ?>';
 
             if (window.location.href != URL && isJSON) {
-                redirectonlogin=false;
+                redirectonlogin = false;
                 window.location.href = URL;
                 return false;
             }
@@ -1209,7 +1249,7 @@
         clearphone();
         var Selected = $("#saveaddresses option:selected");
         var SelectedVal = $(Selected).val();
-    //log("Selected: " + SelectedVal);
+        //log("Selected: " + SelectedVal);
         var Text = '<?= $STREET_FORMAT; ?>';
         visible_address(false);
         $("#add_unit").hide();
@@ -1301,8 +1341,12 @@
     }
 
     function payfororder() {
-        if (!canplaceanorder()) {return cantplaceorder();}
-        if ($("#orderinfo").find(".error:visible[for]").length > 0) {return false;}
+        if (!canplaceanorder()) {
+            return cantplaceorder();
+        }
+        if ($("#orderinfo").find(".error:visible[for]").length > 0) {
+            return false;
+        }
         var $form = $('#orderinfo');
         $(".payment-errors").html("");
 
@@ -1322,13 +1366,30 @@
         var errormessage = "";
         log("Stripe response");
         switch (status) {
-            case 400:errormessage = "Bad Request:<BR>The request was unacceptable, often due to missing a required parameter.";break;
-            case 401:errormessage = "Unauthorized:<BR>No valid API key provided.";break;
-            case 402:errormessage = "Request Failed:<BR>The parameters were valid but the request failed.";break;
-            case 404:errormessage = "Not Found:<BR>The requested resource doesn't exist.";break;
-            case 409:errormessage = "Conflict:<BR>The request conflicts with another request (perhaps due to using the same idempotent key).";break;
-            case 429:errormessage = "Too Many Requests:<BR>Too many requests hit the API too quickly. We recommend an exponential backoff of your requests.";break;
-            case 500:case 502:case 503:case 504:errormessage = "Server Errors:<BR>Something went wrong on Stripe's end.";break;
+            case 400:
+                errormessage = "Bad Request:<BR>The request was unacceptable, often due to missing a required parameter.";
+                break;
+            case 401:
+                errormessage = "Unauthorized:<BR>No valid API key provided.";
+                break;
+            case 402:
+                errormessage = "Request Failed:<BR>The parameters were valid but the request failed.";
+                break;
+            case 404:
+                errormessage = "Not Found:<BR>The requested resource doesn't exist.";
+                break;
+            case 409:
+                errormessage = "Conflict:<BR>The request conflicts with another request (perhaps due to using the same idempotent key).";
+                break;
+            case 429:
+                errormessage = "Too Many Requests:<BR>Too many requests hit the API too quickly. We recommend an exponential backoff of your requests.";
+                break;
+            case 500:
+            case 502:
+            case 503:
+            case 504:
+                errormessage = "Server Errors:<BR>Something went wrong on Stripe's end.";
+                break;
             case 200:// - OK	Everything worked as expected.
                 if (response.error) {
                     $('.payment-errors').html(response.error.message);
@@ -1346,11 +1407,17 @@
 
     var closest = false;
     function addresshaschanged() {
-        if (!getcloseststore) {return;}
+        if (!getcloseststore) {
+            return;
+        }
         var formdata = getform("#orderinfo");
         formdata.limit = 10;
-        if (!formdata.latitude || !formdata.longitude) {return;}
-        if (!debugmode) {formdata.radius = MAX_DISTANCE;}
+        if (!formdata.latitude || !formdata.longitude) {
+            return;
+        }
+        if (!debugmode) {
+            formdata.radius = MAX_DISTANCE;
+        }
         skiploadingscreen = true;
         //canplaceorder = false;
 
@@ -1665,7 +1732,7 @@
             <div class="modal-body">
                 <DIV ID="alertmodalbody"></DIV>
                 <div CLASS="pull-right">
-                    <button class="btn btn-link" id="alert-cancel" data-dismiss="modal">
+                    <button class="btn btn-link text-muted" id="alert-cancel" data-dismiss="modal">
                         CANCEL
                     </button>
                     <button class="btn btn-link" id="alert-confirm" data-dismiss="modal">
@@ -1787,7 +1854,6 @@
         }
 
 
-
         var types = Object.keys(alladdons[table]);
 
         if (currentstyle == 0) {
@@ -1797,8 +1863,7 @@
         } else {
 
 
-            HTML +='  <div class="card-columns">';
-
+            HTML += '  <div class="card-columns">';
 
 
             //var colors = ["secondary", "secondary", "secondary", "secondary", "secondary"];//' + colors[i] + '
@@ -1808,7 +1873,7 @@
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
-                    HTML += '<div class="card"><button class="btn-sm toppings_btn btn addon-addon btn-block';
+                    HTML += '<div class="card"><button style="border:0;text-align: left;border-radius:0 " class="btn-sm  btn addon-addon btn-block';
                     if (isaddon_free(String(currentaddontype), String(addon))) {
                         HTML += ' btn-secondary';//this should be different from a paid topping
                         title = "Free addon";
@@ -1818,12 +1883,13 @@
                     HTML += '" TITLE="' + title + '">' + addon + '</button></div>';
                 }
             }
-            HTML += '<div class="card"><button class="btn bg-secondary btn-sm btn-block" ></button></div>';
+            // HTML += '<div class="card"><button class="btn bg-secondary btn-sm btn-block" ></button></div>';
 
-            HTML += '<div class="card"><button class="btn bg-secondary btn-sm btn-block" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button></div>';
-            HTML += '<div class="card"><button class="btn btn-sm bg-secondary btn-block" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button></div>';
 
-            HTML +='</div>';
+            HTML += '<div class="card"><button class="btn bg-secondary btn-sm btn-block" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button></div>' +
+                '<div class="card"><button style="border-radius:0 !important;" class="btn mt-0 btn-sm btn-success btn-block" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button></div>';
+
+
             $("#addonlist").html(HTML);
             $(".addon-addon").click(
                 function (event) {
@@ -1839,11 +1905,7 @@
         hashalves = halves;
 
 
-
         generateaddons();
-
-
-
 
 
     }
@@ -2004,25 +2066,25 @@
 
     @if(read("id"))
         $(document).ready(function () {
-            <?php
-                if (islive() || $GLOBALS["testlive"]) {
-                    echo "setPublishableKey('pk_vnR0dLVmyF34VAqSegbpBvhfhaLNi', 'live')";
-                } else {
-                    echo "setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', 'test');";
-                }
-            ?>
-        });
-
-        function setPublishableKey(Key, mode) {
-            try {
-                Stripe.setPublishableKey(Key);
-                @if(!islive())
-                    log(mode + " stripe mode");
-                @endif
-                } catch (error){
-                log("Stripe not available on this page");
-            }
+        <?php
+        if (islive() || $GLOBALS["testlive"]) {
+            echo "setPublishableKey('pk_vnR0dLVmyF34VAqSegbpBvhfhaLNi', 'live')";
+        } else {
+            echo "setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', 'test');";
         }
+        ?>
+    });
+
+    function setPublishableKey(Key, mode) {
+        try {
+            Stripe.setPublishableKey(Key);
+            @if(!islive())
+                log(mode + " stripe mode");
+            @endif
+        } catch (error) {
+            log("Stripe not available on this page");
+        }
+    }
     @endif
 
     function scrolltobottom() {
@@ -2032,26 +2094,26 @@
 
 
     /*
-    function OnFirstLoad() {
-        if (document.attachEvent) {
-            document.attachEvent('onscroll', scrollEvent);
-        } else if (document.addEventListener) {
-            document.addEventListener('scroll', scrollEvent, false);
-        }
-        log("Scroll monitor!");
-    }
-    $(document).ready(function () {
-        OnFirstLoad();
-    });
-    function stackTrace() {
-        var err = new Error();
-        return err.stack;
-    }
-    function scrollEvent(e) {
-        var caller = stackTrace();
-        log("SCROLLING: " + caller);
-    }
-    */
+     function OnFirstLoad() {
+     if (document.attachEvent) {
+     document.attachEvent('onscroll', scrollEvent);
+     } else if (document.addEventListener) {
+     document.addEventListener('scroll', scrollEvent, false);
+     }
+     log("Scroll monitor!");
+     }
+     $(document).ready(function () {
+     OnFirstLoad();
+     });
+     function stackTrace() {
+     var err = new Error();
+     return err.stack;
+     }
+     function scrollEvent(e) {
+     var caller = stackTrace();
+     log("SCROLLING: " + caller);
+     }
+     */
 </SCRIPT>
 
 <script type="text/javascript">

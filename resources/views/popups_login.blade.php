@@ -4,9 +4,11 @@
 
 <!--div class="modal" id="loginmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"  data-keyboard="false" data-backdrop="static"-->
 
-<div class="row py-2">
+<div class="row py-2 mb-3">
 
     <DIV CLASS="col-md-4" >
+
+
     <DIV CLASS="card card-block" >
         <h2 class="small-margin">Mobile Pizza Delivery</h2>
 
@@ -35,9 +37,7 @@
             </div>
 
             <div role="tabpanel" class="tab-pane fade" id="buzz">
-
-                <div class="clearfix"></div>
-                <h2 class="mt-0">Delivery</h2>
+<div class="alert alert-info">Attention: We are only accepting card payments at this time. We apologize for the inconvenience.</div>
                 <FORM id="addform">
                     <?php
                         if (!read("id")) {
@@ -55,7 +55,7 @@
                 <div class="clearfix mt-2"></div>
 
                 <button class="btn btn-primary pull-right" onclick="register();">
-                    Register
+                    SIGN UP
                 </button>
             </div>
         </div>

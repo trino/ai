@@ -107,7 +107,7 @@
             }
         } else if ($Order["deliverytime"] == "Deliver Now") {
             $time = strtotime($Order["placed_at"]);
-            $duration = GenerateDate(date("F j", $time)) . " at " . date("g:i A", $time+($minutes*60));
+            $duration = GenerateDate(date("F j", $time)) . " at " . date("g i A", $time+($minutes*60));
         } else {
             $timer = false;
         }
@@ -117,9 +117,9 @@
         if ($minutes < 60) {
             $time = $minutes;
         } else {
-            $time = floor($minutes / 60) . ":" . minpad($minutes % 60);
+            $time = floor($minutes / 60) . " " . minpad($minutes % 60);
         }
-        $time .= ":" . minpad($seconds);
+        $time .= " " . minpad($seconds);
     }
     $onlydebug = "Only shows in debug mode! - ";
 ?>
@@ -128,13 +128,8 @@
 
 
     <h2 class="mt-0">Order arriving {{ $duration }}</h2>
-<comments>
 
-    Order arriving Tomorrow at 1:34 AM
-but it shows the 40 min countdown
-
-</comments>
-    <div CLASS="countdown badge badge-pill badge-success" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"><?= $time; ?></div>
+    <div style="font-size:1.25rem;padding:.75rem;" CLASS="countdown badge badge-pill badge-success" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"><?= $time; ?></div>
 
     <div class="clearfix"></div>
 
@@ -170,7 +165,7 @@ but it shows the 40 min countdown
     <TABLE <?= inline("table table-sm table-bordered table-responsive"); ?> >
         <TR>
             <TH>#</TH>
-            <TH>Name</TH>
+            <TH>Item</TH>
             @if($debugmode)
 
             <TH class="text-xs-right"> Sub-total</TH>
@@ -178,9 +173,9 @@ but it shows the 40 min countdown
             @endif
             <TH>Addons</TH>
             @if($debugmode)
-                <TH TITLE="<?= $onlydebug; ?>">Addon Count</TH>
+                <TH TITLE="<?= $onlydebug; ?>">Count</TH>
             @endif
-            <th class="text-xs-right">Total</th>
+            <th class="text-xs-right">Price</th>
         </TR>
 
 
@@ -303,7 +298,7 @@ but it shows the 40 min countdown
                                                             $itemtype = "Pizza";
                                                             break;
                                                         case "wings_sauce":
-                                                            $itemtype = "Lb";
+                                                            $itemtype = "lb";
                                                             break;
                                                     }
                                                     if (isset($addon->addons)) {
@@ -416,9 +411,8 @@ but it shows the 40 min countdown
 
             @if ($style == 1)
                 <div>
-                    <h2>Issues with your order?</h2>
-                    Please contact the restaurant first
-                    <br> Then call us at (905) 531-5331
+                    <h2>Questions about your order?</h2>
+                    Please contact the restaurant directly, info can be found on the order receipt.
                 </div>
             @endif
 
@@ -457,9 +451,9 @@ but it shows the 40 min countdown
                             if (hours == 0) {
                                 result = minutes;
                             } else {
-                                result = hours + ":" + minpad(minutes % 60);
+                                result = hours + "h:" + minpad(minutes % 60);
                             }
-                            result += ":" + minpad(seconds);
+                            result += "m " + minpad(seconds)+"s";
                         }
                         $(".countdown").attr("seconds", seconds);
                         $(".countdown").attr("minutes", minutes);

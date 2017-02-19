@@ -21,13 +21,13 @@
                 <div CLASS="editprofilediv">
                     <DIV ID="cardlist"></DIV>
                 </div>
-                <div CLASS="editprofilediv mt-2">
+                <!--div CLASS="editprofilediv mt-2">
                     <button ONCLICK="orders();" CLASS="btn btn-primary" href="#">PAST ORDERS</button>
                 </div>
                 <div CLASS="editprofilediv mt-2">
                     <button ONCLICK="handlelogin('logout');" CLASS="btn btn-primary pull-left" href="#">LOG OUT</button>
                     <div class="clearfix"></div>
-                </div>
+                </div-->
             </div>
         </div>
     </div>
