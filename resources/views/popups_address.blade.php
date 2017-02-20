@@ -6,7 +6,7 @@
             echo '<DIV CLASS="form-control row"><DIV CLASS="form-control col-md-2">Address:</DIV><DIV CLASS="form-control col-md-10"><INPUT TYPE="text" ID="formatted_address" name="formatted_address"></div></DIV>';
             break;
         case 1:
-            echo '<INPUT TYPE="text" ID="formatted_address" PLACEHOLDER="Delivery Address" CLASS="form-control formatted_address" name="formatted_address">';
+            echo '<INPUT TYPE="text" ID="formatted_address" PLACEHOLDER="Address" CLASS="form-control formatted_address" name="formatted_address">';
             echo '<STYLE>.address.:focus{z-index: 999;}</STYLE>';
             break;
     }
@@ -19,7 +19,7 @@
     }
 </STYLE>
     @if($form) <FORM ID="googleaddress"> @endif
-        <INPUT TYPE="text" NAME="unit" ID="add_unit" PLACEHOLDER="Address Notes" CLASS="form-control address">
+        <INPUT TYPE="text" NAME="unit" ID="add_unit" PLACEHOLDER="Notes" CLASS="form-control address">
         <INPUT TYPE="text" NAME="number" ID="add_number" PLACEHOLDER="Street Number" CLASS="form-control street_number address dont-show">
         <INPUT TYPE="text" NAME="street" ID="add_street" PLACEHOLDER="Street" CLASS="form-control route address dont-show">
         <INPUT TYPE="text" NAME="city" ID="add_city" PLACEHOLDER="City" CLASS="form-control locality address dont-show">

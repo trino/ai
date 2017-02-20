@@ -33,16 +33,22 @@
                 <div class="clearfix mt-2"></div>
 
                 <BUTTON CLASS="btn btn-primary pull-right" onclick="handlelogin('login');">LOG IN</BUTTON>
-                <BUTTON CLASS="btn btn-link pl-0 text-muted pull-left" onclick="handlelogin('forgotpassword');">Forgot Password</BUTTON>
+                <BUTTON CLASS="btn btn-link pl-0 text-muted pull-left btn-sm" onclick="handlelogin('forgotpassword');">Forgot Password</BUTTON>
             </div>
 
             <div role="tabpanel" class="tab-pane fade" id="buzz">
-<div class="alert alert-info">Attention: We are only accepting card payments at this time. We apologize for the inconvenience.</div>
+<div class="alert alert-info">We're only accepting credit/debit payments during Beta. We apologize for the inconvenience.</div>
+
+                <h2>Delivery</h2>
+
+
+
                 <FORM id="addform">
                     <?php
                         if (!read("id")) {
                             echo view("popups_address", array("style" => 1))->render();
                         }
+
                     ?>
                 </FORM>
 

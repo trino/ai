@@ -24,7 +24,7 @@ if (!function_exists("getsize")) {
     //process addons, generating the option group dropdown HTML, enumerating free toppings and qualifiers
     function getaddons($Table, &$isfree, &$qualifiers, &$addons, &$groups)
     {
-        $toppings = Query("SELECT * FROM " . $Table . " ORDER BY type ASC, name ASC", true);
+        $toppings = Query("SELECT * FROM " . $Table . " ORDER BY id asc, type ASC, name ASC", true);
         $toppings_display = '';
         $currentsection = "";
         $isfree[$Table] = array();
@@ -95,6 +95,7 @@ $classlist = array();
 $groups = array();
 $toppings_display = getaddons("toppings", $isfree, $qualifiers, $addons, $groups);
 $wings_display = getaddons("wings_sauce", $isfree, $qualifiers, $addons, $groups);
+
 $tables = array("toppings", "wings_sauce");
 $totalmenuitems = countSQL("menu");
 $maxmenuitemspercol = $totalmenuitems / 3; //17
@@ -103,7 +104,7 @@ $CurrentCol = 1;
 ?>
 
 
-<div class="col-md-3">
+<div class="col-md-3 pb-2">
     @foreach ($categories as $category)
         <?php
         $catclass = toclass($category['category']);
@@ -117,14 +118,14 @@ $CurrentCol = 1;
         }
         $itemsInCol += $menuitemcount;
         ?>
-        <div>
+
             <h2 class="text-xs-center">{{$category['category']}}  </h2>
             <hr>
             @foreach ($menuitems as $menuitem)
 
 
 
-                <div class="list-group-item list-group-item-action pa-0  d-flex justify-content-start item_{{ $catclass }}"
+                <div class="list-group-item list-group-item-action d-flex justify-content-start item_{{ $catclass }}"
                      itemid="{{$menuitem["id"]}}"
                      itemname="{{$menuitem['item']}}"
                      itemprice="{{$menuitem['price']}}"
@@ -178,13 +179,12 @@ $CurrentCol = 1;
 
                 </div>
             @endforeach
-            <div class="clearfix"></div>
-        </div>
+
         @if($catclass=="dips" || $catclass=="sides")
 
 </div>
 
-<div class="col-md-3">
+<div class="col-md-3 pb-2">
     @endif
     @endforeach
 </div>
@@ -210,11 +210,7 @@ $CurrentCol = 1;
 
             <div class="modal-body py-0">
                 <div class="row">
-                    <DIV ID="addonlist" class="addonlist  no-gutters " style="width: 100%"></DIV>
-
-
-
-
+                    <DIV ID="addonlist" class="addonlist" style="width: 100%"></DIV>
                 </div>
             </div>
         </div>

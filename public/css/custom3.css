@@ -1,7 +1,9 @@
+*{line-height: 1rem !important;}
+.btn{border:0;}
 .icon-width{
     width:24px;text-align:center;
 }
-.list-group-item{padding:.25rem 0;border:0}
+.list-group-item{padding:.5rem 0;border:0}
 full {
     /*
             background: url(../../public/images/background.jpg) no-repeat center center fixed;
@@ -28,7 +30,7 @@ body {
     -webkit-animation: fadein 1s; /* Safari and Chrome */
     -o-animation: fadein 1s; /* Opera */
     background: transparent;
-    background: #404040;
+    background: #000;
 }
 
 /* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
@@ -45,7 +47,7 @@ body.loading #loadingmodal {
 h2 {
     color: #d9534f !important;
     font-weight: bold;
-    font-size: 1rem !important;
+    font-size: 1.25rem !important;
     margin: 1rem 0 .25rem 0 !important;
 }
 
@@ -68,7 +70,7 @@ h2 {
     background-repeat: no-repeat;
     width: 64px;
     height: 64px;
-    margin-right: .5rem;
+    margin-right: 1rem;
     display: inline-block;
 }
 
@@ -302,10 +304,11 @@ input, textarea, select {
 }
 
 .receipt-empty {
-    color: #d9534f !important;
+    color: #636c72 !important;
 }
 
 .receipt-addons {
+    cursor: pointer;
     margin-bottom: 10px;
     border: 1px solid #dadada;
     border-radius: .2rem;
@@ -313,7 +316,9 @@ input, textarea, select {
     width: 100% !important;
     float: left;
 }
-
+.receipt-addons:hover{
+    background: #dadada !important;
+}
 .receipt-addons-list {
     background: #efefef;
     height: 150px;
@@ -490,13 +495,13 @@ input {
 
 .btn-black {
     color: #fff;
-    background-color: #444;
-    border-color: #444 ;
+    background-color: #111;
+    border-color: #111 ;
 }
 .bg-white {
     background-color: #fff;
 }.bg-black {
-     background-color: #444;
+     background-color: #111;
  }
 
 .col-md-3 {
@@ -546,7 +551,8 @@ a:focus, .btn:focus, button,.btn {
 }
 
 .addon-selected, .thisside {
-    background: #dadada !important;
+    cursor: pointer;
+    background: #999 !important;
     border-color: transparent !important;
 }
 

@@ -85,6 +85,7 @@
 @if(false)
 
     <style>
+        *{border:1px solid orange !important;}
         input, select, textarea {
             border: 1px solid green !important;
             background: #dadada !important;
@@ -115,8 +116,10 @@
         }
 
         * {
+            /*
             padding: 4px;
             border-radius: .5rem;
+            */
         }
     </style>
 

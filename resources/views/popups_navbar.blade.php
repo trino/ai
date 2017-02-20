@@ -1,7 +1,7 @@
 <nav class="navbar-fixed-top navbar bg-danger dont-print text-white" style="z-index: 1;padding:0rem !important;">
 
 
-    <div class="py-2">
+    <div class="" style="padding-top: 1rem;padding-bottom: 1rem">
         <div class=" text-white container-fluid">
 
 
