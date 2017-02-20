@@ -1,18 +1,10 @@
-*{line-height: 1rem !important;}
+*{line-height: 1.5rem !important;}
 .btn{border:0;}
 .icon-width{
     width:24px;text-align:center;
 }
 .list-group-item{padding:.5rem 0;border:0}
-full {
-    /*
-            background: url(../../public/images/background.jpg) no-repeat center center fixed;
-    */
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-}
+
 hr{
     margin-bottom:0;
     margin-top:.55rem;
@@ -29,15 +21,22 @@ body {
     -moz-animation: fadein 1s; /* Firefox */
     -webkit-animation: fadein 1s; /* Safari and Chrome */
     -o-animation: fadein 1s; /* Opera */
-    background: transparent;
-    background: #000;
+    background: transparent !important;
 }
 
 /* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
 body.loading {
     overflow: hidden;
 }
+.full {
 
+    background: url(../../public/images/background.jpg) no-repeat center center fixed;
+
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
 /* Anytime the body has the loading class, our modal element will be visible */
 body.loading #loadingmodal {
     display: block;

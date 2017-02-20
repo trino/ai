@@ -125,60 +125,38 @@
 ?>
 
 @if($style==1)
-
-
-    <h2 class="mt-0">Order arriving {{ $duration }}</h2>
-
+    <h2 class="mt-0">Order for {{ $duration }}</h2>
     <div style="font-size:1.25rem;padding:.75rem;" CLASS="countdown badge badge-pill badge-success" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"><?= $time; ?></div>
-
     <div class="clearfix"></div>
-
-
-
     <h2>Delivery Info</h2>
-
     <?php
        echo $Order["name"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . " " . $Order["province"] . " " . $Order["postalcode"] . '<BR>' . $Order["unit"];
     ?>
-
-
-
     @if(!isset($JSON))
         <h2>Restaurant</h2>
-
         Order #<span ID="receipt_id"><?= $orderid; ?></span><br>
         <?php
         $Restaurant = first("SELECT * FROM restaurants WHERE id = " . $Order["restaurant_id"]);
         $Raddress = first("SELECT * FROM useraddresses WHERE id = " . $Restaurant["address_id"]);
-
         echo $Restaurant["name"] . "<BR>" . $Raddress["number"] . " " . $Raddress["street"] . "<br>" .
             $Raddress["city"] . " " . $Raddress["province"] . " " . $Raddress["postalcode"] . '<BR>' . $Raddress["unit"] . " " . $Restaurant["phone"];
-
         echo '<INPUT TYPE="HIDDEN" ID="cust_latitude" VALUE="' . $Order["latitude"] . '"><INPUT TYPE="HIDDEN" ID="cust_longitude" VALUE="' . $Order["longitude"]
             . '"><INPUT TYPE="HIDDEN" ID="rest_latitude" VALUE="' . $Raddress["latitude"]
             . '"><INPUT TYPE="HIDDEN" ID="rest_longitude" VALUE="' . $Raddress["longitude"] . '">';
         ?>
     @endif
-
     <h2>Receipt</h2>
-
     <TABLE <?= inline("table table-sm table-bordered table-responsive"); ?> >
         <TR>
             <TH>#</TH>
             <TH>Item</TH>
-            @if($debugmode)
-
             <TH class="text-xs-right"> Sub-total</TH>
-
-            @endif
             <TH>Addons</TH>
             @if($debugmode)
                 <TH TITLE="<?= $onlydebug; ?>">Count</TH>
             @endif
             <th class="text-xs-right">Price</th>
         </TR>
-
-
         @else
             <TABLE WIDTH="100%" class="noborder" cellspacing="0" cellpadding="0">
                 @endif

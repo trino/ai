@@ -240,7 +240,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-block bg-danger">
-                            <h2 class="pull-left">
+                            <h2 class="pull-left text-white">
                                 <A HREF="<?= webroot("public/list/all"); ?>"><i class="fa fa-{{ $faicon }}" aria-hidden="true"></i></A> {{ ucfirst($table) . ' list ' . $extratitle }}
                             </h2>
                             <h2 CLASS="pull-right spacing">

@@ -1865,30 +1865,26 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
             HTML += '  <div class="card-columns">';
 
-
-            //var colors = ["secondary", "secondary", "secondary", "secondary", "secondary"];//' + colors[i] + '
             for (var i = 0; i < types.length; i++) {
-                //HTML += '<h2 class="col-xs-12 btn-sm" id="' + toclassname(types[i]) + '">' + types[i] + '</h2>';
-                // HTML += '<div id="' + toclassname(types[i]) + '">' + types[i] + '</div>';
+
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
                     HTML += '<div class="card"><button style="border:0;text-align: left;border-radius:0 " class="btn-sm  btn addon-addon btn-block';
+
                     if (isaddon_free(String(currentaddontype), String(addon))) {
                         HTML += ' btn-secondary';//this should be different from a paid topping
                         title = "Free addon";
                     } else {
                         HTML += ' btn-secondary'
                     }
+
                     HTML += '" TITLE="' + title + '">' + addon + '</button></div>';
                 }
             }
-            // HTML += '<div class="card"><button class="btn bg-secondary btn-sm btn-block" ></button></div>';
-
 
             HTML += '<div class="card"><button class="btn bg-secondary btn-sm btn-block" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button></div>' +
                 '<div class="card"><button style="border-radius:0 !important;" class="btn mt-0 btn-sm btn-success btn-block" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button></div>';
-
 
             $("#addonlist").html(HTML);
             $(".addon-addon").click(
@@ -1903,11 +1899,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             }
         );
         hashalves = halves;
-
-
         generateaddons();
-
-
     }
 
     function list_addon_type(e) {
