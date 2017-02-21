@@ -1,17 +1,23 @@
-*{line-height: 1.5rem !important;}
-.btn{border:0;}
-.icon-width{
-    width:24px;text-align:center;
+.btn {
+    border: 0;
 }
-.list-group-item{padding:.5rem 0;border:0}
 
-hr{
-    margin-bottom:0;
-    margin-top:.55rem;
+.icon-width {
+    width: 24px;
+    text-align: center;
+}
+
+.list-group-item {
+    padding: .5rem 0;
+    border: 0
+}
+
+hr {
+    margin-bottom: 0;
+    margin-top: .55rem;
 }
 
 body {
-
     /*  prevents horizontal scroll for full width container-fluid */
     overflow-x: hidden;
     color: #373a3c;
@@ -28,15 +34,15 @@ body {
 body.loading {
     overflow: hidden;
 }
+
 .full {
-
     background: url(../../public/images/background.jpg) no-repeat center center fixed;
-
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
 }
+
 /* Anytime the body has the loading class, our modal element will be visible */
 body.loading #loadingmodal {
     display: block;
@@ -58,7 +64,7 @@ h2 {
     color: red
 }
 
-.cursor-pointer,.btn, .list-group-item {
+.cursor-pointer, .btn, .list-group-item {
     /* !!!!!!!!!!!!!stop removing this!!!!!!!!!!!! */
     cursor: pointer;
     /* !!!!!!!!!!!!!stop removing this!!!!!!!!!!!! */
@@ -303,7 +309,7 @@ input, textarea, select {
 }
 
 .receipt-empty {
-    color: #636c72 !important;
+
 }
 
 .receipt-addons {
@@ -315,9 +321,11 @@ input, textarea, select {
     width: 100% !important;
     float: left;
 }
-.receipt-addons:hover{
+
+.receipt-addons:hover {
     background: #dadada !important;
 }
+
 .receipt-addons-list {
     background: #efefef;
     height: 150px;
@@ -487,29 +495,30 @@ input {
     max-width: 1300px !important;
 }
 
-.dropdown-menu{
-    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+.dropdown-menu {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 
 }
 
 .btn-black {
     color: #fff;
     background-color: #111;
-    border-color: #111 ;
+    border-color: #111;
 }
+
 .bg-white {
     background-color: #fff;
-}.bg-black {
-     background-color: #111;
- }
+}
+
+.bg-black {
+    background-color: #111;
+}
 
 .col-md-3 {
 
     background: white;
 
-
-
-    border-right: 1px solid rgba(0,0,0,.1);
+    border-right: 1px solid rgba(0, 0, 0, .1);
 }
 
 .btn-circle {
@@ -540,7 +549,7 @@ input {
     border-radius: 35px;
 }
 
-a:focus, .btn:focus, button,.btn {
+a:focus, .btn:focus, button, .btn {
     outline: none !important;
     outline: 0;
 }
