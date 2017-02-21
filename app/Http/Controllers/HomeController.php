@@ -242,6 +242,7 @@ class HomeController extends Controller {
         $user = first("SELECT * FROM users WHERE id = " . $info["user_id"]);
         $restaurant = $this->processrestaurant($info["restaurant_id"]);
         $actions = actions("order_placed", $party);
+        if($party > -1){$actions = array($actions);}
         foreach($actions as $action) {
             switch ($action["party"]) {
                 case 0://customer
@@ -267,6 +268,7 @@ class HomeController extends Controller {
             if($action["sms"]){$this->sendSMS($phone, $action["message"]);}
             if($action["phone"]){$this->sendSMS($phone, $action["message"], true);}
         }
+        $user["orderid"] = $orderid;
         return $user;
     }
 

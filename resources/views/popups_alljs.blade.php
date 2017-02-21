@@ -826,7 +826,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             var card = userdetails.Stripe[i];
             //id,object=card,brand,country,customer,cvc_check=pass,exp_month,exp_year=2018,funding=credit,last4=4242
             HTML += '<DIV id="card_' + i + '"><A ONCLICK="deletecard(' + i + ", '" + card.id + "', " + card.last4 + ", '" + card.exp_month.pad(2) + "', " + right(card.exp_year, 2) + ');" CLASS="cursor-pointer">';
-            HTML += '<i class="fa fa-fw fa-times error"></i></A> ' + card.brand + ' x-' + card.last4 + ' Expires: ' + card.exp_month.pad(2) + '/' + right(card.exp_year, 2) + '</DIV>';
+            HTML += '<i class="fa fa-fw fa-times error"></i></A> ' + card.brand + ' x-' + card.last4 + ' Expires: ' + card.exp_month.pad(2) + '/20' + right(card.exp_year, 2) + '</DIV>';
         }
         return HTML + '</DIV>';
     }
@@ -1464,7 +1464,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 if (i == userdetails.Stripe.length - 1) {
                     creditHTML += ' SELECTED';
                 }
-                creditHTML += '>' + card.brand + ' x-' + card.last4 + ' Expires: ' + card.exp_month.pad(2) + '/' + right(card.exp_year, 2) + '</OPTION><OPTION value="">Add Card</OPTION>';
+                creditHTML += '>' + card.brand + ' x-' + card.last4 + ' Expires: ' + card.exp_month.pad(2) + '/20' + right(card.exp_year, 2) + '</OPTION><OPTION value="">Add Card</OPTION>';
             }
             $("#credit-info").html(creditHTML + '</SELECT>');
         } else {

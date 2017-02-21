@@ -348,7 +348,7 @@
                 <SCRIPT>
                     var statuses = ["Pending", "Confirmed", "Declined", "Delivered", "Canceled"];
                     var usertype = ["Customer", "Admin", "Restaurant"];
-                    var profiletype = read("profiletype");
+                    var profiletype = '<?= read("profiletype"); ?>';
 
                     var TableStyle = '<?= $TableStyle; ?>';
                     var selecteditem = 0;
