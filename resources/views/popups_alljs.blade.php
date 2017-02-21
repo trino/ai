@@ -434,16 +434,17 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 sprite += " sprite-" + toclassname(item["itemname"].trim()).replaceAll("_", "-").replace(/\./g, '');
             }
 
-            tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item " style="padding:.5rem 0 !important;border-bottom:1px solid #444">';
-            tempHTML += '<span class="receipt-itemname "> ';
-            tempHTML += '<DIV CLASS="sprite pull-left rounded bg-black sprite-' + sprite + ' sprite-medium"></DIV></span>';
-            tempHTML += '<span  title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '">';
-            tempHTML += item["itemname"];
-            tempHTML += ' <button class="fa fa-close pull-right btn btn-sm btn-black" onclick="removeorderitem(' + itemid + ');"></button>';
-            if (hasaddons) {
-                tempHTML += '<button class="fa fa-pencil pull-right btn btn-sm btn-black" onclick="edititem(this, ' + itemid + ');"></button>';
-            }
-            tempHTML += '<span  class="pull-right" >$' + totalcost + '</span><div class="clearfix"></div></span><div class="clearfix"></div>';
+            tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item">';
+                tempHTML += '<DIV CLASS="sprite pull-left rounded bg-black sprite-' + sprite + ' sprite-medium"></DIV>';
+                tempHTML += '<span title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '" class="receipt_itemcost">';
+                    tempHTML += '<span class="receipt-itemname">' + item["itemname"] + '</SPAN>';
+                tempHTML += '</span>';
+                tempHTML += ' <button class="fa fa-close pull-right btn btn-sm btn-black" onclick="removeorderitem(' + itemid + ');"></button>';
+                if (hasaddons) {
+                    tempHTML += '<button class="fa fa-pencil pull-right btn btn-sm btn-black" onclick="edititem(this, ' + itemid + ');"></button>';
+                }
+                tempHTML += '<span class="pull-right" >$' + totalcost + '</span>';
+            tempHTML += '</DIV><div class="clearfix"></div>';
 
             var itemname = "";
             if (hasaddons) {
@@ -1523,6 +1524,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     function GenerateHours(hours, increments) {
         var now = new Date();//doesn't take into account <= because it takes more than 1 minute to place an order
+        now.setMinutes(now.getMinutes() + 40);//start 40 minutes ahead
         if (isUndefined(increments)) {
             increments = 15;
         }

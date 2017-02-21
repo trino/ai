@@ -9,7 +9,30 @@
 
 .list-group-item {
     padding: .5rem 0;
-    border: 0
+    border: 0;
+    height: 54px;
+}
+
+.receipt_itemcost{
+    position: absolute;
+    left: 60px;
+}
+
+.receipt_item{
+    height: 54px;
+    text-align: left;
+    padding:.5rem 0 !important;
+    border-bottom:1px solid #444;
+    float:left;
+    width: 100%;
+}
+
+/* Firefox only */
+@-moz-document url-prefix() {
+    .align-middle.rounded.sprite{
+        position: relative;
+        top: 12px;
+    }
 }
 
 hr {
@@ -227,7 +250,6 @@ h2 {
 }
 
 .card-columns .card {
-
     margin-bottom: 0 !important;
 }
 
@@ -330,7 +352,6 @@ input, textarea, select {
     background: #efefef;
     height: 150px;
     overflow-y: auto;
-    overflow-x: auto;
     overflow-x: auto;
     padding: 5px;
 }
@@ -662,14 +683,6 @@ a:focus, .btn:focus, button, .btn {
     }
 
 }
-
-
-
-
-
-
-
-
 */
 
 
