@@ -1745,7 +1745,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 var currentaddon = currentaddonlist[itemindex][i];
                 var qualifier = "";
                 tempstr += '<DIV CLASS="pill btn btn-sm btn-secondary ' + classname + '">' + currentaddon.name +
-                    '<span CLASS="pull-right" ONCLICK="removelistitem(' + itemindex + ', ' + i + ');">&nbsp; <i CLASS="fa fa-times"></i> </span></div>&nbsp;';
+                    '<span CLASS="" ONCLICK="removelistitem(' + itemindex + ', ' + i + ');">&nbsp; <i CLASS="fa fa-times"></i> </span></div>&nbsp;';
 
                 qualifier = currentaddon.qual;
                 if (qualifier == 0) {
@@ -1798,35 +1798,27 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     function list_addons(table, halves) {
         currentaddontype = table;
         var HTML = '<DIV class="receipt-addons-list"><DIV id="theaddons"></DIV></DIV>';
-
         if (currentstyle == 0) {
             HTML += '<DIV CLASS=" addonlist" ID="addontypes">';
         }
-
 
         var types = Object.keys(alladdons[table]);
 
         if (currentstyle == 0) {
             $("#addonlist").html(HTML + '</DIV>');
-
-
         } else {
-
-
             HTML += '  <div class="card-columns">';
-
             for (var i = 0; i < types.length; i++) {
-
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
-                    HTML += '<div class="card"><button style="border:0;text-align: left;border-radius:0 " class="btn-sm  btn addon-addon btn-block';
+                    HTML += '<div class="card"><button class="btn-sm btn addon-addon btn-block';
 
                     if (isaddon_free(String(currentaddontype), String(addon))) {
-                        HTML += ' btn-secondary';//this should be different from a paid topping
+                        HTML += ' btn-secondary';//free topping, this should be different from a paid topping
                         title = "Free addon";
                     } else {
-                        HTML += ' btn-secondary'
+                        HTML += ' btn-secondary'//paid topping
                     }
 
                     HTML += '" TITLE="' + title + '">' + addon + '</button></div>';
