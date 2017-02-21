@@ -35,12 +35,8 @@
             break;
     }
     //Hack to put CSS inline for emails
-    if (!isset($inline)) {
-        $inline = false;
-    }
-    if (!isset($timer)) {
-        $timer = false;
-    }
+    if (!isset($inline)) {$inline = false;}
+    if (!isset($timer)) {$timer = false;}
     $GLOBALS["inline"] = $inline;
     if (!function_exists("inline")) {
         function tomin($time) {
@@ -62,7 +58,7 @@
                     switch (strtolower($Classname)) {
                         //table-sm
                         case "table":
-                            $Style[] = "width: 100%; max-width: 100%; margin-bottom: 0; border-collapse: collapse; background-color: transparent; display: table; border-spacing: 2px;";
+                            $Style[] = "width: 100% !important; max-width: 100%; margin-bottom: 0; border-collapse: collapse; background-color: transparent; display: table; border-spacing: 2px;";
                             break;
                         case "table-bordered":
                             $Style[] = "border: 1px solid #eceeef; ";
@@ -107,7 +103,7 @@
             }
         } else if ($Order["deliverytime"] == "Deliver Now") {
             $time = strtotime($Order["placed_at"]);
-            $duration = GenerateDate(date("F j", $time)) . " at " . date("g i A", $time+($minutes*60));
+            $duration = GenerateDate(date("F j", $time)) . " at " . date("g:i A", $time+($minutes*60));
         } else {
             $timer = false;
         }

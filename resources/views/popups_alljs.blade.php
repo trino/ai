@@ -1259,9 +1259,10 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     }
 
     function cantplaceorder() {
+        $(".payment-errors").text("");
         if (!validaddress()) {
             $("#saveaddresses").addClass("red");
-            $(".payment-errors").text("Please enter an address");
+            $(".payment-errors").text("Please enter a valid London address");
         } else if (!$("#saved-credit-info").val()) {
             if (!isvalidcreditcard()) {
                 $("#saved-credit-info").addClass("red");
@@ -1290,15 +1291,10 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     }
 
     function payfororder() {
-        if (!canplaceanorder()) {
-            return cantplaceorder();
-        }
-        if ($("#orderinfo").find(".error:visible[for]").length > 0) {
-            return false;
-        }
+        if (!canplaceanorder()) {return cantplaceorder();}
+        if ($("#orderinfo").find(".error:visible[for]").length > 0) {return false;}
         var $form = $('#orderinfo');
         $(".payment-errors").html("");
-
         log("Attempt to pay: " + changecredit());
         if (!changecredit()) {//new card
             log("Stripe data");
@@ -1308,6 +1304,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             log("Use saved data");
             placeorder("");//no stripe token, use customer ID on the server side
         }
+        $(".saveaddresses").removeClass("dont-show");
         //canplaceorder=false;
     }
 
@@ -1745,7 +1742,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 var currentaddon = currentaddonlist[itemindex][i];
                 var qualifier = "";
                 tempstr += '<DIV CLASS="pill btn btn-sm btn-secondary ' + classname + '">' + currentaddon.name +
-                    '<span CLASS="" ONCLICK="removelistitem(' + itemindex + ', ' + i + ');">&nbsp; <i CLASS="fa fa-times"></i> </span></div>&nbsp;';
+                    '<span ONCLICK="removelistitem(' + itemindex + ', ' + i + ');">&nbsp; <i CLASS="fa fa-times"></i> </span></div>&nbsp;';
 
                 qualifier = currentaddon.qual;
                 if (qualifier == 0) {
@@ -1897,7 +1894,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     }
 
     function makelist(Title, classname, data, defaultindex) {
-        var HTML = '<DIV><DIV CLASS="">' + Title + ':</DIV>';
+        var HTML = '<DIV><DIV>' + Title + ':</DIV>';
         var selected;
         for (var i = 0; i < data.length; i++) {
             selected = "";
