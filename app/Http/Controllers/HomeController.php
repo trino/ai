@@ -52,6 +52,7 @@ class HomeController extends Controller {
 
     public function placeorder(){
         if(!read("id")){return array("Status" => false, "Reason" => "You are not logged in");}
+        date_default_timezone_set("America/Toronto");
         $info="";
         if(isset($_POST["info"])){
             $info = $_POST["info"];
@@ -168,6 +169,7 @@ class HomeController extends Controller {
                 insertdb("users", array("id" => $info["user_id"], "name" => $_POST["name"], "phone" => $_POST["phone"]));//attempt to update user profile
             }
 
+            $HTML = view("popups_receipt", array("orderid" => $orderid, "timer" => true))->render();//generate total
             //if ($text) {return $text;} //shows email errors. Uncomment when email works
             if(isset($info["stripeToken"]) || $user["stripecustid"]){//process stripe payment here
                 $amount = select_field_where("orders", "id=" . $orderid, "price");
@@ -223,7 +225,7 @@ class HomeController extends Controller {
                         $error = $e->getMessage();
                     }
                 } else {
-                    $error = "Order total was $0.00";
+                    $error = " Order ID " . $orderid . " total was $0.00";
                 }
                 if($error){
                     debugprint("Order ID: " .  $orderid . " - Stripe error: " . $error);
@@ -231,13 +233,13 @@ class HomeController extends Controller {
                 }
             }
             //$timer = $info["deliverytime"] == "Deliver Now";
-            return '<div CLASS="ordersuccess" addressid="' . $addressID . '"></div>' . view("popups_receipt", array("orderid" => $orderid, "timer" => true))->render();
+            return '<div CLASS="ordersuccess" addressid="' . $addressID . '"></div>' . $HTML;
         } else {
             return $addressID;
         }
     }
 
-    function order_placed($orderid, $info = false, $party = -1){
+    function order_placed($orderid, &$info = false, $party = -1){
         if(!$info){$info = first("SELECT * FROM orders WHERE id = " . $orderid);}
         $user = first("SELECT * FROM users WHERE id = " . $info["user_id"]);
         if($party > -2) {
@@ -269,6 +271,9 @@ class HomeController extends Controller {
                 if ($action["sms"]) {$this->sendSMS($phone, $action["message"]);}
                 if ($action["phone"]) {$this->sendSMS($phone, $action["message"], true);}
             }
+        //} else {
+        //    $text = view("popups_receipt", array("orderid" => $orderid, "timer" => true));//generates total for stripe
+        //    $info["price"] = first("SELECT price FROM orders WHERE id = " . $orderid)["price"];
         }
         $user["orderid"] = $orderid;
         return $user;

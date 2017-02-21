@@ -132,17 +132,17 @@
         <h2>Restaurant</h2>
         Order #<span ID="receipt_id"><?= $orderid; ?></span><br>
         <?php
-        $Restaurant = first("SELECT * FROM restaurants WHERE id = " . $Order["restaurant_id"]);
-        $Raddress = first("SELECT * FROM useraddresses WHERE id = " . $Restaurant["address_id"]);
-        echo $Restaurant["name"] . "<BR>" . $Raddress["number"] . " " . $Raddress["street"] . "<br>" .
-            $Raddress["city"] . " " . $Raddress["province"] . " " . $Raddress["postalcode"] . '<BR>' . $Raddress["unit"] . " " . $Restaurant["phone"];
-        echo '<INPUT TYPE="HIDDEN" ID="cust_latitude" VALUE="' . $Order["latitude"] . '"><INPUT TYPE="HIDDEN" ID="cust_longitude" VALUE="' . $Order["longitude"]
-            . '"><INPUT TYPE="HIDDEN" ID="rest_latitude" VALUE="' . $Raddress["latitude"]
-            . '"><INPUT TYPE="HIDDEN" ID="rest_longitude" VALUE="' . $Raddress["longitude"] . '">';
+            $Restaurant = first("SELECT * FROM restaurants WHERE id = " . $Order["restaurant_id"]);
+            $Raddress = first("SELECT * FROM useraddresses WHERE id = " . $Restaurant["address_id"]);
+            echo $Restaurant["name"] . "<BR>" . $Raddress["number"] . " " . $Raddress["street"] . "<br>" .
+                $Raddress["city"] . " " . $Raddress["province"] . " " . $Raddress["postalcode"] . '<BR>' . $Raddress["unit"] . " " . $Restaurant["phone"];
+            echo '<INPUT TYPE="HIDDEN" ID="cust_latitude" VALUE="' . $Order["latitude"] . '"><INPUT TYPE="HIDDEN" ID="cust_longitude" VALUE="' . $Order["longitude"]
+                . '"><INPUT TYPE="HIDDEN" ID="rest_latitude" VALUE="' . $Raddress["latitude"]
+                . '"><INPUT TYPE="HIDDEN" ID="rest_longitude" VALUE="' . $Raddress["longitude"] . '">';
         ?>
     @endif
     <h2>Receipt</h2>
-    <TABLE <?= inline("table table-sm table-bordered table-responsive"); ?> >
+    <TABLE <?= inline("table table-sm table-bordered");  ?> oldclass="table-responsive">
         <TR>
             <TH>#</TH>
             <TH>Item</TH>
@@ -153,9 +153,9 @@
             @endif
             <th class="text-xs-right">Price</th>
         </TR>
-        @else
-            <TABLE WIDTH="100%" class="noborder" cellspacing="0" cellpadding="0">
-                @endif
+@else
+    <TABLE WIDTH="100%" class="noborder" cellspacing="0" cellpadding="0">
+@endif
                 <?php
                     $integrity = true;
                     if (!function_exists("findkey")) {
@@ -370,13 +370,9 @@
                             }
                             echo '</TD></TR>';
                         }
-
-
                     } else {
                         echo '<TR><TD COLSPAN="' . $colspan . '" ALIGN="CENTER"><B>FILE NOT FOUND</B></TD></TR>';
                     }
-
-
                     endfile("popups_receipt");
                 ?>
 

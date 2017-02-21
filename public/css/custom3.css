@@ -624,6 +624,15 @@ a:focus, .btn:focus, button, .btn {
     width: 100%
 }
 
+.receipt_item>.receipt_itemcost, .receipt_item>.pull-right{
+    padding-top: 8px !important;
+}
+.receipt_item>.btn{
+    padding-top: 4px !important;
+    height: 25px !important;
+    margin-top: 6px;
+}
+
 .navbar{
     z-index: 1;
     padding: 0rem !important;

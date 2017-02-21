@@ -868,9 +868,10 @@
                         }, function (result) {
                             if(result) {
                                 var button = '<DIV CLASS="col-md-4"><button data-dismiss="modal" class="width-full btn btn-';
-                                var HTML = button + 'primary" onclick="changeorderstatus(' + ID + ', 1);">Confirm</button></DIV>';
-                                HTML += button + 'secondary pull-center" onclick="changeorderstatus(' + ID + ');"><i class="fa fa-envelope"></I> Email</button></DIV>';
-                                HTML += button + 'danger pull-right" onclick="changeorderstatus(' + ID + ', 2);">Decline</button></DIV>';
+                                var HTML = '<DIV CLASS="row">' + button + 'primary" onclick="changeorderstatus(' + ID + ', 1);">Confirm</button></DIV>';
+                                HTML += button + 'secondary pull-center red" onclick="changeorderstatus(' + ID + ');"><i class="fa fa-envelope"></I> Email</button></DIV>';
+                                HTML += button + 'danger pull-right" onclick="changeorderstatus(' + ID + ', 2);">Decline</button></DIV></DIV>';
+
                                 $("#ordercontents").html(result + HTML);
                                 $("#ordermodal").modal("show");
                                 @if(!$showmap)
