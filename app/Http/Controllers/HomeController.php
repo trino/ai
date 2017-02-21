@@ -154,19 +154,19 @@ class HomeController extends Controller {
             if (!is_dir($dir)) {mkdir($dir, 0777, true);}
             file_put_contents($dir . "/" . $orderid . ".json", json_encode($order, JSON_PRETTY_PRINT));
 
-            $user = $this->order_placed($orderid, $info);
-            if($user["name"] != $_POST["name"] || $user["phone"] != $_POST["phone"]){
-                $user["name"] = $_POST["name"];
-                $user["phone"] = $_POST["phone"];
-                insertdb("users", array("id" => $info["user_id"], "name" => $_POST["name"], "phone" => $_POST["phone"]));//attempt to update user profile
-            }
-
             //$user["orderid"] = $orderid;
             //$user["mail_subject"] = "Receipt";
             //$user["mail_subject"] = "A new order was placed";
             //$user["email"] = $restaurant["user"]["email"];
             //$this->sendEMail("email_receipt", $user);//send emails to store
             //$this->sendSMS($restaurant["user"]["phone"], $user["mail_subject"]);//send text to the store
+
+            $user = $this->order_placed($orderid, $info, -2);//get user data without processing the event
+            if($user["name"] != $_POST["name"] || $user["phone"] != $_POST["phone"]){
+                $user["name"] = $_POST["name"];
+                $user["phone"] = $_POST["phone"];
+                insertdb("users", array("id" => $info["user_id"], "name" => $_POST["name"], "phone" => $_POST["phone"]));//attempt to update user profile
+            }
 
             //if ($text) {return $text;} //shows email errors. Uncomment when email works
             if(isset($info["stripeToken"]) || $user["stripecustid"]){//process stripe payment here
@@ -206,7 +206,7 @@ class HomeController extends Controller {
                         // https://stripe.com/docs/charges https://stripe.com/docs/api
                         $charge = \Stripe\Charge::create($charge);// Create the charge on Stripe's servers - this will charge the user's card
                         insertdb("orders", array("id" => $orderid, "paid" => 1));//will only happen if the $charge succeeds
-
+                        $this->order_placed($orderid, $info);
                     } catch (Stripe_CardError $e) {
                         $error = $e->getMessage();
                     } catch (Stripe_InvalidRequestError $e) {
@@ -240,33 +240,35 @@ class HomeController extends Controller {
     function order_placed($orderid, $info = false, $party = -1){
         if(!$info){$info = first("SELECT * FROM orders WHERE id = " . $orderid);}
         $user = first("SELECT * FROM users WHERE id = " . $info["user_id"]);
-        $restaurant = $this->processrestaurant($info["restaurant_id"]);
-        $actions = actions("order_placed", $party);
-        if($party > -1){$actions = array($actions);}
-        foreach($actions as $action) {
-            switch ($action["party"]) {
-                case 0://customer
-                    $party = "customer";
-                    $email = $user["email"];
-                    $phone = $user["phone"];
-                    break;
-                case 1://admin
-                    $party = "admin";
-                    $email = "admin";
-                    $phone = "van";
-                    break;
-                case 2://restaurant
-                    $party = "restaurant";
-                    $email = $restaurant["user"]["email"];
-                    $phone = $restaurant["user"]["phone"];
-                    break;
+        if($party > -2) {
+            $actions = actions("order_placed", $party);
+            if ($party > -1) {$actions = array($actions);}
+            foreach ($actions as $action) {
+                switch ($action["party"]) {
+                    case 0://customer
+                        $party = "customer";
+                        $email = $user["email"];
+                        $phone = $user["phone"];
+                        break;
+                    case 1://admin
+                        $party = "admin";
+                        $email = "admin";
+                        $phone = "van";
+                        break;
+                    case 2://restaurant
+                        $restaurant = $this->processrestaurant($info["restaurant_id"]);
+                        $party = "restaurant";
+                        $email = $restaurant["user"]["email"];
+                        $phone = $restaurant["user"]["phone"];
+                        break;
+                }
+                if ($action["email"]) {
+                    debugprint("Sending email to " . $party . ": " . $email);
+                    $this->sendEMail("email_receipt", ["orderid" => $orderid, "email" => $email, "mail_subject" => $action["message"]]);//send emails to customer also generates the cost
+                }
+                if ($action["sms"]) {$this->sendSMS($phone, $action["message"]);}
+                if ($action["phone"]) {$this->sendSMS($phone, $action["message"], true);}
             }
-            if($action["email"]) {
-                debugprint("Sending email to " . $party . ": " . $email);
-                $this->sendEMail("email_receipt", ["orderid" => $orderid, "email" => $email, "mail_subject" => $action["message"]]);//send emails to customer also generates the cost
-            }
-            if($action["sms"]){$this->sendSMS($phone, $action["message"]);}
-            if($action["phone"]){$this->sendSMS($phone, $action["message"], true);}
         }
         $user["orderid"] = $orderid;
         return $user;
