@@ -481,7 +481,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
         createCookieValue("theorder", JSON.stringify(theorder));
         if (theorder.length == 0) {
-            HTML = '<DIV CLASS="text-center receipt-empty"><br><i class="fa fa-shopping-cart" style="font-size:1.5rem"></i><br><h6>Order is Empty</h6><br><br><br></div>';
+            HTML = '<DIV CLASS="text-center receipt-empty"><br><i class="fa fa-shopping-cart empty-shopping-cart"></i><br><h6>Order is Empty</h6><br><br><br></div>';
             $("#checkout").hide();
             $("#checkoutbutton").hide();
             $("#confirmclearorder").hide();
@@ -1826,7 +1826,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             }
 
             HTML += '<div class="card"><button class="btn bg-secondary btn-sm btn-block" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button></div>' +
-                '<div class="card"><button style="border-radius:0 !important;" class="btn mt-0 btn-sm btn-success btn-block" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button></div>';
+                '<div class="card"><button class="btn mt-0 btn-sm btn-success btn-block flat-border" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button></div>';
 
             $("#addonlist").html(HTML);
             $(".addon-addon").click(

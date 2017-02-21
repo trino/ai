@@ -594,6 +594,57 @@ a:focus, .btn:focus, button, .btn {
     border-color: transparent !important;
 }
 
+#checkout-btn{
+    margin-bottom: 3rem;
+}
+
+.myorderhr{
+    border: 0;
+    margin-bottom: 0;
+}
+
+.halfwidth{
+    width: 50%;
+    float: left !important;
+    display: inline !important;
+}
+
+.thirdwidth{
+    width: 33.33%;
+    float: left !important;
+    display: inline !important;
+}
+
+.payfororder{
+    border-radius:0 !important;
+    padding:8px 15px !important;
+}
+
+.addonlist{
+    width: 100%
+}
+
+.navbar{
+    z-index: 1;
+    padding: 0rem !important;
+}
+
+.padding1rem{
+    padding-top: 1rem;padding-bottom: 1rem
+}
+
+.londonpizza{
+    font-weight:800;padding-top:3px;
+}
+
+.empty-shopping-cart{
+    font-size:1.5rem
+}
+
+.flat-border{
+    border-radius:0 !important;
+}
+
 /*
 @media screen and (max-width: 400px) {
     .modal-dialog {
@@ -601,7 +652,6 @@ a:focus, .btn:focus, button, .btn {
     }
 
     .main-bg-image {
-
         padding: 2rem 0 3rem 0 !important;
     }
 
@@ -690,7 +740,6 @@ a:focus, .btn:focus, button, .btn {
         line-height: 1.25 !important;
         margin-top: 0px !important
     }
-
 }
 */
 

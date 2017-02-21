@@ -3,11 +3,11 @@
 <h2>My Order
     <button class="btn btn-black btn-sm pull-right dont-show" ONCLICK="confirmclearorder();" id="confirmclearorder"><i class="fa fa-close"></i></button>
 </h2>
-<hr style="border:0;margin-bottom:0;">
+<hr class="myorderhr">
 
 <div id="myorder" class="text-white"></div>
 
-<button style="margin-bottom: 3rem;" id="checkout-btn" class="btn btn-warning btn-lg btn-circle pull-right" onclick="showcheckout();">
+<button id="checkout-btn" class="btn btn-warning btn-lg btn-circle pull-right" onclick="showcheckout();">
     <i class="fa fa-shopping-cart"></i>
 </button>
 
@@ -26,22 +26,19 @@
 
                     <div class="col-md-12">
 
-                        <div style="width:50%;float:left !important;display:inline !important;">
+                        <div class="halfwidth">
                             <?= view("popups_edituser", array("email" => false, "profile1" => true, "password" => false, "phone" => false))->render(); ?>
                         </div>
-                        <div style="width:50%;float:left !important;display:inline !important;">
+                        <div class="halfwidth">
                             <?= view("popups_edituser", array("email" => false, "profile1" => false, "password" => false, "phone" => true))->render(); ?>
-
                         </div>
-
 
                         <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
 
-
                         <?php
-                        if (read("id")) {
-                            echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
-                        }
+                            if (read("id")) {
+                                echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
+                            }
                         ?>
 
 
@@ -54,9 +51,7 @@
                         <input type="text" size="20" class="form-control credit-info" data-stripe="number" placeholder="Card Number">
                     </div>
                     <div class="col-md-12">
-
-
-                        <div style="width:33.33%;float:left !important;display:inline !important;">
+                        <div class="thirdwidth">
                             <SELECT CLASS="credit-info form-control" data-stripe="exp_month">
                                 <OPTION VALUE="01">01/Jan</OPTION>
                                 <OPTION VALUE="02">02/Feb</OPTION>
@@ -75,7 +70,7 @@
                         </div>
 
 
-                        <div style="width:33.33%;float:left !important;display:inline !important;">
+                        <div class="thirdwidth">
                             <SELECT CLASS="credit-info form-control" data-stripe="exp_year">
                                 <?php
                                 $CURRENT_YEAR = date("Y");
@@ -89,14 +84,11 @@
                         </div>
 
 
-                        <div style="width:33.33%;float:left !important;display:inline !important;">
+                        <div class="thirdwidth">
                             <input type="text" size="4" data-stripe="cvc" CLASS="credit-info form-control" PLACEHOLDER="CVC">
-                           <INPUT class="credit-info" TYPE="hidden" name="istest" id="istest">
+                            <INPUT class="credit-info" TYPE="hidden" name="istest" id="istest">
                             <a class="credit-info pull-right btn" onclick="testcard();">Test Card</a>
-
                             <div class="clearfix"></div>
-
-
                         </div>
 
 
@@ -113,7 +105,7 @@
                             </SELECT>
                             <span class="input-group-btn">
 <!--<comment> why is it when i change this to a button that clicking on please neter abn address closes the modal... order doenst go through when i change it -->
-<a class="btn btn-primary text-white pull-right " style="border-radius:0 !important; padding:8px 15px !important;" onclick="payfororder();">ORDER </a>
+<a class="btn btn-primary text-white pull-right payfororder" onclick="payfororder();">ORDER </a>
 </span>
                         </div>
                         <div class="pull-right">

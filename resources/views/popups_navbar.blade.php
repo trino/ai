@@ -1,11 +1,7 @@
-<nav class="navbar-fixed-top navbar bg-danger dont-print text-white" style="z-index: 1;padding:0rem !important;">
-
-
-    <div class="" style="padding-top: 1rem;padding-bottom: 1rem">
-        <div class=" text-white container-fluid">
-
-
-            <a HREF="<?= webroot("public/index"); ?>" onclick="history.go(0);" class="text-white pull-left" style="font-weight:800;padding-top:3px;" href="/">
+<nav class="navbar-fixed-top navbar bg-danger dont-print text-white">
+    <div class="padding1rem">
+        <div class="text-white container-fluid">
+            <a HREF="<?= webroot("public/index"); ?>" onclick="history.go(0);" class="text-white pull-left londonpizza" href="/">
                 londonpizza.ca
             </a>
 
