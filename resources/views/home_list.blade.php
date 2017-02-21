@@ -348,6 +348,7 @@
                 <SCRIPT>
                     var statuses = ["Pending", "Confirmed", "Declined", "Delivered", "Canceled"];
                     var usertype = ["Customer", "Admin", "Restaurant"];
+                    var profiletype = read("profiletype");
 
                     var TableStyle = '<?= $TableStyle; ?>';
                     var selecteditem = 0;
@@ -479,7 +480,9 @@
                                                 tempHTML += '<A CLASS="btn btn-sm btn-success cursor-pointer" HREF="{{ webroot("public/list/orders?restaurant=") }}' + ID + '">View</A> ';
                                                 break;
                                         }
-                                        HTML += tempHTML + '<A CLASS="btn btn-sm btn-danger cursor-pointer" onclick="deleteitem(' + ID + ');">Delete</A></TD></TR>';
+                                        if(profiletype == 1) {
+                                            HTML += tempHTML + '<A CLASS="btn btn-sm btn-danger cursor-pointer" onclick="deleteitem(' + ID + ');">Delete</A></TD></TR>';
+                                        }
                                         items++;
                                         if(TableStyle == '1'){
                                             HTML += '</TR>';

@@ -88,7 +88,7 @@ class HomeController extends Controller {
                         $actions = actions("order_" . strtolower($Status));
                         $order = first("SELECT * FROM orders WHERE id = " . $_POST["orderid"]);
 
-                        $ret["Reason"] .= "<BR>Action: order_" . strtolower($Status);
+                        if(debugmode){$ret["Reason"] .= " - Action: order_" . strtolower($Status);}
                         foreach($actions as $action) {
                             switch ($action["party"]) {
                                 case 0://customer
@@ -110,17 +110,17 @@ class HomeController extends Controller {
                                         "email" => $user["email"],
                                         "body" => $action["message"]
                                     ));
-                                    $ret["Reason"] .= "<BR>Emailed: " . $user["email"];
+                                    if(debugmode){$ret["Reason"] .= " - Emailed: " . $user["email"];}
                                 }
                             }
                             if(isset($user["phone"])) {
                                 if ($action["phone"]) {
                                     $this->sendSMS($user["phone"], $action["message"], true);
-                                    $ret["Reason"] .= "<BR>Phoned: " . $user["phone"];
+                                    if(debugmode){$ret["Reason"] .= " - Phoned: " . $user["phone"];}
                                 }
                                 if ($action["sms"]) {
                                     $this->sendSMS($user["phone"], $action["message"]);
-                                    $ret["Reason"] .= "<BR>Texted: " . $user["phone"];
+                                    if(debugmode){$ret["Reason"] .= " - Texted: " . $user["phone"];}
                                 }
                             }
                         }

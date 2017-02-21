@@ -281,7 +281,6 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         }
         var itemname = $(element).attr("itemname");
         var itemcost = $(element).attr("itemprice");
-        $("#modal-itemtotalprice").text(itemcost);
         var size = $(element).attr("itemsize");
         var toppingcost = 0.00;
         if (size) {
@@ -313,6 +312,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         }
         // $("#removelist").text("");
         $("#additemtoorder").html(title);
+        $("#modal-itemtotalprice").text(itemcost);
     }
 
     function refreshremovebutton() {
@@ -390,14 +390,11 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     //convert the order to an HTML receipt
     function generatereceipt() {
-        if ($("#myorder").length == 0) {
-            return false;
-        }
+        if ($("#myorder").length == 0) {return false;}
         var HTML = '<div class="clearfix"></div>', tempHTML = "", subtotal = 0, fadein = false, oldvalues = "";
-        if ($("#newvalues").length > 0) {
-            oldvalues = $("#newvalues").html();
-        }
-        $("#oldvalues").html("");
+        if ($("#newvalues").length > 0) {oldvalues = $("#newvalues").html();}
+        $("#oldvalues").stop().html("").hide().remove();
+        $("#newvalues").stop().html("").hide().remove();
         var itemnames = {toppings: "Pizza", wings_sauce: "lb"};
         var nonames = {toppings: "toppings", wings_sauce: "sauce"};
         for (var itemid = 0; itemid < theorder.length; itemid++) {
@@ -438,48 +435,28 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             }
 
             tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item " style="padding:.5rem 0 !important;border-bottom:1px solid #444">';
-
             tempHTML += '<span class="receipt-itemname "> ';
-
             tempHTML += '<DIV CLASS="sprite pull-left rounded bg-black sprite-' + sprite + ' sprite-medium"></DIV></span>';
-
-            tempHTML += '<span  title="Base cost: ' + item["itemprice"]
-                + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '">';
-
-
-
+            tempHTML += '<span  title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '">';
             tempHTML += item["itemname"];
-
             tempHTML += ' <button class="fa fa-close pull-right btn btn-sm btn-black" onclick="removeorderitem(' + itemid + ');"></button>';
-
             if (hasaddons) {
                 tempHTML += '<button class="fa fa-pencil pull-right btn btn-sm btn-black" onclick="edititem(this, ' + itemid + ');"></button>';
             }
-
-            tempHTML += '<span  class="pull-right" >$' + totalcost + '</span>';
-            tempHTML += '<div class="clearfix"></div>';
-
-            tempHTML += '</span>';
-            tempHTML += '<div class="clearfix"></div>';
+            tempHTML += '<span  class="pull-right" >$' + totalcost + '</span><div class="clearfix"></div></span><div class="clearfix"></div>';
 
             var itemname = "";
             if (hasaddons) {
                 var tablename = item["itemaddons"][0]["tablename"];
-                if (item["itemaddons"].length > 1) {
-                    itemname = itemnames[tablename];
-                }
+                if (item["itemaddons"].length > 1) {itemname = itemnames[tablename];}
                 for (var currentitem = 0; currentitem < item["itemaddons"].length; currentitem++) {
                     var addons = item["itemaddons"][currentitem];
-                    if (itemname) {
-                        tempHTML += ordinals[currentitem] + " " + itemname + ": ";
-                    }
+                    if (itemname) {tempHTML += ordinals[currentitem] + " " + itemname + ": ";}
                     if (addons["addons"].length == 0) {
                         tempHTML += 'no ' + nonames[tablename] + '';
                     } else {
                         for (var addonid = 0; addonid < addons["addons"].length; addonid++) {
-                            if (addonid > 0) {
-                                tempHTML += ", ";
-                            }
+                            if (addonid > 0) {tempHTML += ", ";}
                             var addonname = addons["addons"][addonid]["text"];
                             var isfree = isaddon_free(tablename, addonname);
                             if (isfree) {
@@ -658,9 +635,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     var removeorderitemdisabled = false;
 
     function removeorderitem(index) {
-        if (removeorderitemdisabled) {
-            return;
-        }
+        if (removeorderitemdisabled) {return;}
         removeindex(theorder, index);
         removeorderitemdisabled = true;
         $("#receipt_item_" + index).fadeOut("fast", function () {
@@ -686,28 +661,16 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     function validaddress() {
         var savedaddress = $("#saveaddresses").val();
-        if (savedaddress == 0) {
-            return false;
-        }
-        if (savedaddress == "addaddress") {
-            return isvalidaddress();
-        }
+        if (savedaddress == 0) {return false;}
+        if (savedaddress == "addaddress") {return isvalidaddress();}
         return true;
     }
 
     function isvalidcreditcard(CardNumber, Month, Year, CVV) {
-        if (isUndefined(CardNumber)) {
-            CardNumber = $("[data-stripe=number]").val();
-        }
-        if (isUndefined(Month)) {
-            Month = $("[data-stripe=exp_month]").val();
-        }
-        if (isUndefined(Year)) {
-            Year = $("[data-stripe=exp_year]").val();
-        }
-        if (isUndefined(CVV)) {
-            CVV = $("[data-stripe=cvc]").val();
-        }
+        if (isUndefined(CardNumber)) {CardNumber = $("[data-stripe=number]").val();}
+        if (isUndefined(Month)) {Month = $("[data-stripe=exp_month]").val();}
+        if (isUndefined(Year)) {Year = $("[data-stripe=exp_year]").val();}
+        if (isUndefined(CVV)) {CVV = $("[data-stripe=cvc]").val();}
         CardNumber = CardNumber.replace(/\D/g, '');
         var nCheck = 0, nDigit = 0, bEven = false;
         for (var n = CardNumber.length - 1; n >= 0; n--) {
@@ -890,23 +853,15 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             for (var i = 0; i < userdetails["Orders"].length; i++) {
                 var order = userdetails["Orders"][i];
                 ID = order["id"];
-                if (!First) {
-                    First = ID;
-                }
+                if (!First) {First = ID;}
                 HTML += '<li class="list-group-item" ONCLICK="orders(' + ID + ');"><span class="tag tag-default tag-pill pull-xs-right pad5">ID: ' + ID + ' </span> &nbsp;AT: ' + order["placed_at"] + '<SPAN ID="pastreceipt' + ID + '"></SPAN></li>';
             }
             HTML += '</ul>';
-            if (!First) {
-                HTML = "No orders placed yet";
-            }
+            if (!First) {HTML = "No orders placed yet";}
             alert(HTML, "Orders");
-            if (First) {
-                orders(First)
-            }
+            if (First) {orders(First)}
         } else {
-            if (isUndefined(getJSON)) {
-                getJSON = false;
-            }
+            if (isUndefined(getJSON)) {getJSON = false;}
             var Index = getIterator(userdetails["Orders"], "id", ID);
             if (!getJSON && userdetails["Orders"][Index].hasOwnProperty("Contents")) {
                 $("#pastreceipt" + ID).html(userdetails["Orders"][Index]["Contents"]);
@@ -944,9 +899,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     function getIterator(arr, key, value) {
         for (var i = 0; i < arr.length; i++) {
-            if (arr[i][key] == value) {
-                return i;
-            }
+            if (arr[i][key] == value) {return i;}
         }
         return -1;
     }
@@ -963,9 +916,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     }
 
     function loading(state, where) {
-        if (isUndefined(where)) {
-            where = "UNKNOWN";
-        }
+        if (isUndefined(where)) {where = "UNKNOWN";}
         if (state) {
             log("Loading: " + where);
             $body.addClass("loading");
@@ -1023,9 +974,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     }
 
     function handlelogin(action) {
-        if (isUndefined(action)) {
-            action = "verify";
-        }
+        if (isUndefined(action)) {action = "verify";}
         if (!$("#login_email").val() && action !== "logout") {
             alert(makestring("{email_needed}"));
             return;
@@ -1105,7 +1054,6 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             $("#alert-cancel").hide();
             $("#alert-ok").off("click");
             $("#alert-confirm").off("click");
-
             $("#alertmodalbody").html(arguments[0]);
             $("#alertmodallabel").text(title);
             $("#alertmodal").modal('show');
@@ -1437,6 +1385,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                     for (var i = 0; i < closest.length; i++) {
                         var restaurant = closest[i];
                         restaurant.distance = parseFloat(restaurant.distance);
+                        var distancetext="";
                         if (restaurant.distance <= MAX_DISTANCE || debugmode) {
                             if (restaurant.distance >= MAX_DISTANCE) {
                                 restaurant.restaurant.name += " [DEBUG]"
@@ -1444,14 +1393,13 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                             if (distance == -1 || distance > restaurant.distance) {
                                 smallest = restaurant.restaurant.id;
                                 distance = restaurant.distance;
+                                distancetext = ' (' + restaurant.distance.toFixed(2) + ' km)';
                             }
-                            HTML += '<OPTION VALUE="' + restaurant.restaurant.id + '">' + restaurant.restaurant.name + ' (' + restaurant.distance.toFixed(2) + ' km)</OPTION>';
+                            HTML += '<OPTION VALUE="' + restaurant.restaurant.id + '">' + restaurant.restaurant.name + '</OPTION>';
                         }
                     }
                 }
-                if (!smallest) {
-                    smallest = 0;
-                }
+                if (!smallest) {smallest = 0;}
                 $("#restaurant").html(HTML);
                 $("#restaurant").val(smallest);
             }
