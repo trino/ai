@@ -62,7 +62,7 @@
             break;
         case "orders":
             $TableStyle=1;
-            $fields=array("id", "user_id", "placed_at", "status", "restaurant_id", "number", "unit", "street", "postalcode", "city", "province", "longitude", "latitude");
+            $fields=array("id", "user_id", "placed_at", "deliverytime", "status", "restaurant_id", "number", "unit", "street", "postalcode", "city", "province", "longitude", "latitude");
             $specialformats=array("placed_at" => "date");
             $namefield="placed_at";
             $faicon = "dollar";
@@ -384,7 +384,7 @@
                     }
 
                     function tofieldname(name){
-                        name = name.replaceAll("_", " ").replace("code", " code").split(" ");
+                        name = name.replaceAll("_", " ").replace("code", " code").replace("deliverytime", "delivery time").split(" ");
                         for(var i=0; i<name.length; i++){
                             name[i] = ucfirst(name[i]);
                             if(name[i] == "Id"){name[i] = "ID";}
@@ -440,6 +440,7 @@
                                         if(i % 2 == 0){evenodd = "even";}
                                         var ID = data.table[i]["id"];
                                         evenodd = "item_" + ID + ' table-' + evenodd;
+                                        var CurrentDate = "";
 
                                         var Address = "[number] [street]<BR>[city] [province]<BR>[postalcode]";
                                         var tempHTML = '<TR ID="' + table + "_" + ID + '">';
@@ -447,6 +448,14 @@
                                         for (var v = 0; v < fields.length; v++) {
                                             var field = data.table[i][fields[v]];
                                             field = getdata(fields[v], field);
+                                            switch(table + "." + fields[v]){
+                                                case "orders.placed_at":
+                                                    CurrentDate = field;
+                                                    break;
+                                                case "orders.deliverytime":
+                                                    field = DeliveryTime(field, CurrentDate);
+                                                    break;
+                                            }
                                             if(TableStyle == '1'){tempHTML += '<TR><TD CLASS="' + evenodd + '">' + tofieldname(fields[v]) + '</TD>';}
                                             tempHTML += '<TD NOWRAP ID="' + table + "_" + ID + "_" + fields[v] + '" class="field ' + evenodd + '" field="' + fields[v] + '" index="' + ID + '">' + field + '</TD>';
                                             if(TableStyle == '1'){tempHTML += '</TR>';}
@@ -621,6 +630,84 @@
                         });
                     }
 
+                    function DeliveryTime(Delivery_Time, Placed_At){
+                        var Original_Delivery_Time = Delivery_Time;
+
+                        //Delivery_Time: "Deliver Now", "February 21 at 1455"
+                        //Placed_At: "Tuesday February 21, 2017 @ 2:01 PM"
+                        var hrs = -(new Date().getTimezoneOffset() / 60);//UTC offset
+
+                        Placed_At = Placed_At.split(" ");//0=dayofweek 1=month 2=day, 3=year 4=at 5=time 6=AMPM
+                        var time = Placed_At[5].split(":");
+                        if(Placed_At[6] == "PM"){
+                            time[0] = Number(time[0]) + 12;
+                        }
+                        Placed_At[5] = time.join(":") + ":00 GMT" + hrs + "00";
+                        var year = Placed_At[3];
+                        Placed_At.splice(6, 1);//AMPM
+                        Placed_At.splice(4, 1);//at
+                        Placed_At.splice(0, 1);//day of week
+                        Placed_At = Placed_At.join(" ");
+                        Placed_At = Date.parse(Placed_At);
+
+                        var ASAP = false;
+                        if(Delivery_Time == "Deliver Now"){
+                            ASAP = true;
+                            Delivery_Time =  new Date(Placed_At);
+                            Delivery_Time.setMinutes(Delivery_Time.getMinutes() + 40);
+                        } else {
+                            Delivery_Time = Delivery_Time.split(" ");//0=Month 1=Day 2=at 3=time
+                            Delivery_Time[3] = Delivery_Time[3].left(2) + ":" + Delivery_Time[3].right(2) + ":00 GMT" + hrs + "00";
+                            Delivery_Time[2] = year;
+                            Delivery_Time = Delivery_Time.join(" ");
+                        }
+
+                        var Now = Date.now();
+                        var ret = toDate(Delivery_Time);
+                        if(ASAP){
+                            ret += ' <SPAN CLASS="badge badge-pill badge-info">ASAP</SPAN>';
+                        } else {
+                            ret += ' <SPAN CLASS="badge badge-pill badge-primary">TIMED</SPAN>';
+                        }
+                        Delivery_Time = Date.parse(Delivery_Time);
+                        //Now = Delivery_Time  - 3600;
+                        if(Now>Delivery_Time){
+                            ret += ' <SPAN CLASS="badge badge-pill badge-danger">[EXPIRED]</SPAN>';
+                        } else {
+                            var time_remaining = (Delivery_Time-Now)/1000;//seconds remaining
+                            var hours = Math.floor(time_remaining/3600);
+                            var minutes = Math.floor(time_remaining % 3600 / 60);
+                            var seconds = Math.floor(time_remaining % 60);
+                            ret += ' <SPAN CLASS="countdown badge badge-pill badge-success" hours="' + hours + '" minutes="' + minutes + '" seconds="' + seconds + '">' + toRemaining(hours, minutes, seconds) + '</SPAN>';
+                        }
+                        return ret;
+                    }
+                    function toRemaining(hours, minutes, seconds){
+                        if(seconds == 0 && hours == 0 && minutes == 0){return "[EXPIRED]";}
+                        var ret = minpad(minutes) + "m:" + minpad(seconds) + "s";
+                        if(hours > 0){ret = hours + "h:" + ret;}
+                        return ret;
+                    }
+                    function toDate(UTC){
+                        if(!isNaN(UTC)){UTC = Date.parse(UTC);}//returns "Tuesday February 21, 2017 @ 2:01 PM"
+                        var d = new Date(UTC);
+                        var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                        var dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                        var Hour = d.getHours();
+                        var AMPM = "AM";
+                        if (Hour > 11){
+                            Hour -= 12;
+                            AMPM = "PM";
+                        }
+                        var Min = minpad(d.getMinutes());
+                        return dayNames[d.getDay()] + " " + monthNames[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear() + " @ " + Hour + ":" + Min + " " + AMPM;
+                    }
+                    function minpad(time) {
+                        if (time < 10) {
+                            return "0" + time;
+                        }
+                        return time;
+                    }
                     //make a SELECT dropdown
                     function makeselect(ID, classnames, colname, selected, kvps){
                         var HTML = '<SELECT ID="' + ID + '" CLASS="'  + classnames + '" COLNAME="' + colname + '">';
@@ -1005,6 +1092,50 @@
                         addmarker("Customer", parseFloat($("#cust_latitude").val()), parseFloat($("#cust_longitude").val()));
                     }
 
+                    if(table == "orders"){
+                        var countdown = window.setTimeout(function () {
+                            incrementtime()
+                        }, 1000);
+                    }
+
+                    function incrementtime(element) {
+                        if(isUndefined(element)){
+                            $(".countdown").each(function() {
+                                incrementtime(this);
+                            });
+                            countdown = window.setTimeout(function () {
+                                incrementtime()
+                            }, 1000);
+                        } else {
+                            var seconds = $(element).attr("seconds");
+                            var minutes = $(element).attr("minutes");
+                            var hours = $(element).attr("hours");
+                            var time = hours * 3600 + minutes + 60 + seconds;
+                            var result = false;
+                            if (time > 0) {
+                                if (seconds == 0) {
+                                    if (minutes == 0) {
+                                        if (hours == 0) {
+                                            time = 0;
+                                        } else {
+                                            hours -= 1;
+                                        }
+                                    } else {
+                                        minutes -= 1;
+                                    }
+                                    seconds = 59;
+                                } else {
+                                    seconds -= 1;
+                                }
+                            }
+                            if(time == 0){
+                                $(element).removeClass("countdown").removeClass("badge-success").addClass("badge-danger").text("[EXPIRED]");
+                            } else {
+                                $(element).attr("hours", hours).attr("seconds", seconds).attr("minutes", minutes).text(toRemaining(hours, minutes, seconds));
+                            }
+                        }
+                    }
+
                     unikeys = {
                         cant_edit: '[table].[field] can not be edited',
                         user_auth: 'User is now authorized',
@@ -1023,7 +1154,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button  data-dismiss="modal" class="btn btn-sm  btn-danger" ><i class="fa fa-close"></i> </button>
+                            <button data-dismiss="modal" class="btn btn-sm  btn-danger" ><i class="fa fa-close"></i> </button>
                             <h2 id="myModalLabel">View Order</h2>
                         </div>
 
