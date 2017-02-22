@@ -423,7 +423,7 @@
                             } else {
                                 result = hours + "h:" + minpad(minutes % 60);
                             }
-                            result += "m " + minpad(seconds)+"s";
+                            result += "m:" + minpad(seconds)+"s";
                         }
                         $(".countdown").attr("seconds", seconds);
                         $(".countdown").attr("minutes", minutes);

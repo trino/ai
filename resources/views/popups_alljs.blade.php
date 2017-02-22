@@ -700,22 +700,30 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     }
 
     function canplaceanorder() {
-        if (!$("#saved-credit-info").val()) {
-            if (!isvalidcreditcard()) {
-                return false;
-            }
+        var valid_creditcard = true;
+        if (!$("#saved-credit-info").val() && !isvalidcreditcard()) { valid_creditcard = false;}
+        var visible_errors = $(".error:visible").length > 0;
+        var selected_rest = $("#restaurant").val() > 0;
+        var phone_number = $("#reg_phone").val().length > 0;
+        var valid_address = validaddress();
+        var reasons = new Array();
+        if(!valid_creditcard){reasons.push("valid credit card");}
+        if(!visible_errors){reasons.push("errors in form");}
+        if(!selected_rest){reasons.push("no selected restaurant");}
+        if(!phone_number){reasons.push("phone number missing");}
+        if(!valid_address){reasons.push("valid address");}
+        if (reasons.length > 0){
+            log("canplaceanorder: " + reasons.join(", "));
+            return false;
         }
-        return $(".error:visible").length == 0 && $("#restaurant").val() > 0 && $("#reg_phone").val().length > 0 && validaddress();
+        return true;
+        //return visible_errors && selected_rest && phone_number && valid_address && valid_creditcard;
     }
 
     //send an order to the server
     function placeorder(StripeResponse) {
-        if (!canplaceanorder()) {
-            return cantplaceorder();
-        }
-        if (isUndefined(StripeResponse)) {
-            StripeResponse = "";
-        }
+        if (!canplaceanorder()) {return cantplaceorder();}
+        if (isUndefined(StripeResponse)) {StripeResponse = "";}
         if (isObject(userdetails)) {
             var addressinfo = getform("#orderinfo");//i don't know why the below 2 won't get included. this forces them to be
             addressinfo["cookingnotes"] = $("#cookingnotes").val();
@@ -1305,37 +1313,19 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             placeorder("");//no stripe token, use customer ID on the server side
         }
         $(".saveaddresses").removeClass("dont-show");
-        //canplaceorder=false;
     }
 
     function stripeResponseHandler(status, response) {
         var errormessage = "";
         log("Stripe response");
         switch (status) {
-            case 400:
-                errormessage = "Bad Request:<BR>The request was unacceptable, often due to missing a required parameter.";
-                break;
-            case 401:
-                errormessage = "Unauthorized:<BR>No valid API key provided.";
-                break;
-            case 402:
-                errormessage = "Request Failed:<BR>The parameters were valid but the request failed.";
-                break;
-            case 404:
-                errormessage = "Not Found:<BR>The requested resource doesn't exist.";
-                break;
-            case 409:
-                errormessage = "Conflict:<BR>The request conflicts with another request (perhaps due to using the same idempotent key).";
-                break;
-            case 429:
-                errormessage = "Too Many Requests:<BR>Too many requests hit the API too quickly. We recommend an exponential backoff of your requests.";
-                break;
-            case 500:
-            case 502:
-            case 503:
-            case 504:
-                errormessage = "Server Errors:<BR>Something went wrong on Stripe's end.";
-                break;
+            case 400:errormessage = "Bad Request:<BR>The request was unacceptable, often due to missing a required parameter.";break;
+            case 401:errormessage = "Unauthorized:<BR>No valid API key provided.";break;
+            case 402:errormessage = "Request Failed:<BR>The parameters were valid but the request failed.";break;
+            case 404:errormessage = "Not Found:<BR>The requested resource doesn't exist.";break;
+            case 409:errormessage = "Conflict:<BR>The request conflicts with another request (perhaps due to using the same idempotent key).";break;
+            case 429:errormessage = "Too Many Requests:<BR>Too many requests hit the API too quickly. We recommend an exponential backoff of your requests.";break;
+            case 500:case 502:case 503:case 504:errormessage = "Server Errors:<BR>Something went wrong on Stripe's end.";break;
             case 200:// - OK	Everything worked as expected.
                 if (response.error) {
                     $('.payment-errors').html(response.error.message);
@@ -1353,17 +1343,11 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     var closest = false;
     function addresshaschanged() {
-        if (!getcloseststore) {
-            return;
-        }
+        if (!getcloseststore) {return;}
         var formdata = getform("#orderinfo");
         formdata.limit = 10;
-        if (!formdata.latitude || !formdata.longitude) {
-            return;
-        }
-        if (!debugmode) {
-            formdata.radius = MAX_DISTANCE;
-        }
+        if (!formdata.latitude || !formdata.longitude) {return;}
+        if (!debugmode) {formdata.radius = MAX_DISTANCE;}
         skiploadingscreen = true;
         //canplaceorder = false;
 
@@ -1580,17 +1564,11 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     function isopen(hours, dayofweek, time) {
         var now = new Date();//doesn't take into account <= because it takes more than 1 minute to place an order
-        if (isUndefined(dayofweek)) {
-            dayofweek = now.getDay();
-        }
-        if (isUndefined(time)) {
-            time = now.getHours() * 100 + now.getMinutes();
-        }
+        if (isUndefined(dayofweek)) {dayofweek = now.getDay();}
+        if (isUndefined(time)) {time = now.getHours() * 100 + now.getMinutes();}
         var today = hours[dayofweek];
         var yesterday = dayofweek - 1;
-        if (yesterday < 0) {
-            yesterday = 6;
-        }
+        if (yesterday < 0) {yesterday = 6;}
         var yesterdaysdate = yesterday;
         yesterday = hours[yesterday];
         today.open = Number(today.open);
@@ -1598,20 +1576,14 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         yesterday.open = Number(yesterday.open);
         yesterday.close = Number(yesterday.close);
         if (yesterday.open > -1 && yesterday.close > -1 && yesterday.close < yesterday.open) {
-            if (yesterday.close > time) {
-                return yesterdaysdate;
-            }
+            if (yesterday.close > time) {return yesterdaysdate;}
         }
         if (today.open > -1 && today.close > -1) {
             if (today.close < today.open) {
                 //log("Day: " + dayofweek + " time: " + time + " open: " + today.open + " close: " + today.close );
-                if (time >= today.open || time < today.close) {
-                    return dayofweek;
-                }
+                if (time >= today.open || time < today.close) {return dayofweek;}
             } else {
-                if (time >= today.open && time < today.close) {
-                    return dayofweek;
-                }
+                if (time >= today.open && time < today.close) {return dayofweek;}
             }
         }
         return -1;//closed
@@ -1795,12 +1767,8 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     function list_addons(table, halves) {
         currentaddontype = table;
         var HTML = '<DIV class="receipt-addons-list"><DIV id="theaddons"></DIV></DIV>';
-        if (currentstyle == 0) {
-            HTML += '<DIV CLASS=" addonlist" ID="addontypes">';
-        }
-
+        if (currentstyle == 0) {HTML += '<DIV CLASS=" addonlist" ID="addontypes">';}
         var types = Object.keys(alladdons[table]);
-
         if (currentstyle == 0) {
             $("#addonlist").html(HTML + '</DIV>');
         } else {
@@ -1931,9 +1899,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     }
 
     function addtoitem() {
-        if (!hashalves) {
-            currentside = 1;
-        }
+        if (!hashalves) {currentside = 1;}
         var removed = "";
         var group = getaddon_group(currentaddontype, addonname);
         currentaddonlist[currentitemindex].push({
@@ -1959,9 +1925,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             $("#addonall").remove();
             $("#addonedit").remove();
         }
-        if (removed) {
-            removed += " was removed";
-        }
+        if (removed) {removed += " was removed";}
         // $("#removelist").text(removed);
         generateaddons();
     }
@@ -1998,11 +1962,11 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     @if(read("id"))
         $(document).ready(function () {
         <?php
-        if (islive() || $GLOBALS["testlive"]) {
-            echo "setPublishableKey('pk_vnR0dLVmyF34VAqSegbpBvhfhaLNi', 'live')";
-        } else {
-            echo "setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', 'test');";
-        }
+            if (islive() || $GLOBALS["testlive"]) {
+                echo "setPublishableKey('pk_vnR0dLVmyF34VAqSegbpBvhfhaLNi', 'live')";
+            } else {
+                echo "setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', 'test');";
+            }
         ?>
     });
 
