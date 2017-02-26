@@ -1,13 +1,13 @@
 <?php startfile("popups_checkout"); ?>
 
-<h2>My Order
+<h2 class="text-white">My Order
     <button class="btn btn-black btn-sm pull-right dont-show" ONCLICK="confirmclearorder();" id="confirmclearorder"><i class="fa fa-close"></i></button>
 </h2>
 <hr class="myorderhr">
 
 <div id="myorder" class="text-white"></div>
 
-<button id="checkout-btn" class="btn btn-warning btn-lg btn-circle pull-right" onclick="showcheckout();">
+<button id="checkout-btn" style="padding: 35px;" class="btn btn-warning btn-lg btn-circle pull-right" onclick="showcheckout();">
     <i class="fa fa-shopping-cart"></i>
 </button>
 

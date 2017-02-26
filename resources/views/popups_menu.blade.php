@@ -112,7 +112,6 @@
         ?>
 
             <h2 class="text-xs-center">{{$category['category']}}  </h2>
-            <hr>
             @foreach ($menuitems as $menuitem)
                 <div class="list-group-item list-group-item-action d-flex justify-content-start item_{{ $catclass }}"
                      itemid="{{$menuitem["id"]}}"
