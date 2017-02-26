@@ -1,5 +1,7 @@
 @if(read("id") && read("profiletype") <> 2)
-    <div class="fixed-action-btn hidden-sm-up sticky-footer">
+    <div class="fixed-action-btn hidden-sm-up sticky-footer
+
+">
         <button class="fab bg-danger" onclick="window.scrollTo(0,document.body.scrollHeight);">
             <span class="white" id="checkout-total"></span>
         </button>

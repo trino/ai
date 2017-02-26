@@ -7,8 +7,8 @@
 
 <div id="myorder" class="text-white"></div>
 
-<button id="checkout-btn" style="padding: 35px;" class="btn btn-warning btn-lg btn-circle pull-right" onclick="showcheckout();">
-    <i class="fa fa-shopping-cart"></i>
+<button id="checkout-btn" class="btn btn-warning btn-xl btn-circle pull-right" onclick="showcheckout();">
+    <i class="fa fa-shopping-basket"></i>
 </button>
 
 <div class="modal" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
@@ -44,7 +44,7 @@
 
                     </div>
                     <div class="col-md-12">
-                        <h2 class="text-danger">Payment</h2>
+                        <h2 class="text-danger">Payment <i class="fa fa-lock"></i> </h2>
                         <DIV ID="credit-info"></DIV>
                     </div>
                     <div class="col-md-12">
@@ -85,9 +85,9 @@
 
 
                         <div class="thirdwidth">
-                            <input type="text" size="4" data-stripe="cvc" CLASS="credit-info form-control" PLACEHOLDER="CVC">
+                            <input style="PADDING-TOP:11PX;" type="text" size="4" data-stripe="cvc" CLASS="credit-info form-control" PLACEHOLDER="CVC">
                             <INPUT class="credit-info" TYPE="hidden" name="istest" id="istest">
-                            <a class="credit-info pull-right btn" onclick="testcard();">Test Card</a>
+                            <!--a class="credit-info pull-right btn" onclick="testcard();">Test Card</a-->
                             <div class="clearfix"></div>
                         </div>
 

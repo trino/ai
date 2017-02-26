@@ -185,7 +185,7 @@
 
             <div class="modal-header">
                 <h2 id="myModalLabel"><SPAN ID="modal-itemname"></SPAN>
-                    <small ID="toppingcost">+$<SPAN id="modal-toppingcost"></SPAN> per topping</small>
+                    <small ID="toppingcost"><br>$<SPAN id="modal-toppingcost"></SPAN> per topping</small>
                 </h2>
                 <button data-dismiss="modal" class="btn btn-sm btn-danger"><i class="fa fa-close"></i></button>
             </div>

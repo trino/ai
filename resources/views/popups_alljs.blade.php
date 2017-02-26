@@ -436,7 +436,8 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
             tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item">';
                 tempHTML += '<DIV CLASS="sprite pull-left rounded bg-black sprite-' + sprite + ' sprite-medium"></DIV>';
-                tempHTML += '<span title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '" class="receipt_itemcost">';
+                tempHTML += '<span title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $'
+                    + item["toppingcost"] + '" class="receipt_itemcost">';
                     tempHTML += '<span class="receipt-itemname">' + item["itemname"] + '</SPAN>';
                 tempHTML += '</span>';
                 tempHTML += ' <button class="fa fa-close pull-right btn btn-sm btn-black" onclick="removeorderitem(' + itemid + ');"></button>';
@@ -472,7 +473,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             }
 
 
-            HTML += tempHTML + '</DIV>';
+            HTML += tempHTML + '<hr></DIV>';
         }
         var taxes = (subtotal + deliveryfee) * 0.13;//ontario only
         totalcost = subtotal + deliveryfee + taxes;
@@ -481,7 +482,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
         createCookieValue("theorder", JSON.stringify(theorder));
         if (theorder.length == 0) {
-            HTML = '<DIV CLASS="text-center receipt-empty"><br><i class="fa fa-shopping-cart empty-shopping-cart"></i><br><h6>Order is Empty</h6><br><br><br></div>';
+            HTML = '<DIV CLASS="text-center receipt-empty"><br><br><i class="fa fa-shopping-basket fa-2x empty-shopping-cart"></i><br><br><h6>Order is Empty</h6><br><br><br></div>';
             $("#checkout").hide();
             $("#checkoutbutton").hide();
             $("#confirmclearorder").hide();
@@ -759,7 +760,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                         };
                         userdetails.Addresses.push(Address);
                         $("#addaddress").remove();
-                        $("#saveaddresses").append(AddressToOption(Address) + '<OPTION VALUE="addaddress" ID="addaddress">Add Address</OPTION>');
+                        $("#saveaddresses").append(AddressToOption(Address) + '<OPTION VALUE="addaddress" ID="addaddress">ADD ADDRESS</OPTION>');
                     }
                     userdetails["Orders"].unshift({
                         id: $("#receipt_id").text(),
@@ -1147,7 +1148,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         var HTML = '';
         var FirstAddress = false;
         if (user["Addresses"].length > 0) {
-            HTML += '<SELECT class="form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION value="0">Delivery Address</OPTION>';
+            HTML += '<SELECT class="form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION value="0">DELIVERY ADDRESS</OPTION>';
             addresskeys = Object.keys(user["Addresses"][0]);
             for (i = 0; i < user["Addresses"].length; i++) {
                 if (!FirstAddress) {
@@ -1157,7 +1158,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             }
             HTML += '</SELECT>';
         } else {
-            HTML += '<SELECT class="form-control saveaddresses dont-show" id="saveaddresses" onchange="addresschanged();"><OPTION value="0">Delivery Address</OPTION></SELECT>';
+            HTML += '<SELECT class="form-control saveaddresses dont-show" id="saveaddresses" onchange="addresschanged();"><OPTION value="0">DELIVERY ADDRESS</OPTION></SELECT>';
         }
         $(".addressdropdown").html(HTML);
         if (user["profiletype"] == 2) {
@@ -1448,7 +1449,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 if (i == userdetails.Stripe.length - 1) {
                     creditHTML += ' SELECTED';
                 }
-                creditHTML += '>' + card.brand + ' x-' + card.last4 + ' Expires: ' + card.exp_month.pad(2) + '/20' + right(card.exp_year, 2) + '</OPTION><OPTION value="">Add Card</OPTION>';
+                creditHTML += '>' + card.brand + ' x-' + card.last4 + ' Expires: ' + card.exp_month.pad(2) + '/20' + right(card.exp_year, 2) + '</OPTION><OPTION value="">ADD CARD</OPTION>';
             }
             $("#credit-info").html(creditHTML + '</SELECT>');
         } else {
@@ -1779,7 +1780,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
-                    HTML += '<div class="card"><button class="btn-sm btn addon-addon btn-block';
+                    HTML += '<div class="card"><button class="btn addon-addon btn-block';
 
                     if (isaddon_free(String(currentaddontype), String(addon))) {
                         HTML += ' btn-secondary';//free topping, this should be different from a paid topping
@@ -1792,8 +1793,8 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 }
             }
 
-            HTML += '<div class="card"><button class="btn bg-secondary btn-sm btn-block" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button></div>' +
-                '<div class="card"><button class="btn mt-0 btn-sm btn-success btn-block flat-border" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button></div>';
+            HTML += '<div class="card"><button class="btn bg-secondary  btn-block" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button></div>' +
+                '<div class="card"><button class="btn mt-0  btn-success btn-block flat-border" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button></div>';
 
             $("#addonlist").html(HTML);
             $(".addon-addon").click(

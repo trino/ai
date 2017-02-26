@@ -1,6 +1,8 @@
 .btn {
     border: 0;
+    font-size: .85rem;
 }
+
 
 .icon-width {
     width: 24px;
@@ -13,21 +15,20 @@
     height: 54px;
 }
 
-.receipt_itemcost{
+.receipt_itemcost {
     position: absolute;
     left: 60px;
 }
 
-.receipt_item{
-    height: 54px;
+.receipt_item {
+
     text-align: left;
-    padding:.5rem 0 !important;
-    border-bottom:1px solid #444;
-    float:left;
+    padding: .25rem 0 !important;
+    float: left;
     width: 100%;
 }
 
-.addon-addon{
+.addon-addon {
     border: 0;
     text-align: left;
     border-radius: 0;
@@ -35,18 +36,18 @@
 
 /* Firefox only */
 @-moz-document url-prefix() {
-    .align-middle.rounded.sprite{
+    .align-middle.rounded.sprite {
         position: relative;
         top: 12px;
     }
-    .addon-addon, .card{
-        padding: 0 !important;
+    .addon-addon, .card {
+
     }
 }
 
 hr {
-    margin-bottom: 0;
-    margin-top: .55rem;
+    margin-bottom: .25rem;
+    margin-top: .35rem;
 }
 
 body {
@@ -59,7 +60,7 @@ body {
     -moz-animation: fadein 1s; /* Firefox */
     -webkit-animation: fadein 1s; /* Safari and Chrome */
     -o-animation: fadein 1s; /* Opera */
-    background: transparent !important;
+    background: #444 !important;
 }
 
 /* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
@@ -68,11 +69,13 @@ body.loading {
 }
 
 .full {
+    /*
     background: url(../../public/images/background.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    */
 }
 
 /* Anytime the body has the loading class, our modal element will be visible */
@@ -84,8 +87,9 @@ body.loading #loadingmodal {
 h2 {
     color: #d9534f !important;
     font-weight: bold;
-    font-size: 1.25rem !important;
+    font-size: 1rem !important;
     margin: 1rem 0 .25rem 0 !important;
+    text-transform: capitalize;
 }
 
 .red {
@@ -262,12 +266,6 @@ h2 {
     margin-bottom: 0 !important;
 }
 
-input, textarea, select {
-    border: 1px solid #ddd !important;
-    margin-bottom: -1px !important;
-    border-radius: 0 !important;
-}
-
 .float-right {
     float: right;
 }
@@ -296,10 +294,6 @@ input, textarea, select {
     margin: 0 0 1rem 0 !important;
 }
 
-.sticky-footer {
-    bottom: 45px;
-    right: 10px;
-}
 
 .padding-top-45rem {
     padding-top: .45rem !important;
@@ -340,7 +334,11 @@ input, textarea, select {
 }
 
 .receipt-empty {
+color:#555;
+}
 
+.topping_button {
+    padding: .5rem;
 }
 
 .receipt-addons {
@@ -359,7 +357,7 @@ input, textarea, select {
 
 .receipt-addons-list {
     background: #efefef;
-    height: 150px;
+    height: 190px;
     overflow-y: auto;
     overflow-x: auto;
     padding: 5px;
@@ -373,17 +371,30 @@ input, textarea, select {
     border: 0
 }
 
-input {
-    padding-left: 1rem !important;
-}
+input,select,textarea {
+    border:0 !important;
+    border-bottom:1px solid #dadada !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
+    border-radius: 0 !important;
 
+    -webkit-appearance: none;
+    -moz-appearance : none;
+
+
+}
+input{
+
+}
 .fab {
     border: none;
-    font-size: 1em;
     color: white;
-    border-radius: 50%;
-    width: 73px;
-    height: 73px;
+     width: 70px;
+    height: 70px;
+    padding: 1px 1px;
+    line-height: 1.33;
+    border-radius: 35px;
+
     margin: auto;
     -webkit-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
     -moz-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
@@ -396,7 +407,7 @@ input {
 
 .fixed-action-btn {
     position: fixed;
-    right: 20px;
+    right: 16px;
     bottom: 10px !important;
     padding-top: 15px;
     margin-bottom: 0;
@@ -532,8 +543,8 @@ input {
 
 .btn-black {
     color: #fff;
-    background-color: #111;
-    border-color: #111;
+    background-color: transparent;
+    border-color: transparent;
 }
 
 .bg-white {
@@ -545,10 +556,7 @@ input {
 }
 
 .col-md-3 {
-
     background: white;
-
-    border-right: 1px solid rgba(0, 0, 0, .1);
 }
 
 .btn-circle {
@@ -594,64 +602,67 @@ a:focus, .btn:focus, button, .btn {
     border-color: transparent !important;
 }
 
-#checkout-btn{
+#checkout-btn {
     margin-bottom: 3rem;
 }
 
-.myorderhr{
+.myorderhr {
     border: 0;
     margin-bottom: 0;
 }
 
-.halfwidth{
+.halfwidth {
     width: 50%;
     float: left !important;
     display: inline !important;
 }
 
-.thirdwidth{
+.thirdwidth {
     width: 33.33%;
     float: left !important;
     display: inline !important;
 }
 
-.payfororder{
-    border-radius:0 !important;
-    padding:8px 15px !important;
+.payfororder {
+    border-radius: 0 !important;
+padding-top:10px;
 }
 
-.addonlist{
+.addonlist {
     width: 100%
 }
 
-.receipt_item>.receipt_itemcost, .receipt_item>.pull-right{
+.receipt_item > .receipt_itemcost, .receipt_item > .pull-right {
     padding-top: 8px !important;
 }
-.receipt_item>.btn{
+
+.receipt_item > .btn {
     padding-top: 4px !important;
     height: 25px !important;
     margin-top: 6px;
 }
 
-.navbar{
+.navbar {
     z-index: 1;
     padding: 0rem !important;
 }
 
-.padding1rem{
-    padding-top: 1rem;padding-bottom: 1rem
+.padding1rem {
+    padding-top: 1rem;
+    padding-bottom: 1rem
 }
 
-.londonpizza{
-    font-weight:800;padding-top:3px;
+.londonpizza {
+    font-weight: 800;
+    padding-top: 3px;
 }
 
-.empty-shopping-cart{
-    font-size:1.5rem
+.empty-shopping-cart {
+    font-size: 1.5rem
 }
 
-.flat-border{
-    border-radius:0 !important;
+.flat-border {
+    border-radius: 0 !important;
 }
 
 /*
@@ -751,6 +762,16 @@ a:focus, .btn:focus, button, .btn {
     }
 }
 */
+
+
+
+a:focus, .btn:focus, select:focus {
+    outline: none !important;
+}
+
+a, u {
+    text-decoration: none !important;
+}
 
 
 
