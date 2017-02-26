@@ -435,7 +435,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             }
 
             tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item">';
-                tempHTML += '<DIV CLASS="sprite pull-left rounded bg-black sprite-' + sprite + ' sprite-medium"></DIV>';
+                tempHTML += '<DIV CLASS="sprite pull-left sprite-' + sprite + ' sprite-medium"></DIV>';
                 tempHTML += '<span title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $'
                     + item["toppingcost"] + '" class="receipt_itemcost">';
                     tempHTML += '<span class="receipt-itemname">' + item["itemname"] + '</SPAN>';

@@ -315,6 +315,6 @@
             <p>Last updated: February 15, 2017</p>
         </div>
     </DIV>
-    <button id="footer" class="btn btn-sm btn-primary"><A HREF="#top"><i class="fa fa-arrow-up"></i>Go to the top</A></button>
+    <button id="footer" class="btn btn-sm btn-primary"><A HREF="#top"><i class="fa fa-arrow-up"></i> Go to the top</A></button>
 @endsection
 

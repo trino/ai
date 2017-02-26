@@ -1,8 +1,8 @@
 <nav class="navbar-fixed-top navbar bg-danger dont-print text-white">
     <div class="padding1rem">
         <div class="text-white container-fluid">
-            <a HREF="<?= webroot("public/index"); ?>" onclick="history.go(0);" class="text-white pull-left londonpizza" href="/">
-                londonpizza.ca
+            <a HREF="<?= webroot("public/index"); ?>" onclick="history.go(0);" class="text-white pull-left londonpizza " href="/">
+               <i class="fa fa-home "></i> londonpizza.ca
             </a>
 
             <a class="pull-right fontsize-1p25rem" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

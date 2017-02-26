@@ -96,7 +96,7 @@
     $itemsInCol = 0;
     $CurrentCol = 1;
 ?>
-<div class="col-md-3 pb-2">
+<div class="col-lg-3 col-md-12 pb-2 bg-white">
     @foreach ($categories as $category)
         <?php
             $catclass = toclass($category['category']);
@@ -166,7 +166,7 @@
 
 </div>
 
-<div class="col-md-3 pb-2">
+<div class="col-lg-3 col-md-12 pb-2  bg-white">
     @endif
     @endforeach
 </div>

@@ -2,7 +2,7 @@
 startfile("popups_login");
 ?>
 <div class="row py-2 my-1">
-    <DIV CLASS="col-sm-3">
+    <DIV CLASS="col-lg-3 col-md-4">
         <DIV CLASS="card card-block">
             <h2 class="small-margin">Mobile Pizza Delivery</h2>
             <ul class="nav nav-tabs mb-1" role="tablist">
@@ -25,7 +25,9 @@ startfile("popups_login");
                     <BUTTON CLASS="btn btn-link pl-0 text-muted pull-left btn-sm" onclick="handlelogin('forgotpassword');">Forgot Password</BUTTON>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="buzz">
-                    <div class="alert alert-info">We're only accepting credit/debit payments during Beta. We apologize for the inconvenience.</div>
+                    <div class="alert alert-info"><small>
+                        We're only accepting credit/debit payments at this time. Apologies for the inconvenience.</small>
+                    </div>
                     <h2>Delivery</h2>
                     <FORM id="addform">
                         <?php

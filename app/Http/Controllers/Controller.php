@@ -7,24 +7,30 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
-class Controller extends BaseController {
+class Controller extends BaseController
+{
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     //sends an email using a template
-    public function sendEMail($template_name = "", $array = array()) {
-        if(isset($array["message"])){
+    public function sendEMail($template_name = "", $array = array())
+    {
+        if (isset($array["message"])) {
             $array["body"] = $array["message"];
             unset($array["message"]);
         }
-        if(isset($array['email']) && is_array($array['email'])){
+        if (isset($array['email']) && is_array($array['email'])) {
             $emails = $array['email'];
-            foreach($emails as $email){
+            foreach ($emails as $email) {
                 $array["email"] = $email;
                 $this->sendEMail($template_name, $array);
             }
-        } else if(isset($array['email']) && $array['email']) {
-            if(!isset($array['mail_subject'])){$array['mail_subject'] = "[NO mail_subject SET!]";}
-            if($array['email'] == "admin"){$array['email'] = first("SELECT email FROM users WHERE profiletype = 1")["email"];}
+        } else if (isset($array['email']) && $array['email']) {
+            if (!isset($array['mail_subject'])) {
+                $array['mail_subject'] = "[NO mail_subject SET!]";
+            }
+            if ($array['email'] == "admin") {
+                $array['email'] = first("SELECT email FROM users WHERE profiletype = 1")["email"];
+            }
             try {
                 \Mail::send($template_name, $array, function ($messages) use ($array, $template_name) {
                     $messages->to($array['email'])->subject($array['mail_subject']);
@@ -43,7 +49,8 @@ class Controller extends BaseController {
     }
 
     //is data JSON-parseable?
-    function isJson($string){
+    function isJson($string)
+    {
         if ($string && !is_array($string)) {
             json_decode($string);
             return (json_last_error() == JSON_ERROR_NONE);
@@ -51,7 +58,8 @@ class Controller extends BaseController {
     }
 
     //used for making raw HTTP requests
-    function cURL($URL, $data = "", $username = "", $password = ""){
+    function cURL($URL, $data = "", $username = "", $password = "")
+    {
         $session = curl_init($URL);
         curl_setopt($session, CURLOPT_HEADER, false);
         curl_setopt($session, CURLOPT_SSL_VERIFYPEER, false);//not in post production
@@ -85,10 +93,20 @@ class Controller extends BaseController {
     }
 
     //https://www.twilio.com/ $0.0075 per SMS, + $1 per month
-    public function sendSMS($Phone, $Message, $Call = false){//works if you can get the from number....
-        $ret = iif($Call, "Calling", "Sending an SMS to") . ": " . $Phone . " - " .  $Message;
-        if($Phone == "admin") {$Phone = first("SELECT phone FROM users WHERE profiletype = 1");["phone"];}
-        if($Phone == "van"){$Phone = "9055315331";} else {$Phone=filternonnumeric($Phone);}
+    public function sendSMS($Phone, $Message, $Call = false)
+    {//works if you can get the from number....
+        $ret = iif($Call, "Calling", "Sending an SMS to") . ": " . $Phone . " - " . $Message;
+
+        /*
+        if ($Phone == "admin") {
+            $Phone = first("SELECT phone FROM users WHERE profiletype = 1");
+        }
+        */
+        if ($Phone == "van") {
+            $Phone = "9055315331";
+        } else {
+            $Phone = filternonnumeric($Phone);
+        }
         if (islive() && $Phone !== "9055123067" && $Phone) {//never call me
             $sid = 'AC81b73bac3d9c483e856c9b2c8184a5cd';
             $token = "3fd30e06e99b5c9882610a033ec59cbd";

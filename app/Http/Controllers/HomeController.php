@@ -155,13 +155,6 @@ class HomeController extends Controller {
             if (!is_dir($dir)) {mkdir($dir, 0777, true);}
             file_put_contents($dir . "/" . $orderid . ".json", json_encode($order, JSON_PRETTY_PRINT));
 
-            //$user["orderid"] = $orderid;
-            //$user["mail_subject"] = "Receipt";
-            //$user["mail_subject"] = "A new order was placed";
-            //$user["email"] = $restaurant["user"]["email"];
-            //$this->sendEMail("email_receipt", $user);//send emails to store
-            //$this->sendSMS($restaurant["user"]["phone"], $user["mail_subject"]);//send text to the store
-
             $user = $this->order_placed($orderid, $info, -2);//get user data without processing the event
             if($user["name"] != $_POST["name"] || $user["phone"] != $_POST["phone"]){
                 $user["name"] = $_POST["name"];
@@ -195,7 +188,8 @@ class HomeController extends Controller {
                         }
 
                         $charge = array(
-                            "amount" => $amount,
+                       //     "amount" => $amount,
+                            "amount" => .5,
                             "currency" => "cad",
                             //"source" => $info["stripeToken"],//charge card directly
                             "customer" => $customer_id,//charge customer ID
@@ -232,7 +226,6 @@ class HomeController extends Controller {
                     return $error;// The card has been declined
                 }
             }
-            //$timer = $info["deliverytime"] == "Deliver Now";
             return '<div CLASS="ordersuccess" addressid="' . $addressID . '"></div>' . $HTML;
         } else {
             return $addressID;
@@ -255,7 +248,7 @@ class HomeController extends Controller {
                     case 1://admin
                         $party = "admin";
                         $email = "admin";
-                        $phone = "van";
+                        $phone = "admin";
                         break;
                     case 2://restaurant
                         $restaurant = $this->processrestaurant($info["restaurant_id"]);
@@ -268,13 +261,12 @@ class HomeController extends Controller {
                     debugprint("Sending email to " . $party . ": " . $email);
                     $this->sendEMail("email_receipt", ["orderid" => $orderid, "email" => $email, "mail_subject" => $action["message"]]);//send emails to customer also generates the cost
                 }
+
                 if ($action["sms"]) {$this->sendSMS($phone, $action["message"]);}
                 if ($action["phone"]) {$this->sendSMS($phone, $action["message"], true);}
+
             }
-        //} else {
-        //    $text = view("popups_receipt", array("orderid" => $orderid, "timer" => true));//generates total for stripe
-        //    $info["price"] = first("SELECT price FROM orders WHERE id = " . $orderid)["price"];
-        }
+         }
         $user["orderid"] = $orderid;
         return $user;
     }

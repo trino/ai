@@ -60,7 +60,7 @@ body {
     -moz-animation: fadein 1s; /* Firefox */
     -webkit-animation: fadein 1s; /* Safari and Chrome */
     -o-animation: fadein 1s; /* Opera */
-    background: #444 !important;
+    background: #dadada !important;
 }
 
 /* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
@@ -765,15 +765,12 @@ padding-top:10px;
 
 
 
-a:focus, .btn:focus, select:focus {
+a, a:focus, .btn:focus, select:focus {
     outline: none !important;
 }
 
 a, u {
     text-decoration: none !important;
 }
-
-
-
 
 

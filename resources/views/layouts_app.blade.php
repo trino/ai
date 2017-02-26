@@ -63,11 +63,11 @@
             <div class="row">
                 <div class="col-sm-12 py-1 mt-1">
                     <div class="pull-left">
-                        <span class="text-white">&copy; 2017</span>
+                        <span class="text-white text-muted">&copy; 2017</span>
                     </div>
 
                     <div class="pull-left">
-                        <A CLASS="text-white pl-3" href="help">more info</A>
+                        <A CLASS="text-white pl-3 text-muted" href="help">More Info</A>
                     </div>
                 </div>
             </div>

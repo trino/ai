@@ -146,12 +146,12 @@
         <TR>
             <TH>#</TH>
             <TH>Item</TH>
-            <TH class="text-xs-right"> Sub-total</TH>
-            <TH>Addons</TH>
+            <TH align="right"> Sub-total</TH>
+            <TH align="right">Addons</TH>
             @if($debugmode)
                 <TH TITLE="<?= $onlydebug; ?>">Count</TH>
             @endif
-            <th class="text-xs-right">Price</th>
+            <th align="right">Price</th>
         </TR>
 @else
     <TABLE WIDTH="100%" class="noborder" cellspacing="0" cellpadding="0">
