@@ -147,7 +147,7 @@
             <TH>#</TH>
             <TH>Item</TH>
             <TH align="right"> Sub-total</TH>
-            <TH align="right">Addons</TH>
+            <TH>Addons</TH>
             @if($debugmode)
                 <TH TITLE="<?= $onlydebug; ?>">Count</TH>
             @endif
