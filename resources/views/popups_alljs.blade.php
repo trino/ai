@@ -489,7 +489,6 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             removeCookie("theorder");
             collapsecheckout();
             $("#checkout-btn").hide();
-            $("#checkout-btn").hide();
             $("#checkout-total").text('$0.00');
         } else {
             tempHTML = '<DIV id="newvalues"';
@@ -1706,7 +1705,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             if (currentitemindex == itemindex) {
                 HTML += ' thisside';
             }
-            HTML += '">' + '<div class="btn btn-sm" id="item_' + itemindex + '">' + ucfirst(item_name) + ' #' + (itemindex + 1) + '</div>';
+            HTML += '">' + '<div class="btn " id="item_' + itemindex + '">' + ucfirst(item_name) + ' #' + (itemindex + 1) + '</div>';
 
             /*
              if (currentaddonlist[itemindex].length == 0) {
@@ -1716,7 +1715,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             for (var i = 0; i < currentaddonlist[itemindex].length; i++) {
                 var currentaddon = currentaddonlist[itemindex][i];
                 var qualifier = "";
-                tempstr += '<DIV CLASS="pill btn btn-sm btn-secondary ' + classname + '">' + currentaddon.name +
+                tempstr += '<DIV CLASS="pill btn  btn-secondary ' + classname + '">' + currentaddon.name +
                     '<span ONCLICK="removelistitem(' + itemindex + ', ' + i + ');">&nbsp; <i CLASS="fa fa-times"></i> </span></div>&nbsp;';
 
                 qualifier = currentaddon.qual;

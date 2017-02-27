@@ -1,7 +1,7 @@
 <?php
 startfile("popups_login");
 ?>
-<div class="row py-2 my-1">
+<div class="row py-3 bg-inverse">
     <DIV CLASS="col-lg-3 col-md-4">
         <DIV CLASS="card card-block">
             <h2 class="small-margin">Mobile Pizza Delivery</h2>

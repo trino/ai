@@ -50,18 +50,21 @@
         @include("popups_alljs")
     </head>
 
-    <body>
+    <body class="">
         <div class="modal loading" ID="loadingmodal"></div>
+
+        <div class="">
         <?= view("popups_navbar")->render(); ?>
-        <div class="container-fluid">
+
+        <div class="container-fluid shadow">
             @yield('content')
         </div>
 
         <?= view("popups_sticky_footer")->render(); ?>
 
-        <div class="container-fluid" style="opacity: .8">
+        <div class="container-fluid shadow">
             <div class="row">
-                <div class="col-sm-12 py-1 mt-1">
+                <div class="col-sm-12 " style="background: #444" >
                     <div class="pull-left">
                         <span class="text-white text-muted">&copy; 2017</span>
                     </div>
@@ -71,6 +74,10 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+
+
         </div>
     </body>
 

@@ -4,7 +4,13 @@
 </h2>
 <hr class="myorderhr">
 <div id="myorder" class="text-white"></div>
-<button id="checkout-btn" class="btn btn-warning btn-xl btn-circle pull-right" onclick="showcheckout();">
+<button
+        style="
+    -webkit-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
+    -moz-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
+    box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);"
+        id="checkout-btn" class="btn btn-warning btn-xl btn-circle pull-right"
+        onclick="showcheckout();">
     <i class="fa fa-shopping-basket"></i>
 </button>
 <div class="modal" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
