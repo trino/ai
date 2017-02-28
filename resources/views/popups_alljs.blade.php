@@ -700,7 +700,7 @@
     function canplaceanorder() {
         var valid_creditcard = true;
         if (!$("#saved-credit-info").val() && !isvalidcreditcard()) { valid_creditcard = false;}
-        var visible_errors = $(".error:visible").length == 0;
+        var visible_errors = $(".error:visible").text().length == 0;
         var selected_rest = $("#restaurant").val() > 0;
         var phone_number = $("#reg_phone").val().length > 0;
         var valid_address = validaddress();

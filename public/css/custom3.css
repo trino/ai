@@ -413,7 +413,7 @@ input,select,textarea {
 
 .fixed-action-btn {
     position: fixed;
-    right: 15px;
+    right: 100px;
     bottom: 10px !important;
     padding-top: 15px;
     margin-bottom: 0;
