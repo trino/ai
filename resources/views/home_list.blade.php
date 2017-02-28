@@ -33,6 +33,17 @@
             setsetting("menucache", now(true));
         }
     }
+    function appendSQL($CurrentSQL, $AppendSQL){
+        if($CurrentSQL){return $CurrentSQL . " AND " . $AppendSQL;}
+        return $AppendSQL;
+    }
+    function newcol($field, $NoWrap = true){
+        $formatted = formatfield($field);
+        echo '<TH CLASS="th-left" ID="col_' . $field . '"';
+        if($NoWrap){ echo ' NOWRAP';}
+        echo '><SPAN CLASS="pull-center"><i id="desc_' . $field . '" class="fa fa-arrow-down pull-left" onclick="sort(' . "'" . $field . "', 'DESC'" . ')" TITLE="Sort by ' . $formatted . ' descending"></i> ';
+        echo $formatted . ' <i id="asc_' . $field . '" class="fa fa-arrow-up pull-right" onclick="sort(' . "'" . $field . "', 'ASC'" . ')" TITLE="Sort by ' . $formatted . ' ascending"></i></SPAN></TH>';
+    }
 
     //sets permissions, SQL, fields for each whitelisted table
     $TableStyle = 0;
@@ -45,6 +56,7 @@
     $SQL=false;
     $specialformats = false;
     $showmap=false;
+    $searchcols=false;
     switch($table){
         case "all":case "debug"://system value
             $datafields=false;
@@ -55,9 +67,11 @@
         case "users":
             $faicon = "user";
             $fields = array("id", "name", "phone", "profiletype", "authcode", "email");
+            $searchcols = array("name");
             break;
         case "restaurants":
             $fields = array("id", "name", "phone", "email", "address_id", "number", "street", "postalcode", "city", "province", "latitude", "longitude", "user_phone");
+            $searchcols = array("name", "email");
             $SQL='SELECT restaurants.id, restaurants.name, restaurants.phone, restaurants.email, restaurants.address_id, useraddresses.number, useraddresses.street, useraddresses.postalcode, useraddresses.city, useraddresses.province, useraddresses.latitude, useraddresses.longitude, useraddresses.phone as user_phone FROM useraddresses AS useraddresses RIGHT JOIN restaurants ON restaurants.address_id = useraddresses.id';
             break;
         case "orders":
@@ -81,6 +95,7 @@
                 $where = "restaurant_id = " . $_GET["restaurant"];
                 $extratitle = "for restaurant " . $_GET["restaurant"];
             }
+            $where = appendSQL($where, "status <> 3");
             break;
         case "additional_toppings":
             $namefield="size";
@@ -117,12 +132,24 @@
                 if(!in_array($table, array("all", "debug"))){
                     if($_POST["makenew"] == "true"){
                         Query("INSERT INTO " . $table . " () VALUES();");
-                        //debugprint("Inserted into " . $table );
                     }
                     if(!isset($fields)){$fields[] = "id";}
+
+                    if($searchcols && $_POST["search"]){
+                        foreach($searchcols as $ID => $Column){
+                            $searchcols[$ID] = $Column . " LIKE '%" .  $_POST["search"] . "%'";
+                        }
+                        $searchcols = join(" OR ", $searchcols);
+                        $where = appendSQL($where, $searchcols);
+                    }
                     if($where){$where = " WHERE " . $where;}
                     if(!$SQL){$SQL= "SELECT " . implode(", ", $fields) . " FROM " . $table;}
-                    $results["SQL"] =   $SQL . $where . " LIMIT " . $_POST["itemsperpage"] . " OFFSET " . ($_POST["itemsperpage"] * $_POST["page"]);
+                    $sort = "";
+                    if($_POST["sort_col"] && $_POST["sort_dir"]){
+                        $sort = " ORDER BY " . $_POST["sort_col"] . " " . $_POST["sort_dir"];
+                    }
+                    $results["SQL"] =  $SQL . $where . $sort . " LIMIT " . $_POST["itemsperpage"] . " OFFSET " . ($_POST["itemsperpage"] * $_POST["page"]);
+
                     $results["table"] = Query($results["SQL"], true);
                     if(is_array($specialformats)){
                         foreach($results["table"] as $Index => $Data){
@@ -235,6 +262,20 @@
                 .overflow-x-scroll{
                     overflow-x: scroll;
                 }
+
+
+                .pull-center>i{
+                    padding-top: 3px;
+                    cursor: pointer;
+                }
+
+                .selected-th{
+                    background: lightblue;
+                }
+
+                .selected-i{
+                    color: blue;
+                }
             </STYLE>
             <div class="row m-t-1">
                 <div class="col-md-12">
@@ -244,6 +285,11 @@
                                 <A HREF="<?= webroot("public/list/all"); ?>"><i class="fa fa-{{ $faicon }}" aria-hidden="true"></i></A> {{ ucfirst($table) . ' list ' . $extratitle }}
                             </h2>
                             <h2 CLASS="pull-right spacing">
+                                @if($searchcols)
+                                    <INPUT TYPE="text" placeholder="Search" id="searchtext" title="Press Enter to search">
+                                @else
+                                    <INPUT TYPE="hidden" id="searchtext">
+                                @endif
                                 @if($table != "all" && read("profiletype") == 1)
                                     @if($table == "debug")
                                         <A onclick="testemail();" TITLE="Send a test email" class="hyperlink" id="testemail" href="#"><i class="fa fa-envelope"></i></A>
@@ -291,13 +337,13 @@
                                             <THEAD>
                                                 <TR>
                                                     @if($TableStyle == 0)
-                                                        <TH CLASS="th-left">ID</TH>
                                                         <?php
+                                                            newcol("id", false);
                                                             if(isset($fields)){
                                                                 $last = lastkey($fields);
                                                                 foreach($fields as $field){
                                                                     if($field != "id"){
-                                                                        echo '<TH CLASS="th-left" NOWRAP>' . formatfield($field) . '</TH>';
+                                                                        newcol($field);
                                                                     }
                                                                 }
                                                             }
@@ -345,7 +391,7 @@
                 </div>
             </div>
             @if(read("profiletype") == 1 || !$adminsonly)
-                <SCRIPT>
+                <SCRIPT>//              0            1           2           3            4
                     var statuses = ["Pending", "Confirmed", "Declined", "Delivered", "Canceled"];
                     var usertype = ["Customer", "Admin", "Restaurant"];
                     var profiletype = '<?= read("profiletype"); ?>';
@@ -373,10 +419,34 @@
                     };
                     var restaurantID = Number("<?= $RestaurantID; ?>");
 
+                    var sort_col = "", sort_dir = "";
+                    function sort(col, dir){
+                        if(sort_col){
+                            $("#col_" + sort_col).removeClass("selected-th");
+                            $("#" + sort_dir.toLowerCase() + "_" + sort_col).removeClass("selected-i");
+                        }
+                        if(col == sort_col && sort_dir == dir) {
+                            sort_col = "";
+                            sort_dir = "";
+                        } else {
+                            sort_col = col;
+                            sort_dir = dir;
+                            $("#col_" + sort_col).addClass("selected-th");
+                            $("#" + sort_dir.toLowerCase() + "_" + sort_col).addClass("selected-i");
+                        }
+                        getpage(0);
+                    }
+
                     $(window).load(function () {
                     //$(document).ready(function() {
                         log("GETPAGE 0");
                         getpage(0);
+                    });
+
+                    $("#searchtext").on('keyup', function (e) {
+                        if (e.keyCode == 13) {
+                            getpage(0);
+                        }
                     });
 
                     function ucfirst(string) {
@@ -426,7 +496,10 @@
                             itemsperpage: itemsperpage,
                             query: <?= json_encode($_GET); ?>,
                             page: index,
-                            makenew: makenew
+                            makenew: makenew,
+                            search: $("#searchtext").val(),
+                            sort_col: sort_col,
+                            sort_dir: sort_dir
                         }, function (result) {
                             try {
                                 var data = JSON.parse(result);

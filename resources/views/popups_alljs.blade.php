@@ -703,8 +703,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         var valid_creditcard = true;
         if (!$("#saved-credit-info").val() && !isvalidcreditcard()) { valid_creditcard = false;}
         var visible_errors = $(".error:visible").length > 0;
-        var visible_errors = true;
-        //<comments> visible_errors needs to be modified
+        //<comments> visible_errors needs to be modified. How? I need specifics.
         var selected_rest = $("#restaurant").val() > 0;
         var phone_number = $("#reg_phone").val().length > 0;
         var valid_address = validaddress();
