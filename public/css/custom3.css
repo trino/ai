@@ -384,10 +384,13 @@ input,select,textarea {
 
     -webkit-appearance: none;
     -moz-appearance : none;
-
-
 }
 
+#checkout-btn{
+    -webkit-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
+    -moz-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
+    box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
+}
 
 .fab {
     border: none;

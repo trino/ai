@@ -4,13 +4,7 @@
 </h2>
 <hr class="myorderhr">
 <div id="myorder" class="text-white"></div>
-<button
-        style="
-    -webkit-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
-    -moz-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
-    box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);"
-        id="checkout-btn" class="btn btn-warning btn-xl btn-circle pull-right"
-        onclick="showcheckout();">
+<button id="checkout-btn" class="btn btn-warning btn-xl btn-circle pull-right" onclick="showcheckout();">
     <i class="fa fa-shopping-basket"></i>
 </button>
 <div class="modal" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
@@ -57,11 +51,11 @@
                         <div class="thirdwidth">
                             <SELECT CLASS="credit-info form-control" data-stripe="exp_year">
                                 <?php
-                                $CURRENT_YEAR = date("Y");
-                                $TOTAL_YEARS = 6;
-                                for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
-                                    echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
-                                }
+                                    $CURRENT_YEAR = date("Y");
+                                    $TOTAL_YEARS = 6;
+                                    for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
+                                        echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
+                                    }
                                 ?>
                             </SELECT>
                             <div class="clearfix"></div>
@@ -69,16 +63,16 @@
                         <div class="thirdwidth">
                             <input style="PADDING-TOP:10PX;" type="text" size="4" data-stripe="cvc" CLASS="credit-info form-control" PLACEHOLDER="CVC">
                             <INPUT class="credit-info" TYPE="hidden" name="istest" id="istest">
-                            <!--a class="credit-info pull-right btn" onclick="testcard();">Test Card</a-->
+                            <a class="credit-info pull-right btn" onclick="testcard();" TITLE="Don't remove this, I need it!">Test Card</a>
                             <div class="clearfix"></div>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
                         <?php
-                        if (read("id")) {
-                            echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
-                        }
+                            if (read("id")) {
+                                echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
+                            }
                         ?>
                         <SELECT class="form-control" ID="restaurant" ONCHANGE="restchange();">
                             <OPTION VALUE="0" SELECTED>RESTAURANT</OPTION>

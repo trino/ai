@@ -1,4 +1,4 @@
-<nav class="navbar-fixed-top navbar bg-danger dont-print text-white  container-fluid">
+<nav class="navbar-fixed-top navbar bg-danger dont-print text-white container-fluid">
     <div style="padding: .5rem 1rem;">
         <div class="text-white">
             <a HREF="<?= webroot("public/index"); ?>" onclick="history.go(0);" class="text-white pull-left londonpizza " href="/">
@@ -16,8 +16,8 @@
                             foreach (array("users", "restaurants", "useraddresses", "orders", "additional_toppings", "actions") as $table) {
                                 echo '  <li><A HREF="' . webroot("public/list/" . $table) . '" CLASS="dropdown-item"><i class="fa fa-user-plus"></i> ' . ucfirst($table) . ' list</A></li>';
                             }
-                            ?>
-                            <li>
+                        ?>
+                        <li>
                             <A HREF="<?= webroot("public/editmenu"); ?>" CLASS="dropdown-item"><i class="fa fa-user-plus icon-width"></i> Edit Menu</A>
                         </li>
                         <li>
@@ -49,9 +49,5 @@
             </ul>
             <div class="clearfix"></div>
         </div>
-
-
     </div>
-
-
 </nav>

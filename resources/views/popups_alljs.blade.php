@@ -1,8 +1,8 @@
 <?php
-startfile("popups_alljs");
-$CURRENT_YEAR = date("Y");
-$STREET_FORMAT = "[number] [street], [city] [postalcode]";
-//["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
+    startfile("popups_alljs");
+    $CURRENT_YEAR = date("Y");
+    $STREET_FORMAT = "[number] [street], [city] [postalcode]";
+    //["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
 ?>
 
 <script>
@@ -176,8 +176,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     function confirm2() {
         var Title = "Confirm";
-        var action = function () {
-        };
+        var action = function () {};
         $('#alert-confirm').unbind('click');
         if (arguments.length > 1) {
             for (var index = 0; index < arguments.length; index++) {
@@ -195,18 +194,12 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     function removeindex(arr, index, count, delimiter) {
         if (!isArray(arr)) {
-            if (isUndefined(delimiter)) {
-                delimiter = " ";
-            }
+            if (isUndefined(delimiter)) {delimiter = " ";}
             arr = removeindex(arr.split(delimiter), index, count, delimiter).join(delimiter);
         } else {
-            if (isNaN(index)) {
-                index = hasword(arr, index);
-            }
+            if (isNaN(index)) {index = hasword(arr, index);}
             if (index > -1 && index < arr.length) {
-                if (isUndefined(count)) {
-                    count = 1;
-                }
+                if (isUndefined(count)) {count = 1;}
                 arr.splice(index, count);
             }
         }
@@ -855,6 +848,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 $("#card_" + Index).fadeOut("fast", function () {
                     $("#card_" + Index).remove();
                 });
+                removeindex(userdetails.Stripe, Index);//remove it from userdetails
             });
         });
     }
@@ -1324,18 +1318,22 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         var errormessage = "";
         log("Stripe response");
         switch (status) {
-            case 400:errormessage = "Bad Request:<BR>The request was unacceptable, often due to missing a required parameter.";break;
-            case 401:errormessage = "Unauthorized:<BR>No valid API key provided.";break;
-            case 402:errormessage = "Request Failed:<BR>The parameters were valid but the request failed.";break;
-            case 404:errormessage = "Not Found:<BR>The requested resource doesn't exist.";break;
-            case 409:errormessage = "Conflict:<BR>The request conflicts with another request (perhaps due to using the same idempotent key).";break;
-            case 429:errormessage = "Too Many Requests:<BR>Too many requests hit the API too quickly. We recommend an exponential backoff of your requests.";break;
-            case 500:case 502:case 503:case 504:errormessage = "Server Errors:<BR>Something went wrong on Stripe's end.";break;
+            case 400: errormessage = "Bad Request:<BR>The request was unacceptable, often due to missing a required parameter."; break;
+            case 401: errormessage = "Unauthorized:<BR>No valid API key provided."; break;
+            case 402: errormessage = "Request Failed:<BR>The parameters were valid but the request failed."; break;
+            case 404: errormessage = "Not Found:<BR>The requested resource doesn't exist."; break;
+            case 409: errormessage = "Conflict:<BR>The request conflicts with another request (perhaps due to using the same idempotent key)."; break;
+            case 429: errormessage = "Too Many Requests:<BR>Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."; break;
+            case 500: case 502: case 503: case 504: errormessage = "Server Errors:<BR>Something went wrong on Stripe's end."; break;
             case 200:// - OK	Everything worked as expected.
                 if (response.error) {
                     $('.payment-errors').html(response.error.message);
                 } else {
                     log("Stripe successful");
+                    if (!changecredit()) {//save new card to userdetails
+                        if(!isArray(userdetails.Stripe)){userdetails.Stripe = new Array();}//check to be sure
+                        userdetails.Stripe.push(getnewcard(response.id));
+                    }
                     placeorder(response.id);
                 }
                 break;
@@ -1344,6 +1342,24 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             //$(".payment-errors").html(errormessage + "<BR><BR>" + response["error"]["type"] + ":<BR>" + response["error"]["message"]);
             $(".payment-errors").html(response["error"]["message"]);
         }
+    }
+
+    function getnewcard(ID){
+        var card_number = $("input[data-stripe=number]").val().replace(/\D/g,'');
+        var card_brand = "Unknown (" + card_number.left(1) + ")";
+        switch(card_number.left(1)){
+            case "3": card_brand = "American Express"; break;
+            case "4": card_brand = "Visa"; break;
+            case "5": card_brand = "Master Card"; break;
+        }
+        return {
+            id: ID,
+            brand: card_brand,
+            last4: card_number.right(4),
+            exp_month: Number($("select[data-stripe=exp_month]").val()),
+            exp_year: "20" + $("select[data-stripe=exp_year]").val(),
+            cvc: $("input[data-stripe=cvc]").val()
+        };
     }
 
     var closest = false;
@@ -1447,7 +1463,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             var creditHTML = '<SELECT ID="saved-credit-info" name="creditcard" onchange="changecredit();" class="form-control proper-height">';
             for (var i = 0; i < userdetails.Stripe.length; i++) {
                 var card = userdetails.Stripe[i];
-                creditHTML += '<OPTION value="' + card.id + '"';
+                creditHTML += '<OPTION value="' + card.id + '" id="card_' + card.id + '"';
                 if (i == userdetails.Stripe.length - 1) {
                     creditHTML += ' SELECTED';
                 }

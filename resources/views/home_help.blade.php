@@ -54,6 +54,7 @@
                 }
             });
             $("#profileinfo").remove();
+            $(".sticky-footer").remove();
         });
     </SCRIPT>
     <?php
