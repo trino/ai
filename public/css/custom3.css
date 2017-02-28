@@ -12,9 +12,9 @@
 }
 
 .list-group-item {
-    padding: .5rem 0;
+    padding:  0;
     border: 0;
-    height: 54px;
+    height: 45px;
 }
 
 .receipt_itemcost {
@@ -366,6 +366,8 @@ color:#555;
 }
 
 .card-columns {
+    column-gap: 0 !important;
+
     column-count: 3 !important;
 }
 
@@ -537,7 +539,7 @@ input,select,textarea {
     max-width: 1300px !important;
 }
 
-.dropdown-menu, .shadow {
+.dropdown-menu {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 
 }

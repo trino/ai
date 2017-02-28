@@ -831,7 +831,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     function creditcards() {
         var HTML = '<DIV CLASS="section"><h2>CREDIT CARD</h2>';
         if (userdetails.Stripe.length == 0) {
-            return HTML + "<br>No Credit Cards";
+            return HTML + "No Credit Cards";
         }
         for (var i = 0; i < userdetails.Stripe.length; i++) {
             var card = userdetails.Stripe[i];
@@ -1774,7 +1774,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         if (currentstyle == 0) {
             $("#addonlist").html(HTML + '</DIV>');
         } else {
-            HTML += '  <div class="card-columns">';
+            HTML += '  <div class="card-columns ">';
             for (var i = 0; i < types.length; i++) {
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
