@@ -66,9 +66,10 @@
 
                 <p>
                     londonpizza.ca has been in the works for over 5 years.
-                    Created by Van and Roy, natives of Hamilton Ontario.
+                    Created by Van and Roy, natives of Hamilton, Ontario.
                     We've seen what's out there for food delivery and we're confident that we can do better.
-                    With your support I'm sure we will help many people in the years to come and that's why I'm pledging to donate $0.50 from every order.
+                    With your support I'm sure we will help many people in the years to come and that's why
+                    we're pledging to donate $0.50 from every order we receive to the local food drive.
                     This is the lifetime commitment of londonpizza.ca
                 </p>
 
