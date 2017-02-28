@@ -439,7 +439,6 @@
 
                     $(window).load(function () {
                     //$(document).ready(function() {
-                        log("GETPAGE 0");
                         getpage(0);
                     });
 
@@ -529,7 +528,16 @@
                                                     field = DeliveryTime(field, CurrentDate);
                                                     break;
                                             }
-                                            if(TableStyle == '1'){tempHTML += '<TR><TD CLASS="' + evenodd + '">' + tofieldname(fields[v]) + '</TD>';}
+                                            if(TableStyle == '1'){
+                                                var formatted = tofieldname(fields[v]);
+                                                tempHTML += '<TR><TD CLASS="' + evenodd;
+                                                if(sort_col == fields[v]){tempHTML += ' selected-th';}
+                                                tempHTML += '">' + '<SPAN CLASS="pull-center"><i id="desc_' + fields[v] + '" class="fa fa-arrow-down pull-left';
+                                                if(sort_col == fields[v] && sort_dir == "DESC"){tempHTML += ' selected-i';}
+                                                tempHTML += '" onclick="sort(' + "'" + fields[v] + "', 'DESC'" + ')" TITLE="Sort by ' + formatted + ' descending"></i>' + formatted + ' <i id="asc_' + fields[v] + '" class="fa fa-arrow-up pull-right';
+                                                if(sort_col == fields[v] && sort_dir == "ASC"){tempHTML += ' selected-i';}
+                                                tempHTML += '" onclick="sort(' + "'" + fields[v] + "', 'ASC'" + ')" TITLE="Sort by ' + formatted + ' ascending"></i></SPAN></TD>';
+                                            }
                                             tempHTML += '<TD NOWRAP ID="' + table + "_" + ID + "_" + fields[v] + '" class="field ' + evenodd + '" field="' + fields[v] + '" index="' + ID + '">' + field + '</TD>';
                                             if(TableStyle == '1'){tempHTML += '</TR>';}
                                             Address = Address.replace("[" + fields[v] + "]", field);
@@ -1027,11 +1035,11 @@
                             orderid: ID
                         }, function (result) {
                             if(result) {
-                                var button = '<DIV CLASS="col-md-4"><button data-dismiss="modal" class="width-full btn btn-';
-                                var HTML = '<DIV CLASS="row">' + button + 'primary" onclick="changeorderstatus(' + ID + ', 1);">Confirm</button></DIV>';
+                                var button = '<DIV CLASS="col-md-3"><button data-dismiss="modal" class="width-full btn btn-';
+                                var HTML = '<DIV CLASS="row">' + button + 'primary" onclick="changeorderstatus(' + ID + ', 1);">' + statuses[1] + '</button></DIV>';
                                 HTML += button + 'secondary pull-center red" onclick="changeorderstatus(' + ID + ');"><i class="fa fa-envelope"></I> Email</button></DIV>';
-                                HTML += button + 'danger pull-right" onclick="changeorderstatus(' + ID + ', 2);">Decline</button></DIV></DIV>';
-
+                                HTML += button + 'warning pull-right" onclick="changeorderstatus(' + ID + ', 3);">' + statuses[3] + '</button></DIV>';
+                                HTML += button + 'danger pull-right" onclick="changeorderstatus(' + ID + ', 2);">' + statuses[2] + '</button></DIV></DIV>';
                                 $("#ordercontents").html(result + HTML);
                                 $("#ordermodal").modal("show");
                                 @if(!$showmap)
