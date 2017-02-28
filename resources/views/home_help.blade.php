@@ -10,7 +10,6 @@
         }
 
         .btn:not(.btn-circle) {
-            min-width:;
             width: 100px;
         }
 
@@ -56,14 +55,19 @@
             });
         });
     </SCRIPT>
+    <?php
+        $launchdate = "April 1, 2017";
+        $datestamp = strtotime($launchdate);
+        $SQLdate = date("Y-m-d", $datestamp);
+        $launched = iif(time() > $datestamp, " (Launched)");
+        $orders =  first('SELECT count(*) as count FROM orders WHERE status <> 2 AND status <> 4 AND placed_at > "' . $SQLdate . '"')["count"];
+    ?>
     <DIV class="card card-block" style="background: white;border-radius: 0">
-
-        <div class=" ">
+        <div>
             <h1>About Us </h1>
 
             <div class="card-block col-sm-6  bg-success text-white">
                 <h2 class="text-white MT-0">Our Duty </h2>
-
                 <p>
                     londonpizza.ca has been in the works for over 5 years.
                     Created by Van and Roy, natives of Hamilton, Ontario.
@@ -73,34 +77,32 @@
                     This is the lifetime commitment of londonpizza.ca
                 </p>
 
-<p>Our official launch will be on April 1, 2017</p>
+                <p>Our official launch will be on <?= $launchdate; ?></p>
                 <p>
                     "The app for the people, by the people".
                 </p><hr>
-<div class="btn-outlined-danger text-center pt-1">
-                <strong>April, 2017 (Launched)</strong>
-                <p>Orders: 0
 
-                    <br> Donated: $0.0
+                <div class="btn-outlined-danger text-center pt-1">
+                    <strong><?= $launchdate . $launched; ?></strong>
+                    <p>Orders: <?= $orders; ?>
+                    <br> Donated: $0.00
                     <br>Charity: London Food Bank</p>
-</div>
+                </div>
             </div>
         </div>
         <BR>
 
         <h1>FAQ</h1>
-        <?php
+    <?php
         $site_name = "londonpizza.ca";
         $email = '<A HREF="mailto:info@trinoweb.ca">info@trinoweb.ca</A>';
 
-        function toclass($text)
-        {
+        function toclass($text) {
             $text = str_replace('/', '_', $text);
             $text = strtolower(str_replace(" ", "_", trim(strip_tags($text))));
             return $text;
         }
-        function newID()
-        {
+        function newID() {
             if (isset($GLOBALS["lastid"])) {
                 $GLOBALS["lastid"] += 1;
             } else {
@@ -108,26 +110,22 @@
             }
             return lastID();
         }
-        function lastID()
-        {
+        function lastID() {
             return "section_" . $GLOBALS["lastid"];
         }
-        function newlist($Title)
-        {
+        function newlist($Title) {
             if (isset($GLOBALS["startlist"])) {
                 echo '</UL>';
             }
             $GLOBALS["startlist"] = true;
             echo '<H2>' . $Title . '</H2><UL>';
         }
-        function newitem($Title, $Text, $Class = "")
-        {
+        function newitem($Title, $Text, $Class = "") {
             echo '<LI data-toggle="collapse" data-target="#' . newID() . '" ID="item_' . toclass($Title) . '">';
             echo '<SPAN CLASS="title cursor-pointer ' . $Class . '">' . $Title . '</SPAN></LI>';
             echo '<div id="' . lastID() . '" class="collapse">' . $Text . '</div>';
         }
-        function actionitem($action, $text = '')
-        {
+        function actionitem($action, $text = '') {
             $actions = actions($action);
             $parties = ["User", "Admin", "Restaurant"];
             $tempstr = "";
@@ -164,7 +162,7 @@
         newitem("Editing an item in your cart", 'Click <i class="fa fa-pencil"></i> to the right of the item in the receipt, the same popup you used to add the item will appear');
         newitem("Remove an item from your cart", 'Click <i class="fa fa-close"></i> to the right of the item in the receipt');
         newitem("Empty your cart", 'Click <i class="fa fa-close"></i> at the top-right corner of your receipt');
-        newitem('<i class="fa fa-shopping-cart"></i>', "Click this when you're done placing your order. You'll need to enter your <jump>Payment Information</jump>, <jump>Delivery Address</jump>, <jump>Preferred Restaurant</jump>, <jump>Delivery Time</jump>, then click <BUTTON CLASS='btn btn-primary btn-sm'>Place order</BUTTON>", "btn btn-warning btn-sm btn-circle");
+        newitem('<i class="fa fa-shopping-basket"></i>', "Click this when you're done placing your order. You'll need to enter your <jump>Payment Information</jump>, <jump>Delivery Address</jump>, <jump>Preferred Restaurant</jump>, <jump>Delivery Time</jump>, then click <BUTTON CLASS='btn btn-primary btn-sm'>Place order</BUTTON>", "btn btn-warning btn-sm btn-circle");
         newitem("Payment Information", "If you have a saved card (note: Cards are saved with Stripe, not our servers) you can select it from the dropdown, or use 'Add Card' to add a new one. Otherwise just enter your credit card information");
         newitem("Delivery Address", "If you have a saved address you can select it from the dropdown, or select 'Add Address' to add a new address. Otherwise just enter a valid London address");
         newitem("Preferred Restaurant", "Select which restaurant you want to recieve your order from");
@@ -177,7 +175,7 @@
             newitem("View", "View the contents of the order, a map showing the customer's address, and gives the options to Confirm, Email and Decline the order", "btn btn-sm btn-success");
             newitem("Delete", "Trigger the <jump>order_declined</jump> event and delete the order from the system", "btn btn-sm btn-danger");
             newitem("Confirm", "Mark the order as confirmed and trigger the <jump>order_confirmed</jump> event", "btn btn-sm btn-primary");
-            newitem('<i class="fa fa-envelope"></i> Email', "Re-send the receipt to customer via the <jump>order_placed</jump> event", "btn btn-sm btn-secondary");
+            newitem('<i class="fa fa-envelope"></i> Email', "Re-send the receipt to customer via the <jump>order_placed</jump> event", "btn btn-sm btn-secondary red");
             newitem("Decline", 'Mark the order as declined and trigger the <jump>order_declined</jump> event', "btn btn-sm btn-danger");
             newitem("FILE NOT FOUND", "The order file is missing. Delete the order as the order itself is useless");
 
@@ -201,7 +199,7 @@
         }
 
         echo '</UL>';
-        ?>
+    ?>
 
 
         <SPAN data-toggle="collapse" data-target="#terms" ID="item_terms">
@@ -210,7 +208,6 @@
         <div id="terms" class="collapse">
 
             <INPUT TYPE="HIDDEN" ID="modaltitle" VALUE="{{ $site_name }} Terms and Conditions/Terms of Use">
-
             <p>This page outlines the Terms and Conditions in which {{ $site_name }} ('we' / 'us' / 'our' / '{{ $site_name }}') provide our services. {{ $site_name }} operates through our website
                 www.{{ $site_name }} ('Website'). These terms of use apply to all users of the Website including users who upload any materials to the Website, users who use services provided through
                 this Website, and users who simply view the content on or available through this website. Please read these terms carefully before ordering any products through the Website. By
@@ -335,13 +332,11 @@
 
             <h4>{{ $site_name }} Privacy Policy</h4>
 
-            <p>We at {{ $site_name }} are committed to safeguarding the privacy of all visitors and users of this website or service via any web application, mobile application or any other platform
-                or device. </p>
+            <p>We at {{ $site_name }} are committed to safeguarding the privacy of all visitors and users of this website or service via any web application, mobile application or any other platformor device. </p>
 
             <p>If you do not agree to any part of this privacy policy, please discontinue the use of the service and navigate away from this site immediately. </p>
 
-            <p>By visiting or using our service, you accept and agree to this Privacy Policy, and consent to the collection, use and disclosure of your Personal Information according
-                to {{ $site_name }} policies. </p>
+            <p>By visiting or using our service, you accept and agree to this Privacy Policy, and consent to the collection, use and disclosure of your Personal Information accordingto {{ $site_name }} policies. </p>
 
             <p>The Personal Information We Collect:</p>
 
@@ -359,8 +354,7 @@
 
             <p>- Site activity information and cookies (Please refer to Use of Cookies)</p>
 
-            <p>- Voluntary information provided by you, which may include restaurant reviews and ratings, referrals, special order instructions, feedback, and other actions performed on the Website or
-                App</p>
+            <p>- Voluntary information provided by you, which may include restaurant reviews and ratings, referrals, special order instructions, feedback, and other actions performed on the Website orApp</p>
 
             <p>Use and Disclosure of the Information:</p>
 
@@ -389,8 +383,7 @@
                 processing payments, placing orders, sending delivery instructions, and other measures to help us in providing superior customer service. We require that our third-parties commit to
                 use this information for the sole purpose of fulfilling the Service.</p>
 
-            <p>{{ $site_name }} does not disclose any personal information to third parties without your prior consent unless required for the foregoing or as required or permitted by applicable
-                law. </p>
+            <p>{{ $site_name }} does not disclose any personal information to third parties without your prior consent unless required for the foregoing or as required or permitted by applicablelaw. </p>
 
             <p>Use of Cookies</p>
 

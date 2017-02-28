@@ -477,9 +477,8 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         }
         var taxes = (subtotal + deliveryfee) * 0.13;//ontario only
         totalcost = subtotal + deliveryfee + taxes;
-        $("#checkoutbutton").show();
-        visible("#checkout", userdetails);
 
+        visible("#checkout", userdetails);
         createCookieValue("theorder", JSON.stringify(theorder));
         if (theorder.length == 0) {
             HTML = '<DIV CLASS="text-center receipt-empty"><br><br><i class="fa fa-shopping-basket fa-2x empty-shopping-cart"></i><br><br><h6>Order is Empty</h6><br><br><br></div>';
@@ -495,13 +494,19 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             if (fadein) {
                 tempHTML += ' CLASS="dont-show"';
             }
-            tempHTML += '><br><span class="pull-right category-parent"> <SPAN CLASS="category">Sub-total </SPAN>$' + subtotal.toFixed(2) + '</span><br>';
+            tempHTML += '>';
+            if(subtotal >= minimumfee) {
+                $("#checkout-btn").show();
+            } else {
+                $("#checkout-btn").hide();
+                tempHTML += '<SPAN CLASS="pull-center">Minimum sub-total of: $' + minimumfee + ' not met</SPAN>';
+            }
+            tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Sub-total </SPAN>$' + subtotal.toFixed(2) + '</span><br>';
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Delivery </SPAN>$' + deliveryfee.toFixed(2) + '</span><br>';
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Tax </SPAN>$' + taxes.toFixed(2) + '</span><br>';
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Total </SPAN>$' + totalcost.toFixed(2) + '</span><span><br>&nbsp;</span></DIV>';
             $("#confirmclearorder").show();
             $("#checkout-total").text('$' + totalcost.toFixed(2));
-            $("#checkout-btn").show();
         }
         if (fadein) {
             tempHTML += '<DIV id="oldvalues">' + oldvalues + '</div>';
@@ -702,11 +707,11 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     function canplaceanorder() {
         var valid_creditcard = true;
         if (!$("#saved-credit-info").val() && !isvalidcreditcard()) { valid_creditcard = false;}
-        var visible_errors = $(".error:visible").length > 0;
-        //<comments> visible_errors needs to be modified. How? I need specifics.
+        var visible_errors = $(".error:visible").length == 0;
         var selected_rest = $("#restaurant").val() > 0;
         var phone_number = $("#reg_phone").val().length > 0;
         var valid_address = validaddress();
+
         var reasons = new Array();
         if(!valid_creditcard){reasons.push("valid credit card");}
         if(!visible_errors){reasons.push("errors in form");}
@@ -718,7 +723,6 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             return false;
         }
         return true;
-        //return visible_errors && selected_rest && phone_number && valid_address && valid_creditcard;
     }
 
     //send an order to the server
