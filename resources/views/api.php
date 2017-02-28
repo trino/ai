@@ -390,7 +390,7 @@
         if (!is_dir($dir) && $dir){mkdir($dir, 0777, true);}
         $ID = read("id");
         $Name = iif($ID, read("name"), "[NOT LOGGED IN]");
-        $text = $dashes . $todaytime . ' (USER: ' . $ID . ": " . $Name .  ")  --  " . str_replace(array("%dashes%", "<BR>", "%20"), array($dashes, "\r\n", " "), $text) . "\r\n";
+        $text = $dashes . $todaytime . ' (USER # ' . $ID . ": " . $Name .  ")  --  " . str_replace(array("%dashes%", "<BR>", "%20"), array($dashes, "\r\n", " "), $text) . "\r\n";
         file_put_contents($path, $text, iif($DeleteFirst, 0, FILE_APPEND));
         return $text;
     }

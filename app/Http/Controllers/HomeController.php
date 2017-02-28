@@ -79,52 +79,20 @@ class HomeController extends Controller {
                     break;
                 case "changestatus":
                     if($_POST["status"] == -1){//email out
-                        $user = $this->order_placed($_POST["orderid"], false, 0);
+                        $info = false;
+                        $user = $this->order_placed($_POST["orderid"], $info, 0);
                         $ret["Reason"] = "Receipt for order ID " . $user["orderid"] . " sent to '" . $user["email"] . "'";
                     } else {
                         $Status = array("Pending", "Confirmed", "Declined", "Delivered", "Canceled");
                         insertdb("orders", array("id" => $_POST["orderid"], "status" => $_POST["status"]));
                         $Status = $Status[$_POST["status"]];
                         $ret["Reason"] = "Order #" . $_POST["orderid"] . ": " . $Status;
-                        $actions = actions("order_" . strtolower($Status));
-                        $order = first("SELECT * FROM orders WHERE id = " . $_POST["orderid"]);
+                        //$actions = actions("order_" . strtolower($Status));
+                        //$order = first("SELECT * FROM orders WHERE id = " . $_POST["orderid"]);
 
                         if(debugmode){$ret["Reason"] .= " - Action: order_" . strtolower($Status);}
-                        foreach($actions as $action) {
-                            switch ($action["party"]) {
-                                case 0://customer
-                                    $user = first("SELECT * FROM users WHERE id = " . $order["user_id"]);
-                                    break;
-                                case 1://admin
-                                    $user = first("SELECT * FROM users WHERE profiletype = 1");
-                                    $user["phone"] = "van";//not roy
-                                    break;
-                                case 2://restaurant
-                                    $user = first("SELECT * FROM restaurants WHERE id = " . $order["restaurant_id"]);
-                                    break;
-                            }
-                            $action["message"] = str_replace("[reason]", $ret["Reason"], $action["message"]);
-                            if($action["email"]){
-                                if(isset($user["email"])) {
-                                    $this->sendEMail("email_test", array(
-                                        'mail_subject' => $ret["Reason"],
-                                        "email" => $user["email"],
-                                        "body" => $action["message"]
-                                    ));
-                                    if(debugmode){$ret["Reason"] .= " - Emailed: " . $user["email"];}
-                                }
-                            }
-                            if(isset($user["phone"])) {
-                                if ($action["phone"]) {
-                                    $this->sendSMS($user["phone"], $action["message"], true);
-                                    if(debugmode){$ret["Reason"] .= " - Phoned: " . $user["phone"];}
-                                }
-                                if ($action["sms"]) {
-                                    $this->sendSMS($user["phone"], $action["message"]);
-                                    if(debugmode){$ret["Reason"] .= " - Texted: " . $user["phone"];}
-                                }
-                            }
-                        }
+                        $info = false;
+                        $this->order_placed($_POST["orderid"], $info, -1, "order_" . strtolower($Status), $_POST["reason"]);
                     }
                     break;
                 default:
@@ -232,11 +200,11 @@ class HomeController extends Controller {
         }
     }
 
-    function order_placed($orderid, &$info = false, $party = -1){
+    function order_placed($orderid, &$info = false, $party = -1, $event = "order_placed", $Reason = ""){
         if(!$info){$info = first("SELECT * FROM orders WHERE id = " . $orderid);}
         $user = first("SELECT * FROM users WHERE id = " . $info["user_id"]);
         if($party > -2) {
-            $actions = actions("order_placed", $party);
+            $actions = actions($event, $party);
             if ($party > -1) {$actions = array($actions);}
             foreach ($actions as $action) {
                 switch ($action["party"]) {
@@ -254,17 +222,26 @@ class HomeController extends Controller {
                         $restaurant = $this->processrestaurant($info["restaurant_id"]);
                         $party = "restaurant";
                         $email = $restaurant["user"]["email"];
-                        $phone = $restaurant["user"]["phone"];
+                        $phone = filternonnumeric($restaurant["user"]["phone"]);
+                        $phone2 = filternonnumeric($restaurant["restaurant"]["phone"]);
+                        if($phone != $phone2){$phone = array($phone, $phone2);}
                         break;
+                }
+                if($Reason){
+                    $action["message"] = str_replace("[reason]", $Reason, $action["message"]);
                 }
                 if ($action["email"]) {
                     debugprint("Sending email to " . $party . ": " . $email);
                     $this->sendEMail("email_receipt", ["orderid" => $orderid, "email" => $email, "mail_subject" => $action["message"]]);//send emails to customer also generates the cost
                 }
-
-                if ($action["sms"]) {$this->sendSMS($phone, $action["message"]);}
-                if ($action["phone"]) {$this->sendSMS($phone, $action["message"], true);}
-
+                if ($action["sms"]) {
+                    $this->sendSMS($phone, $action["message"]);
+                    debugprint("Sending sms to " . $party . ": " . var_export($phone, true));
+                }
+                if ($action["phone"]) {
+                    $this->sendSMS($phone, $action["message"], true);
+                    debugprint("Calling " . $party . ": " . var_export($phone, true));
+                }
             }
          }
         $user["orderid"] = $orderid;
@@ -326,7 +303,7 @@ class HomeController extends Controller {
                 "number" => $info["number"],
                 "city" => $info["city"],
                 "unit" => $info["unit"],
-                //"buzzcode"      => $info["buzzcode"],
+                //"buzzcode" => $info["buzzcode"],
                 "street" => $info["street"],
                 "postalcode" => $info["postalcode"],
                 "province" => $info["province"],

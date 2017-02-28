@@ -53,6 +53,7 @@
                     $('html, body').animate({scrollTop: $(target).offset().top}, 2000);
                 }
             });
+            $("#profileinfo").remove();
         });
     </SCRIPT>
     <?php
@@ -60,6 +61,10 @@
         $datestamp = strtotime($launchdate);
         $SQLdate = date("Y-m-d", $datestamp);
         $launched = iif(time() > $datestamp, " (Launched)");
+        if(!$launched){
+            $days = ceil(($datestamp - time()) / 86400) ;
+            $launched = " (" . $days . " day" . iif($days > 1, "s") . " away)";
+        }
         $orders =  first('SELECT count(*) as count FROM orders WHERE status <> 2 AND status <> 4 AND placed_at > "' . $SQLdate . '"')["count"];
     ?>
     <DIV class="card card-block" style="background: white;border-radius: 0">

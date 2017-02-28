@@ -534,7 +534,7 @@
                                                 if(sort_col == fields[v]){tempHTML += ' selected-th';}
                                                 tempHTML += '">' + '<SPAN CLASS="pull-center"><i id="desc_' + fields[v] + '" class="fa fa-arrow-down pull-left';
                                                 if(sort_col == fields[v] && sort_dir == "DESC"){tempHTML += ' selected-i';}
-                                                tempHTML += '" onclick="sort(' + "'" + fields[v] + "', 'DESC'" + ')" TITLE="Sort by ' + formatted + ' descending"></i>' + formatted + ' <i id="asc_' + fields[v] + '" class="fa fa-arrow-up pull-right';
+                                                tempHTML += '" onclick="sort(' + "'" + fields[v] + "', 'DESC'" + ')" TITLE="Sort by ' + formatted + ' descending"></i><STRONG>' + formatted + '</STRONG> <i id="asc_' + fields[v] + '" class="fa fa-arrow-up pull-right';
                                                 if(sort_col == fields[v] && sort_dir == "ASC"){tempHTML += ' selected-i';}
                                                 tempHTML += '" onclick="sort(' + "'" + fields[v] + "', 'ASC'" + ')" TITLE="Sort by ' + formatted + ' ascending"></i></SPAN></TD>';
                                             }
@@ -543,7 +543,7 @@
                                             Address = Address.replace("[" + fields[v] + "]", field);
                                         }
                                         if(TableStyle == '1'){
-                                            tempHTML += '<TR><TD CLASS="' + evenodd + '">Actions</TD>';
+                                            tempHTML += '<TR><TD CLASS="' + evenodd + '" align="center"><STRONG>Actions</STRONG></TD>';
                                         }
                                         tempHTML += '<TD CLASS="' + evenodd + '">';
                                         switch(table){

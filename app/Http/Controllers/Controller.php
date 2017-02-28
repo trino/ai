@@ -7,13 +7,11 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
-class Controller extends BaseController
-{
+class Controller extends BaseController {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     //sends an email using a template
-    public function sendEMail($template_name = "", $array = array())
-    {
+    public function sendEMail($template_name = "", $array = array()) {
         if (isset($array["message"])) {
             $array["body"] = $array["message"];
             unset($array["message"]);
@@ -49,8 +47,7 @@ class Controller extends BaseController
     }
 
     //is data JSON-parseable?
-    function isJson($string)
-    {
+    function isJson($string) {
         if ($string && !is_array($string)) {
             json_decode($string);
             return (json_last_error() == JSON_ERROR_NONE);
@@ -58,8 +55,7 @@ class Controller extends BaseController
     }
 
     //used for making raw HTTP requests
-    function cURL($URL, $data = "", $username = "", $password = "")
-    {
+    function cURL($URL, $data = "", $username = "", $password = "") {
         $session = curl_init($URL);
         curl_setopt($session, CURLOPT_HEADER, false);
         curl_setopt($session, CURLOPT_SSL_VERIFYPEER, false);//not in post production
@@ -93,16 +89,17 @@ class Controller extends BaseController
     }
 
     //https://www.twilio.com/ $0.0075 per SMS, + $1 per month
-    public function sendSMS($Phone, $Message, $Call = false)
-    {//works if you can get the from number....
+    public function sendSMS($Phone, $Message, $Call = false) {
+        if(is_array($Phone)){
+            foreach($Phone as $PhoneNumber){
+                $this->sendSMS($PhoneNumber, $Message, $Call);
+            }
+            return true;
+        }
         $ret = iif($Call, "Calling", "Sending an SMS to") . ": " . $Phone . " - " . $Message;
-
-        /*
         if ($Phone == "admin") {
             $Phone = first("SELECT phone FROM users WHERE profiletype = 1");
-        }
-        */
-        if ($Phone == "van") {
+        } else if ($Phone == "van") {
             $Phone = "9055315331";
         } else {
             $Phone = filternonnumeric($Phone);

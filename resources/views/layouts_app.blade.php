@@ -70,7 +70,7 @@
                     </div>
 
                     <div class="pull-left">
-                        <A CLASS="text-white pl-3 text-muted" href="help">More Info</A>
+                        <A CLASS="text-white pl-3 text-muted" href="<?= webroot("help"); ?>">More Info</A>
                     </div>
                 </div>
             </div>

@@ -25,7 +25,7 @@
                         </li>
                     </SPAN>
                     <SPAN class="loggedin">
-                        <li>
+                        <li id="profileinfo">
                             <A data-toggle="modal" data-target="#profilemodal" href="#" class="dropdown-item">
                                 <i class="fa fa-user icon-width"></i> <SPAN CLASS="session_name"></SPAN>
                             </A>
