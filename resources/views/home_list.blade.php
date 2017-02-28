@@ -570,9 +570,8 @@
                                                 tempHTML += '<A CLASS="btn btn-sm btn-success cursor-pointer" HREF="{{ webroot("public/list/orders?restaurant=") }}' + ID + '">View</A> ';
                                                 break;
                                         }
-                                        if(profiletype == 1) {
-                                            HTML += tempHTML + '<A CLASS="btn btn-sm btn-danger cursor-pointer" onclick="deleteitem(' + ID + ');">Delete</A></TD></TR>';
-                                        }
+                                        if(profiletype == 1) {tempHTML += '<A CLASS="btn btn-sm btn-danger cursor-pointer" onclick="deleteitem(' + ID + ');">Delete</A>';}
+                                        HTML += tempHTML + '</TD></TR>';
                                         items++;
                                         if(TableStyle == '1'){
                                             HTML += '</TR>';
