@@ -264,6 +264,10 @@ h2 {
     border: 0 !important;
 }
 
+.nowrap{
+    white-space: nowrap;
+}
+
 .card-columns .card {
     margin-bottom: 0 !important;
 }

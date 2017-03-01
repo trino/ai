@@ -39,10 +39,11 @@
     }
     function newcol($field, $NoWrap = true){
         $formatted = formatfield($field);
-        echo '<TH CLASS="th-left" ID="col_' . $field . '"';
+        echo '<TH CLASS="th-left col_' . $field . '"';
         if($NoWrap){ echo ' NOWRAP';}
-        echo '><SPAN CLASS="pull-center"><i id="desc_' . $field . '" class="fa fa-arrow-down pull-left" onclick="sort(' . "'" . $field . "', 'DESC'" . ')" TITLE="Sort by ' . $formatted . ' descending"></i> ';
-        echo $formatted . ' <i id="asc_' . $field . '" class="fa fa-arrow-up pull-right" onclick="sort(' . "'" . $field . "', 'ASC'" . ')" TITLE="Sort by ' . $formatted . ' ascending"></i></SPAN></TH>';
+        echo '><DIV CLASS="pull-center nowrap"><i class="btn btn-sm btn-primary fa fa-arrow-down pull-left desc_' . $field . '" onclick="sort(' . "'" . $field . "', 'DESC'" . ')" TITLE="Sort by ' . $formatted;
+        echo ' descending"> </i>' . $formatted . ' <i class="btn btn-sm btn-primary fa fa-arrow-up pull-right asc_' . $field . '" onclick="sort(' . "'" . $field . "', 'ASC'" . ')" TITLE="Sort by ' . $formatted;
+        echo ' ascending"></i></DIV></TH>';
     }
 
     //sets permissions, SQL, fields for each whitelisted table
@@ -57,6 +58,7 @@
     $specialformats = false;
     $showmap=false;
     $searchcols=false;
+    $profiletype = read("profiletype");
     switch($table){
         case "all":case "debug"://system value
             $datafields=false;
@@ -106,7 +108,7 @@
             $adminsonly=false;
             $inlineedit = false;
             $fields=true;//all fields
-            if(isset($_GET["user_id"]) && read("profiletype") == 1){
+            if(isset($_GET["user_id"]) && $profiletype == 1){
                 $where = "user_id = " . $_GET["user_id"];
             } else {
                 $where = "user_id = " . read("id");
@@ -275,22 +277,85 @@
 
                 .selected-i{
                     color: blue;
+                    background-color: white;
+                    border-color: blue;
+                }
+
+                .btn{
+                    border: 1px solid black !important;
+                }
+
+                .nowrap{
+                    display: inline-block
+                }
+
+                #alllist li{
+                    padding-left: 5px;
+                }
+
+                #alllist li a{
+                    color: black;
+                    font-weight: normal;
+                }
+
+                .m-t-1{
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                }
+
+                .card-block{
+                    padding-top: 0px;
+                    padding-bottom: 0px;
+                }
+
+                .h2class{
+                    margin-top: 8px !important;
+                    margin-bottom: 8px !important;
+                }
+
+                #searchtext{
+                    width: 150px;
+                }
+
+                #searchtext:focus{
+                    margin-top: 1px;
+                    
+                }
+
+                #searchtext:not(:focus){
+                    border: 1px solid grey !important;
+                    padding-left: 2px;
                 }
             </STYLE>
             <div class="row m-t-1">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-block bg-danger">
-                            <h2 class="pull-left text-white">
-                                <A HREF="<?= webroot("public/list/all"); ?>"><i class="fa fa-{{ $faicon }}" aria-hidden="true"></i></A> {{ ucfirst($table) . ' list ' . $extratitle }}
+                            <h2 class="pull-left text-white h2class">
+                                <div class="dropdown">
+                                    <Button class="btn btn-primary dropdown-toggle text-white" type="button" data-toggle="dropdown"><i class="fa fa-{{ $faicon }}"></i> {{ ucfirst($table) . ' list ' . $extratitle }}</Button>
+                                    <ul class="dropdown-menu" id="alllist">
+                                        <?php
+                                            //show all administratable tables
+                                            foreach(array("users" => true, "restaurants" => true, "useraddresses" => false, "orders" => $profiletype != 2, "actions" => true) as $thetable => $onlyadmins){
+                                                if(($profiletype == 1 || !$onlyadmins) && $table != $thetable){
+                                                    echo '<LI><A HREF="' . webroot("public/list/" . $thetable) . '">' . ucfirst($thetable) . ' list</A></LI>';
+                                                }
+                                            }
+                                        ?>
+                                        <HR>
+                                        <LI><A HREF="<?= webroot("public/editmenu"); ?>">Edit Menu</A></LI>
+                                        <LI><A HREF="<?= webroot("public/list/debug"); ?>">Debug log</A></LI>
+                                    </ul>
+                                </div>
                             </h2>
                             <h2 CLASS="pull-right spacing">
                                 @if($searchcols)
-                                    <INPUT TYPE="text" placeholder="Search" id="searchtext" title="Press Enter to search">
+                                    <INPUT TYPE="text" placeholder="Search" id="searchtext" class="textfield" title="Press Enter to search">
                                 @else
                                     <INPUT TYPE="hidden" id="searchtext">
                                 @endif
-                                @if($table != "all" && read("profiletype") == 1)
+                                @if($table != "all" && $profiletype == 1)
                                     @if($table == "debug")
                                         <A onclick="testemail();" TITLE="Send a test email" class="hyperlink" id="testemail" href="#"><i class="fa fa-envelope"></i></A>
                                         <A onclick="deletedebug();" TITLE="Delete the debug log" class="hyperlink" id="deletedebug" href="#"><i class="fa fa-trash-o"></i></A>
@@ -304,7 +369,7 @@
                         <div class="card-block overflow-x-scroll">
                             <div class="row">
                                 <div class="col-md-12">
-                                    @if(read("profiletype") != 1 && $adminsonly || !read("id"))
+                                    @if($profiletype != 1 && $adminsonly || !read("id"))
                                         You are not authorized to view this page
                                         <!--a class="loggedout dropdown-item hyperlink" data-toggle="modal" data-target="#loginmodal"> <i class="fa fa-home"></i> Log In</a-->
                                         <?php
@@ -312,16 +377,6 @@
                                                 echo view("popups_login")->render();
                                             }
                                         ?>
-                                    @elseif($table == "all")
-                                        <?php
-                                            //show all administratable tables
-                                            foreach(array("users", "restaurants", "useraddresses", "orders", "actions") as $table){
-                                                echo '<A HREF="' . webroot("public/list/" . $table) . '">' . ucfirst($table) . ' list</A><BR>';
-                                            }
-                                        ?>
-                                        <HR>
-                                        <A HREF="<?= webroot("public/editmenu"); ?>">Edit Menu</A><BR>
-                                        <A HREF="<?= webroot("public/list/debug"); ?>">Debug log</A>
                                     @elseif($table == "debug")
                                         <PRE id="debuglogcontents"><?php
                                             //show debug file
@@ -333,7 +388,7 @@
                                             echo $Contents;
                                         ?></PRE>
                                     @else
-                                        <TABLE WIDTH="100%" BORDER="1" ID="data">
+                                        <TABLE WIDTH="100%" BORDER="1" ID="data" class="table not-table-sm not-table-responsive">
                                             <THEAD>
                                                 <TR>
                                                     @if($TableStyle == 0)
@@ -390,11 +445,11 @@
                     </div>
                 </div>
             </div>
-            @if(read("profiletype") == 1 || !$adminsonly)
+            @if($profiletype == 1 || !$adminsonly)
                 <SCRIPT>//              0            1           2           3            4
                     var statuses = ["Pending", "Confirmed", "Declined", "Delivered", "Canceled"];
                     var usertype = ["Customer", "Admin", "Restaurant"];
-                    var profiletype = '<?= read("profiletype"); ?>';
+                    var profiletype = '<?= $profiletype; ?>';
 
                     var TableStyle = '<?= $TableStyle; ?>';
                     var selecteditem = 0;
@@ -422,8 +477,8 @@
                     var sort_col = "", sort_dir = "";
                     function sort(col, dir){
                         if(sort_col){
-                            $("#col_" + sort_col).removeClass("selected-th");
-                            $("#" + sort_dir.toLowerCase() + "_" + sort_col).removeClass("selected-i");
+                            $(".selected-th").removeClass("selected-th");
+                            $(".selected-i").removeClass("selected-i");
                         }
                         if(col == sort_col && sort_dir == dir) {
                             sort_col = "";
@@ -431,8 +486,8 @@
                         } else {
                             sort_col = col;
                             sort_dir = dir;
-                            $("#col_" + sort_col).addClass("selected-th");
-                            $("#" + sort_dir.toLowerCase() + "_" + sort_col).addClass("selected-i");
+                            $(".col_" + sort_col).addClass("selected-th");
+                            $("." + sort_dir.toLowerCase() + "_" + sort_col).addClass("selected-i");
                         }
                         getpage(0);
                     }
@@ -484,6 +539,20 @@
                         return data;
                     }
 
+                    function checkheaders(TableID){
+                        var requiredwidth = $(".asc_id").outerWidth();
+                        //var addtottable = 0;
+                        $(TableID + " th div").each(function() {
+                            var currentwidth = $( this ).width();
+                            while($( this ).height() > 40 ){
+                                currentwidth+=requiredwidth;
+                                $( this ).width( currentwidth );
+                                //addtottable += requiredwidth;
+                            }
+                        });
+                        //$( TableID ).width( $( TableID ).width() + addtottable );
+                    }
+
                     //gets a page of data from the server, convert it to HTML
                     function getpage(index, makenew){
                         if(index==-1){index = lastpage;}
@@ -528,13 +597,20 @@
                                                     field = DeliveryTime(field, CurrentDate);
                                                     break;
                                             }
+                                            if (fields[v] == "phone"){
+                                                field = field.replace(/[^0-9+]/g, "");
+                                                if(field.length == 10) {
+                                                    field = field.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3");
+                                                }
+                                            }
                                             if(TableStyle == '1'){
                                                 var formatted = tofieldname(fields[v]);
                                                 tempHTML += '<TR><TD CLASS="' + evenodd;
                                                 if(sort_col == fields[v]){tempHTML += ' selected-th';}
-                                                tempHTML += '">' + '<SPAN CLASS="pull-center"><i id="desc_' + fields[v] + '" class="fa fa-arrow-down pull-left';
+                                                tempHTML += '">' + '<SPAN CLASS="pull-center"><i class="btn btn-sm btn-primary fa fa-arrow-down pull-left desc_' + fields[v];
                                                 if(sort_col == fields[v] && sort_dir == "DESC"){tempHTML += ' selected-i';}
-                                                tempHTML += '" onclick="sort(' + "'" + fields[v] + "', 'DESC'" + ')" TITLE="Sort by ' + formatted + ' descending"></i><STRONG>' + formatted + '</STRONG> <i id="asc_' + fields[v] + '" class="fa fa-arrow-up pull-right';
+                                                tempHTML += '" onclick="sort(' + "'" + fields[v] + "', 'DESC'" + ')" TITLE="Sort by ' + formatted + ' descending"></i><STRONG>' + formatted;
+                                                tempHTML += '</STRONG> <i class="btn btn-sm btn-primary fa fa-arrow-up pull-right asc_' + fields[v];
                                                 if(sort_col == fields[v] && sort_dir == "ASC"){tempHTML += ' selected-i';}
                                                 tempHTML += '" onclick="sort(' + "'" + fields[v] + "', 'ASC'" + ')" TITLE="Sort by ' + formatted + ' ascending"></i></SPAN></TD>';
                                             }
@@ -545,7 +621,7 @@
                                         if(TableStyle == '1'){
                                             tempHTML += '<TR><TD CLASS="' + evenodd + '" align="center"><STRONG>Actions</STRONG></TD>';
                                         }
-                                        tempHTML += '<TD CLASS="' + evenodd + '">';
+                                        tempHTML += '<TD CLASS="' + evenodd + '" NOWRAP>';
                                         switch(table){
                                             case "users":
                                                 tempHTML += '<A CLASS="btn btn-sm btn-success cursor-pointer" href="' + baseURL + 'useraddresses?user_id=' + ID + '">Addresses</A> ';
@@ -583,9 +659,10 @@
                                 }
                                 currentpage=index;
                                 $("#data > TBODY").html(HTML);
+                                checkheaders("#data");
                                 generatepagelist(data.count, index);
 
-                                @if(read("profiletype") == 1)
+                                @if($profiletype == 1)
                                     $(".field").dblclick(function() {//set field double click handler
                                         var field = $(this).attr("field");
                                         var columnindex = findwhere(datafields, "Field", field);

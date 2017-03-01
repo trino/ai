@@ -53,29 +53,28 @@
     <body class="">
         <div class="modal loading" ID="loadingmodal"></div>
 
-        <div class="">
-        <?= view("popups_navbar")->render(); ?>
+        <div>
+            <?= view("popups_navbar")->render(); ?>
 
-        <div class="container-fluid shadow">
-            @yield('content')
-        </div>
+            <div class="container-fluid shadow">
+                @yield('content')
+            </div>
 
-        <?= view("popups_sticky_footer")->render(); ?>
+            <?= view("popups_sticky_footer")->render(); ?>
 
-        <div class="container-fluid shadow">
-            <div class="row">
-                <div class="col-sm-12 " style="background: #444" >
-                    <div class="pull-left">
-                        <span class="text-white text-muted">&copy; 2017</span>
-                    </div>
+            <div class="container-fluid shadow">
+                <div class="row">
+                    <div class="col-sm-12 " style="background: #444" >
+                        <div class="pull-left">
+                            <span class="text-white text-muted">&copy; 2017</span>
+                        </div>
 
-                    <div class="pull-left">
-                        <A CLASS="text-white pl-3 text-muted" href="<?= webroot("help"); ?>">More Info</A>
+                        <div class="pull-left">
+                            <A CLASS="text-white pl-3 text-muted" href="<?= webroot("help"); ?>">More Info</A>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
         </div>
     </body>
 
