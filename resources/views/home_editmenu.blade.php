@@ -37,7 +37,18 @@
 
         .stayhere{
             position:fixed;
+        }
 
+        input[type=checkbox] {
+            -webkit-appearance:checkbox;
+        }
+
+        .is-even, .is-even .form-control{
+            background: lightsteelblue;
+        }
+
+        .itemname{
+            padding-top: 6px;
         }
     </STYLE>
     <div class="row m-t-1">
@@ -54,35 +65,40 @@
                             @if(read("profiletype") != 1)
                                 You are not authorized to view this page
                             @else
-                                <div class="col-md-2">
-                                    <DIV oldCLASS="stayhere">
-                                        <UL ID="catlist">
-                                            <LI class="main hyperlink" onclick="main_click(this);" table="additional_toppings">Size costs</LI>
-                                            <LI class="main hyperlink" onclick="main_click(this);" table="toppings">Pizza Toppings</LI>
-                                            <LI class="main hyperlink" onclick="main_click(this);" table="wings_sauce">Wing Sauces</LI>
-                                            <HR>
-                                            Menu:
-                                            <LI class="category hyperlink" onclick="newcategory();">[New Category]</LI>
-                                            <?php
-                                                $categories = collapsearray(Query('SELECT category FROM `menu` GROUP BY category_id ORDER BY category ASC', true), "category");
-                                                foreach($categories as $category){
-                                                    echo '<LI class="category hyperlink" onclick="cat_click(this);">' . $category . '</LI>';
-                                                }
-                                            ?>
-                                        </UL>
-                                        <button class="btn btn-block btn-success" onclick="$('.newitembtn').trigger('click');">New</button>
-                                        <button ID="savechanges" class="btn btn-block btn-success changes dont-show" onclick="savechanges();">Save Changes</button>
-                                        <button ID="discardchanges" class="btn btn-block  btn-secondary changes dont-show" onclick="discard(false);">Discard Changes</button>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <DIV>
+                                            <UL ID="catlist">
+                                                <LI class="main hyperlink" onclick="main_click(this);" table="additional_toppings">Size costs</LI>
+                                                <LI class="main hyperlink" onclick="main_click(this);" table="toppings">Pizza Toppings</LI>
+                                                <LI class="main hyperlink" onclick="main_click(this);" table="wings_sauce">Wing Sauces</LI>
+                                                <HR>
+                                                Menu:
+                                                <LI class="category hyperlink" onclick="newcategory();">[New Category]</LI>
+                                                <?php
+                                                    $categories = collapsearray(Query('SELECT category FROM `menu` GROUP BY category_id ORDER BY category ASC', true), "category");
+                                                    foreach($categories as $category){
+                                                        echo '<LI class="category hyperlink" onclick="cat_click(this);">' . $category . '</LI>';
+                                                    }
+                                                ?>
+                                            </UL>
+                                            <button class="btn btn-block btn-success" onclick="$('.newitembtn').trigger('click');">New</button>
+                                            <button ID="savechanges" class="btn btn-block btn-success changes dont-show" onclick="savechanges();">Save Changes</button>
+                                            <button ID="discardchanges" class="btn btn-block  btn-secondary changes dont-show" onclick="discard(false);">Discard Changes</button>
+                                        </div>
+                                    </DIV>
+                                    <DIV CLASS="clearfix"></DIV>
+                                    <div class="col-md-10">
+                                        <?php
+                                            $addon_tables = array("toppings", "wings_sauce");
+                                            $tables = array_merge($addon_tables, array("menu", "additional_toppings"));
+                                            foreach($tables as $table){
+                                                echo '<DIV ID="table_' . $table . '" CLASS="table_main dont-show">Test ' . $table . '</DIV>' . "\r\n";
+                                                echo '<datalist ID="categories_' . $table . '"></datalist>' . "\r\n";
+                                            }
+                                        ?>
                                     </div>
-                                </DIV>
-                                <?php
-                                    $addon_tables = array("toppings", "wings_sauce");
-                                    $tables = array_merge($addon_tables, array("menu", "additional_toppings"));
-                                    foreach($tables as $table){
-                                        echo '<DIV ID="table_' . $table . '" CLASS="col-md-10 table_main dont-show">Test ' . $table . '</DIV>' . "\r\n";
-                                        echo '<datalist ID="categories_' . $table . '"></datalist>' . "\r\n";
-                                    }
-                                ?>
+                                </div>
                             @endif
                         </div>
                     </div>
@@ -227,7 +243,7 @@
                     var table_data = alldata[table_name];
                     var HTML = '<button class="btn btn-block btn-success newitembtn" onclick="newitem(' + "'" + table_name + "'" + ');">New</button><BR>';
                     for(var dataindex = 0; dataindex < table_data.length; dataindex++){
-                        HTML += makeHTML(table_data[dataindex], table_name);
+                        HTML += makeHTML(table_data[dataindex], table_name, isEvenOrOdd(dataindex));
                     }
                     changes[table_name] = new Array;
                     $("#table_" + table_name).html(HTML);
@@ -274,14 +290,14 @@
                 for(var index = 0; index< alldata["menu"].length; index++){
                     var data = alldata["menu"][index];
                     if(data["category"].trim().isEqual(category)){
-                        HTML += makeHTML(data, "menu");
+                        HTML += makeHTML(data, "menu", isEvenOrOdd(index));
                     }
                 }
                 return HTML;
             }
 
             function newcategory(){
-                var catname = prompt(makestring("{cat_name}")).trim();
+                var catname = prompt(makestring("{cat_name}").trim());
                 if(categoryexists("menu", catname)){
                     alert(makestring("{exists_already}", {name: catname}));
                 } else {
@@ -320,16 +336,22 @@
                         break;
                 }
                 alldata[table_name].push(data);
-                var HTML = makeHTML(data, table_name);
+                var HTML = makeHTML(data, table_name, isEvenOrOdd(newsitems));
                 $("#table_" + table_name).append(HTML);
                 newsitems++;
                 $("html, body").stop().animate({ scrollTop: $(document).height() }, "slow");
                 $("#discardchanges").show();
             }
 
-            function makeHTML(data, table_name){
+            function isEvenOrOdd(number){
+                if(number % 2 == 0){return " is-even";}
+                return " is-odd";
+            }
+
+            function makeHTML(data, table_name, HTMLclass){
                 var HTML = '';
-                var HTMLclass = " " + table_name + "_" + data["id"];
+                if(isUndefined(HTMLclass)){HTMLclass = "";}
+                HTMLclass += " " + table_name + "_" + data["id"];
                 var undostyle = ' STYLE="display:none"';
                 if(!isNumeric(data["id"])){HTMLclass += " isnewitem";}
                 if(changes.hasOwnProperty(table_name)) {
@@ -347,21 +369,24 @@
 
                 switch(table_name){
                     case 'additional_toppings':
-                        HTML = makeinput2(table_name, data, "Size", "size", "text", "This word must be inside the name of the item for it to be detected as this size");
-                        HTML += makeinput2(table_name, data, "Price", "price", "price");
+                        var cols = 2;
+                        HTML = makeinput2(cols, table_name, data, "Size", "size", "text", "This word must be inside the name of the item for it to be detected as this size");
+                        HTML += makeinput2(cols, table_name, data, "Price", "price", "price");
                         break;
                     case 'toppings': case 'wings_sauce':
-                        HTML = makeinput2(table_name, data, "Name", "name", "text");
-                        HTML += makeinput2(table_name, data, "Category", "type", "category");
-                        HTML += makeinput2(table_name, data, "Is Free", "isfree", "checkbox", "For free addons like 'well done', or 'easy on the sauce'");
-                        HTML += makeinput2(table_name, data, "Group #", "groupid", "number", "If the Group # is above 0, only 1 item in this group can be added to the menu item");
+                        var cols = 4;
+                        HTML = makeinput2(cols, table_name, data, "Name", "name", "text");
+                        HTML += makeinput2(cols, table_name, data, "Category", "type", "category");
+                        HTML += makeinput2(cols, table_name, data, "Is Free", "isfree", "checkbox", "For free addons like 'well done', or 'easy on the sauce'");
+                        HTML += makeinput2(cols, table_name, data, "Group #", "groupid", "number", "If the Group # is above 0, only 1 item in this group can be added to the menu item");
                         break;
                     case 'menu':
-                        HTML = makeinput2(table_name, data, "Name", "item", "text");
-                        HTML += makeinput2(table_name, data, "Price", "price", "price");
+                        var cols = 2 + <?= count($addon_tables); ?>;
+                        HTML = makeinput2(cols, table_name, data, "Name", "item", "text");
+                        HTML += makeinput2(cols, table_name, data, "Price", "price", "price");
                         <?php
                             foreach($addon_tables as $table){
-                                echo 'HTML+= makeinput2(table_name, data, "' . ucfirst($table) . '", "' . $table . '", "number", "How many items (ie: pizzas) does the customer have to customize")' . $CRLF;
+                                echo 'HTML+= makeinput2(cols, table_name, data, "' . ucfirst($table) . '", "' . $table . '", "number", "How many items (ie: pizzas) does the customer have to customize")' . $CRLF;
                             }
                         ?>
                         break;
@@ -369,22 +394,22 @@
                         HTML = table_name + " is unhandled";
                 }
 
-                HTML = '<DIV CLASS="col-md-11' + HTMLclass +  '">' + HTML + '</DIV><DIV CLASS="col-md-1' + HTMLclass +  '">';
-                HTML += '<BUTTON class="btn btn-danger" TITLE="Delete this item" onclick="deleteitem(' + "'" + table_name + "', '" + data["id"] + "'" + ');"><i class="fa fa-times"></i></BUTTON><BR>';
+                HTML = '<DIV CLASS="row"><DIV CLASS="col-md-11' + HTMLclass +  '">' + HTML + '</DIV><DIV CLASS="col-md-1' + HTMLclass +  '">';
+                HTML += '<BUTTON class="btn btn-danger" TITLE="Delete this item" onclick="deleteitem(' + "'" + table_name + "', '" + data["id"] + "'" + ');"><i class="fa fa-trash"></i></BUTTON> ';
                 HTML += '<BUTTON class="btn btn-primary' + HTMLclass + 'undo" TITLE="Undo all changes to this item" onclick="undo(' + "'" + table_name + "', '" + data["id"] + "'" + ');"' + undostyle + '><i class="fa fa-undo"></i></BUTTON>';
-                return HTML + '</DIV><DIV CLASS="col-md-12' + HTMLclass +  '"><HR></DIV>';
+                return HTML + '</DIV></DIV><DIV CLASS="col-md-12' + HTMLclass +  '"><HR></DIV>';
             }
 
-            function makeinput2(table, data, text, column, type, title){
+            function makeinput2(columns, table, data, text, column, type, title){
                 if(isUndefined(title)){title = "";}
                 var newddata = data[column];
                 if(data.hasOwnProperty(column + "_change")){
                     newddata = data[column + "_change"];
                 }
-                return makeinput(table, data["id"], text, column, type, data[column], title, newddata);
+                return makeinput(table, data["id"], text, column, type, data[column], title, newddata, columns);
             }
 
-            function makeinput(table, primarykeyID, text, column, type, value, title, newddata){
+            function makeinput(table, primarykeyID, text, column, type, value, title, newddata, columns){
                 if(isUndefined(newddata)){newddata = value;}
                 var HTML = ' onchange="autoupdate(this);" class="autoupdate form-control';
                 HTML += '" table="' + table + '" keyid="' + primarykeyID + '" column="' + column + '" NAME="' + table + '[' +  primarykeyID + "][" + column + ']" TITLE="' + title + '"';
@@ -410,7 +435,7 @@
                         }
                         HTML = '<INPUT TYPE="' + type + '"' + HTML + 'VALUE="' + newddata + '" ORIGINAL="' + value + '">';
                 }
-                return '<DIV CLASS="col-md-2">' + text + ':</DIV><DIV CLASS="col-md-10">' + HTML + '</DIV>';
+                return '<DIV CLASS="row"><DIV CLASS="col-md-2 itemname">' + text + ':</DIV><DIV CLASS="col-md-10">' + HTML + '</DIV></DIV>';
             }
 
             (function($) {
@@ -443,6 +468,11 @@
                     return message;// For Safari
                 }
             };
+
+            $(document).ready(function () {
+                $("#profileinfo").remove();
+                $(".sticky-footer").remove();
+            });
         </SCRIPT>
     @endif
     <?php endfile("home_editmenu"); ?>
