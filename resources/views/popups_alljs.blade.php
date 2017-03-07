@@ -348,7 +348,6 @@
             }
         } else {//direct link, no addons
             element = $(element);
-            log("HERE");
             log(element);
             itemid = $(element).attr("itemid");
             itemname = $(element).attr("itemname");
@@ -375,16 +374,31 @@
             theorder[currentitemID] = data;
             var ret = currentitemID;
         }
-        generatereceipt();
+        generatereceipt(true);
         $("#receipt_item_" + ret).hide();
         $("#receipt_item_" + ret).fadeIn("fast");
         return ret;
     }
 
+    function unclone(){
+        for (var itemid = 0; itemid < theorder.length; itemid++) {
+            delete theorder[itemid]["clone"];
+        }
+        generatereceipt(true);
+    }
+
+    function cloneitem(me, itemid){
+        var clone = JSON.parse(JSON.stringify(theorder[itemid]));
+        clone.clone = true;
+        theorder.push(clone);
+        generatereceipt(true);
+    }
+
     //convert the order to an HTML receipt
-    function generatereceipt() {
+    function generatereceipt(forcefade) {
         if ($("#myorder").length == 0) {return false;}
         var HTML = '<div class="clearfix"></div>', tempHTML = "", subtotal = 0, fadein = false, oldvalues = "";
+        if(isUndefined(forcefade)){forcefade = false;}
         if ($("#newvalues").length > 0) {oldvalues = $("#newvalues").html();}
         $("#oldvalues").stop().html("").hide().remove();
         $("#newvalues").stop().html("").hide().remove();
@@ -392,81 +406,93 @@
         var nonames = {toppings: "toppings", wings_sauce: "sauce"};
         for (var itemid = 0; itemid < theorder.length; itemid++) {
             var item = theorder[itemid];
-            var totalcost = (Number(item["itemprice"]) + (Number(item["toppingcost"]) * Number(item["toppingcount"]))).toFixed(2);
-            var category = "pizza";
-            var sprite = "pizza";
-            if (item.hasOwnProperty("category")) {
-                category = item["category"].toLowerCase().replaceAll(" ", "_");
-                sprite = category.trim();
-                if (category.endswith("pizza")) {
-                    category = "pizza";
-                    if (item["itemname"].startswith("2")) {
-                        sprite = "241_pizza";
-                    }
-                }
-            }
-            if (item.hasOwnProperty("isnew")) {
-                if (item["isnew"]) {
-                    item["isnew"] = false;
-                    fadein = "#receipt_item_" + itemid;
-                }
-            }
             var hasaddons = item.hasOwnProperty("itemaddons") && item["itemaddons"].length > 0;
-            subtotal += Number(totalcost);
-
-            if (sprite == "sides") {
-                sprite = toclassname(item["itemname"].trim()).replaceAll("_", "-");
-                if (sprite.endswith("lasagna")) {
-                    sprite = "lasagna";
-                } else if (sprite.endswith("chicken-nuggets")) {
-                    sprite = "chicken-nuggets";
-                } else if (sprite.endswith("salad")) {
-                    sprite = "salad";
-                }
-            } else if (sprite == "drinks") {
-                sprite += " sprite-" + toclassname(item["itemname"].trim()).replaceAll("_", "-").replace(/\./g, '');
-            }
-
-            tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item">';
-                tempHTML += '<DIV CLASS="sprite pull-left sprite-' + sprite + ' sprite-medium"></DIV>';
-                tempHTML += '<span title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $'
-                    + item["toppingcost"] + '" class="receipt_itemcost">';
-                    tempHTML += '<span class="receipt-itemname">' + item["itemname"] + '</SPAN>';
-                tempHTML += '</span>';
-                tempHTML += ' <button class="fa fa-close pull-right btn btn-sm btn-black" onclick="removeorderitem(' + itemid + ');"></button>';
-                if (hasaddons) {
-                    tempHTML += '<button class="fa fa-pencil pull-right btn btn-sm btn-black" onclick="edititem(this, ' + itemid + ');"></button>';
-                }
-                tempHTML += '<span class="pull-right" >$' + totalcost + '</span>';
-            tempHTML += '</DIV><div class="clearfix"></div>';
-
-            var itemname = "";
-            if (hasaddons) {
-                var tablename = item["itemaddons"][0]["tablename"];
-                if (item["itemaddons"].length > 1) {itemname = itemnames[tablename];}
-                for (var currentitem = 0; currentitem < item["itemaddons"].length; currentitem++) {
-                    var addons = item["itemaddons"][currentitem];
-                    if (itemname) {tempHTML += ordinals[currentitem] + " " + itemname + ": ";}
-                    if (addons["addons"].length == 0) {
-                        tempHTML += 'no ' + nonames[tablename] + '';
-                    } else {
-                        for (var addonid = 0; addonid < addons["addons"].length; addonid++) {
-                            if (addonid > 0) {tempHTML += ", ";}
-                            var addonname = addons["addons"][addonid]["text"];
-                            var isfree = isaddon_free(tablename, addonname);
-                            if (isfree) {
-                                tempHTML += '<I TITLE="Free addon">' + addonname + '</I>';
-                            } else {
-                                tempHTML += addonname;
-                            }
+            if(!item.hasOwnProperty("clone")) {
+                var quantity = 1;
+                if(!hasaddons) {
+                    for (var seconditemid = itemid+1; seconditemid < theorder.length; seconditemid++) {
+                        var clone = theorder[seconditemid];
+                        if (item.itemid == clone.itemid) {
+                            theorder[seconditemid].clone = true;
+                            quantity += 1;
                         }
                     }
-                    tempHTML += '<BR>';
+                    theorder[itemid].quantity = quantity;
                 }
+                var totalcost = ((Number(item["itemprice"]) + (Number(item["toppingcost"]) * Number(item["toppingcount"])))*quantity).toFixed(2);
+                var category = "pizza";
+                var sprite = "pizza";
+                if (item.hasOwnProperty("category")) {
+                    category = item["category"].toLowerCase().replaceAll(" ", "_");
+                    sprite = category.trim();
+                    if (category.endswith("pizza")) {
+                        category = "pizza";
+                        if (item["itemname"].startswith("2")) {
+                            sprite = "241_pizza";
+                        }
+                    }
+                }
+                if (item.hasOwnProperty("isnew")) {
+                    if (item["isnew"]) {
+                        item["isnew"] = false;
+                        fadein = "#receipt_item_" + itemid;
+                    }
+                }
+                subtotal += Number(totalcost);
+
+                if (sprite == "sides") {
+                    sprite = toclassname(item["itemname"].trim()).replaceAll("_", "-");
+                    if (sprite.endswith("lasagna")) {
+                        sprite = "lasagna";
+                    } else if (sprite.endswith("chicken-nuggets")) {
+                        sprite = "chicken-nuggets";
+                    } else if (sprite.endswith("salad")) {
+                        sprite = "salad";
+                    }
+                } else if (sprite == "drinks") {
+                    sprite += " sprite-" + toclassname(item["itemname"].trim()).replaceAll("_", "-").replace(/\./g, '');
+                }
+
+                tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item">';
+                tempHTML += '<DIV CLASS="sprite pull-left sprite-' + sprite + ' sprite-medium"></DIV>';
+                tempHTML += '<span title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $';
+                tempHTML += item["toppingcost"] + '" class="receipt_itemcost"><span class="receipt-itemname">' + item["itemname"] + '</SPAN></span>';
+                tempHTML += ' <button class="fa fa-close pull-right btn btn-sm btn-black" onclick="removeorderitem(' + itemid + ', ' + quantity + ');"></button>';
+                if (hasaddons) {
+                    tempHTML += '<button class="fa fa-pencil pull-right btn btn-sm btn-black" onclick="edititem(this, ' + itemid + ');"></button>';
+                } else {
+                    tempHTML += '<button class="fa fa-plus pull-right btn btn-sm btn-black" onclick="cloneitem(this, ' + itemid + ');"></button>';
+                }
+                tempHTML += '<span class="pull-right">$' + totalcost;
+                if(quantity>1){tempHTML += ' (' + quantity + ')';}
+                tempHTML += '</span></DIV><div class="clearfix"></div>';
+
+                var itemname = "";
+                if (hasaddons) {
+                    var tablename = item["itemaddons"][0]["tablename"];
+                    if (item["itemaddons"].length > 1) {itemname = itemnames[tablename];}
+                    for (var currentitem = 0; currentitem < item["itemaddons"].length; currentitem++) {
+                        var addons = item["itemaddons"][currentitem];
+                        if (itemname) {tempHTML += ordinals[currentitem] + " " + itemname + ": ";}
+                        if (addons["addons"].length == 0) {
+                            tempHTML += 'no ' + nonames[tablename] + '';
+                        } else {
+                            for (var addonid = 0; addonid < addons["addons"].length; addonid++) {
+                                if (addonid > 0) {tempHTML += ", ";}
+                                var addonname = addons["addons"][addonid]["text"];
+                                var isfree = isaddon_free(tablename, addonname);
+                                if (isfree) {
+                                    tempHTML += '<I TITLE="Free addon">' + addonname + '</I>';
+                                } else {
+                                    tempHTML += addonname;
+                                }
+                            }
+                        }
+                        tempHTML += '<BR>';
+                    }
+                }
+                HTML += tempHTML + '<hr></DIV>';
             }
-
-
-            HTML += tempHTML + '<hr></DIV>';
         }
         var taxes = (subtotal + deliveryfee) * 0.13;//ontario only
         totalcost = subtotal + deliveryfee + taxes;
@@ -484,7 +510,7 @@
             $("#checkout-total").text('$0.00');
         } else {
             tempHTML = '<DIV id="newvalues"';
-            if (fadein) {
+            if (fadein || forcefade) {
                 tempHTML += ' CLASS="dont-show"';
             }
             tempHTML += '>';
@@ -501,12 +527,13 @@
             $("#confirmclearorder").show();
             $("#checkout-total").text('$' + totalcost.toFixed(2));
         }
-        if (fadein) {
+
+        if (fadein || forcefade) {
             tempHTML += '<DIV id="oldvalues">' + oldvalues + '</div>';
         }
         $("#myorder").html(HTML + tempHTML);
-        if (fadein) {
-            $(fadein).hide().fadeIn();
+        if (fadein || forcefade) {
+            if (fadein){$(fadein).hide().fadeIn();}
             $("#oldvalues").fadeOut("slow", function () {
                 $("#newvalues").fadeIn();
             });
@@ -632,15 +659,25 @@
 
     //remove an item from the order
     var removeorderitemdisabled = false;
-
-    function removeorderitem(index) {
+    function removeorderitem(index, quantity) {
         if (removeorderitemdisabled) {return;}
-        removeindex(theorder, index);
-        removeorderitemdisabled = true;
-        $("#receipt_item_" + index).fadeOut("fast", function () {
-            removeorderitemdisabled = false;
-            generatereceipt();
-        });
+        if(quantity == 1) {
+            removeindex(theorder, index);
+            removeorderitemdisabled = true;
+            $("#receipt_item_" + index).fadeOut("fast", function () {
+                removeorderitemdisabled = false;
+                generatereceipt();
+            });
+        } else {
+            var original = theorder[index];
+            for (var i = index + 1; i < theorder.length; i++){
+                if(original.itemid == theorder[i].itemid){
+                    removeindex(theorder, i);
+                    i=theorder.length;
+                }
+            }
+            unclone();
+        }
     }
 
     //checks if the result is JSON, and processes the Status and Reasons
