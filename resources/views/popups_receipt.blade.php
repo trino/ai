@@ -183,6 +183,26 @@
                         function textcontains($text, $searchfor) {
                             return strpos(strtolower($text), strtolower($searchfor)) !== false;
                         }
+
+                        function hasaddons($menuitem, $tables){
+                            foreach($tables as $table => $value){
+                                if(isset($menuitem[$table])){
+                                    if($menuitem[$table]){return true;}
+                                }
+                            }
+                            return false;
+                        }
+
+                        function checkforclones(&$items, $OriginalID, $OriginalItem, $menuitem){
+                            $Quantity = 1;
+                            foreach ($items as $ID => $item) {
+                                if($ID != $OriginalID && $item->itemid == $OriginalItem->itemid){
+                                    $Quantity += 1;
+                                    $items[$ID]->clone = true;
+                                }
+                            }
+                            return $Quantity;
+                        }
                     }
 
                     //check all data again, do not trust the prices from the user!!
@@ -215,11 +235,17 @@
                             //convert the JSON into an HTML receipt, using only item/addon IDs, reobtaining cost/names from the database for security
                             $subtotal = 0;
                             foreach ($items as $ID => $item) {
+                                unset( $items[$ID]->clone );
+                            }
+                            foreach ($items as $ID => $item) {
                                 if (is_object($item)) {
+                                    $quantity = 1;
                                     $menukey = findkey($menu, "id", $item->itemid);
-
-                                    if (true) {
+                                    if (!isset($item->clone)) {
                                         $menuitem = $menu[$menukey];
+                                        if(!hasaddons($menuitem, $tables)){
+                                            $quantity = checkforclones($items, $ID, $item, $menuitem);
+                                        }
                                         $size = getsize($menuitem["item"], $tables["additional_toppings"]);
                                         $addonscost = "0.00";
                                         if ($size) {
@@ -272,9 +298,11 @@
                                                     switch ($tablename) {
                                                         case "toppings":
                                                             $itemtype = "Pizza";
+                                                            $none = "no toppings";
                                                             break;
                                                         case "wings_sauce":
                                                             $itemtype = "lb";
+                                                            $none = "no sauce";
                                                             break;
                                                     }
                                                     if (isset($addon->addons)) {
@@ -302,10 +330,11 @@
                                                     }
                                                     $newtoppings[] = '<SPAN' . $debug . '>' . $topping["name"] . '</SPAN>';
                                                 }
+                                                if(!$newtoppings){$newtoppings[] = $none;}
 
                                                 if ($style == 1) {
                                                     $itemtitle = $itemtype . ' #' . ($addonID + 1);
-                                                    $HTML .= '<TR><TD NOWRAP>' . $itemtitle . '</TD><TD>' . implode(", ", $newtoppings) . '</TD></TR>';
+                                                    $HTML .= '<TR><TH NOWRAP>' . $itemtitle . '</TH></TR><TR><TD>' . implode(", ", $newtoppings) . '</TD></TR>';
                                                 } else {
                                                     $itemtitle = "";
                                                     if ($addoncount > 1) {
@@ -320,7 +349,7 @@
                                         }
 
                                         $toppingscost = $addonscost * $paidtoppings;
-                                        $itemtotal = $menuitem["price"] + $toppingscost;
+                                        $itemtotal = ($menuitem["price"] + $toppingscost) * $quantity;
 
                                         if ($style == 1) {
                                             echo '</TD>';
@@ -337,7 +366,12 @@
                                             }
                                             echo '<TD ALIGN="RIGHT"' . $debug . '>';
                                         }
-                                        echo '$' . number_format($itemtotal, 2) . '</TD></TR>';
+                                        if($quantity == 1){
+                                            $quantity = "";
+                                        } else {
+                                            $quantity = " (" . $quantity . ")";
+                                        }
+                                        echo '$' . number_format($itemtotal, 2) . $quantity . '</TD></TR>';
                                         if ($style == 2 && $HTML) {
                                             echo '<TR><TD COLSPAN="' . $colspan . '">' . $HTML . '</TD></TR>';
                                         }
@@ -397,49 +431,49 @@
                 <br><br>
             </div-->
 
-            @if($timer)
-                <SCRIPT>
-                    var countdown = window.setTimeout(function () {
-                        incrementtime()
-                    }, 1000);
-                    function incrementtime() {
-                        var seconds = $(".countdown").attr("seconds");
-                        var minutes = $(".countdown").attr("minutes");
-                        var hours = Math.floor(minutes / 60);
+@if($timer)
+    <SCRIPT>
+        var countdown = window.setTimeout(function () {
+            incrementtime()
+        }, 1000);
+        function incrementtime() {
+            var seconds = $(".countdown").attr("seconds");
+            var minutes = $(".countdown").attr("minutes");
+            var hours = Math.floor(minutes / 60);
 
-                        var result = false;
-                        if (seconds == 0) {
-                            if (minutes == 0) {
-                                result = "[Time's up.]";
-                                window.clearInterval(countdown);
-                            } else {
-                                minutes -= 1;
-                            }
-                            seconds = 59;
-                        } else {
-                            seconds -= 1;
-                        }
-                        if (!result) {
-                            if (hours == 0) {
-                                result = minutes;
-                            } else {
-                                result = hours + "h:" + minpad(minutes % 60);
-                            }
-                            result += "m:" + minpad(seconds) + "s";
-                        }
-                        $(".countdown").attr("seconds", seconds);
-                        $(".countdown").attr("minutes", minutes);
-                        $(".countdown").text(result);
-                        countdown = window.setTimeout(function () {
-                            incrementtime()
-                        }, 1000);
-                    }
+            var result = false;
+            if (seconds == 0) {
+                if (minutes == 0) {
+                    result = "[Time's up.]";
+                    window.clearInterval(countdown);
+                } else {
+                    minutes -= 1;
+                }
+                seconds = 59;
+            } else {
+                seconds -= 1;
+            }
+            if (!result) {
+                if (hours == 0) {
+                    result = minutes;
+                } else {
+                    result = hours + "h:" + minpad(minutes % 60);
+                }
+                result += "m:" + minpad(seconds) + "s";
+            }
+            $(".countdown").attr("seconds", seconds);
+            $(".countdown").attr("minutes", minutes);
+            $(".countdown").text(result);
+            countdown = window.setTimeout(function () {
+                incrementtime()
+            }, 1000);
+        }
 
-                    function minpad(time) {
-                        if (time < 10) {
-                            return "0" + time;
-                        }
-                        return time;
-                    }
-                </SCRIPT>
+        function minpad(time) {
+            if (time < 10) {
+                return "0" + time;
+            }
+            return time;
+        }
+    </SCRIPT>
 @endif
