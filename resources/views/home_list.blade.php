@@ -327,6 +327,15 @@
                     border: 1px solid grey !important;
                     padding-left: 2px;
                 }
+
+                .dropdown-toggle{
+                    padding-bottom: 6px;
+                }
+
+                tr, td{
+                    padding-top: 4px !important;
+                    padding-bottom: 4px !important;;
+                }
             </STYLE>
             <div class="row m-t-1">
                 <div class="col-md-12">
@@ -340,13 +349,13 @@
                                             //show all administratable tables
                                             foreach(array("users" => true, "restaurants" => true, "useraddresses" => false, "orders" => $profiletype != 2, "actions" => true) as $thetable => $onlyadmins){
                                                 if(($profiletype == 1 || !$onlyadmins) && $table != $thetable){
-                                                    echo '<LI><A HREF="' . webroot("public/list/" . $thetable) . '">' . ucfirst($thetable) . ' list</A></LI>';
+                                                    echo '<LI><A HREF="' . webroot("public/list/" . $thetable) . '" class="dropdown-item"><i class="fa fa-user-plus"></i> ' . ucfirst($thetable) . ' list</A></LI>';
                                                 }
                                             }
                                         ?>
                                         <HR>
-                                        <LI><A HREF="<?= webroot("public/editmenu"); ?>">Edit Menu</A></LI>
-                                        <LI><A HREF="<?= webroot("public/list/debug"); ?>">Debug log</A></LI>
+                                        <LI><A HREF="<?= webroot("public/editmenu"); ?>" class="dropdown-item"><i class="fa fa-user-plus"></i> Edit Menu</A></LI>
+                                        <LI><A HREF="<?= webroot("public/list/debug"); ?>" class="dropdown-item"><i class="fa fa-user-plus"></i> Debug log</A></LI>
                                     </ul>
                                 </div>
                             </h2>
@@ -405,9 +414,6 @@
                                                             }
                                                         ?>
                                                         <TH>Actions</TH>
-                                                    @else
-                                                        <TH CLASS="th-left">Field</TH>
-                                                        <TH CLASS="th-left">Value</TH>
                                                     @endif
                                                 </TR>
                                             </THEAD>
@@ -1268,7 +1274,7 @@
                             var seconds = $(element).attr("seconds");
                             var minutes = $(element).attr("minutes");
                             var hours = $(element).attr("hours");
-                            
+
                             var time = hours * 3600 + minutes + 60 + seconds;
                             var result = false;
                             if (time > 0) {
