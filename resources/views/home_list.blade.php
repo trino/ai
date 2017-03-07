@@ -205,6 +205,7 @@
                 break;
 
             case "getreceipt"://get an order receipt
+                $_POST["place"] = "getreceipt";
                 die(view("popups_receipt", $_POST)->render());
                 break;
 
@@ -1267,6 +1268,7 @@
                             var seconds = $(element).attr("seconds");
                             var minutes = $(element).attr("minutes");
                             var hours = $(element).attr("hours");
+                            
                             var time = hours * 3600 + minutes + 60 + seconds;
                             var result = false;
                             if (time > 0) {
