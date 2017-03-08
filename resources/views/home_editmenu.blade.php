@@ -50,13 +50,17 @@
         .itemname{
             padding-top: 6px;
         }
+
+        .card-block.bg-danger h2{
+            color: white !important;
+        }
     </STYLE>
     <div class="row m-t-1">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-block bg-danger">
                     <h2 class="pull-left">
-                        <i class="fa fa-home" aria-hidden="true"></i> Edit menu
+                        <i class="fa fa-home"></i> Edit menu
                     </h2>
                 </div>
                 <div class="card-block">

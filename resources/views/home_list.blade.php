@@ -2,6 +2,7 @@
     startfile("home_list");
     $RestaurantID= "";
     $extratitle = "";
+    $secondword = "list";
     //gets text between $start and $end in $string
     function get_string_between($string, $start, $end){
         $string = ' ' . $string;
@@ -62,6 +63,7 @@
     switch($table){
         case "all":case "debug"://system value
             $datafields=false;
+            if($table == "debug"){$secondword = "log";}
             break;
         case "actions":
             $fields=true;
@@ -343,11 +345,12 @@
                         <div class="card-block bg-danger">
                             <h2 class="pull-left text-white h2class">
                                 <div class="dropdown">
-                                    <Button class="btn btn-primary dropdown-toggle text-white" type="button" data-toggle="dropdown"><i class="fa fa-{{ $faicon }}"></i> {{ ucfirst($table) . ' list ' . $extratitle }}</Button>
+                                    <Button class="btn btn-primary dropdown-toggle text-white" type="button" data-toggle="dropdown"><i class="fa fa-{{ $faicon }}"></i>
+                                        {{ ucfirst($table) . ' ' . $secondword . ' ' . $extratitle }}</Button>
                                     <ul class="dropdown-menu" id="alllist">
                                         <?php
                                             //show all administratable tables
-                                            foreach(array("users" => true, "restaurants" => true, "useraddresses" => false, "orders" => $profiletype != 2, "actions" => true) as $thetable => $onlyadmins){
+                                            foreach(array("users" => true, "restaurants" => true, "additional_toppings" => true, "useraddresses" => false, "orders" => $profiletype != 2, "actions" => true) as $thetable => $onlyadmins){
                                                 if(($profiletype == 1 || !$onlyadmins) && $table != $thetable){
                                                     echo '<LI><A HREF="' . webroot("public/list/" . $thetable) . '" class="dropdown-item"><i class="fa fa-user-plus"></i> ' . ucfirst($thetable) . ' list</A></LI>';
                                                 }
