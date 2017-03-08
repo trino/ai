@@ -67,6 +67,10 @@
             if($table == "debug"){$secondword = "log";}
             break;
         case "actions":
+            $actionlist = Query("SELECT distinct(eventname) FROM actions", true);
+            foreach($actionlist as $ID => $Value){
+                $actionlist[$ID] = $Value["eventname"];
+            }
             $fields=true;
             break;
         case "users":
@@ -330,7 +334,10 @@
 
                 #searchtext:focus{
                     margin-top: 1px;
-                    
+                }
+
+                select{
+                    -webkit-appearance:menulist;
                 }
 
                 #searchtext:not(:focus){
@@ -754,6 +761,10 @@
                                                         break;
                                                     default://simple text
                                                         switch(colname){
+                                                            case "actions.eventname":
+                                                                isSelect=true;
+                                                                HTML = makeselect(ID + "_eventname", "selectfield form-control", colname, HTML, <?= json_encode($actionlist); ?> );
+                                                                break;
                                                             case "users.authcode":
                                                                 edititem(ID, "authcode", "");
                                                                 alert(makestring("{user_auth}"));
