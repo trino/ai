@@ -3,6 +3,7 @@
     $RestaurantID= "";
     $extratitle = "";
     $secondword = "list";
+    $filedate = -1;
     //gets text between $start and $end in $string
     function get_string_between($string, $start, $end){
         $string = ' ' . $string;
@@ -215,6 +216,13 @@
                 deletefile("royslog.txt");
                 break;
 
+            case "checkdebug"://get datetime of debug log
+                $results["time"] = 0;
+                if (file_exists("royslog.txt")){
+                    $results["time"] = filemtime("royslog.txt");
+                }
+                break;
+
             default://unhandled, error
                 $results["Status"] = false;
                 $results["Reason"] = "'" . $_POST["action"] . "' is unhandled \r\n" . print_r($_POST, true);
@@ -391,10 +399,13 @@
                                             }
                                         ?>
                                     @elseif($table == "debug")
+                                        <DIV id="debugmessage"></DIV>
                                         <PRE id="debuglogcontents"><?php
                                             //show debug file
                                             $Contents = "";
+                                            $filedate = 0;
                                             if (file_exists("royslog.txt")){
+                                                $filedate = filemtime("royslog.txt");
                                                 $Contents = file_get_contents("royslog.txt");
                                             }
                                             if(!$Contents) {$Contents = "The debug log is empty";}
@@ -483,6 +494,7 @@
                         bigint: {min: -9223372036854775808, max: 9223372036854775807}, bigintunsigned: {min: 0, max: 18446744073709551615}
                     };
                     var restaurantID = Number("<?= $RestaurantID; ?>");
+                    var debuglogdate = <?= $filedate; ?>;
 
                     var sort_col = "", sort_dir = "";
                     function sort(col, dir){
@@ -1263,6 +1275,27 @@
                         var countdown = window.setTimeout(function () {
                             incrementtime()
                         }, 1000);
+                    } else if(debuglogdate > -1){
+                        var countdown = checkfordebug(true);
+                    }
+
+                    function checkfordebug(isFirst){
+                        skiploadingscreen = true;
+                        $.post(currentURL, {
+                            action: "checkdebug",
+                            _token: token
+                        }, function (result) {
+                            if(result) {
+                                result = JSON.parse(result);
+                                result = result["time"];
+                                if(result > debuglogdate) {
+                                    //$("#debugmessage").html('<A HREF="' + currentURL + '">The debug log has changed. Click here to refresh</A>');
+                                    location.reload();
+                                }
+                            }
+                        });
+                        var countdown = window.setTimeout(function () {checkfordebug(false)}, 10000);//10 seconds
+                        if (isFirst) { return countdown;}
                     }
 
                     function incrementtime(element) {
