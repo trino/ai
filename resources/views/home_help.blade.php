@@ -19,28 +19,50 @@
             color: blue;
         }
 
-        #footer {
+        #gotobottom{
+            bottom: 0;
+        }
+        #expandall{
+            bottom: 28px;
+        }
+        #contractall{
+            bottom: 56px;
+        }
+        #gototop {
+            bottom: 84px;
+        }
+
+        .footer{
             font-weight: bold;
             position: fixed;
-            bottom: 0;
             left: 0;
             display: table;
             margin: 0 auto;
             background-color: white;
-            width: 150px;
+            width: 150px !important;
+            color: #0281E1;
+            z-index: 999;
+            border: 1px solid #0281E1 !important;
+            text-align: left !important;
         }
 
         .bg-secondary {
             margin-bottom: 2px;
         }
 
-        .fa-close {
+        .fa-black {
             border-radius: 3px;
-            background-color: red;
+            background-color: #292B2C;
             color: white;
             width: 20px;
             height: 20px;
             text-align: center;
+            padding-top: 1px;
+        }
+
+        .fa-black.fa-plus{
+            padding-top: 2px;
+            padding-left: 1px;
         }
 
         .reason{
@@ -55,12 +77,33 @@
                 var targetstarget = $(target).attr("data-target");
                 if (!$(targetstarget).hasClass("show")) {
                     $(target).trigger("click");
-                    $('html, body').animate({scrollTop: $(target).offset().top}, 2000);
+                    scrollto($(target).offset().top);
                 }
             });
             $("#profileinfo").remove();
             $(".sticky-footer").remove();
+
+            $('a[href=#top]').click(function(event){
+                event.preventDefault();
+                scrollto(0);
+            });
+            $('a[href=#bottom]').click(function(event){
+                event.preventDefault();
+                scrollto($(document).height());
+            });
         });
+
+        function scrollto(Y){
+            $('html, body').animate({scrollTop: Y}, 'slow');
+        }
+
+        function expandall(expand){
+            if(expand){
+                $(".collapse").not(".show").prev().trigger("click");
+            } else {
+                $(".show").prev().trigger("click");
+            }
+        }
     </SCRIPT>
     <?php
         $launchdate = "April 1, 2017";
@@ -77,7 +120,7 @@
         <div>
             <h1>About Us </h1>
 
-            <div class="card-block col-sm-6  bg-success text-white">
+            <div class="card-block col-sm-6 bg-success text-white">
                 <h2 class="text-white MT-0">Our Duty </h2>
                 <p>
                     londonpizza.ca has been in the works for over 5 years.
@@ -106,7 +149,8 @@
         <h1>FAQ</h1>
     <?php
         $site_name = "londonpizza.ca";
-        $email = '<A HREF="mailto:info@trinoweb.ca">info@trinoweb.ca</A>';
+        $email = '<A HREF="mailto:info@trinoweb.ca?subject=' . $site_name . '">info@trinoweb.ca</A>';
+        $minimum = first("SELECT price FROM additional_toppings WHERE size = 'Minimum'")["price"];
 
         function toclass($text) {
             $text = str_replace('/', '_', $text);
@@ -169,11 +213,12 @@
 
         newlist('How to order');
         newitem("Add an item to your cart", "Click the item on the menu. If it has a + next to the price, there will be a popup allowing you to edit the item options before adding it to the receipt");
-        newitem("Topping/sauces popup", 'If the menu item contains more than 1 item (ie: 2 pizzas), there will be a list at the top of this popup to select which item to edit. Clicking any of the options from the list will add it to the selected item. Some options are part of a group and only 1 option in that group can be added to an item (ie: well done and lightly done will conflict, so only 1 can be added to a pizza). The price will update automatically when you add options.<BR><button class="btn btn-sm bg-secondary"><i class="fa fa-check"></i></button> will add the item with the options you selected to the receipt.<BR><button class="btn btn-sm bg-secondary"><i class="fa fa-fw fa-arrow-left"></i></button> will remove the last option added to the selected item');
-        newitem("Editing an item in your cart", 'Click <i class="fa fa-pencil"></i> to the right of the item in the receipt, the same popup you used to add the item will appear');
-        newitem("Remove an item from your cart", 'Click <i class="fa fa-close"></i> to the right of the item in the receipt');
-        newitem("Empty your cart", 'Click <i class="fa fa-close"></i> at the top-right corner of your receipt');
-        newitem('<i class="fa fa-fw fa-shopping-basket"></i>', "Click this when you're done placing your order. You'll need to enter your <jump>Payment Information</jump>, <jump>Delivery Address</jump>, <jump>Preferred Restaurant</jump>, <jump>Delivery Time</jump>, then click <BUTTON CLASS='btn btn-primary btn-sm'>Place order</BUTTON>", "btn btn-warning btn-sm btn-circle");
+        newitem("Topping/sauces popup", 'If the menu item contains more than 1 item (ie: 2 pizzas), there will be a list at the top of this popup to select which item to edit. Clicking any of the options from the list will add it to the selected item. Some options are part of a group and only 1 option in that group can be added to an item (ie: well done and lightly done will conflict, so only 1 can be added to a pizza). The price will update automatically when you add options.<BR><button class="btn btn-sm mt-0 btn-success bg-secondary flat-border"><i class="fa fa-check"></i></button> will add the item with the options you selected to the receipt.<BR><button class="btn btn-sm bg-secondary"><i class="fa fa-fw fa-arrow-left"></i></button> will remove the last option added to the selected item');
+        newitem("Editing an item in your cart", 'Click <i class="fa fa-pencil fa-black"></i> to the right of the item in the receipt, the same popup you used to add the item will appear');
+        newitem("Remove an item from your cart", 'Click <i class="fa fa-close fa-black"></i> to the right of the item in the receipt');
+        newitem("Duplicating an item in your cart", 'Click <i class="fa fa-plus fa-black"></i> to the right of the item in the receipt (if it is a simple item without any addons/toppings)');
+        newitem("Empty your cart", 'Click <i class="fa fa-close fa-black"></i> at the top-right corner of your receipt');
+        newitem('<i class="fa fa-fw fa-shopping-basket"></i>', "Click this when you're done placing your order. You'll need to enter your <jump>Payment Information</jump>, <jump>Delivery Address</jump>, <jump>Preferred Restaurant</jump>, <jump>Delivery Time</jump>, then click <BUTTON CLASS='btn btn-primary btn-sm'>Place order</BUTTON>.<BR>This button will only be visible once your order meets the minumum of: $" . $minimum . " before taxes and delivery", "btn btn-warning btn-sm btn-circle");
         newitem("Payment Information", "If you have a saved card (note: Cards are saved with Stripe, not our servers) you can select it from the dropdown, or use 'Add Card' to add a new one. Otherwise just enter your credit card information");
         newitem("Delivery Address", "If you have a saved address you can select it from the dropdown, or select 'Add Address' to add a new address. Otherwise just enter a valid London address");
         newitem("Preferred Restaurant", "Select which restaurant you want to recieve your order from");
@@ -195,7 +240,7 @@
             actionitem("order_placed", "the order is placed");
             actionitem("order_confirmed", 'the <jump class="btn btn-sm btn-primary">Confirm</jump> button is clicked');
             actionitem("order_declined", 'the <jump class="btn btn-sm btn-danger">Decline</jump> or <jump class="btn btn-sm btn-danger">Delete</jump> buttons are clicked.');
-            actionitem("user_registered", 'a new user is registered');
+            actionitem("user_registered", 'a new user is registered. (Since no restaurant is involved in this event, do not set the party of this event to the Restaurant)');
 
             if (read("profiletype") == 1) {
                 newlist("Administrators");
@@ -446,6 +491,9 @@
             <p>Last updated: February 15, 2017</p>
         </div>
     </DIV>
-    <button id="footer" class="btn btn-sm btn-primary"><A HREF="#top"><i class="fa fa-arrow-up"></i> Go to the top</A></button>
+    <button id="gototop" class="btn btn-sm btn-primary footer"><A HREF="#top"><i class="fa fa-arrow-up"></i> Go to the top</A></button>
+    <button id="expandall" class="btn btn-sm btn-primary footer" onclick="expandall(true);"><i class="fa fa-expand"></i> Expand all</button>
+    <button id="contractall" class="btn btn-sm btn-primary footer" onclick="expandall(false);"><i class="fa fa-compress"></i> Contract all</button>
+    <button id="gotobottom" class="btn btn-sm btn-primary footer"><A HREF="#bottom"><i class="fa fa-arrow-down"></i> Go to the bottom</A></button>
 @endsection
 

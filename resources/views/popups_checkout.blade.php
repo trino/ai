@@ -12,7 +12,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 id="myModalLabel">CHECKOUT</h2>
-                <button data-dismiss="modal" data-popup-close="checkoutmodal" class="btn btn-sm  btn-danger"><i class="fa fa-close"></i></button>
+                <button data-dismiss="modal" data-popup-close="checkoutmodal" class="btn btn-sm btn-danger"><i class="fa fa-close"></i></button>
             </div>
             <div class="modal-body">
                 <FORM ID="orderinfo" name="orderinfo" class="row">
@@ -63,7 +63,7 @@
                         <div class="thirdwidth">
                             <input style="PADDING-TOP:10PX;" type="text" size="4" data-stripe="cvc" CLASS="credit-info form-control" PLACEHOLDER="CVC">
                             <INPUT class="credit-info" TYPE="hidden" name="istest" id="istest">
-                            <a class="credit-info pull-right btn" onclick="testcard();" TITLE="Don't remove this, I need it!">Test Card</a>
+                            @id(!islive()) <a class="credit-info pull-right btn" onclick="testcard();" TITLE="Don't remove this, I need it!">Test Card</a> @endif
                             <div class="clearfix"></div>
                         </div>
                     </div>
@@ -83,9 +83,9 @@
                             <OPTION>Deliver ASAP</OPTION>
                             </SELECT>
                             <span class="input-group-btn">
-<!--<comment> why is it when i change this to a button that clicking on please neter abn address closes the modal... order doenst go through when i change it -->
-<a class="btn btn-primary text-white pull-right payfororder" onclick="payfororder();">ORDER </a>
-</span>
+                                <!--<comment> why is it when i change this to a button that clicking on please enter an address closes the modal... order doesn't go through when I change it -->
+                                <a class="btn btn-primary text-white pull-right payfororder" onclick="payfororder();">ORDER </a>
+                            </span>
                         </div>
                         <div class="pull-right">
                             <span class="payment-errors error"></span>

@@ -425,7 +425,7 @@
                                                 switch($table){
                                                     case "useraddresses":
                                                         echo '<A ONCLICK="saveaddress(0);" CLASS="btn btn-sm btn-success">New</A> ';
-                                                        echo '<A ONCLICK="saveaddress(selecteditem);" CLASS="btn btn-sm  btn-secondary" id="saveaddress" DISABLED>Save</A>';
+                                                        echo '<A ONCLICK="saveaddress(selecteditem);" CLASS="btn btn-sm btn-secondary" id="saveaddress" DISABLED>Save</A>';
                                                         echo view("popups_address", $_GET)->render();
                                                         break;
                                                     case "restaurants":
@@ -1319,7 +1319,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button data-dismiss="modal" class="btn btn-sm  btn-danger" ><i class="fa fa-close"></i> </button>
+                            <button data-dismiss="modal" class="btn btn-sm btn-danger"><i class="fa fa-close"></i></button>
                             <h2 id="myModalLabel">View Order</h2>
                         </div>
 

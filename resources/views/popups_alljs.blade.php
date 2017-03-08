@@ -1871,8 +1871,8 @@
                 }
             }
 
-            HTML += '<div class="card"><button class="btn bg-secondary  btn-block" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button></div>' +
-                '<div class="card"><button class="btn mt-0  btn-success btn-block flat-border" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button></div>';
+            HTML += '<div class="card"><button class="btn bg-secondary btn-block" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button></div>' +
+                '<div class="card"><button class="btn mt-0 btn-success btn-block flat-border" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button></div>';
 
             $("#addonlist").html(HTML);
             $(".addon-addon").click(

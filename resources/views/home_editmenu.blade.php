@@ -84,7 +84,7 @@
                                             </UL>
                                             <button class="btn btn-block btn-success" onclick="$('.newitembtn').trigger('click');">New</button>
                                             <button ID="savechanges" class="btn btn-block btn-success changes dont-show" onclick="savechanges();">Save Changes</button>
-                                            <button ID="discardchanges" class="btn btn-block  btn-secondary changes dont-show" onclick="discard(false);">Discard Changes</button>
+                                            <button ID="discardchanges" class="btn btn-block btn-secondary changes dont-show" onclick="discard(false);">Discard Changes</button>
                                         </div>
                                     </DIV>
                                     <DIV CLASS="clearfix"></DIV>

@@ -50,7 +50,7 @@
         @include("popups_alljs")
     </head>
 
-    <body class="">
+    <body>
         <div class="modal loading" ID="loadingmodal"></div>
 
         <div>
@@ -64,7 +64,7 @@
 
             <div class="container-fluid shadow">
                 <div class="row">
-                    <div class="col-sm-12 " style="background: #444" >
+                    <div class="col-sm-12" style="background: #444">
                         <div class="pull-left">
                             <span class="text-white text-muted">&copy; 2017</span>
                         </div>

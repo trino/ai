@@ -157,7 +157,7 @@
         <div class="row m-t-1">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-block bg-danger" >
+                    <div class="card-block bg-danger">
                         <h2 class="pull-left">
                             <A HREF="{{ webroot("public") }}"><i class="fa fa-home" aria-hidden="true"></i></A> Edit user
                         </h2>
