@@ -63,7 +63,7 @@
                         <div class="thirdwidth">
                             <input style="PADDING-TOP:10PX;" type="text" size="4" data-stripe="cvc" CLASS="credit-info form-control" PLACEHOLDER="CVC">
                             <INPUT class="credit-info" TYPE="hidden" name="istest" id="istest">
-                            @id(!islive()) <a class="credit-info pull-right btn" onclick="testcard();" TITLE="Don't remove this, I need it!">Test Card</a> @endif
+                            @if(!islive()) <a class="credit-info pull-right btn" onclick="testcard();" TITLE="Don't remove this, I need it!">Test Card</a> @endif
                             <div class="clearfix"></div>
                         </div>
                     </div>
