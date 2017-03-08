@@ -1731,10 +1731,13 @@
         return text.toLowerCase().replaceAll(" ", "_");
     }
 
-    function generateaddons() {
+    function generateaddons(ItemIndex, ToppingIndex) {
         var HTML = '';
         var totaltoppings = 0;
-
+        if(isUndefined(ItemIndex)){
+            ItemIndex = -1;
+            ToppingIndex = -1;
+        }
         switch (currentaddontype) {
             case "toppings":
                 addonname = "Toppings";
@@ -1771,7 +1774,7 @@
             for (var i = 0; i < currentaddonlist[itemindex].length; i++) {
                 var currentaddon = currentaddonlist[itemindex][i];
                 var qualifier = "";
-                tempstr += '<DIV CLASS="pill btn  btn-secondary ' + classname + '">' + currentaddon.name +
+                tempstr += '<DIV CLASS="pill btn btn-secondary ' + classname + '" id="topping_' + itemindex + '_' + i + '">' + currentaddon.name +
                     '<span ONCLICK="removelistitem(' + itemindex + ', ' + i + ');">&nbsp; <i CLASS="fa fa-times"></i> </span></div>&nbsp;';
 
                 qualifier = currentaddon.qual;
@@ -1798,6 +1801,10 @@
         $("#theaddons").html(HTML);
         $(".currentitem.thisside").trigger("click");
         refreshremovebutton();
+
+        if(ItemIndex > -1){
+            $("#topping_" + ItemIndex + "_" + ToppingIndex).hide().fadeTo('fast', 1);
+        }
     }
 
     function getcost(Toppings) {
@@ -1985,7 +1992,7 @@
         }
         if (removed) {removed += " was removed";}
         // $("#removelist").text(removed);
-        generateaddons();
+        generateaddons(currentitemindex, currentaddonlist[currentitemindex].length-1);
     }
 
     function selectitem(e, index) {
