@@ -329,7 +329,7 @@
         // After 3 seconds, remove the show class from DIV
         //  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 1200);
 
-        var itemid = 0, itemname = "", itemprice = 0.00, itemaddons = new Array, itemsize = "", toppingcost = 0.00, toppingscount = 0, itemcat = "";
+        var itemid = 0, itemname = "", itemprice = 0.00, itemaddons = new Array, itemsize = "", toppingcost = 0.00, toppingscount = 0, itemcat = "", oldcost = "";
         if (!isUndefined(Index)) {
             currentitemID = Index;
         }
@@ -348,11 +348,16 @@
             }
         } else {//direct link, no addons
             element = $(element);
-            log(element);
             itemid = $(element).attr("itemid");
             itemname = $(element).attr("itemname");
             itemprice = $(element).attr("itemprice");
             itemcat = $(element).attr("itemcat");
+            for(var index = 0; index < theorder.length; index++){
+                if (theorder[index].itemid == itemid){
+                    oldcost = $('#cost_' + index).text();
+                    break;
+                }
+            }
         }
 
         data = {
@@ -375,8 +380,8 @@
             var ret = currentitemID;
         }
         generatereceipt(true);
-        $("#receipt_item_" + ret).hide();
-        $("#receipt_item_" + ret).fadeIn("fast");
+        $("#receipt_item_" + ret).hide().fadeIn("fast");
+        if(oldcost){refreshcost(index, oldcost);}
         return ret;
     }
 
@@ -391,7 +396,16 @@
         var clone = JSON.parse(JSON.stringify(theorder[itemid]));
         clone.clone = true;
         theorder.push(clone);
+        var oldcost = $('#cost_' + itemid).text();
         generatereceipt(true);
+        refreshcost(itemid, oldcost);
+    }
+
+    function refreshcost(itemid, oldcost){
+        $('#cost_' + itemid).hide();
+        $('#oldcost_' + itemid).text(oldcost).fadeOut(function(){
+            $('#cost_' + itemid).fadeIn();
+        });
     }
 
     //convert the order to an HTML receipt
@@ -463,7 +477,7 @@
                 } else {
                     tempHTML += '<button class="fa fa-plus pull-right btn btn-sm btn-black" onclick="cloneitem(this, ' + itemid + ');"></button>';
                 }
-                tempHTML += '<span class="pull-right">$' + totalcost;
+                tempHTML += '<span id="oldcost_' + itemid + '" class="pull-right"></span><span class="pull-right" id="cost_' + itemid + '">$' + totalcost;
                 if(quantity>1){tempHTML += ' (' + quantity + ')';}
                 tempHTML += '</span></DIV><div class="clearfix"></div>';
 
@@ -518,7 +532,7 @@
                 $("#checkout-btn").show();
             } else {
                 $("#checkout-btn").hide();
-                tempHTML += '<SPAN CLASS="pull-center">Minimum sub-total of: $' + minimumfee + ' not met</SPAN>';
+                tempHTML += '<SPAN CLASS="pull-center error">Minimum sub-total of: $' + minimumfee + ' not met</SPAN>';
             }
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Sub-total </SPAN>$' + subtotal.toFixed(2) + '</span><br>';
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Delivery </SPAN>$' + deliveryfee.toFixed(2) + '</span><br>';
@@ -676,7 +690,9 @@
                     i=theorder.length;
                 }
             }
+            var oldcost = $('#cost_' + index).text();
             unclone();
+            refreshcost(index, oldcost);
         }
     }
 
