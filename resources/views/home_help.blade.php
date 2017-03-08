@@ -69,6 +69,10 @@
             font-weight: bold;
             color: blue;
         }
+
+        .tab{
+            margin-left: 25px;
+        }
     </STYLE>
     <SCRIPT>
         $(document).ready(function () {
@@ -202,6 +206,18 @@
             newitem($action, 'Occurs when: ' . $text . $tempstr);
         }
 
+        $GLOBALS["currentnumber"] = 1;
+        function p($isletter = false){
+            if($isletter){
+                echo '<P CLASS="tab">' . $GLOBALS["currentletter"] . ") ";
+                $GLOBALS["currentletter"] = chr(ord($GLOBALS["currentletter"]) + 1);
+            } else {
+                echo '<P>' . $GLOBALS["currentnumber"] . ". ";
+                $GLOBALS["currentnumber"] += 1;
+                $GLOBALS["currentletter"] = "a";
+            }
+        }
+
         newlist("Users");
         newitem("Signing in", "Enter your email address and password in the <A HREF='" . webroot("/") . "'>Log In</A> page and click <button class='btn btn-sm btn-primary'>LOG IN</button>");
         newitem("Forgot password", "Enter the email address you registered with, click <span class='jump'>Forgot Password</span> and a new password will be emailed to you");
@@ -274,32 +290,32 @@
             <p>If you are accepting these terms of use on behalf a corporation or other entity, you represent and warrant that you have the necessary right and authority to enter into these terms of
                 use on behalf of such corporation or entity and to bind such corporation or entity to these terms of use. </p>
 
-            <p>1. Our Service: The {{ $site_name }} service allows users to place "Meal of the Day" orders for food delivery or take out from participating restaurants identified on the website (the
+            <?php /*p(); Our Service: The {{ $site_name }} service allows users to place "Meal of the Day" orders for food delivery or take out from participating restaurants identified on the website (the
                 'Service'). You can use the Service from a computer or personal mobile device via an internet connection or data plan {{ $site_name }}, and the restaurants offering service, are not
                 responsible for any data or Internet usage fees. {{ $site_name }} is an ordering service only, and does not prepare the food or provide delivery service. Therefore we are not liable
                 for the actions or omissions of any third-party independent courier contractors or restaurants that provide services through our Service. This is not limited to but includes issues
-                regarding food quality or timeliness of delivery. </p>
+                regarding food quality or timeliness of delivery. </p> */ ?>
 
-            <p>2. Account Registration: You must create an account on the Website in order to place orders through the Service. Registration includes your delivery and payment information. As a
+            <?= p(); ?>Account Registration: You must create an account on the Website in order to place orders through the Service. Registration includes your delivery and payment information. As a
                 registered user, you will have private access to member services such as the ability to review previous orders. All personal information provided by you will be handled in accordance
                 with our Privacy Policy.</p>
 
-            <p>3. Placing Your Order: Once you have selected the meal(s) of the day you wish to order from your chosen restaurant, you will provide any other required information and be given the
+            <?= p(); ?>Placing Your Order: Once you have selected the meal(s) of the day you wish to order from your chosen restaurant, you will provide any other required information and be given the
                 opportunity to submit your order by clicking the 'place my order', or similar, button. Please review your order carefully as you CANNOT make changes to an order once it has been
                 submitted. Your order CANNOT be cancelled once it has been submitted. </p>
 
-            <p>4. Order Processing: Once you submit an order, it will be sent immediately to the restaurant from which you ordered. You are responsible to ensure all your account information such as
+            <?= p(); ?>Order Processing: Once you submit an order, it will be sent immediately to the restaurant from which you ordered. You are responsible to ensure all your account information such as
                 order details, delivery address, billing, etc., is current, complete, and accurate.</p>
 
-            <p>5. Order Delivery: When you place a pickup or delivery order, you may select the time you would like your order to be picked up or delivered to you. Please note this time is only an
+            <?= p(); ?>Order Delivery: When you place a pickup or delivery order, you may select the time you would like your order to be picked up or delivered to you. Please note this time is only an
                 estimate and {{ $site_name }} offers no guarantee of this time. {{ $site_name }} will not be held responsible for any delays experienced in receiving your order. </p>
 
-            <p>6. Price and Payment: All prices will be as quoted on the Website, and will have applicable sales taxes and delivery charges added upon before order submission. As selected by you
+            <?= p(); ?>Price and Payment: All prices will be as quoted on the Website, and will have applicable sales taxes and delivery charges added upon before order submission. As selected by you
                 during the ordering process, payment by cash, credit card, or debit card is due upon pickup or delivery. You consent to the collection and use of your information (including, if
                 applicable, personal information) by such payment processing service as necessary to process your payments. You are responsible to ensure all your billing information is current,
                 complete, and accurate. We will provide you with an online and/or emailed billing summary statement which you may review, save, or print at your discretion. </p>
 
-            <p>7. Content: All information, photographs, video, sound, messages, or other materials, either publicly posted or privately transmitted to the Website by viewers or users ('User
+            <?= p(); ?>Content: All information, photographs, video, sound, messages, or other materials, either publicly posted or privately transmitted to the Website by viewers or users ('User
                 Content'), is the sole responsibility of the viewers or users. {{ $site_name }} does not actively monitor User Content and is in no way responsible for any User Content material that
                 is uploaded, posted, emailed, transmitted or otherwise made available by using our Service. Therefore, we cannot guarantee the accuracy, integrity, or quality of such third-party
                 content. By uploading or posting any User Content, you acknowledge that you own or have obtained legal rights to distribute all such content on the Website. You also
@@ -308,51 +324,51 @@
                 in any materials or any defects or errors in any printing or manufacturing, or for any loss or damage of any kind incurred as a result of the viewing or use of any materials posted,
                 emailed, transmitted or otherwise made available through the Service. </p>
 
-            <p>8. Viewer/User Material Policy: All viewers and users are prohibited from uploading/transmitting or posting any material that:</p>
+            <?= p(); ?>Viewer/User Material Policy: All viewers and users are prohibited from uploading/transmitting or posting any material that:</p>
 
-            <p>a. is obscene, offensive or defamatory;</p>
-            <p>b. promotes discrimination or violence;</p>
-            <p>c. promotes illegal activity or substances; </p>
-            <p>d. invades another's privacy;</p>
-            <p>e. is used to impersonate another person or to misrepresent your affiliation with another person</p>
-            <p>f. gives the impression they originate from {{ $site_name }}</p>
-            <p>g. breaches any applicable local, national, or international law;</p>
-            <p>h. is fraudulent or unlawful;</p>
-            <p>i. amounts to unauthorized advertising</p>
-            <p>j. contains viruses, malware, or any harmful programs</p>
-            <p>k. interferes with or disrupts the Website or servers or networks connected to the Website, or disobeys any requirements, procedures, policies or regulations of networks connected to
+            <?= p(true); ?>is obscene, offensive or defamatory;</p>
+            <?= p(true); ?>promotes discrimination or violence;</p>
+            <?= p(true); ?>promotes illegal activity or substances; </p>
+            <?= p(true); ?>invades another's privacy;</p>
+            <?= p(true); ?>is used to impersonate another person or to misrepresent your affiliation with another person</p>
+            <?= p(true); ?>gives the impression they originate from {{ $site_name }}</p>
+            <?= p(true); ?>breaches any applicable local, national, or international law;</p>
+            <?= p(true); ?>is fraudulent or unlawful;</p>
+            <?= p(true); ?>amounts to unauthorized advertising</p>
+            <?= p(true); ?>contains viruses, malware, or any harmful programs</p>
+            <?= p(true); ?>interferes with or disrupts the Website or servers or networks connected to the Website, or disobeys any requirements, procedures, policies or regulations of networks connected to
                 the Website, or probes, scans, or tests the vulnerability of any system or network, or breaches or circumvents any security or authentication measures</p>
-            <p>l. collects or stores any personal data about other viewers or users</p>
+            <?= p(true); ?>collects or stores any personal data about other viewers or users</p>
 
-            <p>9. Restrictions on User Content and the Use of Our Service: {{ $site_name }} reserves the right to remove or refuse to distribute any User Content and to remove users or reclaim
+            <?= p(); ?>Restrictions on User Content and the Use of Our Service: {{ $site_name }} reserves the right to remove or refuse to distribute any User Content and to remove users or reclaim
                 usernames. If your account is to be terminated due to a breach of the Terms of Use, you will be notified via email. We also reserve the right to access, read, preserve, and disclose
                 any information as we reasonably believe is necessary to (i) satisfy any applicable law, regulation, legal process or government request, (ii) enforce these Terms of Use, including
                 investigation of potential violations hereof, (iii) detect, prevent, or otherwise address fraud, security or technical issues, (iv) respond to user support requests, or (v) protect the
                 rights, property or safety of our users and the public. </p>
 
-            <p>10. License of User Content: By posting, submitting, and displaying User Content through our Service, you permit us a non-exclusive, royalty-free license (with the right to sublicense)
+            <?= p(); ?>License of User Content: By posting, submitting, and displaying User Content through our Service, you permit us a non-exclusive, royalty-free license (with the right to sublicense)
                 to use, copy, modify, transmit, display, and distribute such User Content. {{ $site_name }} will not be responsible or liable for any use of any User Content in accordance with these
                 Terms of Use. You acknowledge and warrant that you have all the rights, power, and authority necessary to grant the rights granted herein to any User content you submit.</p>
 
-            <p>11. End User License: With the exception of User Content, this Website and the information and materials contained therein are the property of {{ $site_name }}, and are protected from
+            <?= p(); ?>End User License: With the exception of User Content, this Website and the information and materials contained therein are the property of {{ $site_name }}, and are protected from
                 unauthorized copying and dissemination by copyright law, and other intellectual property laws. You are allowed to use this Website and print and download extracts from the Website for
                 your own personal non-commercial use. You agree not to misuse the Website (e.g. hacking and 'scrapping'), not to modify the digital or paper copies of any material that you download or
                 print, and not to use any materials on the Website or the Website itself for commercial purposes. </p>
 
-            <p>12. Customer Care: If you experience any issues with your Order, we recommend that you contact the Restaurant directly in the first instance to discuss the issue. We find this is the
+            <?= p(); ?>Customer Care: If you experience any issues with your Order, we recommend that you contact the Restaurant directly in the first instance to discuss the issue. We find this is the
                 most effective way to resolve the issue. With that said, your patronage and support is very important to us. If you cannot reach the Restaurant or have trouble resolving the issue with
                 the Restaurant, please contact us at {!! $email !!} within 48 hours of the incident. We will do our best to resolve the issue on your behalf but we cannot guarantee that we will be
                 able to do so. </p>
 
-            <p>13. Feedback: If you submit any suggestions, comments, or other feedback in regards to anything on the Website and/or Our Service, {{ $site_name }} may use such Feedback in the Website
+            <?= p(); ?>Feedback: If you submit any suggestions, comments, or other feedback in regards to anything on the Website and/or Our Service, {{ $site_name }} may use such Feedback in the Website
                 or Service. You agree that; (i) {{ $site_name }} is not subject to any confidentiality obligations in respect to the Feedback, (ii) the Feedback is not confidential or proprietary
                 information of You or any third party and You have all the rights needed to disclose the Feedback to Us, (iii) {{ $site_name }} is free to use, reproduce, publicize, license,
                 distribute, and otherwise commercialize the Feedback and (iv) You are not entitled to receive any reimbursement or compensation of any kind in respect of the Feedback. </p>
 
-            <p>14. Advertising: By using the website, you acknowledge and agree that you may be exposed to advertisements. If you elect to have any dealings with the advertiser, you acknowledge and
+            <?= p(); ?>Advertising: By using the website, you acknowledge and agree that you may be exposed to advertisements. If you elect to have any dealings with the advertiser, you acknowledge and
                 agree that {{ $site_name }} will not be held responsible or liable for any damages or losses you may incur as a result of such dealings. </p>
 
-            <p>15. Links &amp; Third-Party Websites: The Website (including User Content) may contain links to third-party websites that {{ $site_name }} does not own or have control over. No
+            <?= p(); ?>Links &amp; Third-Party Websites: The Website (including User Content) may contain links to third-party websites that {{ $site_name }} does not own or have control over. No
                 reference to a third-party, product, or service offered by a third-party are endorsed or approved by {{ $site_name }}. By clicking the link provided by any third-party, you acknowledge
                 and agree that you do so of your own choosing and {{ $site_name }} will not be responsible for any content provided by the third-party website. You are subject to the third-party's
                 Privacy Policy and Term of Use which the user must review on their own. You hereby release {{ $site_name }} from all liability and/or damages that may arise from Your use of such
@@ -362,25 +378,25 @@
                 prohibited content in Section 8 of these Terms of Use. At any time, {{ $site_name }} reserves all rights to remove or prohibit (or require You to remove) any link to our Website for
                 any reason. </p>
 
-            <p>16. Termination: At our absolute discretion, we reserve the right to terminate or suspend your ability to access the Website. Reasons for termination can include, but are not limited
+            <?= p(); ?>Termination: At our absolute discretion, we reserve the right to terminate or suspend your ability to access the Website. Reasons for termination can include, but are not limited
                 to:</p>
 
-            <p>a) Breach or violation of these Terms of Use or any other agreement that You may have with {{ $site_name }} (including non-payment of any fees owed in connection with the website or
+            <?= p(true); ?>Breach or violation of these Terms of Use or any other agreement that You may have with {{ $site_name }} (including non-payment of any fees owed in connection with the website or
                 otherwise owed by You to {{ $site_name }})</p>
 
-            <p>b) Requested by law enforcement or other government agencies</p>
+            <?= p(true); ?>Requested by law enforcement or other government agencies</p>
 
-            <p>c) Unexpected technical, security, or legal issues or problems</p>
+            <?= p(true); ?>Unexpected technical, security, or legal issues or problems</p>
 
-            <p>d) Participation by You, directly or indirectly, in illegal or fraudulent activities</p>
+            <?= p(true); ?>Participation by You, directly or indirectly, in illegal or fraudulent activities</p>
 
-            <p>e) Requested by You</p>
+            <?= p(true); ?>Requested by You</p>
 
-            <p>17. Availability or Updates: At any time, {{ $site_name }} may alter, suspend, or discontinue the Website for any reason or no reason without notice. Occasionally the Website or Service
+            <?= p(); ?>Availability or Updates: At any time, {{ $site_name }} may alter, suspend, or discontinue the Website for any reason or no reason without notice. Occasionally the Website or Service
                 may be unavailable due to maintenance or malfunction of computer/network equipment or other reasons. New or updated information and materials may be added during maintenance without
                 prior notice.</p>
 
-            <p>18. Data Loss: {{ $site_name }} takes measures to backup and ensure the integrity and availability of your content on the Website. However, in circumstances that are beyond the control
+            <?= p(); ?>Data Loss: {{ $site_name }} takes measures to backup and ensure the integrity and availability of your content on the Website. However, in circumstances that are beyond the control
                 of {{ $site_name }}, we are in no way responsible for lost content on your {{ $site_name }} account.</p>
 
             <p>If you have any questions regarding these Terms or if you wish to make any claim or complaint in regards to the Website or service, please contact us at {!! $email !!}</p>
@@ -400,7 +416,7 @@
 
             <p>- Information about the goods or services provided to or by you</p>
 
-            <p>- Information about your transactions with us, including bills, credit history, payment preference, billing and credit card information, and other details and preferences</p>
+            <p>- Information about your transactions with us, including bills, credit history, payment preference, billing and credit card information (credit card information is stored with <A HREF="https://stripe.com/ca">Stripe</A> for security purposes, and <B>NOT</B> on our own servers), and other details and preferences</p>
 
             <p>- Information from communications with you, including your feedback and requests for customer care</p>
 
@@ -410,7 +426,7 @@
 
             <p>- Site activity information and cookies (Please refer to Use of Cookies)</p>
 
-            <p>- Voluntary information provided by you, which may include restaurant reviews and ratings, referrals, special order instructions, feedback, and other actions performed on the Website orApp</p>
+            <p>- Voluntary information provided by you, which may include restaurant reviews and ratings, referrals, special order instructions, feedback, and other actions performed on the Website or App</p>
 
             <p>Use and Disclosure of the Information:</p>
 
