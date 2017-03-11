@@ -419,7 +419,7 @@
             @if ($style == 1)
                 <div>
                     <h2>Questions about your order?</h2>
-                    Please contact the restaurant directly, info can be found on the order receipt.
+                    Please contact the restaurant directly, check your email for the order receipt.
                 </div>
             @endif
 

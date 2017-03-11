@@ -298,7 +298,7 @@
             }
         }
         currentitemID = -1;
-        var title = " <div class='pull-left'>$<SPAN ID='modal-itemtotalprice'></SPAN></div> <div class='pull-right'> <i class='fa fa-check'></i></div>";
+        var title = "<div class='pull-left'><i class='fa fa-check'></i></div><div class='pull-right'>$<SPAN ID='modal-itemtotalprice'></SPAN></div>";
         if (!isUndefined(notparent)) {
             $("#menumodal").modal("show");
             refreshremovebutton();
@@ -471,7 +471,7 @@
                 tempHTML += '<DIV CLASS="sprite pull-left sprite-' + sprite + ' sprite-medium"></DIV>';
                 tempHTML += '<span title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $';
                 tempHTML += item["toppingcost"] + '" class="receipt_itemcost"><span class="receipt-itemname">' + item["itemname"] + '</SPAN></span>';
-                tempHTML += ' <button class="fa fa-close pull-right btn btn-sm btn-black" onclick="removeorderitem(' + itemid + ', ' + quantity + ');"></button>';
+                tempHTML += '<button class="fa fa-minus pull-right btn btn-sm btn-black" onclick="removeorderitem(' + itemid + ', ' + quantity + ');"></button>';
                 if (hasaddons) {
                     tempHTML += '<button class="fa fa-pencil pull-right btn btn-sm btn-black" onclick="edititem(this, ' + itemid + ');"></button>';
                 } else {
@@ -514,7 +514,7 @@
         visible("#checkout", userdetails);
         createCookieValue("theorder", JSON.stringify(theorder));
         if (theorder.length == 0) {
-            HTML = '<DIV CLASS="text-center receipt-empty"><br><br><i class="fa fa-shopping-basket fa-2x empty-shopping-cart"></i><br><br><h6>Order is Empty</h6><br><br><br></div>';
+            HTML = '<DIV CLASS="text-center receipt-empty"><br><i class="fa fa-shopping-basket fa-2x empty-shopping-cart"></i><br><h6>Order is Empty</h6><br></div>';
             $("#checkout").hide();
             $("#checkoutbutton").hide();
             $("#confirmclearorder").hide();
@@ -532,7 +532,7 @@
                 $("#checkout-btn").show();
             } else {
                 $("#checkout-btn").hide();
-                tempHTML += '<SPAN CLASS="pull-center error">Minimum sub-total of: $' + minimumfee + ' not met</SPAN>';
+                tempHTML += '<SPAN CLASS="pull-center error">Minimum sub-total $' + minimumfee + ' for delivery</SPAN>';
             }
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Sub-total </SPAN>$' + subtotal.toFixed(2) + '</span><br>';
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Delivery </SPAN>$' + deliveryfee.toFixed(2) + '</span><br>';
@@ -1853,26 +1853,26 @@
         if (currentstyle == 0) {
             $("#addonlist").html(HTML + '</DIV>');
         } else {
-            HTML += '  <div class="card-columns ">';
+            HTML += '';
             for (var i = 0; i < types.length; i++) {
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
-                    HTML += '<div class="card"><button class="btn addon-addon btn-block';
+                    HTML += '<button class="thirdwidth toppings_btn addon-addon';
 
                     if (isaddon_free(String(currentaddontype), String(addon))) {
-                        HTML += ' btn-secondary';//free topping, this should be different from a paid topping
+                        HTML += ' ';//free topping, this should be different from a paid topping
                         title = "Free addon";
                     } else {
-                        HTML += ' btn-secondary'//paid topping
+                        HTML += ' '//paid topping
                     }
 
-                    HTML += '" TITLE="' + title + '">' + addon + '</button></div>';
+                    HTML += '" TITLE="' + title + '">' + addon + '</button>';
                 }
             }
 
-            HTML += '<div class="card"><button class="btn bg-secondary btn-block" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button></div>' +
-                '<div class="card"><button class="btn mt-0 btn-success btn-block flat-border" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button></div>';
+            HTML += '<button class="thirdwidth toppings_btn" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button>' +
+                '<button class="thirdwidth toppings_btn" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button>';
 
             $("#addonlist").html(HTML);
             $(".addon-addon").click(

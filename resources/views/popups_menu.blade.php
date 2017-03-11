@@ -111,7 +111,6 @@
         }
         $itemsInCol += $menuitemcount;
         ?>
-
         <h2 class="text-xs-center">{{$category['category']}}  </h2>
         @foreach ($menuitems as $menuitem)
             <div class="list-group-item list-group-item-action d-flex justify-content-start item_{{ $catclass }}"
@@ -160,15 +159,22 @@
                 <span class="align-middle rounded sprite sprite-{{$itemclass}} sprite-medium"></span>
                 <span class="align-middle">{{$menuitem['item']}} </span>
                 <span class="ml-auto align-middle"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
+
+                <div class="bg-white" style="height: 10px;"></div>
+
+
             </div>
         @endforeach
-
         @if($catclass=="dips" || $catclass=="sides")
+
+
 
 </div>
 
 <div class="col-lg-3 col-md-12 pb-2  bg-white">
     @endif
+
+
     @endforeach
 </div>
 
@@ -184,11 +190,13 @@
                 <SPAN ID="modal-itemcat"></SPAN>
             </div>
 
-            <div class="modal-header">
-                <h2 id="myModalLabel"><SPAN ID="modal-itemname"></SPAN>
-                    <small ID="toppingcost"><br>$<SPAN id="modal-toppingcost"></SPAN> per topping</small>
+            <div class="modal-header py-2">
+                <h2 id="myModalLabel"><SPAN ID="modal-itemname"></SPAN><br>
+                  <small class="pull-left">  <small ID="toppingcost" class="clearfix text-white">$<SPAN id="modal-toppingcost"></SPAN> per topping</small>
+                  </small>
                 </h2>
                 <button data-dismiss="modal" class="btn btn-sm btn-danger"><i class="fa fa-close"></i></button>
+
             </div>
 
             <div class="modal-body py-0">

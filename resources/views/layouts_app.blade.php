@@ -37,34 +37,37 @@
         <link rel="manifest" href="<?= webroot("resources/assets/manifest.json"); ?>">
         <link rel="icon" sizes="128x128" href="<?= webroot("public/images/pizza128.png"); ?>">
         <link rel="icon" sizes="192x192" href="<?= webroot("public/images/pizza192.png"); ?>">
+
         <link href="<?= $css; ?>/font-awesome.min.css" rel='stylesheet' type='text/css'>
         <link href='<?= $css; ?>/Roboto.css' rel='stylesheet' type='text/css'>
         <link href='<?= $css; ?>/Roboto-slab.css' rel='stylesheet' type='text/css'>
 
         <link rel="stylesheet" href="<?= $css; ?>/bootstrap.min.css">
         <link rel="stylesheet" href="<?= $css . "/custom3.css?v=" . time(); ?>">
+
         <script src="<?= $scripts; ?>/jquery.min.js"></script>
         <script src="<?= $scripts; ?>/tether.min.js"></script>
         <script src="<?= $scripts; ?>/bootstrap.min.js"></script>
         <SCRIPT SRC="<?= $scripts; ?>/jquery.validate.min.js"></SCRIPT>
+
         @include("popups_alljs")
     </head>
 
     <body>
         <div class="modal loading" ID="loadingmodal"></div>
 
-        <div>
+
             <?= view("popups_navbar")->render(); ?>
 
-            <div class="container-fluid shadow">
+            <div class="container-fluid">
                 @yield('content')
             </div>
 
             <?= view("popups_sticky_footer")->render(); ?>
 
-            <div class="container-fluid shadow">
-                <div class="row">
-                    <div class="col-sm-12" style="background: #444">
+            <div class="container-fluid">
+                <div class="row py-2">
+                    <div class="col-sm-12" style="padding:2rem">
                         <div class="pull-left">
                             <span class="text-white text-muted">&copy; 2017</span>
                         </div>
@@ -75,7 +78,8 @@
                     </div>
                 </div>
             </div>
-        </div>
+
+
     </body>
 
     @if(false)

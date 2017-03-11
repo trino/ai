@@ -1,5 +1,5 @@
-<nav class="navbar-fixed-top navbar bg-danger dont-print text-white container-fluid">
-    <div style="padding: .5rem 1rem;">
+<nav class="navbar-fixed-top navbar bg-danger dont-print text-white">
+    <div class="container-fluid" style="padding: .5rem 1rem;width:100% !important;">
         <div class="text-white">
             <a HREF="<?= webroot("public/index"); ?>" onclick="history.go(0);" class="text-white pull-left londonpizza" href="/">
                <i class="fa fa-home pr-1"></i> londonpizza.ca
@@ -40,7 +40,7 @@
                 @endif
                 <SPAN class="loggedout">
                     <LI>
-                        <A CLASS="dropdown-item" href="<?= webroot("/"); ?>"><i class="fa fa-user icon-width"></i> Log In</A>
+                        <A CLASS="dropdown-item" href="<?= webroot(""); ?>"><i class="fa fa-user icon-width"></i> Log In</A>
                     </LI>
                 </SPAN>
                 <LI>

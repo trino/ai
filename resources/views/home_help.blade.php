@@ -120,11 +120,11 @@
         }
         $orders =  first('SELECT count(*) as count FROM orders WHERE status <> 2 AND status <> 4 AND placed_at > "' . $SQLdate . '"')["count"];
     ?>
-    <DIV class="card card-block" style="background: white;border-radius: 0">
-        <div>
+    <DIV class="row" style="background: white;border-radius: 0">
+        <div class="col-sm-6">
             <h1>About Us </h1>
 
-            <div class="card-block col-sm-6 bg-success text-white">
+            <div class="card-block  bg-success text-white">
                 <h2 class="text-white MT-0">Our Duty </h2>
                 <p>
                     londonpizza.ca has been in the works for over 5 years.
@@ -148,7 +148,8 @@
                 </div>
             </div>
         </div>
-        <BR>
+        <div class="col-sm-6">
+
 
         <h1>FAQ</h1>
     <?php
@@ -506,6 +507,7 @@
             <p>If you are in any doubt about the presence of allergens, you should confirm with the restaurant.</p>
             <p>Last updated: February 15, 2017</p>
         </div>
+    </DIV>
     </DIV>
     <button id="gototop" class="btn btn-sm btn-primary footer"><A HREF="#top"><i class="fa fa-arrow-up"></i> Go to the top</A></button>
     <button id="expandall" class="btn btn-sm btn-primary footer" onclick="expandall(true);"><i class="fa fa-expand"></i> Expand all</button>

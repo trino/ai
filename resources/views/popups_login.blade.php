@@ -1,8 +1,8 @@
 <?php
 startfile("popups_login");
 ?>
-<div class="row py-3 bg-inverse">
-    <DIV CLASS="col-lg-3 col-md-4">
+<div class="row py-3">
+    <DIV CLASS="col-lg-3 col-md-4" style="border:0 !important;">
         <DIV CLASS="card card-block">
             <h2 class="small-margin">Mobile Pizza Delivery</h2>
             <ul class="nav nav-tabs mb-1" role="tablist">
@@ -22,11 +22,12 @@ startfile("popups_login");
                     <INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control" onkeydown="enterkey(event, 'login');">
                     <div class="clearfix mt-2"></div>
                     <BUTTON CLASS="btn btn-primary pull-right" onclick="handlelogin('login');">LOG IN</BUTTON>
-                    <BUTTON CLASS="btn btn-link pl-0 text-muted pull-left btn-sm" onclick="handlelogin('forgotpassword');">Forgot Password</BUTTON>
+<div class="clearfix"></div>
+                    <BUTTON CLASS="btn btn-secondary pr-0  mt-3 pull-right btn-sm text-muted" onclick="handlelogin('forgotpassword');">Forgot Password</BUTTON>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="buzz">
                     <div class="alert alert-info"><small>
-                        We're only accepting credit/debit payments at this time. Apologies for the inconvenience.</small>
+                        $15 min delivery. We're only accepting credit/debit payments at this time. Apologies for the inconvenience.</small>
                     </div>
                     <h2>Delivery</h2>
                     <FORM id="addform">

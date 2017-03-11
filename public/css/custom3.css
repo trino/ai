@@ -1,20 +1,29 @@
 
 
+
+.form-control {
+    background: transparent !important;
+}
+
 .btn {
     border: 0;
     font-size: .85rem;
+    padding: .5rem .5rem;
 }
 
+.bg-secondary {
+    background-color: #efefef;
+}
 
 .icon-width {
     width: 24px;
     text-align: center;
 }
 
-.list-group-item {
-    padding:  0;
-    border: 0;
-    height: 45px;
+.col-lg-3 {
+    border-top: 10px solid #000 !important;
+    border-right: 5px solid #000 !important;
+    border-left: 5px solid #000 !important;
 }
 
 .receipt_itemcost {
@@ -52,6 +61,17 @@ hr {
     margin-top: .35rem;
 }
 
+
+.modal-backdrop {
+    background: black !important;
+    opacity: .9 !important;
+}
+
+a, a:focus, .btn:focus, button:focus, button, .btn {
+    outline: none !important;
+}
+
+
 body {
     /*  prevents horizontal scroll for full width container-fluid */
     overflow-x: hidden;
@@ -61,7 +81,7 @@ body {
     -moz-animation: fadein 1s; /* Firefox */
     -webkit-animation: fadein 1s; /* Safari and Chrome */
     -o-animation: fadein 1s; /* Opera */
-    background: #999 !important;
+    background: #000 !important;
 }
 
 /* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
@@ -87,15 +107,13 @@ body.loading #loadingmodal {
 
 h2 {
     color: #d9534f !important;
-    font-weight: bold;
-    font-size: 1rem !important;
+    font-size: 1.25rem !important;
     margin: 1rem 0 .25rem 0 !important;
-
-    text-transform: capitalize !important;
+    text-align: center;
 }
 
 .red {
-    border: 1px solid #d9534f  !important;
+    border: 1px solid #d9534f !important;
 }
 
 .error {
@@ -108,13 +126,21 @@ h2 {
     /* !!!!!!!!!!!!!stop removing this!!!!!!!!!!!! */
 }
 
+
+
+
+.list-group-item {
+    border: 0;
+    height: 44px;
+}
+
+
 .sprite {
     background-image: url('../../public/images/grid.png');
     background-repeat: no-repeat;
     width: 64px;
     height: 64px;
-    margin-right: 1rem;
-    display: inline-block;
+    margin-right: 20px;
 }
 
 .sprite-none {
@@ -253,7 +279,6 @@ h2 {
 }
 
 .toppings_btn {
-    border-left: 5px solid yellow;
     /*
     overflow: hidden;
     white-space: nowrap;
@@ -261,15 +286,20 @@ h2 {
     */
     text-align: left !important;
     border-radius: 0 !important;
-    border: 0 !important;
+    border: 1px solid #efefef;
 }
 
-.nowrap{
+.nowrap {
     white-space: nowrap;
 }
 
 .card-columns .card {
     margin-bottom: 0 !important;
+}
+
+.card-columns {
+    border: 1px solid #efefef;
+    background: #efefef;
 }
 
 .float-right {
@@ -299,7 +329,6 @@ h2 {
 .small-margin {
     margin: 0 0 1rem 0 !important;
 }
-
 
 .padding-top-45rem {
     padding-top: .45rem !important;
@@ -340,7 +369,7 @@ h2 {
 }
 
 .receipt-empty {
-color:#555;
+    color: #555;
 }
 
 .topping_button {
@@ -349,7 +378,6 @@ color:#555;
 
 .receipt-addons {
     cursor: pointer;
-    margin-bottom: 10px;
     border: 1px solid #dadada;
     border-radius: .2rem;
     padding: .25rem .25rem;
@@ -370,7 +398,7 @@ color:#555;
 }
 
 .card-columns {
-    column-gap: 0 !important;
+    column-gap: .01rem !important;
 
     column-count: 3 !important;
 }
@@ -379,18 +407,19 @@ color:#555;
     border: 0
 }
 
-input,select,textarea {
-    border:0 !important;
-    border-bottom:1px solid #dadada !important;
-    padding-left:0 !important;
-    padding-right:0 !important;
+.modal-content{border:5px solid #efefef;}
+input, select, textarea {
+    border: 0 !important;
+    border-bottom: 1px solid #dadada !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
     border-radius: 0 !important;
 
     -webkit-appearance: none;
-    -moz-appearance : none;
+    -moz-appearance: none;
 }
 
-#checkout-btn{
+#checkout-btn {
     -webkit-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
     -moz-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
     box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
@@ -399,7 +428,7 @@ input,select,textarea {
 .fab {
     border: none;
     color: white;
-     width: 70px;
+    width: 70px;
     height: 70px;
     padding: 1px 1px;
     line-height: 1.33;
@@ -417,7 +446,7 @@ input,select,textarea {
 
 .fixed-action-btn {
     position: fixed;
-    right: 100px;
+    right: 20px;
     bottom: 10px !important;
     padding-top: 15px;
     margin-bottom: 0;
@@ -597,10 +626,6 @@ input,select,textarea {
     border-radius: 35px;
 }
 
-a:focus, .btn:focus, button, .btn {
-    outline: none !important;
-    outline: 0;
-}
 
 .dont-show {
     display: none;
@@ -610,10 +635,6 @@ a:focus, .btn:focus, button, .btn {
     cursor: pointer;
     background: #999 !important;
     border-color: transparent !important;
-}
-
-#checkout-btn {
-    margin-bottom: 3.75rem;
 }
 
 .myorderhr {
@@ -635,7 +656,7 @@ a:focus, .btn:focus, button, .btn {
 
 .payfororder {
     border-radius: 0 !important;
-padding-top:10px;
+    padding-top: 10px;
 }
 
 .addonlist {
@@ -675,11 +696,15 @@ padding-top:10px;
     border-radius: 0 !important;
 }
 
-.pull-center{
+.pull-center {
     text-align: center;
-    width:100%;
+    width: 100%;
     display: block;
 }
+
+
+
+
 
 @media screen and (max-width: 400px) {
     .modal.modal-fullscreen .modal-dialog,
@@ -691,106 +716,8 @@ padding-top:10px;
         top: 0;
     }
 }
-/*
-@media screen and (max-width: 400px) {
 
 
-
-    .modal-dialog {
-        margin: 0 !important;
-    }
-
-    .main-bg-image {
-        padding: 2rem 0 3rem 0 !important;
-    }
-
-    .pading-left-mobile {
-        padding-left: .9rem !important;
-    }
-
-    .row, .container, .modal-image {
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-    }
-
-    .card, .list-group-item {
-        border-left: 0 !important;
-        border-right: 0 !important;
-    }
-
-    .col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12 {
-        padding: 0 !important;
-        margin: 0 !important;
-    }
-
-    .worksImg {
-        padding-right: 6px;
-        padding-bottom: 3px !important;
-        float: left
-    }
-
-    .bigBlt {
-        line-height: 1.15 !important;
-        margin-top: 0px !important
-    }
-
-    .mobile-p-r-0 {
-        padding-right: 0px !important;
-    }
-}
-
-@media screen and (max-width: 768px) {
-
-    body {
-        margin-top: 45px !important;
-    }
-
-    h1 {
-        font-size: 1.3rem !important;
-    }
-
-    h2 {
-        font-size: 1.3rem !important;
-    }
-
-    h3 {
-        font-size: 1.30rem !important;
-    }
-
-    h4 {
-        font-size: 1.25rem !important;
-    }
-
-    h5 {
-        font-size: 1rem !important;
-    }
-
-    h6 {
-        font-size: 1.15rem !important;
-    }
-
-    .navbar {
-        padding: 0rem;
-    }
-
-    .list-group, .list-group-item, .card {
-        border-radius: 0 !important;
-    }
-
-    .worksImg {
-        padding-right: 8px;
-        padding-bottom: 2px !important;
-        float: left
-    }
-
-    .bigBlt {
-        line-height: 1.25 !important;
-        margin-top: 0px !important
-    }
-}
-*/
 
 
 
@@ -801,5 +728,44 @@ a, a:focus, .btn:focus, select:focus {
 a, u {
     text-decoration: none !important;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9{
+    padding:0 !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
