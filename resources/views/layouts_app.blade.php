@@ -45,6 +45,421 @@
         <link rel="stylesheet" href="<?= $css; ?>/bootstrap.min.css">
         <link rel="stylesheet" href="<?= $css . "/custom3.css?v=" . time(); ?>">
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                .input_left_icon {
+                    width: 15%;
+                    text-align: center;
+                    padding-top: 5px;
+                    float: left
+                }
+
+                .input_right {
+                    width: 85%;
+                    float: left
+                }
+
+
+
+
+                input, select, textarea {
+                    border: 0 !important;
+                    border-bottom: 1px solid #dadada !important;
+                    padding-left: 0 !important;
+                    padding-right: 0 !important;
+                    border-radius: 0 !important;
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+                }
+
+                #checkout-btn {
+                    -webkit-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
+                    -moz-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
+                    box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
+                }
+
+                .fab {
+                    border: none;
+                    color: white;
+                    width: 70px;
+                    height: 70px;
+                    padding: 1px 1px;
+                    line-height: 1.33;
+                    border-radius: 35px;
+                    margin: auto;
+                    -webkit-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
+                    -moz-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
+                    box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
+                }
+
+                .fab:hover {
+                    background-color: #ff4060;
+                }
+
+                .fixed-action-btn {
+                    position: fixed;
+                    right: 20px;
+                    bottom: 10px !important;
+                    padding-top: 15px;
+                    margin-bottom: 0;
+                    z-index: 998;
+                }
+
+                .btn-circle {
+                    width: 30px;
+                    height: 30px;
+                    text-align: center;
+                    padding: 6px 0;
+                    font-size: 12px;
+                    line-height: 1.428571429;
+                    border-radius: 15px;
+                }
+
+                .btn-circle.btn-lg {
+                    width: 50px;
+                    height: 50px;
+                    padding: 10px 16px;
+                    font-size: 18px;
+                    line-height: 1.33;
+                    border-radius: 25px;
+                }
+
+                .btn-circle.btn-xl {
+                    width: 70px;
+                    height: 70px;
+                    padding: 10px 16px;
+                    font-size: 24px;
+                    line-height: 1.33;
+                    border-radius: 35px;
+                }
+
+                .dont-show {
+                    display: none;
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                .sprite-none {
+                    background-position: 110px 110px;
+                }
+
+                .sprite-pizza {
+                    background-position: 0px 0px;
+                }
+
+                .sprite-salad {
+                    background-position: -96px 0px;
+                }
+
+                .sprite-potato-wedges {
+                    background-position: -192px 0px;
+                }
+
+                .sprite-panzerotti {
+                    background-position: -288px 0px;
+                }
+
+                .sprite-onion-rings {
+                    background-position: -384px 0px;
+                }
+
+                .sprite-wings {
+                    background-position: -480px 0px;
+                }
+
+                .sprite-241_pizza {
+                    background-position: -576px 0px;
+                }
+
+                .sprite-lasagna {
+                    background-position: -672px 0px;
+                }
+
+                .sprite-dips {
+                    background-position: -768px 0px;
+                }
+
+                .sprite-garlic-bread {
+                    background-position: -864px 0px;
+                }
+
+                .sprite-french-fries {
+                    background-position: -960px 0px;
+                }
+
+                .sprite-drinks {
+                    background-position: -1056px 0px;
+                }
+
+                .sprite-chicken-nuggets {
+                    background-position: -1152px 0px;
+                }
+
+                .sprite-veggie-sticks {
+                    background-position: -1248px 0px;
+                }
+
+                .sprite-pepsi {
+                    background-position: -1344px 0px;
+                }
+
+                .sprite-diet-pepsi {
+                    background-position: -1440px 0px;
+                }
+
+                .sprite-2l-sprite {
+                    background-position: -1536px 0px;
+                }
+
+                .sprite-sprite {
+                    background-position: -1632px 0px;
+                }
+
+                .sprite-water-bottle {
+                    background-position: -1728px 0px;
+                }
+
+                .sprite-2l-coca-cola {
+                    background-position: -1824px 0px;
+                }
+
+                .sprite-crush-orange {
+                    background-position: -1920px 0px;
+                }
+
+                .sprite-ginger-ale {
+                    background-position: -2016px 0px;
+                }
+
+                .sprite-diet-coca-cola {
+                    background-position: -2112px 0px;
+                }
+
+                .sprite-nestea {
+                    background-position: -2208px 0px;
+                }
+
+                .sprite-2l-brisk-iced-tea {
+                    background-position: -2304px 0px;
+                }
+
+                .sprite-dr-pepper {
+                    background-position: -2400px 0px;
+                }
+
+                .sprite-medium {
+                    zoom: 0.6;
+                    -moz-transform: scale(0.6);
+                    -moz-transform-origin: 0 0;
+                }
+
+                .sprite-small {
+                    zoom: 0.29;
+                    -moz-transform: scale(0.29);
+                    -moz-transform-origin: 0 0;
+                }
+
+                .sprite-tiny {
+                    zoom: 0.20;
+                    -moz-transform: scale(0.20);
+                    -moz-transform-origin: 0 0;
+                }
+
+
+
+                .c-rays {
+                    width: 100%;
+                    padding-top: 40%;
+                    position: relative;
+                    overflow: hidden
+                }
+
+                @media (min-width: 48em) {
+                    .c-rays {
+                        padding-top: 23.5%
+                    }
+                }
+
+                .c-rays svg {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    height: 100%
+                }
+
+                @media (min-width: 48em) {
+                    .c-rays svg {
+                        min-width: 100%
+                    }
+                }
+
+                .loader {
+                    visibility: hidden;
+                    background-color: #000;
+                    z-index: 10000;
+                    width: 100%;
+                    height: 100%;
+                    top: 0;
+                    left: 0;
+                    position: fixed;
+                    opacity: .9;
+                }
+
+                .loader:after {
+                    z-index: 10001;
+                    display: block;
+                    position: absolute;
+                    content: "";
+                    left: -200px;
+                    width: 200px;
+                    height: 5px;
+                    background-color: #000;
+                    animation: loading 1s linear infinite;
+                }
+
+                @keyframes loading {
+                    from {
+                        left: -200px;
+                        width: 30%;
+                    }
+                    50% {
+                        width: 30%;
+                    }
+                    70% {
+                        width: 70%;
+                    }
+                    80% {
+                        left: 50%;
+                    }
+                    95% {
+                        left: 120%;
+                    }
+                    to {
+                        left: 100%;
+                    }
+                }
+
+                /************************************ end loader */
+
+                /************************************ fade in */
+
+                @keyframes fadein {
+                    from {
+                        opacity: 0;
+                    }
+                    to {
+                        opacity: 1;
+                    }
+                }
+
+                @-moz-keyframes fadein { /* Firefox */
+                    from {
+                        opacity: 0;
+                    }
+                    to {
+                        opacity: 1;
+                    }
+                }
+
+                @-webkit-keyframes fadein { /* Safari and Chrome */
+                    from {
+                        opacity: 0;
+                    }
+                    to {
+                        opacity: 1;
+                    }
+                }
+
+                @-o-keyframes fadein { /* Opera */
+                    from {
+                        opacity: 0;
+                    }
+                    to {
+                        opacity: 1;
+                    }
+                }
+
+                /************************************ end fade in */
+
+
+
+
+
+            </style>
         <script src="<?= $scripts; ?>/jquery.min.js"></script>
         <script src="<?= $scripts; ?>/tether.min.js"></script>
         <script src="<?= $scripts; ?>/bootstrap.min.js"></script>
@@ -65,7 +480,7 @@
 
             <?= view("popups_sticky_footer")->render(); ?>
 
-            <div class="container-fluid">
+            <div class="container-fluid hidden-sm-down">
                 <div class="row py-2">
                     <div class="col-sm-12" style="padding:2rem">
                         <div class="pull-left">
@@ -168,4 +583,5 @@
             }
         ?>
     </div>
+
 </html>

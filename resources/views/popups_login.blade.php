@@ -15,19 +15,25 @@ startfile("popups_login");
             </ul>
             <!-- Tab panes -->
             <div class="tab-content mt-1">
-                <div role="tabpanel" class="tab-pane fade in active" id="profile">
-                    <div class="clearfix"></div>
-                    <INPUT TYPE="text" id="login_email" placeholder="Email" class="form-control" onkeydown="enterkey(event, '#login_password');">
-                    <div class="clearfix"></div>
-                    <INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control" onkeydown="enterkey(event, 'login');">
+                <div role="tabpanel" class=" tab-pane fade in active" id="profile">
+
+                    <div class=""></div>
+                    <div class=""><INPUT TYPE="text" id="login_email" placeholder="Email" class="form-control" onkeydown="enterkey(event, '#login_password');">
+                    </div>
+                    <div class=""></div>
+                    <div class=""><INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control" onkeydown="enterkey(event, 'login');">
+                    </div>
                     <div class="clearfix mt-2"></div>
                     <BUTTON CLASS="btn btn-primary pull-right" onclick="handlelogin('login');">LOG IN</BUTTON>
-<div class="clearfix"></div>
-                    <BUTTON CLASS="btn btn-secondary pr-0  mt-3 pull-right btn-sm text-muted" onclick="handlelogin('forgotpassword');">Forgot Password</BUTTON>
+                    <div class="clearfix"></div>
+                    <BUTTON CLASS="btn mt-3 pull-right btn-sm" onclick="handlelogin('forgotpassword');">
+                        FORGOT PASSWORD</BUTTON>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="buzz">
-                    <div class="alert alert-info"><small>
-                        $15 min delivery. We're only accepting credit/debit payments at this time. Apologies for the inconvenience.</small>
+                    <div class="alert alert-info">
+                        <small>
+                            $15 min delivery. We're only accepting credit/debit payments at this time. Apologies for the inconvenience.
+                        </small>
                     </div>
                     <h2>Delivery</h2>
                     <FORM id="addform">

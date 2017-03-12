@@ -1,8 +1,8 @@
 <?php
-    startfile("popups_alljs");
-    $CURRENT_YEAR = date("Y");
-    $STREET_FORMAT = "[number] [street], [city] [postalcode]";
-    //["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
+startfile("popups_alljs");
+$CURRENT_YEAR = date("Y");
+$STREET_FORMAT = "[number] [street], [city] [postalcode]";
+//["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
 ?>
 
 <script>
@@ -502,7 +502,7 @@
                                 }
                             }
                         }
-                        tempHTML += '<BR>';
+                        tempHTML += '<BR>678768';
                     }
                 }
                 HTML += tempHTML + '<hr></DIV>';
@@ -514,7 +514,11 @@
         visible("#checkout", userdetails);
         createCookieValue("theorder", JSON.stringify(theorder));
         if (theorder.length == 0) {
+
+
             HTML = '<DIV CLASS="text-center receipt-empty"><br><i class="fa fa-shopping-basket fa-2x empty-shopping-cart"></i><br><h6>Order is Empty</h6><br></div>';
+
+
             $("#checkout").hide();
             $("#checkoutbutton").hide();
             $("#confirmclearorder").hide();
@@ -522,7 +526,12 @@
             collapsecheckout();
             $("#checkout-btn").hide();
             $("#checkout-total").text('$0.00');
+
+
         } else {
+
+
+
             tempHTML = '<DIV id="newvalues"';
             if (fadein || forcefade) {
                 tempHTML += ' CLASS="dont-show"';
@@ -532,8 +541,10 @@
                 $("#checkout-btn").show();
             } else {
                 $("#checkout-btn").hide();
-                tempHTML += '<SPAN CLASS="pull-center error">Minimum sub-total $' + minimumfee + ' for delivery</SPAN>';
+                tempHTML += '<SPAN CLASS=" badge badge-warning pull-center">Minimum sub-total $' + minimumfee + ' for delivery</SPAN>';
             }
+
+
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Sub-total </SPAN>$' + subtotal.toFixed(2) + '</span><br>';
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Delivery </SPAN>$' + deliveryfee.toFixed(2) + '</span><br>';
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Tax </SPAN>$' + taxes.toFixed(2) + '</span><br>';
@@ -1711,7 +1722,7 @@
         left: 0;
         height: 100%;
         width: 100%;
-        background: rgba(255, 255, 255, .8) url('<?= webroot("public/images/slice.gif"); ?>') 50% 50% no-repeat;
+        background: rgba(0, 0, 0, .9) url('<?= webroot("public/images/slice.gif"); ?>') 50% 50% no-repeat;
     }
 </STYLE>
 
@@ -1858,7 +1869,7 @@
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
-                    HTML += '<button class="thirdwidth toppings_btn addon-addon';
+                    HTML += '<button class="thirdwidth btn toppings_btn addon-addon';
 
                     if (isaddon_free(String(currentaddontype), String(addon))) {
                         HTML += ' ';//free topping, this should be different from a paid topping
@@ -1871,8 +1882,8 @@
                 }
             }
 
-            HTML += '<button class="thirdwidth toppings_btn" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button>' +
-                '<button class="thirdwidth toppings_btn" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button>';
+            HTML += '<button class="thirdwidth btn toppings_btn" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button>' +
+                '<button class="thirdwidth btn toppings_btn" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button>';
 
             $("#addonlist").html(HTML);
             $(".addon-addon").click(
@@ -2043,11 +2054,11 @@
     @if(read("id"))
         $(document).ready(function () {
         <?php
-            if (islive() || $GLOBALS["testlive"]) {
-                echo "setPublishableKey('pk_vnR0dLVmyF34VAqSegbpBvhfhaLNi', 'live')";
-            } else {
-                echo "setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', 'test');";
-            }
+        if (islive() || $GLOBALS["testlive"]) {
+            echo "setPublishableKey('pk_vnR0dLVmyF34VAqSegbpBvhfhaLNi', 'live')";
+        } else {
+            echo "setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', 'test');";
+        }
         ?>
     });
 

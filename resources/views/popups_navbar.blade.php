@@ -44,7 +44,7 @@
                     </LI>
                 </SPAN>
                 <LI>
-                    <A CLASS="dropdown-item" href="help"><i class="fa fa-question-circle icon-width"></i> Help</A>
+                    <A CLASS="dropdown-item" href="help"><i class="fa fa-question-circle icon-width"></i> More Info</A>
                 </LI>
             </ul>
             <div class="clearfix"></div>

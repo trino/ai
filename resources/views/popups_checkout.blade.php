@@ -1,31 +1,33 @@
 <?php startfile("popups_checkout"); ?>
-<h2 class="text-white">My Order
-    <button class="btn btn-black btn-sm pull-right dont-show" ONCLICK="confirmclearorder();" id="confirmclearorder"><i class="fa fa-close"></i></button>
-</h2>
-<hr class="myorderhr">
+<button class="btn btn-sm pull-right btn-danger dont-show" ONCLICK="confirmclearorder();" id="confirmclearorder"><i class="fa fa-close"></i></button>
+
+<h2 class="text-white">My Order</h2>
+
 <div id="myorder" class="text-white"></div>
+
+
 <button id="checkout-btn" class="btn btn-warning btn-xl btn-block" onclick="showcheckout();">
     <i class="fa fa-shopping-basket"></i>
 </button>
+
+
 <div class="modal" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="myModalLabel">CHECKOUT</h2>
+                <h2 id="myModalLabel">Checkout</h2>
                 <button data-dismiss="modal" data-popup-close="checkoutmodal" class="btn btn-sm btn-danger"><i class="fa fa-close"></i></button>
             </div>
             <div class="modal-body">
 
 
-
                 <FORM ID="orderinfo" name="orderinfo">
 
                     <div class="row">
-                        <div class="col-xs-1">1</div>
-                        <div class="col-xs-11">2</div>
+
                         <div class="clearfix"></div>
-                        <div class="col-xs-1">1</div>
-                        <div class="col-xs-11">
+                        <div style="width:15%;text-align: center;;"><i class="fa fa-user"></i></div>
+                        <div style="width:85%;" style="width:85%;">
                             <div class="halfwidth">
                                 <?= view("popups_edituser", array("email" => false, "profile1" => true, "password" => false, "phone" => false))->render(); ?>
                             </div>
@@ -33,26 +35,22 @@
                                 <?= view("popups_edituser", array("email" => false, "profile1" => false, "password" => false, "phone" => true))->render(); ?>
                             </div>
                         </div>
-                        
-                        
-                        <div class="col-xs-1">1</div>
-                        <div class="col-xs-11">
+
+
+                        <div style="width:15%;text-align: center;"><i class="fa fa-credit-card-alt"></i></div>
+                        <div style="width:85%;">
                             <DIV ID="credit-info"></DIV>
                         </div>
-                        
-                        
-                        
-                        <div class="col-xs-1">1</div>
-                        <div class="col-xs-11">
+
+
+                        <div style="width:15%;text-align: center;"></div>
+                        <div style="width:85%;">
                             <input type="text" size="20" class="form-control credit-info" data-stripe="number" placeholder="Card Number">
                         </div>
 
 
-                    </div>
-                    <div class="row">
-
-                        <div class="col-xs-1">1</div>
-                        <div class="col-xs-11">
+                        <div style="width:15%;text-align: center;"></div>
+                        <div style="width:85%;">
                             <div class="thirdwidth">
                                 <SELECT CLASS="credit-info form-control" data-stripe="exp_month">
                                     <OPTION VALUE="01">01/Jan</OPTION>
@@ -89,18 +87,29 @@
                                 <div class="clearfix"></div>
                             </div>
                         </div>
-                        <div class="col-xs-1">1</div>
-                        <div class="col-xs-11">
+                        <div class="input_left_icon"><i class="fa fa-map-marker"></i></div>
+                        <div class="input_right">
                             <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
                             <?php
                             if (read("id")) {
                                 echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
                             }
                             ?>
+                        </div>
+                        <div style="width:15%;text-align: center;"><i class="fa fa-cutlery"></i></div>
+                        <div style="width:85%;">
                             <SELECT class="form-control" ID="restaurant" ONCHANGE="restchange();">
                                 <OPTION VALUE="0" SELECTED>RESTAURANT</OPTION>
                             </SELECT>
+
+                        </div>
+                        <div style="width:15%;text-align: center;"><i class="fa fa-pencil"></i></div>
+                        <div style="width:85%;">
                             <input type="text" id="cookingnotes" class="form-control" placeholder="Additional Notes" maxlength="255"/>
+                        </div>
+                        <div style="width:15%;text-align: center;"><i class="fa fa-clock-o"></i></div>
+                        <div style="width:85%;">
+
                             <div class="input-group">
                                 <SELECT id="deliverytime" TITLE="Delivery Time" class="form-control"/>
                                 <OPTION>Deliver ASAP</OPTION>
