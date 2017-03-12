@@ -3,7 +3,7 @@
 
 <h2 class="text-white">My Order</h2>
 
-<div id="myorder" class="text-white"></div>
+<div id="myorder" class=""></div>
 
 
 <button id="checkout-btn" class="btn btn-warning btn-xl btn-block" onclick="showcheckout();">
@@ -26,8 +26,8 @@
                     <div class="row">
 
                         <div class="clearfix"></div>
-                        <div style="width:15%;text-align: center;;"><i class="fa fa-user"></i></div>
-                        <div style="width:85%;" style="width:85%;">
+                        <div class="input_left_icon"><i class="fa fa-user"></i></div>
+                        <div class="input_right">
                             <div class="halfwidth">
                                 <?= view("popups_edituser", array("email" => false, "profile1" => true, "password" => false, "phone" => false))->render(); ?>
                             </div>
@@ -37,20 +37,20 @@
                         </div>
 
 
-                        <div style="width:15%;text-align: center;"><i class="fa fa-credit-card-alt"></i></div>
-                        <div style="width:85%;">
+                        <div class="input_left_icon"><i class="fa fa-credit-card-alt"></i></div>
+                        <div class="input_right">
                             <DIV ID="credit-info"></DIV>
                         </div>
 
 
-                        <div style="width:15%;text-align: center;"></div>
-                        <div style="width:85%;">
+                        <div class="input_left_icon"><i class="fa fa-credit-card-alt"></i></div>
+                        <div class="input_right">
                             <input type="text" size="20" class="form-control credit-info" data-stripe="number" placeholder="Card Number">
                         </div>
 
 
-                        <div style="width:15%;text-align: center;"></div>
-                        <div style="width:85%;">
+                        <div class="input_left_icon"></div>
+                        <div class="input_right">
                             <div class="thirdwidth">
                                 <SELECT CLASS="credit-info form-control" data-stripe="exp_month">
                                     <OPTION VALUE="01">01/Jan</OPTION>
@@ -81,7 +81,7 @@
                                 <div class="clearfix"></div>
                             </div>
                             <div class="thirdwidth">
-                                <input style="PADDING-TOP:10PX;" type="text" size="4" data-stripe="cvc" CLASS="credit-info form-control" PLACEHOLDER="CVC">
+                                <input style="" type="text" size="4" data-stripe="cvc" CLASS="credit-info form-control" PLACEHOLDER="CVC">
                                 <INPUT class="credit-info" TYPE="hidden" name="istest" id="istest">
                                 @if(!islive()) <a class="credit-info pull-right btn" onclick="testcard();" TITLE="Don't remove this, I need it!">Test Card</a> @endif
                                 <div class="clearfix"></div>
@@ -96,19 +96,19 @@
                             }
                             ?>
                         </div>
-                        <div style="width:15%;text-align: center;"><i class="fa fa-cutlery"></i></div>
-                        <div style="width:85%;">
+                        <div class="input_left_icon"><i class="fa fa-cutlery"></i></div>
+                        <div class="input_right">
                             <SELECT class="form-control" ID="restaurant" ONCHANGE="restchange();">
                                 <OPTION VALUE="0" SELECTED>RESTAURANT</OPTION>
                             </SELECT>
 
                         </div>
-                        <div style="width:15%;text-align: center;"><i class="fa fa-pencil"></i></div>
-                        <div style="width:85%;">
+                        <div class="input_left_icon"><i class="fa fa-pencil"></i></div>
+                        <div class="input_right">
                             <input type="text" id="cookingnotes" class="form-control" placeholder="Additional Notes" maxlength="255"/>
                         </div>
-                        <div style="width:15%;text-align: center;"><i class="fa fa-clock-o"></i></div>
-                        <div style="width:85%;">
+                        <div class="input_left_icon"><i class="fa fa-clock-o"></i></div>
+                        <div class="input_right">
 
                             <div class="input-group">
                                 <SELECT id="deliverytime" TITLE="Delivery Time" class="form-control"/>

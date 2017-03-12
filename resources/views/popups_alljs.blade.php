@@ -176,7 +176,8 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     function confirm2() {
         var Title = "Confirm";
-        var action = function () {};
+        var action = function () {
+        };
         $('#alert-confirm').unbind('click');
         if (arguments.length > 1) {
             for (var index = 0; index < arguments.length; index++) {
@@ -194,12 +195,18 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     function removeindex(arr, index, count, delimiter) {
         if (!isArray(arr)) {
-            if (isUndefined(delimiter)) {delimiter = " ";}
+            if (isUndefined(delimiter)) {
+                delimiter = " ";
+            }
             arr = removeindex(arr.split(delimiter), index, count, delimiter).join(delimiter);
         } else {
-            if (isNaN(index)) {index = hasword(arr, index);}
+            if (isNaN(index)) {
+                index = hasword(arr, index);
+            }
             if (index > -1 && index < arr.length) {
-                if (isUndefined(count)) {count = 1;}
+                if (isUndefined(count)) {
+                    count = 1;
+                }
                 arr.splice(index, count);
             }
         }
@@ -352,8 +359,8 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             itemname = $(element).attr("itemname");
             itemprice = $(element).attr("itemprice");
             itemcat = $(element).attr("itemcat");
-            for(var index = 0; index < theorder.length; index++){
-                if (theorder[index].itemid == itemid){
+            for (var index = 0; index < theorder.length; index++) {
+                if (theorder[index].itemid == itemid) {
                     oldcost = $('#cost_' + index).text();
                     break;
                 }
@@ -381,18 +388,20 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         }
         generatereceipt(true);
         $("#receipt_item_" + ret).hide().fadeIn("fast");
-        if(oldcost){refreshcost(index, oldcost);}
+        if (oldcost) {
+            refreshcost(index, oldcost);
+        }
         return ret;
     }
 
-    function unclone(){
+    function unclone() {
         for (var itemid = 0; itemid < theorder.length; itemid++) {
             delete theorder[itemid]["clone"];
         }
         generatereceipt(true);
     }
 
-    function cloneitem(me, itemid){
+    function cloneitem(me, itemid) {
         var clone = JSON.parse(JSON.stringify(theorder[itemid]));
         clone.clone = true;
         theorder.push(clone);
@@ -401,19 +410,26 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         refreshcost(itemid, oldcost);
     }
 
-    function refreshcost(itemid, oldcost){
+    function refreshcost(itemid, oldcost) {
         $('#cost_' + itemid).hide();
-        $('#oldcost_' + itemid).text(oldcost).fadeOut(function(){
+        $('#oldcost_' + itemid).text(oldcost).fadeOut(function () {
             $('#cost_' + itemid).fadeIn();
         });
     }
 
+
     //convert the order to an HTML receipt
     function generatereceipt(forcefade) {
-        if ($("#myorder").length == 0) {return false;}
+        if ($("#myorder").length == 0) {
+            return false;
+        }
         var HTML = '<div class="clearfix"></div>', tempHTML = "", subtotal = 0, fadein = false, oldvalues = "";
-        if(isUndefined(forcefade)){forcefade = false;}
-        if ($("#newvalues").length > 0) {oldvalues = $("#newvalues").html();}
+        if (isUndefined(forcefade)) {
+            forcefade = false;
+        }
+        if ($("#newvalues").length > 0) {
+            oldvalues = $("#newvalues").html();
+        }
         $("#oldvalues").stop().html("").hide().remove();
         $("#newvalues").stop().html("").hide().remove();
         var itemnames = {toppings: "Pizza", wings_sauce: "lb"};
@@ -421,10 +437,10 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         for (var itemid = 0; itemid < theorder.length; itemid++) {
             var item = theorder[itemid];
             var hasaddons = item.hasOwnProperty("itemaddons") && item["itemaddons"].length > 0;
-            if(!item.hasOwnProperty("clone")) {
+            if (!item.hasOwnProperty("clone")) {
                 var quantity = 1;
-                if(!hasaddons) {
-                    for (var seconditemid = itemid+1; seconditemid < theorder.length; seconditemid++) {
+                if (!hasaddons) {
+                    for (var seconditemid = itemid + 1; seconditemid < theorder.length; seconditemid++) {
                         var clone = theorder[seconditemid];
                         if (item.itemid == clone.itemid) {
                             theorder[seconditemid].clone = true;
@@ -433,7 +449,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                     }
                     theorder[itemid].quantity = quantity;
                 }
-                var totalcost = ((Number(item["itemprice"]) + (Number(item["toppingcost"]) * Number(item["toppingcount"])))*quantity).toFixed(2);
+                var totalcost = ((Number(item["itemprice"]) + (Number(item["toppingcost"]) * Number(item["toppingcount"]))) * quantity).toFixed(2);
                 var category = "pizza";
                 var sprite = "pizza";
                 if (item.hasOwnProperty("category")) {
@@ -467,32 +483,51 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                     sprite += " sprite-" + toclassname(item["itemname"].trim()).replaceAll("_", "-").replace(/\./g, '');
                 }
 
-                tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item">';
-                tempHTML += '<DIV CLASS="sprite pull-left sprite-' + sprite + ' sprite-medium"></DIV>';
-                tempHTML += '<span title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $';
-                tempHTML += item["toppingcost"] + '" class="receipt_itemcost"><span class="receipt-itemname">' + item["itemname"] + '</SPAN></span>';
-                tempHTML += '<button class="fa fa-minus pull-right btn btn-sm btn-black" onclick="removeorderitem(' + itemid + ', ' + quantity + ');"></button>';
-                if (hasaddons) {
-                    tempHTML += '<button class="fa fa-pencil pull-right btn btn-sm btn-black" onclick="edititem(this, ' + itemid + ');"></button>';
-                } else {
-                    tempHTML += '<button class="fa fa-plus pull-right btn btn-sm btn-black" onclick="cloneitem(this, ' + itemid + ');"></button>';
+
+                tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item list-group-item">';
+                tempHTML += '<span CLASS="sprite  sprite-' + sprite + ' sprite-medium"></span>';
+                // tempHTML += '<span title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '" class="receipt_itemcost"></span>';
+                tempHTML += '  <span class="receipt-itemname">' + item["itemname"] + '</SPAN>';
+
+                tempHTML += '  <span class="ml-auto align-middle">';
+
+
+                tempHTML += '<span id="oldcost_' + itemid + '" class=""></span><span class="" id="cost_' + itemid + '">$' + totalcost;
+                if (quantity > 1) {
+                    tempHTML += ' (' + quantity + ')';
                 }
-                tempHTML += '<span id="oldcost_' + itemid + '" class="pull-right"></span><span class="pull-right" id="cost_' + itemid + '">$' + totalcost;
-                if(quantity>1){tempHTML += ' (' + quantity + ')';}
-                tempHTML += '</span></DIV><div class="clearfix"></div>';
+                tempHTML += '</span>';
+
+                tempHTML += '<button class="fa fa-minus  btn btn-sm" onclick="removeorderitem(' + itemid + ', ' + quantity + ');"></button>';
+                if (hasaddons) {
+                    tempHTML += '<button class="fa fa-pencil btn btn-sm" onclick="edititem(this, ' + itemid + ');"></button>';
+                } else {
+                    tempHTML += '<button class="fa fa-plus btn btn-sm " onclick="cloneitem(this, ' + itemid + ');"></button>';
+                }
+
+                tempHTML +='</SPAN>';
+
+                tempHTML += '</div>';
+
 
                 var itemname = "";
                 if (hasaddons) {
                     var tablename = item["itemaddons"][0]["tablename"];
-                    if (item["itemaddons"].length > 1) {itemname = itemnames[tablename];}
+                    if (item["itemaddons"].length > 1) {
+                        itemname = itemnames[tablename];
+                    }
                     for (var currentitem = 0; currentitem < item["itemaddons"].length; currentitem++) {
                         var addons = item["itemaddons"][currentitem];
-                        if (itemname) {tempHTML += ordinals[currentitem] + " " + itemname + ": ";}
+                        if (itemname) {
+                            tempHTML += ordinals[currentitem] + " " + itemname + ": ";
+                        }
                         if (addons["addons"].length == 0) {
                             tempHTML += 'no ' + nonames[tablename] + '';
                         } else {
                             for (var addonid = 0; addonid < addons["addons"].length; addonid++) {
-                                if (addonid > 0) {tempHTML += ", ";}
+                                if (addonid > 0) {
+                                    tempHTML += ", ";
+                                }
                                 var addonname = addons["addons"][addonid]["text"];
                                 var isfree = isaddon_free(tablename, addonname);
                                 if (isfree) {
@@ -502,10 +537,11 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                                 }
                             }
                         }
-                        tempHTML += '<BR>678768';
                     }
                 }
-                HTML += tempHTML + '<hr></DIV>';
+
+
+                HTML += tempHTML;
             }
         }
         var taxes = (subtotal + deliveryfee) * 0.13;//ontario only
@@ -531,13 +567,12 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         } else {
 
 
-
             tempHTML = '<DIV id="newvalues"';
             if (fadein || forcefade) {
                 tempHTML += ' CLASS="dont-show"';
             }
             tempHTML += '>';
-            if(subtotal >= minimumfee) {
+            if (subtotal >= minimumfee) {
                 $("#checkout-btn").show();
             } else {
                 $("#checkout-btn").hide();
@@ -558,7 +593,9 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         }
         $("#myorder").html(HTML + tempHTML);
         if (fadein || forcefade) {
-            if (fadein){$(fadein).hide().fadeIn();}
+            if (fadein) {
+                $(fadein).hide().fadeIn();
+            }
             $("#oldvalues").fadeOut("slow", function () {
                 $("#newvalues").fadeIn();
             });
@@ -685,8 +722,10 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     //remove an item from the order
     var removeorderitemdisabled = false;
     function removeorderitem(index, quantity) {
-        if (removeorderitemdisabled) {return;}
-        if(quantity == 1) {
+        if (removeorderitemdisabled) {
+            return;
+        }
+        if (quantity == 1) {
             removeindex(theorder, index);
             removeorderitemdisabled = true;
             $("#receipt_item_" + index).fadeOut("fast", function () {
@@ -695,10 +734,10 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             });
         } else {
             var original = theorder[index];
-            for (var i = index + 1; i < theorder.length; i++){
-                if(original.itemid == theorder[i].itemid){
+            for (var i = index + 1; i < theorder.length; i++) {
+                if (original.itemid == theorder[i].itemid) {
                     removeindex(theorder, i);
-                    i=theorder.length;
+                    i = theorder.length;
                 }
             }
             var oldcost = $('#cost_' + index).text();
@@ -724,16 +763,28 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     function validaddress() {
         var savedaddress = $("#saveaddresses").val();
-        if (savedaddress == 0) {return false;}
-        if (savedaddress == "addaddress") {return isvalidaddress();}
+        if (savedaddress == 0) {
+            return false;
+        }
+        if (savedaddress == "addaddress") {
+            return isvalidaddress();
+        }
         return true;
     }
 
     function isvalidcreditcard(CardNumber, Month, Year, CVV) {
-        if (isUndefined(CardNumber)) {CardNumber = $("[data-stripe=number]").val();}
-        if (isUndefined(Month)) {Month = $("[data-stripe=exp_month]").val();}
-        if (isUndefined(Year)) {Year = $("[data-stripe=exp_year]").val();}
-        if (isUndefined(CVV)) {CVV = $("[data-stripe=cvc]").val();}
+        if (isUndefined(CardNumber)) {
+            CardNumber = $("[data-stripe=number]").val();
+        }
+        if (isUndefined(Month)) {
+            Month = $("[data-stripe=exp_month]").val();
+        }
+        if (isUndefined(Year)) {
+            Year = $("[data-stripe=exp_year]").val();
+        }
+        if (isUndefined(CVV)) {
+            CVV = $("[data-stripe=cvc]").val();
+        }
         CardNumber = CardNumber.replace(/\D/g, '');
         var nCheck = 0, nDigit = 0, bEven = false;
         for (var n = CardNumber.length - 1; n >= 0; n--) {
@@ -763,19 +814,31 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     function canplaceanorder() {
         var valid_creditcard = true;
-        if (!$("#saved-credit-info").val() && !isvalidcreditcard()) { valid_creditcard = false;}
+        if (!$("#saved-credit-info").val() && !isvalidcreditcard()) {
+            valid_creditcard = false;
+        }
         var visible_errors = $(".error:visible").text().length == 0;
         var selected_rest = $("#restaurant").val() > 0;
         var phone_number = $("#reg_phone").val().length > 0;
         var valid_address = validaddress();
 
         var reasons = new Array();
-        if(!valid_creditcard){reasons.push("valid credit card");}
-        if(!visible_errors){reasons.push("errors in form");}
-        if(!selected_rest){reasons.push("no selected restaurant");}
-        if(!phone_number){reasons.push("phone number missing");}
-        if(!valid_address){reasons.push("valid address");}
-        if (reasons.length > 0){
+        if (!valid_creditcard) {
+            reasons.push("valid credit card");
+        }
+        if (!visible_errors) {
+            reasons.push("errors in form");
+        }
+        if (!selected_rest) {
+            reasons.push("no selected restaurant");
+        }
+        if (!phone_number) {
+            reasons.push("phone number missing");
+        }
+        if (!valid_address) {
+            reasons.push("valid address");
+        }
+        if (reasons.length > 0) {
             log("canplaceanorder: " + reasons.join(", "));
             return false;
         }
@@ -784,8 +847,12 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     //send an order to the server
     function placeorder(StripeResponse) {
-        if (!canplaceanorder()) {return cantplaceorder();}
-        if (isUndefined(StripeResponse)) {StripeResponse = "";}
+        if (!canplaceanorder()) {
+            return cantplaceorder();
+        }
+        if (isUndefined(StripeResponse)) {
+            StripeResponse = "";
+        }
         if (isObject(userdetails)) {
             var addressinfo = getform("#orderinfo");//i don't know why the below 2 won't get included. this forces them to be
             addressinfo["cookingnotes"] = $("#cookingnotes").val();
@@ -925,15 +992,23 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             for (var i = 0; i < userdetails["Orders"].length; i++) {
                 var order = userdetails["Orders"][i];
                 ID = order["id"];
-                if (!First) {First = ID;}
+                if (!First) {
+                    First = ID;
+                }
                 HTML += '<li class="list-group-item" ONCLICK="orders(' + ID + ');"><span class="tag tag-default tag-pill pull-xs-right pad5">ID: ' + ID + ' </span> &nbsp;AT: ' + order["placed_at"] + '<SPAN ID="pastreceipt' + ID + '"></SPAN></li>';
             }
             HTML += '</ul>';
-            if (!First) {HTML = "No orders placed yet";}
+            if (!First) {
+                HTML = "No orders placed yet";
+            }
             alert(HTML, "Orders");
-            if (First) {orders(First)}
+            if (First) {
+                orders(First)
+            }
         } else {
-            if (isUndefined(getJSON)) {getJSON = false;}
+            if (isUndefined(getJSON)) {
+                getJSON = false;
+            }
             var Index = getIterator(userdetails["Orders"], "id", ID);
             if (!getJSON && userdetails["Orders"][Index].hasOwnProperty("Contents")) {
                 $("#pastreceipt" + ID).html(userdetails["Orders"][Index]["Contents"]);
@@ -971,7 +1046,9 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     function getIterator(arr, key, value) {
         for (var i = 0; i < arr.length; i++) {
-            if (arr[i][key] == value) {return i;}
+            if (arr[i][key] == value) {
+                return i;
+            }
         }
         return -1;
     }
@@ -988,7 +1065,9 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     }
 
     function loading(state, where) {
-        if (isUndefined(where)) {where = "UNKNOWN";}
+        if (isUndefined(where)) {
+            where = "UNKNOWN";
+        }
         if (state) {
             log("Loading: " + where);
             $body.addClass("loading");
@@ -1009,26 +1088,12 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             $("#loginmodal").modal("show");
         @endif
 
-        /*
-         //----- OPEN (manual fade-in)
-         $('[data-popup-open]').on('click', function (e) {
-         var targeted_popup_class = jQuery(this).attr('data-popup-open');
-         $('#' + targeted_popup_class).fadeIn("fast");
-         e.preventDefault();
-         });
-         */
 
         //----- CLOSE
         $('[data-popup-close]').on('click', function (e) {
             var targeted_popup_class = jQuery(this).attr('data-popup-close');
-            /*
-             $('#' + targeted_popup_class).fadeOut("fast", function () {
-             $(".modal-backdrop").fadeOut("fast", function () {
-             $('#' + targeted_popup_class).modal("hide");
-             });
-             });
-             e.preventDefault();
-             */
+
+
             $('#' + targeted_popup_class).modal("hide");
         });
 
@@ -1046,7 +1111,9 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     }
 
     function handlelogin(action) {
-        if (isUndefined(action)) {action = "verify";}
+        if (isUndefined(action)) {
+            action = "verify";
+        }
         if (!$("#login_email").val() && action !== "logout") {
             alert(makestring("{email_needed}"));
             return;
@@ -1362,8 +1429,12 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     }
 
     function payfororder() {
-        if (!canplaceanorder()) {return cantplaceorder();}
-        if ($("#orderinfo").find(".error:visible[for]").length > 0) {return false;}
+        if (!canplaceanorder()) {
+            return cantplaceorder();
+        }
+        if ($("#orderinfo").find(".error:visible[for]").length > 0) {
+            return false;
+        }
         var $form = $('#orderinfo');
         $(".payment-errors").html("");
         log("Attempt to pay: " + changecredit());
@@ -1382,20 +1453,39 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         var errormessage = "";
         log("Stripe response");
         switch (status) {
-            case 400: errormessage = "Bad Request:<BR>The request was unacceptable, often due to missing a required parameter."; break;
-            case 401: errormessage = "Unauthorized:<BR>No valid API key provided."; break;
-            case 402: errormessage = "Request Failed:<BR>The parameters were valid but the request failed."; break;
-            case 404: errormessage = "Not Found:<BR>The requested resource doesn't exist."; break;
-            case 409: errormessage = "Conflict:<BR>The request conflicts with another request (perhaps due to using the same idempotent key)."; break;
-            case 429: errormessage = "Too Many Requests:<BR>Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."; break;
-            case 500: case 502: case 503: case 504: errormessage = "Server Errors:<BR>Something went wrong on Stripe's end."; break;
+            case 400:
+                errormessage = "Bad Request:<BR>The request was unacceptable, often due to missing a required parameter.";
+                break;
+            case 401:
+                errormessage = "Unauthorized:<BR>No valid API key provided.";
+                break;
+            case 402:
+                errormessage = "Request Failed:<BR>The parameters were valid but the request failed.";
+                break;
+            case 404:
+                errormessage = "Not Found:<BR>The requested resource doesn't exist.";
+                break;
+            case 409:
+                errormessage = "Conflict:<BR>The request conflicts with another request (perhaps due to using the same idempotent key).";
+                break;
+            case 429:
+                errormessage = "Too Many Requests:<BR>Too many requests hit the API too quickly. We recommend an exponential backoff of your requests.";
+                break;
+            case 500:
+            case 502:
+            case 503:
+            case 504:
+                errormessage = "Server Errors:<BR>Something went wrong on Stripe's end.";
+                break;
             case 200:// - OK	Everything worked as expected.
                 if (response.error) {
                     $('.payment-errors').html(response.error.message);
                 } else {
                     log("Stripe successful");
                     if (!changecredit()) {//save new card to userdetails
-                        if(!isArray(userdetails.Stripe)){userdetails.Stripe = new Array();}//check to be sure
+                        if (!isArray(userdetails.Stripe)) {
+                            userdetails.Stripe = new Array();
+                        }//check to be sure
                         userdetails.Stripe.push(getnewcard(response.id));
                     }
                     placeorder(response.id);
@@ -1408,13 +1498,19 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         }
     }
 
-    function getnewcard(ID){
-        var card_number = $("input[data-stripe=number]").val().replace(/\D/g,'');
+    function getnewcard(ID) {
+        var card_number = $("input[data-stripe=number]").val().replace(/\D/g, '');
         var card_brand = "Unknown (" + card_number.left(1) + ")";
-        switch(card_number.left(1)){
-            case "3": card_brand = "American Express"; break;
-            case "4": card_brand = "Visa"; break;
-            case "5": card_brand = "Master Card"; break;
+        switch (card_number.left(1)) {
+            case "3":
+                card_brand = "American Express";
+                break;
+            case "4":
+                card_brand = "Visa";
+                break;
+            case "5":
+                card_brand = "Master Card";
+                break;
         }
         return {
             id: ID,
@@ -1428,11 +1524,17 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     var closest = false;
     function addresshaschanged() {
-        if (!getcloseststore) {return;}
+        if (!getcloseststore) {
+            return;
+        }
         var formdata = getform("#orderinfo");
         formdata.limit = 10;
-        if (!formdata.latitude || !formdata.longitude) {return;}
-        if (!debugmode) {formdata.radius = MAX_DISTANCE;}
+        if (!formdata.latitude || !formdata.longitude) {
+            return;
+        }
+        if (!debugmode) {
+            formdata.radius = MAX_DISTANCE;
+        }
         skiploadingscreen = true;
         //canplaceorder = false;
 
@@ -1452,7 +1554,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                     for (var i = 0; i < closest.length; i++) {
                         var restaurant = closest[i];
                         restaurant.distance = parseFloat(restaurant.distance);
-                        var distancetext="";
+                        var distancetext = "";
                         if (restaurant.distance <= MAX_DISTANCE || debugmode) {
                             if (restaurant.distance >= MAX_DISTANCE) {
                                 restaurant.restaurant.name += " [DEBUG]"
@@ -1466,7 +1568,9 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                         }
                     }
                 }
-                if (!smallest) {smallest = 0;}
+                if (!smallest) {
+                    smallest = 0;
+                }
                 $("#restaurant").html(HTML);
                 $("#restaurant").val(smallest);
             }
@@ -1649,11 +1753,17 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     function isopen(hours, dayofweek, time) {
         var now = new Date();//doesn't take into account <= because it takes more than 1 minute to place an order
-        if (isUndefined(dayofweek)) {dayofweek = now.getDay();}
-        if (isUndefined(time)) {time = now.getHours() * 100 + now.getMinutes();}
+        if (isUndefined(dayofweek)) {
+            dayofweek = now.getDay();
+        }
+        if (isUndefined(time)) {
+            time = now.getHours() * 100 + now.getMinutes();
+        }
         var today = hours[dayofweek];
         var yesterday = dayofweek - 1;
-        if (yesterday < 0) {yesterday = 6;}
+        if (yesterday < 0) {
+            yesterday = 6;
+        }
         var yesterdaysdate = yesterday;
         yesterday = hours[yesterday];
         today.open = Number(today.open);
@@ -1661,14 +1771,20 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         yesterday.open = Number(yesterday.open);
         yesterday.close = Number(yesterday.close);
         if (yesterday.open > -1 && yesterday.close > -1 && yesterday.close < yesterday.open) {
-            if (yesterday.close > time) {return yesterdaysdate;}
+            if (yesterday.close > time) {
+                return yesterdaysdate;
+            }
         }
         if (today.open > -1 && today.close > -1) {
             if (today.close < today.open) {
                 //log("Day: " + dayofweek + " time: " + time + " open: " + today.open + " close: " + today.close );
-                if (time >= today.open || time < today.close) {return dayofweek;}
+                if (time >= today.open || time < today.close) {
+                    return dayofweek;
+                }
             } else {
-                if (time >= today.open && time < today.close) {return dayofweek;}
+                if (time >= today.open && time < today.close) {
+                    return dayofweek;
+                }
             }
         }
         return -1;//closed
@@ -1761,7 +1877,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     function generateaddons(ItemIndex, ToppingIndex) {
         var HTML = '';
         var totaltoppings = 0;
-        if(isUndefined(ItemIndex)){
+        if (isUndefined(ItemIndex)) {
             ItemIndex = -1;
             ToppingIndex = -1;
         }
@@ -1793,11 +1909,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             }
             HTML += '">' + '<div class="btn " id="item_' + itemindex + '">' + ucfirst(item_name) + ' #' + (itemindex + 1) + '</div>';
 
-            /*
-             if (currentaddonlist[itemindex].length == 0) {
-             tempstr += '<div class="btn btn-sm btn-secondary" >No ' + addonname + '</div>';
-             }
-             */
+
             for (var i = 0; i < currentaddonlist[itemindex].length; i++) {
                 var currentaddon = currentaddonlist[itemindex][i];
                 var qualifier = "";
@@ -1829,7 +1941,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         $(".currentitem.thisside").trigger("click");
         refreshremovebutton();
 
-        if(ItemIndex > -1){
+        if (ItemIndex > -1) {
             $("#topping_" + ItemIndex + "_" + ToppingIndex).hide().fadeTo('fast', 1);
         }
     }
@@ -1859,7 +1971,9 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     function list_addons(table, halves) {
         currentaddontype = table;
         var HTML = '<DIV class="receipt-addons-list"><DIV id="theaddons"></DIV></DIV>';
-        if (currentstyle == 0) {HTML += '<DIV CLASS=" addonlist" ID="addontypes">';}
+        if (currentstyle == 0) {
+            HTML += '<DIV CLASS=" addonlist" ID="addontypes">';
+        }
         var types = Object.keys(alladdons[table]);
         if (currentstyle == 0) {
             $("#addonlist").html(HTML + '</DIV>');
@@ -1991,7 +2105,9 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     }
 
     function addtoitem() {
-        if (!hashalves) {currentside = 1;}
+        if (!hashalves) {
+            currentside = 1;
+        }
         var removed = "";
         var group = getaddon_group(currentaddontype, addonname);
         currentaddonlist[currentitemindex].push({
@@ -2017,18 +2133,18 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             $("#addonall").remove();
             $("#addonedit").remove();
         }
-        if (removed) {removed += " was removed";}
+        if (removed) {
+            removed += " was removed";
+        }
         // $("#removelist").text(removed);
-        generateaddons(currentitemindex, currentaddonlist[currentitemindex].length-1);
+        generateaddons(currentitemindex, currentaddonlist[currentitemindex].length - 1);
     }
 
     function selectitem(e, index) {
         $(".currentitem").removeClass("thisside");
         $(".currentitem" + index).addClass("thisside");
-        /*
-         $(".itemcontents").hide();
-         $(".itemcontents" + index).show();
-         */
+
+
         currentitemindex = index;
         refreshremovebutton();
     }
@@ -2075,32 +2191,9 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     @endif
 
     function scrolltobottom() {
-        //window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);//instantaneous
+
         $('html,body').animate({scrollTop: document.body.scrollHeight}, "slow");
     }
-
-
-    /*
-     function OnFirstLoad() {
-     if (document.attachEvent) {
-     document.attachEvent('onscroll', scrollEvent);
-     } else if (document.addEventListener) {
-     document.addEventListener('scroll', scrollEvent, false);
-     }
-     log("Scroll monitor!");
-     }
-     $(document).ready(function () {
-     OnFirstLoad();
-     });
-     function stackTrace() {
-     var err = new Error();
-     return err.stack;
-     }
-     function scrollEvent(e) {
-     var caller = stackTrace();
-     log("SCROLLING: " + caller);
-     }
-     */
 </SCRIPT>
 
 <script type="text/javascript">

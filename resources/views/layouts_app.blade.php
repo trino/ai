@@ -481,8 +481,8 @@
             <?= view("popups_sticky_footer")->render(); ?>
 
             <div class="container-fluid hidden-sm-down">
-                <div class="row py-2">
-                    <div class="col-sm-12" style="padding:2rem">
+                <div class="row">
+                    <div class="col-sm-12 py-1">
                         <div class="pull-left">
                             <span class="text-white text-muted">&copy; 2017</span>
                         </div>

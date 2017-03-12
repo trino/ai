@@ -190,7 +190,7 @@
                 <SPAN ID="modal-itemcat"></SPAN>
             </div>
 
-            <div class="modal-header py-2">
+            <div class="modal-header">
                 <h2 id="myModalLabel"><SPAN ID="modal-itemname"></SPAN><br>
                   <small class="pull-left">  <small ID="toppingcost" class="clearfix text-white">$<SPAN id="modal-toppingcost"></SPAN> per topping</small>
                   </small>
