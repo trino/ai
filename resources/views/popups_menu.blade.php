@@ -138,6 +138,8 @@
                     if (left($menuitem['item'], 1) == "2") {
                         $itemclass = "241_pizza";
                     }
+                    $icon = '+';
+
                 }
 
                 $total = 0;
@@ -147,11 +149,11 @@
                 }
                 if ($total) {
                     $HTML = ' data-toggle="modal" data-backdrop="static" data-target="#menumodal" onclick="loadmodal(this);"';
-                    $icon = '+';
                 } else {
                     $HTML = ' onclick="additemtoorder(this, -1);"';
                     $icon = '';
                 }
+
                 echo $HTML;
                 ?>
             >
@@ -191,8 +193,8 @@
             </div>
 
             <div class="modal-header">
-                <h2 id="myModalLabel"><SPAN ID="modal-itemname"></SPAN><br>
-                  <small class="pull-left">  <small ID="toppingcost" class="clearfix text-white">$<SPAN id="modal-toppingcost"></SPAN> per topping</small>
+                <h2 id="myModalLabel"><SPAN ID="modal-itemname"></SPAN>
+                  <small class="text-normal">  <small ID="toppingcost" class="clearfix nowrap">$<SPAN id="modal-toppingcost"></SPAN> per topping</small>
                   </small>
                 </h2>
                 <button data-dismiss="modal" class="btn btn-sm btn-danger"><i class="fa fa-close"></i></button>

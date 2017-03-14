@@ -26,7 +26,7 @@ startfile("popups_login");
                     <div class="clearfix mt-2"></div>
                     <BUTTON CLASS="btn btn-primary pull-right" onclick="handlelogin('login');">LOG IN</BUTTON>
                     <div class="clearfix"></div>
-                    <BUTTON CLASS="btn mt-3 pull-right btn-sm" onclick="handlelogin('forgotpassword');">
+                    <BUTTON CLASS="btn btn-secondary mt-3 pull-right btn-sm" onclick="handlelogin('forgotpassword');">
                         FORGOT PASSWORD</BUTTON>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="buzz">

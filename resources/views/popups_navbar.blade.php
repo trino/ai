@@ -1,5 +1,5 @@
 <nav class="navbar-fixed-top navbar bg-danger dont-print text-white">
-    <div class="container-fluid" style="padding: .5rem 1rem;width:100% !important;">
+    <div class="container-fluid" style="padding: 0rem ;width:100% !important;">
         <div class="text-white">
             <a HREF="<?= webroot("public/index"); ?>" onclick="history.go(0);" class="text-white pull-left londonpizza" href="/">
                <i class="fa fa-home pr-1"></i> londonpizza.ca

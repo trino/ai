@@ -498,11 +498,11 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 }
                 tempHTML += '</span>';
 
-                tempHTML += '<button class="fa fa-minus  btn btn-sm" onclick="removeorderitem(' + itemid + ', ' + quantity + ');"></button>';
+                tempHTML += '<button class="fa fa-minus   btn-sm" onclick="removeorderitem(' + itemid + ', ' + quantity + ');"></button>';
                 if (hasaddons) {
-                    tempHTML += '<button class="fa fa-pencil btn btn-sm" onclick="edititem(this, ' + itemid + ');"></button>';
+                    tempHTML += '<button class="fa fa-pencil  btn-sm" onclick="edititem(this, ' + itemid + ');"></button>';
                 } else {
-                    tempHTML += '<button class="fa fa-plus btn btn-sm " onclick="cloneitem(this, ' + itemid + ');"></button>';
+                    tempHTML += '<button class="fa fa-plus  btn-sm " onclick="cloneitem(this, ' + itemid + ');"></button>';
                 }
 
                 tempHTML +='</SPAN>';
@@ -576,7 +576,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 $("#checkout-btn").show();
             } else {
                 $("#checkout-btn").hide();
-                tempHTML += '<SPAN CLASS=" badge badge-warning pull-center">Minimum sub-total $' + minimumfee + ' for delivery</SPAN>';
+                tempHTML += '<SPAN CLASS=" badge badge-warning ">Minimum sub-total $' + minimumfee + ' for delivery</SPAN><br>';
             }
 
 

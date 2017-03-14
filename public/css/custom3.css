@@ -1,26 +1,60 @@
-.width15{width: 15%;text-align: right}
-.width85{width: 85%;}
-.list-group-item {
-    padding: .25rem .25rem;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.width15 {
+    width: 15%;
+    text-align: right
 }
+
+.width85 {
+    width: 85%;
+}
+
+.list-group-item {
+    padding: .25rem .5rem !important;
+}
+.col-lg-3{
+
+
+    padding:1rem .5rem !important;
+}
+
 
 h2 {
     color: #d9534f !important;
-    font-size: 1.5rem !important;
-    margin: .5rem 0;
+    font-size: 1rem !important;
+    line-height: 1rem !important;
+    padding:0 !important;
+    margin: .5rem 0 !important;
 }
+.text-normal{color: #373a3c !important;}
 .modal-header {
-
+background-color: #d9534f!important;
 }
-
-.modal-header h2 {
-    margin: 0 !important;
+.modal-header >h2{
+    color:white !important;
 }
-
-
-
-
-
 .bg-secondary {
 }
 
@@ -47,7 +81,7 @@ body {
     -moz-animation: fadein 1s; /* Firefox */
     -webkit-animation: fadein 1s; /* Safari and Chrome */
     -o-animation: fadein 1s; /* Opera */
-    background: #000 !important;
+    background: #dadada !important;
 }
 
 /* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
@@ -89,8 +123,8 @@ body.loading #loadingmodal {
     /*
     overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis;
-    */
+    */       overflow: hidden;
+padding:.25rem .1rem;
     text-align: left !important;
     border-radius: 0 !important;
     border: 1px solid #efefef;
@@ -208,7 +242,7 @@ body.loading #loadingmodal {
 }
 
 .modal-content {
-    border: 5px solid #efefef;
+    border: 5px solid #dadada;
 }
 
 .container-fluid {
@@ -220,7 +254,7 @@ body.loading #loadingmodal {
 }
 
 .bg-white {
-    background-color: #fff;
+    background-color: #fff !important;
 }
 
 .bg-black {
@@ -232,7 +266,7 @@ body.loading #loadingmodal {
 }
 
 .addon-selected, .thisside {
-    background: #444 !important;
+    background: #999 !important;
 }
 
 .myorderhr {
@@ -321,4 +355,43 @@ body.loading #loadingmodal {
     background-repeat: no-repeat;
     width: 64px;
     height: 64px;
+    margin-right: 20px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

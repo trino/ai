@@ -122,7 +122,7 @@
     ?>
     <DIV class="row" style="background: white;border-radius: 0">
         <div class="col-sm-6">
-            <h1>About Us </h1>
+            <h2>About Us </h2>
 
             <div class="card-block  bg-success text-white">
                 <h2 class="text-white MT-0">Our Duty </h2>
@@ -131,14 +131,12 @@
                     Created by Van and Roy, natives of Hamilton, Ontario.
                     We've seen what's out there for food delivery and we're confident that we can do better.
                     With your support I'm sure we will help many people in the years to come and that's why
-                    we're pledging to donate $0.50 from every order we receive to the local food drive.
+                    we're pledging to donate $.25 from every order we receive to the local food drive.
                     This is the lifetime commitment of londonpizza.ca
                 </p>
 
                 <p>Our official launch will be on <?= $launchdate; ?></p>
-                <p>
-                    "The app for the people, by the people".
-                </p><hr>
+            <hr>
 
                 <div class="btn-outlined-danger text-center pt-1">
                     <strong><?= $launchdate . $launched; ?></strong>
@@ -151,7 +149,7 @@
         <div class="col-sm-6">
 
 
-        <h1>FAQ</h1>
+        <h2>FAQ</h2>
     <?php
         $site_name = "londonpizza.ca";
         $email = '<A HREF="mailto:info@trinoweb.ca?subject=' . $site_name . '">info@trinoweb.ca</A>';

@@ -1,15 +1,14 @@
 <?php startfile("popups_checkout"); ?>
-<button class="btn btn-sm pull-right btn-danger dont-show" ONCLICK="confirmclearorder();" id="confirmclearorder"><i class="fa fa-close"></i></button>
+<button class="btn btn-sm pull-right dont-show" ONCLICK="confirmclearorder();" id="confirmclearorder"><i class="fa fa-close"></i></button>
 
 <h2 class="text-white">My Order</h2>
 
 <div id="myorder" class=""></div>
 
-
-<button id="checkout-btn" class="btn btn-warning btn-xl btn-block" onclick="showcheckout();">
+<button id="checkout-btn" class=" btn btn-warning btn-xl btn-block" onclick="showcheckout();">
     <i class="fa fa-shopping-basket"></i>
 </button>
-
+<div class="pa-3">&nbsp;</div>
 
 <div class="modal" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" role="document">

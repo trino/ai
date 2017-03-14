@@ -45,7 +45,7 @@
                 }
             ?>
 
-        <div class="col-lg-3 col-md-12 card_design bg-danger">
+        <div class="col-lg-3 col-md-12 bg-secondary">
             @include("popups_checkout")
         </div>
 
@@ -56,4 +56,3 @@
     ?>
 
 @endsection
-

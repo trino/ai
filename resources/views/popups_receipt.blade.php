@@ -124,14 +124,22 @@
 @if($style==1)
     <h2 class="mt-0">Order for {{ $duration }}</h2>
     @if($timer)
-        <div style="font-size:1.25rem;padding:.75rem;" CLASS="countdown badge badge-pill badge-success" hours="0" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"><?= $time; ?></div>
+        <div style="font-size: 2rem !important;" CLASS="countdown btn-lg badge badge-pill badge-success" hours="0" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"><?= $time; ?></div>
     @endif
-    <div class="clearfix"></div>
+
+
+    <TABLE <?= inline("table table-sm table-bordered");  ?> oldclass="table-responsive">
+        <TR>
+<td>
     <h2>Delivery Info</h2>
     <?php
        echo $Order["name"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . " " . $Order["province"] . " " . $Order["postalcode"] . '<BR>' . $Order["unit"];
     ?>
+
+
+</td>
     @if(!isset($JSON))
+    <td>
         <h2>Restaurant</h2>
         Order #<span ID="receipt_id"><?= $orderid; ?></span><br>
         <?php
@@ -143,7 +151,13 @@
                 . '"><INPUT TYPE="HIDDEN" ID="rest_latitude" VALUE="' . $Raddress["latitude"]
                 . '"><INPUT TYPE="HIDDEN" ID="rest_longitude" VALUE="' . $Raddress["longitude"] . '">';
         ?>
+
+    </td>
+
     @endif
+        </TR>
+    </TABLE>
+
     <h2>Receipt</h2>
     <TABLE <?= inline("table table-sm table-bordered");  ?> oldclass="table-responsive">
         <TR>
