@@ -13,10 +13,24 @@
             width: 100px;
         }
 
+        .btn-wide{
+            width: 150px !important;
+        }
+
         jump, .jump {
             text-decoration: underline;
             cursor: pointer;
             color: blue;
+        }
+
+        jump.event{
+            text-decoration: none !important;
+            font-weight: bold;
+            color: black !important;
+        }
+
+        .no-u{
+            text-decoration: none !important;
         }
 
         #gotobottom{
@@ -73,6 +87,10 @@
         .tab{
             margin-left: 25px;
         }
+
+        .btn-border{
+            border: 1px solid black !important;
+        }
     </STYLE>
     <SCRIPT>
         $(document).ready(function () {
@@ -85,7 +103,7 @@
                 }
             });
             $("#profileinfo").remove();
-            $(".sticky-footer").remove();
+            //$(".sticky-footer").remove();
 
             $('a[href=#top]').click(function(event){
                 event.preventDefault();
@@ -121,7 +139,7 @@
         $orders =  first('SELECT count(*) as count FROM orders WHERE status <> 2 AND status <> 4 AND placed_at > "' . $SQLdate . '"')["count"];
     ?>
     <DIV class="row" style="background: white;border-radius: 0">
-        <div class="col-sm-6">
+        <div class="col-sm-12">
             <h2>About Us </h2>
 
             <div class="card-block  bg-success text-white">
@@ -136,7 +154,8 @@
                 </p>
 
                 <p>Our official launch will be on <?= $launchdate; ?></p>
-            <hr>
+
+                <hr>
 
                 <div class="btn-outlined-danger text-center pt-1">
                     <strong><?= $launchdate . $launched; ?></strong>
@@ -146,7 +165,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-12">
 
 
         <h2>FAQ</h2>
@@ -219,7 +238,7 @@
 
         newlist("Users");
         newitem("Signing in", "Enter your email address and password in the <A HREF='" . webroot("/") . "'>Log In</A> page and click <button class='btn btn-sm btn-primary'>LOG IN</button>");
-        newitem("Forgot password", "Enter the email address you registered with, click <span class='jump'>Forgot Password</span> and a new password will be emailed to you");
+        newitem("Forgot password", "Enter the email address you registered with, click <button class='btn btn-secondary btn-wide btn-sm'>Forgot Password</button> and a new password will be emailed to you");
         newitem("Registering", "Click the 'Signup' tab, enter a valid London address into the 'Delivery Address' field (use 'Address Notes' for things like apartment/unit/back door/etc), enter your name/email/password and click <Button class='btn btn-sm btn-primary'>Register</button>");
         newitem('<i class="fa fa-fw fa-bars"></i> button', "A dropdown menu with various options, located in the top-right corner");
         newitem('<i class="fa fa-fw fa-user"></i> <SPAN CLASS="session_name"></SPAN>', "A popup to edit your user name/phone number/password/credit card numbers/addresses");
@@ -228,11 +247,11 @@
 
         newlist('How to order');
         newitem("Add an item to your cart", "Click the item on the menu. If it has a + next to the price, there will be a popup allowing you to edit the item options before adding it to the receipt");
-        newitem("Topping/sauces popup", 'If the menu item contains more than 1 item (ie: 2 pizzas), there will be a list at the top of this popup to select which item to edit. Clicking any of the options from the list will add it to the selected item. Some options are part of a group and only 1 option in that group can be added to an item (ie: well done and lightly done will conflict, so only 1 can be added to a pizza). The price will update automatically when you add options.<BR><button class="btn btn-sm mt-0 btn-success bg-secondary flat-border"><i class="fa fa-check"></i></button> will add the item with the options you selected to the receipt.<BR><button class="btn btn-sm bg-secondary"><i class="fa fa-fw fa-arrow-left"></i></button> will remove the last option added to the selected item');
-        newitem("Editing an item in your cart", 'Click <i class="fa fa-pencil fa-black"></i> to the right of the item in the receipt, the same popup you used to add the item will appear');
-        newitem("Remove an item from your cart", 'Click <i class="fa fa-close fa-black"></i> to the right of the item in the receipt');
-        newitem("Duplicating an item in your cart", 'Click <i class="fa fa-plus fa-black"></i> to the right of the item in the receipt (if it is a simple item without any addons/toppings)');
-        newitem("Empty your cart", 'Click <i class="fa fa-close fa-black"></i> at the top-right corner of your receipt');
+        newitem("Topping/sauces popup", 'If the menu item contains more than 1 item (ie: 2 pizzas), there will be a list at the top of this popup to select which item to edit. Clicking any of the options from the list will add it to the selected item. Some options are part of a group and only 1 option in that group can be added to an item (ie: well done and lightly done will conflict, so only 1 can be added to a pizza). The price will update automatically when you add options.<BR><button class="btn btn-sm mt-0 toppings_btn bg-secondary flat-border"><i class="fa fa-check"></i><SPAN CLASS="pull-right">$X.XX</SPAN></button> will add the item with the options you selected to the receipt.<BR><button class="btn btn-sm bg-secondary toppings_btn"><i class="fa fa-fw fa-arrow-left"></i></button> will remove the last option added to the selected item, if it is not dimmed');
+        newitem("Editing an item in your cart", 'Click <button class="fa fa-pencil btn-sm"></button> to the right of the item in the receipt, the same popup you used to add the item will appear');
+        newitem("Remove an item from your cart", 'Click <button class="fa fa-minus btn-sm"></button> to the right of the item in the receipt');
+        newitem("Duplicating an item in your cart", 'Click <button class="fa fa-plus btn-sm"></button> to the right of the item in the receipt (if it is a simple item without any addons/toppings)');
+        newitem("Empty your cart", 'Click <i class="fa fa-close"></i> at the top-right corner of your receipt');
         newitem('<i class="fa fa-fw fa-shopping-basket"></i>', "Click this when you're done placing your order. You'll need to enter your <jump>Payment Information</jump>, <jump>Delivery Address</jump>, <jump>Preferred Restaurant</jump>, <jump>Delivery Time</jump>, then click <BUTTON CLASS='btn btn-primary btn-sm'>Place order</BUTTON>.<BR>This button will only be visible once your order meets the minumum of: $" . $minimum . " before taxes and delivery", "btn btn-warning btn-sm btn-block");
         newitem("Payment Information", "If you have a saved card (note: Cards are saved with Stripe, not our servers) you can select it from the dropdown, or use 'Add Card' to add a new one. Otherwise just enter your credit card information");
         newitem("Delivery Address", "If you have a saved address you can select it from the dropdown, or select 'Add Address' to add a new address. Otherwise just enter a valid London address");
@@ -243,18 +262,19 @@
             newlist("Restaurants");
             newitem("Registering", "You can only register as a regular user. To get escalated to a restaurant account requires you to contact an admin at: " . $email);
             newitem('<i class="fa fa-fw fa-user-plus"></i> Orders List', "Shows a list of orders for your restaurant");
-            newitem("View", "View the contents of the order, a map showing the customer's address, and gives the options to Confirm, Email and Decline the order", "btn btn-sm btn-success");
-            newitem("Delete", "Trigger the <jump>order_declined</jump> event and delete the order from the system", "btn btn-sm btn-danger");
-            newitem("Confirm", "Mark the order as confirmed and trigger the <jump>order_confirmed</jump> event", "btn btn-sm btn-primary");
-            newitem('<i class="fa fa-fw fa-envelope"></i> Email', "Re-send the receipt to customer via the <jump>order_placed</jump> event", "btn btn-sm btn-secondary red");
-            newitem("Decline", 'Mark the order as declined and trigger the <jump>order_declined</jump> event', "btn btn-sm btn-danger");
+            newitem("View", "View the contents of the order, a map showing the customer's address, and gives the options to Confirm, Email and Decline the order", "btn btn-sm btn-success btn-border");
+            newitem("Delete", "Trigger the <jump class='event'>order_declined</jump> event and delete the order from the system", "btn btn-sm btn-danger btn-border");
+            newitem("Confirmed", "Mark the order as confirmed and trigger the <jump class='event'>order_confirmed</jump> event", "btn btn-sm btn-primary btn-border");
+            newitem('<i class="fa fa-fw fa-envelope"></i> Email', "Re-send the receipt to customer via the <jump class='event'>order_placed</jump> event", "btn btn-sm btn-secondary red btn-border");
+            newitem("Declined", 'Mark the order as declined and trigger the <jump class="event">order_declined</jump> event', "btn btn-sm btn-danger btn-border");
+            newitem("Delivered", 'Mark the order as delivered and trigger the <jump class="event">order_delivered</jump> event', "btn btn-sm btn-warning btn-border");
             newitem("FILE NOT FOUND", "The order file is missing. Delete the order as the order itself is useless");
 
             newlist("Communication Actions");
             newitem("Editing actions", 'This can only done in <B><i class="fa fa-fw fa-user-plus"></i> Actions list</B>. This tells the system who to contact and how depending on specific events.<BR>(<SPAN class="reason">[reason]</SPAN> is replaced with the message entered by the restaurant, and must be lower-cased)');
             actionitem("order_placed", "the order is placed");
-            actionitem("order_confirmed", 'the <jump class="btn btn-sm btn-primary">Confirm</jump> button is clicked');
-            actionitem("order_declined", 'the <jump class="btn btn-sm btn-danger">Decline</jump> or <jump class="btn btn-sm btn-danger">Delete</jump> buttons are clicked.');
+            actionitem("order_confirmed", 'the <jump class="btn btn-sm btn-primary btn-border no-u">Confirmed</jump> button is clicked');
+            actionitem("order_declined", 'the <jump class="btn btn-sm btn-danger btn-border no-u">Declined</jump> or <jump class="btn btn-sm btn-danger btn-border no-u">Deleted</jump> buttons are clicked.');
             actionitem("user_registered", 'a new user is registered. (Since no restaurant is involved in this event, do not set the party of this event to the Restaurant)');
 
             if (read("profiletype") == 1) {
@@ -289,9 +309,9 @@
             <p>If you are accepting these terms of use on behalf a corporation or other entity, you represent and warrant that you have the necessary right and authority to enter into these terms of
                 use on behalf of such corporation or entity and to bind such corporation or entity to these terms of use. </p>
 
-            <?php /*p(); Our Service: The {{ $site_name }} service allows users to place "Meal of the Day" orders for food delivery or take out from participating restaurants identified on the website (the
-                'Service'). You can use the Service from a computer or personal mobile device via an internet connection or data plan {{ $site_name }}, and the restaurants offering service, are not
-                responsible for any data or Internet usage fees. {{ $site_name }} is an ordering service only, and does not prepare the food or provide delivery service. Therefore we are not liable
+            <?php /*p(); Our Service: The  $site_name service allows users to place "Meal of the Day" orders for food delivery or take out from participating restaurants identified on the website (the
+                'Service'). You can use the Service from a computer or personal mobile device via an internet connection or data plan $site_name, and the restaurants offering service, are not
+                responsible for any data or Internet usage fees. $site_name is an ordering service only, and does not prepare the food or provide delivery service. Therefore we are not liable
                 for the actions or omissions of any third-party independent courier contractors or restaurants that provide services through our Service. This is not limited to but includes issues
                 regarding food quality or timeliness of delivery. </p> */ ?>
 

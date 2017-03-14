@@ -3,7 +3,7 @@
 
 <h2 class="text-white">My Order</h2>
 
-<div id="myorder" class=""></div>
+<div id="myorder"></div>
 
 <button id="checkout-btn" class=" btn btn-warning btn-xl btn-block" onclick="showcheckout();">
     <i class="fa fa-shopping-basket"></i>

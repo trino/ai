@@ -16,13 +16,9 @@ startfile("popups_login");
             <!-- Tab panes -->
             <div class="tab-content mt-1">
                 <div role="tabpanel" class=" tab-pane fade in active" id="profile">
+                    <div><INPUT TYPE="text" id="login_email" placeholder="Email" class="form-control" onkeydown="enterkey(event, '#login_password');"></div>
+                    <div><INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control" onkeydown="enterkey(event, 'login');"></div>
 
-                    <div class=""></div>
-                    <div class=""><INPUT TYPE="text" id="login_email" placeholder="Email" class="form-control" onkeydown="enterkey(event, '#login_password');">
-                    </div>
-                    <div class=""></div>
-                    <div class=""><INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control" onkeydown="enterkey(event, 'login');">
-                    </div>
                     <div class="clearfix mt-2"></div>
                     <BUTTON CLASS="btn btn-primary pull-right" onclick="handlelogin('login');">LOG IN</BUTTON>
                     <div class="clearfix"></div>
@@ -38,9 +34,9 @@ startfile("popups_login");
                     <h2>Delivery</h2>
                     <FORM id="addform">
                         <?php
-                        if (!read("id")) {
-                            echo view("popups_address", array("style" => 1))->render();
-                        }
+                            if (!read("id")) {
+                                echo view("popups_address", array("style" => 1))->render();
+                            }
                         ?>
                     </FORM>
                     <h2>Profile</h2>

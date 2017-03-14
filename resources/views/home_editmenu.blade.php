@@ -475,7 +475,7 @@
 
             $(document).ready(function () {
                 $("#profileinfo").remove();
-                $(".sticky-footer").remove();
+                //$(".sticky-footer").remove();
             });
         </SCRIPT>
     @endif

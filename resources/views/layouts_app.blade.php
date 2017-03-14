@@ -389,7 +389,7 @@
 <div class="container-fluid">
     @yield('content')
 </div>
-<?= view("popups_sticky_footer")->render(); ?>
+
 <div class="container-fluid hidden-sm-down">
     <div class="row">
         <div class="col-sm-12 py-1">

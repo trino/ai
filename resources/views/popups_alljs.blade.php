@@ -487,22 +487,22 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item list-group-item">';
                 tempHTML += '<span CLASS="sprite  sprite-' + sprite + ' sprite-medium"></span>';
                 // tempHTML += '<span title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '" class="receipt_itemcost"></span>';
-                tempHTML += '  <span class="receipt-itemname">' + item["itemname"] + '</SPAN>';
+                tempHTML += ' <span class="receipt-itemname">' + item["itemname"] + '</SPAN>';
 
-                tempHTML += '  <span class="ml-auto align-middle">';
+                tempHTML += ' <span class="ml-auto align-middle">';
 
 
-                tempHTML += '<span id="oldcost_' + itemid + '" class=""></span><span class="" id="cost_' + itemid + '">$' + totalcost;
+                tempHTML += '<span id="oldcost_' + itemid + '"></span><span id="cost_' + itemid + '">$' + totalcost;
                 if (quantity > 1) {
                     tempHTML += ' (' + quantity + ')';
                 }
                 tempHTML += '</span>';
 
-                tempHTML += '<button class="fa fa-minus   btn-sm" onclick="removeorderitem(' + itemid + ', ' + quantity + ');"></button>';
+                tempHTML += '<button class="fa fa-minus btn-sm" onclick="removeorderitem(' + itemid + ', ' + quantity + ');"></button>';
                 if (hasaddons) {
-                    tempHTML += '<button class="fa fa-pencil  btn-sm" onclick="edititem(this, ' + itemid + ');"></button>';
+                    tempHTML += '<button class="fa fa-pencil btn-sm" onclick="edititem(this, ' + itemid + ');"></button>';
                 } else {
-                    tempHTML += '<button class="fa fa-plus  btn-sm " onclick="cloneitem(this, ' + itemid + ');"></button>';
+                    tempHTML += '<button class="fa fa-plus btn-sm" onclick="cloneitem(this, ' + itemid + ');"></button>';
                 }
 
                 tempHTML +='</SPAN>';
@@ -2024,7 +2024,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         var addontype = $(e.target).text();
         for (var i = 0; i < alladdons[currentaddontype][addontype].length; i++) {
             var addon = alladdons[currentaddontype][addontype][i];
-            HTML += '<DIV class=" addon-addon">' + addon + '</DIV>';
+            HTML += '<DIV class="addon-addon">' + addon + '</DIV>';
         }
         $(e.target).after(HTML + '</DIV>');
         $(".addon-addon").click(
@@ -2075,7 +2075,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             if (i == defaultindex) {
                 selected = " addon-selected";
             }
-            HTML += '<DIV CLASS=" addon-list  ' + classname + selected + '" ONCLICK="list_addon_list(event, ' + "'" + classname + "', " + i + ');">' + data[i] + '</DIV>';
+            HTML += '<DIV CLASS="addon-list ' + classname + selected + '" ONCLICK="list_addon_list(event, ' + "'" + classname + "', " + i + ');">' + data[i] + '</DIV>';
         }
         switch (classname) {
             case "addon-qualifier":

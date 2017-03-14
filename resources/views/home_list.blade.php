@@ -61,6 +61,7 @@
     $showmap=false;
     $searchcols=false;
     $profiletype = read("profiletype");
+    $actionlist = [];
     switch($table){
         case "all":case "debug"://system value
             $datafields=false;
