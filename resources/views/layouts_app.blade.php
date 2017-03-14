@@ -47,7 +47,11 @@
 
 
     <style>
-
+        .modal-backdrop
+        {
+            background: #000;
+            opacity:.9 !important;
+        }
 
         .input_left_icon {
             width: 15%;

@@ -124,7 +124,7 @@
 @if($style==1)
     <h2 class="mt-0">Order for {{ $duration }}</h2>
     @if($timer)
-        <div style="font-size: 2rem !important;" CLASS="countdown btn-lg badge badge-pill badge-success" hours="0" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"><?= $time; ?></div>
+        <div style="font-size: 2rem !important;" CLASS="mb-2 countdown btn-lg badge badge-pill badge-success" hours="0" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"><?= $time; ?></div>
     @endif
 
 
