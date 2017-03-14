@@ -49,7 +49,7 @@
                     </FORM>
                     <h2>Profile</h2>
                     <FORM Name="regform" id="regform">
-                        <?= view("popups_edituser", array("phone" => false, "autocomplete" => "new-password", "required" => true))->render(); ?>
+                        <?= view("popups_edituser", array("phone" => false, "autocomplete" => "new-password", "required" => true, "icons" => true))->render(); ?>
                     </FORM>
                     <div class="clearfix mt-2"></div>
                     <button class="btn btn-primary pull-right" onclick="register();">
@@ -120,9 +120,9 @@
                 }
             },
             submitHandler: function (form) {
-                if (!isvalidaddress()) {
-                    return false;
-                }
+                log("HERE");
+                if (!isvalidaddress()) {return false;}
+                log("HERE 2");
                 var formdata = getform("#regform");
                 formdata["action"] = "registration";
                 formdata["_token"] = token;

@@ -213,14 +213,15 @@ class AuthController extends Controller {
     function sendverifemail($email, $RequireAuthorization, $oldpassword){
         $user = first("SELECT * FROM users WHERE email = '" . $email . "'");
         $user["password"] = $oldpassword;
+        $user["requiresauth"] = $RequireAuthorization;
         if($RequireAuthorization) {
             $user["mail_subject"] = "Please click the verify button";
-            $text = $this->sendEMail("email_verify", $user);
         } else {
             $user["mail_subject"] = "You have successfully registered!";
-            $user["body"] = "Thank you for registering";
-            $text = $this->sendEMail("email_test", $user);
+            //$user["body"] = "Thank you for registering";
+            //$text = $this->sendEMail("email_test", $user);
         }
+        $text = $this->sendEMail("email_verify", $user);
         if($text){
             $ret["Status"] = false;
             $ret["Reason"] = $text;

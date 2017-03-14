@@ -1174,14 +1174,23 @@
                         return false;
                     }
 
-                    function changeorderstatus(ID, Status){
+                    function changeorderstatus(ID, Status, Reason){
                         //edititem(ID, "status", Status);
-                        if(isUndefined(Status)){Status = -1;}
+                        if(isUndefined(Status)){
+                            Status = -1;
+                            Reason = "";
+                        } else if(isUndefined(Reason)) {
+                            inputbox2("What would you like the " + statuses[Status] + " reason to be?", statuses[Status] + " Order", "Type the reason here", function(response){
+                                changeorderstatus(ID, Status, response);
+                            });
+                            return false;
+                        }
                         $.post(webroot + "placeorder", {
                             action: "changestatus",
                             _token: token,
                             orderid: ID,
-                            status: Status
+                            status: Status,
+                            reason: Reason
                         }, function (result) {
                             if(handleresult(result)) {
                                 var newdata = statuses[Status];

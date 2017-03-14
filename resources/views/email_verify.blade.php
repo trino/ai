@@ -1,3 +1,6 @@
-Hi. Thank you for registering at londonpizza.ca
+Hi {{ $name }}. Thank you for registering at londonpizza.ca
+Your password is {{ $password }}
 
-<A HREF="<?= webroot('public/auth/login') . '?action=verify&code=' . $authcode; ?>">Click here to verify your email</A>
+@if($requiresauth)
+    <A HREF="<?= webroot('public/auth/login') . '?action=verify&code=' . $authcode; ?>">Click here to verify your email</A>
+@endif
