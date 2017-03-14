@@ -283,7 +283,8 @@
                                                 if ($debugmode) {
                                                     $debug = ' TITLE="' . $onlydebug . var_export($item, true) . '"';
                                                 }
-                                                echo '<TR><TD>' . ($ID + 1) . '</TD><TD' . $debug . '>' . $item->itemname . '</TD>';
+                                                //echo '<TR><TD>' . ($ID + 1) . '</TD><TD' . $debug . '>' . $item->itemname . '</TD>';
+                                                echo '<TR><TD>' . $quantity . '</TD><TD' . $debug . '>' . $item->itemname . '</TD>';
                                                 if ($debugmode) {
                                                     $debug = ' TITLE="' . $onlydebug . print_r($menuitem, true) . '"';
                                                 }
@@ -381,12 +382,7 @@
                                             }
                                             echo '<TD ALIGN="RIGHT"' . $debug . '>';
                                         }
-                                        if($quantity == 1){
-                                            $quantity = "";
-                                        } else {
-                                            $quantity = " (" . $quantity . ")";
-                                        }
-                                        echo '$' . number_format($itemtotal, 2) . $quantity . '</TD></TR>';
+                                        echo '$' . number_format($itemtotal, 2) . '</TD></TR>';
                                         if ($style == 2 && $HTML) {
                                             echo '<TR><TD COLSPAN="' . $colspan . '">' . $HTML . '</TD></TR>';
                                         }

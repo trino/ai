@@ -432,7 +432,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         }
         $("#oldvalues").stop().html("").hide().remove();
         $("#newvalues").stop().html("").hide().remove();
-        var itemnames = {toppings: "Pizza", wings_sauce: "lb"};
+        var itemnames = {toppings: "Pizza", wings_sauce: "lbl"};
         var nonames = {toppings: "toppings", wings_sauce: "sauce"};
         for (var itemid = 0; itemid < theorder.length; itemid++) {
             var item = theorder[itemid];
@@ -483,35 +483,25 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                     sprite += " sprite-" + toclassname(item["itemname"].trim()).replaceAll("_", "-").replace(/\./g, '');
                 }
 
-
-                tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item list-group-item">';
+                tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item list-group-item"><SPAN CLASS="item_qty">' + quantity + '</SPAN>';
                 tempHTML += '<span CLASS="sprite  sprite-' + sprite + ' sprite-medium"></span>';
                 // tempHTML += '<span title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '" class="receipt_itemcost"></span>';
                 tempHTML += ' <span class="receipt-itemname">' + item["itemname"] + '</SPAN>';
-
                 tempHTML += ' <span class="ml-auto align-middle">';
 
-
                 tempHTML += '<span id="oldcost_' + itemid + '"></span><span id="cost_' + itemid + '">$' + totalcost;
-                if (quantity > 1) {
-                    tempHTML += ' (' + quantity + ')';
-                }
-                tempHTML += '</span>';
-
-                tempHTML += '<button class="fa fa-minus btn-sm" onclick="removeorderitem(' + itemid + ', ' + quantity + ');"></button>';
+                //if (quantity > 1) {tempHTML += ' (' + quantity + ')';}
+                tempHTML += '</span><button class="fa fa-minus btn-sm" onclick="removeorderitem(' + itemid + ', ' + quantity + ');"></button>';
                 if (hasaddons) {
                     tempHTML += '<button class="fa fa-pencil btn-sm" onclick="edititem(this, ' + itemid + ');"></button>';
                 } else {
                     tempHTML += '<button class="fa fa-plus btn-sm" onclick="cloneitem(this, ' + itemid + ');"></button>';
                 }
-
-                tempHTML +='</SPAN>';
-
-                tempHTML += '</div>';
-
+                tempHTML +='</SPAN></div>';
 
                 var itemname = "";
                 if (hasaddons) {
+                    tempHTML += '<DIV class="item_addons list-group-item col-md-12">';
                     var tablename = item["itemaddons"][0]["tablename"];
                     if (item["itemaddons"].length > 1) {
                         itemname = itemnames[tablename];
@@ -519,7 +509,9 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                     for (var currentitem = 0; currentitem < item["itemaddons"].length; currentitem++) {
                         var addons = item["itemaddons"][currentitem];
                         if (itemname) {
-                            tempHTML += ordinals[currentitem] + " " + itemname + ": ";
+                            tempHTML += '<DIV CLASS="col-md-4 item_title">' + ordinals[currentitem] + " " + itemname + ':</DIV><DIV class="col-md-8">';
+                        } else {
+                            tempHTML += '<DIV class="col-md-12">';
                         }
                         if (addons["addons"].length == 0) {
                             tempHTML += 'no ' + nonames[tablename] + '';
@@ -537,10 +529,10 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                                 }
                             }
                         }
+                        tempHTML += '</DIV><DIV CLASS="clearfix"></DIV>';
                     }
+                    tempHTML += '</DIV>';
                 }
-
-
                 HTML += tempHTML;
             }
         }
@@ -550,11 +542,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         visible("#checkout", userdetails);
         createCookieValue("theorder", JSON.stringify(theorder));
         if (theorder.length == 0) {
-
-
             HTML = '<DIV CLASS="text-center receipt-empty"><br><i class="fa fa-shopping-basket fa-2x empty-shopping-cart"></i><br><h6>Order is Empty</h6><br></div>';
-
-
             $("#checkout").hide();
             $("#checkoutbutton").hide();
             $("#confirmclearorder").hide();
@@ -562,11 +550,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             collapsecheckout();
             $("#checkout-btn").hide();
             $("#checkout-total").text('$0.00');
-
-
         } else {
-
-
             tempHTML = '<DIV id="newvalues"';
             if (fadein || forcefade) {
                 tempHTML += ' CLASS="dont-show"';
@@ -576,10 +560,8 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 $("#checkout-btn").show();
             } else {
                 $("#checkout-btn").hide();
-                tempHTML += '<SPAN CLASS=" badge badge-warning ">Minimum sub-total $' + minimumfee + ' for delivery</SPAN><br>';
+                tempHTML += '<SPAN CLASS="badge badge-warning width-full">Minimum sub-total $' + minimumfee + ' for delivery</SPAN><br>';
             }
-
-
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Sub-total </SPAN>$' + subtotal.toFixed(2) + '</span><br>';
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Delivery </SPAN>$' + deliveryfee.toFixed(2) + '</span><br>';
             tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Tax </SPAN>$' + taxes.toFixed(2) + '</span><br>';
@@ -587,7 +569,6 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             $("#confirmclearorder").show();
             $("#checkout-total").text('$' + totalcost.toFixed(2));
         }
-
         if (fadein || forcefade) {
             tempHTML += '<DIV id="oldvalues">' + oldvalues + '</div>';
         }

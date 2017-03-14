@@ -11,7 +11,11 @@
     }
     if (!function_exists("printarow")) {
         function printarow($Name, $Prepend, $field) {
-            if ($field["type"] != "hidden") {echo '';}
+            //if ($field["type"] != "hidden") {echo '';}
+            if($GLOBALS["icons"]){
+                if(!isset($field["icon"])){$field["icon"] = "fa-user";}
+                echo '<div class="input_left_icon"><i class="fa ' . $field["icon"] . '"></i></div><div class="input_right">';
+            }
             echo '<INPUT TYPE="' . $field["type"] . '" NAME="' . $field["name"] . '" ID="' . $Prepend . '_' . $field["name"] . '"';
             if (isset($field["class"]))                                     {echo ' CLASS="' . $field["class"] . '" ';}
             if (isset($field["value"]))                                     {echo ' value="' . $field["value"] . '" ';}
@@ -24,7 +28,7 @@
             if (isset($field["corner"]))                                    {echo ' STYLE="border-' . $field["corner"] . '-radius: 5px;"';}
             if (isset($field["required"]) && $field["required"])            {echo ' REQUIRED';}
             echo '>';
-            //if ($field["type"] != "hidden")                               {echo '';}
+            if($GLOBALS["icons"]){ echo '</DIV>';}
         }
     }
 
@@ -32,6 +36,7 @@
     if (!isset($email)) {$email = true;}
     if (!isset($autocomplete)) {$autocomplete = "";}
     if (!isset($required)) {$required = false;}
+    $GLOBALS["icons"] = isset($icons) && $icons;
 
     echo '<DIV>';
     if (!isset($profile1) || $profile1) {
@@ -39,16 +44,16 @@
     }
     if (!isset($phone) || $phone) {
         if (!isset($phone)) {$phone = false;}
-        printarow("Phone", $name, array("name" => "phone", "value" => $user["phone"], "type" => "tel", "placeholder" => "Cell", "class" => "form-control session_phone_val", "required" => $phone || $required));
+        printarow("Phone", $name, array("name" => "phone", "value" => $user["phone"], "type" => "tel", "placeholder" => "Cell", "class" => "form-control session_phone_val", "required" => $phone || $required, "icon" => "fa-phone"));
     }
     if ($email) {
-        printarow("Email", $name, array("name" => "email", "value" => $user["email"], "type" => "email", "placeholder" => "Email", "class" => "form-control session_email_val", "required" => $required));
+        printarow("Email", $name, array("name" => "email", "value" => $user["email"], "type" => "email", "placeholder" => "Email", "class" => "form-control session_email_val", "required" => $required, "icon" => "fa-envelope"));
     }
     if (isset($user_id) || isset($showpass)) {
-        printarow("Old Password", $name, array("name" => "oldpassword", "type" => "password", "class" => "form-control", "placeholder" => "Old Password", "autocomplete" => $autocomplete, "required" => $required));
-        printarow("New Password", $name, array("name" => "newpassword", "type" => "password", "class" => "form-control", "placeholder" => "New Password", "autocomplete" => $autocomplete, "required" => $required));
+        printarow("Old Password", $name, array("name" => "oldpassword", "type" => "password", "class" => "form-control", "placeholder" => "Old Password", "autocomplete" => $autocomplete, "required" => $required, "icon" => "fa-key"));
+        printarow("New Password", $name, array("name" => "newpassword", "type" => "password", "class" => "form-control", "placeholder" => "New Password", "autocomplete" => $autocomplete, "required" => $required, "icon" => "fa-key"));
     } else if ($password) {
-        printarow("Password", $name, array("name" => "password", "type" => "password", "class" => "form-control", "placeholder" => "Password", "autocomplete" => $autocomplete, "required" => $required));
+        printarow("Password", $name, array("name" => "password", "type" => "password", "class" => "form-control", "placeholder" => "Password", "autocomplete" => $autocomplete, "required" => $required, "icon" => "fa-key"));
     }
     if (isset($address) && $address) {
         echo view("popups_address", array("style" => 1))->render();

@@ -17,8 +17,17 @@
             <!-- Tab panes -->
             <div class="tab-content mt-1">
                 <div role="tabpanel" class=" tab-pane fade in active" id="profile">
-                    <div><INPUT TYPE="text" id="login_email" placeholder="Email" class="form-control" onkeydown="enterkey(event, '#login_password');" required></div>
-                    <div><INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control" onkeydown="enterkey(event, 'login');" required></div>
+
+                    <div class="input_left_icon"><i class="fa fa-user"></i></div>
+                    <div class="input_right">
+                        <INPUT TYPE="text" id="login_email" placeholder="Email" class="form-control" onkeydown="enterkey(event, '#login_password');" required>
+                    </div>
+
+                    <div class="input_left_icon"><i class="fa fa-key"></i></div>
+                    <div class="input_right">
+                        <INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control" onkeydown="enterkey(event, 'login');" required>
+                    </div>
+
                     <div class="clearfix mt-2"></div>
                     <BUTTON CLASS="btn btn-primary pull-right" onclick="handlelogin('login');">LOG IN</BUTTON>
                     <div class="clearfix"></div>
@@ -34,7 +43,7 @@
                     <FORM id="addform">
                         <?php
                             if (!read("id")) {
-                                echo view("popups_address", array("style" => 1, "required" => true))->render();
+                                echo view("popups_address", array("style" => 1, "required" => true, "icons" => true))->render();
                             }
                         ?>
                     </FORM>

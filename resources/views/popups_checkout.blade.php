@@ -28,10 +28,10 @@
                         <div class="input_left_icon"><i class="fa fa-user"></i></div>
                         <div class="input_right">
                             <div class="halfwidth">
-                                <?= view("popups_edituser", array("email" => false, "profile1" => true, "password" => false, "phone" => false, "required" => true))->render(); ?>
+                                <?= view("popups_edituser", array("email" => false, "profile1" => true, "password" => false, "phone" => false, "required" => true, "icons" => false))->render(); ?>
                             </div>
                             <div class="halfwidth">
-                                <?= view("popups_edituser", array("email" => false, "profile1" => false, "password" => false, "phone" => true, "required" => true))->render(); ?>
+                                <?= view("popups_edituser", array("email" => false, "profile1" => false, "password" => false, "phone" => true, "required" => true, "icons" => false))->render(); ?>
                             </div>
                         </div>
 

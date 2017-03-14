@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 28, 2017 at 10:57 AM
+-- Generation Time: Mar 14, 2017 at 01:26 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -43,10 +43,10 @@ CREATE TABLE IF NOT EXISTS `actions` (
 
 INSERT INTO `actions` (`id`, `eventname`, `party`, `sms`, `phone`, `email`, `message`) VALUES
 (1, 'order_placed', 2, 1, 1, 1, 'londonpizza.ca - A new order was placed'),
-(2, 'order_placed', 0, 1, 0, 0, 'londonpizza.ca - A new order was placed'),
+(2, 'order_placed', 1, 1, 0, 0, 'londonpizza.ca - A new order was placed'),
 (3, 'order_placed', 0, 0, 0, 1, 'londonpizza.ca - Here is your receipt'),
 (4, 'order_declined', 0, 1, 0, 1, 'londonpizza.ca - Your order was cancelled: [reason]'),
-(5, 'order_declined', 1, 1, 0, 1, 'londonpizza.ca - An order was cancelled: [reason]'),
+(5, 'order_declined', 1, 1, 0, 0, 'londonpizza.ca - An order was cancelled: [reason]'),
 (6, 'order_confirmed', 1, 1, 0, 0, 'londonpizza.ca - An order was approved: [reason]'),
 (7, 'user_registered', 0, 0, 0, 1, 'londonpizza.ca - Thank you for registering');
 
@@ -201,18 +201,24 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `price` decimal(10,2) NOT NULL,
   `email` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=103 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=109 ;
 
 --
 -- Dumping data for table `orders`
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `placed_at`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `accepted_at`, `restaurant_id`, `type`, `payment_type`, `phone`, `cell`, `paid`, `stripeToken`, `deliverytime`, `cookingnotes`, `status`, `price`, `email`) VALUES
-(98, 1, '2017-02-21 23:52:16', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '3.33', NULL),
+(98, 1, '2017-02-21 23:52:16', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 3, '3.33', NULL),
 (99, 1, '2017-02-21 19:01:15', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '6.55', NULL),
 (100, 1, '2017-02-21 19:01:15', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'February 21 at 1455', '', 0, '5.48', NULL),
 (101, 1, '2017-02-22 14:31:05', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'February 22 at 1100', '', 0, '3.33', NULL),
-(102, 1, '2017-02-28 15:22:07', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '8.86', NULL);
+(102, 1, '2017-02-28 15:22:07', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '8.86', NULL),
+(103, 1, '2017-02-28 18:35:05', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, 'tok_ACf8io2H5qGhnb', 'Deliver Now', '', 0, '19.19', NULL),
+(104, 1, '2017-02-28 18:39:42', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, 'tok_ACfDEP9Bgbmu8G', 'Deliver Now', '', 0, '35.03', NULL),
+(105, 1, '2017-02-28 18:47:25', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, 'tok_ACfLb5HItnGjce', 'Deliver Now', '', 0, '23.73', NULL),
+(106, 1, '2017-03-07 15:01:15', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'March 7 at 1050', '', 0, '36.84', NULL),
+(107, 1, '2017-03-08 14:26:39', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'March 8 at 1100', '', 0, '19.20', NULL),
+(108, 1, '2017-03-08 18:26:47', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '40.34', NULL);
 
 -- --------------------------------------------------------
 
@@ -288,21 +294,21 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=345 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=417 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1487687187'),
+(1, 'lastSQL', '1488297420'),
 (20, 'orders', '1487775876'),
-(24, 'menucache', '1488297341'),
+(24, 'menucache', '1489511841'),
 (25, 'useraddresses', '1487525044'),
 (37, 'users', '1487175217'),
 (38, 'additional_toppings', '1487175322'),
-(43, 'actions', '1486525538'),
-(87, 'restaurants', '1486525593');
+(43, 'actions', '1488998737'),
+(87, 'restaurants', '1488382972');
 
 -- --------------------------------------------------------
 
@@ -423,8 +429,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `phone`, `lastlogin`, `loginattempts`, `profiletype`, `authcode`, `stripecustid`) VALUES
 (1, 'Roy Wall', 'roy@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '0000-00-00 00:00:00', '2017-02-01 15:15:40', '9055315331', 1487608084, 1, 1, '', 'cus_A9KSifFEymg855'),
 (20, 'Roy Test', 'roy+test@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2016-11-16 20:20:28', '0000-00-00 00:00:00', '9055315331', 0, 0, 0, '', ''),
-(21, 'Fabulous', 'info+fab@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2016-11-16 20:49:31', '0000-00-00 00:00:00', '9055315331', 1481048458, 0, 2, '', 'cus_9yYE78hosPbuGH'),
-(35, 'Marvellous', 'info+mar@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-02-14 20:28:50', '0000-00-00 00:00:00', '9055315331', 0, 0, 2, '', ''),
+(21, 'Fabulous', 'roy+fab@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2016-11-16 20:49:31', '0000-00-00 00:00:00', '9055315331', 1481048458, 0, 2, '', 'cus_9yYE78hosPbuGH'),
+(35, 'Marvellous', 'roy+mar@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-02-14 20:28:50', '0000-00-00 00:00:00', '9055315331', 0, 0, 2, '', ''),
 (42, 'Van Trinh', 'info@trinoweb.com', '$2y$10$DzNoghpkgYPiVGNfAabiU./v1zrv4SxJIhmOX6JQ77x8U3oAOiILG', '', '2017-02-20 21:40:08', '0000-00-00 00:00:00', '9055315331', 0, 0, 0, '', 'cus_A9dVM6WuoVRSCq');
 
 -- --------------------------------------------------------
