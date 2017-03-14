@@ -1272,10 +1272,11 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         $(".profiletype_not").show();
         $(".profiletype_not" + user["profiletype"]).hide();
 
-        var HTML = '';
+        var HTML = 'red form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION value="0">DELIVERY ADDRESS</OPTION>';
         var FirstAddress = false;
+
         if (user["Addresses"].length > 0) {
-            HTML += '<SELECT class="form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION value="0">DELIVERY ADDRESS</OPTION>';
+            HTML = '<SELECT class="' + HTML;
             addresskeys = Object.keys(user["Addresses"][0]);
             for (i = 0; i < user["Addresses"].length; i++) {
                 if (!FirstAddress) {
@@ -1285,7 +1286,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             }
             HTML += '</SELECT>';
         } else {
-            HTML += '<SELECT class="form-control saveaddresses dont-show" id="saveaddresses" onchange="addresschanged();"><OPTION value="0">DELIVERY ADDRESS</OPTION></SELECT>';
+            HTML = '<SELECT class="dont-show ' + HTML + '</SELECT>';
         }
         $(".addressdropdown").html(HTML);
         if (user["profiletype"] == 2) {
@@ -1332,7 +1333,6 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     //address dropdown changed
     function addresschanged() {
-        $("#saveaddresses").removeClass("red");
         clearphone();
         var Selected = $("#saveaddresses option:selected");
         var SelectedVal = $(Selected).val();
@@ -1355,7 +1355,9 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         }
         if (SelectedVal == 0) {
             Text = '';
+            $("#saveaddresses").addClass("red");
         } else {
+            $("#saveaddresses").removeClass("red");
             $("#formatted_address").hide();
             if (SelectedVal == "addaddress") {
                 visible_address(true);
@@ -1364,6 +1366,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             }
         }
         $("#formatted_address").val(Text);
+        $("#restaurant").html('<OPTION VALUE="0" SELECTED>RESTAURANT</OPTION>').addClass("red");
         addresshaschanged();
     }
 
@@ -1453,30 +1456,13 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         var errormessage = "";
         log("Stripe response");
         switch (status) {
-            case 400:
-                errormessage = "Bad Request:<BR>The request was unacceptable, often due to missing a required parameter.";
-                break;
-            case 401:
-                errormessage = "Unauthorized:<BR>No valid API key provided.";
-                break;
-            case 402:
-                errormessage = "Request Failed:<BR>The parameters were valid but the request failed.";
-                break;
-            case 404:
-                errormessage = "Not Found:<BR>The requested resource doesn't exist.";
-                break;
-            case 409:
-                errormessage = "Conflict:<BR>The request conflicts with another request (perhaps due to using the same idempotent key).";
-                break;
-            case 429:
-                errormessage = "Too Many Requests:<BR>Too many requests hit the API too quickly. We recommend an exponential backoff of your requests.";
-                break;
-            case 500:
-            case 502:
-            case 503:
-            case 504:
-                errormessage = "Server Errors:<BR>Something went wrong on Stripe's end.";
-                break;
+            case 400: errormessage = "Bad Request:<BR>The request was unacceptable, often due to missing a required parameter."; break;
+            case 401: errormessage = "Unauthorized:<BR>No valid API key provided."; break;
+            case 402: errormessage = "Request Failed:<BR>The parameters were valid but the request failed."; break;
+            case 404: errormessage = "Not Found:<BR>The requested resource doesn't exist."; break;
+            case 409: errormessage = "Conflict:<BR>The request conflicts with another request (perhaps due to using the same idempotent key)."; break;
+            case 429: errormessage = "Too Many Requests:<BR>Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."; break;
+            case 500: case 502: case 503: case 504: errormessage = "Server Errors:<BR>Something went wrong on Stripe's end."; break;
             case 200:// - OK	Everything worked as expected.
                 if (response.error) {
                     $('.payment-errors').html(response.error.message);
@@ -1502,15 +1488,9 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         var card_number = $("input[data-stripe=number]").val().replace(/\D/g, '');
         var card_brand = "Unknown (" + card_number.left(1) + ")";
         switch (card_number.left(1)) {
-            case "3":
-                card_brand = "American Express";
-                break;
-            case "4":
-                card_brand = "Visa";
-                break;
-            case "5":
-                card_brand = "Master Card";
-                break;
+            case "3": card_brand = "American Express"; break;
+            case "4": card_brand = "Visa"; break;
+            case "5": card_brand = "Master Card"; break;
         }
         return {
             id: ID,
@@ -1568,11 +1548,10 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                         }
                     }
                 }
-                if (!smallest) {
-                    smallest = 0;
-                }
+                if (!smallest) {smallest = 0;}
                 $("#restaurant").html(HTML);
                 $("#restaurant").val(smallest);
+                restchange();
             }
         });
     }
@@ -1753,17 +1732,11 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     function isopen(hours, dayofweek, time) {
         var now = new Date();//doesn't take into account <= because it takes more than 1 minute to place an order
-        if (isUndefined(dayofweek)) {
-            dayofweek = now.getDay();
-        }
-        if (isUndefined(time)) {
-            time = now.getHours() * 100 + now.getMinutes();
-        }
+        if (isUndefined(dayofweek)) {dayofweek = now.getDay();}
+        if (isUndefined(time)) {time = now.getHours() * 100 + now.getMinutes();}
         var today = hours[dayofweek];
         var yesterday = dayofweek - 1;
-        if (yesterday < 0) {
-            yesterday = 6;
-        }
+        if (yesterday < 0) {yesterday = 6;}
         var yesterdaysdate = yesterday;
         yesterday = hours[yesterday];
         today.open = Number(today.open);
@@ -1771,29 +1744,20 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         yesterday.open = Number(yesterday.open);
         yesterday.close = Number(yesterday.close);
         if (yesterday.open > -1 && yesterday.close > -1 && yesterday.close < yesterday.open) {
-            if (yesterday.close > time) {
-                return yesterdaysdate;
-            }
+            if (yesterday.close > time) {return yesterdaysdate;}
         }
         if (today.open > -1 && today.close > -1) {
             if (today.close < today.open) {
-                //log("Day: " + dayofweek + " time: " + time + " open: " + today.open + " close: " + today.close );
-                if (time >= today.open || time < today.close) {
-                    return dayofweek;
-                }
+                if (time >= today.open || time < today.close) {return dayofweek;}
             } else {
-                if (time >= today.open && time < today.close) {
-                    return dayofweek;
-                }
+                if (time >= today.open && time < today.close) {return dayofweek;}
             }
         }
         return -1;//closed
     }
 
     function visiblemodals() {
-        return $('.modal:visible').map(function () {
-            return this.id;
-        }).get();
+        return $('.modal:visible').map(function () {return this.id;}).get();
     }
 
 </SCRIPT>

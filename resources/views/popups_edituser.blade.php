@@ -31,30 +31,28 @@
     if (!isset($password)) {$password = true;}
     if (!isset($email)) {$email = true;}
     if (!isset($autocomplete)) {$autocomplete = "";}
+    if (!isset($required)) {$required = false;}
 
     echo '<DIV>';
-if (!isset($profile1) || $profile1) {
-
-printarow("Name", $name, array("name" => "name", "value" => $user["name"], "type" => "text", "placeholder" => "Name", "class" => "form-control session_name_val"));
-
-}
+    if (!isset($profile1) || $profile1) {
+        printarow("Name", $name, array("name" => "name", "value" => $user["name"], "type" => "text", "placeholder" => "Name", "class" => "form-control session_name_val", "required" => $required));
+    }
     if (!isset($phone) || $phone) {
         if (!isset($phone)) {$phone = false;}
-        printarow("Phone", $name, array("name" => "phone", "value" => $user["phone"], "type" => "tel", "placeholder" => "Cell", "class" => "form-control session_phone_val", "required" => $phone));
+        printarow("Phone", $name, array("name" => "phone", "value" => $user["phone"], "type" => "tel", "placeholder" => "Cell", "class" => "form-control session_phone_val", "required" => $phone || $required));
     }
     if ($email) {
-        printarow("Email", $name, array("name" => "email", "value" => $user["email"], "type" => "email", "placeholder" => "Email", "class" => "form-control session_email_val"));
+        printarow("Email", $name, array("name" => "email", "value" => $user["email"], "type" => "email", "placeholder" => "Email", "class" => "form-control session_email_val", "required" => $required));
     }
     if (isset($user_id) || isset($showpass)) {
-        printarow("Old Password", $name, array("name" => "oldpassword", "type" => "password", "class" => "form-control", "placeholder" => "Old Password", "autocomplete" => $autocomplete));
-        printarow("New Password", $name, array("name" => "newpassword", "type" => "password", "class" => "form-control", "placeholder" => "New Password", "autocomplete" => $autocomplete));
+        printarow("Old Password", $name, array("name" => "oldpassword", "type" => "password", "class" => "form-control", "placeholder" => "Old Password", "autocomplete" => $autocomplete, "required" => $required));
+        printarow("New Password", $name, array("name" => "newpassword", "type" => "password", "class" => "form-control", "placeholder" => "New Password", "autocomplete" => $autocomplete, "required" => $required));
     } else if ($password) {
-        printarow("Password", $name, array("name" => "password", "type" => "password", "class" => "form-control", "placeholder" => "Password", "autocomplete" => $autocomplete));
+        printarow("Password", $name, array("name" => "password", "type" => "password", "class" => "form-control", "placeholder" => "Password", "autocomplete" => $autocomplete, "required" => $required));
     }
     if (isset($address) && $address) {
         echo view("popups_address", array("style" => 1))->render();
     }
-
     echo '</DIV>';
 ?>
 <SCRIPT>

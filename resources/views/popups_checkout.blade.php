@@ -28,25 +28,22 @@
                         <div class="input_left_icon"><i class="fa fa-user"></i></div>
                         <div class="input_right">
                             <div class="halfwidth">
-                                <?= view("popups_edituser", array("email" => false, "profile1" => true, "password" => false, "phone" => false))->render(); ?>
+                                <?= view("popups_edituser", array("email" => false, "profile1" => true, "password" => false, "phone" => false, "required" => true))->render(); ?>
                             </div>
                             <div class="halfwidth">
-                                <?= view("popups_edituser", array("email" => false, "profile1" => false, "password" => false, "phone" => true))->render(); ?>
+                                <?= view("popups_edituser", array("email" => false, "profile1" => false, "password" => false, "phone" => true, "required" => true))->render(); ?>
                             </div>
                         </div>
-
 
                         <div class="input_left_icon"><i class="fa fa-credit-card-alt"></i></div>
                         <div class="input_right">
                             <DIV ID="credit-info"></DIV>
                         </div>
 
-
-                        <div class="input_left_icon"><i class="fa fa-credit-card-alt"></i></div>
+                        <div class="input_left_icon"></div>
                         <div class="input_right">
                             <input type="text" size="20" class="form-control credit-info" data-stripe="number" placeholder="Card Number">
                         </div>
-
 
                         <div class="input_left_icon"></div>
                         <div class="input_right">
@@ -70,17 +67,17 @@
                             <div class="thirdwidth">
                                 <SELECT CLASS="credit-info form-control" data-stripe="exp_year">
                                     <?php
-                                    $CURRENT_YEAR = date("Y");
-                                    $TOTAL_YEARS = 6;
-                                    for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
-                                        echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
-                                    }
+                                        $CURRENT_YEAR = date("Y");
+                                        $TOTAL_YEARS = 6;
+                                        for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
+                                            echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
+                                        }
                                     ?>
                                 </SELECT>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="thirdwidth">
-                                <input style="" type="text" size="4" data-stripe="cvc" CLASS="credit-info form-control" PLACEHOLDER="CVC">
+                                <input type="text" size="4" data-stripe="cvc" CLASS="credit-info form-control" PLACEHOLDER="CVC">
                                 <INPUT class="credit-info" TYPE="hidden" name="istest" id="istest">
                                 @if(!islive()) <a class="credit-info pull-right btn" onclick="testcard();" TITLE="Don't remove this, I need it!">Test Card</a> @endif
                                 <div class="clearfix"></div>
@@ -90,17 +87,16 @@
                         <div class="input_right">
                             <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
                             <?php
-                            if (read("id")) {
-                                echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
-                            }
+                                if (read("id")) {
+                                    echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
+                                }
                             ?>
                         </div>
                         <div class="input_left_icon"><i class="fa fa-cutlery"></i></div>
                         <div class="input_right">
-                            <SELECT class="form-control" ID="restaurant" ONCHANGE="restchange();">
+                            <SELECT class="form-control red" ID="restaurant" ONCHANGE="restchange();">
                                 <OPTION VALUE="0" SELECTED>RESTAURANT</OPTION>
                             </SELECT>
-
                         </div>
                         <div class="input_left_icon"><i class="fa fa-pencil"></i></div>
                         <div class="input_right">
@@ -108,7 +104,6 @@
                         </div>
                         <div class="input_left_icon"><i class="fa fa-clock-o"></i></div>
                         <div class="input_right">
-
                             <div class="input-group">
                                 <SELECT id="deliverytime" TITLE="Delivery Time" class="form-control"/>
                                 <OPTION>Deliver ASAP</OPTION>
@@ -128,10 +123,7 @@
                             </style-->
                             <div class="clearfix"></div>
                         </div>
-
-
                     </div>
-
                 </FORM>
             </div>
         </div>
@@ -156,6 +148,11 @@
     function restchange() {
         var value = $("#restaurant").val();
         var index = findwhere(closest, "id", value);
+        if(value == 0){
+            $("#restaurant").addClass("red");
+        } else {
+            $("#restaurant").removeClass("red");
+        }
         GenerateHours(closest[index]["hours"]);
     }
 </SCRIPT>

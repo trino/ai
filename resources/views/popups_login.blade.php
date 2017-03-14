@@ -1,5 +1,6 @@
 <?php
-startfile("popups_login");
+    startfile("popups_login");
+    $minimum = first("SELECT price FROM additional_toppings WHERE size = 'Minimum'")["price"];
 ?>
 <div class="row py-3">
     <DIV CLASS="col-lg-3 col-md-4" style="border:0 !important;">
@@ -16,32 +17,30 @@ startfile("popups_login");
             <!-- Tab panes -->
             <div class="tab-content mt-1">
                 <div role="tabpanel" class=" tab-pane fade in active" id="profile">
-                    <div><INPUT TYPE="text" id="login_email" placeholder="Email" class="form-control" onkeydown="enterkey(event, '#login_password');"></div>
-                    <div><INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control" onkeydown="enterkey(event, 'login');"></div>
-
+                    <div><INPUT TYPE="text" id="login_email" placeholder="Email" class="form-control" onkeydown="enterkey(event, '#login_password');" required></div>
+                    <div><INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control" onkeydown="enterkey(event, 'login');" required></div>
                     <div class="clearfix mt-2"></div>
                     <BUTTON CLASS="btn btn-primary pull-right" onclick="handlelogin('login');">LOG IN</BUTTON>
                     <div class="clearfix"></div>
-                    <BUTTON CLASS="btn btn-secondary mt-3 pull-right btn-sm" onclick="handlelogin('forgotpassword');">
-                        FORGOT PASSWORD</BUTTON>
+                    <BUTTON CLASS="btn btn-secondary mt-3 pull-right btn-sm" onclick="handlelogin('forgotpassword');">FORGOT PASSWORD</BUTTON>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="buzz">
                     <div class="alert alert-info">
                         <small>
-                            $15 min delivery. We're only accepting credit/debit payments at this time. Apologies for the inconvenience.
+                            ${{ $minimum }} min delivery. We're only accepting credit/debit payments at this time. Apologies for the inconvenience.
                         </small>
                     </div>
                     <h2>Delivery</h2>
                     <FORM id="addform">
                         <?php
                             if (!read("id")) {
-                                echo view("popups_address", array("style" => 1))->render();
+                                echo view("popups_address", array("style" => 1, "required" => true))->render();
                             }
                         ?>
                     </FORM>
                     <h2>Profile</h2>
                     <FORM Name="regform" id="regform">
-                        <?= view("popups_edituser", array("phone" => false, "autocomplete" => "new-password"))->render(); ?>
+                        <?= view("popups_edituser", array("phone" => false, "autocomplete" => "new-password", "required" => true))->render(); ?>
                     </FORM>
                     <div class="clearfix mt-2"></div>
                     <button class="btn btn-primary pull-right" onclick="register();">
