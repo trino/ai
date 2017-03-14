@@ -139,7 +139,7 @@
         $orders =  first('SELECT count(*) as count FROM orders WHERE status <> 2 AND status <> 4 AND placed_at > "' . $SQLdate . '"')["count"];
     ?>
     <DIV class="row" style="background: white;border-radius: 0">
-        <div class="col-sm-12">
+        <div class="col-sm-4">
             <h2>About Us </h2>
 
             <div class="card-block  bg-success text-white">
@@ -149,7 +149,7 @@
                     Created by Van and Roy, natives of Hamilton, Ontario.
                     We've seen what's out there for food delivery and we're confident that we can do better.
                     With your support I'm sure we will help many people in the years to come and that's why
-                    we're pledging to donate $.25 from every order we receive to the local food drive.
+                    we're pledging to donate $0.25 from every order we receive to the local food drive.
                     This is the lifetime commitment of londonpizza.ca
                 </p>
 
@@ -160,12 +160,12 @@
                 <div class="btn-outlined-danger text-center pt-1">
                     <strong><?= $launchdate . $launched; ?></strong>
                     <p>Orders: <?= $orders; ?>
-                    <br> Donated: $0.00
+                    <br> Donated: $<?= number_format((float)$orders * 0.25, 2, '.', ''); ?>
                     <br>Charity: London Food Bank</p>
                 </div>
             </div>
         </div>
-        <div class="col-sm-12">
+        <div class="col-sm-8">
 
 
         <h2>FAQ</h2>
