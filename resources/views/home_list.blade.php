@@ -259,6 +259,7 @@
 
                 .spacing * {
                     margin-left: 10px;
+                    margin-top: 8px !important;
                 }
 
                 .page{
@@ -323,6 +324,10 @@
                 .m-t-1{
                     margin-top: 10px;
                     margin-bottom: 10px;
+                }
+
+                .margin-10{
+                    margin: 10px;
                 }
 
                 .card-block{
@@ -454,7 +459,7 @@
                             </div>
                         </div>
 
-                        <DIV ID="form">
+                        <DIV ID="form" class="margin-10">
                             <?php
                                 switch($table){
                                     case "useraddresses":
@@ -466,7 +471,7 @@
                                     case "restaurants":
                                         echo view("popups_address", array("dontincludeGoogle" => true))->render();
                                         echo '<DIV ID="addressdropdown" class="addressdropdown dont-show"></DIV>';
-                                        echo '<A ONCLICK="saveaddress(-1);" CLASS="btn btn-sm btn-success">Add to dropdowns</A>';
+                                        echo '<A ONCLICK="saveaddress(-1);" CLASS="btn btn-sm btn-success m-t-1">Add to dropdowns</A>';
                                         break;
                                     case "orders":
                                         if(isset($_GET["restaurant"]) && $_GET["restaurant"]){
