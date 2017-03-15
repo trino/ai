@@ -66,10 +66,15 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         return this.substring(start, start + length);
     };
 
-    Number.prototype.pad = function (size) {
+    Number.prototype.pad = function (size, rightside) {
         var s = String(this);
+        if(isUndefined(rightside)){rightside = false;}
         while (s.length < (size || 2)) {
-            s = "0" + s;
+            if(rightside){
+                s = s + "0";
+            } else {
+                s = "0" + s;
+            }
         }
         return s;
     };
@@ -2114,6 +2119,12 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         visible("#add_unit", state);
     }
 
+    function iif(value, iftrue, iffalse){
+        if(value){return iftrue;}
+        if(isUndefined(iffalse)){return "";}
+        return iffalse;
+    }
+
     @if(read("id"))
         $(document).ready(function () {
         <?php
@@ -2138,7 +2149,6 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     @endif
 
     function scrolltobottom() {
-
         $('html,body').animate({scrollTop: document.body.scrollHeight}, "slow");
     }
 </SCRIPT>

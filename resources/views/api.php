@@ -1,6 +1,7 @@
 <?php
     $webroot = webroot();
     define("debugmode", true);
+    define("delivery_time", 40);
     date_default_timezone_set("America/Toronto");
 
     function webroot($file = "") {

@@ -80,6 +80,7 @@
             $searchcols = array("name");
             break;
         case "restaurants":
+            $TableStyle=1;
             $fields = array("id", "name", "phone", "email", "address_id", "number", "street", "postalcode", "city", "province", "latitude", "longitude", "user_phone");
             $searchcols = array("name", "email");
             $SQL='SELECT restaurants.id, restaurants.name, restaurants.phone, restaurants.email, restaurants.address_id, useraddresses.number, useraddresses.street, useraddresses.postalcode, useraddresses.city, useraddresses.province, useraddresses.latitude, useraddresses.longitude, useraddresses.phone as user_phone FROM useraddresses AS useraddresses RIGHT JOIN restaurants ON restaurants.address_id = useraddresses.id';
@@ -365,6 +366,10 @@
                     padding-top: 4px !important;
                     padding-bottom: 4px !important;;
                 }
+
+                .status-confirmed{
+                    padding-left: 8px;
+                }
             </STYLE>
             <div class="row m-t-1">
                 <div class="col-md-12">
@@ -497,6 +502,7 @@
                     var usertype = ["Customer", "Admin", "Restaurant"];
                     var profiletype = '<?= $profiletype; ?>';
 
+                    var delivery_time = <?= delivery_time; ?>;
                     var getcloseststore = false;
                     var TableStyle = '<?= $TableStyle; ?>';
                     var selecteditem = 0;
@@ -634,7 +640,7 @@
 
                                         var Address = "[number] [street]<BR>[city] [province]<BR>[postalcode]";
                                         var tempHTML = '<TR ID="' + table + "_" + ID + '">';
-                                        if(TableStyle == '1'){tempHTML += '<TR><TD COLSPAN="2" CLASS="' + evenodd + '" ALIGN="CENTER"><B>' + ID + '</B></TD></TR>';}
+                                        if(TableStyle == '1'){tempHTML += '<TR><TD COLSPAN="2" CLASS="' + evenodd + '" ALIGN="CENTER"><B>' + data.table[i][namefield] + '</B></TD></TR>';}
                                         for (var v = 0; v < fields.length; v++) {
                                             var field = data.table[i][fields[v]];
                                             field = getdata(fields[v], field);
@@ -654,7 +660,7 @@
                                             }
                                             if(TableStyle == '1'){
                                                 var formatted = tofieldname(fields[v]);
-                                                tempHTML += '<TR><TD CLASS="' + evenodd;
+                                                tempHTML += '<TR><TD WIDTH="25%" CLASS="' + evenodd;
                                                 if(sort_col == fields[v]){tempHTML += ' selected-th';}
                                                 tempHTML += '">' + '<SPAN CLASS="pull-center"><i class="btn btn-sm btn-primary fa fa-arrow-down pull-left desc_' + fields[v];
                                                 if(sort_col == fields[v] && sort_dir == "DESC"){tempHTML += ' selected-i';}
@@ -842,47 +848,224 @@
                         });
                     }
 
-                    function DeliveryTime(Delivery_Time, Placed_At){
-                        var Original_Delivery_Time = Delivery_Time;
 
-                        //Delivery_Time: "Deliver Now", "February 21 at 1455"
-                        //Placed_At: "Tuesday February 21, 2017 @ 2:01 PM"
-                        var hrs = -(new Date().getTimezoneOffset() / 60);//UTC offset
+                    //BEGIN DATE FORMAT (Clones PHP's formatting)           EXAMPLE
+                    //DAY
+                    //j     day of month                                    (1-31)
+                    //d     day of month padded to 2 digits                 (01-31)
+                    //N     day of week                                     (1-7)
+                    //w     day of week                                     (0-6)
+                    //D     day of week short                               (Sun-Sat)
+                    //l     day of week long                                (Sunday-Saturday)
+                    //S     english suffix, works well with j               (ie: day 1 of the month would be "st", 2 would be "nd", 3 would be "rd")
+                    //z     day of the year                                 (0-365)
+                    //WEEK
+                    //W     week number of year, starting on monday         (0-51)
+                    //MONTH
+                    //F     long month name                                 (January-December)
+                    //M     short month name                                (Jan-Dec)
+                    //m     month number padded to 2 digits                 (01-12)
+                    //n     month number                                    (1-12)
+                    //t     number of days in the month                     (28-31)
+                    //YEAR
+                    //L     whether it's a leap year                        (0=no, 1=yes)
+                    //o     ISO-8601 week-numbering year                    (NOT SUPPORTED!!)
+                    //Y     long year                                       (1999 or 2017)
+                    //y     short year                                      (99 or 17)
+                    //TIME
+                    //a     Lowercase Ante meridiem and Post meridiem       (am/pm)
+                    //A     Uppercase Ante meridiem and Post meridiem       (AM/PM)
+                    //B     Swatch Internet time                            (NOT SUPPORTED!!)
+                    //g     12-hour format of an hour without leading zeros	(1-12)
+                    //G     24-hour format of an hour without leading zeros	(0-23)
+                    //h     12-hour format of an hour with leading zeros	(01-12)
+                    //H     24-hour format of an hour with leading zeros	(00-23)
+                    //i     Minutes, with leading zeroes                    (00-59)
+                    //s     Seconds, with leading zeroes                    (00-59)
+                    //u     Microseconds                                    (NOT SUPPORTED!!)
+                    //v     Milliseconds                                    (0-999)
+                    //TIMEZONE
+                    //e     Timezone identifier                             (NOT SUPPORTED!!)
+                    //T     Timezone abbreviation                           (NOT SUPPORTED!!)
+                    //I     Whether or not the date is in DST               (0=no, 1=yes)
+                    //O     Timezone offset (hours then minutes)            (+200)
+                    //o     Timezone offset without + (hours then minutes)  (200)
+                    //P     Timezone offset (hours:minutes)                 (+2:00)
+                    //Z     Timezone offset in seconds                      (-43200 to 50400)
+                    //FULL DATE
+                    //c     ISO 8601 date                                   (2004-02-12T15:19:21+00:00)
+                    //r     RFC 2822 formatted date                         (Thu, 21 Dec 2000 16:01:07 +0200)
+                    //U    epoch time (145200000)
+                    //NOT SUPPORTED: o, B, u, e, T
+                    var days_of_week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                    //If timestamp is undefined, the current timestamp will be used
+                    function FormatDate(format, timestamp, forcetimezone){
+                        if(isUndefined(timestamp)){timestamp = Date.now();}
+                        if(isUndefined(format)){format = "j d N w D l S z W F M m n t L o Y y a A B g G h H i s u v e T I O P Z c r O";}
+                        format = format.replace("c", "Y-m-dTG:i:sP").replace("r", "D, j M Y G:i:s O");
+                        format = format.split('');
 
-                        Placed_At = Placed_At.split(" ");//0=dayofweek 1=month 2=day, 3=year 4=at 5=time 6=AMPM
-                        var time = Placed_At[5].split(":");
-                        if(Placed_At[6] == "PM"){
+                        var the_date = new Date(timestamp);
+                        var timezone = the_date.getTimezoneOffset();//offset in minutes
+                        if(!isUndefined(forcetimezone)){
+                            if(timezone != forcetimezone) {
+                                var offset = forcetimezone - timezone;
+                                log("Timezone: " + timezone + " Forced: " + forcetimezone + " Offset: " + offset);
+                                var offset_hours = Math.floor(offset / 60);
+                                var offset_mins  = offset % 60;
+                                if(offset_hours != 0){the_date.setHours(the_date.getHours() + offset_hours);}
+                                if(offset_mins != 0){the_date.setHours(the_date.getMinutes() + offset_mins);}
+                            }
+                        }
+
+                        var day_of_month = the_date.getDate();//1-31
+                        var day_of_week = the_date.getDay();//0-6
+                        var the_month = the_date.getMonth()+1;//1-12
+                        var the_year = the_date.getFullYear();//2017
+                        var hours = the_date.getHours();//0-23
+                        var minutes = the_date.getMinutes();//0-59
+                        var seconds = the_date.getSeconds();//0-59
+                        var milliseconds = the_date.getMilliseconds();//0-999
+                        var antepost = iif(hours < 12, "am", "pm");
+                        var timezone_hours = Math.floor(timezone / 60);
+                        var timezone_mins  = timezone % 60;
+
+                        //DAY
+                        format = format.replace("j", day_of_month).replace("d", day_of_month.pad(2));
+                        format = format.replace("N", day_of_week+1).replace("w", day_of_week);
+                        format = format.replace("D", days_of_week[day_of_week].left(3)).replace("l", days_of_week[day_of_week]);
+                        format = format.replace("S", getSuffix(day_of_month));//suffix for day_of_month, works well with j
+                        format = format.replace("z", the_date.getDOY());
+                        //WEEK
+                        format = format.replace("W", the_date.getWOY());
+                        //MONTH
+                        format = format.replace("F", months[the_month-1]).replace("M", months[the_month-1].left(3));
+                        format = format.replace("m", the_month.pad(2)).replace("n", the_month);
+                        format = format.replace("t", the_date.getDIM());
+                        //YEAR
+                        format = format.replace("L", iif(the_date.isLeapYear(), 1, 0));
+                        format = format.replace("Y", the_year).replace("y", the_year % 100);
+                        //TIME
+                        format = format.replace("a", antepost).replace("A", antepost.toUpperCase());
+                        format = format.replace("g", hours % 12 + 1).replace("G", hours);
+                        format = format.replace("h", (hours % 12 + 1).pad(2)).replace("H", hours.pad(2));
+                        format = format.replace("i", minutes.pad(2)).replace("s", seconds.pad(2)).replace("v", milliseconds);
+                        //TIMEZONE
+                        format = format.replace("O", iif(timezone_hours>0, "+") + Math.abs(timezone_hours) + "" + timezone_mins.pad(2));
+                        format = format.replace("P", iif(timezone_hours>0, "+") + Math.abs(timezone_hours) + ":" + timezone_mins.pad(2));
+                        format = format.replace("Z", timezone*60).replace("o", timezone_hours + "" + timezone_mins.pad(2));
+
+                        //FULL DATE
+                        format = format.replace("U", Math.floor(Date.now()/1000));//epoch time
+
+                        /*NOT SUPPORTED
+                        for(var i = 0; i < format.length; i++){
+                            switch(format[i]){
+                                case "o": case "B": case "u": case "e": case "T": format[i] = "['" + format[i] + "' IS NOT SUPPORTED]"; break;
+                            }
+                        }*/
+                        return format.join('');
+                    }
+
+                    Array.prototype.replace = function(searchfor, replacewith){
+                       for(var i = 0; i < this.length; i++){
+                           if(this[i] == searchfor){
+                               this[i] = replacewith;
+                           }
+                       }
+                        return this;
+                    };
+
+                    Date.prototype.isLeapYear = function() {
+                        var year = this.getFullYear();
+                        if((year & 3) != 0) return false;
+                        return ((year % 100) != 0 || (year % 400) == 0);
+                    };
+
+                    function getSuffix(Number){
+                        switch (Number % 10){
+                            case 1: return "st"; break;
+                            case 2: return "nd"; break;
+                            case 3: return "rd"; break;
+                            default: return "th"; break;
+                        }
+                    }
+
+                    // Get Day of Year
+                    Date.prototype.getDOY = function() {
+                        var dayCount = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+                        var mn = this.getMonth();
+                        var dn = this.getDate();
+                        var dayOfYear = dayCount[mn] + dn;
+                        if(mn > 1 && this.isLeapYear()) dayOfYear++;
+                        return dayOfYear;
+                    };
+
+                    //Get Days in month
+                    Date.prototype.getDIM = function(){
+                        var month = this.getMonth();//0-11
+                        var year = this.getFullYear();//2017
+                        return new Date(year, month, 0).getDate();
+                    };
+
+                    //Get week of year
+                    Date.prototype.getWOY = function() {
+                        var now = new Date();
+                        var onejan = new Date(now.getFullYear(), 0, 1);
+                        return Math.ceil((((now - onejan) / 86400000) + onejan.getDay() + 1) / 7);
+                    };
+                    //END DATE FORMAT
+
+
+
+
+                    function parseverbosedate(TheDate){
+                        log("Parsing: " + TheDate);
+                        TheDate = TheDate.split(" ");//0=dayofweek 1=month 2=day, 3=year 4=at 5=time 6=AMPM
+                        var time = TheDate[5].split(":");
+                        if(TheDate[6] == "PM"){
                             time[0] = Number(time[0]) + 12;
                         }
-                        Placed_At[5] = time.join(":") + ":00 GMT" + hrs + "00";
-                        var year = Placed_At[3];
-                        Placed_At.splice(6, 1);//AMPM
-                        Placed_At.splice(4, 1);//at
-                        Placed_At.splice(0, 1);//day of week
-                        Placed_At = Placed_At.join(" ");
-                        Placed_At = Date.parse(Placed_At);
+                        var month = months.indexOf(TheDate[1]);
+                        var day = TheDate[2].replace(",", "");
+                        //return "Year: " + TheDate[3] + " Month: " + month + " (" + TheDate[1] + ") Day: " + day + " Hour: " + time[0] + " Minute: " + time[1];
+                        return new Date(TheDate[3], month, day, time[0], time[1], 0, 0);
+                    }
 
+                    function DeliveryTime(Delivery_Time, Placed_At, AddBadges){
+                        var Original_Delivery_Time = Delivery_Time;
+                        if(isUndefined(AddBadges)){AddBadges = true;}
+                        //Delivery_Time: "Deliver Now", "February 21 at 1455"
+                        //Placed_At: "Tuesday February 21, 2017 @ 2:01 PM"
+                        var hrs = FormatDate("o"); //-(new Date().getTimezoneOffset() / 60);//UTC offset
+                        Placed_At = parseverbosedate(Placed_At);
                         var ASAP = false;
                         if(Delivery_Time == "Deliver Now"){
                             ASAP = true;
                             Delivery_Time =  new Date(Placed_At);
-                            Delivery_Time.setMinutes(Delivery_Time.getMinutes() + 40);
+                            Delivery_Time.setMinutes(Delivery_Time.getMinutes() + delivery_time);
                         } else {
                             Delivery_Time = Delivery_Time.split(" ");//0=Month 1=Day 2=at 3=time
-                            Delivery_Time[3] = Delivery_Time[3].left(2) + ":" + Delivery_Time[3].right(2) + ":00 GMT" + hrs + "00";
-                            Delivery_Time[2] = year;
-                            Delivery_Time = Delivery_Time.join(" ");
+                            //Convert from: [0]=February [1]=21 [2]=at [3]=1455
+                            //Convert to:   Tuesday February 21, 2017 @ 2:55 PM
+                            var hour = Delivery_Time[3].left( Delivery_Time[3].length -2 );
+                            var AMPM = "AM";
+                            if (hour > 11){
+                                hour -= 12;
+                                AMPM = "PM";
+                            }
+                            Delivery_Time = parseverbosedate("IrrelevantDay " + Delivery_Time[0] + " " + Delivery_Time[1] + ", " + Placed_At.getFullYear() + " @ " + hour + ":" + Delivery_Time[3].right(2) + " " + AMPM);
                         }
 
-                        var Now = Date.now();
-                        var ret = toDate(Delivery_Time);
+                        if(!AddBadges){return ret;}
                         if(ASAP){
-                            ret += ' <SPAN CLASS="badge badge-pill badge-info">ASAP</SPAN>';
+                            var ret = toDate(Delivery_Time) + ' <SPAN CLASS="badge badge-pill badge-info">ASAP</SPAN>';
+                            Delivery_Time = Date.parse(Delivery_Time);
                         } else {
-                            ret += ' <SPAN CLASS="badge badge-pill badge-primary">TIMED</SPAN>';
+                            var ret = toDate(Delivery_Time) + ' <SPAN CLASS="badge badge-pill badge-primary">TIMED</SPAN>';//Original time: ' + Delivery_Time;
                         }
-                        Delivery_Time = Date.parse(Delivery_Time);
-                        //Now = Delivery_Time  - 3600;
+                        var Now = Date.now();
                         if(Now>Delivery_Time){
                             ret += ' <SPAN CLASS="badge badge-pill badge-danger">[EXPIRED]</SPAN>';
                         } else {
@@ -894,17 +1077,17 @@
                         }
                         return ret;
                     }
+
                     function toRemaining(hours, minutes, seconds){
                         if(seconds == 0 && hours == 0 && minutes == 0){return "[EXPIRED]";}
                         var ret = minpad(minutes) + "m:" + minpad(seconds) + "s";
                         if(hours > 0){ret = hours + "h:" + ret;}
                         return ret;
                     }
+
                     function toDate(UTC){
                         if(!isNaN(UTC)){UTC = Date.parse(UTC);}//returns "Tuesday February 21, 2017 @ 2:01 PM"
                         var d = new Date(UTC);
-                        var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-                        var dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
                         var Hour = d.getHours();
                         var AMPM = "AM";
                         if (Hour > 11){
@@ -912,7 +1095,7 @@
                             AMPM = "PM";
                         }
                         var Min = minpad(d.getMinutes());
-                        return dayNames[d.getDay()] + " " + monthNames[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear() + " @ " + Hour + ":" + Min + " " + AMPM;
+                        return days_of_week[d.getDay()] + " " + months[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear() + " @ " + Hour + ":" + Min + " " + AMPM;
                     }
                     function minpad(time) {
                         if (time < 10) {
@@ -1175,10 +1358,10 @@
                         }, function (result) {
                             if(result) {
                                 var button = '<DIV CLASS="col-md-3"><button data-dismiss="modal" class="width-full btn btn-';
-                                var HTML = '<DIV CLASS="row">' + button + 'primary" onclick="changeorderstatus(' + ID + ', 1);">' + statuses[1] + '</button></DIV>';
-                                HTML += button + 'secondary pull-center red" onclick="changeorderstatus(' + ID + ');"><i class="fa fa-envelope"></I> Email</button></DIV>';
-                                HTML += button + 'warning pull-right" onclick="changeorderstatus(' + ID + ', 3);">' + statuses[3] + '</button></DIV>';
-                                HTML += button + 'danger pull-right" onclick="changeorderstatus(' + ID + ', 2);">' + statuses[2] + '</button></DIV></DIV>';
+                                var HTML = '<DIV CLASS="row">' + button + 'primary status-confirmed" onclick="changeorderstatus(' + ID + ', 1);">' + statuses[1] + '</button></DIV>';
+                                HTML += button + 'secondary pull-center red status-email" onclick="changeorderstatus(' + ID + ');"><i class="fa fa-envelope"></I> Email</button></DIV>';
+                                HTML += button + 'warning pull-right status-delivered" onclick="changeorderstatus(' + ID + ', 3);">' + statuses[3] + '</button></DIV>';
+                                HTML += button + 'danger pull-right status-declined" onclick="changeorderstatus(' + ID + ', 2);">' + statuses[2] + '</button></DIV></DIV>';
                                 $("#ordercontents").html(result + HTML);
                                 $("#ordermodal").modal("show");
                                 @if(!$showmap)

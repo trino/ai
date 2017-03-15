@@ -86,10 +86,10 @@
         }
     }
     //edit countdown timer duration
-    $minutes = 40;
+    $minutes = delivery_time;
     $seconds = 0;
     $duration = "";
-    $timer=$place != "email";
+    $timer= $place != "email";
 
     if ($Order["deliverytime"]) {
         $duration = $Order["deliverytime"];
@@ -103,13 +103,18 @@
                 $timer = false;
             }
         } else if ($Order["deliverytime"] == "Deliver Now") {
-            $time = strtotime($Order["placed_at"]);
-            $duration = GenerateDate(date("F j", $time)) . " at " . date("g:i A", $time+($minutes*60));
+            $time = strtotime($Order["placed_at"]) + ($minutes*60);
+            $duration = GenerateDate(date("F j", $time)) . " at " . date("g:i A", $time);
+            if(time() > $time){
+                $timer = false;//expired
+            } else {
+                $minutes = ceil(($time - time()) / 60);
+            }
         } else {
             $timer = false;
         }
     }
-    $time = "";
+    $time = '';
     if ($timer) {
         if ($minutes < 60) {
             $time = $minutes;
@@ -125,8 +130,9 @@
     <h2 class="mt-0">Order for {{ $duration }}</h2>
     @if($timer)
         <div style="font-size: 2rem !important;" CLASS="mb-2 countdown btn-lg badge badge-pill badge-success" hours="0" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"><?= $time; ?></div>
+    @else
+        <span class="badge badge-pill badge-danger">[EXPIRED]</span>
     @endif
-
 
     <TABLE <?= inline("table table-sm table-bordered");  ?> oldclass="table-responsive">
         <TR>
