@@ -442,35 +442,39 @@
                                             <TBODY></TBODY>
                                             <TFOOT><TR><TD COLSPAN="{{ count($fields)+1 }}" ID="pages"></TD></TR></TFOOT>
                                         </TABLE>
-                                        <DIV ID="body">
-                                            <?php
-                                                switch($table){
-                                                    case "useraddresses":
-                                                        echo '<A ONCLICK="saveaddress(0);" CLASS="btn btn-sm btn-success">New</A> ';
-                                                        echo '<A ONCLICK="saveaddress(selecteditem);" CLASS="btn btn-sm btn-secondary" id="saveaddress" DISABLED>Save</A>';
-                                                        echo view("popups_address", $_GET)->render();
-                                                        break;
-                                                    case "restaurants":
-                                                        echo '<DIV ID="addressdropdown" class="addressdropdown dont-show"></DIV>';
-                                                        break;
-                                                    case "orders":
-                                                        if(isset($_GET["restaurant"]) && $_GET["restaurant"]){
-                                                            $showmap=true;
-                                                            $RestaurantID = $_GET["restaurant"];
-                                                            $Restaurant = first("SELECT * FROM restaurants WHERE id=" . $_GET["restaurant"]);
-                                                            if($Restaurant){
-                                                                $Address = first("SELECT * FROM useraddresses WHERE id=" . $Restaurant["address_id"]);
-                                                                echo view("popups_googlemaps", $Address);
-                                                            }
-                                                        }
-                                                        break;
-                                                }
-                                            ?>
-                                        </DIV>
+                                        <DIV ID="body"></DIV>
                                     @endif
                                 </div>
                             </div>
                         </div>
+
+                        <DIV ID="form">
+                            <?php
+                                switch($table){
+                                    case "useraddresses":
+                                        echo '<A ONCLICK="saveaddress(0);" CLASS="btn btn-sm btn-success">New</A> ';
+                                        echo '<A ONCLICK="saveaddress(selecteditem);" CLASS="btn btn-sm btn-secondary" id="saveaddress" DISABLED>Save</A>';
+                                        $_GET["dontincludeGoogle"] = true;
+                                        echo view("popups_address", $_GET)->render();
+                                        break;
+                                    case "restaurants":
+                                        echo '<DIV ID="addressdropdown" class="addressdropdown dont-show"></DIV>';
+                                        break;
+                                    case "orders":
+                                        if(isset($_GET["restaurant"]) && $_GET["restaurant"]){
+                                            $showmap=true;
+                                            $RestaurantID = $_GET["restaurant"];
+                                            $Restaurant = first("SELECT * FROM restaurants WHERE id=" . $_GET["restaurant"]);
+                                            if($Restaurant){
+                                                $Address = first("SELECT * FROM useraddresses WHERE id=" . $Restaurant["address_id"]);
+                                                echo view("popups_googlemaps", $Address);
+                                            }
+                                        }
+                                        break;
+                                }
+                            ?>
+                        </DIV>
+
                     </div>
                 </div>
             </div>
@@ -480,6 +484,7 @@
                     var usertype = ["Customer", "Admin", "Restaurant"];
                     var profiletype = '<?= $profiletype; ?>';
 
+                    var getcloseststore = false;
                     var TableStyle = '<?= $TableStyle; ?>';
                     var selecteditem = 0;
                     var itemsperpage = 25;
@@ -588,6 +593,7 @@
                         if(index==-1){index = lastpage;}
                         if(isUndefined(makenew)){makenew = false;}
                         if(index<0){index = currentpage;}
+                        blockerror = true;
                         $.post(currentURL, {
                             action: "getpage",
                             _token: token,
@@ -598,7 +604,7 @@
                             search: $("#searchtext").val(),
                             sort_col: sort_col,
                             sort_dir: sort_dir
-                        }, function (result) {
+                        }).done(function (result) {
                             try {
                                 var data = JSON.parse(result);
                                 var HTML = "";
@@ -818,6 +824,8 @@
                                 $("#body").html(e + " NON-JSON DETECTED: <BR>" + result);
                                 return false;
                             }
+                        }).fail(function(xhr, status, error) {
+                            getpage(index);
                         });
                     }
 

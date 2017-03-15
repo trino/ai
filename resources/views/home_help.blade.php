@@ -206,6 +206,9 @@
             $actions = actions($action);
             $parties = ["User", "Admin", "Restaurant"];
             $tempstr = "";
+            if(!count($actions)){
+                $tempstr = "<BR>No actions are assigned to this event";
+            }
             foreach ($actions as $actiond) {
                 $tempstr2 = "The " . $parties[$actiond["party"]] . " is: ";
                 $actione = array();
@@ -273,6 +276,7 @@
             newlist("Communication Actions");
             newitem("Editing actions", 'This can only done in <B><i class="fa fa-fw fa-user-plus"></i> Actions list</B>. This tells the system who to contact and how depending on specific events.<BR>(<SPAN class="reason">[reason]</SPAN> is replaced with the message entered by the restaurant, and must be lower-cased)');
             actionitem("order_placed", "the order is placed");
+            actionitem("order_delivered", 'the <jump class="btn btn-sm btn-warning btn-border no-u">Delivered</jump> button is clicked');
             actionitem("order_confirmed", 'the <jump class="btn btn-sm btn-primary btn-border no-u">Confirmed</jump> button is clicked');
             actionitem("order_declined", 'the <jump class="btn btn-sm btn-danger btn-border no-u">Declined</jump> or <jump class="btn btn-sm btn-danger btn-border no-u">Deleted</jump> buttons are clicked.');
             actionitem("user_registered", 'a new user is registered. (Since no restaurant is involved in this event, do not set the party of this event to the Restaurant)');

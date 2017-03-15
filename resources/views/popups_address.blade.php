@@ -5,8 +5,8 @@
     if (!isset($icons)) {$icons = false;}
     switch ($style) {
         case 0:
-            echo '<DIV CLASS="form-control row"><DIV CLASS="form-control col-md-2">Address:</DIV><DIV CLASS="form-control col-md-10">';
-            echo '<INPUT TYPE="text" ID="formatted_address" ' . $required . ' name="formatted_address"></div></DIV>';
+            echo '<DIV CLASS="row"><DIV CLASS="col-md-2">Address:</DIV><DIV CLASS="col-md-10">';
+            echo '<INPUT class="form-control" TYPE="text" ID="formatted_address" ' . $required . ' name="formatted_address"></div></DIV>';
             break;
         case 1:
             if($icons) {echo '<div class="input_left_icon"><i class="fa fa-home"></i></div><div class="input_right">';}
@@ -168,6 +168,15 @@
 <?php
     if (!isset($dontincludeGoogle)) {
         echo '<script src="https://maps.googleapis.com/maps/api/js?signed_in=true&libraries=places&callback=initAutocomplete&key=AIzaSyBWSUc8EbZYVKF37jWVCb3lpBQwWqXUZw8"></script>';
+    } else {
+        ?>
+            <SCRIPT LANGUAGE="JavaScript">
+                window.onload = function () {
+                    log("init autocomplete");
+                    initAutocomplete();
+                }
+            </SCRIPT>
+        <?php
     }
     endfile("popups_address");
 ?>

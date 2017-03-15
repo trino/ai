@@ -1352,13 +1352,14 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     }
 
     //universal AJAX error handling
+    var blockerror = false;
     $(document).ajaxComplete(function (event, request, settings) {
         if (skipunloadingscreen) {
             skipunloadingscreen = false;
         } else {
             loading(false, "ajaxComplete");
         }
-        if (request.status != 200 && request.status > 0) {//not OK, or aborted
+        if (request.status != 200 && request.status > 0 && !blockerror) {//not OK, or aborted
             var text = request.responseText;
             if (text.indexOf('Whoops, looks like something went wrong.') > -1 && text.indexOf('<span class="exception_title">') > -1) {
                 text = text.between('<span class="exception_title">', '</h2>');
@@ -1374,6 +1375,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             }
             alert(text + "<BR><BR>URL: " + settings.url, "AJAX error code: " + request.status);
         }
+        blockerror=false;
     });
 
     function rnd(min, max) {
