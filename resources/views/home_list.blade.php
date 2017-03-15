@@ -137,6 +137,12 @@
 
     if(isset($_POST["action"])){
         $results = array("Status" => true, "POST" => $_POST);
+
+        if($_POST["action"] == "saveaddress"){
+            $_POST["action"] = "saveitem";
+            $table = "useraddresses";
+        }
+
         switch($_POST["action"]){
             case "getpage"://get a page of data via AJAX
                 if(!in_array($table, array("all", "debug"))){
@@ -209,7 +215,7 @@
 
             case "saveitem"://edit all columns in a row
                 touchtable($table);
-                insertdb($table, $_POST["value"]);
+                $results["id"] = insertdb($table, $_POST["value"]);
                 break;
 
             case "getreceipt"://get an order receipt
@@ -458,7 +464,9 @@
                                         echo view("popups_address", $_GET)->render();
                                         break;
                                     case "restaurants":
+                                        echo view("popups_address", array("dontincludeGoogle" => true))->render();
                                         echo '<DIV ID="addressdropdown" class="addressdropdown dont-show"></DIV>';
+                                        echo '<A ONCLICK="saveaddress(-1);" CLASS="btn btn-sm btn-success">Add to dropdowns</A>';
                                         break;
                                     case "orders":
                                         if(isset($_GET["restaurant"]) && $_GET["restaurant"]){
@@ -751,7 +759,7 @@
                                                             case "restaurants.address_id":
                                                                 isSelect=true;
                                                                 console.log(HTML + " was selected");
-                                                                HTML = $("#addressdropdown").html().replace('class="form-control" id="saveaddresses"', 'CLASS="selectfield form-control" ID="' + ID + "_" + field + '" COLNAME="' + colname + '"').replace('value="' + HTML + '"', 'value="' + HTML + '" SELECTED');
+                                                                HTML = $("#addressdropdown").html().replace('form-control', 'selectfield form-control').replace(' id="saveaddresses"', ' ID="' + ID + "_" + field + '" COLNAME="' + colname + '"').replace('value="' + HTML + '"', 'value="' + HTML + '" SELECTED');
                                                                 console.log(HTML + " was edited");
                                                                 break;
 
@@ -1098,6 +1106,7 @@
                             if(handleresult(result)) {
                                 log(table + "." + field + " became " + newdata);
                                 $("#" + table + "_" + ID + "_" + field).html(newdata);
+                                $("#formatted_address").show().val("");
                             }
                         });
                     }
@@ -1125,24 +1134,31 @@
                             switch(key) {
                                 case "unit": case "buzzcode": break;
                                 default:
+                                    if(formdata[key].trim().length == 0 && key == "user_id") {formdata[key] = userdetails.id;}
                                     if(formdata[key].trim().length == 0){
-                                        //alert($(".data_" + key).text().replace(":", "") + " can not be empty");
-                                        alert(makestring("{not_empty}", {data: $(".data_" + key).text().replace(":", "")}));
+                                        alert(makestring("{not_empty}", {data: key}));
                                         return false;
                                     }
                             }
                         }
 
-                        if(ID){formdata.id = ID;}
+                        if (ID && ID > -1) {formdata.id = ID;}
                         $.post(currentURL, {
-                            action: "saveitem",
+                            action: "saveaddress",
                             _token: token,
                             value: formdata
                         }, function (result) {
-                            if(handleresult(result)) {
-                                getpage(lastpage);
+                            if (handleresult(result)) {
+                                if(ID == -1){
+                                    var HTML = AddressToOption(formdata);
+                                    $(".saveaddresses").append(HTML);
+                                    alert(makestring("{new_addrs}", formdata));
+                                } else {
+                                    getpage(lastpage);
+                                }
                             }
                         });
+
                     }
 
                     //view an order receipt
@@ -1367,11 +1383,12 @@
                     }
 
                     unikeys = {
-                        cant_edit: '[table].[field] can not be edited',
-                        user_auth: 'User is now authorized',
+                        cant_edit: "[table].[field] can not be edited",
+                        user_auth: "User is now authorized",
                         not_valid: "'[data]' is not a valid [datatype]",
                         not_empty: "[data] can not be empty",
-                        unhandled: "'[datatype]' is unhandled"
+                        unhandled: "'[datatype]' is unhandled",
+                        new_addrs: "'[number] [street]' was saved"
                     };
                 </SCRIPT>
             @else
