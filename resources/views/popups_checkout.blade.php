@@ -8,7 +8,7 @@
 
 <div id="myorder"></div>
 
-    <button id="checkout-btn" class="list-group-item-padding btn btn-warning btn-block radius0" onclick="showcheckout();">
+    <button id="checkout-btn" class="list-group-item-paddingbtn btn-warning btn-block radius0" onclick="showcheckout();">
         <i class="fa fa-shopping-basket mr-2"></i> CHECKOUT
     </button>
     <div class="clearfix"></div>

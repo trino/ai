@@ -111,12 +111,10 @@
         }
         $itemsInCol += $menuitemcount;
         ?>
-        <div class="bg-secondary list-group-item">
+        <div class="bg-secondary text-muted list-group-item">
 
             <span class="align-middle rounded sprite sprite-wings sprite-medium " style="visibility: hidden"></span>
-<h2>
-            {{$category['category']}}
-</h2>
+         <h2>   {{$category['category']}}</h2>
         </div>
         @foreach ($menuitems as $menuitem)
             <div class="receipt_item list-group-item d-flex justify-content-start item_{{ $catclass }}"

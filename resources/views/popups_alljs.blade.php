@@ -552,7 +552,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
         if (theorder.length == 0) {
 
-            HTML = '<DIV CLASS="text-center btn-sm-padding list-group-item receipt-empty"><i class="fa fa-shopping-basket mr-2 empty-shopping-cart"></i><span>Empty</span></div>';
+            HTML = '<DIV CLASS="text-center  bg-secondary  btn-sm-padding list-group-item receipt-empty"><i class="fa fa-shopping-basket mr-2 empty-shopping-cart"></i><span>Empty</span></div>';
             $("#checkout").hide();
             $("#checkoutbutton").hide();
             $("#confirmclearorder").hide();
@@ -574,7 +574,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             tempHTML += '<div class="pull-right  "> Sub-total $' + subtotal.toFixed(2) + '</div><div class="clearfix "></div>';
             tempHTML += '<div class="pull-right  ">  Delivery $' + deliveryfee.toFixed(2) + '</div><div class="clearfix "></div>';
             tempHTML += '<div class="pull-right  ">  Tax $' + taxes.toFixed(2) + '</div><div class="clearfix "></div>';
-            tempHTML += '<div class="pull-right  "> Total $' + totalcost.toFixed(2) + '</div><div class="clearfix "></div><br></div>';
+            tempHTML += '<div class="pull-right  "> Total $' + totalcost.toFixed(2) + '</div><div class="clearfix "></div></div>';
 
 
             tempHTML += '<div class="clearfix "></div></DIV>';
@@ -1924,7 +1924,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             for (var i = 0; i < currentaddonlist[itemindex].length; i++) {
                 var currentaddon = currentaddonlist[itemindex][i];
                 var qualifier = "";
-                tempstr += '<DIV CLASS="btn-sm btn btn-secondary ' + classname + '" id="topping_' + itemindex + '_' + i + '">' + currentaddon.name +
+                tempstr += '<DIV CLASS="btn-sm btn btn-secondary toppings_btn ' + classname + '" id="topping_' + itemindex + '_' + i + '">' + currentaddon.name +
                     '<span ONCLICK="removelistitem(' + itemindex + ', ' + i + ');">&nbsp; <i CLASS="fa fa-times"></i> </span></div>&nbsp;';
 
                 qualifier = currentaddon.qual;
@@ -1989,7 +1989,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         if (currentstyle == 0) {
             $("#addonlist").html(HTML + '</DIV>');
         } else {
-            HTML += '';
+            HTML += '<div class="fixed-bottom ">';
             for (var i = 0; i < types.length; i++) {
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
@@ -2008,7 +2008,8 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             }
 
             HTML += '<button class="thirdwidth btn btn-sm toppings_btn" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button>' +
-                '<button class="thirdwidth btn btn-sm btn-primary toppings_btn" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button>';
+                '<button class="thirdwidth btn btn-sm btn-primary" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button>';
+            HTML += '</div>';
 
             $("#addonlist").html(HTML);
             $(".addon-addon").click(
