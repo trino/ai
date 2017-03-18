@@ -68,9 +68,11 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     Number.prototype.pad = function (size, rightside) {
         var s = String(this);
-        if(isUndefined(rightside)){rightside = false;}
+        if (isUndefined(rightside)) {
+            rightside = false;
+        }
         while (s.length < (size || 2)) {
-            if(rightside){
+            if (rightside) {
                 s = s + "0";
             } else {
                 s = "0" + s;
@@ -437,7 +439,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         }
         $("#oldvalues").stop().html("").hide().remove();
         $("#newvalues").stop().html("").hide().remove();
-        var itemnames = {toppings: "Pizza", wings_sauce: "lbl"};
+        var itemnames = {toppings: "toppings", wings_sauce: "lb"};
         var nonames = {toppings: "toppings", wings_sauce: "sauce"};
         for (var itemid = 0; itemid < theorder.length; itemid++) {
             var item = theorder[itemid];
@@ -488,7 +490,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                     sprite += " sprite-" + toclassname(item["itemname"].trim()).replaceAll("_", "-").replace(/\./g, '');
                 }
 
-                tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item list-group-item"><SPAN CLASS="item_qty">' + quantity + '</SPAN>';
+                tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item list-group-item"><SPAN CLASS="item_qty btn-sm-padding-left ">' + quantity + ' x </SPAN>';
                 tempHTML += '<span CLASS="sprite  sprite-' + sprite + ' sprite-medium"></span>';
                 // tempHTML += '<span title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '" class="receipt_itemcost"></span>';
                 tempHTML += ' <span class="receipt-itemname">' + item["itemname"] + '</SPAN>';
@@ -500,13 +502,13 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 if (hasaddons) {
                     tempHTML += '<button class="fa fa-pencil btn-sm" onclick="edititem(this, ' + itemid + ');"></button>';
                 } else {
-                    tempHTML += '<button class="fa fa-plus btn-sm" onclick="cloneitem(this, ' + itemid + ');"></button>';
+                    tempHTML += '<button class="fa fa-plus btn-sm btm-secondary" onclick="cloneitem(this, ' + itemid + ');"></button>';
                 }
-                tempHTML +='</SPAN></div>';
+                tempHTML += '</SPAN></div>';
 
                 var itemname = "";
                 if (hasaddons) {
-                    tempHTML += '<DIV class="item_addons list-group-item col-md-12">';
+                    tempHTML += '<DIV class="btn-sm-padding item_addons list-group-item">';
                     var tablename = item["itemaddons"][0]["tablename"];
                     if (item["itemaddons"].length > 1) {
                         itemname = itemnames[tablename];
@@ -514,9 +516,9 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                     for (var currentitem = 0; currentitem < item["itemaddons"].length; currentitem++) {
                         var addons = item["itemaddons"][currentitem];
                         if (itemname) {
-                            tempHTML += '<DIV CLASS="col-md-4 item_title">' + ordinals[currentitem] + " " + itemname + ':</DIV><DIV class="col-md-8">';
+                            tempHTML += '<DIV CLASS="col-md-12 item_title">' + ordinals[currentitem] + " " + itemname + ': ';
                         } else {
-                            tempHTML += '<DIV class="col-md-12">';
+                            tempHTML += '<DIV class=" ">';
                         }
                         if (addons["addons"].length == 0) {
                             tempHTML += 'no ' + nonames[tablename] + '';
@@ -546,8 +548,11 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
         visible("#checkout", userdetails);
         createCookieValue("theorder", JSON.stringify(theorder));
+
+
         if (theorder.length == 0) {
-            HTML = '<DIV CLASS="text-center receipt-empty"><br><i class="fa fa-shopping-basket fa-2x empty-shopping-cart"></i><br><h6>Order is Empty</h6><br></div>';
+
+            HTML = '<DIV CLASS="text-center btn-sm-padding list-group-item receipt-empty"><i class="fa fa-shopping-basket mr-2 empty-shopping-cart"></i><span>Empty</span></div>';
             $("#checkout").hide();
             $("#checkoutbutton").hide();
             $("#confirmclearorder").hide();
@@ -555,28 +560,42 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             collapsecheckout();
             $("#checkout-btn").hide();
             $("#checkout-total").text('$0.00');
+
+
         } else {
-            tempHTML = '<DIV id="newvalues"';
+
+
+            tempHTML = '<DIV id="newvalues" class="my-3 btn-sm-padding';
             if (fadein || forcefade) {
-                tempHTML += ' CLASS="dont-show"';
+                tempHTML += ' dont-show';
             }
-            tempHTML += '>';
+            tempHTML += '">';
+
+            tempHTML += '<div class="pull-right  "> Sub-total $' + subtotal.toFixed(2) + '</div><div class="clearfix "></div>';
+            tempHTML += '<div class="pull-right  ">  Delivery $' + deliveryfee.toFixed(2) + '</div><div class="clearfix "></div>';
+            tempHTML += '<div class="pull-right  ">  Tax $' + taxes.toFixed(2) + '</div><div class="clearfix "></div>';
+            tempHTML += '<div class="pull-right  "> Total $' + totalcost.toFixed(2) + '</div><div class="clearfix "></div><br></div>';
+
+
+            tempHTML += '<div class="clearfix "></div></DIV>';
+
+
             if (subtotal >= minimumfee) {
                 $("#checkout-btn").show();
             } else {
                 $("#checkout-btn").hide();
-                tempHTML += '<SPAN CLASS="badge badge-warning width-full">Minimum sub-total $' + minimumfee + ' for delivery</SPAN><br>';
+                tempHTML += '<span CLASS="btn-sm-padding btn-block list-group-item bg-warning text-center text-white">Minimum order $' + minimumfee + '</span>';
             }
-            tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Sub-total </SPAN>$' + subtotal.toFixed(2) + '</span><br>';
-            tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Delivery </SPAN>$' + deliveryfee.toFixed(2) + '</span><br>';
-            tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Tax </SPAN>$' + taxes.toFixed(2) + '</span><br>';
-            tempHTML += '<span class="pull-right category-parent"> <SPAN CLASS="category">Total </SPAN>$' + totalcost.toFixed(2) + '</span><span><br>&nbsp;</span></DIV>';
+
             $("#confirmclearorder").show();
+
+
             $("#checkout-total").text('$' + totalcost.toFixed(2));
         }
         if (fadein || forcefade) {
             tempHTML += '<DIV id="oldvalues">' + oldvalues + '</div>';
         }
+
         $("#myorder").html(HTML + tempHTML);
         if (fadein || forcefade) {
             if (fadein) {
@@ -586,6 +605,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 $("#newvalues").fadeIn();
             });
         }
+
     }
 
     //hides the checkout form
@@ -854,7 +874,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             }, function (result) {
                 $("#checkoutmodal").modal("hide");
                 if (result.contains("ordersuccess")) {
-                    handleresult(result, "Thank you for your order");
+                    handleresult(result, "Thank you");
                     if ($("#saveaddresses").val() == "addaddress") {
                         var Address = {
                             id: $(".ordersuccess").attr("addressid"),
@@ -1380,7 +1400,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             }
             alert(text + "<BR><BR>URL: " + settings.url, "AJAX error code: " + request.status);
         }
-        blockerror=false;
+        blockerror = false;
     });
 
     function rnd(min, max) {
@@ -1444,13 +1464,30 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         var errormessage = "";
         log("Stripe response");
         switch (status) {
-            case 400: errormessage = "Bad Request:<BR>The request was unacceptable, often due to missing a required parameter."; break;
-            case 401: errormessage = "Unauthorized:<BR>No valid API key provided."; break;
-            case 402: errormessage = "Request Failed:<BR>The parameters were valid but the request failed."; break;
-            case 404: errormessage = "Not Found:<BR>The requested resource doesn't exist."; break;
-            case 409: errormessage = "Conflict:<BR>The request conflicts with another request (perhaps due to using the same idempotent key)."; break;
-            case 429: errormessage = "Too Many Requests:<BR>Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."; break;
-            case 500: case 502: case 503: case 504: errormessage = "Server Errors:<BR>Something went wrong on Stripe's end."; break;
+            case 400:
+                errormessage = "Bad Request:<BR>The request was unacceptable, often due to missing a required parameter.";
+                break;
+            case 401:
+                errormessage = "Unauthorized:<BR>No valid API key provided.";
+                break;
+            case 402:
+                errormessage = "Request Failed:<BR>The parameters were valid but the request failed.";
+                break;
+            case 404:
+                errormessage = "Not Found:<BR>The requested resource doesn't exist.";
+                break;
+            case 409:
+                errormessage = "Conflict:<BR>The request conflicts with another request (perhaps due to using the same idempotent key).";
+                break;
+            case 429:
+                errormessage = "Too Many Requests:<BR>Too many requests hit the API too quickly. We recommend an exponential backoff of your requests.";
+                break;
+            case 500:
+            case 502:
+            case 503:
+            case 504:
+                errormessage = "Server Errors:<BR>Something went wrong on Stripe's end.";
+                break;
             case 200:// - OK	Everything worked as expected.
                 if (response.error) {
                     $('.payment-errors').html(response.error.message);
@@ -1476,9 +1513,15 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         var card_number = $("input[data-stripe=number]").val().replace(/\D/g, '');
         var card_brand = "Unknown (" + card_number.left(1) + ")";
         switch (card_number.left(1)) {
-            case "3": card_brand = "American Express"; break;
-            case "4": card_brand = "Visa"; break;
-            case "5": card_brand = "Master Card"; break;
+            case "3":
+                card_brand = "American Express";
+                break;
+            case "4":
+                card_brand = "Visa";
+                break;
+            case "5":
+                card_brand = "Master Card";
+                break;
         }
         return {
             id: ID,
@@ -1536,7 +1579,9 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                         }
                     }
                 }
-                if (!smallest) {smallest = 0;}
+                if (!smallest) {
+                    smallest = 0;
+                }
                 $("#restaurant").html(HTML);
                 $("#restaurant").val(smallest);
                 restchange();
@@ -1720,11 +1765,17 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     function isopen(hours, dayofweek, time) {
         var now = new Date();//doesn't take into account <= because it takes more than 1 minute to place an order
-        if (isUndefined(dayofweek)) {dayofweek = now.getDay();}
-        if (isUndefined(time)) {time = now.getHours() * 100 + now.getMinutes();}
+        if (isUndefined(dayofweek)) {
+            dayofweek = now.getDay();
+        }
+        if (isUndefined(time)) {
+            time = now.getHours() * 100 + now.getMinutes();
+        }
         var today = hours[dayofweek];
         var yesterday = dayofweek - 1;
-        if (yesterday < 0) {yesterday = 6;}
+        if (yesterday < 0) {
+            yesterday = 6;
+        }
         var yesterdaysdate = yesterday;
         yesterday = hours[yesterday];
         today.open = Number(today.open);
@@ -1732,20 +1783,28 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         yesterday.open = Number(yesterday.open);
         yesterday.close = Number(yesterday.close);
         if (yesterday.open > -1 && yesterday.close > -1 && yesterday.close < yesterday.open) {
-            if (yesterday.close > time) {return yesterdaysdate;}
+            if (yesterday.close > time) {
+                return yesterdaysdate;
+            }
         }
         if (today.open > -1 && today.close > -1) {
             if (today.close < today.open) {
-                if (time >= today.open || time < today.close) {return dayofweek;}
+                if (time >= today.open || time < today.close) {
+                    return dayofweek;
+                }
             } else {
-                if (time >= today.open && time < today.close) {return dayofweek;}
+                if (time >= today.open && time < today.close) {
+                    return dayofweek;
+                }
             }
         }
         return -1;//closed
     }
 
     function visiblemodals() {
-        return $('.modal:visible').map(function () {return this.id;}).get();
+        return $('.modal:visible').map(function () {
+            return this.id;
+        }).get();
     }
 
 </SCRIPT>
@@ -1799,7 +1858,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title" id="alertmodallabel">Title</h2>
-                <button data-dismiss="modal" class="btn btn-sm btn-danger pull-right"><i class="fa fa-close"></i></button>
+                <button data-dismiss="modal" class="btn btn-sm pull-right"><i class="fa fa-close"></i></button>
             </div>
             <div class="modal-body">
                 <DIV ID="alertmodalbody"></DIV>
@@ -1836,11 +1895,11 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         switch (currentaddontype) {
             case "toppings":
                 addonname = "Toppings";
-                item_name = "Pizza";
+                item_name = "Toppings ";
                 break;
             case "wings_sauce":
                 addonname = "Sauce";
-                item_name = "Wings";
+                item_name = "Sauce";
                 break;
             default:
                 addonname = "Error: " + currentaddontype;
@@ -1855,17 +1914,17 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             var tempstr = '';
             var classname = 'itemcontents itemcontents' + itemindex;
 
-            HTML += '<DIV ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="receipt-addons currentitem currentitem' + itemindex;
+            HTML += '<DIV ONCLICK="selectitem(event, ' + itemindex + ');" CLASS="list-group-item receipt-addons currentitem currentitem' + itemindex;
             if (currentitemindex == itemindex) {
                 HTML += ' thisside';
             }
-            HTML += '">' + '<div class="btn " id="item_' + itemindex + '">' + ucfirst(item_name) + ' #' + (itemindex + 1) + '</div>';
+            HTML += '">' + '<div class="btn btn-sm  " id="item_' + itemindex + '">' + ucfirst(item_name) + ' #' + (itemindex + 1) + '</div>';
 
 
             for (var i = 0; i < currentaddonlist[itemindex].length; i++) {
                 var currentaddon = currentaddonlist[itemindex][i];
                 var qualifier = "";
-                tempstr += '<DIV CLASS="pill btn btn-secondary ' + classname + '" id="topping_' + itemindex + '_' + i + '">' + currentaddon.name +
+                tempstr += '<DIV CLASS="btn-sm btn btn-secondary ' + classname + '" id="topping_' + itemindex + '_' + i + '">' + currentaddon.name +
                     '<span ONCLICK="removelistitem(' + itemindex + ', ' + i + ');">&nbsp; <i CLASS="fa fa-times"></i> </span></div>&nbsp;';
 
                 qualifier = currentaddon.qual;
@@ -1935,7 +1994,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
-                    HTML += '<button class="thirdwidth btn toppings_btn addon-addon';
+                    HTML += '<button class="thirdwidth btn btn-sm toppings_btn addon-addon';
 
                     if (isaddon_free(String(currentaddontype), String(addon))) {
                         HTML += ' ';//free topping, this should be different from a paid topping
@@ -1948,8 +2007,8 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 }
             }
 
-            HTML += '<button class="thirdwidth btn toppings_btn" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button>' +
-                '<button class="thirdwidth btn toppings_btn" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button>';
+            HTML += '<button class="thirdwidth btn btn-sm toppings_btn" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button>' +
+                '<button class="thirdwidth btn btn-sm btn-primary toppings_btn" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button>';
 
             $("#addonlist").html(HTML);
             $(".addon-addon").click(
@@ -2119,9 +2178,13 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         visible("#add_unit", state);
     }
 
-    function iif(value, iftrue, iffalse){
-        if(value){return iftrue;}
-        if(isUndefined(iffalse)){return "";}
+    function iif(value, iftrue, iffalse) {
+        if (value) {
+            return iftrue;
+        }
+        if (isUndefined(iffalse)) {
+            return "";
+        }
         return iffalse;
     }
 

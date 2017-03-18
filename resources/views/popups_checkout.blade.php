@@ -1,21 +1,25 @@
 <?php startfile("popups_checkout"); ?>
-<button class="btn btn-sm pull-right dont-show" ONCLICK="confirmclearorder();" id="confirmclearorder"><i class="fa fa-close"></i></button>
 
-<h2 class="text-white">My Order</h2>
+<div class="list-group-item bg-secondary">
+    <button class="btn btn-sm dont-show " ONCLICK="confirmclearorder();" id="confirmclearorder"><i class="fa fa-close"></i></button>
+    <h2 class="ml-2">  My Order</h2> <span class="align-middle rounded sprite sprite-wings sprite-medium " style="visibility: hidden"></span>
+
+</div>
 
 <div id="myorder"></div>
 
-<button id="checkout-btn" class=" btn btn-warning btn-xl btn-block" onclick="showcheckout();">
-    <i class="fa fa-shopping-basket"></i>
-</button>
-<div class="pa-3">&nbsp;</div>
+    <button id="checkout-btn" class="list-group-item-padding btn btn-warning btn-block radius0" onclick="showcheckout();">
+        <i class="fa fa-shopping-basket mr-2"></i> CHECKOUT
+    </button>
+    <div class="clearfix"></div>
+
 
 <div class="modal" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h2 id="myModalLabel">Checkout</h2>
-                <button data-dismiss="modal" data-popup-close="checkoutmodal" class="btn btn-sm btn-danger"><i class="fa fa-close"></i></button>
+                <button data-dismiss="modal" data-popup-close="checkoutmodal" class="btn btn-sm"><i class="fa fa-close"></i></button>
             </div>
             <div class="modal-body">
 
@@ -67,11 +71,11 @@
                             <div class="thirdwidth">
                                 <SELECT CLASS="credit-info form-control" data-stripe="exp_year">
                                     <?php
-                                        $CURRENT_YEAR = date("Y");
-                                        $TOTAL_YEARS = 6;
-                                        for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
-                                            echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
-                                        }
+                                    $CURRENT_YEAR = date("Y");
+                                    $TOTAL_YEARS = 6;
+                                    for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
+                                        echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
+                                    }
                                     ?>
                                 </SELECT>
                                 <div class="clearfix"></div>
@@ -87,9 +91,9 @@
                         <div class="input_right">
                             <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
                             <?php
-                                if (read("id")) {
-                                    echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
-                                }
+                            if (read("id")) {
+                                echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
+                            }
                             ?>
                         </div>
                         <div class="input_left_icon"><i class="fa fa-cutlery"></i></div>
@@ -148,7 +152,7 @@
     function restchange() {
         var value = $("#restaurant").val();
         var index = findwhere(closest, "id", value);
-        if(value == 0){
+        if (value == 0) {
             $("#restaurant").addClass("red");
         } else {
             $("#restaurant").removeClass("red");

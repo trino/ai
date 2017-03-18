@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 id="myModalLabel">My Account</h2>
-                <button data-popup-close="profilemodal" data-dismiss="modal" class="btn btn-sm btn-danger"><i class="fa fa-close"></i> </button>
+                <button data-popup-close="profilemodal" data-dismiss="modal" class="btn btn-sm"><i class="fa fa-close"></i> </button>
             </div>
 
             <div class="modal-body">
@@ -21,6 +21,8 @@
                 <div CLASS="editprofilediv">
                     <DIV ID="cardlist"></DIV>
                 </div>
+
+                please check your email for previous orders
                 <!--div CLASS="editprofilediv mt-2">
                     <button ONCLICK="orders();" CLASS="btn btn-primary" href="#">PAST ORDERS</button>
                 </div>

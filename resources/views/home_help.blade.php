@@ -266,10 +266,10 @@
             newitem("Registering", "You can only register as a regular user. To get escalated to a restaurant account requires you to contact an admin at: " . $email);
             newitem('<i class="fa fa-fw fa-user-plus"></i> Orders List', "Shows a list of orders for your restaurant");
             newitem("View", "View the contents of the order, a map showing the customer's address, and gives the options to Confirm, Email and Decline the order", "btn btn-sm btn-success btn-border");
-            newitem("Delete", "Trigger the <jump class='event'>order_declined</jump> event and delete the order from the system", "btn btn-sm btn-danger btn-border");
+            newitem("Delete", "Trigger the <jump class='event'>order_declined</jump> event and delete the order from the system", "btn btn-sm btn-border");
             newitem("Confirmed", "Mark the order as confirmed and trigger the <jump class='event'>order_confirmed</jump> event", "btn btn-sm btn-primary btn-border");
             newitem('<i class="fa fa-fw fa-envelope"></i> Email', "Re-send the receipt to customer via the <jump class='event'>order_placed</jump> event", "btn btn-sm btn-secondary red btn-border");
-            newitem("Declined", 'Mark the order as declined and trigger the <jump class="event">order_declined</jump> event', "btn btn-sm btn-danger btn-border");
+            newitem("Declined", 'Mark the order as declined and trigger the <jump class="event">order_declined</jump> event', "btn btn-sm btn-border");
             newitem("Delivered", 'Mark the order as delivered and trigger the <jump class="event">order_delivered</jump> event', "btn btn-sm btn-warning btn-border");
             newitem("FILE NOT FOUND", "The order file is missing. Delete the order as the order itself is useless");
 
@@ -278,7 +278,7 @@
             actionitem("order_placed", "the order is placed");
             actionitem("order_delivered", 'the <jump class="btn btn-sm btn-warning btn-border no-u">Delivered</jump> button is clicked');
             actionitem("order_confirmed", 'the <jump class="btn btn-sm btn-primary btn-border no-u">Confirmed</jump> button is clicked');
-            actionitem("order_declined", 'the <jump class="btn btn-sm btn-danger btn-border no-u">Declined</jump> or <jump class="btn btn-sm btn-danger btn-border no-u">Deleted</jump> buttons are clicked.');
+            actionitem("order_declined", 'the <jump class="btn btn-sm btn-border no-u">Declined</jump> or <jump class="btn btn-sm btn-danger btn-border no-u">Deleted</jump> buttons are clicked.');
             actionitem("user_registered", 'a new user is registered. (Since no restaurant is involved in this event, do not set the party of this event to the Restaurant)');
 
             if (read("profiletype") == 1) {

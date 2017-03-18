@@ -701,7 +701,7 @@
                                                 tempHTML += '<A CLASS="btn btn-sm btn-success cursor-pointer" HREF="{{ webroot("public/list/orders?restaurant=") }}' + ID + '">View</A> ';
                                                 break;
                                         }
-                                        if(profiletype == 1) {tempHTML += '<A CLASS="btn btn-sm btn-danger cursor-pointer" onclick="deleteitem(' + ID + ');">Delete</A>';}
+                                        if(profiletype == 1) {tempHTML += '<A CLASS="btn btn-sm cursor-pointer" onclick="deleteitem(' + ID + ');">Delete</A>';}
                                         HTML += tempHTML + '</TD></TR>';
                                         items++;
                                         if(TableStyle == '1'){
@@ -1589,7 +1589,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button data-dismiss="modal" class="btn btn-sm btn-danger"><i class="fa fa-close"></i></button>
+                            <button data-dismiss="modal" class="btn btn-sm"><i class="fa fa-close"></i></button>
                             <h2 id="myModalLabel">View Order</h2>
                         </div>
 

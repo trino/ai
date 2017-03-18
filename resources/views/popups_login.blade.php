@@ -3,9 +3,9 @@
     $minimum = first("SELECT price FROM additional_toppings WHERE size = 'Minimum'")["price"];
 ?>
 <div class="row py-3">
-    <DIV CLASS="col-lg-3 col-md-4" style="border:0 !important;">
-        <DIV CLASS="card card-block">
-            <h2 class="small-margin">Mobile Pizza Delivery</h2>
+    <DIV CLASS="col-lg-3 col-md-4  bg-white">
+        <DIV CLASS="btn-sm-padding list-group-item">
+            <h2 class="s mall-margin">Mobile Pizza Delivery</h2>
             <ul class="nav nav-tabs mb-1" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" href="#profile" role="tab" data-toggle="tab" id="logintab" onclick="skiploadingscreen = false;">Login</a>
@@ -28,18 +28,19 @@
                         <INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control" onkeydown="enterkey(event, 'login');" required>
                     </div>
 
-                    <div class="clearfix mt-2"></div>
+                    <div class="clearfix my-2"></div>
                     <BUTTON CLASS="btn btn-primary pull-right" onclick="handlelogin('login');">LOG IN</BUTTON>
                     <div class="clearfix"></div>
-                    <BUTTON CLASS="btn btn-secondary mt-3 pull-right btn-sm" onclick="handlelogin('forgotpassword');">FORGOT PASSWORD</BUTTON>
+                    <BUTTON CLASS="btn btn-secondary mt-3 pull-center btn-sm" onclick="handlelogin('forgotpassword');">FORGOT PASSWORD</BUTTON>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="buzz">
-                    <div class="alert alert-info">
+                    <div class="alert alert-info mb-0">
                         <small>
-                            ${{ $minimum }} min delivery. We're only accepting credit/debit payments at this time. Apologies for the inconvenience.
+                            ${{ $minimum }} min order. <br>
+                            ${{ $minimum }} delivery. <br>
+                            credit/debit payments only.
                         </small>
                     </div>
-                    <h2>Delivery</h2>
                     <FORM id="addform">
                         <?php
                             if (!read("id")) {
@@ -47,11 +48,11 @@
                             }
                         ?>
                     </FORM>
-                    <h2>Profile</h2>
                     <FORM Name="regform" id="regform">
-                        <?= view("popups_edituser", array("phone" => false, "autocomplete" => "new-password", "required" => true, "icons" => true))->render(); ?>
+                        <?= view("popups_edituser", array("phone" => false, "autocomplete" => "new-password", "required" => true,
+                            "icons" => true))->render(); ?>
                     </FORM>
-                    <div class="clearfix mt-2"></div>
+                    <div class="clearfix my-2"></div>
                     <button class="btn btn-primary pull-right" onclick="register();">
                         SIGN UP
                     </button>
@@ -60,6 +61,8 @@
             <DIV CLASS="clearfix"></DIV>
         </DIV>
     </DIV>
+
+
     <DIV CLASS="col-sm-6" id="loginpanel">
         <DIV CLASS="clearfix"></DIV>
     </DIV>

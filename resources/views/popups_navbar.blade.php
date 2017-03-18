@@ -1,15 +1,13 @@
-<nav class="navbar-fixed-top navbar bg-danger dont-print text-white">
-    <div class="container-fluid" style="padding: 0rem ;width:100% !important;">
-        <div class="text-white">
-            <a HREF="<?= webroot("public/index"); ?>" onclick="history.go(0);" class="text-white pull-left londonpizza" href="/">
-               <i class="fa fa-home pr-1"></i> londonpizza.ca
-            </a>
+<div class="container-fluid bg-danger list-group-item text-white">
 
-            <a class="pull-right fontsize-1p25rem" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-bars text-white"></i>
-            </a>
 
-            <ul class="dropdown-menu dropdown-menu-right">
+    <button  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background: transparent" class="btn btn-sm pull-right ">
+        <i class="fa fa-bars text-white"></i>
+
+
+    </button>
+
+            <ul class="dropdown-menu dropdown-menu-left">
                 @if(read("id"))
                     <SPAN class="loggedin profiletype profiletype1">
                         <?php
@@ -47,7 +45,13 @@
                     <A CLASS="dropdown-item" href="help"><i class="fa fa-question-circle icon-width"></i> More Info</A>
                 </LI>
             </ul>
-            <div class="clearfix"></div>
-        </div>
-    </div>
-</nav>
+
+
+            <a HREF="<?= webroot("public/index"); ?>" onclick="history.go(0);" class="ml-2 align-middle text-white pull-left londonpizza" href="/">
+                londonpizza.ca
+            </a>
+
+            <span class="align-middle rounded sprite sprite-wings sprite-medium " style="visibility: hidden"></span>
+
+
+</div>

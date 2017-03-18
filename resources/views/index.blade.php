@@ -45,7 +45,7 @@
                 }
             ?>
 
-        <div class="col-lg-3 col-md-12 bg-secondary">
+        <div class="col-lg-3 col-md-12 bg-secondary " style="border-right: 0 !important;">
             @include("popups_checkout")
         </div>
 

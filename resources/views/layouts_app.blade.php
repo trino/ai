@@ -95,8 +95,8 @@
 
         .fixed-action-btn {
             position: fixed;
-            right: 20px;
-            bottom: 10px !important;
+            right: 10px;
+            bottom: 5px !important;
             padding-top: 15px;
             margin-bottom: 0;
             z-index: 998;
@@ -392,12 +392,12 @@
 
 <div class="container-fluid hidden-sm-down">
     <div class="row">
-        <div class="col-sm-12 py-1">
+        <div class="col-sm-12 py-3">
             <div class="pull-left">
                 <span class="text-white text-muted">&copy; 2017</span>
             </div>
             <div class="pull-left">
-                <A CLASS="text-white pl-3 text-muted" href="<?= webroot("help"); ?>">More Info</A>
+                <A CLASS="text-white pl-3 text-muted" href="<?= webroot("help"); ?>">Info</A>
             </div>
         </div>
     </div>

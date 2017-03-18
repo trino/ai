@@ -1,3 +1,23 @@
+
+
+.btn {
+
+}
+
+.btn-sm,.radius0 {
+    border: 0 !important;
+    border-radius: 0 ;
+}
+
+.sprite {
+    background-image: url('../../public/images/grid.png');
+    background-repeat: no-repeat;
+    width: 64px;
+    height: 64px;
+    margin-left: .25rem !important;
+    margin-right: .25rem !important;
+}
+
 .width15 {
     width: 15%;
     text-align: right
@@ -7,27 +27,52 @@
     width: 85%;
 }
 
-.list-group-item {
+.width-full {
+    width: 100%;
+}
+
+.list-group-item ,.modal-header,.list-group-item-padding {
+    padding: .25rem .0rem !important;
+    border-radius: 0 !important;
+    min-height: 53px;
+}
+.payfororder{border-radius: 0; }
+.bg-secondary {
+    background: #eceeef;
+}
+.btn-sm-padding-left {
     padding: .25rem .5rem !important;
 }
-.col-lg-3{
-    padding:.50rem .5rem !important;
+
+.btn-sm-padding {
+    padding: .25rem .5rem !important;
+
 }
 
+.item_addons {
+}
+
+.item_title {
+    padding-left: 0px;
+    padding-right: 0px;
+    display: inline-block;
+    vertical-align: top !important;
+}
 
 h2 {
-    color: #d9534f !important;
     font-size: 1rem !important;
+    font-weight: bold !important;
     line-height: 1rem !important;
-    padding:0 !important;
+    padding: 0 !important;
     margin: .5rem 0 !important;
 }
-.text-normal{color: #373a3c !important;}
-.modal-header {
-background-color: #d9534f!important;
+
+.col-lg-3 > h2 {
+    margin-top: 1.5rem !important;
 }
-.modal-header >h2{
-    color:white !important;
+
+.col-lg-3 {
+
 }
 
 .icon-width {
@@ -35,10 +80,22 @@ background-color: #d9534f!important;
     text-align: center;
 }
 
+.btn-sm-padding-left {
+
+}
+
 .addon-addon {
     border: 0;
     text-align: left;
     border-radius: 0;
+}
+
+.container-fluid {
+    max-width: 1400px !important;
+}
+
+.dropdown-menu {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
 body {
@@ -50,7 +107,7 @@ body {
     -moz-animation: fadein 1s; /* Firefox */
     -webkit-animation: fadein 1s; /* Safari and Chrome */
     -o-animation: fadein 1s; /* Opera */
-    background: #dadada !important;
+    background: #eee !important;
 }
 
 /* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
@@ -74,7 +131,11 @@ body.loading #loadingmodal {
     z-index: 999999;
 }
 
-.red, input:invalid, select:invalid, textarea:invalid{
+.text-normal {
+    color: #373a3c !important;
+}
+
+.red, input:invalid, select:invalid, textarea:invalid {
     border-bottom: 1px solid #d9534f !important;
 }
 
@@ -82,7 +143,7 @@ body.loading #loadingmodal {
     color: #d9534f !important
 }
 
-.cursor-pointer, .btn, .list-group-item {
+.cursor-pointer {
     /* !!!!!!!!!!!!!stop removing this!!!!!!!!!!!! */
     cursor: pointer;
     /* !!!!!!!!!!!!!stop removing this!!!!!!!!!!!! */
@@ -90,87 +151,46 @@ body.loading #loadingmodal {
 
 .toppings_btn {
     /*
-    overflow: hidden;
-    white-space: nowrap;
-    */
-    overflow: hidden;
-    padding:.25rem .1rem;
-    text-align: left !important;
-    border-radius: 0 !important;
-    border: 1px solid #efefef;
-}
-
-.item_qty{
-    width: 20px;
-    text-align: right;
+      overflow: hidden;
+      padding: .5rem .1rem;
+      text-align: left !important;
+      border-radius: 0 !important;
+      */
 }
 
 .nowrap {
     white-space: nowrap;
 }
 
-.float-right {
-    float: right;
+.addon-selected, .thisside {
+    background: #d9534f !important;
 }
 
 .z-index-9999 {
     z-index: 9999;
 }
 
+.card-columns {
+
+    column-gap: .01rem !important;
+    column-count: 3 !important;
+}
+
+.modal-content {
+    border: 5px solid #fff !important;
+}
+
 .receipt-addons {
+    padding: .5rem 0rem;
     cursor: pointer;
-    border: 1px solid #dadada;
-    border-radius: .2rem;
-    padding: .25rem .25rem;
     width: 100% !important;
     float: left;
 }
 
 .receipt-addons-list {
-    background: #efefef;
-    height: 190px;
+    height: 120px;
     overflow-y: auto;
     overflow-x: auto;
-}
-
-.card-columns {
-    /*
-    column-gap: .01rem !important;
-*/
-    column-count: 3 !important;
-}
-
-.modal-content {
-    border: 5px solid #dadada;
-}
-
-.container-fluid {
-    max-width: 1400px !important;
-}
-
-.dropdown-menu {
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-}
-
-.bg-white {
-    background-color: #fff !important;
-}
-
-.bg-black {
-    background-color: #111;
-}
-
-.col-md-3 {
-    background: white;
-}
-
-.addon-selected, .thisside {
-    background: #999 !important;
-}
-
-.myorderhr {
-    border: 0;
-    margin-bottom: 0;
 }
 
 .halfwidth {
@@ -185,14 +205,33 @@ body.loading #loadingmodal {
     display: inline !important;
 }
 
-.receipt_item > .btn {
-    padding-top: 4px !important;
-    height: 25px !important;
-    margin-top: 6px;
+.bg-white {
+    background-color: #fff !important;
+}
+
+.bg-black {
+    background-color: #111;
+}
+
+#myorder > .receipt_item {
 }
 
 .navbar {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     z-index: 1;
+    padding: .75rem;
+}
+
+
+.float-right {
+
+}
+
+.myorderhr {
+}
+
+.item_qty {
+
 }
 
 .londonpizza {
@@ -203,63 +242,16 @@ body.loading #loadingmodal {
 @media screen and (max-width: 400px) {
     .modal.modal-fullscreen .modal-dialog,
     .modal.modal-fullscreen .modal-content {
-        /*
+
         bottom: 0;
         left: 0;
         position: absolute;
         right: 0;
         top: 0;
-        */
+
     }
 }
 
-.sprite {
-    background-image: url('../../public/images/grid.png');
-    background-repeat: no-repeat;
-    width: 64px;
-    height: 64px;
-    margin-right: 20px;
+.col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9 {
+    padding: 0 !important;
 }
-
-.item_addons{
-    padding-left: 25px !important;
-    border-top-width: 0px;
-}
-
-.item_title{
-    padding-left: 0px;
-    padding-right: 0px;
-    display: inline-block;
-    vertical-align: top !important;
-}
-
-.width-full{
-    width: 100%;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

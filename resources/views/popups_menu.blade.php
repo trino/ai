@@ -111,9 +111,15 @@
         }
         $itemsInCol += $menuitemcount;
         ?>
-        <h2 class="text-xs-center">{{$category['category']}}  </h2>
+        <div class="bg-secondary list-group-item">
+
+            <span class="align-middle rounded sprite sprite-wings sprite-medium " style="visibility: hidden"></span>
+<h2>
+            {{$category['category']}}
+</h2>
+        </div>
         @foreach ($menuitems as $menuitem)
-            <div class="list-group-item list-group-item-action d-flex justify-content-start item_{{ $catclass }}"
+            <div class="receipt_item list-group-item d-flex justify-content-start item_{{ $catclass }}"
                  itemid="{{$menuitem["id"]}}"
                  itemname="{{$menuitem['item']}}"
                  itemprice="{{$menuitem['price']}}"
@@ -160,7 +166,7 @@
 
                 <span class="align-middle rounded sprite sprite-{{$itemclass}} sprite-medium"></span>
                 <span class="align-middle">{{$menuitem['item']}} </span>
-                <span class="ml-auto align-middle"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
+                <span class="ml-auto align-middle btn-sm-padding"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
 
                 <div class="bg-white" style="height: 10px;"></div>
 
@@ -173,7 +179,7 @@
 
 </div>
 
-<div class="col-lg-3 col-md-12 pb-2  bg-white">
+<div class="col-lg-3 col-md-12 bg-white">
     @endif
 
 
@@ -194,10 +200,10 @@
 
             <div class="modal-header">
                 <h2 id="myModalLabel"><SPAN ID="modal-itemname"></SPAN>
-                  <small class="text-normal">  <small ID="toppingcost" class="clearfix nowrap">$<SPAN id="modal-toppingcost"></SPAN> per topping</small>
-                  </small>
+                   <small ID="toppingcost" class="text-white nowrap">+$<SPAN id="modal-toppingcost"></SPAN> per topping</small>
+
                 </h2>
-                <button data-dismiss="modal" class="btn btn-sm btn-danger"><i class="fa fa-close"></i></button>
+                <button data-dismiss="modal" class="btn btn-sm"><i class="fa fa-close"></i></button>
 
             </div>
 
