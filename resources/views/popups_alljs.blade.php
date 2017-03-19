@@ -892,7 +892,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                         };
                         userdetails.Addresses.push(Address);
                         $("#addaddress").remove();
-                        $("#saveaddresses").append(AddressToOption(Address) + '<OPTION VALUE="addaddress" ID="addaddress">ADD ADDRESS</OPTION>');
+                        $("#saveaddresses").append(AddressToOption(Address) + '<OPTION VALUE="addaddress" ID="addaddress">ADD ADDRESS55555</OPTION>');
                     }
                     userdetails["Orders"].unshift({
                         id: $("#receipt_id").text(),

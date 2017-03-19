@@ -79,13 +79,13 @@
                                 <div class="clearfix"></div>
                             </div>
                             <div class="thirdwidth">
-                                <input type="text" size="4" data-stripe="cvc" CLASS="credit-info form-control" PLACEHOLDER="CVC">
+                                <input type="text" size="4" data-stripe="cvc" CLASS="credit-info form-control" PLACEHOLDER="CVC" style="    padding: .535rem .75rem;">
                                 <INPUT class="credit-info" TYPE="hidden" name="istest" id="istest">
                                 @if(!islive()) <a class="credit-info pull-right btn" onclick="testcard();" TITLE="Don't remove this, I need it!">Test Card</a> @endif
                                 <div class="clearfix"></div>
                             </div>
                         </div>
-                        <div class="input_left_icon"><i class="fa fa-map-marker"></i></div>
+                        <div class="input_left_icon"><i class="fa fa-home"></i></div>
                         <div class="input_right">
                             <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
                             <?php

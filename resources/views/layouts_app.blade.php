@@ -422,7 +422,7 @@ echo '  <li><A HREF="' . webroot("public/list/" . $table) . '" CLASS="dropdown-i
 </LI>
 </SPAN>
 <LI>
-<A CLASS="dropdown-item" href="help"><i class="fa fa-question-circle icon-width"></i> More Info</A>
+<A CLASS="dropdown-item" href="help"><i class="fa fa-question-circle icon-width"></i> Info</A>
 </LI>
 </ul>
 <a HREF="<?= webroot("public/index"); ?>" onclick="history.go(0);" class="ml-3 align-middle text-white pull-left londonpizza" href="/">
@@ -438,7 +438,7 @@ londonpizza.ca
     <div class="row">
         <div class="col-sm-12">
 
-                <a CLASS="btn btn-sm  " href="<?= webroot("help"); ?>">Info</a>
+                <a CLASS="btn btn-sm text-muted " href="<?= webroot("help"); ?>"> <i class="fa fa-question-circle icon-width"></i> Info</a>
 
         </div>
     </div>

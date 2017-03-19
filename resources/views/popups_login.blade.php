@@ -37,7 +37,7 @@ $delivery = first("SELECT price FROM additional_toppings WHERE size = 'Delivery'
                     <div class="clearfix my-2"></div>
                     <BUTTON CLASS="btn btn-primary pull-right" onclick="handlelogin('login');">LOG IN</BUTTON>
                     <div class="clearfix"></div>
-                    <BUTTON CLASS="btn btn-secondary btn-sm" href="#" onclick="handlelogin('forgotpassword');">FORGOT PASSWORD</BUTTON>
+                    <BUTTON CLASS="btn btn-secondary btn-sm" href="#" onclick="handlelogin('forgotpassword');">Forgot Password</BUTTON>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="buzz">
                     <div class="alert text-sm-center alert-info mb-0">
