@@ -24,8 +24,8 @@
     }
 </STYLE>
     @if($form) <FORM ID="googleaddress"> @endif
-        @if($icons) <div class="input_left_icon"><i class="fa fa-pencil"></i></div><div class="input_right"> @endif
-        <INPUT TYPE="text" NAME="unit" ID="add_unit" PLACEHOLDER="Directions" CLASS="form-control address">
+        @if($icons) <div class="input_left_icon"><i class="fa fa-sticky-note-o" ></i></div><div class="input_right"> @endif
+        <INPUT TYPE="text" NAME="unit" ID="add_unit" PLACEHOLDER="Address Notes" CLASS="form-control address">
         @if($icons) </div> @endif
         <INPUT TYPE="text" NAME="number" ID="add_number" PLACEHOLDER="Street Number" {{ $required }} CLASS="form-control street_number address dont-show">
         <INPUT TYPE="text" NAME="street" ID="add_street" PLACEHOLDER="Street" {{ $required }} CLASS="form-control route address dont-show">
@@ -36,17 +36,6 @@
         <INPUT TYPE="text" NAME="longitude" ID="add_longitude" PLACEHOLDER="Longitude" {{ $required }} CLASS="form-control longitude address dont-show">
         <INPUT TYPE="hidden" NAME="user_id" ID="add_user_id" PLACEHOLDER="user_id" {{ $required }} CLASS="form-control session_id_val address" value="{{$user_id}}">
     @if($form) </FORM> @endif
-
-@if(isset($saveaddress) && false)
-    <DIV CLASS="form-control col-md-12">
-        <button CLASS="form-control btn btn-link btn-sm" onclick="editaddresses();" title="Edit the addresses saved to your profile">
-            EDIT ADDRESSES
-        </button>
-        <button ID="saveaddressbtn" CLASS="form-control btn btn-link btn-sm" disabled onclick="deleteaddress(-2);" title="Save this address to your profile">
-            SAVE ADDRESS
-        </button>
-    </DIV>
-@endif
 
 <SCRIPT>
     function editaddresses() {

@@ -1,23 +1,29 @@
 <?php
-    startfile("popups_login");
-    $minimum = first("SELECT price FROM additional_toppings WHERE size = 'Minimum'")["price"];
+startfile("popups_login");
+$minimum = first("SELECT price FROM additional_toppings WHERE size = 'Minimum'")["price"];
+$delivery = first("SELECT price FROM additional_toppings WHERE size = 'Delivery'")["price"];
 ?>
 <div class="row py-3">
     <DIV CLASS="col-lg-3 col-md-4  bg-white">
-        <DIV CLASS="btn-sm-padding list-group-item">
-            <h2 class="s mall-margin">Mobile Pizza Delivery</h2>
+
+        <DIV CLASS="btn-sm-padding">
+
+            <h2 class="">Mobile Pizza Delivery</h2>
+
+
             <ul class="nav nav-tabs mb-1" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#profile" role="tab" data-toggle="tab" id="logintab" onclick="skiploadingscreen = false;">Login</a>
+                    <a class="nav-link active" href="#profile" role="tab" data-toggle="tab" id="logintab"
+                       onclick="skiploadingscreen = false;">Log In</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#buzz" role="tab" data-toggle="tab" id="signuptab" onclick="skiploadingscreen = true;">Signup</a>
+                    <a class="nav-link" href="#buzz" role="tab" data-toggle="tab" id="signuptab"
+                       onclick="skiploadingscreen = true;">Sign Up</a>
                 </li>
             </ul>
             <!-- Tab panes -->
-            <div class="tab-content mt-1">
+            <div class="tab-content">
                 <div role="tabpanel" class=" tab-pane fade in active" id="profile">
-
                     <div class="input_left_icon"><i class="fa fa-user"></i></div>
                     <div class="input_right">
                         <INPUT TYPE="text" id="login_email" placeholder="Email" class="form-control" onkeydown="enterkey(event, '#login_password');" required>
@@ -31,21 +37,19 @@
                     <div class="clearfix my-2"></div>
                     <BUTTON CLASS="btn btn-primary pull-right" onclick="handlelogin('login');">LOG IN</BUTTON>
                     <div class="clearfix"></div>
-                    <BUTTON CLASS="btn btn-secondary mt-3 pull-center btn-sm" onclick="handlelogin('forgotpassword');">FORGOT PASSWORD</BUTTON>
+                    <BUTTON CLASS="btn btn-secondary btn-sm" href="#" onclick="handlelogin('forgotpassword');">FORGOT PASSWORD</BUTTON>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="buzz">
-                    <div class="alert alert-info mb-0">
+                    <div class="alert text-sm-center alert-info mb-0">
                         <small>
-                            ${{ $minimum }} min order. <br>
-                            ${{ $minimum }} delivery. <br>
-                            credit/debit payments only.
+                            ${{ $minimum }} Min.   ${{ $delivery }} Delivery. Credit/Debit Only.
                         </small>
                     </div>
                     <FORM id="addform">
                         <?php
-                            if (!read("id")) {
-                                echo view("popups_address", array("style" => 1, "required" => true, "icons" => true))->render();
-                            }
+                        if (!read("id")) {
+                            echo view("popups_address", array("style" => 1, "required" => true, "icons" => true))->render();
+                        }
                         ?>
                     </FORM>
                     <FORM Name="regform" id="regform">
@@ -124,7 +128,9 @@
             },
             submitHandler: function (form) {
                 log("HERE");
-                if (!isvalidaddress()) {return false;}
+                if (!isvalidaddress()) {
+                    return false;
+                }
                 log("HERE 2");
                 var formdata = getform("#regform");
                 formdata["action"] = "registration";

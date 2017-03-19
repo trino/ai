@@ -111,7 +111,7 @@
         }
         $itemsInCol += $menuitemcount;
         ?>
-        <div class="bg-secondary text-muted list-group-item">
+        <div class="bg-secondary list-group-item">
 
             <span class="align-middle rounded sprite sprite-wings sprite-medium " style="visibility: hidden"></span>
          <h2>   {{$category['category']}}</h2>
@@ -198,17 +198,25 @@
 
             <div class="modal-header">
                 <h2 id="myModalLabel"><SPAN ID="modal-itemname"></SPAN>
-                   <small ID="toppingcost" class="text-white nowrap">+$<SPAN id="modal-toppingcost"></SPAN> per topping</small>
-
+                   <small ID="toppingcost" class=" nowrap">+$<SPAN id="modal-toppingcost"></SPAN> per topping</small>
                 </h2>
                 <button data-dismiss="modal" class="btn btn-sm"><i class="fa fa-close"></i></button>
-
             </div>
-
-            <div class="modal-body py-0">
-                <div class="row">
+            <div class="modal-body">
                     <DIV ID="addonlist" class="addonlist"></DIV>
-                </div>
+
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
             </div>
         </div>
     </div>

@@ -70,18 +70,26 @@
             padding-left: 0 !important;
             padding-right: 0 !important;
             border-radius: 0 !important;
+            /*
             -webkit-appearance: none;
             -moz-appearance: none;
+            */
         }
 
+        input,  textarea {
+  padding-left:4px !important; ;
+        }
+
+
         .fab {
+            font-size: .8rem;
             border: none;
             color: white;
-            width: 70px;
-            height: 70px;
+            width: 56px;
+            height: 56px;
             padding: 1px 1px;
-            line-height: 1.33;
-            border-radius: 35px;
+            line-height: 1;
+            border-radius: 28px;
             margin: auto;
             -webkit-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
             -moz-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
@@ -272,19 +280,6 @@
             }
         }
 
-        .c-rays svg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%
-        }
-
-        @media (min-width: 48em) {
-            .c-rays svg {
-                min-width: 100%
-            }
-        }
-
         .loader {
             visibility: hidden;
             background-color: #000;
@@ -430,7 +425,7 @@ echo '  <li><A HREF="' . webroot("public/list/" . $table) . '" CLASS="dropdown-i
 <A CLASS="dropdown-item" href="help"><i class="fa fa-question-circle icon-width"></i> More Info</A>
 </LI>
 </ul>
-<a HREF="<?= webroot("public/index"); ?>" onclick="history.go(0);" class="ml-2 align-middle text-white pull-left londonpizza" href="/">
+<a HREF="<?= webroot("public/index"); ?>" onclick="history.go(0);" class="ml-3 align-middle text-white pull-left londonpizza" href="/">
 londonpizza.ca
 </a>
 <span class="align-middle rounded sprite sprite-wings sprite-medium " style="visibility: hidden"></span>
@@ -441,13 +436,10 @@ londonpizza.ca
 
 <div class="container-fluid hidden-sm-down">
     <div class="row">
-        <div class="col-sm-12 py-3">
-            <div class="pull-left">
-                <span class="text-white text-muted">&copy; 2017</span>
-            </div>
-            <div class="pull-left">
-                <A CLASS="text-white pl-3 text-muted" href="<?= webroot("help"); ?>">Info</A>
-            </div>
+        <div class="col-sm-12">
+
+                <a CLASS="btn btn-sm  " href="<?= webroot("help"); ?>">Info</a>
+
         </div>
     </div>
 </div>

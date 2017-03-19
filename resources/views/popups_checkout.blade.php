@@ -2,16 +2,15 @@
 
 <div class="list-group-item bg-secondary">
     <button class="btn btn-sm dont-show " ONCLICK="confirmclearorder();" id="confirmclearorder"><i class="fa fa-close"></i></button>
-    <h2 class="ml-2">  My Order</h2> <span class="align-middle rounded sprite sprite-wings sprite-medium " style="visibility: hidden"></span>
+    <h2 class="ml-3"> My Order</h2> <span class="align-middle rounded sprite sprite-wings sprite-medium " style="visibility: hidden"></span>
 
 </div>
 
 <div id="myorder"></div>
 
-    <button id="checkout-btn" class="list-group-item-paddingbtn btn-warning btn-block radius0" onclick="showcheckout();">
-        <i class="fa fa-shopping-basket mr-2"></i> CHECKOUT
-    </button>
-    <div class="clearfix"></div>
+<button id="checkout-btn" class="list-group-item-padding btn btn-warning btn-block radius0" onclick="showcheckout();">
+    <i class="fa fa-shopping-basket mr-2"></i> CHECKOUT
+</button>
 
 
 <div class="modal" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
@@ -26,9 +25,8 @@
 
                 <FORM ID="orderinfo" name="orderinfo">
 
-                    <div class="row">
+                    <div class="">
 
-                        <div class="clearfix"></div>
                         <div class="input_left_icon"><i class="fa fa-user"></i></div>
                         <div class="input_right">
                             <div class="halfwidth">
@@ -104,7 +102,7 @@
                         </div>
                         <div class="input_left_icon"><i class="fa fa-pencil"></i></div>
                         <div class="input_right">
-                            <input type="text" id="cookingnotes" class="form-control" placeholder="Additional Notes" maxlength="255"/>
+                            <input type="text" id="cookingnotes" class="form-control" placeholder="Order Notes" maxlength="255"/>
                         </div>
                         <div class="input_left_icon"><i class="fa fa-clock-o"></i></div>
                         <div class="input_right">

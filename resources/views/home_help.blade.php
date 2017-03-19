@@ -10,7 +10,6 @@
         }
 
         .btn:not(.btn-circle) {
-            width: 100px;
         }
 
         .btn-wide{
@@ -138,9 +137,9 @@
         }
         $orders =  first('SELECT count(*) as count FROM orders WHERE status <> 2 AND status <> 4 AND placed_at > "' . $SQLdate . '"')["count"];
     ?>
-    <DIV class="row" style="background: white;border-radius: 0">
-        <div class="col-sm-4">
-            <h2>About Us </h2>
+    <DIV class="row  " style="background: white;border-radius: 0">
+        <div class="col-sm-4 list-group-item-padding">
+            <h3>About Us </h3>
 
             <div class="card-block  bg-success text-white">
                 <h2 class="text-white MT-0">Our Duty </h2>
@@ -165,10 +164,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-8">
+        <div class="col-sm-8 list-group-item-padding">
 
 
-        <h2>FAQ</h2>
+        <h3>FAQ</h3>
     <?php
         $site_name = "londonpizza.ca";
         $email = '<A HREF="mailto:info@trinoweb.ca?subject=' . $site_name . '">info@trinoweb.ca</A>';
@@ -255,7 +254,7 @@
         newitem("Remove an item from your cart", 'Click <button class="fa fa-minus btn-sm"></button> to the right of the item in the receipt');
         newitem("Duplicating an item in your cart", 'Click <button class="fa fa-plus btn-sm"></button> to the right of the item in the receipt (if it is a simple item without any addons/toppings)');
         newitem("Empty your cart", 'Click <i class="fa fa-close"></i> at the top-right corner of your receipt');
-        newitem('<i class="fa fa-fw fa-shopping-basket"></i>', "Click this when you're done placing your order. You'll need to enter your <jump>Payment Information</jump>, <jump>Delivery Address</jump>, <jump>Preferred Restaurant</jump>, <jump>Delivery Time</jump>, then click <BUTTON CLASS='btn btn-primary btn-sm'>Place order</BUTTON>.<BR>This button will only be visible once your order meets the minumum of: $" . $minimum . " before taxes and delivery", "btn btn-warning btn-sm btn-block");
+        newitem('<i class="fa fa-fw fa-shopping-basket"></i> CHECKOUT', "Click this when you're done placing your order. You'll need to enter your <jump>Payment Information</jump>, <jump>Delivery Address</jump>, <jump>Preferred Restaurant</jump>, <jump>Delivery Time</jump>, then click <BUTTON CLASS='btn btn-primary btn-sm'>Place order</BUTTON>.<BR>This button will only be visible once your order meets the minumum of: $" . $minimum . " before taxes and delivery", "btn btn-warning btn-sm btn-block");
         newitem("Payment Information", "If you have a saved card (note: Cards are saved with Stripe, not our servers) you can select it from the dropdown, or use 'Add Card' to add a new one. Otherwise just enter your credit card information");
         newitem("Delivery Address", "If you have a saved address you can select it from the dropdown, or select 'Add Address' to add a new address. Otherwise just enter a valid London address");
         newitem("Preferred Restaurant", "Select which restaurant you want to recieve your order from");

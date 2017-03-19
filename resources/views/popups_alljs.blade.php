@@ -552,7 +552,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
         if (theorder.length == 0) {
 
-            HTML = '<DIV CLASS="text-center  bg-secondary  btn-sm-padding list-group-item receipt-empty"><i class="fa fa-shopping-basket mr-2 empty-shopping-cart"></i><span>Empty</span></div>';
+            HTML = '<button CLASS="list-group-item-padding  bg-secondary btn-block radius0"><i class="fa fa-shopping-basket mr-2 empty-shopping-cart"></i>Empty</button>';
             $("#checkout").hide();
             $("#checkoutbutton").hide();
             $("#confirmclearorder").hide();
@@ -565,7 +565,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         } else {
 
 
-            tempHTML = '<DIV id="newvalues" class="my-3 btn-sm-padding';
+            tempHTML = '<DIV id="newvalues" class="';
             if (fadein || forcefade) {
                 tempHTML += ' dont-show';
             }
@@ -575,17 +575,17 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             tempHTML += '<div class="pull-right  ">  Delivery $' + deliveryfee.toFixed(2) + '</div><div class="clearfix "></div>';
             tempHTML += '<div class="pull-right  ">  Tax $' + taxes.toFixed(2) + '</div><div class="clearfix "></div>';
             tempHTML += '<div class="pull-right  "> Total $' + totalcost.toFixed(2) + '</div><div class="clearfix "></div></div>';
-
-
             tempHTML += '<div class="clearfix "></div></DIV>';
-
 
             if (subtotal >= minimumfee) {
                 $("#checkout-btn").show();
             } else {
                 $("#checkout-btn").hide();
-                tempHTML += '<span CLASS="btn-sm-padding btn-block list-group-item bg-warning text-center text-white">Minimum order $' + minimumfee + '</span>';
+                tempHTML += '<button CLASS="list-group-item-padding  bg-secondary btn-block radius0">$' + minimumfee + ' Minimum Sub-total</button>';
             }
+
+
+
 
             $("#confirmclearorder").show();
 
@@ -942,7 +942,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     //generate a list of addresses and send it to the alert modal
     function addresses() {
-        var HTML = '<DIV CLASS="section"><h2>ADDRESS</h2>';
+        var HTML = '<DIV CLASS="section"><h2>Address</h2>';
         var number = $("#add_number").val();
         var street = $("#add_street").val();
         var city = $("#add_city").val();
@@ -956,13 +956,13 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             }
         });
         if (!AddNew) {
-            HTML += 'No addresses';
+            HTML += 'No Addresses';
         }
         return HTML + "</DIV>";
     }
 
     function creditcards() {
-        var HTML = '<DIV CLASS="section"><h2>CREDIT CARD</h2>';
+        var HTML = '<DIV CLASS="section"><h2>Credit Card</h2>';
         if (userdetails.Stripe.length == 0) {
             return HTML + "No Credit Cards";
         }
@@ -1278,7 +1278,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         $(".profiletype_not").show();
         $(".profiletype_not" + user["profiletype"]).hide();
 
-        var HTML = 'red form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION value="0">DELIVERY ADDRESS</OPTION>';
+        var HTML = 'red form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION value="0">Address</OPTION>';
         var FirstAddress = false;
 
         if (user["Addresses"].length > 0) {
@@ -1372,7 +1372,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             }
         }
         $("#formatted_address").val(Text);
-        $("#restaurant").html('<OPTION VALUE="0" SELECTED>RESTAURANT</OPTION>').addClass("red");
+        $("#restaurant").html('<OPTION VALUE="0" SELECTED>Restaurant</OPTION>').addClass("red");
         addresshaschanged();
     }
 
@@ -1849,7 +1849,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         left: 0;
         height: 100%;
         width: 100%;
-        background: rgba(0, 0, 0, .9) url('<?= webroot("public/images/slice.gif"); ?>') 50% 50% no-repeat;
+        background: rgba(255, 255, 255, .9) url('<?= webroot("public/images/slice.gif"); ?>') 50% 50% no-repeat;
     }
 </STYLE>
 
@@ -1895,11 +1895,11 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         switch (currentaddontype) {
             case "toppings":
                 addonname = "Toppings";
-                item_name = "Toppings ";
+                item_name = "Pizza ";
                 break;
             case "wings_sauce":
                 addonname = "Sauce";
-                item_name = "Sauce";
+                item_name = "Wings";
                 break;
             default:
                 addonname = "Error: " + currentaddontype;
