@@ -145,13 +145,14 @@
 
     function restchange() {
         var value = $("#restaurant").val();
-        var index = findwhere(closest, "id", value);
+        var index = findwhere(closest, "restid", value);
         if (value == 0) {
             $("#restaurant").addClass("red");
         } else {
             $("#restaurant").removeClass("red");
         }
-        GenerateHours(closest[index]["hours"]);
+        //GenerateHours(closest[index]["hours"]);
+        GenerateHours(closest[index].hours);
     }
 </SCRIPT>
 <?php endfile("popups_checkout"); ?>

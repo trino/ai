@@ -1481,6 +1481,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                     var distance = -1;
                     for (var i = 0; i < closest.length; i++) {
                         var restaurant = closest[i];
+                        closest[i].restid = restaurant.restaurant.id;
                         restaurant.distance = parseFloat(restaurant.distance);
                         var distancetext = "";
                         if (restaurant.distance <= MAX_DISTANCE || debugmode) {

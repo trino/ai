@@ -118,7 +118,8 @@
 
         var componentForm = {
             street_number: 'short_name',
-            route: 'long_name',//street name
+            //route: 'long_name',//street name
+            route: 'short_name',//street name
             locality: 'long_name',//ON Canada
             administrative_area_level_1: 'long_name',
             country: 'long_name',
