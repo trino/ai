@@ -18,7 +18,7 @@
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">
-                <div role="tabpanel" class=" tab-pane fade in active" id="profile">
+                <div role="tabpanel" class="tab-pane fade in active" id="profile">
                     <div class="input_left_icon"><i class="fa fa-user"></i></div>
                     <div class="input_right">
                         <INPUT TYPE="text" id="login_email" placeholder="Email" class="form-control" onkeydown="enterkey(event, '#login_password');" required>

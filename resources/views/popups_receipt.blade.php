@@ -450,9 +450,10 @@
 
 @if($timer && $place != "getreceipt")
     <SCRIPT>
-        var countdown = window.setTimeout(function () {
-            incrementtime()
-        }, 1000);
+        if(isUndefined(countdown)) {
+            var countdown = window.setTimeout(function () {incrementtime()}, 1000);
+        }
+
         function incrementtime() {
             var seconds = $(".countdown").attr("seconds");
             var minutes = $(".countdown").attr("minutes");

@@ -1,4 +1,8 @@
 <?php
-    if(!isset($body)){$body = "This is a test email";}
-    echo $body;
+    if(isset($body)){
+        echo $body;
+    }
 ?>
+<HR>
+Thank you,
+The londonpizza.ca Team

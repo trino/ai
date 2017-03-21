@@ -1357,10 +1357,10 @@
                             orderid: ID
                         }, function (result) {
                             if(result) {
-                                var button = '<DIV CLASS="col-md-3"><button data-dismiss="modal" class="width-full btn btn-';
-                                var HTML = '<DIV CLASS="row">' + button + 'primary status-confirmed" onclick="changeorderstatus(' + ID + ', 1);">' + statuses[1] + '</button></DIV>';
+                                var button = '<DIV CLASS="col-md-6"><button data-dismiss="modal" class="width-full btn btn-';
+                                var HTML = '<DIV CLASS="row">';// + button + 'primary status-confirmed" onclick="changeorderstatus(' + ID + ', 1);">' + statuses[1] + '</button></DIV>';
                                 HTML += button + 'secondary pull-center red status-email" onclick="changeorderstatus(' + ID + ');"><i class="fa fa-envelope"></I> Email</button></DIV>';
-                                HTML += button + 'warning pull-right status-delivered" onclick="changeorderstatus(' + ID + ', 3);">' + statuses[3] + '</button></DIV>';
+                                //HTML += button + 'warning pull-right status-delivered" onclick="changeorderstatus(' + ID + ', 3);">' + statuses[3] + '</button></DIV>';
                                 HTML += button + 'danger pull-right status-declined" onclick="changeorderstatus(' + ID + ', 2);">' + statuses[2] + '</button></DIV></DIV>';
                                 $("#ordercontents").html(result + HTML);
                                 $("#ordermodal").modal("show");

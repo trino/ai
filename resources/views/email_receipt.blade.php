@@ -15,9 +15,5 @@
 
         echo $HTML;
     ?>
-<br>
-    --
-<br>
-    Thank you,<br>
-The londonpizza.ca Team
+    <?= view("email_test"); ?>
 </HTML>

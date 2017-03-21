@@ -5,12 +5,13 @@
 button,button:focus,*:focus {
     outline: none !important;
 }
+
 .btn:focus {
     outline: none !important;
 }
+
 *{
     text-decoration: none !important
-
 }
 
 .btn-sm {
@@ -19,7 +20,6 @@ button,button:focus,*:focus {
 }
 
 .radius0 {
-
     border-radius: 0;
     border: 0;
 }
@@ -68,9 +68,12 @@ button {
     /*
         border-right: 1px solid #eceeef !important;
         border-bottom: 1px solid #eceeef !important;
-        */
+    */
 }
-.modal-header{padding-bottom: 0 !important;}
+.modal-header{
+    padding-bottom: 0 !important;
+}
+
 .addonlist {
     width: 100%
 }
@@ -92,12 +95,6 @@ button {
 
 }
 
-.item_addons {
-}
-
-.item_title {
-}
-
 h2 {
     font-size: 1rem !important;
     line-height: 1rem !important;
@@ -107,14 +104,6 @@ h2 {
 
 .text-transparent {
     color: transparent;
-!important;
-}
-
-.col-lg-3 > h2 {
-}
-
-.col-lg-3 {
-
 }
 
 .icon-width {
@@ -154,13 +143,12 @@ body.loading {
 
 .full {
     /*
-
     background: url(../../public/images/background.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-*/
+    */
 }
 
 /* Anytime the body has the loading class, our modal element will be visible */
@@ -175,8 +163,8 @@ body.loading #loadingmodal {
 
 .red, input:invalid, select:invalid, textarea:invalid {
     /*
-    border-bottom: 1px solid #d9534f !important;
-*/
+        border-bottom: 1px solid #d9534f !important;
+    */
 }
 
 .error {
@@ -198,7 +186,6 @@ body.loading #loadingmodal {
 }
 
 .card-columns {
-
     column-gap: .01rem !important;
     column-count: 3 !important;
 }
@@ -242,24 +229,10 @@ body.loading #loadingmodal {
     background-color: #111;
 }
 
-#myorder > .receipt_item {
-}
-
 .navbar {
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     z-index: 1;
     padding: .75rem;
-}
-
-.float-right {
-
-}
-
-.myorderhr {
-}
-
-.item_qty {
-
 }
 
 .londonpizza {
@@ -293,4 +266,8 @@ body.loading #loadingmodal {
 
 .clearfix {
     clear: both !important;
+}
+
+#newvalues, #oldvalues{
+    color:white;
 }

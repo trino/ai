@@ -432,7 +432,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         }
         $("#oldvalues").stop().html("").hide().remove();
         $("#newvalues").stop().html("").hide().remove();
-        var itemnames = {toppings: "toppings", wings_sauce: "lbl"};
+        var itemnames = {toppings: "toppings", wings_sauce: "lb"};
         var nonames = {toppings: "toppings", wings_sauce: "sauce"};
         for (var itemid = 0; itemid < theorder.length; itemid++) {
             var item = theorder[itemid];
@@ -551,11 +551,11 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             $("#checkout-btn").hide();
             $("#checkout-total").text('$0.00');
         } else {
-            tempHTML = '<DIV id="newvalues" class="';
+            tempHTML = '<DIV id="newvalues"';
             if (fadein || forcefade) {
-                tempHTML += ' dont-show';
+                tempHTML += 'class="dont-show"';
             }
-            tempHTML += '"><div class="pull-right"> Sub-total $' + subtotal.toFixed(2) + '</div><div class="clearfix"></div>';
+            tempHTML += '><div class="pull-right"> Sub-total $' + subtotal.toFixed(2) + '</div><div class="clearfix"></div>';
             tempHTML += '<div class="pull-right">  Delivery $' + deliveryfee.toFixed(2) + '</div><div class="clearfix"></div>';
             tempHTML += '<div class="pull-right">  Tax $' + taxes.toFixed(2) + '</div><div class="clearfix"></div>';
             tempHTML += '<div class="pull-right"> Total $' + totalcost.toFixed(2) + '</div><div class="clearfix"></div></div>';
@@ -1452,6 +1452,13 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     var closest = false;
     function addresshaschanged() {
         if (!getcloseststore) {return;}
+        var HTML = '<OPTION VALUE="0">No restaurant is within range</OPTION>';
+        var value = $("#saveaddresses").val();
+        if (value == "0" || value == "addaddress"){
+            $("#restaurant").html(HTML).val(0);
+            return;
+        }
+
         var formdata = getform("#orderinfo");
         formdata.limit = 10;
         if (!formdata.latitude || !formdata.longitude) {return;}
@@ -1466,7 +1473,6 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             if (handleresult(result)) {
                 closest = JSON.parse(result)["closest"];
                 var smallest = "0";
-                var HTML = '<OPTION VALUE="0">No restaurant is within range</OPTION>';
                 //canplaceorder = false;
                 if (closest.length > 0) {//} closest.hasOwnProperty("id")) {
                     HTML = '';
@@ -1541,9 +1547,10 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 $("#saveaddresses").val("addaddress");
                 addresschanged();
             }, 100);
+        } else {
+            $("#saveaddresses").val(0);
         }
         addresschanged();
-        $("#restaurant").html('<option value="0">RESTAURANT</option>').val("0");
         var HTML = $("#checkoutaddress").html();
         HTML = HTML.replace('class="', 'class="corner-top ');
         if (loadsavedcreditinfo()) {
@@ -1571,6 +1578,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 }
             });
         });
+        $("#restaurant").html('<option value="0">RESTAURANT</option>').val("0");
     }
 
     var daysofweek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -1801,7 +1809,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 item_name = "Pizza "; break;
             case "wings_sauce":
                 addonname = "Sauce";
-                item_name = "Wings"; break;
+                item_name = "Lb"; break;
             default:
                 addonname = "Error: " + currentaddontype; break;
         }
@@ -1820,7 +1828,9 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             }
             HTML += '">' + '<div class="btn btn-sm" id="item_' + itemindex + '">' + ucfirst(item_name) + ' #' + (itemindex + 1) + '</div>';
 
-
+            if(currentaddonlist[itemindex].length == 0){
+                tempstr += ' No ' + addonname;
+            }
             for (var i = 0; i < currentaddonlist[itemindex].length; i++) {
                 var currentaddon = currentaddonlist[itemindex][i];
                 var qualifier = "";
@@ -1883,7 +1893,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         currentaddontype = table;
         var HTML = '<DIV class="receipt-addons-list"><DIV id="theaddons"></DIV></DIV>';
         if (currentstyle == 0) {
-            HTML += '<DIV CLASS=" addonlist" ID="addontypes">';
+            HTML += '<DIV CLASS="addonlist" ID="addontypes">';
         }
         var types = Object.keys(alladdons[table]);
         if (currentstyle == 0) {
@@ -1897,10 +1907,10 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                     HTML += '<button class="thirdwidth btn btn-sm toppings_btn addon-addon';
 
                     if (isaddon_free(String(currentaddontype), String(addon))) {
-                        HTML += ' ';//free topping, this should be different from a paid topping
+                        //HTML += ' ';//free topping, this should be different from a paid topping
                         title = "Free addon";
-                    } else {
-                        HTML += ' '//paid topping
+                    //} else {
+                        //HTML += ' '//paid topping
                     }
 
                     HTML += '" TITLE="' + title + '">' + addon + '</button>';

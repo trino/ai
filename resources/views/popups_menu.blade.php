@@ -200,7 +200,7 @@
 
                 <h2 class="pull-left" id="myModalLabel">
                     <SPAN ID="modal-itemname"></SPAN>
-                   <small ID="toppingcost" class=" nowrap">+$<SPAN id="modal-toppingcost"></SPAN> per topping</small>
+                   <small ID="toppingcost" class="nowrap">+$<SPAN id="modal-toppingcost"></SPAN> per topping</small>
                 </h2>
             </div>
             <div class="modal-body">
