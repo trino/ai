@@ -1,24 +1,19 @@
 <?php
-startfile("popups_login");
-$minimum = first("SELECT price FROM additional_toppings WHERE size = 'Minimum'")["price"];
-$delivery = first("SELECT price FROM additional_toppings WHERE size = 'Delivery'")["price"];
+    startfile("popups_login");
+    $minimum = first("SELECT price FROM additional_toppings WHERE size = 'Minimum'")["price"];
+    $delivery = first("SELECT price FROM additional_toppings WHERE size = 'Delivery'")["price"];
 ?>
 <div class="row">
-    <DIV CLASS="col-lg-3 col-md-4  bg-white">
+    <DIV CLASS="col-lg-3 col-md-4 bg-white">
 
         <DIV CLASS="btn-sm-padding">
-
-            <h2 class="">Mobile Pizza Delivery</h2>
-
-
+            <h2>Mobile Pizza Delivery</h2>
             <ul class="nav nav-tabs mb-1" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#profile" role="tab" data-toggle="tab" id="logintab"
-                       onclick="skiploadingscreen = false;">Log In</a>
+                    <a class="nav-link active" href="#profile" role="tab" data-toggle="tab" id="logintab" onclick="skiploadingscreen = false;">Log In</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#buzz" role="tab" data-toggle="tab" id="signuptab"
-                       onclick="skiploadingscreen = true;">Sign Up</a>
+                    <a class="nav-link" href="#buzz" role="tab" data-toggle="tab" id="signuptab" onclick="skiploadingscreen = true;">Sign Up</a>
                 </li>
             </ul>
             <!-- Tab panes -->
@@ -42,19 +37,18 @@ $delivery = first("SELECT price FROM additional_toppings WHERE size = 'Delivery'
                 <div role="tabpanel" class="tab-pane fade" id="buzz">
                     <div class="alert text-sm-center alert-info mb-0">
                         <small>
-                            ${{ $minimum }} Min.   ${{ $delivery }} Delivery. Credit/Debit Only.
+                            ${{ $minimum }} Min. ${{ $delivery }} Delivery. Credit/Debit Only.
                         </small>
                     </div>
                     <FORM id="addform">
                         <?php
-                        if (!read("id")) {
-                            echo view("popups_address", array("style" => 1, "required" => true, "icons" => true))->render();
-                        }
+                            if (!read("id")) {
+                                echo view("popups_address", array("style" => 1, "required" => true, "icons" => true))->render();
+                            }
                         ?>
                     </FORM>
                     <FORM Name="regform" id="regform">
-                        <?= view("popups_edituser", array("phone" => false, "autocomplete" => "new-password", "required" => true,
-                            "icons" => true))->render(); ?>
+                        <?= view("popups_edituser", array("phone" => false, "autocomplete" => "new-password", "required" => true, "icons" => true))->render(); ?>
                     </FORM>
                     <div class="clearfix my-2"></div>
                     <button class="btn btn-primary pull-right" onclick="register();">
@@ -65,7 +59,6 @@ $delivery = first("SELECT price FROM additional_toppings WHERE size = 'Delivery'
             <DIV CLASS="clearfix"></DIV>
         </DIV>
     </DIV>
-
 
     <DIV CLASS="col-sm-6" id="loginpanel">
         <DIV CLASS="clearfix"></DIV>

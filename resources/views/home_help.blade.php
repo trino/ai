@@ -137,11 +137,11 @@
         }
         $orders =  first('SELECT count(*) as count FROM orders WHERE status <> 2 AND status <> 4 AND placed_at > "' . $SQLdate . '"')["count"];
     ?>
-    <DIV class="row  " style="background: white;border-radius: 0">
+    <DIV class="row" style="background: white;border-radius: 0">
         <div class="col-sm-4 list-group-item-padding">
             <h3>About Us </h3>
 
-            <div class="card-block  bg-success text-white">
+            <div class="card-block bg-success text-white">
                 <h2 class="text-white MT-0">Our Duty </h2>
                 <p>
                     londonpizza.ca has been in the works for over 5 years.

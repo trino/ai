@@ -183,8 +183,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     function confirm2() {
         var Title = "Confirm";
-        var action = function () {
-        };
+        var action = function () {};
         $('#alert-confirm').unbind('click');
         if (arguments.length > 1) {
             for (var index = 0; index < arguments.length; index++) {
@@ -202,9 +201,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     function removeindex(arr, index, count, delimiter) {
         if (!isArray(arr)) {
-            if (isUndefined(delimiter)) {
-                delimiter = " ";
-            }
+            if (isUndefined(delimiter)) {delimiter = " ";}
             arr = removeindex(arr.split(delimiter), index, count, delimiter).join(delimiter);
         } else {
             if (isNaN(index)) {
@@ -221,9 +218,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     }
 
     function visible(selector, status) {
-        if (isUndefined(status)) {
-            status = false;
-        }
+        if (isUndefined(status)) {status = false;}
         if (status) {
             $(selector).show();
         } else {
@@ -344,9 +339,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         //  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 1200);
 
         var itemid = 0, itemname = "", itemprice = 0.00, itemaddons = new Array, itemsize = "", toppingcost = 0.00, toppingscount = 0, itemcat = "", oldcost = "";
-        if (!isUndefined(Index)) {
-            currentitemID = Index;
-        }
+        if (!isUndefined(Index)) {currentitemID = Index;}
         if (isUndefined(element)) {//modal with addons
             itemid = $("#modal-itemid").text();
             itemname = $("#modal-itemname").text();
@@ -439,7 +432,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         }
         $("#oldvalues").stop().html("").hide().remove();
         $("#newvalues").stop().html("").hide().remove();
-        var itemnames = {toppings: "toppings", wings_sauce: "lb"};
+        var itemnames = {toppings: "toppings", wings_sauce: "lbl"};
         var nonames = {toppings: "toppings", wings_sauce: "sauce"};
         for (var itemid = 0; itemid < theorder.length; itemid++) {
             var item = theorder[itemid];
@@ -490,12 +483,10 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                     sprite += " sprite-" + toclassname(item["itemname"].trim()).replaceAll("_", "-").replace(/\./g, '');
                 }
 
-                tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item list-group-item"><SPAN CLASS="item_qty btn-sm-padding-left ">' + quantity + ' x </SPAN>';
-                tempHTML += '<span CLASS="sprite  sprite-' + sprite + ' sprite-medium"></span>';
+                tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item list-group-item"><SPAN CLASS="item_qty btn-sm-padding-left">' + quantity + ' x </SPAN>';
+                tempHTML += '<span CLASS="sprite sprite-' + sprite + ' sprite-medium"></span>';
                 // tempHTML += '<span title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '" class="receipt_itemcost"></span>';
-                tempHTML += ' <span class="receipt-itemname">' + item["itemname"] + '</SPAN>';
-                tempHTML += ' <span class="ml-auto align-middle">';
-
+                tempHTML += ' <span class="receipt-itemname">' + item["itemname"] + '</SPAN> <span class="ml-auto align-middle">';
                 tempHTML += '<span id="oldcost_' + itemid + '"></span><span id="cost_' + itemid + '">$' + totalcost;
                 //if (quantity > 1) {tempHTML += ' (' + quantity + ')';}
                 tempHTML += '</span><button class="fa fa-minus btn-sm" onclick="removeorderitem(' + itemid + ', ' + quantity + ');"></button>';
@@ -518,7 +509,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                         if (itemname) {
                             tempHTML += '<DIV CLASS="col-md-12 item_title">' + ordinals[currentitem] + " " + itemname + ': ';
                         } else {
-                            tempHTML += '<DIV class=" ">';
+                            tempHTML += '<DIV>';
                         }
                         if (addons["addons"].length == 0) {
                             tempHTML += 'no ' + nonames[tablename] + '';
@@ -551,8 +542,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
 
         if (theorder.length == 0) {
-
-            HTML = '<button CLASS="list-group-item-padding  bg-secondary btn-block radius0"><i class="fa fa-shopping-basket mr-2 empty-shopping-cart"></i>Empty</button>';
+            HTML = '<button CLASS="list-group-item-padding bg-secondary btn-block radius0"><i class="fa fa-shopping-basket mr-2 empty-shopping-cart"></i>Empty</button>';
             $("#checkout").hide();
             $("#checkoutbutton").hide();
             $("#confirmclearorder").hide();
@@ -560,42 +550,28 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             collapsecheckout();
             $("#checkout-btn").hide();
             $("#checkout-total").text('$0.00');
-
-
         } else {
-
-
             tempHTML = '<DIV id="newvalues" class="';
             if (fadein || forcefade) {
                 tempHTML += ' dont-show';
             }
-            tempHTML += '">';
-
-            tempHTML += '<div class="pull-right  "> Sub-total $' + subtotal.toFixed(2) + '</div><div class="clearfix "></div>';
-            tempHTML += '<div class="pull-right  ">  Delivery $' + deliveryfee.toFixed(2) + '</div><div class="clearfix "></div>';
-            tempHTML += '<div class="pull-right  ">  Tax $' + taxes.toFixed(2) + '</div><div class="clearfix "></div>';
-            tempHTML += '<div class="pull-right  "> Total $' + totalcost.toFixed(2) + '</div><div class="clearfix "></div></div>';
-            tempHTML += '<div class="clearfix "></div></DIV>';
-
+            tempHTML += '"><div class="pull-right"> Sub-total $' + subtotal.toFixed(2) + '</div><div class="clearfix"></div>';
+            tempHTML += '<div class="pull-right">  Delivery $' + deliveryfee.toFixed(2) + '</div><div class="clearfix"></div>';
+            tempHTML += '<div class="pull-right">  Tax $' + taxes.toFixed(2) + '</div><div class="clearfix"></div>';
+            tempHTML += '<div class="pull-right"> Total $' + totalcost.toFixed(2) + '</div><div class="clearfix"></div></div>';
+            tempHTML += '<div class="clearfix"></div></DIV>';
             if (subtotal >= minimumfee) {
                 $("#checkout-btn").show();
             } else {
                 $("#checkout-btn").hide();
-                tempHTML += '<button CLASS="list-group-item-padding  bg-secondary btn-block radius0">$' + minimumfee + ' Minimum Sub-total</button>';
+                tempHTML += '<button CLASS="list-group-item-padding bg-secondary btn-block radius0">$' + minimumfee + ' Minimum Sub-total</button>';
             }
-
-
-
-
             $("#confirmclearorder").show();
-
-
             $("#checkout-total").text('$' + totalcost.toFixed(2));
         }
         if (fadein || forcefade) {
             tempHTML += '<DIV id="oldvalues">' + oldvalues + '</div>';
         }
-
         $("#myorder").html(HTML + tempHTML);
         if (fadein || forcefade) {
             if (fadein) {
@@ -605,7 +581,6 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 $("#newvalues").fadeIn();
             });
         }
-
     }
 
     //hides the checkout form
@@ -711,12 +686,8 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     //checks if an addon is free
     function isaddon_free(Table, Addon) {
         switch (Addon.toLowerCase()) {
-            case "lightly done":
-            case "well done":
-                return true;
-                break;
-            default:
-                return freetoppings[Table].indexOf(Addon) > -1;
+            case "lightly done": case "well done": return true; break;
+            default: return freetoppings[Table].indexOf(Addon) > -1;
         }
     }
 
@@ -728,9 +699,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     //remove an item from the order
     var removeorderitemdisabled = false;
     function removeorderitem(index, quantity) {
-        if (removeorderitemdisabled) {
-            return;
-        }
+        if (removeorderitemdisabled) {return;}
         if (quantity == 1) {
             removeindex(theorder, index);
             removeorderitemdisabled = true;
@@ -769,28 +738,16 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     function validaddress() {
         var savedaddress = $("#saveaddresses").val();
-        if (savedaddress == 0) {
-            return false;
-        }
-        if (savedaddress == "addaddress") {
-            return isvalidaddress();
-        }
+        if (savedaddress == 0) {return false;}
+        if (savedaddress == "addaddress") {return isvalidaddress();}
         return true;
     }
 
     function isvalidcreditcard(CardNumber, Month, Year, CVV) {
-        if (isUndefined(CardNumber)) {
-            CardNumber = $("[data-stripe=number]").val();
-        }
-        if (isUndefined(Month)) {
-            Month = $("[data-stripe=exp_month]").val();
-        }
-        if (isUndefined(Year)) {
-            Year = $("[data-stripe=exp_year]").val();
-        }
-        if (isUndefined(CVV)) {
-            CVV = $("[data-stripe=cvc]").val();
-        }
+        if (isUndefined(CardNumber)) {CardNumber = $("[data-stripe=number]").val();}
+        if (isUndefined(Month)) {Month = $("[data-stripe=exp_month]").val();}
+        if (isUndefined(Year)) {Year = $("[data-stripe=exp_year]").val();}
+        if (isUndefined(CVV)) {CVV = $("[data-stripe=cvc]").val();}
         CardNumber = CardNumber.replace(/\D/g, '');
         var nCheck = 0, nDigit = 0, bEven = false;
         for (var n = CardNumber.length - 1; n >= 0; n--) {
@@ -820,30 +777,17 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     function canplaceanorder() {
         var valid_creditcard = true;
-        if (!$("#saved-credit-info").val() && !isvalidcreditcard()) {
-            valid_creditcard = false;
-        }
+        if (!$("#saved-credit-info").val() && !isvalidcreditcard()) {valid_creditcard = false;}
         var visible_errors = $(".error:visible").text().length == 0;
         var selected_rest = $("#restaurant").val() > 0;
         var phone_number = $("#reg_phone").val().length > 0;
         var valid_address = validaddress();
-
         var reasons = new Array();
-        if (!valid_creditcard) {
-            reasons.push("valid credit card");
-        }
-        if (!visible_errors) {
-            reasons.push("errors in form");
-        }
-        if (!selected_rest) {
-            reasons.push("no selected restaurant");
-        }
-        if (!phone_number) {
-            reasons.push("phone number missing");
-        }
-        if (!valid_address) {
-            reasons.push("valid address");
-        }
+        if (!valid_creditcard) {reasons.push("valid credit card");}
+        if (!visible_errors) {reasons.push("errors in form");}
+        if (!selected_rest) {reasons.push("no selected restaurant");}
+        if (!phone_number) {reasons.push("phone number missing");}
+        if (!valid_address) {reasons.push("valid address");}
         if (reasons.length > 0) {
             log("canplaceanorder: " + reasons.join(", "));
             return false;
@@ -892,7 +836,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                         };
                         userdetails.Addresses.push(Address);
                         $("#addaddress").remove();
-                        $("#saveaddresses").append(AddressToOption(Address) + '<OPTION VALUE="addaddress" ID="addaddress">ADD ADDRESS55555</OPTION>');
+                        $("#saveaddresses").append(AddressToOption(Address) + '<OPTION VALUE="addaddress" ID="addaddress">ADD ADDRESS</OPTION>');
                     }
                     userdetails["Orders"].unshift({
                         id: $("#receipt_id").text(),
@@ -918,14 +862,12 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     $(window).on('shown.bs.modal', function () {
         modalID = $(".modal:visible").attr("id");
-        $("#" + modalID).hide();
-        $("#" + modalID).fadeIn("fast");
+        $("#" + modalID).hide().fadeIn("fast");
         skipone = Date.now() + 100;//blocks delete button for 1/10 of a second
         switch (modalID) {
             case "profilemodal":
                 $("#addresslist").html(addresses());
-                $("#cardlist").html(creditcards());
-                break;
+                $("#cardlist").html(creditcards()); break;
         }
         window.location.hash = "modal";
     });
@@ -1098,8 +1040,6 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         //----- CLOSE
         $('[data-popup-close]').on('click', function (e) {
             var targeted_popup_class = jQuery(this).attr('data-popup-close');
-
-
             $('#' + targeted_popup_class).modal("hide");
         });
 
@@ -1464,30 +1404,13 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         var errormessage = "";
         log("Stripe response");
         switch (status) {
-            case 400:
-                errormessage = "Bad Request:<BR>The request was unacceptable, often due to missing a required parameter.";
-                break;
-            case 401:
-                errormessage = "Unauthorized:<BR>No valid API key provided.";
-                break;
-            case 402:
-                errormessage = "Request Failed:<BR>The parameters were valid but the request failed.";
-                break;
-            case 404:
-                errormessage = "Not Found:<BR>The requested resource doesn't exist.";
-                break;
-            case 409:
-                errormessage = "Conflict:<BR>The request conflicts with another request (perhaps due to using the same idempotent key).";
-                break;
-            case 429:
-                errormessage = "Too Many Requests:<BR>Too many requests hit the API too quickly. We recommend an exponential backoff of your requests.";
-                break;
-            case 500:
-            case 502:
-            case 503:
-            case 504:
-                errormessage = "Server Errors:<BR>Something went wrong on Stripe's end.";
-                break;
+            case 400: errormessage = "Bad Request:<BR>The request was unacceptable, often due to missing a required parameter."; break;
+            case 401: errormessage = "Unauthorized:<BR>No valid API key provided."; break;
+            case 402: errormessage = "Request Failed:<BR>The parameters were valid but the request failed."; break;
+            case 404: errormessage = "Not Found:<BR>The requested resource doesn't exist."; break;
+            case 409: errormessage = "Conflict:<BR>The request conflicts with another request (perhaps due to using the same idempotent key)."; break;
+            case 429: errormessage = "Too Many Requests:<BR>Too many requests hit the API too quickly. We recommend an exponential backoff of your requests."; break;
+            case 500: case 502: case 503: case 504: errormessage = "Server Errors:<BR>Something went wrong on Stripe's end."; break;
             case 200:// - OK	Everything worked as expected.
                 if (response.error) {
                     $('.payment-errors').html(response.error.message);
@@ -1500,8 +1423,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                         userdetails.Stripe.push(getnewcard(response.id));
                     }
                     placeorder(response.id);
-                }
-                break;
+                } break;
         }
         if (errormessage) {
             //$(".payment-errors").html(errormessage + "<BR><BR>" + response["error"]["type"] + ":<BR>" + response["error"]["message"]);
@@ -1513,15 +1435,9 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         var card_number = $("input[data-stripe=number]").val().replace(/\D/g, '');
         var card_brand = "Unknown (" + card_number.left(1) + ")";
         switch (card_number.left(1)) {
-            case "3":
-                card_brand = "American Express";
-                break;
-            case "4":
-                card_brand = "Visa";
-                break;
-            case "5":
-                card_brand = "Master Card";
-                break;
+            case "3": card_brand = "American Express"; break;
+            case "4": card_brand = "Visa"; break;
+            case "5": card_brand = "Master Card"; break;
         }
         return {
             id: ID,
@@ -1535,24 +1451,17 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     var closest = false;
     function addresshaschanged() {
-        if (!getcloseststore) {
-            return;
-        }
+        if (!getcloseststore) {return;}
         var formdata = getform("#orderinfo");
         formdata.limit = 10;
-        if (!formdata.latitude || !formdata.longitude) {
-            return;
-        }
-        if (!debugmode) {
-            formdata.radius = MAX_DISTANCE;
-        }
+        if (!formdata.latitude || !formdata.longitude) {return;}
+        if (!debugmode) {formdata.radius = MAX_DISTANCE;}
         skiploadingscreen = true;
         //canplaceorder = false;
-
         $.post(webroot + "placeorder", {
             _token: token,
             info: formdata,
-            action: "closestrestaurant",
+            action: "closestrestaurant"
         }, function (result) {
             if (handleresult(result)) {
                 closest = JSON.parse(result)["closest"];
@@ -1582,8 +1491,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 if (!smallest) {
                     smallest = 0;
                 }
-                $("#restaurant").html(HTML);
-                $("#restaurant").val(smallest);
+                $("#restaurant").html(HTML).val(smallest);
                 restchange();
             }
         });
@@ -1635,7 +1543,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             }, 100);
         }
         addresschanged();
-        $("#restaurant").val("0");
+        $("#restaurant").html('<option value="0">RESTAURANT</option>').val("0");
         var HTML = $("#checkoutaddress").html();
         HTML = HTML.replace('class="', 'class="corner-top ');
         if (loadsavedcreditinfo()) {
@@ -1759,18 +1667,13 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         }
 
         $("#deliverytimealias").html(HTML);
-        $("#deliverytime").html(HTML);
-        $("#deliverytime").val(oldValue);
+        $("#deliverytime").html(HTML).val(oldValue);
     }
 
     function isopen(hours, dayofweek, time) {
         var now = new Date();//doesn't take into account <= because it takes more than 1 minute to place an order
-        if (isUndefined(dayofweek)) {
-            dayofweek = now.getDay();
-        }
-        if (isUndefined(time)) {
-            time = now.getHours() * 100 + now.getMinutes();
-        }
+        if (isUndefined(dayofweek)) {dayofweek = now.getDay();}
+        if (isUndefined(time)) {time = now.getHours() * 100 + now.getMinutes();}
         var today = hours[dayofweek];
         var yesterday = dayofweek - 1;
         if (yesterday < 0) {
@@ -1895,15 +1798,12 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         switch (currentaddontype) {
             case "toppings":
                 addonname = "Toppings";
-                item_name = "Pizza ";
-                break;
+                item_name = "Pizza "; break;
             case "wings_sauce":
                 addonname = "Sauce";
-                item_name = "Wings";
-                break;
+                item_name = "Wings"; break;
             default:
-                addonname = "Error: " + currentaddontype;
-                break;
+                addonname = "Error: " + currentaddontype; break;
         }
 
         var thisside = ' CLASS="thisside">';
@@ -1918,7 +1818,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             if (currentitemindex == itemindex) {
                 HTML += ' thisside';
             }
-            HTML += '">' + '<div class="btn btn-sm  " id="item_' + itemindex + '">' + ucfirst(item_name) + ' #' + (itemindex + 1) + '</div>';
+            HTML += '">' + '<div class="btn btn-sm" id="item_' + itemindex + '">' + ucfirst(item_name) + ' #' + (itemindex + 1) + '</div>';
 
 
             for (var i = 0; i < currentaddonlist[itemindex].length; i++) {
@@ -1989,7 +1889,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         if (currentstyle == 0) {
             $("#addonlist").html(HTML + '</DIV>');
         } else {
-            HTML += '<div class="fixed-bottom ">';
+            HTML += '<div class="fixed-bottom">';
             for (var i = 0; i < types.length; i++) {
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
@@ -2008,8 +1908,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             }
 
             HTML += '<button class="thirdwidth btn btn-sm toppings_btn" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button>' +
-                '<button class="thirdwidth btn btn-sm btn-primary" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button>';
-            HTML += '</div>';
+                '<button class="thirdwidth btn btn-sm btn-primary" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button></div>';
 
             $("#addonlist").html(HTML);
             $(".addon-addon").click(
@@ -2091,11 +1990,9 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         }
         switch (classname) {
             case "addon-qualifier":
-                currentqualifier = defaultindex;
-                break;
+                currentqualifier = defaultindex; break;
             case "addon-side":
-                currentside = defaultindex;
-                break;
+                currentside = defaultindex; break;
         }
         return HTML + '</DIV>';
     }
@@ -2107,11 +2004,9 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         $(e.target).addClass("addon-selected");
         switch (classname) {
             case "addon-qualifier":
-                currentqualifier = index;
-                break;
+                currentqualifier = index; break;
             case "addon-side":
-                currentside = index;
-                break;
+                currentside = index; break;
         }
         log(classname + "." + listitemname + "=" + index);
     }
@@ -2155,8 +2050,6 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     function selectitem(e, index) {
         $(".currentitem").removeClass("thisside");
         $(".currentitem" + index).addClass("thisside");
-
-
         currentitemindex = index;
         refreshremovebutton();
     }
@@ -2180,23 +2073,19 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     }
 
     function iif(value, iftrue, iffalse) {
-        if (value) {
-            return iftrue;
-        }
-        if (isUndefined(iffalse)) {
-            return "";
-        }
+        if (value) {return iftrue;}
+        if (isUndefined(iffalse)) {return "";}
         return iffalse;
     }
 
     @if(read("id"))
         $(document).ready(function () {
         <?php
-        if (islive() || $GLOBALS["testlive"]) {
-            echo "setPublishableKey('pk_vnR0dLVmyF34VAqSegbpBvhfhaLNi', 'live')";
-        } else {
-            echo "setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', 'test');";
-        }
+            if (islive() || $GLOBALS["testlive"]) {
+                echo "setPublishableKey('pk_vnR0dLVmyF34VAqSegbpBvhfhaLNi', 'live')";
+            } else {
+                echo "setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', 'test');";
+            }
         ?>
     });
 

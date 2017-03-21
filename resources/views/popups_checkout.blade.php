@@ -1,8 +1,8 @@
 <?php startfile("popups_checkout"); ?>
 
 <div class="list-group-item bg-secondary">
-    <button class="btn btn-sm dont-show " ONCLICK="confirmclearorder();" id="confirmclearorder"><i class="fa fa-close"></i></button>
-    <h2 class="ml-3"> My Order</h2> <span class="align-middle rounded sprite sprite-wings sprite-medium " style="visibility: hidden"></span>
+    <button class="btn btn-sm dont-show" ONCLICK="confirmclearorder();" id="confirmclearorder"><i class="fa fa-close"></i></button>
+    <h2 class="ml-3"> My Order</h2> <span class="align-middle rounded sprite sprite-wings sprite-medium" style="visibility: hidden"></span>
 
 </div>
 
@@ -21,12 +21,8 @@
                 <button data-dismiss="modal" data-popup-close="checkoutmodal" class="btn btn-sm"><i class="fa fa-close"></i></button>
             </div>
             <div class="modal-body">
-
-
                 <FORM ID="orderinfo" name="orderinfo">
-
-                    <div class="">
-
+                    <div>
                         <div class="input_left_icon"><i class="fa fa-user"></i></div>
                         <div class="input_right">
                             <div class="halfwidth">
@@ -79,7 +75,7 @@
                                 <div class="clearfix"></div>
                             </div>
                             <div class="thirdwidth">
-                                <input type="text" size="4" data-stripe="cvc" CLASS="credit-info form-control" PLACEHOLDER="CVC" style="    padding: .535rem .75rem;">
+                                <input type="text" size="4" data-stripe="cvc" CLASS="credit-info form-control" PLACEHOLDER="CVC" style="padding: .535rem .75rem;">
                                 <INPUT class="credit-info" TYPE="hidden" name="istest" id="istest">
                                 @if(!islive()) <a class="credit-info pull-right btn" onclick="testcard();" TITLE="Don't remove this, I need it!">Test Card</a> @endif
                                 <div class="clearfix"></div>
@@ -89,9 +85,9 @@
                         <div class="input_right">
                             <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
                             <?php
-                            if (read("id")) {
-                                echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
-                            }
+                                if (read("id")) {
+                                    echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false))->render();
+                                }
                             ?>
                         </div>
                         <div class="input_left_icon"><i class="fa fa-cutlery"></i></div>
@@ -108,7 +104,7 @@
                         <div class="input_right">
                             <div class="input-group">
                                 <SELECT id="deliverytime" TITLE="Delivery Time" class="form-control"/>
-                                <OPTION>Deliver ASAP</OPTION>
+                                    <OPTION>Deliver ASAP</OPTION>
                                 </SELECT>
                                 <span class="input-group-btn">
                                 <!--<comment> why is it when i change this to a button that clicking on please enter an address closes the modal... order doesn't go through when I change it -->
@@ -135,16 +131,16 @@
 <SCRIPT>
     //https://stripe.com/docs/custom-form
     @if(read("id"))
-    $(document).ready(function () {
-        getcloseststore = true;
-        visible_address(false);
-        $("#saveaddresses").append('<OPTION VALUE="addaddress" ID="addaddress">Add Address</OPTION>');
-    });
-    $('#reg_phone').keypress(function () {
-        if ($('#reg_phone').valid()) {
-            clearphone();
-        }
-    });
+        $(document).ready(function () {
+            getcloseststore = true;
+            visible_address(false);
+            $("#saveaddresses").append('<OPTION VALUE="addaddress" ID="addaddress">Add Address</OPTION>');
+        });
+        $('#reg_phone').keypress(function () {
+            if ($('#reg_phone').valid()) {
+                clearphone();
+            }
+        });
     @endif
 
     function restchange() {

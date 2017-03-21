@@ -100,24 +100,23 @@
 <div class="col-lg-3 col-md-12 pb-2 bg-white">
     @foreach ($categories as $category)
         <?php
-        $catclass = toclass($category['category']);
-        $classlist[] = $catclass;
-        $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "' order by id", true);
-        $menuitemcount = count($menuitems);
-        if ($itemsInCol + $menuitemcount > $maxmenuitemspercol && $CurrentCol < 3) {
-            $itemsInCol = 0;
-            $CurrentCol += 1;
-            //echo '</DIV><div class="col-md-4" style="background:white;">';
-        }
-        $itemsInCol += $menuitemcount;
+            $catclass = toclass($category['category']);
+            $classlist[] = $catclass;
+            $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "' order by id", true);
+            $menuitemcount = count($menuitems);
+            if ($itemsInCol + $menuitemcount > $maxmenuitemspercol && $CurrentCol < 3) {
+                $itemsInCol = 0;
+                $CurrentCol += 1;
+                //echo '</DIV><div class="col-md-4" style="background:white;">';
+            }
+            $itemsInCol += $menuitemcount;
         ?>
         <div class="bg-secondary list-group-item">
-
-            <span class="align-middle rounded sprite sprite-wings sprite-medium " style="visibility: hidden"></span>
-         <h2>   {{$category['category']}}</h2>
+            <span class="align-middle rounded sprite sprite-wings sprite-medium" style="visibility: hidden"></span>
+            <h2>   {{$category['category']}}</h2>
         </div>
         @foreach ($menuitems as $menuitem)
-            <div class="receipt_item list-group-item  list-group-item-action d-flex justify-content-start item_{{ $catclass }}"
+            <div class="receipt_item list-group-item list-group-item-action d-flex justify-content-start item_{{ $catclass }}"
                  itemid="{{$menuitem["id"]}}"
                  itemname="{{$menuitem['item']}}"
                  itemprice="{{$menuitem['price']}}"
@@ -157,7 +156,6 @@
                     $HTML = ' onclick="additemtoorder(this, -1);"';
                     $icon = '';
                 }
-
                 echo $HTML;
                 ?>
             >
@@ -200,15 +198,13 @@
 
                 <button data-dismiss="modal" class="pull-left btn btn-sm pr-3"><i class="fa fa-close"></i></button>
 
-
-                <h2 class="pull-left" id="myModalLabel" >
-
+                <h2 class="pull-left" id="myModalLabel">
                     <SPAN ID="modal-itemname"></SPAN>
                    <small ID="toppingcost" class=" nowrap">+$<SPAN id="modal-toppingcost"></SPAN> per topping</small>
                 </h2>
             </div>
             <div class="modal-body">
-                    <DIV ID="addonlist" class="addonlist"></DIV>
+                <DIV ID="addonlist" class="addonlist"></DIV>
 
                 <br>
                 <br>
