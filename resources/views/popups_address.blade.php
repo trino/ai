@@ -5,14 +5,14 @@
     if (!isset($icons)) {$icons = false;}
     switch ($style) {
         case 0:
-            echo '<DIV CLASS="row"><DIV CLASS="col-md-2">Address:</DIV><DIV CLASS="col-md-10">';
+            echo '<DIV CLASS="row"><DIV CLASS="col-md-2">Address:</DIV><DIV CLASS="col-md-10" ID="gmapc">';
             echo '<INPUT class="form-control" TYPE="text" ID="formatted_address" ' . $required . ' name="formatted_address"></div></DIV>';
             break;
         case 1:
             if($icons) {echo '<div class="input_left_icon"><i class="fa fa-home"></i></div><div class="input_right">';}
-            echo '<INPUT TYPE="text" ID="formatted_address" PLACEHOLDER="Address" CLASS="form-control formatted_address"  ' . $required . ' name="formatted_address">';
+            echo '<SPAN ID="gmapc"><INPUT TYPE="text" ID="formatted_address" PLACEHOLDER="Address" CLASS="form-control formatted_address"  ' . $required . ' name="formatted_address"></SPAN>';
             if($icons) {echo '</div>';}
-            echo '<STYLE>.address.:focus{z-index: 999;}</STYLE>';
+            echo '<STYLE>.address:focus{z-index: 999;}</STYLE>';
             break;
     }
     if (!isset($user_id)) {$user_id = read("id");}
@@ -20,7 +20,7 @@
 ?>
 <STYLE>
     .pac-container {
-        z-index: 9999 !important;
+        z-index: 99999999999 !important;
     }
 </STYLE>
     @if($form) <FORM ID="googleaddress"> @endif
@@ -38,6 +38,15 @@
     @if($form) </FORM> @endif
 
 <SCRIPT>
+    if(is_firefox_for_android) {
+        $(window).load(function () {
+            var HTML = $("#gmapc").html();
+            $("#gmapffac").html(HTML);
+            $("#gmapc").html('<SPAN CLASS="address" ID="ffaddress"></SPAN>');
+            initAutocomplete();
+        });
+    }
+
     function editaddresses() {
         $("#checkoutmodal").modal("hide");
         $("#profilemodal").modal("show");
@@ -164,7 +173,7 @@
                 window.onload = function () {
                     log("init autocomplete");
                     initAutocomplete();
-                }
+                };
             </SCRIPT>
         <?php
     }

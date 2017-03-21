@@ -6,6 +6,9 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 ?>
 
 <script>
+    var is_firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+    var is_android = navigator.userAgent.toLowerCase().indexOf('android') > -1;
+    var is_firefox_for_android = is_firefox && is_android;
     var currentitemID = -1;
     var MAX_DISTANCE = 20;//km
     var debugmode = false;//'<?= !islive(); ?>' == '1';
@@ -1309,6 +1312,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             Text = Text.replace("[" + keyname + "]", keyvalue);
             $("#add_" + keyname).val(keyvalue);
         }
+        $("#ffaddress").hide();
         if (SelectedVal == 0) {
             Text = '';
             $("#saveaddresses").addClass("red");
@@ -1319,6 +1323,11 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 visible_address(true);
                 $("#add_unit").show();
                 Text = "";
+                if(is_firefox_for_android){
+                    $("#ffaddress").show();
+                    $("#checkoutmodal").modal("hide");
+                    $("#firefoxandroid").show();
+                }
             }
         }
         $("#formatted_address").val(Text);

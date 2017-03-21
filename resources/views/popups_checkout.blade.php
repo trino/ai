@@ -3,7 +3,6 @@
 <div class="list-group-item bg-secondary">
     <button class="btn btn-sm dont-show" ONCLICK="confirmclearorder();" id="confirmclearorder"><i class="fa fa-close"></i></button>
     <h2 class="ml-3"> My Order</h2> <span class="align-middle rounded sprite sprite-wings sprite-medium" style="visibility: hidden"></span>
-
 </div>
 
 <div id="myorder"></div>
@@ -11,7 +10,6 @@
 <button id="checkout-btn" class="list-group-item-padding btn btn-warning btn-block radius0" onclick="showcheckout();">
     <i class="fa fa-shopping-basket mr-2"></i> CHECKOUT
 </button>
-
 
 <div class="modal" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" role="document">
@@ -65,11 +63,11 @@
                             <div class="thirdwidth">
                                 <SELECT CLASS="credit-info form-control" data-stripe="exp_year">
                                     <?php
-                                    $CURRENT_YEAR = date("Y");
-                                    $TOTAL_YEARS = 6;
-                                    for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
-                                        echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
-                                    }
+                                        $CURRENT_YEAR = date("Y");
+                                        $TOTAL_YEARS = 6;
+                                        for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
+                                            echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
+                                        }
                                     ?>
                                 </SELECT>
                                 <div class="clearfix"></div>
@@ -154,5 +152,17 @@
         }
         GenerateHours(closest[index].hours);//GenerateHours(closest[index]["hours"]);
     }
+
+    function fffa(){
+        $("#ffaddress").text( $("#formatted_address").val() );
+        $('#checkoutmodal').modal('show');
+        $("#firefoxandroid").hide();
+    }
 </SCRIPT>
 <?php endfile("popups_checkout"); ?>
+
+<DIV ID="firefoxandroid" class="dont-show white centered" style="background-color: #292B2C;">
+    <i class="fa fa-firefox"></i> Firefox Address editor
+    <DIV ID="gmapffac" style="background-color: white"></DIV>
+    <BUTTON ONCLICK="fffa();" CLASS="btn btn-primary btn-block radius0">OK</BUTTON>
+</DIV>
