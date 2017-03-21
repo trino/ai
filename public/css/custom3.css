@@ -70,7 +70,7 @@ button {
         border-bottom: 1px solid #eceeef !important;
         */
 }
-.modal-header{border-bottom:1px solid #dadada !important; }
+.modal-header{padding-bottom: 0 !important;}
 .addonlist {
     width: 100%
 }
@@ -103,7 +103,6 @@ h2 {
     line-height: 1rem !important;
     padding: 0 !important;
     margin: .5rem 0 !important;
-    font-weight: bold;
 }
 
 .text-transparent {
@@ -115,7 +114,7 @@ h2 {
 }
 
 .col-lg-3 {
-    border-right: 1px  solid #e7e7e7;
+
 }
 
 .icon-width {
@@ -140,7 +139,7 @@ body {
     -moz-animation: fadein 1s; /* Firefox */
     -webkit-animation: fadein 1s; /* Safari and Chrome */
     -o-animation: fadein 1s; /* Opera */
-    background: #eee !important;
+    background: #e7e7e7 !important;
 }
 
 /* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
@@ -155,12 +154,13 @@ body.loading {
 
 .full {
     /*
+
     background: url(../../public/images/background.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    */
+*/
 }
 
 /* Anytime the body has the loading class, our modal element will be visible */

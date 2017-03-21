@@ -21,8 +21,9 @@
                 <div CLASS="editprofilediv">
                     <DIV ID="cardlist"></DIV>
                 </div>
-
-                please check your email for previous orders
+<div class="alert alert-info">
+                Please check your email for past orders
+</div>
                 <!--div CLASS="editprofilediv mt-2">
                     <button ONCLICK="orders();" CLASS="btn btn-primary" href="#">PAST ORDERS</button>
                 </div>

@@ -117,7 +117,7 @@
          <h2>   {{$category['category']}}</h2>
         </div>
         @foreach ($menuitems as $menuitem)
-            <div class="receipt_item list-group-item d-flex justify-content-start item_{{ $catclass }}"
+            <div class="receipt_item list-group-item  list-group-item-action d-flex justify-content-start item_{{ $catclass }}"
                  itemid="{{$menuitem["id"]}}"
                  itemname="{{$menuitem['item']}}"
                  itemprice="{{$menuitem['price']}}"
@@ -196,11 +196,16 @@
                 <SPAN ID="modal-itemcat"></SPAN>
             </div>
 
-            <div class="modal-header">
-                <h2 id="myModalLabel"><SPAN ID="modal-itemname"></SPAN>
+            <div class="list-group-item">
+
+                <button data-dismiss="modal" class="pull-left btn btn-sm pr-3"><i class="fa fa-close"></i></button>
+
+
+                <h2 class="pull-left" id="myModalLabel" >
+
+                    <SPAN ID="modal-itemname"></SPAN>
                    <small ID="toppingcost" class=" nowrap">+$<SPAN id="modal-toppingcost"></SPAN> per topping</small>
                 </h2>
-                <button data-dismiss="modal" class="btn btn-sm"><i class="fa fa-close"></i></button>
             </div>
             <div class="modal-body">
                     <DIV ID="addonlist" class="addonlist"></DIV>

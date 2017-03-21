@@ -3,7 +3,7 @@ startfile("popups_login");
 $minimum = first("SELECT price FROM additional_toppings WHERE size = 'Minimum'")["price"];
 $delivery = first("SELECT price FROM additional_toppings WHERE size = 'Delivery'")["price"];
 ?>
-<div class="row py-3">
+<div class="row">
     <DIV CLASS="col-lg-3 col-md-4  bg-white">
 
         <DIV CLASS="btn-sm-padding">
