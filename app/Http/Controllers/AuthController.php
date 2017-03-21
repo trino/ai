@@ -169,8 +169,8 @@ class AuthController extends Controller {
                                             "body" => $_POST["name"] . " has registered"
                                         ));
                                     }
-                                    if($action["phone"]){$this->sendSMS("van", $action["message"], true);}
-                                    if($action["sms"]){$this->sendSMS("van", $action["message"]);}
+                                    if($action["phone"]){$this->sendSMS("admin", $action["message"], true);}
+                                    if($action["sms"]){$this->sendSMS("admin", $action["message"]);}
                                     break;
                                 //case 2://restaurant
                             }

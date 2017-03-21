@@ -551,7 +551,14 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             $("#checkout-btn").hide();
             $("#checkout-total").text('$0.00');
         } else {
-            tempHTML = '<DIV id="newvalues"';
+            tempHTML = "";
+            if (subtotal >= minimumfee) {
+                $("#checkout-btn").show();
+            } else {
+                $("#checkout-btn").hide();
+                tempHTML += '<button CLASS="list-group-item-padding bg-secondary btn-block radius0">$' + minimumfee + ' Minimum Sub-total</button>';
+            }
+            tempHTML += '<DIV id="newvalues"';
             if (fadein || forcefade) {
                 tempHTML += 'class="dont-show"';
             }
@@ -560,12 +567,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             tempHTML += '<div class="pull-right">  Tax $' + taxes.toFixed(2) + '</div><div class="clearfix"></div>';
             tempHTML += '<div class="pull-right"> Total $' + totalcost.toFixed(2) + '</div><div class="clearfix"></div></div>';
             tempHTML += '<div class="clearfix"></div></DIV>';
-            if (subtotal >= minimumfee) {
-                $("#checkout-btn").show();
-            } else {
-                $("#checkout-btn").hide();
-                tempHTML += '<button CLASS="list-group-item-padding bg-secondary btn-block radius0">$' + minimumfee + ' Minimum Sub-total</button>';
-            }
+
             $("#confirmclearorder").show();
             $("#checkout-total").text('$' + totalcost.toFixed(2));
         }

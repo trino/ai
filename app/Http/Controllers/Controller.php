@@ -99,8 +99,7 @@ class Controller extends BaseController {
         $ret = iif($Call, "Calling", "Sending an SMS to") . ": " . $Phone . " - " . $Message;
         if ($Phone == "admin") {
             $Phone = first("SELECT phone FROM users WHERE profiletype = 1");
-        } else if ($Phone == "van") {
-            $Phone = "9055315331";
+       // } else if ($Phone == "van") {            $Phone = "9055315331";
         } else {
             $Phone = filternonnumeric($Phone);
         }
