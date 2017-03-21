@@ -746,22 +746,30 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     }
 
     function isvalidcreditcard(CardNumber, Month, Year, CVV) {
-        if (isUndefined(CardNumber)) {CardNumber = $("[data-stripe=number]").val();}
-        if (isUndefined(Month)) {Month = $("[data-stripe=exp_month]").val();}
-        if (isUndefined(Year)) {Year = $("[data-stripe=exp_year]").val();}
-        if (isUndefined(CVV)) {CVV = $("[data-stripe=cvc]").val();}
-        CardNumber = CardNumber.replace(/\D/g, '');
-        var nCheck = 0, nDigit = 0, bEven = false;
-        for (var n = CardNumber.length - 1; n >= 0; n--) {
-            var cDigit = CardNumber.charAt(n);
-            var nDigit = parseInt(cDigit, 10);
-            if (bEven) {
-                if ((nDigit *= 2) > 9) {
-                    nDigit -= 9;
+        var nCheck = 0, value = $("#saved-credit-info").val();
+        if(value.length > 0){
+            value = $("#card_" + value).html().right(7);
+            CVV = 100;
+            Month = value.left(2);
+            Year = value.right(2);
+        } else {
+            if (isUndefined(CardNumber)) {CardNumber = $("[data-stripe=number]").val();}
+            if (isUndefined(Month)) {Month = $("[data-stripe=exp_month]").val();}
+            if (isUndefined(Year)) {Year = $("[data-stripe=exp_year]").val();}
+            if (isUndefined(CVV)) {CVV = $("[data-stripe=cvc]").val();}
+            CardNumber = CardNumber.replace(/\D/g, '');
+            var nDigit = 0, bEven = false;
+            for (var n = CardNumber.length - 1; n >= 0; n--) {
+                var cDigit = CardNumber.charAt(n);
+                var nDigit = parseInt(cDigit, 10);
+                if (bEven) {
+                    if ((nDigit *= 2) > 9) {
+                        nDigit -= 9;
+                    }
                 }
+                nCheck += nDigit;
+                bEven = !bEven;
             }
-            nCheck += nDigit;
-            bEven = !bEven;
         }
         if ((nCheck % 10) == 0) {
             var ExpiryDate = Number(Year) * 100 + Number(Month);
@@ -1532,6 +1540,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     }
 
     function changecredit() {
+        $(".payment-errors").html("");
         $("#saved-credit-info").removeClass("red");
         $("[data-stripe=number]").removeClass("red");
         var val = $("#saved-credit-info").val();

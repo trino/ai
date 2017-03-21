@@ -135,6 +135,7 @@
             getcloseststore = true;
             visible_address(false);
             $("#saveaddresses").append('<OPTION VALUE="addaddress" ID="addaddress">Add Address</OPTION>');
+            $(".credit-info").change(function(){ if (isvalidcreditcard()){$(".payment-errors").text("");} });
         });
         $('#reg_phone').keypress(function () {
             if ($('#reg_phone').valid()) {
@@ -151,8 +152,7 @@
         } else {
             $("#restaurant").removeClass("red");
         }
-        //GenerateHours(closest[index]["hours"]);
-        GenerateHours(closest[index].hours);
+        GenerateHours(closest[index].hours);//GenerateHours(closest[index]["hours"]);
     }
 </SCRIPT>
 <?php endfile("popups_checkout"); ?>

@@ -370,6 +370,11 @@
                 .status-confirmed{
                     padding-left: 8px;
                 }
+
+                .status-email{
+                    height: 38px;
+                    padding-top: 6px;
+                }
             </STYLE>
             <div class="row m-t-1">
                 <div class="col-md-12">
@@ -1079,9 +1084,19 @@
                     }
 
                     function toRemaining(hours, minutes, seconds){
+                        var days = 0;
                         if(seconds == 0 && hours == 0 && minutes == 0){return "[EXPIRED]";}
+                        if(minutes>60){
+                            hours = hours + Math.floor(minutes / 60);
+                            minutes = minutes % 60;
+                        }
+                        if(hours > 24){
+                            days = Math.floor(hours / 24);
+                            hours = hours % 24;
+                        }
                         var ret = minpad(minutes) + "m:" + minpad(seconds) + "s";
                         if(hours > 0){ret = hours + "h:" + ret;}
+                        if(days > 0){ret = days + "d:" + ret;}
                         return ret;
                     }
 
@@ -1358,7 +1373,7 @@
                         }, function (result) {
                             if(result) {
                                 var button = '<DIV CLASS="col-md-6"><button data-dismiss="modal" class="width-full btn btn-';
-                                var HTML = '<DIV CLASS="row">';// + button + 'primary status-confirmed" onclick="changeorderstatus(' + ID + ', 1);">' + statuses[1] + '</button></DIV>';
+                                var HTML = '<DIV CLASS="row col-md-12" style="padding-left: 25px;">';// + button + 'primary status-confirmed" onclick="changeorderstatus(' + ID + ', 1);">' + statuses[1] + '</button></DIV>';
                                 HTML += button + 'secondary pull-center red status-email" onclick="changeorderstatus(' + ID + ');"><i class="fa fa-envelope"></I> Email</button></DIV>';
                                 //HTML += button + 'warning pull-right status-delivered" onclick="changeorderstatus(' + ID + ', 3);">' + statuses[3] + '</button></DIV>';
                                 HTML += button + 'danger pull-right status-declined" onclick="changeorderstatus(' + ID + ', 2);">' + statuses[2] + '</button></DIV></DIV>';

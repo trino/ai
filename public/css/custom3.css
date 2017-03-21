@@ -171,7 +171,7 @@ body.loading #loadingmodal {
     color: #d9534f !important
 }
 
-.cursor-pointer {
+.cursor-pointer, .btn, button {
     /* !!!!!!!!!!!!!stop removing this!!!!!!!!!!!! */
     cursor: pointer;
     /* !!!!!!!!!!!!!stop removing this!!!!!!!!!!!! */

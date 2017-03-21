@@ -116,7 +116,7 @@
             <h2>   {{$category['category']}}</h2>
         </div>
         @foreach ($menuitems as $menuitem)
-            <div class="receipt_item list-group-item list-group-item-action d-flex justify-content-start item_{{ $catclass }}"
+            <div class="cursor-pointer list-group-item list-group-item-action d-flex justify-content-start item_{{ $catclass }}"
                  itemid="{{$menuitem["id"]}}"
                  itemname="{{$menuitem['item']}}"
                  itemprice="{{$menuitem['price']}}"

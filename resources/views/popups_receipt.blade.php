@@ -84,10 +84,15 @@
             $Date = str_replace($tomorrow, "Tomorrow", $Date);
             return $Date;
         }
+
+        function todate($timestamp){
+            return date("F j, Y G:i", $timestamp);
+        }
     }
     //edit countdown timer duration
     $minutes = delivery_time;
     $seconds = 0;
+    $hours=0;
     $duration = "";
     $timer= $place != "email";
 
@@ -96,8 +101,13 @@
         $Time = trim(right($Order["deliverytime"], 4));//1500
         if (is_numeric($Time)) {
             $CurrentTime = date("Gi");
-            $duration = GenerateDate(left($Order["deliverytime"], strlen($Order["deliverytime"]) - 4)) . GenerateTime(intval($Time));
-            if ($CurrentTime <= $Time && $timer) {
+            $date = str_replace(" at " , "", left($Order["deliverytime"], strlen($Order["deliverytime"]) - 4));
+            $duration = GenerateDate($date) . " at " . GenerateTime(intval($Time));
+            $tomorrow = date("F j", strtotime("+ 1 day"));
+            if($date == $tomorrow){
+                $DeliveryTime = strtotime("midnight tomorrow") + tomin($Time) * 60;
+                $minutes = ceil(($DeliveryTime - time())/60);
+            } else if ($CurrentTime <= $Time && $timer) {
                 $minutes = tomin($Time) - tomin($CurrentTime) + 1;
             } else {
                 $timer = false;
@@ -114,6 +124,10 @@
             $timer = false;
         }
     }
+    if(is_numeric($minutes) && $minutes > 59){
+        $hours = floor($minutes / 60);
+        $minutes = $minutes % 60;
+    }
     $time = '';
     if ($timer) {
         if ($minutes < 60) {
@@ -129,7 +143,7 @@
 @if($style==1)
     <h2 class="mt-0">Order for {{ $duration }}</h2>
     @if($timer)
-        <div style="font-size: 2rem !important;" CLASS="mb-2 countdown btn-lg badge badge-pill badge-success" hours="0" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"><?= $time; ?></div>
+        <div style="font-size: 2rem !important;" CLASS="mb-2 countdown btn-lg badge badge-pill badge-success" hours="<?= $hours; ?>" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"><?= $time; ?></div>
     @else
         <span class="badge badge-pill badge-danger">[EXPIRED]</span>
     @endif
