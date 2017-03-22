@@ -559,17 +559,17 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 $("#checkout-btn").show();
             } else {
                 $("#checkout-btn").hide();
-                tempHTML += '<button CLASS="list-group-item-padding bg-secondary btn-block radius0">$' + minimumfee + ' Minimum Sub-total</button>';
+                tempHTML += '<button CLASS="list-group-item-padding bg-secondary btn-block radius0">$' + minimumfee + ' Minimum Sub-total not met</button>';
             }
             tempHTML += '<DIV id="newvalues"';
             if (fadein || forcefade) {
                 tempHTML += 'class="dont-show"';
             }
-            tempHTML += '><div class="pull-right"> Sub-total $' + subtotal.toFixed(2) + '</div><div class="clearfix"></div>';
-            tempHTML += '<div class="pull-right">  Delivery $' + deliveryfee.toFixed(2) + '</div><div class="clearfix"></div>';
-            tempHTML += '<div class="pull-right">  Tax $' + taxes.toFixed(2) + '</div><div class="clearfix"></div>';
-            tempHTML += '<div class="pull-right"> Total $' + totalcost.toFixed(2) + '</div><div class="clearfix"></div></div>';
-            tempHTML += '<div class="clearfix"></div></DIV>';
+            tempHTML += '><div class="pull-right"><TABLE><TR><TD>Sub-total $</TD><TD>' + subtotal.toFixed(2) + '</TD></TR>';
+            tempHTML += '<TR><TD>Delivery $</TD><TD>' + deliveryfee.toFixed(2) + '</TD></TR>';
+            tempHTML += '<TR><TD>Tax $</TD><TD>' + taxes.toFixed(2) + '</TD></TR>';
+            tempHTML += '<TR><TD>Total $</TD><TD>' + totalcost.toFixed(2) + '</TD></TR>';
+            tempHTML += '</TABLE><div class="clearfix"></div></DIV>';
 
             $("#confirmclearorder").show();
             $("#checkout-total").text('$' + totalcost.toFixed(2));
@@ -597,7 +597,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     function confirmclearorder() {
         if (theorder.length > 0) {
-            confirm2(makestring("{clear_order}"), 'Clear Order?', function () {
+            confirm2("", makestring("{clear_order}"), function () {
                 clearorder();
             });
         }
@@ -1751,7 +1751,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             email_needed: "Please enter an email address",
             long_lat: "Longitude and/or latitude missing",
             ten_closest: "10 closest restaurants",
-            clear_order: ""
+            clear_order: "Are you sure you want to clear your order?"
         };
     }
 

@@ -100,6 +100,7 @@
 <div class="col-lg-3 col-md-12 pb-2 bg-white">
     @foreach ($categories as $category)
         <?php
+            $toppings_extra = '<SPAN TITLE="Addons are extra">+</SPAN>';
             $catclass = toclass($category['category']);
             $classlist[] = $catclass;
             $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "' order by id", true);
@@ -128,12 +129,12 @@
                     $itemclass = str_replace("_", "-", toclass($menuitem['item']));
                     if (endwith($itemclass, "lasagna")) {
                         $itemclass = "lasagna";
-                    }
-                    if (endwith($itemclass, "chicken-nuggets")) {
+                    } else if (endwith($itemclass, "chicken-nuggets")) {
                         $itemclass = "chicken-nuggets";
-                    }
-                    if (endwith($itemclass, "salad")) {
+                    } else if (endwith($itemclass, "salad")) {
                         $itemclass = "salad";
+                    } else if ($itemclass == "panzerotti") {
+                        $icon = $toppings_extra;
                     }
                 } else if ($itemclass == "drinks") {
                     $itemclass .= " sprite-" . str_replace(".", "", str_replace("_", "-", toclass($menuitem['item'])));
@@ -141,8 +142,7 @@
                     if (left($menuitem['item'], 1) == "2") {
                         $itemclass = "241_pizza";
                     }
-                    $icon = '+';
-
+                    $icon = $toppings_extra;
                 }
 
                 $total = 0;
@@ -177,8 +177,6 @@
 
 <div class="col-lg-3 col-md-12 bg-white">
     @endif
-
-
     @endforeach
 </div>
 

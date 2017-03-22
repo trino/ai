@@ -268,7 +268,14 @@ body.loading #loadingmodal {
     clear: both !important;
 }
 
-#newvalues, #oldvalues, .white{
+#newvalues, #oldvalues {
+    color:white;
+    padding-right: 10px;
+    padding-top: 6px;
+    text-align: right;
+}
+
+.white{
     color:white;
 }
 
