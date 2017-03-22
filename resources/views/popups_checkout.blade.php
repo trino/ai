@@ -161,8 +161,10 @@
 </SCRIPT>
 <?php endfile("popups_checkout"); ?>
 
-<DIV ID="firefoxandroid" class="dont-show white centered" style="background-color: #292B2C;">
-    <i class="fa fa-firefox"></i> Firefox Address editor
-    <DIV ID="gmapffac" style="background-color: white"></DIV>
-    <BUTTON ONCLICK="fffa();" CLASS="btn btn-primary btn-block radius0">OK</BUTTON>
+<DIV ID="firefoxandroid" class="fullscreen grey-backdrop dont-show">
+    <DIV CLASS="centered firefox-child bg-white">
+        <i class="fa fa-firefox"></i> Firefox Address editor
+        <DIV ID="gmapffac" class="bg-white"></DIV>
+        <BUTTON ONCLICK="fffa();" CLASS="btn btn-primary radius0 btn-full">OK</BUTTON>
+    </DIV>
 </DIV>
