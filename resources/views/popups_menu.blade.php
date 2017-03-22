@@ -183,7 +183,7 @@
 </div>
 
 <!-- order menu item Modal -->
-<div class="modal  modal-fullscreen force-fullscreen" id="menumodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+<div class="modal modal-fullscreen force-fullscreen" id="menumodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
 
@@ -203,21 +203,9 @@
                    <small ID="toppingcost" class="nowrap">+$<SPAN id="modal-toppingcost"></SPAN> per topping</small>
                 </h2>
             </div>
+
             <div class="modal-body">
                 <DIV ID="addonlist" class="addonlist"></DIV>
-
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
             </div>
         </div>
     </div>

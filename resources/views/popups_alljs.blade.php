@@ -1920,7 +1920,6 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         if (currentstyle == 0) {
             $("#addonlist").html(HTML + '</DIV>');
         } else {
-            HTML += '<div class="fixed-bottom">';
             for (var i = 0; i < types.length; i++) {
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
@@ -1939,7 +1938,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             }
 
             HTML += '<button class="thirdwidth btn btn-sm toppings_btn" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button>' +
-                '<button class="thirdwidth btn btn-sm btn-primary" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button></div>';
+                '<button class="thirdwidth btn btn-sm btn-primary" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button>';
 
             $("#addonlist").html(HTML);
             $(".addon-addon").click(
