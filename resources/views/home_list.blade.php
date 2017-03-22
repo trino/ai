@@ -221,6 +221,7 @@
 
             case "getreceipt"://get an order receipt
                 $_POST["place"] = "getreceipt";
+                $_POST["style"] = 2;
                 die(view("popups_receipt", $_POST)->render());
                 break;
 
@@ -1369,7 +1370,8 @@
                         $.post(currentURL, {
                             action: "getreceipt",
                             _token: token,
-                            orderid: ID
+                            orderid: ID,
+                            includeextradata: 1
                         }, function (result) {
                             if(result) {
                                 var button = '<DIV CLASS="col-md-6"><button data-dismiss="modal" class="width-full btn btn-';
