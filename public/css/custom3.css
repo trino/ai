@@ -14,10 +14,6 @@ button,button:focus,*:focus {
     text-decoration: none !important
 }
 
-.btn-sm {
-    padding: .5rem .25rem;
-    border: 0;
-}
 
 .radius0 {
     border-radius: 0;
@@ -25,8 +21,7 @@ button,button:focus,*:focus {
 }
 
 .toppings_btn {
-    background: white;
-    border: 1px solid #eceeef !important;
+
 }
 
 .addon-selected, .thisside {
@@ -57,33 +52,39 @@ button,button:focus,*:focus {
 }
 
 button {
-    background: transparent;
 }
 
-.list-group-item, .modal-header, .list-group-item-padding {
+h2 {
+    font-size: 1rem !important;
+    line-height: 1rem !important;
+    padding: 0 !important;
+    font-weight: bold;
+    margin: .5rem 0 !important;
+}
+
+.list-group-item, .modal-header, .list-group-item-padding,button, .btn {
     padding: .25rem .50rem !important;
-    border-radius: 0 !important;
     min-height: 53px;
-    border: 0 !important;
+    margin-bottom: 0 !important;
+    border:1px solid #eceeef !important;
     /*
         border-right: 1px solid #eceeef !important;
         border-bottom: 1px solid #eceeef !important;
     */
 }
-.modal-header{
-    padding-bottom: 0 !important;
-}
 
 .addonlist {
-    width: 100%
+    width: 100%;
+    background: #dadada;
 }
 
 .payfororder {
-    border-radius: 0;
+
 }
 
 .bg-secondary {
-    background: #e7e7e7;
+    background: #d9534f!important;
+    color: white;
 }
 
 .btn-sm-padding-left, .modal-body {
@@ -93,13 +94,6 @@ button {
 .btn-sm-padding {
     padding: .25rem .5rem !important;
 
-}
-
-h2 {
-    font-size: 1rem !important;
-    line-height: 1rem !important;
-    padding: 0 !important;
-    margin: .5rem 0 !important;
 }
 
 .text-transparent {
@@ -186,14 +180,12 @@ body.loading #loadingmodal {
 }
 
 .card-columns {
-    column-gap: .01rem !important;
+    column-gap: .0rem !important;
     column-count: 3 !important;
 }
 
 .modal-content {
     background: #eceeef;
-    border-radius: 0 !important;
-    border: 0 !important;
 }
 
 .receipt-addons {

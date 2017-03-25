@@ -91,7 +91,7 @@
                         <div class="input_left_icon"><i class="fa fa-cutlery"></i></div>
                         <div class="input_right">
                             <SELECT class="form-control red" ID="restaurant" ONCHANGE="restchange();">
-                                <OPTION VALUE="0" SELECTED>RESTAURANT</OPTION>
+                                <OPTION VALUE="0" SELECTED>Restaurant</OPTION>
                             </SELECT>
                         </div>
                         <div class="input_left_icon"><i class="fa fa-pencil"></i></div>

@@ -202,7 +202,7 @@
                 </h2>
             </div>
 
-            <div class="modal-body">
+            <div class="modal-body" style="padding: 0 !important;">
                 <DIV ID="addonlist" class="addonlist"></DIV>
             </div>
         </div>

@@ -22,7 +22,7 @@
                     <DIV ID="cardlist"></DIV>
                 </div>
 <div class="alert alert-info">
-                Please check your email for past orders
+                Please check your email for past orders. Add Address and New Credit Cards on Checkout.
 </div>
                 <!--div CLASS="editprofilediv mt-2">
                     <button ONCLICK="orders();" CLASS="btn btn-primary" href="#">PAST ORDERS</button>

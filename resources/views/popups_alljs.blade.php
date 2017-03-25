@@ -486,7 +486,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                     sprite += " sprite-" + toclassname(item["itemname"].trim()).replaceAll("_", "-").replace(/\./g, '');
                 }
 
-                tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item list-group-item"><SPAN CLASS="item_qty btn-sm-padding-left">' + quantity + ' x </SPAN>';
+                tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item list-group-item"><SPAN CLASS="item_qty">' + quantity + ' x </SPAN>';
                 tempHTML += '<span CLASS="sprite sprite-' + sprite + ' sprite-medium"></span>';
                 // tempHTML += '<span title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '" class="receipt_itemcost"></span>';
                 tempHTML += ' <span class="receipt-itemname">' + item["itemname"] + '</SPAN> <span class="ml-auto align-middle">';
@@ -1850,13 +1850,13 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             HTML += '">' + '<div class="btn btn-sm" id="item_' + itemindex + '">' + ucfirst(item_name) + ' #' + (itemindex + 1) + '</div>';
 
             if(currentaddonlist[itemindex].length == 0){
-                tempstr += ' No ' + addonname;
+             //   tempstr += ' No ' + addonname;
             }
             for (var i = 0; i < currentaddonlist[itemindex].length; i++) {
                 var currentaddon = currentaddonlist[itemindex][i];
                 var qualifier = "";
-                tempstr += '<DIV CLASS="btn-sm btn btn-secondary toppings_btn ' + classname + '" id="topping_' + itemindex + '_' + i + '">' + currentaddon.name +
-                    '<span ONCLICK="removelistitem(' + itemindex + ', ' + i + ');">&nbsp; <i CLASS="fa fa-times"></i> </span></div>&nbsp;';
+                tempstr += '<DIV CLASS="btn-sm ' + classname + '" id="topping_' + itemindex + '_' + i + '">' + currentaddon.name +
+                    '<!--span ONCLICK="removelistitem(' + itemindex + ', ' + i + ');">&nbsp; <i CLASS="fa fa-times"></i> </span--></div>&nbsp;';
 
                 qualifier = currentaddon.qual;
                 if (qualifier == 0) {
@@ -1924,7 +1924,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
-                    HTML += '<button class="thirdwidth btn btn-sm toppings_btn addon-addon';
+                    HTML += '<button class="thirdwidth addon-addon toppings_btn';
 
                     if (isaddon_free(String(currentaddontype), String(addon))) {
                         //HTML += ' ';//free topping, this should be different from a paid topping
@@ -1937,8 +1937,8 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 }
             }
 
-            HTML += '<button class="thirdwidth btn btn-sm toppings_btn" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button>' +
-                '<button class="thirdwidth btn btn-sm btn-primary" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button>';
+            HTML += '<button class="thirdwidth toppings_btn" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button>' +
+                '<button class="btn-danger thirdwidth toppings_btn " data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button>';
 
             $("#addonlist").html(HTML);
             $(".addon-addon").click(
