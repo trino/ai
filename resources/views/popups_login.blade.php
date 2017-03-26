@@ -1,13 +1,12 @@
 <?php
-    startfile("popups_login");
-    $minimum = first("SELECT price FROM additional_toppings WHERE size = 'Minimum'")["price"];
-    $delivery = first("SELECT price FROM additional_toppings WHERE size = 'Delivery'")["price"];
+startfile("popups_login");
+$minimum = first("SELECT price FROM additional_toppings WHERE size = 'Minimum'")["price"];
+$delivery = first("SELECT price FROM additional_toppings WHERE size = 'Delivery'")["price"];
 ?>
 <div class="row">
-    <DIV CLASS="col-lg-3 col-md-4 bg-white">
+    <DIV CLASS="col-lg-3 col-md-4 ">
 
-        <DIV CLASS="btn-sm-padding">
-            <h2>Mobile Pizza Delivery</h2>
+        <DIV CLASS="btn-sm-padding bg-white">
             <ul class="nav nav-tabs mb-1" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" href="#profile" role="tab" data-toggle="tab" id="logintab" onclick="skiploadingscreen = false;">Log In</a>
@@ -32,18 +31,16 @@
                     <div class="clearfix my-2"></div>
                     <BUTTON CLASS="btn btn-primary pull-right" onclick="handlelogin('login');">LOG IN</BUTTON>
                     <div class="clearfix"></div>
-                    <BUTTON CLASS="btn btn-secondary btn-sm" href="#" onclick="handlelogin('forgotpassword');">Forgot Password</BUTTON>
+                    <BUTTON CLASS="btn-link text-muted btn-sm" href="#" onclick="handlelogin('forgotpassword');">Forgot Password</BUTTON>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="buzz">
-                    <div class="alert text-sm-center alert-info mb-0">
-                        <small>
-                            ${{ $minimum }} Min. ${{ $delivery }} Delivery. Credit/Debit Only.
-                        </small>
-                    </div>
+
                     <FORM id="addform">
                         <?php
-                            if (!read("id")) {
-                                echo view("popups_address", array("style" => 1, "required" => true, "icons" => true))->render();
+                        if (!read("id")) {
+                            ?>
+                            <?= view("popups_address", array("style" => 1, "required" => true, "icons" => true))->render(); ?>
+                            <?php
                             }
                         ?>
                     </FORM>
@@ -58,9 +55,20 @@
             </div>
             <DIV CLASS="clearfix"></DIV>
         </DIV>
-    </DIV>
 
-    <DIV CLASS="col-sm-6" id="loginpanel">
+        <div class="py-3 bg-inverse">
+
+            <center>
+
+                <img src="http://www.pizzapizzeria.ca/images/pizza.png" style="width: 45%;"/>
+                <h3 class="text-danger" style="text-align: center;">Mobile Pizza Delivery</h3>
+
+                ${{ $minimum }} Minimum<br>
+                ${{ $delivery }} Delivery<br>
+                Credit/Debit Only
+            </center>
+        </div>
+
         <DIV CLASS="clearfix"></DIV>
     </DIV>
 </div>

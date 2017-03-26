@@ -1,22 +1,25 @@
 <?php startfile("popups_checkout"); ?>
 
-<div class="list-group-item bg-secondary">
-    <button class="btn btn-sm dont-show" ONCLICK="confirmclearorder();" id="confirmclearorder"><i class="fa fa-close"></i></button>
-    <h2 class="ml-3"> My Order</h2> <span class="align-middle rounded sprite sprite-wings sprite-medium" style="visibility: hidden"></span>
+<div class="list-group-item bg-danger" style="color:white;">
+    <h2 class="mr-auto align-left"> My Order</h2>
+    <button class="btn btn-sm dont-show ml-auto align-right text-white" ONCLICK="confirmclearorder();" id="confirmclearorder"><i class="fa fa-close"></i></button>
+
 </div>
 
 <div id="myorder"></div>
 
-<button id="checkout-btn" class="list-group-item-padding btn btn-warning btn-block radius0" onclick="showcheckout();">
-    <i class="fa fa-shopping-basket mr-2"></i> CHECKOUT
+<button id="checkout-btn" class="list-padding btn btn-primary btn-block" onclick="showcheckout();">
+    <i class="fa fa-shopping-basket mr-3"></i> CHECKOUT
 </button>
 
 <div class="modal" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="myModalLabel">Checkout</h2>
-                <button data-dismiss="modal" data-popup-close="checkoutmodal" class="btn btn-sm"><i class="fa fa-close"></i></button>
+            <div class="list-group-item bg-white">
+                <button data-dismiss="modal" data-popup-close="checkoutmodal" class="btn btn-sm mr-3"><i class="fa fa-close"></i></button>
+
+                <h2 class="pull-left" id="myModalLabel">Checkout</h2>
+
             </div>
             <div class="modal-body">
                 <FORM ID="orderinfo" name="orderinfo">
@@ -106,7 +109,7 @@
                                 </SELECT>
                                 <span class="input-group-btn">
                                 <!--<comment> why is it when i change this to a button that clicking on please enter an address closes the modal... order doesn't go through when I change it -->
-                                <a class="btn btn-primary text-white pull-right payfororder" onclick="payfororder();">ORDER </a>
+                                <a class="radius0 btn btn-primary text-white pull-right payfororder" onclick="payfororder();">ORDER </a>
                             </span>
                             </div>
                             <div class="pull-right">

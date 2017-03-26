@@ -138,7 +138,7 @@
         $orders =  first('SELECT count(*) as count FROM orders WHERE status <> 2 AND status <> 4 AND placed_at > "' . $SQLdate . '"')["count"];
     ?>
     <DIV class="row" style="background: white;border-radius: 0">
-        <div class="col-sm-4 list-group-item-padding">
+        <div class="col-sm-6 list-padding">
             <h3>About Us </h3>
 
             <div class="card-block bg-success text-white">
@@ -151,9 +151,6 @@
                     we're pledging to donate $0.25 from every order we receive to the local food drive.
                     This is the lifetime commitment of londonpizza.ca
                 </p>
-
-                <p>Our official launch will be on <?= $launchdate; ?></p>
-
                 <hr>
 
                 <div class="btn-outlined-danger text-center pt-1">
@@ -164,7 +161,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-8 list-group-item-padding">
+        <div class="col-sm-6 list-padding">
 
 
         <h3>FAQ</h3>

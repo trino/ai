@@ -145,7 +145,7 @@
 @if($includeextradata)
     <h2 class="mt-0">Order for {{ $duration }}</h2>
     @if($timer)
-        <div style="font-size: 2rem !important;" CLASS="mb-2 countdown btn-lg badge badge-pill badge-success" hours="<?= $hours; ?>" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"><?= $time; ?></div>
+        <div style="font-size: 2rem !important;" CLASS="countdown btn-lg badge badge-pill badge-success" hours="<?= $hours; ?>" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"><?= $time; ?></div>
     @elseif($place != "email")
         <span class="badge badge-pill badge-danger">[EXPIRED]</span>
     @endif
@@ -464,7 +464,7 @@
 @if($includeextradata)
     <div>
         <h2>Questions about your order?</h2>
-        Please contact the restaurant directly, check your email for the order receipt.
+        Please contact the restaurant directly.
     </div>
 @endif
 

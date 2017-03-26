@@ -492,11 +492,11 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 tempHTML += ' <span class="receipt-itemname">' + item["itemname"] + '</SPAN> <span class="ml-auto align-middle">';
                 tempHTML += '<span id="oldcost_' + itemid + '"></span><span id="cost_' + itemid + '">$' + totalcost;
                 //if (quantity > 1) {tempHTML += ' (' + quantity + ')';}
-                tempHTML += '</span><button class="fa fa-minus btn-sm" onclick="removeorderitem(' + itemid + ', ' + quantity + ');"></button>';
+                tempHTML += '</span><button class="text-muted fa fa-minus btn-sm" onclick="removeorderitem(' + itemid + ', ' + quantity + ');"></button>';
                 if (hasaddons) {
-                    tempHTML += '<button class="fa fa-pencil btn-sm" onclick="edititem(this, ' + itemid + ');"></button>';
+                    tempHTML += '<button class="text-muted fa fa-pencil btn-sm" onclick="edititem(this, ' + itemid + ');"></button>';
                 } else {
-                    tempHTML += '<button class="fa fa-plus btn-sm btm-secondary" onclick="cloneitem(this, ' + itemid + ');"></button>';
+                    tempHTML += '<button class="text-muted fa fa-plus btn-sm" onclick="cloneitem(this, ' + itemid + ');"></button>';
                 }
                 tempHTML += '</SPAN></div>';
 
@@ -545,7 +545,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
 
         if (theorder.length == 0) {
-            HTML = '<button CLASS="list-group-item-padding bg-secondary btn-block radius0"><i class="fa fa-shopping-basket mr-2 empty-shopping-cart"></i>Empty</button>';
+            HTML = '<div CLASS="list-padding py-3 bg-secondary btn-block radius0"><div class="d-flex justify-content-center"><i class="fa fa-shopping-basket empty-shopping-cart fa-4x text-muted"></i></div><div class="d-flex justify-content-center text-muted">Empty</div></div>';
             $("#checkout").hide();
             $("#checkoutbutton").hide();
             $("#confirmclearorder").hide();
@@ -559,13 +559,13 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 $("#checkout-btn").show();
             } else {
                 $("#checkout-btn").hide();
-                tempHTML += '<button CLASS="list-group-item-padding bg-secondary btn-block radius0">$' + minimumfee + ' Minimum Sub-total not met</button>';
+                tempHTML += '<button CLASS="list-padding bg-inverse btn-block radius0">$' + minimumfee + ' minimum sub-total to order</button>';
             }
             tempHTML += '<DIV id="newvalues"';
             if (fadein || forcefade) {
                 tempHTML += 'class="dont-show"';
             }
-            tempHTML += '><div class="pull-right"><TABLE><TR><TD>Sub-total $</TD><TD>' + subtotal.toFixed(2) + '</TD></TR>';
+            tempHTML += '><div class="pull-right py-2 text-normal"><TABLE><TR><TD>Sub-total $</TD><TD>' + subtotal.toFixed(2) + '</TD></TR>';
             tempHTML += '<TR><TD>Delivery $</TD><TD>' + deliveryfee.toFixed(2) + '</TD></TR>';
             tempHTML += '<TR><TD>Tax $</TD><TD>' + taxes.toFixed(2) + '</TD></TR>';
             tempHTML += '<TR><TD>Total $</TD><TD>' + totalcost.toFixed(2) + '</TD></TR>';
@@ -897,7 +897,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     //generate a list of addresses and send it to the alert modal
     function addresses() {
-        var HTML = '<DIV CLASS="section"><h2>Address</h2>';
+        var HTML = '<DIV CLASS="section"><div class="clearfix mt-1"></div><h2>Address</h2>';
         var number = $("#add_number").val();
         var street = $("#add_street").val();
         var city = $("#add_city").val();
@@ -917,7 +917,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     }
 
     function creditcards() {
-        var HTML = '<DIV CLASS="section"><h2>Credit Card</h2>';
+        var HTML = '<DIV CLASS="section"><div class="clearfix mt-1"></div><h2>Credit Card</h2>';
         if (userdetails.Stripe.length == 0) {
             return HTML + "No Credit Cards";
         }
@@ -1380,7 +1380,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             }
         }
         if ($("#reg_phone").val().length == 0) {
-            $('#reg_phone').attr('style', 'border: 2px solid red !important;');
+            $('#reg_phone').attr('style', 'border-bottom: 1px solid red !important;');
             $(".payment-errors").text("Please enter a cell phone number");
         }
     }
@@ -1599,7 +1599,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 }
             });
         });
-        $("#restaurant").html('<option value="0">RESTAURANT</option>').val("0");
+        $("#restaurant").html('<option value="0">Restaurant</option>').val("0");
     }
 
     var daysofweek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -1847,16 +1847,16 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             if (currentitemindex == itemindex) {
                 HTML += ' thisside';
             }
-            HTML += '">' + '<div class="btn btn-sm" id="item_' + itemindex + '">' + ucfirst(item_name) + ' #' + (itemindex + 1) + '</div>';
+            HTML += '">' + '<strong class="pr-3" id="item_' + itemindex + '">' + ucfirst(item_name) + ' #' + (itemindex + 1) + '</strong>';
 
             if(currentaddonlist[itemindex].length == 0){
-             //   tempstr += ' No ' + addonname;
+                //   tempstr += ' No ' + addonname;
             }
             for (var i = 0; i < currentaddonlist[itemindex].length; i++) {
                 var currentaddon = currentaddonlist[itemindex][i];
                 var qualifier = "";
-                tempstr += '<DIV CLASS="btn-sm ' + classname + '" id="topping_' + itemindex + '_' + i + '">' + currentaddon.name +
-                    '<!--span ONCLICK="removelistitem(' + itemindex + ', ' + i + ');">&nbsp; <i CLASS="fa fa-times"></i> </span--></div>&nbsp;';
+                tempstr += '<DIV CLASS="pr-3 ' + classname + '" id="topping_' + itemindex + '_' + i + '">' + currentaddon.name +
+                    '<!--span ONCLICK="removelistitem(' + itemindex + ', ' + i + ');">&nbsp; <i CLASS="fa fa-times"></i> </span--></div>';
 
                 qualifier = currentaddon.qual;
                 if (qualifier == 0) {
@@ -1924,12 +1924,12 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
-                    HTML += '<button class="thirdwidth addon-addon toppings_btn';
+                    HTML += '<button class="thirdwidth addon-addon list-group-item-action toppings_btn';
 
                     if (isaddon_free(String(currentaddontype), String(addon))) {
                         //HTML += ' ';//free topping, this should be different from a paid topping
                         title = "Free addon";
-                    //} else {
+                        //} else {
                         //HTML += ' '//paid topping
                     }
 
@@ -1937,8 +1937,8 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 }
             }
 
-            HTML += '<button class="thirdwidth toppings_btn" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button>' +
-                '<button class="btn-danger thirdwidth toppings_btn " data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button>';
+            HTML += '<button class="thirdwidth toppings_btn list-group-item-action" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button>' +
+                '<button style="" class="btn-primary thirdwidth toppings_btn" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button>';
 
             $("#addonlist").html(HTML);
             $(".addon-addon").click(
@@ -2111,11 +2111,11 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     @if(read("id"))
         $(document).ready(function () {
         <?php
-            if (islive() || $GLOBALS["testlive"]) {
-                echo "setPublishableKey('pk_vnR0dLVmyF34VAqSegbpBvhfhaLNi', 'live')";
-            } else {
-                echo "setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', 'test');";
-            }
+        if (islive() || $GLOBALS["testlive"]) {
+            echo "setPublishableKey('pk_vnR0dLVmyF34VAqSegbpBvhfhaLNi', 'live')";
+        } else {
+            echo "setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', 'test');";
+        }
         ?>
     });
 
