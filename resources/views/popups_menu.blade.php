@@ -103,7 +103,7 @@ $maxmenuitemspercol = $totalmenuitems / 3; //17
 $itemsInCol = 0;
 $CurrentCol = 1;
 ?>
-<div class="col-lg-3 col-md-12 pb-2 bg-white">
+<div class="col-lg-3 col-md-12 bg-white">
     @foreach ($categories as $category)
         <?php
         $toppings_extra = '<SPAN TITLE="Addons are extra">+</SPAN>';
@@ -122,7 +122,7 @@ $CurrentCol = 1;
             <h2>   {{$category['category']}}</h2>
         </div>
         @foreach ($menuitems as $menuitem)
-            <div class="cursor-pointer list-group-item list-group-item-action d-flex justify-content-start item_{{ $catclass }}"
+            <button class="cursor-pointer list-group-item list-group-item-action d-flex justify-content-start item_{{ $catclass }}"
                  itemid="{{$menuitem["id"]}}"
                  itemname="{{$menuitem['item']}}"
                  itemprice="{{$menuitem['price']}}"
@@ -165,14 +165,13 @@ $CurrentCol = 1;
                 ?>
             >
 
-                <span class="align-middle rounded sprite sprite-{{$itemclass}} sprite-medium"></span>
+                <span class="align-middle rounded-circle bg-warning sprite sprite-{{$itemclass}} sprite-medium"></span>
                 <span class="align-middle">{{$menuitem['item']}} </span>
-                <span class="ml-auto align-middle btn-sm-padding text-muted"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
-
-                <div class="bg-white" style="height: 10px;"></div>
+                <span class="ml-auto align-middle btn-sm-padding"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
 
 
-            </div>
+
+            </button>
         @endforeach
         @if($catclass=="dips" || $catclass=="sides")
 
@@ -198,7 +197,7 @@ $CurrentCol = 1;
 
             <div class="list-group-item bg-white">
 
-                <button data-dismiss="modal" class="btn btn-sm mr-3"><i class="fa fa-close"></i></button>
+                <button data-dismiss="modal" class="btn btn-sm mr-3  bg-transparent"><i class="fa fa-close"></i></button>
 
                 <h2 class="" id="myModalLabel">
                     <SPAN ID="modal-itemname"></SPAN><br>

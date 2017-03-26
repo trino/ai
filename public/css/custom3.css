@@ -10,24 +10,19 @@ button, button:focus, *:focus {
     outline: none !important;
 }
 
-* {
-    border: 0 !important;
-}
-
-button, .btn-sm, a {
+button, .btn-sm, a,.btn  {
     border: 0 !important;
 
     font-weight: bold !important;
-    font-size: .85rem;
-    background: transparent;
-}
 
-.btn {
-    font-weight: bold !important;
-    font-size: .85rem;
+
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    border-radius: .2rem;
 
 }
 
+.bg-transparent{background: transparent; }
 .fa {
     font-size: 1rem !important;
 }
@@ -36,9 +31,6 @@ button, .btn-sm, a {
     background: #e7e7e7 !important;
 }
 
-.modal-header {
-    background: white !important;
-}
 
 .radius0 {
     border-radius: 0;
@@ -72,6 +64,10 @@ button, .btn-sm, a {
     width: 100%;
 }
 
+.text-muted {
+    color: #999 !important;
+}
+
 h2 {
     font-size: 1rem !important;
     line-height: 1rem !important;
@@ -88,6 +84,7 @@ h2 {
     margin-bottom: 0 !important;
     border-radius: 0;
     border: 0 !important;
+
     /*
         border-right: 1px solid #eceeef !important;
         border-bottom: 1px solid #eceeef !important;
@@ -98,9 +95,11 @@ h2 {
 
 }
 
+{
+
+}
 .container-fluid {
     max-width: 1400px !important;
-    border: 0px solid #e7e7e7;
 }
 
 .modal-content {
@@ -109,9 +108,17 @@ h2 {
 }
 
 .list-group-item-action {
-    background: white;
-}
+    border-top: 1px solid #f8f8f8 !important;
+    border-right: 1px solid #f8f8f8 !important;
 
+}
+ .receipt_item{
+     border: 0 !important;
+     border-top:1px solid #d4d4d4 !important;
+ }
+.modal-header {
+    background: white !important;
+}
 .list-padding {
     border-radius: 0;
     padding: .30rem .50rem !important;
@@ -121,7 +128,6 @@ h2 {
 
 .toppings_btn {
     border-radius: 0 !important;
-    border: 2px solid #e7e7e7 !important;
     overflow: hidden !important;
     font-size: 1vw;
     font-size: .85rem;
@@ -224,7 +230,7 @@ body.loading #loadingmodal {
 }
 
 .receipt-addons-list {
-    height: 100px;
+    height: 110px;
     overflow-y: auto;
     overflow-x: auto;
 }
@@ -385,18 +391,18 @@ body {
 }
 
 .input_left_icon {
-    width: 15%;
+    width: 10%;
     text-align: center;
     padding-top: 8px;
     float: left
 }
 
 .input_right {
-    width: 85%;
+    width: 90%;
     float: left
 }
 
-input, select, textarea {
+input, select, textarea, option {
     border: 0 !important;
     border-bottom: 1px solid #e7e7e7 !important;
     background: #dedede !important;
@@ -406,13 +412,25 @@ input, select, textarea {
     -moz-appearance: none;
     */
 }
-
 input, textarea {
+    padding-left: 15px !important;
 
 }
 
+/*
+
+select {
+    text-align: center !important;
+    text-align-last: center !important;
+}
+option {
+    text-align: left !important;
+}
+*/
+
+
+
 .nav-tabs .nav-link {
-    border: 1px solid #e7e7e7
 }
 
 .fab {
@@ -714,4 +732,31 @@ input, textarea {
     top: 0;
     left: 0;
     height: 100%
+}
+
+* {
+    border: 0 !important;
+}
+
+
+
+table {
+    border-collapse: collapse;
+}
+table td, table th {
+    border: 1px solid #dadada !important;
+}
+table tr:first-child th {
+    border-top: 0;
+}
+table tr:last-child td {
+    border-bottom: 0;
+}
+table tr td:first-child,
+table tr th:first-child {
+    border-left: 0;
+}
+table tr td:last-child,
+table tr th:last-child {
+    border-right: 0;
 }

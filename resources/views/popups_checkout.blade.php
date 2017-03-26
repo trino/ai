@@ -1,8 +1,8 @@
 <?php startfile("popups_checkout"); ?>
 
-<div class="list-group-item bg-danger" style="color:white;">
+<div class="list-group-item" style="">
     <h2 class="mr-auto align-left"> My Order</h2>
-    <button class="btn btn-sm dont-show ml-auto align-right text-white" ONCLICK="confirmclearorder();" id="confirmclearorder"><i class="fa fa-close"></i></button>
+    <button class="btn btn-sm dont-show ml-auto align-right " ONCLICK="confirmclearorder();" id="confirmclearorder"><i class="fa fa-close"></i></button>
 
 </div>
 
@@ -15,73 +15,15 @@
 <div class="modal" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="list-group-item bg-white">
-                <button data-dismiss="modal" data-popup-close="checkoutmodal" class="btn btn-sm mr-3"><i class="fa fa-close"></i></button>
+            <div class="list-group-item bg-white" >
+                <button data-dismiss="modal" data-popup-close="checkoutmodal" class="btn btn-sm mr-3 bg-transparent"><i class="fa fa-close"></i></button>
 
-                <h2 class="pull-left" id="myModalLabel">Checkout</h2>
+                <h2 class="pull-left" id="myModalLabel">Hi Van,</h2>
 
             </div>
-            <div class="modal-body">
+            <div class="modal-body " style="padding: 0 !important;">
                 <FORM ID="orderinfo" name="orderinfo">
-                    <div>
-                        <div class="input_left_icon"><i class="fa fa-user"></i></div>
-                        <div class="input_right">
-                            <div class="halfwidth">
-                                <?= view("popups_edituser", array("email" => false, "profile1" => true, "password" => false, "phone" => false, "required" => true, "icons" => false))->render(); ?>
-                            </div>
-                            <div class="halfwidth">
-                                <?= view("popups_edituser", array("email" => false, "profile1" => false, "password" => false, "phone" => true, "required" => true, "icons" => false))->render(); ?>
-                            </div>
-                        </div>
 
-                        <div class="input_left_icon"><i class="fa fa-credit-card-alt"></i></div>
-                        <div class="input_right">
-                            <DIV ID="credit-info"></DIV>
-                        </div>
-
-                        <div class="input_left_icon"></div>
-                        <div class="input_right">
-                            <input type="text" size="20" class="form-control credit-info" data-stripe="number" placeholder="Card Number">
-                        </div>
-
-                        <div class="input_left_icon"></div>
-                        <div class="input_right">
-                            <div class="thirdwidth">
-                                <SELECT CLASS="credit-info form-control" data-stripe="exp_month">
-                                    <OPTION VALUE="01">01/Jan</OPTION>
-                                    <OPTION VALUE="02">02/Feb</OPTION>
-                                    <OPTION VALUE="03">03/Mar</OPTION>
-                                    <OPTION VALUE="04">04/Apr</OPTION>
-                                    <OPTION VALUE="05">05/May</OPTION>
-                                    <OPTION VALUE="06">06/Jun</OPTION>
-                                    <OPTION VALUE="07">07/Jul</OPTION>
-                                    <OPTION VALUE="08">08/Aug</OPTION>
-                                    <OPTION VALUE="09">09/Sep</OPTION>
-                                    <OPTION VALUE="10">10/Oct</OPTION>
-                                    <OPTION VALUE="11">11/Nov</OPTION>
-                                    <OPTION VALUE="12">12/Dec</OPTION>
-                                </SELECT>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="thirdwidth">
-                                <SELECT CLASS="credit-info form-control" data-stripe="exp_year">
-                                    <?php
-                                        $CURRENT_YEAR = date("Y");
-                                        $TOTAL_YEARS = 6;
-                                        for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
-                                            echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
-                                        }
-                                    ?>
-                                </SELECT>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="thirdwidth">
-                                <input type="text" size="4" data-stripe="cvc" CLASS="credit-info form-control" PLACEHOLDER="CVC" style="padding: .535rem .75rem;">
-                                <INPUT class="credit-info" TYPE="hidden" name="istest" id="istest">
-                                @if(!islive()) <a class="credit-info pull-right btn" onclick="testcard();" TITLE="Don't remove this, I need it!">Test Card</a> @endif
-                                <div class="clearfix"></div>
-                            </div>
-                        </div>
                         <div class="input_left_icon"><i class="fa fa-home"></i></div>
                         <div class="input_right">
                             <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
@@ -101,6 +43,112 @@
                         <div class="input_right">
                             <input type="text" id="cookingnotes" class="form-control" placeholder="Order Notes" maxlength="255"/>
                         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <div class="input_left_icon"><i class="fa fa-user"></i></div>
+                    <div class="input_right">
+                        <div class="halfwidth">
+                            <?= view("popups_edituser", array("email" => false, "profile1" => true, "password" => false, "phone" => false, "required" => true, "icons" => false))->render(); ?>
+                        </div>
+                        <div class="halfwidth">
+                            <?= view("popups_edituser", array("email" => false, "profile1" => false, "password" => false, "phone" => true, "required" => true, "icons" => false))->render(); ?>
+                        </div>
+                    </div>
+
+                    <div class="input_left_icon"><i class="fa fa-credit-card-alt"></i></div>
+                    <div class="input_right">
+                        <DIV ID="credit-info"></DIV>
+                    </div>
+
+                    <div class="input_left_icon"></div>
+                    <div class="input_right">
+                        <input type="text" size="20" class="form-control credit-info" data-stripe="number" placeholder="Card Number">
+                    </div>
+
+                    <div class="input_left_icon"></div>
+                    <div class="input_right">
+                        <div class="thirdwidth">
+                            <SELECT CLASS="credit-info form-control" data-stripe="exp_month">
+                                <OPTION VALUE="01">01/Jan</OPTION>
+                                <OPTION VALUE="02">02/Feb</OPTION>
+                                <OPTION VALUE="03">03/Mar</OPTION>
+                                <OPTION VALUE="04">04/Apr</OPTION>
+                                <OPTION VALUE="05">05/May</OPTION>
+                                <OPTION VALUE="06">06/Jun</OPTION>
+                                <OPTION VALUE="07">07/Jul</OPTION>
+                                <OPTION VALUE="08">08/Aug</OPTION>
+                                <OPTION VALUE="09">09/Sep</OPTION>
+                                <OPTION VALUE="10">10/Oct</OPTION>
+                                <OPTION VALUE="11">11/Nov</OPTION>
+                                <OPTION VALUE="12">12/Dec</OPTION>
+                            </SELECT>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="thirdwidth">
+                            <SELECT CLASS="credit-info form-control" data-stripe="exp_year">
+                                <?php
+                                $CURRENT_YEAR = date("Y");
+                                $TOTAL_YEARS = 6;
+                                for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
+                                    echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
+                                }
+                                ?>
+                            </SELECT>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="thirdwidth">
+                            <input type="text" size="4" data-stripe="cvc" CLASS="credit-info form-control" PLACEHOLDER="CVC" style="padding: .535rem .75rem;">
+                            <INPUT class="credit-info" TYPE="hidden" name="istest" id="istest">
+                            @if(!islive()) <a class="credit-info pull-right btn" onclick="testcard();" TITLE="Don't remove this, I need it!">Test Card</a> @endif
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         <div class="input_left_icon"><i class="fa fa-clock-o"></i></div>
                         <div class="input_right">
                             <div class="input-group">
@@ -109,7 +157,7 @@
                                 </SELECT>
                                 <span class="input-group-btn">
                                 <!--<comment> why is it when i change this to a button that clicking on please enter an address closes the modal... order doesn't go through when I change it -->
-                                <a class="radius0 btn btn-primary text-white pull-right payfororder" onclick="payfororder();">ORDER </a>
+                                <a style="padding:.6rem !important;height: 38px !important;vertical-align: middle !important;" class="radius0 btn btn-primary text-white pull-right payfororder" onclick="payfororder();">ORDER </a>
                             </span>
                             </div>
                             <div class="pull-right">
@@ -122,7 +170,6 @@
                             </style-->
                             <div class="clearfix"></div>
                         </div>
-                    </div>
                 </FORM>
             </div>
         </div>

@@ -239,7 +239,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             return false;
         }
         return Data.length == 10;
-    }, "Please enter a valid phone number");
+    }, "Invalid phone number");
 
     $.validator.addMethod('validaddress', function (Data, element) {
         log("TESTING ADDRESS");
@@ -486,10 +486,10 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                     sprite += " sprite-" + toclassname(item["itemname"].trim()).replaceAll("_", "-").replace(/\./g, '');
                 }
 
-                tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item list-group-item"><SPAN CLASS="item_qty">' + quantity + ' x </SPAN>';
-                tempHTML += '<span CLASS="sprite sprite-' + sprite + ' sprite-medium"></span>';
+                tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item list-group-item"><span CLASS="sprite sprite-' + sprite + ' sprite-medium"></span><SPAN CLASS="item_qty">' + quantity + ' x </SPAN>';
+                tempHTML += '';
                 // tempHTML += '<span title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '" class="receipt_itemcost"></span>';
-                tempHTML += ' <span class="receipt-itemname">' + item["itemname"] + '</SPAN> <span class="ml-auto align-middle">';
+                tempHTML += ' <span class=" ml-1 receipt-itemname">' + item["itemname"] + '</SPAN> <span class="ml-auto align-middle">';
                 tempHTML += '<span id="oldcost_' + itemid + '"></span><span id="cost_' + itemid + '">$' + totalcost;
                 //if (quantity > 1) {tempHTML += ' (' + quantity + ')';}
                 tempHTML += '</span><button class="text-muted fa fa-minus btn-sm" onclick="removeorderitem(' + itemid + ', ' + quantity + ');"></button>';
@@ -559,7 +559,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 $("#checkout-btn").show();
             } else {
                 $("#checkout-btn").hide();
-                tempHTML += '<button CLASS="list-padding bg-inverse btn-block radius0">$' + minimumfee + ' minimum sub-total to order</button>';
+                tempHTML += '<button CLASS="list-padding bg-inverse btn-block radius0">minimum $' + minimumfee + ' sub-total</button>';
             }
             tempHTML += '<DIV id="newvalues"';
             if (fadein || forcefade) {
@@ -831,7 +831,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             }, function (result) {
                 $("#checkoutmodal").modal("hide");
                 if (result.contains("ordersuccess")) {
-                    handleresult(result, "Thank you");
+                    handleresult(result, "Receipt");
                     if ($("#saveaddresses").val() == "addaddress") {
                         var Address = {
                             id: $(".ordersuccess").attr("addressid"),
@@ -1381,7 +1381,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         }
         if ($("#reg_phone").val().length == 0) {
             $('#reg_phone').attr('style', 'border-bottom: 1px solid red !important;');
-            $(".payment-errors").text("Please enter a cell phone number");
+            $(".payment-errors").text("Cell Phone Required");
         }
     }
 
@@ -1583,7 +1583,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 if (i == userdetails.Stripe.length - 1) {
                     creditHTML += ' SELECTED';
                 }
-                creditHTML += '>' + card.brand + ' x-' + card.last4 + ' Expires: ' + card.exp_month.pad(2) + '/20' + right(card.exp_year, 2) + '</OPTION><OPTION value="">ADD CARD</OPTION>';
+                creditHTML += '>' + card.brand + ' x-' + card.last4 + ' Expires: ' + card.exp_month.pad(2) + '/20' + right(card.exp_year, 2) + '</OPTION><OPTION value="">Add Card</OPTION>';
             }
             $("#credit-info").html(creditHTML + '</SELECT>');
         } else {
@@ -1790,7 +1790,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title" id="alertmodallabel">Title</h2>
-                <button data-dismiss="modal" class="btn btn-sm pull-right"><i class="fa fa-close"></i></button>
+                <button data-dismiss="modal" class="bg-transparent btn btn-sm pull-right"><i class="fa fa-close"></i></button>
             </div>
             <div class="modal-body">
                 <DIV ID="alertmodalbody"></DIV>
@@ -1924,7 +1924,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
-                    HTML += '<button class="thirdwidth addon-addon list-group-item-action toppings_btn';
+                    HTML += '<button class="thirdwidth bg-white addon-addon list-group-item-action toppings_btn';
 
                     if (isaddon_free(String(currentaddontype), String(addon))) {
                         //HTML += ' ';//free topping, this should be different from a paid topping

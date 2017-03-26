@@ -56,7 +56,7 @@
 <div class="modal loading" ID="loadingmodal"></div>
 
 <div class="container-fluid list-group-item bg-danger " style="border-bottom: 5px solid #dadada !important;">
-    <button data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="" class="btn btn-sm pull-right">
+    <button data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-sm bg-transparent">
         <i class="fa fa-bars text-white"></i>
     </button>
     <ul class="dropdown-menu dropdown-menu-left">
@@ -89,34 +89,17 @@
 
 </div>
 
-<div class="container-fluid">
+<div class="container-fluid" style="border: 0px solid #dadada !important;">
     @yield('content')
 </div>
 
 <div class="container-fluid hidden-sm-down list-group-item">
     <div class="row">
         <div class="col-sm-12">
-            <a CLASS="btn btn-sm text-white" href="<?= webroot("help"); ?>"> <i style="font-size: 1rem !important;" class="fa fa-question-circle icon-width"></i> Info</a>
+            <a CLASS="btn btn-sm text-muted" href="<?= webroot("help"); ?>"> <i style="font-size: 1rem !important;" class="fa fa-question-circle icon-width"></i> Info</a>
         </div>
     </div>
 </div>
-
-
-<!--div class="c-rays">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 335">
-        <path fill="#FA0028" d="M.2 218.7l503.5-44.1L.2 0z"></path>
-        <path fill="#FF5959" d="M.2 207.7v67.5l503.5-100.6z"></path>
-        <path fill="#FF9E16" d="M503.7 174.6l936.3 85.3V88z"></path>
-        <path fill="#FFD700" d="M503.7 174.6L1440 88V22.3z"></path>
-        <path fill="#95D600" d="M.2 320.1v13.4H218l285.7-158.9z"></path>
-        <path fill="#00AC41" d="M.2 271.2v48.9l503.5-145.5z"></path>
-        <path fill="#7DCAEC" d="M968.4 333.5H1377L503.7 174.6z"></path>
-        <path fill="#2F7DE1" d="M439.5 333.5h323.4L503.7 174.6z"></path>
-        <path fill="#E2E71F" d="M184.8 333.5h-36 290.7l64.2-158.9z"></path>
-        <path fill="#2BACE4" d="M762.9 333.5h205.5L503.7 174.6z"></path>
-        <path fill="#FF5000" d="M1377 333.5h63v-80.6l-936.3-78.3z"></path>
-    </svg>
-</div-->
 
 
 </body>

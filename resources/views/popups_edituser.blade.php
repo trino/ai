@@ -44,7 +44,7 @@
     }
     if (!isset($phone) || $phone) {
         if (!isset($phone)) {$phone = false;}
-        printarow("Phone", $name, array("name" => "phone", "value" => $user["phone"], "type" => "tel", "placeholder" => "Cell", "class" => "form-control session_phone_val", "required" => $phone || $required, "icon" => "fa-phone"));
+        printarow("Phone", $name, array("name" => "phone", "value" => $user["phone"], "type" => "tel", "placeholder" => "Cell Phone", "class" => "form-control session_phone_val", "required" => $phone || $required, "icon" => "fa-phone"));
     }
     if ($email) {
         printarow("Email", $name, array("name" => "email", "value" => $user["email"], "type" => "email", "placeholder" => "Email", "class" => "form-control session_email_val", "required" => $required, "icon" => "fa-envelope"));

@@ -33,7 +33,7 @@
             break;
         case 2:
             $colspan = 4;
-            $ordinals = array("11st", "21nd", "31rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th");
+            $ordinals = array("1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th");
             break;
     }
     //Hack to put CSS inline for emails
@@ -60,16 +60,16 @@
                     switch (strtolower($Classname)) {
                         //table-sm
                         case "table":
-                            $Style[] = "width: 100% !important; max-width: 100%; margin-bottom: 0; border-collapse: collapse; background-color: transparent; display: table; border-spacing: 2px;";
+                            $Style[] = "";
                             break;
                         case "table-bordered":
-                            $Style[] = "border: 1px solid #eceeef; ";
+                            $Style[] = "";
                             break;
                         case "bg-primary":
-                            $Style[] = "background-color: #d9534f!important;";
+                            $Style[] = "";
                             break;
                         case "table-inverse":
-                            $Style[] = "border: 0; color: #eceeef; background-color: #373a3c;";
+                            $Style[] = "";
                             break;
                     }
                 }
@@ -144,40 +144,15 @@
 
 @if($includeextradata)
     <h2 class="mt-0">Order for {{ $duration }}</h2>
+
+    @if(false)
     @if($timer)
         <div style="font-size: 2rem !important;" CLASS="countdown btn-lg badge badge-pill badge-success" hours="<?= $hours; ?>" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"><?= $time; ?></div>
     @elseif($place != "email")
         <span class="badge badge-pill badge-danger">[EXPIRED]</span>
     @endif
+    @endif
 
-    <TABLE <?= inline("table table-sm table-bordered");  ?> oldclass="table-responsive">
-        <TR>
-            <td>
-                <h2>Delivery Info</h2>
-                <?php
-                   echo $Order["name"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . " " . $Order["province"] . " " . $Order["postalcode"] . '<BR>' . $Order["unit"];
-                ?>
-            </td>
-
-            @if(!isset($JSON))
-                <td>
-                    <h2>Restaurant</h2>
-                    Order #<span ID="receipt_id"><?= $orderid; ?></span><br>
-                    <?php
-                        $Restaurant = first("SELECT * FROM restaurants WHERE id = " . $Order["restaurant_id"]);
-                        $Raddress = first("SELECT * FROM useraddresses WHERE id = " . $Restaurant["address_id"]);
-                        echo $Restaurant["name"] . "<BR>" . $Raddress["number"] . " " . $Raddress["street"] . "<br>" .
-                            $Raddress["city"] . " " . $Raddress["province"] . " " . $Raddress["postalcode"] . '<BR>' . $Raddress["unit"] . " " . $Restaurant["phone"];
-                        echo '<INPUT TYPE="HIDDEN" ID="cust_latitude" VALUE="' . $Order["latitude"] . '"><INPUT TYPE="HIDDEN" ID="cust_longitude" VALUE="' . $Order["longitude"]
-                            . '"><INPUT TYPE="HIDDEN" ID="rest_latitude" VALUE="' . $Raddress["latitude"]
-                            . '"><INPUT TYPE="HIDDEN" ID="rest_longitude" VALUE="' . $Raddress["longitude"] . '">';
-                    ?>
-                </td>
-            @endif
-        </TR>
-    </TABLE>
-
-    <h2>Receipt</h2>
 @endif
 
 @if($style==1)
@@ -460,6 +435,60 @@
         endfile("popups_receipt");
     ?>
 </TABLE>
+
+
+
+
+
+
+
+
+
+
+
+
+            <TABLE <?= inline("table table-sm table-bordered");  ?> oldclass="table-responsive">
+                <TR>
+                    <td>
+                        <h2>Delivery Info</h2>
+                        <?php
+                        echo $Order["name"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . " " . $Order["province"] . " " . $Order["postalcode"] . '<BR>' . $Order["unit"];
+                        ?>
+                    </td>
+
+                    @if(!isset($JSON))
+                        <td>
+                            <h2>Restaurant</h2>
+                            Order #<span ID="receipt_id"><?= $orderid; ?></span><br>
+                            <?php
+                            $Restaurant = first("SELECT * FROM restaurants WHERE id = " . $Order["restaurant_id"]);
+                            $Raddress = first("SELECT * FROM useraddresses WHERE id = " . $Restaurant["address_id"]);
+                            echo $Restaurant["name"] . "<BR>" . $Raddress["number"] . " " . $Raddress["street"] . "<br>" .
+                                $Raddress["city"] . " " . $Raddress["province"] . " " . $Raddress["postalcode"] . '<BR>' . $Raddress["unit"] . " " . $Restaurant["phone"];
+                            echo '<INPUT TYPE="HIDDEN" ID="cust_latitude" VALUE="' . $Order["latitude"] . '"><INPUT TYPE="HIDDEN" ID="cust_longitude" VALUE="' . $Order["longitude"]
+                                . '"><INPUT TYPE="HIDDEN" ID="rest_latitude" VALUE="' . $Raddress["latitude"]
+                                . '"><INPUT TYPE="HIDDEN" ID="rest_longitude" VALUE="' . $Raddress["longitude"] . '">';
+                            ?>
+                        </td>
+                    @endif
+                </TR>
+            </TABLE>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @if($includeextradata)
     <div>

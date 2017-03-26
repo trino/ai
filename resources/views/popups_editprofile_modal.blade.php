@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 id="myModalLabel">My Account</h2>
-                <button data-popup-close="profilemodal" data-dismiss="modal" class="btn btn-sm"><i class="fa fa-close"></i> </button>
+                <button data-popup-close="profilemodal" data-dismiss="modal" class="btn btn-sm"><i class="fa fa-close"></i></button>
             </div>
 
             <div class="modal-body">
@@ -14,7 +14,7 @@
                     <DIV CLASS="error" id="edituser_error"></DIV>
                     <DIV class="clearfix mt-1"></DIV>
 
-                    <BUTTON CLASS="btn btn-link pull-right" onclick="return userform_submit(true);">SAVE</BUTTON>
+                    <BUTTON CLASS="btn-link pull-right" onclick="return userform_submit(true);">SAVE</BUTTON>
                 </FORM>
 
                 <div CLASS="editprofilediv">
@@ -23,9 +23,12 @@
                 <div CLASS="editprofilediv">
                     <DIV ID="cardlist"></DIV>
                 </div>
-<div class="alert alert-info">
-                Please check your email for past orders. Add Address and New Credit Cards on Checkout.
-</div>
+                <div class="alert alert-info mt-3" style="font-size: .85rem">
+                    > Past orders can be found in your email<br>
+                    > Add Address and New Credit Cards on Checkout
+                    <br>
+                    > <a href="help" class="btn btn-outline-primary">More Info</a>
+                </div>
                 <!--div CLASS="editprofilediv mt-2">
                     <button ONCLICK="orders();" CLASS="btn btn-primary" href="#">PAST ORDERS</button>
                 </div>
