@@ -559,7 +559,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 $("#checkout-btn").show();
             } else {
                 $("#checkout-btn").hide();
-                tempHTML += '<button CLASS="list-padding bg-inverse btn-block radius0">minimum $' + minimumfee + ' sub-total</button>';
+                tempHTML += '<button CLASS="list-padding rece btn-block">minimum $' + minimumfee + ' sub-total to order</button>';
             }
             tempHTML += '<DIV id="newvalues"';
             if (fadein || forcefade) {

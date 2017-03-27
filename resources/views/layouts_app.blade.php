@@ -55,7 +55,7 @@
 <body>
 <div class="modal loading" ID="loadingmodal"></div>
 
-<div class="container-fluid list-group-item bg-danger " style="border-bottom: 5px solid #dadada !important;">
+<div class="container-fluid list-group-item bg-danger " style="border-bottom: 0px solid #dadada !important;">
     <button data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-sm bg-transparent">
         <i class="fa fa-bars text-white"></i>
     </button>

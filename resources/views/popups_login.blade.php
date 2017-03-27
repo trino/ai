@@ -61,7 +61,7 @@ $delivery = first("SELECT price FROM additional_toppings WHERE size = 'Delivery'
             <center>
 
                 <img src="http://www.pizzapizzeria.ca/images/pizza.png" style="width: 45%;"/>
-                <h3 class="text-danger" style="text-align: center;">Mobile Pizza Delivery</h3>
+                <h2 class="text-danger" style="text-align: center;">Mobile Pizza Delivery</h2>
 
                 ${{ $minimum }} Minimum<br>
                 ${{ $delivery }} Delivery<br>

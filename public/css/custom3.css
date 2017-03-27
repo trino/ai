@@ -74,6 +74,7 @@ h2 {
     padding: 0 !important;
     font-weight: bold;
     margin: .5rem 0 !important;
+    color:#999;
 }
 
 .list-group-item, .modal-header {
