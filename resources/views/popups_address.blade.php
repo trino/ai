@@ -156,11 +156,12 @@
             $("#saveaddressbtn").attr("disabled", true);
         }
         $('.formatted_address').val(streetformat);
-        if (isFunction(addresshaschanged)) {
-            addresshaschanged();
-        }
-        //log("fillInAddress: " + JSON.stringify(place));
         place.formatted_address = streetformat;
+        @if(isset($findclosest))
+            if (isFunction(addresshaschanged)) {
+                addresshaschanged(place);
+            }
+        @endif
         return place;
     }
 </SCRIPT>

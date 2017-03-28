@@ -1309,7 +1309,6 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         clearphone();
         var Selected = $("#saveaddresses option:selected");
         var SelectedVal = $(Selected).val();
-        //log("Selected: " + SelectedVal);
         var Text = '<?= $STREET_FORMAT; ?>';
         visible_address(false);
         $("#add_unit").hide();
@@ -1483,16 +1482,20 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     }
 
     var closest = false;
-    function addresshaschanged() {
+    function addresshaschanged(place) {
         if (!getcloseststore) {return;}
         var HTML = '<OPTION VALUE="0">No restaurant is within range</OPTION>';
-        var value = $("#saveaddresses").val();
-        if (value == "0" || value == "addaddress"){
-            $("#restaurant").html(HTML).val(0);
-            return;
+        if(isUndefined(place)) {
+            var value = $("#saveaddresses").val();
+            if (value == "0" || value == "addaddress"){
+                $("#restaurant").html(HTML).val(0);
+                return;
+            }
+            var formdata = getform("#orderinfo");
+        } else {//needs latitude and longitude, radius and limit optional
+            log("GOT HERE");
+            var formdata = {latitude:  place.geometry.location.lat, longitude:  place.geometry.location.lng};
         }
-
-        var formdata = getform("#orderinfo");
         formdata.limit = 10;
         if (!formdata.latitude || !formdata.longitude) {return;}
         if (!debugmode) {formdata.radius = MAX_DISTANCE;}
