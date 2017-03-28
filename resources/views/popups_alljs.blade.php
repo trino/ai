@@ -428,12 +428,13 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     }
 
     function refreshcost(itemid, oldcost) {
-        $('#cost_' + itemid).hide();
-        $('#oldcost_' + itemid).text(oldcost).fadeOut(function () {
-            $('#cost_' + itemid).fadeIn();
-        });
+        var newcost = $('#cost_' + itemid).text();
+        $('#cost_' + itemid).show().text(oldcost).fadeOut(
+            function () {
+                $('#cost_' + itemid).text(newcost).fadeIn();
+            }
+        );
     }
-
 
     //convert the order to an HTML receipt
     function generatereceipt(forcefade) {
@@ -504,7 +505,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 if(quantity > 1) {tempHTML += '<SPAN CLASS="item_qty">' + quantity + 'x </SPAN>';}
                 // tempHTML += '<span title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '" class="receipt_itemcost"></span>';
                 tempHTML += ' <span class="ml-1 receipt-itemname">' + item["itemname"] + '</SPAN> <span class="ml-auto align-middle">';
-                tempHTML += '<span id="oldcost_' + itemid + '"></span><span id="cost_' + itemid + '">$' + totalcost;
+                tempHTML += '<span id="cost_' + itemid + '">$' + totalcost;
                 //if (quantity > 1) {tempHTML += ' (' + quantity + ')';}
                 tempHTML += '</span><button class="text-muted fa fa-minus btn-sm" onclick="removeorderitem(' + itemid + ', ' + quantity + ');"></button>';
                 if (hasaddons) {
@@ -583,7 +584,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             tempHTML += '<TR><TD>Delivery $</TD><TD>' + deliveryfee.toFixed(2) + '</TD></TR>';
             tempHTML += '<TR><TD>Tax $</TD><TD>' + taxes.toFixed(2) + '</TD></TR>';
             tempHTML += '<TR><TD>Total $</TD><TD>' + totalcost.toFixed(2) + '</TD></TR>';
-            tempHTML += '</TABLE><div class="clearfix"></div></DIV>';
+            tempHTML += '</TABLE><div class="clearfix"></div></DIV></DIV>';
 
             $("#confirmclearorder").show();
             $("#checkout-total").text('$' + totalcost.toFixed(2));
@@ -596,9 +597,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             if (fadein) {
                 $(fadein).hide().fadeIn();
             }
-            $("#oldvalues").fadeOut("slow", function () {
-                $("#newvalues").fadeIn();
-            });
+            $("#oldvalues").show().fadeOut("slow", function () {$("#newvalues").fadeIn();});
         }
     }
 
