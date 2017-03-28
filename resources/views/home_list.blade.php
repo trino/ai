@@ -98,7 +98,12 @@
             $user = getuser();
             if($user["profiletype"] == 2){
                 if(isset($user["Addresses"][0])){
-                    $_GET["restaurant"] = first("SELECT id FROM restaurants WHERE address_id = " . $user["Addresses"][0]["id"])["id"];
+                    $_GET["restaurant"] = first("SELECT id FROM restaurants WHERE address_id = " . $user["Addresses"][0]["id"]);
+                    if(isset($_GET["restaurant"]["id"])){
+                        $_GET["restaurant"] = $_GET["restaurant"]["id"];
+                    } else {
+                        die("Address not found for this restaurant, contact tech support");
+                    }
                     $adminsonly=false;
                 }
             }
