@@ -1,11 +1,10 @@
 <?php
-startfile("popups_login");
-$minimum = first("SELECT price FROM additional_toppings WHERE size = 'Minimum'")["price"];
-$delivery = first("SELECT price FROM additional_toppings WHERE size = 'Delivery'")["price"];
+    startfile("popups_login");
+    $minimum = number_format(first("SELECT price FROM additional_toppings WHERE size = 'Minimum'")["price"], 2);
+    $delivery = number_format(first("SELECT price FROM additional_toppings WHERE size = 'Delivery'")["price"], 2);
 ?>
 <div class="row">
-    <DIV CLASS="col-lg-3 col-md-4 ">
-
+    <DIV CLASS="col-lg-3 col-md-4">
         <DIV CLASS="btn-sm-padding bg-white">
             <ul class="nav nav-tabs mb-1" role="tablist">
                 <li class="nav-item">
@@ -34,13 +33,10 @@ $delivery = first("SELECT price FROM additional_toppings WHERE size = 'Delivery'
                     <BUTTON CLASS="btn-link text-muted btn-sm" href="#" onclick="handlelogin('forgotpassword');">Forgot Password</BUTTON>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="buzz">
-
                     <FORM id="addform">
                         <?php
-                        if (!read("id")) {
-                            ?>
-                            <?= view("popups_address", array("style" => 1, "required" => true, "icons" => true))->render(); ?>
-                            <?php
+                            if (!read("id")) {
+                                echo view("popups_address", array("style" => 1, "required" => true, "icons" => true))->render();
                             }
                         ?>
                     </FORM>
@@ -57,12 +53,9 @@ $delivery = first("SELECT price FROM additional_toppings WHERE size = 'Delivery'
         </DIV>
 
         <div class="py-3 bg-inverse">
-
             <center>
-
-                <img src="http://www.pizzapizzeria.ca/images/pizza.png" style="width: 45%;"/>
+                <img src="<?= webroot("images/pizzaria.png"); ?>" style="width: 45%;"/>
                 <h2 class="text-danger" style="text-align: center;">Mobile Pizza Delivery</h2>
-
                 ${{ $minimum }} Minimum<br>
                 ${{ $delivery }} Delivery<br>
                 Credit/Debit Only
