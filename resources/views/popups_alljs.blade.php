@@ -89,6 +89,20 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         return this.substring(this.length - n);
     };
 
+    //Period: year, month, day, hour, minute, second, millisecond
+    Date.prototype.add = function (Period, Increment){
+        switch(Period){
+            case "year":        this.setYear(this.getYear() + Increment); break;
+            case "month":       this.setMonth(this.getMonth() + Increment); break;
+            case "day":         this.setDate(this.getDate() + Increment); break;
+            case "hour":        this.setHours(this.getHours() + Increment); break;
+            case "minute":      this.setMinutes(this.getMinutes() + Increment); break;
+            case "second":      this.setSeconds(this.getSeconds() + Increment); break;
+            case "millisecond": this.setMilliseconds(this.getMilliseconds() + Increment); break;
+        }
+        return this;
+    };
+
     function right(text, length) {
         return String(text).right(length);
     }
@@ -486,8 +500,8 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                     sprite += " sprite-" + toclassname(item["itemname"].trim()).replaceAll("_", "-").replace(/\./g, '');
                 }
 
-                tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item list-group-item"><span CLASS="sprite sprite-' + sprite + ' sprite-medium"></span><SPAN CLASS="item_qty">' + quantity + ' x </SPAN>';
-                tempHTML += '';
+                tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item list-group-item"><span CLASS="sprite sprite-' + sprite + ' sprite-medium"></span>';
+                if(quantity > 1) {tempHTML += '<SPAN CLASS="item_qty">' + quantity + 'x </SPAN>';}
                 // tempHTML += '<span title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '" class="receipt_itemcost"></span>';
                 tempHTML += ' <span class="ml-1 receipt-itemname">' + item["itemname"] + '</SPAN> <span class="ml-auto align-middle">';
                 tempHTML += '<span id="oldcost_' + itemid + '"></span><span id="cost_' + itemid + '">$' + totalcost;
@@ -1653,12 +1667,16 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         var dayselapsed = 0;
         var today = dayofweek;
         var tomorrow = (today + 1) % 7;
+        var tomorrowdate = new Date().add("day", 1);
+        var today_text = "Today (" + monthnames[now.getMonth()] + " " + now.getDate() + ")";
+        var tomor_text = "Tomorrow (" + monthnames[tomorrowdate.getMonth()] + " " + tomorrowdate.getDate() + ")";
+
         var time = now.getHours() * 100 + now.getMinutes();
         time = time + (increments - (time % increments));
         var oldValue = $("#deliverytime").val();
         var HTML = '';
         if (isopen(hours, dayofweek, time) > -1) {
-            HTML = '<option>Deliver Now</option>';
+            HTML = '<option value="Deliver Now">Deliver Now (' + GenerateTime(time) + ')</option>';
         }
         var totalInc = (minutesinaday * totaldays) / increments;
         for (var i = 0; i < totalInc; i++) {
@@ -1669,9 +1687,9 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                     var thedayname = daysofweek[dayofweek];
                     var thedate = monthnames[now.getMonth()] + " " + now.getDate();
                     if (dayofweek == today) {
-                        thedayname = "Today";
+                        thedayname = today_text;
                     } else if (dayofweek == tomorrow) {
-                        thedayname = "Tomorrow";
+                        thedayname = tomor_text;
                     } else {
                         thedayname += " " + thedate;
                     }
@@ -1827,12 +1845,14 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         switch (currentaddontype) {
             case "toppings":
                 addonname = "Toppings";
-                item_name = "Pizza "; break;
+                item_name = "Pizza ";
+                break;
             case "wings_sauce":
                 addonname = "Sauce";
-                item_name = "Lb"; break;
+                item_name = "Lb";
+                break;
             default:
-                addonname = "Error: " + currentaddontype; break;
+                addonname = "Error: " + currentaddontype;
         }
 
         var thisside = ' CLASS="thisside">';
@@ -1850,14 +1870,13 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             HTML += '">' + '<strong class="pr-3" id="item_' + itemindex + '">' + ucfirst(item_name) + ' #' + (itemindex + 1) + '</strong>';
 
             if(currentaddonlist[itemindex].length == 0){
-                //   tempstr += ' No ' + addonname;
+                tempstr += ' No ' + addonname; /* trust me, some users have a hard time figuring this out. If they don't explicitly see this, some will assume we picked toppings for them; */
             }
             for (var i = 0; i < currentaddonlist[itemindex].length; i++) {
                 var currentaddon = currentaddonlist[itemindex][i];
                 var qualifier = "";
                 tempstr += '<DIV CLASS="pr-3 ' + classname + '" id="topping_' + itemindex + '_' + i + '">' + currentaddon.name +
-                    '<!--span ONCLICK="removelistitem(' + itemindex + ', ' + i + ');">&nbsp; <i CLASS="fa fa-times"></i> </span--></div>';
-
+                    '<span ONCLICK="removelistitem(' + itemindex + ', ' + i + ');">&nbsp; <i CLASS="fa fa-times"></i> </span></div>';
                 qualifier = currentaddon.qual;
                 if (qualifier == 0) {
                     qualifier = 0.5;
@@ -1874,6 +1893,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             if (debugmode) {
                 HTML += " (Paid: " + paidtoppings + " Free: " + freetoppings + ')';
             }
+            tempstr += '<span id="cursor' + itemindex + '" class="blinking-cursor">|</span>';
             HTML += tempstr + '</DIV>';
         }
 
@@ -1882,10 +1902,10 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         $("#theaddons").html(HTML);
         $(".currentitem.thisside").trigger("click");
         refreshremovebutton();
-
         if (ItemIndex > -1) {
             $("#topping_" + ItemIndex + "_" + ToppingIndex).hide().fadeTo('fast', 1);
         }
+        showcursor(currentitemindex);
     }
 
     function getcost(Toppings) {
@@ -2082,6 +2102,10 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         $(".currentitem" + index).addClass("thisside");
         currentitemindex = index;
         refreshremovebutton();
+    }
+    function showcursor(Index){
+        $(".blinking-cursor").hide();
+        $("#cursor" + Index).show();
     }
 
     function removelistitem(index, subindex) {

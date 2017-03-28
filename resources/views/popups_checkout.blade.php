@@ -16,7 +16,7 @@
         <div class="modal-content">
             <div class="list-group-item bg-white">
                 <button data-dismiss="modal" data-popup-close="checkoutmodal" class="btn btn-sm mr-3 bg-transparent"><i class="fa fa-close"></i></button>
-                <h2 class="pull-left" id="myModalLabel">Hi,</h2>
+                <h2 class="pull-left" id="myModalLabel">Hi, <SPAN CLASS="session_name"></SPAN></h2>
             </div>
             <div class="modal-body" style="padding: 0 !important;">
                 <FORM ID="orderinfo" name="orderinfo">

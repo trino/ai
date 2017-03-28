@@ -81,9 +81,9 @@
 
         function GenerateDate($Date){
             $today = date("F j");
-            $Date = str_replace($today, "Today", $Date);
+            $Date = str_replace($today, "Today (" . $today . ")", $Date);
             $tomorrow = date("F j", strtotime("+ 1 day"));
-            $Date = str_replace($tomorrow, "Tomorrow", $Date);
+            $Date = str_replace($tomorrow, "Tomorrow (" . $tomorrow . ")", $Date);
             return $Date;
         }
 
@@ -220,6 +220,12 @@
             function iconexists($imagefile){
                 return file_exists(public_path() . '/images/icon-' . $imagefile . ".png");
             }
+
+            function showifabove1($quantity, $text = ""){
+                if($quantity>1){
+                    return $quantity . $text;
+                }
+            }
         }
 
         //check all data again, do not trust the prices from the user!!
@@ -290,7 +296,7 @@
                                         $debug = ' TITLE="' . $onlydebug . var_export($item, true) . '"';
                                     }
                                     //echo '<TR><TD>' . ($ID + 1) . '</TD><TD' . $debug . '>' . $item->itemname . '</TD>';
-                                    echo '<TR><TD>' . $quantity . '</TD><TD' . $debug . '>' . $item->itemname . '</TD>';
+                                    echo '<TR><TD>' . showifabove1($quantity) . '</TD><TD' . $debug . '>' . $item->itemname . '</TD>';
                                     if ($debugmode) {
                                         $debug = ' TITLE="' . $onlydebug . print_r($menuitem, true) . '"';
                                     }
@@ -309,7 +315,7 @@
                                         }
                                     }
                                     $imagefile = '<img class="pull-left" src="' . $localdir . $imagefile . ".png" . '" style="width:22px;margin-right:5px;">';
-                                    echo '<TR><TD width="1%">' . $imagefile . '</TD><TD width="1%"> ' . $quantity . 'x&nbsp;</TD><TD valign="middle">' . $item->itemname . '</TD><TD ALIGN="RIGHT" WIDTH="5%">';
+                                    echo '<TR><TD width="1%">' . $imagefile . '</TD><TD width="1%"> ' . showifabove1($quantity, 'x&nbsp;') . '</TD><TD valign="middle">' . $item->itemname . '</TD><TD ALIGN="RIGHT" WIDTH="5%">';
                                     break;
                             }
 
