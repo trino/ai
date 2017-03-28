@@ -91,11 +91,7 @@
             }
         </style>
     @endif
-
-
-
     <?php }
         endfile("index");
     ?>
-
 @endsection

@@ -70,6 +70,7 @@
     var minlength = 5;
     var getcloseststore = false;
     lockloading = true;
+    blockerror=true;
 
     function register() {
         if (isvalidaddress()) {
@@ -77,6 +78,7 @@
         } else if ($("#reg_address-error").length == 0) {
             $('<label id="reg_address-error" class="error" for="reg_name">Please enter a valid London address</label>').insertAfter("#formatted_address");
         }
+        redirectonlogin=false;
         $('#regform').submit();
     }
 
@@ -121,11 +123,9 @@
                 }
             },
             submitHandler: function (form) {
-                log("HERE");
                 if (!isvalidaddress()) {
                     return false;
                 }
-                log("HERE 2");
                 var formdata = getform("#regform");
                 formdata["action"] = "registration";
                 formdata["_token"] = token;
@@ -137,6 +137,7 @@
                             $("#logintab").trigger("click");
                             $("#login_email").val(formdata["email"]);
                             $("#login_password").val(formdata["password"]);
+                            redirectonlogin=true;
                             handlelogin('login');
                         } catch (e) {
                             alert(result, "Registration");

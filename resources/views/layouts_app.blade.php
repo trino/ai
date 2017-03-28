@@ -157,6 +157,7 @@
             console.log("Time until DOMready: ", time);
             $("#navbar-text").text("<?= "" . round((microtime(true) - $time), 5) . "s"; ?>");
         });
+        log("Page has loaded at: " + Date.now());
     </script>
 
     <div style="display: none;">
