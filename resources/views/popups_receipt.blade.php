@@ -103,7 +103,7 @@
         }
     }
     //edit countdown timer duration
-    $minutes = delivery_time;
+    $minutes = getdeliverytime();
     $seconds = 0;
     $hours=0;
     $duration = "";
@@ -501,15 +501,36 @@
             var countdown = window.setTimeout(function () {incrementtime()}, 1000);
         }
 
+        function getNow(){
+            return Math.floor(Date.now() / 1000);//reduce to seconds
+        }
+
+        function backtotime(timestamp){
+            var d = new Date(timestamp * 1000);
+            return d.getHours() + ":" + d.getMinutes();
+        }
+
         function incrementtime() {
-            var seconds = $(".countdown").attr("seconds");
-            var minutes = $(".countdown").attr("minutes");
+            if (!$(".countdown").hasAttr("timestamp")){
+                var seconds = Number($(".countdown").attr("seconds"));
+                var minutes = Number($(".countdown").attr("minutes"));
+                var timestamp = getNow();
+                $(".countdown").attr("startingtime", backtotime(timestamp));
+                timestamp += (minutes * 60) + seconds;
+                $(".countdown").attr("endingtime", backtotime(timestamp));
+                $(".countdown").attr("timestamp", timestamp);
+            } else {
+                var timestamp = $(".countdown").attr("timestamp");
+                var seconds = timestamp - getNow();
+                var minutes = Math.floor(seconds / 60);
+                seconds = seconds % 60;
+            }
             var hours = Math.floor(minutes / 60);
 
             var result = false;
             if (seconds == 0) {
                 if (minutes == 0) {
-                    result = "[Time's up.]";
+                    result = "[EXPIRED]";
                     window.clearInterval(countdown);
                 } else {
                     minutes -= 1;
@@ -526,8 +547,6 @@
                 }
                 result += "m:" + minpad(seconds) + "s";
             }
-            $(".countdown").attr("seconds", seconds);
-            $(".countdown").attr("minutes", minutes);
             $(".countdown").text(result);
             countdown = window.setTimeout(function () {
                 incrementtime()

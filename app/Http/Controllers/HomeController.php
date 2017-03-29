@@ -50,7 +50,7 @@ class HomeController extends Controller {
         return view("home_editmenu")->render();
     }
 
-    public function placeorder(){
+    public function placeorder($POST = ""){
         if(!read("id")){return array("Status" => false, "Reason" => "You are not logged in");}
         date_default_timezone_set("America/Toronto");
         $info="";
@@ -58,6 +58,7 @@ class HomeController extends Controller {
             $info = $_POST["info"];
             unset($info["formatted_address"]);
         }
+        if(is_array($POST)){$_POST = $POST;}
         if(isset($_POST["action"])){
             $ret = array("Status" => true, "Reason" => "");
             switch($_POST["action"]){

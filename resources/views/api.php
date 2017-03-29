@@ -1,7 +1,6 @@
 <?php
     $webroot = webroot();
     define("debugmode", true);
-    define("delivery_time", 40);
     date_default_timezone_set("America/Toronto");
 
     function webroot($file = "") {
@@ -578,5 +577,9 @@
         $SQL = "SELECT party, sms, phone, email, message FROM actions WHERE eventname = '" . $eventname . "'";
         if($party>-1){$SQL .= " AND party = " . $party;}
         return first($SQL, $party>-1);
+    }
+
+    function getdeliverytime($var = "DeliveryTime") {
+        return first("SELECT price FROM additional_toppings WHERE size = '" . $var . "'")["price"];
     }
 ?>

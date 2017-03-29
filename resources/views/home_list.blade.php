@@ -1,4 +1,6 @@
 <?php
+    use App\Http\Controllers\HomeController;
+
     startfile("home_list");
     $RestaurantID= "";
     $extratitle = "";
@@ -46,6 +48,11 @@
         echo '><DIV CLASS="pull-center nowrap"><i class="btn btn-sm btn-primary fa fa-arrow-down pull-left desc_' . $field . '" onclick="sort(' . "'" . $field . "', 'DESC'" . ')" TITLE="Sort by ' . $formatted;
         echo ' descending"> </i>' . $formatted . ' <i class="btn btn-sm btn-primary fa fa-arrow-up pull-right asc_' . $field . '" onclick="sort(' . "'" . $field . "', 'ASC'" . ')" TITLE="Sort by ' . $formatted;
         echo ' ascending"></i></DIV></TH>';
+    }
+    function changeorderstatus($ID, $Status, $Reason){
+        //HomeController::placeorder(["action" => "changestatus", "orderid" => $ID, "status" => $Status, "reason" => $Reason]);
+        App::make('App\Http\Controllers\HomeController')->placeorder(["action" => "changestatus", "orderid" => $ID, "status" => $Status, "reason" => $Reason]);
+        return $ID;
     }
 
     //sets permissions, SQL, fields for each whitelisted table
@@ -190,16 +197,24 @@
 
             case "deleteitem"://delete a row
                 touchtable($table);
-                switch($table){
-                    case "orders":
-                        $actions = actions("order_declined");
-                        deletefile(resource_path("orders") . "/" . $_POST["id"] . ".json");//deletes the order file
-                        break;
-                    case "useraddresses":
-                        Query("UPDATE restaurants SET address_id = 0 WHERE address_id = " . $_POST["id"]);//unbinds any restaurant from this address
-                        break;
+                if(!isset($_POST["ids"]) && isset($_POST["id"])){
+                    $IDS = array($_POST["id"]);
+                } else {
+                    $IDS = $_POST["ids"];
                 }
-                deleterow($table, "id=" . $_POST["id"]);
+                foreach($IDS as $id){
+                    switch($table){
+                        case "orders":
+                            //$actions = actions("order_declined");
+                            changeorderstatus($id, 2, "Order was deleted");//ID gets deleted somehow...
+                            deletefile(resource_path("orders") . "/" . $id . ".json");//deletes the order file
+                            break;
+                        case "useraddresses":
+                            Query("UPDATE restaurants SET address_id = 0 WHERE address_id = " . $id);//unbinds any restaurant from this address
+                            break;
+                    }
+                }
+                deleterow($table, "id IN(" . implode(",", $IDS) . ")");
                 break;
 
             case "deletetable"://delete all rows
@@ -381,6 +396,17 @@
                     height: 38px;
                     padding-top: 6px;
                 }
+
+                label.btn{
+                    margin-bottom: 0px;
+                    margin-left: 4px;
+                }
+
+                .selitem{
+                    position: relative;
+                    vertical-align: middle;
+                    bottom: 1px;
+                }
             </STYLE>
             <div class="row m-t-1">
                 <div class="col-md-12">
@@ -416,7 +442,12 @@
                                         <A onclick="testemail();" TITLE="Send a test email" class="hyperlink" id="testemail" href="#"><i class="fa fa-envelope"></i></A>
                                         <A onclick="deletedebug();" TITLE="Delete the debug log" class="hyperlink" id="deletedebug" href="#"><i class="fa fa-trash-o"></i></A>
                                     @else
-                                        <A onclick="deletetable();" TITLE="Delete the table data" class="hyperlink" id="deletetable"><i class="fa fa-trash-o"></i></A>
+                                        <A onclick="selecttableitems(0);" href="#"><i class="fa fa-square-o"></i> Select None</A>
+                                        <A onclick="selecttableitems(-1);" href="#"><i class="fa fa-fw fa-check-square-o" id="invert"></i> Invert Selection</A>
+                                        <A onclick="selecttableitems(1);" href="#"><i class="fa fa-check-square-o"></i> Select All</A>
+                                        <A onclick="deletetableitems();" href="#"><i class="fa fa-trash-o"></i> Delete Selected</A>
+
+                                        <!--A onclick="deletetable();" TITLE="Delete the entire table" class="hyperlink" id="deletetable"><i class="fa fa-trash-o"></i></A-->
                                     @endif
                                     <A HREF="{{ webroot("public/list/all") }}" TITLE="Back"><i class="fa fa-arrow-left"></i></A>
                                 @endif
@@ -513,7 +544,7 @@
                     var usertype = ["Customer", "Admin", "Restaurant"];
                     var profiletype = '<?= $profiletype; ?>';
 
-                    var delivery_time = <?= delivery_time; ?>;
+                    var delivery_time = <?= getdeliverytime(); ?>;
                     var getcloseststore = false;
                     var TableStyle = '<?= $TableStyle; ?>';
                     var selecteditem = 0;
@@ -624,6 +655,7 @@
                         if(isUndefined(makenew)){makenew = false;}
                         if(index<0){index = currentpage;}
                         blockerror = true;
+                        selecteditems = [];//clear selection
                         $.post(currentURL, {
                             action: "getpage",
                             _token: token,
@@ -712,7 +744,10 @@
                                                 tempHTML += '<A CLASS="btn btn-sm btn-success cursor-pointer" HREF="{{ webroot("public/list/orders?restaurant=") }}' + ID + '">View</A> ';
                                                 break;
                                         }
-                                        if(profiletype == 1) {tempHTML += '<A CLASS="btn btn-sm cursor-pointer" onclick="deleteitem(' + ID + ');">Delete</A>';}
+                                        if(profiletype == 1) {
+                                            tempHTML += '<A CLASS="btn btn-sm btn-danger cursor-pointer" onclick="deleteitem(' + ID + ');">Delete</A>';
+                                            tempHTML += '<label CLASS="btn btn-sm cursor-pointer"><input type="checkbox" class="selitem" index="' + ID + '" onclick="selecttableitem(this, ' + ID + ');"> Select</label>';
+                                        }
                                         HTML += tempHTML + '</TD></TR>';
                                         items++;
                                         if(TableStyle == '1'){
@@ -1063,7 +1098,7 @@
                             var hour = Delivery_Time[3].left( Delivery_Time[3].length -2 );
                             var AMPM = "AM";
                             if (hour > 11){
-                                hour -= 12;
+                                if(hour>12) {hour -= 12;}
                                 AMPM = "PM";
                             }
                             Delivery_Time = parseverbosedate("IrrelevantDay " + Delivery_Time[0] + " " + Delivery_Time[1] + ", " + Placed_At.getFullYear() + " @ " + hour + ":" + Delivery_Time[3].right(2) + " " + AMPM);
@@ -1112,7 +1147,7 @@
                         var Hour = d.getHours();
                         var AMPM = "AM";
                         if (Hour > 11){
-                            Hour -= 12;
+                            if(Hour>12) {Hour -= 12;}
                             AMPM = "PM";
                         }
                         var Min = minpad(d.getMinutes());
@@ -1211,33 +1246,34 @@
                     function deleteitem(ID){
                         var name = $("#" + table + "_" + ID + "_" + namefield).text();
                         confirm2("Are you sure you want to delete item ID: " + ID + " (" + name + ") ?", "Delete Item", function(){
-                            if(table == "orders"){
-                                changeorderstatus(ID, 2);
-                            }
+                            //if(table == "orders"){changeorderstatus(ID, 2);}//done server-side now
                             $.post(currentURL, {
                                 action: "deleteitem",
                                 _token: token,
-                                id: ID
+                                ids: [ID]
                             }, function (result) {
                                 if(handleresult(result)) {
-                                    selecteditem=0;
-                                    $("#saveaddress").attr("disabled", true);
-                                    if(TableStyle == '0') {
-                                        $("#" + table + "_" + ID).fadeOut(500, function () {
-                                            $("#" + table + "_" + ID).remove();
-                                        });
-                                    } else {
-                                        $(".item_" + ID).fadeOut(500, function () {
-                                            $(".item_" + ID).remove();
-                                        });
-                                    }
-                                    items--;
-                                    if(items == 0){
-                                        location.reload();
-                                    }
+                                    deletetableitem(ID);
                                 }
                             });
                         });
+                    }
+                    function deletetableitem(ID){
+                        selecteditem=0;
+                        $("#saveaddress").attr("disabled", true);
+                        if(TableStyle == '0') {
+                            $("#" + table + "_" + ID).fadeOut(500, function () {
+                                $("#" + table + "_" + ID).remove();
+                            });
+                        } else {
+                            $(".item_" + ID).fadeOut(500, function () {
+                                $(".item_" + ID).remove();
+                            });
+                        }
+                        items--;
+                        if(items == 0){
+                            location.reload();
+                        }
                     }
 
                     //add a new item to the table, load the last page
@@ -1272,7 +1308,7 @@
                     }
 
                     function changepass(ID){
-                        inputbox2("What would you like this user's new password to be?", "Change Password", "123abc", function(response){
+                        inputbox2(makestring("{new_passw}"), "Change Password", "123abc", function(response){
                             edititem(ID, "password", response);
                             log(ID + "'s password has been updated to " + response);
                         });
@@ -1414,7 +1450,7 @@
                             Status = -1;
                             Reason = "";
                         } else if(isUndefined(Reason)) {
-                            inputbox2("What would you like the " + statuses[Status] + " reason to be?", statuses[Status] + " Order", "Type the reason here", function(response){
+                            inputbox2(makestring("{new_statu}", statuses[Status].toLowerCase()), statuses[Status] + " Order", "Type the reason here", function(response){
                                 changeorderstatus(ID, Status, response);
                             });
                             return false;
@@ -1527,11 +1563,19 @@
                     }
 
                     if(table == "orders"){
-                        var countdown = window.setTimeout(function () {
-                            incrementtime()
-                        }, 1000);
+                        var countdown = window.setTimeout(function () {incrementtime();}, 1000);
                     } else if(debuglogdate > -1){
                         var countdown = checkfordebug(true);
+                    }
+
+                    inverticon();
+                    function inverticon(){
+                        if($("#invert").hasClass("fa-check-square-o")){
+                            $("#invert").removeClass("fa-check-square-o").addClass("fa-square-o");
+                        } else {
+                            $("#invert").removeClass("fa-square-o").addClass("fa-check-square-o");
+                        }
+                        window.setTimeout(function () {inverticon();}, 1000);
                     }
 
                     function checkfordebug(isFirst){
@@ -1553,6 +1597,15 @@
                         if (isFirst) { return countdown;}
                     }
 
+                    function getNow(){
+                        return Math.floor(Date.now() / 1000);//reduce to seconds
+                    }
+
+                    function backtotime(timestamp){
+                        var d = new Date(timestamp * 1000);
+                        return d.getHours() + ":" + d.getMinutes();
+                    }
+
                     function incrementtime(element) {
                         if(isUndefined(element)){
                             $(".countdown").each(function() {
@@ -1562,9 +1615,23 @@
                                 incrementtime()
                             }, 1000);
                         } else {
-                            var seconds = $(element).attr("seconds");
-                            var minutes = $(element).attr("minutes");
-                            var hours = $(element).attr("hours");
+                            if (!$(".countdown").hasAttr("timestamp")){
+                                var seconds = Number($(element).attr("seconds"));
+                                var minutes = Number($(element).attr("minutes"));
+                                var hours = Number($(element).attr("hours"));
+                                var timestamp = getNow();
+                                $(element).attr("startingtime", backtotime(timestamp));
+                                timestamp += (hours * 3600) + (minutes * 60) + seconds;
+                                $(element).attr("endingtime", backtotime(timestamp));
+                                $(element).attr("timestamp", timestamp);
+                            } else {
+                                var timestamp = $(element).attr("timestamp");
+                                var seconds = timestamp - getNow();
+                                var minutes = Math.floor(seconds / 60);
+                                var hours = Math.floor(minutes / 60);
+                                seconds = seconds % 60;
+                                minutes = minutes % 60;
+                            }
 
                             var time = hours * 3600 + minutes + 60 + seconds;
                             var result = false;
@@ -1592,13 +1659,65 @@
                         }
                     }
 
+                    var selecteditems = [];
+                    function selecttableitem(t, ID){
+                        var checked = $( t ).prop( "checked" );
+                        if(checked){
+                            selecteditems.push(ID);
+                        } else {
+                            var i = selecteditems.indexOf(ID);
+                            if(i > -1){
+                                removeindex(selecteditems, i);
+                            }
+                        }
+                    }
+                    //operation: 0=none, -1=invert, 1=all
+                    function selecttableitems(operation){
+                        $(".selitem").each(function() {
+                            var checked = $( this ).prop( "checked" );
+                            switch(operation){
+                                case 1: //all
+                                    if(!checked){$( this ).trigger("click");}
+                                    break;
+                                case -1: //invert
+                                    $( this ).trigger("click");
+                                    break;
+                                case 0: //none
+                                    if(checked){$( this ).trigger("click");}
+                                    break;
+                            }
+                        });
+                    }
+
+                    function deletetableitems(){
+                        if(selecteditems.length == 0){
+                            return alert(makestring("{no_select}"), "Delete Selected");
+                        }
+                        confirm2("Are you sure you want to delete " + selecteditems.length + makeplural(selecteditems.length, " item") + "?", "Delete Selected", function(){
+                            $.post(currentURL, {
+                                action: "deleteitem",
+                                _token: token,
+                                ids: selecteditems
+                            }, function (result) {
+                                if(handleresult(result)) {
+                                    for(var i = 0; i< selecteditems.length; i++){
+                                        deletetableitem(selecteditems[i]);
+                                    }
+                                }
+                            });
+                        });
+                    }
+
                     unikeys = {
                         cant_edit: "[table].[field] can not be edited",
                         user_auth: "User is now authorized",
                         not_valid: "'[data]' is not a valid [datatype]",
                         not_empty: "[data] can not be empty",
                         unhandled: "'[datatype]' is unhandled",
-                        new_addrs: "'[number] [street]' was saved"
+                        new_addrs: "'[number] [street]' was saved",
+                        no_select: "There are no selected items to delete",
+                        new_passw: "What would you like this user's new password to be?",
+                        new_statu: "What would you like the [0] reason to be?"
                     };
                 </SCRIPT>
             @else

@@ -1657,6 +1657,10 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         }
     }
 
+    $.fn.hasAttr = function(name) {
+        return this.attr(name) !== undefined;
+    };
+
     function gettime(now, IncrementBig, IncrementSmall, OldTime){
         var minutes = now.getMinutes();
         minutes = minutes + IncrementBig;
@@ -1677,7 +1681,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         var now = new Date();//doesn't take into account <= because it takes more than 1 minute to place an order
         //now.setMinutes(now.getMinutes() + minutes);//start 40 minutes ahead
         if (isUndefined(increments)) {increments = 15;}
-        var minutes = <?= delivery_time; ?>;
+        var minutes = <?= getdeliverytime(); ?>;
         var dayofweek = now.getDay();
         var minutesinaday = 1440;
         var totaldays = 2;
@@ -1796,11 +1800,19 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             Text = unikeys[Text.mid(1, Text.length - 2)];
         }
         if (!isUndefined(Variables)) {
-            var keys = Object.keys(Variables);
-            for (var i = 0; i < keys.length; i++) {
-                var key = keys[i];
-                var value = Variables[key];
-                Text = Text.replaceAll("\\[" + key + "\\]", value);
+            if(isObject(Variables)) {
+                var keys = Object.keys(Variables);
+                for (var i = 0; i < keys.length; i++) {
+                    var key = keys[i];
+                    var value = Variables[key];
+                    Text = Text.replaceAll("\\[" + key + "\\]", value);
+                }
+            } else {
+                if(!isArray(Variables)){Variables = [Variables];}
+                for (var i = 0; i < Variables.length; i++) {
+                    var value = Variables[i];
+                    Text = Text.replaceAll("\\[" + i + "\\]", value);
+                }
             }
         }
         return Text;
@@ -1825,8 +1837,8 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
+                <button data-dismiss="modal" class="btn btn-sm"><i class="fa fa-close"></i></button>
                 <h2 class="modal-title" id="alertmodallabel">Title</h2>
-                <button data-dismiss="modal" class="bg-transparent btn btn-sm pull-right"><i class="fa fa-close"></i></button>
             </div>
             <div class="modal-body">
                 <DIV ID="alertmodalbody"></DIV>
@@ -2133,6 +2145,12 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             removeindex(currentaddonlist[index], subindex);
         }
         generateaddons();
+    }
+
+    function makeplural(value, singular, plural){
+        if(value == 1){return singular;}
+        if(isUndefined(plural)){return singular + "s";}
+        return plural;
     }
 
     function ucfirst(text) {
