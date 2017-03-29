@@ -1657,12 +1657,27 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         }
     }
 
+    function gettime(now, IncrementBig, IncrementSmall, OldTime){
+        var minutes = now.getMinutes();
+        minutes = minutes + IncrementBig;
+        minutes = minutes + (IncrementSmall - (minutes % IncrementSmall));
+        now.setMinutes(minutes);
+        var time = now.getHours() * 100 + now.getMinutes();
+        return [now, time, OldTime, IncrementBig, IncrementSmall];
+    }
+    function addtotime(time, increments){
+        time = time + increments;
+        if (time % 100 >= 60) {
+            return (Math.floor(time / 100) + 1) * 100;
+        }
+        return time;
+    }
+
     function GenerateHours(hours, increments) {
         var now = new Date();//doesn't take into account <= because it takes more than 1 minute to place an order
-        now.setMinutes(now.getMinutes() + 40);//start 40 minutes ahead
-        if (isUndefined(increments)) {
-            increments = 15;
-        }
+        //now.setMinutes(now.getMinutes() + minutes);//start 40 minutes ahead
+        if (isUndefined(increments)) {increments = 15;}
+        var minutes = <?= delivery_time; ?>;
         var dayofweek = now.getDay();
         var minutesinaday = 1440;
         var totaldays = 2;
@@ -1677,8 +1692,13 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         time = time + (increments - (time % increments));
         var oldValue = $("#deliverytime").val();
         var HTML = '';
-        if (isopen(hours, dayofweek, time) > -1) {
+        var temp = gettime(now, minutes, 15, time);
+        log(temp);
+        now = temp[0];
+        time = temp[1];
+        if (isopen(hours, dayofweek, temp[2]) > -1) {
             HTML = '<option value="Deliver Now">Deliver Now (' + GenerateTime(time) + ')</option>';
+            time = addtotime(time, increments);
         }
         var totalInc = (minutesinaday * totaldays) / increments;
         for (var i = 0; i < totalInc; i++) {
@@ -1699,11 +1719,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                     HTML += tempstr + '</OPTION>';
                 }
             }
-
-            time = time + increments;
-            if (time % 100 >= 60) {
-                time = (Math.floor(time / 100) + 1) * 100;
-            }
+            time = addtotime(time, increments);
             if (time >= 2400) {
                 time = time % 2400;
                 dayselapsed += 1;

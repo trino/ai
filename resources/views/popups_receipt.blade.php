@@ -79,6 +79,17 @@
             }
         }
 
+        function parsetime($Time){
+            return strtotime(date("j F Y ") . left($Time,1) . " hours " . right($Time,2) . " minutes" );
+        }
+
+        function roundTime($timestamp, $increment = 15) {
+            $BEFOREminutes = date('i', $timestamp);
+            $AFTERminutes = $increment + $BEFOREminutes - ($BEFOREminutes % $increment);
+            $DIFFERENCEminutes = $AFTERminutes - $BEFOREminutes;
+            return $timestamp + ($DIFFERENCEminutes * 60);
+        }
+
         function GenerateDate($Date){
             $today = date("F j");
             $Date = str_replace($today, "Today (" . $today . ")", $Date);
@@ -116,6 +127,9 @@
             }
         } else if ($Order["deliverytime"] == "Deliver Now") {
             $time = strtotime($Order["placed_at"]) + ($minutes*60);
+            $open = parsetime(gethours($Order["restaurant_id"])[date("w")]["open"])  + ($minutes*60);
+            if($time < $open){$time = $open;}
+            $time = roundTime($time);
             $duration = GenerateDate(date("F j", $time)) . " at " . date("g:i A", $time);
             if(time() > $time){
                 $timer = false;//expired
@@ -144,19 +158,15 @@
 
 @if($includeextradata)
     <h2 class="my-3">Order Arriving {{ $duration }}</h2>
-
-    @if(false)
     @if($timer)
-        <div style="font-size: 2rem !important;" CLASS="countdown btn-lg badge badge-pill badge-success" hours="<?= $hours; ?>" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"><?= $time; ?></div>
+        <div style="font-size: 2rem !important;" CLASS="countdown btn-lg badge badge-pill badge-success" hours="<?= $hours; ?>" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>" title="Time is approximate"><?= $time; ?></div>
     @elseif($place != "email")
         <span class="badge badge-pill badge-danger">[EXPIRED]</span>
     @endif
-    @endif
-
 @endif
 
 @if($style==1)
-    <TABLE <?= inline("table mt-3 table-sm table-bordered");  ?> oldclass="table-responsive">
+    <TABLE <?= inline("table mt-3 table-sm table-bordered"); ?> oldclass="table-responsive">
         <TR>
             <TH>#</TH>
             <TH>Item</TH>
@@ -374,7 +384,7 @@
                                         if ($addoncount > 1) {
                                             $itemtitle = $ordinals[$addonID] . " " . $itemtype . ": ";
                                         }
-                                        $HTML .= $itemtitle . implode(", ", $newtoppings);
+                                        $HTML .= $itemtitle . implode(", ", $newtoppings) . "<BR>";
                                     }
                                 }
                                 if ($style == 1) {
@@ -443,59 +453,32 @@
     ?>
 </TABLE>
 
+<TABLE <?= inline("table table-sm mt-3 table-bordered");  ?> oldclass="table-responsive">
+    <TR>
+        <td>
+            <h2>Delivery Info</h2>
+            <?php
+            echo $Order["name"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . " " . $Order["province"] . " " . $Order["postalcode"] . '<BR>' . $Order["unit"];
+            ?>
+        </td>
 
-
-
-
-
-
-
-
-
-
-
-            <TABLE <?= inline("table table-sm mt-3 table-bordered");  ?> oldclass="table-responsive">
-                <TR>
-                    <td>
-                        <h2>Delivery Info</h2>
-                        <?php
-                        echo $Order["name"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . " " . $Order["province"] . " " . $Order["postalcode"] . '<BR>' . $Order["unit"];
-                        ?>
-                    </td>
-
-                    @if(!isset($JSON))
-                        <td>
-                            <h2>Restaurant</h2>
-                            Order #<span ID="receipt_id"><?= $orderid; ?></span><br>
-                            <?php
-                            $Restaurant = first("SELECT * FROM restaurants WHERE id = " . $Order["restaurant_id"]);
-                            $Raddress = first("SELECT * FROM useraddresses WHERE id = " . $Restaurant["address_id"]);
-                            echo $Restaurant["name"] . "<BR>" . $Raddress["number"] . " " . $Raddress["street"] . "<br>" .
-                                $Raddress["city"] . " " . $Raddress["province"] . " " . $Raddress["postalcode"] . '<BR>' . $Raddress["unit"] . " " . $Restaurant["phone"];
-                            echo '<INPUT TYPE="HIDDEN" ID="cust_latitude" VALUE="' . $Order["latitude"] . '"><INPUT TYPE="HIDDEN" ID="cust_longitude" VALUE="' . $Order["longitude"]
-                                . '"><INPUT TYPE="HIDDEN" ID="rest_latitude" VALUE="' . $Raddress["latitude"]
-                                . '"><INPUT TYPE="HIDDEN" ID="rest_longitude" VALUE="' . $Raddress["longitude"] . '">';
-                            ?>
-                        </td>
-                    @endif
-                </TR>
-            </TABLE>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        @if(!isset($JSON))
+            <td>
+                <h2>Restaurant</h2>
+                Order #<span ID="receipt_id"><?= $orderid; ?></span><br>
+                <?php
+                    $Restaurant = first("SELECT * FROM restaurants WHERE id = " . $Order["restaurant_id"]);
+                    $Raddress = first("SELECT * FROM useraddresses WHERE id = " . $Restaurant["address_id"]);
+                    echo $Restaurant["name"] . "<BR>" . $Raddress["number"] . " " . $Raddress["street"] . "<br>" .
+                        $Raddress["city"] . " " . $Raddress["province"] . " " . $Raddress["postalcode"] . '<BR>' . $Raddress["unit"] . " " . $Restaurant["phone"];
+                    echo '<INPUT TYPE="HIDDEN" ID="cust_latitude" VALUE="' . $Order["latitude"] . '"><INPUT TYPE="HIDDEN" ID="cust_longitude" VALUE="' . $Order["longitude"]
+                        . '"><INPUT TYPE="HIDDEN" ID="rest_latitude" VALUE="' . $Raddress["latitude"]
+                        . '"><INPUT TYPE="HIDDEN" ID="rest_longitude" VALUE="' . $Raddress["longitude"] . '">';
+                ?>
+            </td>
+        @endif
+    </TR>
+</TABLE>
 
 @if($includeextradata)
     <div>
