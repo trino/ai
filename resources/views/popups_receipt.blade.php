@@ -159,7 +159,7 @@
 @if($includeextradata)
     <h2 class="my-3">Order Arriving {{ $duration }}</h2>
     @if($timer)
-        <div style="font-size: 2rem !important;" CLASS="countdown btn-lg badge badge-pill badge-success" hours="<?= $hours; ?>" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>" title="Time is approximate"><?= $time; ?></div>
+        <div style="font-size: 2rem !important;" CLASS="countdown btn-lg badge badge-pill badge-success" hours="<?= $hours; ?>" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>" title="Time is approximate and not a guarantee"><?= $time; ?></div>
     @elseif($place != "email")
         <span class="badge badge-pill badge-danger">[EXPIRED]</span>
     @endif
