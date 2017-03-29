@@ -507,11 +507,11 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 tempHTML += ' <span class="ml-1 receipt-itemname">' + item["itemname"] + '</SPAN> <span class="ml-auto align-middle">';
                 tempHTML += '<span id="cost_' + itemid + '">$' + totalcost;
                 //if (quantity > 1) {tempHTML += ' (' + quantity + ')';}
-                tempHTML += '</span><button class="text-muted fa fa-minus btn-sm" onclick="removeorderitem(' + itemid + ', ' + quantity + ');"></button>';
+                tempHTML += '</span><button class=" fa fa-minus btn-sm" onclick="removeorderitem(' + itemid + ', ' + quantity + ');"></button>';
                 if (hasaddons) {
-                    tempHTML += '<button class="text-muted fa fa-pencil btn-sm" onclick="edititem(this, ' + itemid + ');"></button>';
+                    tempHTML += '<button class=" fa fa-pencil btn-sm" onclick="edititem(this, ' + itemid + ');"></button>';
                 } else {
-                    tempHTML += '<button class="text-muted fa fa-plus btn-sm" onclick="cloneitem(this, ' + itemid + ');"></button>';
+                    tempHTML += '<button class=" fa fa-plus btn-sm" onclick="cloneitem(this, ' + itemid + ');"></button>';
                 }
                 tempHTML += '</SPAN></div>';
 
@@ -1244,7 +1244,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         $(".profiletype_not").show();
         $(".profiletype_not" + user["profiletype"]).hide();
 
-        var HTML = 'red form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION value="0">Address</OPTION>';
+        var HTML = 'red form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION value="0">Select Address</OPTION>';
         var FirstAddress = false;
 
         if (user["Addresses"].length > 0) {

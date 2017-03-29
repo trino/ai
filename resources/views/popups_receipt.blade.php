@@ -143,7 +143,7 @@
 ?>
 
 @if($includeextradata)
-    <h2 class="mt-0">Order for {{ $duration }}</h2>
+    <h2 class="my-3">Order Arriving {{ $duration }}</h2>
 
     @if(false)
     @if($timer)
@@ -156,7 +156,7 @@
 @endif
 
 @if($style==1)
-    <TABLE <?= inline("table table-sm table-bordered");  ?> oldclass="table-responsive">
+    <TABLE <?= inline("table mt-3 table-sm table-bordered");  ?> oldclass="table-responsive">
         <TR>
             <TH>#</TH>
             <TH>Item</TH>
@@ -417,6 +417,7 @@
                 echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Delivery&nbsp;</TD><TD ALIGN="RIGHT">$' . number_format($deliveryfee, 2) . '</TD></TR>';
                 echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Tax&nbsp;</TD><TD ALIGN="RIGHT">$' . number_format($tax, 2) . '</TD></TR>';
                 echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Total&nbsp;</TD><TD ALIGN="RIGHT">$' . number_format($total, 2) . '</TD></TR>';
+                echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">&nbsp;</TD><TD ALIGN="RIGHT"><span style="color:red !important;">Paid</span></TD></TR>';
                 if ($Order["cookingnotes"]) {
                     echo '<TR><TD COLSPAN="' . $colspan . '"><B>Notes: </B>' . $Order["cookingnotes"] . '</TD></TR>';
                 }
@@ -453,7 +454,7 @@
 
 
 
-            <TABLE <?= inline("table table-sm table-bordered");  ?> oldclass="table-responsive">
+            <TABLE <?= inline("table table-sm mt-3 table-bordered");  ?> oldclass="table-responsive">
                 <TR>
                     <td>
                         <h2>Delivery Info</h2>

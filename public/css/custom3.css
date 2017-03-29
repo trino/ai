@@ -16,7 +16,6 @@ button, .btn-sm, a,.btn  {
     font-weight: bold !important;
 
 
-    padding: .25rem .5rem;
     font-size: .875rem;
     border-radius: .2rem;
 
@@ -74,7 +73,6 @@ h2 {
     padding: 0 !important;
     font-weight: bold;
     margin: .5rem 0 !important;
-    color:#999;
 }
 
 .list-group-item, .modal-header {
@@ -92,13 +90,6 @@ h2 {
     */
 }
 
-.col-lg-3 {
-
-}
-
-{
-
-}
 .container-fluid {
     max-width: 1400px !important;
 }
@@ -145,7 +136,7 @@ h2 {
 }
 
 .bg-secondary {
-    background: #dcdcdc !important;
+    background: #e7e7e7 !important;
     color: white;
 }
 
@@ -163,7 +154,7 @@ h2 {
     text-align: center;
 }
 
-.dropdown-menu {
+.dropdown-menu,.modal-content , .container-fluid{
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
@@ -249,11 +240,9 @@ body.loading #loadingmodal {
 }
 
 .bg-white {
-    background-color: #fff !important;
 }
 
 .bg-black {
-    background-color: #111;
 }
 
 .n55555avbar {

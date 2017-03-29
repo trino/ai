@@ -5,12 +5,12 @@
     if (!isset($icons)) {$icons = false;}
     switch ($style) {
         case 0:
-            echo '<DIV CLASS="row"><DIV CLASS="col-md-2">Address:</DIV><DIV CLASS="col-md-10" ID="gmapc">';
+            echo '<DIV CLASS="row"><DIV CLASS="col-md-2">Address</DIV><DIV CLASS="col-md-10" ID="gmapc">';
             echo '<INPUT class="form-control" TYPE="text" ID="formatted_address" ' . $required . ' name="formatted_address"></div></DIV>';
             break;
         case 1:
             if($icons) {echo '<div class="input_left_icon"><i class="fa fa-home"></i></div><div class="input_right">';}
-            echo '<SPAN ID="gmapc"><INPUT TYPE="text" ID="formatted_address" PLACEHOLDER="Address" CLASS="form-control formatted_address"  ' . $required . ' name="formatted_address"></SPAN>';
+            echo '<SPAN ID="gmapc"><INPUT TYPE="text" ID="formatted_address" PLACEHOLDER="Delivery Address" CLASS="form-control formatted_address"  ' . $required . ' name="formatted_address"></SPAN>';
             if($icons) {echo '</div>';}
             echo '<STYLE>.address:focus{z-index: 999;}</STYLE>';
             break;
@@ -25,7 +25,7 @@
 </STYLE>
     @if($form) <FORM ID="googleaddress"> @endif
         @if($icons) <div class="input_left_icon"><i class="fa fa-pencil"></i></div><div class="input_right"> @endif
-        <INPUT TYPE="text" NAME="unit" ID="add_unit" PLACEHOLDER="Address Notes" CLASS="form-control address">
+        <INPUT TYPE="text" NAME="unit" ID="add_unit" PLACEHOLDER="Driving Directions" CLASS="form-control address">
         @if($icons) </div> @endif
         <INPUT TYPE="text" NAME="number" ID="add_number" PLACEHOLDER="Street Number" {{ $required }} CLASS="form-control street_number address dont-show">
         <INPUT TYPE="text" NAME="street" ID="add_street" PLACEHOLDER="Street" {{ $required }} CLASS="form-control route address dont-show">
