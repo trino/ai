@@ -1,23 +1,23 @@
 <?php
-    startfile("popups_login");
-    $minimum = number_format(first("SELECT price FROM additional_toppings WHERE size = 'Minimum'")["price"], 2);
-    $delivery = number_format(first("SELECT price FROM additional_toppings WHERE size = 'Delivery'")["price"], 2);
+startfile("popups_login");
+$minimum = number_format(first("SELECT price FROM additional_toppings WHERE size = 'Minimum'")["price"], 2);
+$delivery = number_format(first("SELECT price FROM additional_toppings WHERE size = 'Delivery'")["price"], 2);
 ?>
 <div class="row">
     <DIV CLASS="col-lg-3 col-md-4">
         <DIV CLASS="btn-sm-padding bg-white">
             <ul class="nav nav-tabs mb-1" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#profile" role="tab" data-toggle="tab" id="logintab" onclick="skiploadingscreen = false;">Log In</a>
+                    <a class="nav-link active" href="#profile" role="tab" data-toggle="tab" id="logintab" onclick="skiploadingscreen = false;" style="font-weight: bold">Log In</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#buzz" role="tab" data-toggle="tab" id="signuptab" onclick="skiploadingscreen = true;">Sign Up</a>
+                    <a class="nav-link" href="#buzz" role="tab" data-toggle="tab" id="signuptab" onclick="skiploadingscreen = true;"  style="font-weight: bold">Sign Up</a>
                 </li>
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active" id="profile">
-                    <div class="input_left_icon"><i class="fa fa-user"></i></div>
+                    <div class="input_left_icon"><i class="fa fa-envelope"></i></div>
                     <div class="input_right">
                         <INPUT TYPE="text" id="login_email" placeholder="Email" class="form-control" onkeydown="enterkey(event, '#login_password');" required>
                     </div>
@@ -35,9 +35,9 @@
                 <div role="tabpanel" class="tab-pane fade" id="buzz">
                     <FORM id="addform">
                         <?php
-                            if (!read("id")) {
-                                echo view("popups_address", array("style" => 1, "required" => true, "icons" => true))->render();
-                            }
+                        if (!read("id")) {
+                            echo view("popups_address", array("style" => 1, "required" => true, "icons" => true))->render();
+                        }
                         ?>
                     </FORM>
                     <FORM Name="regform" id="regform">
@@ -70,7 +70,7 @@
     var minlength = 5;
     var getcloseststore = false;
     lockloading = true;
-    blockerror=true;
+    blockerror = true;
 
     function register() {
         if (isvalidaddress()) {
@@ -78,7 +78,7 @@
         } else if ($("#reg_address-error").length == 0) {
             $('<label id="reg_address-error" class="error" for="reg_name">Please enter a valid London address</label>').insertAfter("#formatted_address");
         }
-        redirectonlogin=false;
+        redirectonlogin = false;
         $('#regform').submit();
     }
 
@@ -137,7 +137,7 @@
                             $("#logintab").trigger("click");
                             $("#login_email").val(formdata["email"]);
                             $("#login_password").val(formdata["password"]);
-                            redirectonlogin=true;
+                            redirectonlogin = true;
                             handlelogin('login');
                         } catch (e) {
                             alert(result, "Registration");

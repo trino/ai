@@ -3,8 +3,8 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="myModalLabel">My Account</h2>
-                <button data-popup-close="profilemodal" data-dismiss="modal" class="btn btn-sm"><i class="fa fa-close"></i></button>
+                <h2 id="myModalLabel" class=" align-middle">My Account</h2>
+                <button data-popup-close="profilemodal" data-dismiss="modal" class="btn btn-sm ml-auto align-middle bg-transparent"><i class="fa fa-close"></i></button>
             </div>
 
             <div class="modal-body">

@@ -1729,9 +1729,9 @@
             <div class="modal" id="ordermodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <button data-dismiss="modal" class="btn btn-sm"><i class="fa fa-close"></i></button>
-                            <h2 id="myModalLabel">View Order</h2>
+                        <div class="modal-header">                            <h2 class="" id="myModalLabel">View Order</h2>
+
+                            <button data-dismiss="modal" class="btn btn-sm ml-auto align-middle"><i class="fa fa-close"></i></button>
                         </div>
 
                         <div class="modal-body">
