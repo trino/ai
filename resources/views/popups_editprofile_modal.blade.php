@@ -23,12 +23,11 @@
                 <div CLASS="editprofilediv">
                     <DIV ID="cardlist"></DIV>
                 </div>
-                <div class="alert alert-info mt-3" style="font-size: .85rem">
-                    > Past orders can be found in your email<br>
-                    > Add New Address on Checkout
-                    <br> > Add New Credit/Debit Card on Checkout
-                    <br>
-                    > <a href="help" class="btn-link">More Info</a>
+                <div class="alert alert-warning mt-3" style="font-size: .85rem">
+                    > Past orders can be found in your email
+                    <br> > Add a new address on checkout
+                    <br> > Add a new credit/debit card on checkout
+                    <br> > <a href="help" class="btn-link">More Info</a>
                 </div>
                 <!--div CLASS="editprofilediv mt-2">
                     <button ONCLICK="orders();" CLASS="btn btn-primary" href="#">PAST ORDERS</button>

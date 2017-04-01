@@ -261,9 +261,11 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
     function isvalidaddress() {
         var fields = ["formatted_address", "add_latitude", "add_longitude"];//, "add_postalcode"
+
         if ($("#add_city").val().toLowerCase() != "london") {
-            return false;
+          //  return false;
         }
+
         for (i = 0; i < fields.length; i++) {
             var value = $("#" + fields[i]).val();
             log(fields[i] + ": " + value.length + " chars = " + value);
@@ -501,17 +503,17 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                     sprite += " sprite-" + toclassname(item["itemname"].trim()).replaceAll("_", "-").replace(/\./g, '');
                 }
 
-                tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item list-group-item"><span CLASS=" rounded-circle bg-white  sprite sprite-' + sprite + ' sprite-medium"></span>';
+                tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item list-group-item"><span CLASS=" rounded-circle bg-warning  sprite sprite-' + sprite + ' sprite-medium"></span>';
                 if(quantity > 1) {tempHTML += '<SPAN CLASS="item_qty">' + quantity + 'x </SPAN>';}
                 // tempHTML += '<span title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '" class="receipt_itemcost"></span>';
                 tempHTML += ' <span class="ml-1 receipt-itemname">' + item["itemname"] + '</SPAN> <span class="ml-auto align-middle">';
                 tempHTML += '<span id="cost_' + itemid + '">$' + totalcost;
                 //if (quantity > 1) {tempHTML += ' (' + quantity + ')';}
-                tempHTML += '</span><button class="bg-transparent  fa fa-minus btn-sm" onclick="removeorderitem(' + itemid + ', ' + quantity + ');"></button>';
+                tempHTML += '</span><button class="bg-transparent  text-muted  fa fa-minus btn-sm" onclick="removeorderitem(' + itemid + ', ' + quantity + ');"></button>';
                 if (hasaddons) {
-                    tempHTML += '<button class="bg-transparent  fa fa-pencil btn-sm" onclick="edititem(this, ' + itemid + ');"></button>';
+                    tempHTML += '<button class="bg-transparent text-muted  fa fa-pencil btn-sm" onclick="edititem(this, ' + itemid + ');"></button>';
                 } else {
-                    tempHTML += '<button class="bg-transparent fa fa-plus btn-sm" onclick="cloneitem(this, ' + itemid + ');"></button>';
+                    tempHTML += '<button class="bg-transparent text-muted  fa fa-plus btn-sm" onclick="cloneitem(this, ' + itemid + ');"></button>';
                 }
                 tempHTML += '</SPAN></div>';
 
@@ -1991,7 +1993,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             }
 
             HTML += '<button class="thirdwidth toppings_btn list-group-item-action bg-white" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button>' +
-                '<button class=" bg-white thirdwidth text-primary toppings_btn" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button>';
+                '<button class=" list-group-item-action bg-white thirdwidth text-primary toppings_btn strong" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button>';
 
             $("#addonlist").html(HTML);
             $(".addon-addon").click(

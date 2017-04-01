@@ -393,8 +393,7 @@
                 }
 
                 .status-email{
-                    height: 38px;
-                    padding-top: 6px;
+
                 }
 
                 label.btn{
@@ -540,7 +539,7 @@
             </div>
             @if($profiletype == 1 || !$adminsonly)
                 <SCRIPT>//              0            1           2           3            4
-                    var statuses = ["Pending", "Confirmed", "Declined", "Delivered", "Canceled"];
+                    var statuses = ["Pending", "Confirmed", "Decline Order", "Delivered", "Canceled"];
                     var usertype = ["Customer", "Admin", "Restaurant"];
                     var profiletype = '<?= $profiletype; ?>';
 
@@ -1417,7 +1416,7 @@
                             if(result) {
                                 var button = '<DIV CLASS="col-md-6"><button data-dismiss="modal" class="width-full btn btn-';
                                 var HTML = '<DIV CLASS="row col-md-12" style="padding-left: 25px;">';// + button + 'primary status-confirmed" onclick="changeorderstatus(' + ID + ', 1);">' + statuses[1] + '</button></DIV>';
-                                HTML += button + 'secondary pull-center red status-email" onclick="changeorderstatus(' + ID + ');"><i class="fa fa-envelope"></I> Email</button></DIV>';
+                                HTML += button + 'secondary pull-center red status-email" onclick="changeorderstatus(' + ID + ');">Email Receipt To Customer</button></DIV>';
                                 //HTML += button + 'warning pull-right status-delivered" onclick="changeorderstatus(' + ID + ', 3);">' + statuses[3] + '</button></DIV>';
                                 HTML += button + 'danger pull-right status-declined" onclick="changeorderstatus(' + ID + ', 2);">' + statuses[2] + '</button></DIV></DIV>';
                                 $("#ordercontents").html(result + HTML);

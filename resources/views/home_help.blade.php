@@ -139,10 +139,9 @@
     ?>
     <DIV class="row py-3 bg-white" style="">
         <div class="col-sm-6 list-padding">
-            <h3>About Us </h3>
+            <h3>Our Duty </h3>
 
             <div class="card-block bg-danger text-white">
-                <h2 class="text-white MT-0">Our Duty </h2>
                 <p>
                     londonpizza.ca has been in the works for over 5 years.
                     Created by Van and Roy, natives of Hamilton, Ontario.
@@ -154,10 +153,10 @@
                 <hr>
 
                 <div class="btn-outlined-danger text-center pt-1">
-                    <strong><?= $launchdate . $launched; ?></strong>
-                    <p>Orders: <?= $orders; ?>
+                    <strong>April, 2017</strong>
+                    <p> Orders: <?= $orders; ?>
                     <br> Donated: $<?= number_format((float)$orders * 0.25, 2, '.', ''); ?>
-                    <br>Charity: London Food Bank</p>
+                    <br> Charity: London Food Bank</p>
                 </div>
             </div>
         </div>
