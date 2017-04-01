@@ -2,7 +2,7 @@
 
 <div class="list-group-item">
     <h2 class="mr-auto align-left"> My Order</h2>
-    <button class="btn-sm dont-show ml-auto align-right  " ONCLICK="confirmclearorder();" id="confirmclearorder"><i class="fa fa-close"></i></button>
+    <button class="btn-sm dont-show ml-auto align-right bg-transparent   " ONCLICK="confirmclearorder();" id="confirmclearorder"><i class="fa fa-close"></i></button>
 </div>
 
 <div id="myorder"></div>

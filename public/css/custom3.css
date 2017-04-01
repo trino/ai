@@ -152,9 +152,10 @@ h2 {
 .icon-width {
     width: 24px;
     text-align: center;
+    margin-right:.5rem;
 }
 
-.dropdown-menu,.modal-content , .container-fluid{
+.dropdown-menu,.modal-content{
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
@@ -281,19 +282,19 @@ body {
 
 
     background: rgba(174, 149, 86, .45);
-    background: #fafafa;
-   */
     background: #e7e7e7;
+   */
+    background: transparent;
 }
 
 .full {
-    /*
+
         background: url(../../public/images/background.jpg) no-repeat center center fixed;
         -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;
-    */
+
 }
 
 @media screen and (max-width: 400px) {
@@ -421,6 +422,7 @@ option {
 
 
 .nav-tabs .nav-link {
+    padding: 1rem .5rem;
 }
 
 .fab {

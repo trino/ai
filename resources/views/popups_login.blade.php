@@ -5,13 +5,13 @@ $delivery = number_format(first("SELECT price FROM additional_toppings WHERE siz
 ?>
 <div class="row">
     <DIV CLASS="col-lg-3 col-md-4">
-        <DIV CLASS="btn-sm-padding bg-white">
+        <DIV CLASS="btn-sm-padding bg-white" style="padding-bottom: .5rem !important;">
             <ul class="nav nav-tabs mb-1" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" href="#profile" role="tab" data-toggle="tab" id="logintab" onclick="skiploadingscreen = false;" style="font-weight: bold">Log In</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#buzz" role="tab" data-toggle="tab" id="signuptab" onclick="skiploadingscreen = true;"  style="font-weight: bold">Sign Up</a>
+                    <a class="nav-link" href="#buzz" role="tab" data-toggle="tab" id="signuptab" onclick="skiploadingscreen = true;" style="font-weight: bold">Sign Up</a>
                 </li>
             </ul>
             <!-- Tab panes -->
@@ -64,6 +64,18 @@ $delivery = number_format(first("SELECT price FROM additional_toppings WHERE siz
 
         <DIV CLASS="clearfix"></DIV>
     </DIV>
+    <div class="col-lg-9 col-md-8" style="opacity: .5">
+
+        <!--div class="jumbotron" style="border-radius: 0">
+            <h1 class="display-3">Hello, world!</h1>
+            <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+            <hr class="my-4">
+            <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+            <p class="lead">
+                <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+            </p>
+        </div-->
+    </div>
 </div>
 <SCRIPT>
     redirectonlogin = true;
