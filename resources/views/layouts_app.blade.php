@@ -44,8 +44,7 @@
 
     <link rel="stylesheet" href="<?= $css; ?>/bootstrap.min.css">
 
-    <link rel="stylesheet" href="<?= $css . "/custom3.css"?>">
-
+        <link rel="stylesheet" href="<?= $css . "/custom3.css?v=" . time(); ?>">
     <script src="<?= $scripts; ?>/jquery.min.js"></script>
     <script src="<?= $scripts; ?>/tether.min.js"></script>
     <script src="<?= $scripts; ?>/bootstrap.min.js"></script>

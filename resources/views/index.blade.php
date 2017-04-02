@@ -29,7 +29,7 @@
                 }
 
                 //menu caching
-                $doCache = true;//disabled for development
+                $doCache = false;//disabled for development
                 $menucache_filename = resource_path() . "/menucache.html";
                 $menublade_filename = resource_path() . "/views/popups_menu.blade.php";
                 $menucache_uptodate = isFileUpToDate("menucache", $menucache_filename) && !isFileUpToDate("menucache", $menublade_filename);

@@ -231,13 +231,21 @@ class HomeController extends Controller
         if (!$info) {
             $info = first("SELECT * FROM orders WHERE id = " . $orderid);
         }
+
         $user = first("SELECT * FROM users WHERE id = " . $info["user_id"]);
+        $admin = first("SELECT * FROM users WHERE profiletype = 1");
         if ($party > -2) {
             $actions = actions($event, $party);
             if ($party > -1) {
                 $actions = array($actions);
             }
+            //     dd($actions);
             foreach ($actions as $action) {
+                $party = null;
+                $email = null;
+                $phone = null;
+                $phone_restro = null;
+
                 switch ($action["party"]) {
                     case 0://customer
                         $party = "customer";
@@ -246,20 +254,27 @@ class HomeController extends Controller
                         break;
                     case 1://admin
                         $party = "admin";
-                        $email = "admin";
-                        $phone = "admin";
+                        $email = $admin["email"];
+                        $phone = $admin["phone"];
                         break;
                     case 2://restaurant
                         $restaurant = $this->processrestaurant($info["restaurant_id"]);
                         $party = "restaurant";
                         $email = $restaurant["user"]["email"];
+
+                        $phone_restro = filternonnumeric($restaurant["restaurant"]["phone"]);
                         $phone = filternonnumeric($restaurant["user"]["phone"]);
-                        $phone2 = filternonnumeric($restaurant["restaurant"]["phone"]);
+
+                        /*   $phone = filternonnumeric($restaurant["user"]["phone"]);
                         if ($phone != $phone2) {
                             $phone = array($phone, $phone2);
                         }
+                        */
+
                         break;
                 }
+
+
                 if ($Reason) {
                     $action["message"] = str_replace("[reason]", $Reason, $action["message"]);
                 }
@@ -268,12 +283,18 @@ class HomeController extends Controller
                     $this->sendEMail("email_receipt", ["orderid" => $orderid, "email" => $email, "mail_subject" => $action["message"]]);//send emails to customer also generates the cost
                 }
                 if ($action["sms"]) {
+                    debugprint("Sending SMS to " . $party . ": " . var_export($phone, true));
                     $this->sendSMS($phone, $action["message"]);
-                    debugprint("Sending sms to " . $party . ": " . var_export($phone, true));
                 }
                 if ($action["phone"]) {
-                    $this->sendSMS($phone, $action["message"], true);
+
+                    //if SMS restro then SMS user of the restro instead since all of the restro phones are lan lines
+                    if (isset($phone_restro)) {
+                        $phone = $phone_restro;
+                    }
+
                     debugprint("Calling " . $party . ": " . var_export($phone, true));
+                    $this->sendSMS($phone, $action["message"], true);
                 }
             }
         }
