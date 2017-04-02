@@ -25,7 +25,7 @@
 </STYLE>
     @if($form) <FORM ID="googleaddress"> @endif
         @if($icons) <div class="input_left_icon"><i class="fa fa-pencil"></i></div><div class="input_right"> @endif
-        <INPUT TYPE="text" NAME="unit" ID="add_unit" PLACEHOLDER="Driving Directions" CLASS="form-control address">
+        <INPUT TYPE="text" NAME="unit" ID="add_unit" PLACEHOLDER="Notes" CLASS="form-control address">
         @if($icons) </div> @endif
         <INPUT TYPE="text" NAME="number" ID="add_number" PLACEHOLDER="Street Number" {{ $required }} CLASS="form-control street_number address dont-show">
         <INPUT TYPE="text" NAME="street" ID="add_street" PLACEHOLDER="Street" {{ $required }} CLASS="form-control route address dont-show">
