@@ -1,14 +1,14 @@
 <?php
-startfile("popups_alljs");
-$CURRENT_YEAR = date("Y");
-$STREET_FORMAT = "[number] [street], [city] [postalcode]";
-//["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
+    startfile("popups_alljs");
+    $CURRENT_YEAR = date("Y");
+    $STREET_FORMAT = "[number] [street], [city] [postalcode]";
+    //["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
 ?>
 
 <script>
     var is_firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
     var is_android = navigator.userAgent.toLowerCase().indexOf('android') > -1;
-    var is_firefox_for_android = true;// is_firefox && is_android;
+    var is_firefox_for_android = is_firefox && is_android;
     var currentitemID = -1;
     var MAX_DISTANCE = 20;//km
     var debugmode = false;//'<?= !islive(); ?>' == '1';
@@ -1419,6 +1419,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     }
 
     function payfororder() {
+        $(".payment-errors").html("");
         if (!canplaceanorder()) {
             return cantplaceorder();
         }
@@ -1426,7 +1427,6 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             return false;
         }
         var $form = $('#orderinfo');
-        $(".payment-errors").html("");
         log("Attempt to pay: " + changecredit());
         if (!changecredit()) {//new card
             log("Stripe data");

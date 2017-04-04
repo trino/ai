@@ -392,10 +392,6 @@
                     padding-left: 8px;
                 }
 
-                .status-email{
-
-                }
-
                 label.btn{
                     margin-bottom: 0px;
                     margin-left: 4px;
@@ -405,6 +401,35 @@
                     position: relative;
                     vertical-align: middle;
                     bottom: 1px;
+                }
+
+                .titlecol{
+                    padding-left: 4px !important;
+                    padding-right: 4px !important;
+                    width: 1px;
+                    white-space: nowrap;
+                }
+
+                .old-btn-xs{
+                    border-radius: 0;
+                    width: 18px !important;
+                    height: 23px;
+                    padding-left: 0px;
+                    padding-right: 0px;
+                    font-size: small !important;
+                }
+
+                .btn-toggle{
+                    border-radius: 0;
+                    width: 18px !important;
+                    height: 23px;
+                    border: 2px solid white;
+                    background-color: #d9534f;
+                    color: white;
+                    padding-top: 1px;
+                    padding-left: 2px;
+                    padding-right: 3px !important;
+
                 }
             </STYLE>
             <div class="row m-t-1">
@@ -648,6 +673,22 @@
                         //$( TableID ).width( $( TableID ).width() + addtottable );
                     }
 
+                    function updatesort(source){
+                        if(source == 2) {//button (direction)
+                            if($("#direction").hasClass("fa-arrow-down")){
+                                $("#direction").removeClass("fa-arrow-down").addClass("fa-arrow-up");
+                            } else {
+                                $("#direction").removeClass("fa-arrow-up").addClass("fa-arrow-down");
+                            }
+                        }
+                        var column = $("#sortby").val();
+                        var direct = "ASC";
+                        if($("#direction").hasClass("fa-arrow-down")){
+                            direct = "DESC";
+                        }
+                        sort(column, direct);
+                    }
+
                     //gets a page of data from the server, convert it to HTML
                     function getpage(index, makenew){
                         if(index==-1){index = lastpage;}
@@ -702,14 +743,16 @@
                                             }
                                             if(TableStyle == '1'){
                                                 var formatted = tofieldname(fields[v]);
-                                                tempHTML += '<TR><TD WIDTH="25%" CLASS="' + evenodd;
+                                                tempHTML += '<TR><TD NOWRAP CLASS="titlecol ' + evenodd + '"><SPAN CLASS="pull-center"><STRONG>' + formatted + '</STRONG></SPAN></TD>';
+                                                /*
                                                 if(sort_col == fields[v]){tempHTML += ' selected-th';}
-                                                tempHTML += '">' + '<SPAN CLASS="pull-center"><i class="btn btn-sm btn-primary fa fa-arrow-down pull-left desc_' + fields[v];
+                                                tempHTML += '"><SPAN CLASS="pull-center"><i class="btn btn-xs btn-primary fa fa-arrow-down pull-left desc_' + fields[v];
                                                 if(sort_col == fields[v] && sort_dir == "DESC"){tempHTML += ' selected-i';}
                                                 tempHTML += '" onclick="sort(' + "'" + fields[v] + "', 'DESC'" + ')" TITLE="Sort by ' + formatted + ' descending"></i><STRONG>' + formatted;
-                                                tempHTML += '</STRONG> <i class="btn btn-sm btn-primary fa fa-arrow-up pull-right asc_' + fields[v];
+                                                tempHTML += '</STRONG> <i class="btn btn-xs btn-primary fa fa-arrow-up pull-right asc_' + fields[v];
                                                 if(sort_col == fields[v] && sort_dir == "ASC"){tempHTML += ' selected-i';}
                                                 tempHTML += '" onclick="sort(' + "'" + fields[v] + "', 'ASC'" + ')" TITLE="Sort by ' + formatted + ' ascending"></i></SPAN></TD>';
+                                                */
                                             }
                                             tempHTML += '<TD NOWRAP ID="' + table + "_" + ID + "_" + fields[v] + '" class="field ' + evenodd + '" field="' + fields[v] + '" index="' + ID + '">' + field + '</TD>';
                                             if(TableStyle == '1'){tempHTML += '</TR>';}
@@ -761,6 +804,17 @@
                                 $("#data > TBODY").html(HTML);
                                 checkheaders("#data");
                                 generatepagelist(data.count, index);
+                                if(TableStyle == 1){
+                                    HTML = 'Sort by: <SELECT ID="sortby" onchange="updatesort(1);">';
+                                    for(var i=0; i<fields.length; i++){
+                                        HTML += '<OPTION VALUE="' + fields[i] + '"';
+                                        if(sort_col == fields[i]){HTML += ' SELECTED';}
+                                        HTML += '>' + tofieldname(fields[i]) + '</OPTION>';
+                                    }
+                                    HTML += '</SELECT><i ID="direction" class="btn btn-xs btn-primary btn-toggle fa fa-arrow-';
+                                    if(sort_dir == "DESC"){HTML += "down";} else {HTML += 'up';}
+                                    $("#sortcols").html(HTML + '" onclick="updatesort(2);" TITLE="Change direction"></i>');
+                                }
 
                                 @if($profiletype == 1)
                                     $(".field").dblclick(function() {//set field double click handler
@@ -1199,7 +1253,7 @@
                         var pages = Math.ceil(Number(itemcount) / itemsperpage);
                         lastpage = pages-1;
                         var HTML = '<BUTTON CLASS="btn btn-sm btn-success" onclick="newitem();">New</BUTTON>';
-                        if(TableStyle == '1'){HTML = "";}
+                        if(TableStyle == '1'){HTML = '<SPAN ID="sortcols"></SPAN>';}
                         HTML += '<TABLE BORDER="1" CLASS="pull-right"><TR>';
                         var printpages = 10;
                         if(pages > 1){
