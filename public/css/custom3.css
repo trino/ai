@@ -808,3 +808,30 @@ table tr td:last-child, table tr th:last-child {
         color: black;
     }
 }
+
+.fake-form-control{
+    height: 37px !important;
+    border-radius: 0;
+    border: 0;
+    background-color: #DEDEDE;
+    padding-left: 15px;
+}
+
+.fake-address{
+    position: absolute;
+    top: 10px;
+}
+
+.full-height{
+    height:100%;
+}
+
+.separator{
+    height: 1px;
+}
+
+.pull-down-right{
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+}

@@ -42,7 +42,7 @@
         $(window).load(function () {
             var HTML = $("#gmapc").html();
             $("#gmapffac").html(HTML);
-            $("#gmapc").html('<SPAN CLASS="address" ID="ffaddress"></SPAN><BUTTON CLASS="btn btn-sm btn-primary radius0 pull-right" ONCLICK="handlefirefox();">EDIT</BUTTON>');
+            $("#gmapc").html('<DIV CLASS="fake-form-control"><SPAN CLASS="address fake-address" ID="ffaddress"></SPAN><BUTTON CLASS="btn btn-sm btn-primary radius0 pull-right full-height" ONCLICK="handlefirefox();">EDIT</BUTTON></DIV><DIV CLASS="separator"></DIV>');
             initAutocomplete();
         });
     }

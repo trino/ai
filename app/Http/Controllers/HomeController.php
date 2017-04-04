@@ -10,8 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Task;
 use App\Repositories\TaskRepository;
 
-class HomeController extends Controller
-{
+class HomeController extends Controller {
     public function index(Request $request){
         return view("home_keyword")->render();
     }
@@ -39,6 +38,11 @@ class HomeController extends Controller
             $user_id = read("id");
         }
         return view("home_edituser", array("user_id" => $user_id))->render();
+    }
+
+    public function robocall(Request $request){
+        echo '<?xml version="1.0" encoding="UTF-8"?><Response><Say voice="woman" language="en">' . $_GET["message"] . '</Say></Response>';
+        die();
     }
 
     public function edit(Request $request){
@@ -222,7 +226,6 @@ class HomeController extends Controller
         if (!$info) {
             $info = first("SELECT * FROM orders WHERE id = " . $orderid);
         }
-
         $user = first("SELECT * FROM users WHERE id = " . $info["user_id"]);
         $admin = first("SELECT * FROM users WHERE profiletype = 1");
         if ($party > -2) {
@@ -230,7 +233,6 @@ class HomeController extends Controller
             if ($party > -1) {
                 $actions = array($actions);
             }
-            //     dd($actions);
             foreach ($actions as $action) {
                 $party = null;
                 $email = null;
@@ -256,7 +258,7 @@ class HomeController extends Controller
                         $phone_restro = filternonnumeric($restaurant["restaurant"]["phone"]);
                         $phone = filternonnumeric($restaurant["user"]["phone"]);
 
-                        /*   $phone = filternonnumeric($restaurant["user"]["phone"]);
+                        /*
                         if ($phone != $phone2) {
                             $phone = array($phone, $phone2);
                         }
@@ -278,12 +280,10 @@ class HomeController extends Controller
                     $this->sendSMS($phone, $action["message"]);
                 }
                 if ($action["phone"]) {
-
                     //if SMS restro then SMS user of the restro instead since all of the restro phones are lan lines
                     if (isset($phone_restro)) {
                         $phone = $phone_restro;
                     }
-
                     debugprint("Calling " . $party . ": " . var_export($phone, true));
                     $this->sendSMS($phone, $action["message"], true);
                 }

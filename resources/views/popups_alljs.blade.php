@@ -8,7 +8,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 <script>
     var is_firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
     var is_android = navigator.userAgent.toLowerCase().indexOf('android') > -1;
-    var is_firefox_for_android = is_firefox && is_android;
+    var is_firefox_for_android = true;// is_firefox && is_android;
     var currentitemID = -1;
     var MAX_DISTANCE = 20;//km
     var debugmode = false;//'<?= !islive(); ?>' == '1';
@@ -572,11 +572,11 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             $("#checkout-total").text('$0.00');
         } else {
             tempHTML = "";
-            if (subtotal >= minimumfee) {
+            if (totalcost >= minimumfee) {
                 $("#checkout-btn").show();
             } else {
                 $("#checkout-btn").hide();
-                tempHTML += '<button CLASS="list-padding bg-secondary btn-block text-normal">minimum $' + minimumfee + ' sub-total to order</button>';
+                tempHTML += '<button CLASS="list-padding bg-secondary btn-block text-normal">minimum $' + minimumfee + ' total to order</button>';
             }
             tempHTML += '<DIV id="newvalues"';
             if (fadein || forcefade) {
@@ -1246,7 +1246,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         $(".profiletype_not").show();
         $(".profiletype_not" + user["profiletype"]).hide();
 
-        var HTML = 'red form-control saveaddresses" id="saveaddresses" onchange="addresschanged();"><OPTION value="0">Select Address</OPTION>';
+        var HTML = 'red form-control saveaddresses" id="saveaddresses" onchange="addresschanged(' + 'saveaddress' + ');"><OPTION value="0">Select Address</OPTION>';
         var FirstAddress = false;
 
         if (user["Addresses"].length > 0) {
@@ -1306,7 +1306,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     }
 
     //address dropdown changed
-    function addresschanged() {
+    function addresschanged(why) {
         clearphone();
         var Selected = $("#saveaddresses option:selected");
         var SelectedVal = $(Selected).val();
@@ -1337,7 +1337,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 visible_address(true);
                 $("#add_unit").show();
                 Text = "";
-                handlefirefox();
+                handlefirefox("addresschanged:" + why);
             }
         }
         $("#formatted_address").val(Text);
@@ -1345,8 +1345,10 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         addresshaschanged();
     }
 
-    function handlefirefox(){
+    function handlefirefox(why){
+        if(why == "addresschanged:showcheckout"){return false;}
         if(is_firefox_for_android){
+            log("handlefirefox Why: " + why);
             $("#ffaddress").show();
             $("#checkoutmodal").modal("hide");
             $("#firefoxandroid").show();
@@ -1588,12 +1590,12 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         if (userdetails["Addresses"].length == 0) {
             setTimeout(function () {
                 $("#saveaddresses").val("addaddress");
-                addresschanged();
+                addresschanged("showcheckout");
             }, 100);
         } else {
             $("#saveaddresses").val(0);
         }
-        addresschanged();
+        addresschanged("showcheckout");
         var HTML = $("#checkoutaddress").html();
         HTML = HTML.replace('class="', 'class="corner-top ');
         if (loadsavedcreditinfo()) {
