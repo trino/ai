@@ -185,7 +185,7 @@
             </div>
 
             <div class="list-group-item bg-white">
-                <h2 class="text-normal " id="myModalLabel">
+                <h2 class="text-normal" id="myModalLabel">
                     <SPAN ID="modal-itemname"></SPAN><br>
                     <small ID="toppingcost" class="nowrap text-muted">+$<SPAN id="modal-toppingcost"></SPAN> per topping</small>
                 </h2>

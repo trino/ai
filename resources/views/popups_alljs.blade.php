@@ -503,17 +503,17 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                     sprite += " sprite-" + toclassname(item["itemname"].trim()).replaceAll("_", "-").replace(/\./g, '');
                 }
 
-                tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item list-group-item"><span CLASS=" rounded-circle bg-warning  sprite sprite-' + sprite + ' sprite-medium"></span>';
+                tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item list-group-item"><span CLASS="rounded-circle bg-warning sprite sprite-' + sprite + ' sprite-medium"></span>';
                 if(quantity > 1) {tempHTML += '<SPAN CLASS="item_qty">' + quantity + 'x </SPAN>';}
                 // tempHTML += '<span title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '" class="receipt_itemcost"></span>';
                 tempHTML += ' <span class="ml-1 receipt-itemname">' + item["itemname"] + '</SPAN> <span class="ml-auto align-middle">';
                 tempHTML += '<span id="cost_' + itemid + '">$' + totalcost;
                 //if (quantity > 1) {tempHTML += ' (' + quantity + ')';}
-                tempHTML += '</span><button class="bg-transparent  text-muted  fa fa-minus btn-sm" onclick="removeorderitem(' + itemid + ', ' + quantity + ');"></button>';
+                tempHTML += '</span><button class="bg-transparent text-muted fa fa-minus btn-sm" onclick="removeorderitem(' + itemid + ', ' + quantity + ');"></button>';
                 if (hasaddons) {
-                    tempHTML += '<button class="bg-transparent text-muted  fa fa-pencil btn-sm" onclick="edititem(this, ' + itemid + ');"></button>';
+                    tempHTML += '<button class="bg-transparent text-muted fa fa-pencil btn-sm" onclick="edititem(this, ' + itemid + ');"></button>';
                 } else {
-                    tempHTML += '<button class="bg-transparent text-muted  fa fa-plus btn-sm" onclick="cloneitem(this, ' + itemid + ');"></button>';
+                    tempHTML += '<button class="bg-transparent text-muted fa fa-plus btn-sm" onclick="cloneitem(this, ' + itemid + ');"></button>';
                 }
                 tempHTML += '</SPAN></div>';
 
@@ -1337,16 +1337,20 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 visible_address(true);
                 $("#add_unit").show();
                 Text = "";
-                if(is_firefox_for_android){
-                    $("#ffaddress").show();
-                    $("#checkoutmodal").modal("hide");
-                    $("#firefoxandroid").show();
-                }
+                handlefirefox();
             }
         }
         $("#formatted_address").val(Text);
         $("#restaurant").html('<OPTION VALUE="0" SELECTED>Restaurant</OPTION>').addClass("red");
         addresshaschanged();
+    }
+
+    function handlefirefox(){
+        if(is_firefox_for_android){
+            $("#ffaddress").show();
+            $("#checkoutmodal").modal("hide");
+            $("#firefoxandroid").show();
+        }
     }
 
     //universal AJAX error handling
@@ -1840,10 +1844,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title" id="alertmodallabel">Title</h2>
-
-
                 <button data-dismiss="modal" class="btn btn-sm ml-auto bg-transparent align-middle"><i class="fa fa-close"></i></button>
-
             </div>
             <div class="modal-body">
                 <DIV ID="alertmodalbody"></DIV>
@@ -1911,7 +1912,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 var currentaddon = currentaddonlist[itemindex][i];
                 var qualifier = "";
                 tempstr += '<DIV CLASS="pr-3 ' + classname + '" id="topping_' + itemindex + '_' + i + '">' + currentaddon.name +
-                    '<!--span ONCLICK="removelistitem(' + itemindex + ', ' + i + ');">&nbsp; <i CLASS="fa fa-times"></i> </span--></div>';
+                    '<span ONCLICK="removelistitem(' + itemindex + ', ' + i + ');">&nbsp; <i CLASS="fa fa-times"></i> </span></div>';
                 qualifier = currentaddon.qual;
                 if (qualifier == 0) {
                     qualifier = 0.5;
@@ -1928,7 +1929,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             if (debugmode) {
                 HTML += " (Paid: " + paidtoppings + " Free: " + freetoppings + ')';
             }
-      //      tempstr += '<span id="cursor' + itemindex + '" class="blinking-cursor">|</span>';
+            //tempstr += '<span id="cursor' + itemindex + '" class="blinking-cursor">|</span>';
             HTML += tempstr + '</DIV>';
         }
 
@@ -1993,7 +1994,7 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
             }
 
             HTML += '<button class="thirdwidth toppings_btn list-group-item-action bg-white" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button>' +
-                '<button class=" list-group-item-action bg-white thirdwidth text-primary toppings_btn strong" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button>';
+                '<button class="list-group-item-action bg-white thirdwidth text-primary toppings_btn strong" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button>';
 
             $("#addonlist").html(HTML);
             $(".addon-addon").click(

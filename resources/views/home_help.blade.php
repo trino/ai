@@ -137,7 +137,7 @@
         }
         $orders =  first('SELECT count(*) as count FROM orders WHERE status <> 2 AND status <> 4 AND placed_at > "' . $SQLdate . '"')["count"];
     ?>
-    <DIV class="row py-3 bg-white" style="">
+    <DIV class="row py-3 bg-white">
         <div class="col-sm-6 list-padding">
             <h3>Our Duty </h3>
 

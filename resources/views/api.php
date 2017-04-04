@@ -580,7 +580,6 @@
     }
 
     function getdeliverytime($var = "DeliveryTime") {
-        return 40;
         return first("SELECT price FROM additional_toppings WHERE size = '" . $var . "'")["price"];
     }
 ?>

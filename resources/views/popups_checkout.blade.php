@@ -2,7 +2,7 @@
 
 <div class="list-group-item">
     <h2 class="mr-auto align-left"> My Order</h2>
-    <button class="btn-sm dont-show  text-muted  ml-auto align-right bg-transparent   " ONCLICK="confirmclearorder();" id="confirmclearorder"><i class="fa fa-close"></i></button>
+    <button class="btn-sm dont-show text-muted ml-auto align-right bg-transparent" ONCLICK="confirmclearorder();" id="confirmclearorder"><i class="fa fa-close"></i></button>
 </div>
 
 <div id="myorder"></div>
@@ -15,7 +15,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="list-group-item bg-white">
-                <h2 class="" id="myModalLabel">Hi, <SPAN CLASS="session_name"></SPAN></h2>
+                <h2 id="myModalLabel">Hi, <SPAN CLASS="session_name"></SPAN></h2>
                 <button data-dismiss="modal" data-popup-close="checkoutmodal" class="btn btn-sm ml-auto align-middle bg-transparent"><i class="fa fa-close"></i></button>
             </div>
             <div class="modal-body" style="padding: 0 !important;">
@@ -24,9 +24,9 @@
                     <div class="input_right">
                         <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
                         <?php
-                        if (read("id")) {
-                            echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false, "findclosest" => true))->render();
-                        }
+                            if (read("id")) {
+                                echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false, "findclosest" => true))->render();
+                            }
                         ?>
                     </div>
                     <div class="input_left_icon"><i class="fa fa-cutlery"></i></div>
@@ -40,15 +40,12 @@
 
                     <div class="input_left_icon"><i class="fa fa-clock-o"></i></div>
                     <div class="input_right">
-                        <div class="">
+                        <div>
                             <SELECT id="deliverytime" TITLE="Delivery Time" class="form-control"/>
-                            <OPTION>Deliver ASAP</OPTION>
+                                <OPTION>Deliver ASAP</OPTION>
                             </SELECT>
                         </div>
-
                     </div>
-
-
 
                     <div class="input_left_icon"><i class="fa fa-pencil"></i></div>
                     <div class="input_right">
@@ -56,15 +53,11 @@
                     </div>
 
                     @if(!session()->get('session_phone'))
-                    <div class="input_left_icon"><i class="fa fa-user"></i></div>
-                    <div class="input_right">
-                            <!--?= view("popups_edituser", array("email" => false, "profile1" => true, "password" => false, "phone" => false, "required" => true, "icons" => false))->render(); ?-->
-
-
-                            <?= view("popups_edituser", array("email" => false, "profile1" => false, "password" => false, "phone" => true, "required" => true, "icons" => false))->render(); ?>
-
-                    </div>
-
+                        <div class="input_left_icon"><i class="fa fa-user"></i></div>
+                        <div class="input_right">
+                                <!--?= view("popups_edituser", array("email" => false, "profile1" => true, "password" => false, "phone" => false, "required" => true, "icons" => false))->render(); ?-->
+                                <?= view("popups_edituser", array("email" => false, "profile1" => false, "password" => false, "phone" => true, "required" => true, "icons" => false))->render(); ?>
+                        </div>
                     @endif
 
 
@@ -100,11 +93,11 @@
                         <div class="thirdwidth">
                             <SELECT CLASS="credit-info form-control" data-stripe="exp_year">
                                 <?php
-                                $CURRENT_YEAR = date("Y");
-                                $TOTAL_YEARS = 6;
-                                for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
-                                    echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
-                                }
+                                    $CURRENT_YEAR = date("Y");
+                                    $TOTAL_YEARS = 6;
+                                    for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
+                                        echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
+                                    }
                                 ?>
                             </SELECT>
                             <div class="clearfix"></div>
@@ -122,8 +115,7 @@
                     <div class="input_right">
                         <!--<comment> why is it when i change this to a button that clicking on please enter an address closes the modal... order doesn't go through when I change it -->
 
-                        <a style="vertical-align: middle !important;" class="radius0 btn btn-primary text-white pull-right payfororder" onclick="payfororder();"> <i class="fa fa-check mr-2"></i> ORDER
-                        </a>
+                        <a style="vertical-align: middle !important;" class="radius0 btn btn-primary text-white pull-right payfororder" onclick="payfororder();"> <i class="fa fa-check mr-2"></i> ORDER</a>
                         <span class="payment-errors error"></span>
 
                         <div class="clearfix"></div>
