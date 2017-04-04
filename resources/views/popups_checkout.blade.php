@@ -31,7 +31,7 @@
                     </div>
                     <div class="input_left_icon"><i class="fa fa-cutlery"></i></div>
                     <div class="input_right">
-                        <SELECT class="form-control red" ID="restaurant" ONCHANGE="restchange();">
+                        <SELECT class="form-control" ID="restaurant" ONCHANGE="restchange();">
                             <OPTION VALUE="0" SELECTED>Restaurant</OPTION>
                         </SELECT>
                     </div>
@@ -56,7 +56,7 @@
                         <div class="input_left_icon"><i class="fa fa-user"></i></div>
                         <div class="input_right">
                                 <!--?= view("popups_edituser", array("email" => false, "profile1" => true, "password" => false, "phone" => false, "required" => true, "icons" => false))->render(); ?-->
-                                <?= view("popups_edituser", array("email" => false, "profile1" => false, "password" => false, "phone" => true, "required" => true, "icons" => false))->render(); ?>
+                                <?= view("popups_edituser", array("email" => false, "profile1" => false, "password" => false, "phone" => true, "required" => true, "icons" => false, "class" => "autored"))->render(); ?>
                         </div>
                     @endif
 
@@ -164,6 +164,23 @@
         $("#ffaddress").text($("#formatted_address").val());
         $('#checkoutmodal').modal('show');
         $("#firefoxandroid").hide();
+    }
+
+    $('#orderinfo input').each(function() {
+        $(this).click(function(){refreshform(this)});
+        $(this).blur(function(){refreshform(this)});
+    });
+
+    function refreshform(t){
+        if($(t).hasClass("autored")) {
+            var ID = $(t).attr("id");
+            var value = $(t).val();
+            if (value) {
+                $(t).removeClass("red");
+            } else {
+                $(t).addClass("red");
+            }
+        }
     }
 </SCRIPT>
 <?php endfile("popups_checkout"); ?>

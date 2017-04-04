@@ -184,10 +184,8 @@ body.loading #loadingmodal {
     color: #373a3c !important;
 }
 
-.red, input:invalid, select:invalid, textarea:invalid {
-    /*
-        border-bottom: 1px solid #d9534f !important;
-    */
+.red{ /*, input:invalid, select:invalid, textarea:invalid {*/
+     border-bottom: 1px solid #d9534f !important;
 }
 
 .error {

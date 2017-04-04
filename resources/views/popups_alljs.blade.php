@@ -1246,7 +1246,7 @@
         $(".profiletype_not").show();
         $(".profiletype_not" + user["profiletype"]).hide();
 
-        var HTML = 'red form-control saveaddresses" id="saveaddresses" onchange="addresschanged(' + 'saveaddress' + ');"><OPTION value="0">Select Address</OPTION>';
+        var HTML = 'red form-control saveaddresses" id="saveaddresses" onchange="addresschanged(' + "'saveaddress'" + ');"><OPTION value="0">Select Address</OPTION>';
         var FirstAddress = false;
 
         if (user["Addresses"].length > 0) {
@@ -1388,6 +1388,7 @@
 
     function cantplaceorder() {
         $(".payment-errors").text("");
+        $(".red").removeClass("red");
         if (!validaddress()) {
             $("#saveaddresses").addClass("red");
             $(".payment-errors").text("Please enter a valid London address");

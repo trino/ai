@@ -17,7 +17,7 @@
                 echo '<div class="input_left_icon"><i class="fa ' . $field["icon"] . '"></i></div><div class="input_right">';
             }
             echo '<INPUT TYPE="' . $field["type"] . '" NAME="' . $field["name"] . '" ID="' . $Prepend . '_' . $field["name"] . '"';
-            if (isset($field["class"]))                                     {echo ' CLASS="' . $field["class"] . '" ';}
+            if (isset($field["class"]))                                     {echo ' CLASS="' . trim($field["class"]) . '" ';}
             if (isset($field["value"]))                                     {echo ' value="' . $field["value"] . '" ';}
             if (isset($field["min"]))                                       {echo ' min="' . $field["min"] . '" ';}
             if (isset($field["maxlen"]))                                    {echo ' min="' . $field["maxlen"] . '" ';}
@@ -37,23 +37,24 @@
     if (!isset($autocomplete)) {$autocomplete = "";}
     if (!isset($required)) {$required = false;}
     $GLOBALS["icons"] = isset($icons) && $icons;
+    if(isset($class)){$class .= " form-control ";} else {$class = "form-control ";}
 
     echo '<DIV>';
     if (!isset($profile1) || $profile1) {
-        printarow("Name", $name, array("name" => "name", "value" => $user["name"], "type" => "text", "placeholder" => "Name", "class" => "form-control session_name_val", "required" => $required));
+        printarow("Name", $name, array("name" => "name", "value" => $user["name"], "type" => "text", "placeholder" => "Name", "class" => $class . "session_name_val", "required" => $required));
     }
     if (!isset($phone) || $phone) {
         if (!isset($phone)) {$phone = false;}
-        printarow("Phone", $name, array("name" => "phone", "value" => $user["phone"], "type" => "tel", "placeholder" => "Cell Phone (Required)", "class" => "form-control session_phone_val", "required" => $phone || $required, "icon" => "fa-phone"));
+        printarow("Phone", $name, array("name" => "phone", "value" => $user["phone"], "type" => "tel", "placeholder" => "Cell Phone (Required)", "class" => $class . "session_phone_val", "required" => $phone || $required, "icon" => "fa-phone"));
     }
     if ($email) {
-        printarow("Email", $name, array("name" => "email", "value" => $user["email"], "type" => "email", "placeholder" => "Email", "class" => "form-control session_email_val", "required" => $required, "icon" => "fa-envelope"));
+        printarow("Email", $name, array("name" => "email", "value" => $user["email"], "type" => "email", "placeholder" => "Email", "class" => $class . "session_email_val", "required" => $required, "icon" => "fa-envelope"));
     }
     if (isset($user_id) || isset($showpass)) {
-        printarow("Old Password", $name, array("name" => "oldpassword", "type" => "password", "class" => "form-control", "placeholder" => "Old Password", "autocomplete" => $autocomplete, "required" => $required, "icon" => "fa-key"));
-        printarow("New Password", $name, array("name" => "newpassword", "type" => "password", "class" => "form-control", "placeholder" => "New Password", "autocomplete" => $autocomplete, "required" => $required, "icon" => "fa-key"));
+        printarow("Old Password", $name, array("name" => "oldpassword", "type" => "password", "class" => $class, "placeholder" => "Old Password", "autocomplete" => $autocomplete, "required" => $required, "icon" => "fa-key"));
+        printarow("New Password", $name, array("name" => "newpassword", "type" => "password", "class" => $class, "placeholder" => "New Password", "autocomplete" => $autocomplete, "required" => $required, "icon" => "fa-key"));
     } else if ($password) {
-        printarow("Password", $name, array("name" => "password", "type" => "password", "class" => "form-control", "placeholder" => "Password", "autocomplete" => $autocomplete, "required" => $required, "icon" => "fa-key"));
+        printarow("Password", $name, array("name" => "password", "type" => "password", "class" => $class, "placeholder" => "Password", "autocomplete" => $autocomplete, "required" => $required, "icon" => "fa-key"));
     }
     if (isset($address) && $address) {
         echo view("popups_address", array("style" => 1))->render();
