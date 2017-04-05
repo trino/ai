@@ -172,7 +172,6 @@ class AuthController extends Controller {
                                     if($action["phone"]){$this->sendSMS("admin", $action["message"], true);}
                                     if($action["sms"]){$this->sendSMS("admin", $action["message"]);}
                                     break;
-                                //case 2://restaurant
                             }
                         }
                         break;

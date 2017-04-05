@@ -551,6 +551,11 @@
         }
     }
 
+    function like_match($pattern, $subject) {
+        $pattern = str_replace('%', '.*', preg_quote($pattern, '/'));
+        return (bool)preg_match("/^{$pattern}$/i", $subject);
+    }
+
     function lastupdatetime($table){//will not work on live!
         if (first("SHOW TABLE STATUS FROM " . $GLOBALS["database"] . " LIKE '" . $table . "';")["Engine"] == "InnoDB"){
             $filename = first('SHOW VARIABLES WHERE Variable_name = "datadir"')["Value"] . $GLOBALS["database"] . '/' . $table . '.ibd';

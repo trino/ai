@@ -151,6 +151,7 @@
     $user = getuser(false, false);
     $email = false;
 ?>
+
 @if($includesection)
     @extends("layouts_app")
     @section("content")

@@ -39,7 +39,6 @@ Route::group(['middleware' => ['web']], function () {
     Route::any('/auth/gettoken',        'AuthController@gettoken');
     Route::any('/placeorder',           'HomeController@placeorder');
 
-    Route::get('/getjs',                'HomeController@getjs');
     Route::get('/call',                 'HomeController@robocall');
     Route::any('/test',                 'HomeController@index');
     Route::any('/help',                 'HomeController@help');
@@ -49,7 +48,6 @@ Route::group(['middleware' => ['web']], function () {
     Route::any('/user/info',            'HomeController@edituser');
     Route::any('/user/info/{id}',       'HomeController@edituser');
 
-    Route::any('/clipi',                'HomeController@clipi');
     Route::any('/edit',                 'HomeController@edit');
     Route::any('/edittable',            'HomeController@edittable');
 

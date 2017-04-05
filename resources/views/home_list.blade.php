@@ -1,5 +1,5 @@
 <?php
-    use App\Http\Controllers\HomeController;
+    use App\Http\Controllers\HomeController;//used for order "changestatus"
 
     startfile("home_list");
     $RestaurantID= "";
@@ -150,12 +150,10 @@
 
     if(isset($_POST["action"])){
         $results = array("Status" => true, "POST" => $_POST);
-
         if($_POST["action"] == "saveaddress"){
             $_POST["action"] = "saveitem";
             $table = "useraddresses";
         }
-
         switch($_POST["action"]){
             case "getpage"://get a page of data via AJAX
                 if(!in_array($table, array("all", "debug"))){
@@ -470,7 +468,6 @@
                                         <A onclick="selecttableitems(-1);" href="#"><i class="fa fa-fw fa-check-square-o" id="invert"></i> Invert Selection</A>
                                         <A onclick="selecttableitems(1);" href="#"><i class="fa fa-check-square-o"></i> Select All</A>
                                         <A onclick="deletetableitems();" href="#"><i class="fa fa-trash-o"></i> Delete Selected</A>
-
                                         <!--A onclick="deletetable();" TITLE="Delete the entire table" class="hyperlink" id="deletetable"><i class="fa fa-trash-o"></i></A-->
                                     @endif
                                     <A HREF="{{ webroot("public/list/all") }}" TITLE="Back"><i class="fa fa-arrow-left"></i></A>
@@ -558,7 +555,6 @@
                                 }
                             ?>
                         </DIV>
-
                     </div>
                 </div>
             </div>
@@ -638,23 +634,10 @@
 
                     function getdata(field, data){
                         switch(table + "." + field){
-                            case "orders.status":                               return statuses[data]; break;
-                            case "users.profiletype":case "actions.party":      return usertype[data]; break;
-                            case "users.authcode":
-                                if(data){
-                                    return "Not Authorized";
-                                } else {
-                                    return "Authorized";
-                                }
-                                break;
-
-                            case "actions.sms":case "actions.phone":case "actions.email":
-                            if(data == 1){
-                                return "Yes";
-                            } else {
-                                return "No";
-                            }
-                            break;
+                            case "orders.status":                                               return statuses[data]; break;
+                            case "users.profiletype": case "actions.party":                     return usertype[data]; break;
+                            case "users.authcode":                                              return iif(data, "Not Authorized", "Authorized"); break;
+                            case "actions.sms": case "actions.phone": case "actions.email":     return iif(data == 1, "Yes", "No"); break;
                         }
                         return data;
                     }
@@ -744,7 +727,7 @@
                                             if(TableStyle == '1'){
                                                 var formatted = tofieldname(fields[v]);
                                                 tempHTML += '<TR><TD NOWRAP CLASS="titlecol ' + evenodd + '"><SPAN CLASS="pull-center"><STRONG>' + formatted + '</STRONG></SPAN></TD>';
-                                                /*
+                                                /* OLD STYLE
                                                 if(sort_col == fields[v]){tempHTML += ' selected-th';}
                                                 tempHTML += '"><SPAN CLASS="pull-center"><i class="btn btn-xs btn-primary fa fa-arrow-down pull-left desc_' + fields[v];
                                                 if(sort_col == fields[v] && sort_dir == "DESC"){tempHTML += ' selected-i';}
@@ -766,7 +749,7 @@
                                             case "users":
                                                 tempHTML += '<A CLASS="btn btn-sm btn-success cursor-pointer" href="' + baseURL + 'useraddresses?user_id=' + ID + '">Addresses</A> ';
                                                 tempHTML += '<A CLASS="btn btn-sm btn-secondary cursor-pointer" href="{{ webroot("public/user/info/") }}' + ID + '">Edit</A> ';
-                                                tempHTML += '<A CLASS="btn btn-sm btn-success cursor-pointer" ONCLICK="changepass(' + ID + ');" TITLE="Change their password">Password2 </A> ';
+                                                tempHTML += '<A CLASS="btn btn-sm btn-success cursor-pointer" ONCLICK="changepass(' + ID + ');" TITLE="Change their password">Password</A> ';
                                                 break;
                                             case "useraddresses":
                                                 tempHTML += '<A CLASS="btn btn-sm btn-success cursor-pointer" onclick="editaddress(' + ID + ');">Edit</A> ';
@@ -1054,16 +1037,8 @@
                         format = format.replace("O", iif(timezone_hours>0, "+") + Math.abs(timezone_hours) + "" + timezone_mins.pad(2));
                         format = format.replace("P", iif(timezone_hours>0, "+") + Math.abs(timezone_hours) + ":" + timezone_mins.pad(2));
                         format = format.replace("Z", timezone*60).replace("o", timezone_hours + "" + timezone_mins.pad(2));
-
                         //FULL DATE
                         format = format.replace("U", Math.floor(Date.now()/1000));//epoch time
-
-                        /*NOT SUPPORTED
-                        for(var i = 0; i < format.length; i++){
-                            switch(format[i]){
-                                case "o": case "B": case "u": case "e": case "T": format[i] = "['" + format[i] + "' IS NOT SUPPORTED]"; break;
-                            }
-                        }*/
                         return format.join('');
                     }
 
@@ -1281,7 +1256,7 @@
                         });
                     }
 
-                    //delete everything in a table, confirm twice
+                    /*delete everything in a table, no need for it
                     function deletetable(){
                         confirm2("Are you sure you want to delete the entire " + table + " table?", 'Delete Table', function(){
                             $.post(currentURL, {
@@ -1293,7 +1268,7 @@
                                 }
                             });
                         });
-                    }
+                    }*/
 
                     //delete a single item in a table
                     function deleteitem(ID){
@@ -1375,11 +1350,11 @@
                             var datatype="";
                             newdata = getdata(field, data);
                             switch (colname) {
-                                case "users.phone":case "restaurants.phone":
+                                case "users.phone": case "restaurants.phone":
                                     newdata = clean_data(newdata, "phone");
                                     datatype="phone number";
                                     break;
-                                case "users.email":case "restaurants.email":
+                                case "users.email": case "restaurants.email":
                                     if(validate_data(data, "email")){newdata = clean_data(data, "email");}
                                     datatype="email address";
                                     break;

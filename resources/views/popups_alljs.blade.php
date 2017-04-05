@@ -4,7 +4,19 @@
     $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     //["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
 ?>
-
+<STYLE>
+    /* STOP MOVING THIS TO THE CSS, IT WON'T WORK! */
+    #loadingmodal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background: rgba(255, 255, 255, .9) url('<?= webroot("public/images/slice.gif"); ?>') 50% 50% no-repeat;
+    }
+</STYLE>
 <script>
     var is_firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
     var is_android = navigator.userAgent.toLowerCase().indexOf('android') > -1;
@@ -261,11 +273,7 @@
 
     function isvalidaddress() {
         var fields = ["formatted_address", "add_latitude", "add_longitude"];//, "add_postalcode"
-
-        if ($("#add_city").val().toLowerCase() != "london") {
-          //  return false;
-        }
-
+        //if ($("#add_city").val().toLowerCase() != "london") {return false;}
         for (i = 0; i < fields.length; i++) {
             var value = $("#" + fields[i]).val();
             log(fields[i] + ": " + value.length + " chars = " + value);
@@ -559,7 +567,6 @@
 
         visible("#checkout", userdetails);
         createCookieValue("theorder", JSON.stringify(theorder));
-
 
         if (theorder.length == 0) {
             HTML = '<div CLASS="list-padding py-3 btn-block radius0"><div class="d-flex justify-content-center"><i class="fa fa-shopping-basket empty-shopping-cart fa-2x text-muted"></i></div><div class="d-flex justify-content-center text-muted">Empty</div></div>';
@@ -1041,15 +1048,10 @@
     }
 
     function loading(state, where) {
-        if (isUndefined(where)) {
-            where = "UNKNOWN";
-        }
         if (state) {
-            log("Loading: " + where);
             $body.addClass("loading");
             $("#loadingmodal").show();
         } else {
-            log("Done Loading: " + where);
             $body.removeClass("loading");
             $("#loadingmodal").hide();
         }
@@ -1064,13 +1066,10 @@
             $("#loginmodal").modal("show");
         @endif
 
-
-        //----- CLOSE
         $('[data-popup-close]').on('click', function (e) {
             var targeted_popup_class = jQuery(this).attr('data-popup-close');
             $('#' + targeted_popup_class).modal("hide");
         });
-
     });
 
     function enterkey(e, action) {
@@ -1180,6 +1179,11 @@
     $(document).ready(function () {
         //make every AJAX request show the loading animation
         $body = $("body");
+
+        $('.modal').on('hidden.bs.modal', function () {
+            history.pushState("", document.title, window.location.pathname);//clean #modal from url
+        });
+
         $(document).on({
             ajaxStart: function () {
                 //ajaxSend: function ( event, jqxhr, settings ) {log("settings.url: " + settings.url);//use this event if you need the URL
@@ -1199,7 +1203,8 @@
                 } else {
                     loading(false, "ajaxStop");
                     if (previoushash) {
-                        window.history.pushState({}, document.title, '#' + previoushash);
+                        if(previoushash.left(1) != "#"){previoushash = "#" + previoushash;}
+                        window.history.pushState({}, document.title, previoushash);
                     } else {
                         history.pushState("", document.title, window.location.pathname);
                     }
@@ -1210,7 +1215,7 @@
 
         @if(isset($user) && $user)
             login(<?= json_encode($user); ?>, false); //user is already logged in, use the data
-                @endif
+        @endif
 
         var HTML = '';
         var todaysdate = isopen(generalhours);
@@ -1266,7 +1271,6 @@
         if (user["profiletype"] == 2) {
             user["restaurant_id"] = FirstAddress;
             var URL = '<?= webroot("public/list/orders"); ?>';
-
             if (window.location.href != URL && isJSON) {
                 redirectonlogin = false;
                 window.location.href = URL;
@@ -1788,9 +1792,6 @@
         }).get();
     }
 
-</SCRIPT>
-
-<SCRIPT>
     if (isUndefined(unikeys)) {
         var unikeys = {
             exists_already: "'[name]' exists already",
@@ -1826,46 +1827,7 @@
         }
         return Text;
     }
-</SCRIPT>
 
-<STYLE>
-    /* STOP MOVING THIS TO THE CSS, IT WON'T WORK! */
-    #loadingmodal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        background: rgba(255, 255, 255, .9) url('<?= webroot("public/images/slice.gif"); ?>') 50% 50% no-repeat;
-    }
-</STYLE>
-
-<div class="modal z-index-9999" id="alertmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title" id="alertmodallabel">Title</h2>
-                <button data-dismiss="modal" class="btn btn-sm ml-auto bg-transparent align-middle"><i class="fa fa-close"></i></button>
-            </div>
-            <div class="modal-body">
-                <DIV ID="alertmodalbody"></DIV>
-                <div CLASS="pull-right">
-                    <button class="btn btn-link text-muted" id="alert-cancel" data-dismiss="modal">
-                        CANCEL
-                    </button>
-                    <button class="btn btn-link" id="alert-confirm" data-dismiss="modal">
-                        OK
-                    </button>
-                </div>
-                <DIV CLASS="clearfix"></DIV>
-            </div>
-        </div>
-    </div>
-</DIV>
-
-<SCRIPT>
     var oneclick = true, currentstyle = 1, currentbasecost = 0, currentaddoncost = 0;
     var currentaddontype = "", currentside = "", currentqualifier = "", addonname = "", item_name = "", hashalves = true;
     var currentaddonlist = new Array, currentitemindex = 0, currentitemname = "";
@@ -2180,11 +2142,11 @@
     @if(read("id"))
         $(document).ready(function () {
         <?php
-        if (islive() || $GLOBALS["testlive"]) {
-            echo "setPublishableKey('pk_vnR0dLVmyF34VAqSegbpBvhfhaLNi', 'live')";
-        } else {
-            echo "setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', 'test');";
-        }
+            if (islive() || $GLOBALS["testlive"]) {
+                echo "setPublishableKey('pk_vnR0dLVmyF34VAqSegbpBvhfhaLNi', 'live')";
+            } else {
+                echo "setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', 'test');";
+            }
         ?>
     });
 
@@ -2204,6 +2166,29 @@
         $('html,body').animate({scrollTop: document.body.scrollHeight}, "slow");
     }
 </SCRIPT>
+
+<div class="modal z-index-9999" id="alertmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="alertmodallabel">Title</h2>
+                <button data-dismiss="modal" class="btn btn-sm ml-auto bg-transparent align-middle"><i class="fa fa-close"></i></button>
+            </div>
+            <div class="modal-body">
+                <DIV ID="alertmodalbody"></DIV>
+                <div CLASS="pull-right">
+                    <button class="btn btn-link text-muted" id="alert-cancel" data-dismiss="modal">
+                        CANCEL
+                    </button>
+                    <button class="btn btn-link" id="alert-confirm" data-dismiss="modal">
+                        OK
+                    </button>
+                </div>
+                <DIV CLASS="clearfix"></DIV>
+            </div>
+        </div>
+    </div>
+</DIV>
 
 <script type="text/javascript">
     function checkblock(e) {

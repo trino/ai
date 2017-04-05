@@ -187,7 +187,6 @@ class HomeController extends Controller {
                         );
                         if (isset($_POST["creditcard"]) && $_POST["creditcard"]) {
                             $charge["source"] = $_POST["creditcard"];//charge a specific credit card
-                            //$charge["card"] = $_POST["creditcard"];//charge a specific credit card
                         }
                         // https://stripe.com/docs/charges https://stripe.com/docs/api
                         $charge = \Stripe\Charge::create($charge);// Create the charge on Stripe's servers - this will charge the user's card
@@ -234,11 +233,7 @@ class HomeController extends Controller {
                 $actions = array($actions);
             }
             foreach ($actions as $action) {
-                $party = null;
-                $email = null;
-                $phone = null;
-                $phone_restro = null;
-
+                $phone_restro = false;
                 switch ($action["party"]) {
                     case 0://customer
                         $party = "customer";
@@ -254,16 +249,8 @@ class HomeController extends Controller {
                         $restaurant = $this->processrestaurant($info["restaurant_id"]);
                         $party = "restaurant";
                         $email = $restaurant["user"]["email"];
-
                         $phone_restro = filternonnumeric($restaurant["restaurant"]["phone"]);
                         $phone = filternonnumeric($restaurant["user"]["phone"]);
-
-                        /*
-                        if ($phone != $phone2) {
-                            $phone = array($phone, $phone2);
-                        }
-                        */
-
                         break;
                 }
 
@@ -280,10 +267,8 @@ class HomeController extends Controller {
                     $this->sendSMS($phone, $action["message"]);
                 }
                 if ($action["phone"]) {
-                    //if SMS restro then SMS user of the restro instead since all of the restro phones are lan lines
-                    if (isset($phone_restro)) {
-                        $phone = $phone_restro;
-                    }
+                    //if SMS restaurant then SMS user of the restaurant instead since all of the restaurant phones are land lines
+                    if ($phone_restro) {$phone = $phone_restro;}
                     debugprint("Calling " . $party . ": " . var_export($phone, true));
                     $this->sendSMS($phone, $action["message"], true);
                 }

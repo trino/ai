@@ -29,14 +29,13 @@
                             }
                         ?>
                     </div>
+
                     <div class="input_left_icon"><i class="fa fa-cutlery"></i></div>
                     <div class="input_right">
                         <SELECT class="form-control" ID="restaurant" ONCHANGE="restchange();">
                             <OPTION VALUE="0" SELECTED>Restaurant</OPTION>
                         </SELECT>
                     </div>
-
-
 
                     <div class="input_left_icon"><i  style="font-size: 1.1rem !important;" c class="fa fa-clock-o"></i></div>
                     <div class="input_right">
@@ -59,7 +58,6 @@
                                 <?= view("popups_edituser", array("email" => false, "profile1" => false, "password" => false, "phone" => true, "required" => true, "icons" => false, "class" => "autored"))->render(); ?>
                         </div>
                     @endif
-
 
                     <div class="input_left_icon"><i class="fa fa-credit-card-alt"></i></div>
                     <div class="input_right">
@@ -113,16 +111,10 @@
 
                     <div class="input_left_icon"></div>
                     <div class="input_right">
-                        <!--<comment> why is it when i change this to a button that clicking on please enter an address closes the modal... order doesn't go through when I change it -->
-
                         <a style="vertical-align: middle !important;" class="radius0 btn btn-primary text-white pull-right payfororder" onclick="payfororder();"> <i class="fa fa-check mr-2"></i> ORDER</a>
                         <span class="payment-errors error"></span>
-
                         <div class="clearfix"></div>
-
                     </div>
-
-
                 </FORM>
             </div>
         </div>
@@ -133,20 +125,20 @@
     //https://stripe.com/docs/custom-form
     @if(read("id"))
         $(document).ready(function () {
-        getcloseststore = true;
-        visible_address(false);
-        $("#saveaddresses").append('<OPTION VALUE="addaddress" ID="addaddress">Add Address</OPTION>');
-        $(".credit-info").change(function () {
-            if (isvalidcreditcard()) {
-                $(".payment-errors").text("");
+            getcloseststore = true;
+            visible_address(false);
+            $("#saveaddresses").append('<OPTION VALUE="addaddress" ID="addaddress">Add Address</OPTION>');
+            $(".credit-info").change(function () {
+                if (isvalidcreditcard()) {
+                    $(".payment-errors").text("");
+                }
+            });
+        });
+        $('#reg_phone').keypress(function () {
+            if ($('#reg_phone').valid()) {
+                clearphone();
             }
         });
-    });
-    $('#reg_phone').keypress(function () {
-        if ($('#reg_phone').valid()) {
-            clearphone();
-        }
-    });
     @endif
 
     function restchange() {
