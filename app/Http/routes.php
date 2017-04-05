@@ -40,6 +40,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::any('/placeorder',           'HomeController@placeorder');
 
     Route::get('/getjs',                'HomeController@getjs');
+    Route::get('/call',                 'HomeController@robocall');
     Route::any('/test',                 'HomeController@index');
     Route::any('/help',                 'HomeController@help');
     Route::any('/editmenu',             'HomeController@editmenu');

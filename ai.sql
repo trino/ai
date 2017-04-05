@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 28, 2017 at 09:58 AM
+-- Generation Time: Apr 04, 2017 at 09:38 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `additional_toppings` (
   `size` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `price` double NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `additional_toppings`
@@ -73,8 +73,9 @@ INSERT INTO `additional_toppings` (`id`, `size`, `price`) VALUES
 (3, 'Large', 1.5),
 (4, 'X-Large', 1.7),
 (6, 'Panzerotti', 0.95),
-(7, 'Delivery', 0.1),
-(8, 'Minimum', 15.99);
+(7, 'Delivery', 2.99),
+(8, 'Minimum', 14.99),
+(10, 'DeliveryTime', 40);
 
 -- --------------------------------------------------------
 
@@ -179,7 +180,7 @@ INSERT INTO `menu` (`id`, `category_id`, `category`, `item`, `price`, `toppings`
 CREATE TABLE IF NOT EXISTS `orders` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
-  `placed_at` timestamp NOT NULL,
+  `placed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `number` int(11) NOT NULL,
   `unit` varchar(16) NOT NULL,
   `buzzcode` varchar(32) NOT NULL,
@@ -189,7 +190,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `province` varchar(32) NOT NULL,
   `latitude` varchar(16) NOT NULL,
   `longitude` varchar(16) NOT NULL,
-  `accepted_at` timestamp NOT NULL,
+  `accepted_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `restaurant_id` int(11) NOT NULL,
   `type` tinyint(4) NOT NULL,
   `payment_type` tinyint(4) NOT NULL,
@@ -203,33 +204,69 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `price` decimal(10,2) NOT NULL,
   `email` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=118 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=224 ;
 
 --
 -- Dumping data for table `orders`
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `placed_at`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `accepted_at`, `restaurant_id`, `type`, `payment_type`, `phone`, `cell`, `paid`, `stripeToken`, `deliverytime`, `cookingnotes`, `status`, `price`, `email`) VALUES
-(98, 1, '2017-02-21 23:52:16', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 3, '3.33', NULL),
-(99, 1, '2017-02-21 19:01:15', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 2, '6.55', NULL),
-(100, 1, '2017-02-21 19:01:15', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'February 21 at 1455', '', 0, '5.48', NULL),
-(101, 1, '2017-02-22 14:31:05', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'February 22 at 1100', '', 0, '3.33', NULL),
-(102, 1, '2017-02-28 15:22:07', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '8.86', NULL),
-(103, 1, '2017-02-28 18:35:05', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, 'tok_ACf8io2H5qGhnb', 'Deliver Now', '', 0, '19.19', NULL),
-(104, 1, '2017-02-28 18:39:42', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, 'tok_ACfDEP9Bgbmu8G', 'Deliver Now', '', 0, '35.03', NULL),
-(105, 1, '2017-02-28 18:47:25', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, 'tok_ACfLb5HItnGjce', 'Deliver Now', '', 0, '23.73', NULL),
-(106, 1, '2017-03-07 15:01:15', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'March 7 at 1050', '', 0, '36.84', NULL),
-(107, 1, '2017-03-08 14:26:39', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'March 8 at 1100', '', 0, '19.20', NULL),
-(108, 1, '2017-03-08 18:26:47', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '40.34', NULL),
-(109, 1, '2017-03-14 17:31:17', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '18.36', NULL),
-(110, 1, '2017-03-21 15:09:21', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, 'tok_AKTZq0F1fRqeln', 'Deliver Now', '', 0, '20.51', NULL),
-(111, 1, '2017-03-21 15:10:24', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, 'tok_AKTaUFjqmMhWPQ', 'Deliver Now', '', 0, '19.44', NULL),
-(112, 1, '2017-03-21 15:26:30', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '18.36', NULL),
-(113, 1, '2017-03-21 15:55:56', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, 'tok_AKUJevI49kvqLn', 'March 22 at 2245', '', 0, '19.44', NULL),
-(114, 1, '2017-03-22 15:28:14', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '63.11', NULL),
-(115, 1, '2017-03-22 15:38:13', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '63.11', NULL),
-(116, 1, '2017-03-22 15:41:39', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '22.66', NULL),
-(117, 1, '2017-03-22 15:48:31', 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '63.11', NULL);
+(168, 48, '2017-04-01 17:18:55', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, 'tok_AOd86hf9WWmtzU', 'Deliver Now', '', 0, '25.92', NULL),
+(169, 48, '2017-04-01 17:43:32', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, 'tok_AOdXw7z9EnRWLR', 'April 1 at 1515', '', 0, '33.89', NULL),
+(170, 49, '2017-04-01 17:52:09', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, 'tok_AOdffgjpJQYBCV', 'Deliver Now', '', 0, '64.50', NULL),
+(171, 49, '2017-04-01 17:56:46', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '38.58', NULL),
+(172, 49, '2017-04-01 17:59:46', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '32.82', NULL),
+(173, 49, '2017-04-01 18:00:44', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '27.05', NULL),
+(174, 49, '2017-04-01 18:02:27', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '27.05', NULL),
+(175, 48, '2017-04-01 18:04:29', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '27.05', NULL),
+(176, 48, '2017-04-01 18:09:30', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '24.79', NULL),
+(177, 48, '2017-04-01 18:10:13', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '27.05', NULL),
+(178, 48, '2017-04-01 18:12:29', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '27.05', NULL),
+(179, 48, '2017-04-01 18:13:42', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '27.05', NULL),
+(180, 49, '2017-04-01 18:30:43', 18, '', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055555555', '', 1, '', 'Deliver Now', 'Please write a note in the pizza box', 0, '27.05', NULL),
+(181, 49, '2017-04-01 18:33:16', 18, '', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '27.05', NULL),
+(182, 49, '2017-04-01 18:33:41', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '30.89', NULL),
+(183, 49, '2017-04-01 18:34:51', 18, '', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '27.05', NULL),
+(184, 49, '2017-04-01 18:36:21', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '27.05', NULL),
+(185, 49, '2017-04-01 18:37:44', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '27.05', NULL),
+(186, 49, '2017-04-01 18:39:24', 18, '', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '32.82', NULL),
+(187, 49, '2017-04-01 19:00:19', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '38.58', NULL),
+(188, 49, '2017-04-01 19:01:16', 18, '', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '27.05', NULL),
+(189, 49, '2017-04-01 19:03:41', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '32.82', NULL),
+(190, 49, '2017-04-01 19:04:53', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '38.58', NULL),
+(191, 49, '2017-04-01 19:10:42', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055555555', '', 1, 'tok_AOewV17HgWzVTv', 'Deliver Now', '', 0, '27.05', NULL),
+(192, 49, '2017-04-01 19:11:23', 18, '', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '27.05', NULL),
+(193, 49, '2017-04-01 19:14:59', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '30.89', NULL),
+(194, 49, '2017-04-01 19:16:34', 18, '', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '30.43', NULL),
+(195, 49, '2017-04-01 19:18:33', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '55.36', NULL),
+(196, 49, '2017-04-01 19:19:19', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '27.05', NULL),
+(197, 49, '2017-04-01 19:28:09', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '58.18', NULL),
+(198, 49, '2017-04-01 19:28:35', 18, '', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '37.27', NULL),
+(199, 49, '2017-04-01 19:32:18', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '30.89', NULL),
+(200, 49, '2017-04-01 19:32:53', 18, '', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '32.82', NULL),
+(201, 49, '2017-04-01 19:34:01', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '27.05', NULL),
+(202, 49, '2017-04-01 19:34:30', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '27.05', NULL),
+(203, 49, '2017-04-01 19:37:29', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '32.82', NULL),
+(204, 49, '2017-04-01 19:38:41', 18, '', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '27.05', NULL),
+(205, 49, '2017-04-01 19:39:34', 18, '', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '32.82', NULL),
+(206, 49, '2017-04-01 19:41:06', 18, '', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '32.82', NULL),
+(207, 49, '2017-04-01 19:42:38', 18, '', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '37.34', NULL),
+(208, 49, '2017-04-01 19:46:08', 18, '', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '27.05', NULL),
+(209, 49, '2017-04-01 19:58:59', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '98.81', NULL),
+(210, 49, '2017-04-01 19:59:26', 18, '', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '27.05', NULL),
+(211, 49, '2017-04-01 20:00:20', 18, '', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '32.82', NULL),
+(212, 49, '2017-04-01 20:01:09', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '27.05', NULL),
+(213, 49, '2017-04-01 20:01:38', 18, '', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '34.74', NULL),
+(214, 49, '2017-04-01 20:02:15', 18, '', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '27.05', NULL),
+(215, 49, '2017-04-01 20:03:09', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '32.82', NULL),
+(216, 49, '2017-04-01 20:06:57', 18, '', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '54.94', NULL),
+(217, 49, '2017-04-01 21:49:08', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '25.38', NULL),
+(218, 49, '2017-04-01 21:50:30', 18, '', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055555555', '', 1, '', 'Deliver Now', '', 0, '27.05', NULL),
+(219, 51, '2017-04-01 23:34:53', 18, '', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '2897006367', '', 1, 'tok_AOjC48wnqrVkYk', 'Deliver Now', '', 0, '24.44', NULL),
+(220, 52, '2017-04-02 01:20:20', 18, 'I''m fat', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055315333', '', 1, 'tok_AOktyVNv6phsmq', 'April 2 at 0030', '', 0, '46.70', NULL),
+(221, 49, '2017-04-02 14:47:29', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 1, '', 'April 3 at 1130', '', 0, '38.30', NULL),
+(222, 49, '2017-04-02 18:02:19', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 1, '', 'April 3 at 1100', '', 0, '47.38', NULL),
+(223, 49, '2017-04-02 23:27:56', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 1, '', 'April 3 at 1100', '', 0, '25.92', NULL);
 
 -- --------------------------------------------------------
 
@@ -283,15 +320,16 @@ CREATE TABLE IF NOT EXISTS `restaurants` (
   `franchise` int(11) NOT NULL,
   `address_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `restaurants`
 --
 
 INSERT INTO `restaurants` (`id`, `name`, `slug`, `email`, `phone`, `cuisine`, `website`, `description`, `logo`, `is_delivery`, `is_pickup`, `max_delivery_distance`, `delivery_fee`, `minimum`, `is_complete`, `lastorder_id`, `franchise`, `address_id`) VALUES
-(1, 'Fabulous 2 for 1 Pizza', '', '', '(905) 512-3067', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 1),
-(2, 'Marvellous Pizza', '', '', '(519) 452-1044', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 86);
+(1, 'Fabulous 2 for 1 Pizza', '', '(905) 512-3067', '9055315331', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 1),
+(2, 'INACTIVE Marvellous Pizza', '', '(519) 452-1044', '', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 2),
+(3, 'Quality Pizza & Wings', '', '', '9055555555', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 97);
 
 -- --------------------------------------------------------
 
@@ -305,17 +343,17 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=562 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1077 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1490107578'),
+(1, 'lastSQL', '1491312989'),
 (20, 'orders', '1487775876'),
-(24, 'menucache', '1490197685'),
-(25, 'useraddresses', '1489588117'),
+(24, 'menucache', '1491144488'),
+(25, 'useraddresses', '1490747182'),
 (37, 'users', '1487175217'),
 (38, 'additional_toppings', '1487175322'),
 (43, 'actions', '1488998737'),
@@ -397,21 +435,23 @@ CREATE TABLE IF NOT EXISTS `useraddresses` (
   `phone` varchar(16) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=91 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=101 ;
 
 --
 -- Dumping data for table `useraddresses`
 --
 
 INSERT INTO `useraddresses` (`id`, `user_id`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `phone`) VALUES
-(1, 21, 483, '', '', 'Dundas Street', 'N6B 1W4', 'London', 'Ontario', '42.9871816', '-81.2386115', ''),
-(2, 35, 1569, '', '', 'Oxford Street East', 'N5V 1W5', 'London', 'Ontario', '43.0109195', '-81.198983600000', ''),
-(85, 42, 400, 'Apt 4', '', 'Dundas Street', 'N6B 1V7', 'London', 'Ontario', '42.9866144999999', '-81.240151500000', ''),
-(86, 1, 230, '18 Oakland Dr', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', ''),
-(87, 43, 2396, '', '', 'Asima Drive', 'N6M 0B3', 'London', 'Ontario', '42.9505', '-81.1735999', ''),
-(88, 44, 2396, '', '', 'Asima Drive', 'N6M 0B3', 'London', 'Ontario', '42.9505', '-81.1735999', ''),
-(89, 1, 230, '', '', 'Richmond Street', 'N6B 2H6', 'London', 'Ontario', '42.9784503000000', '-81.246883200000', ''),
-(90, 1, 441, '', '', 'Richmond Street', 'N6A 6E2', 'London', 'Ontario', '42.9847165', '-81.250563800000', '');
+(1, 3, 483, '', '', 'Dundas Street', 'N6B 1W4', 'London', 'Ontario', '42.9871816', '-81.2386115', ''),
+(2, 4, 1565, '', '', 'Western Rd', 'N6G 1H5', 'London', 'Ontario', '943.0187', '-981.27909999999', ''),
+(3, 5, 483, '', '', 'Dundas Street', 'N6B 1W4', 'London', 'Ontario', '42.9871816', '-81.2386115', ''),
+(4, 6, 1569, '', '', 'Oxford Street East', 'N5V 1W5', 'London', 'Ontario', '43.0109195', '-81.198983600000', ''),
+(95, 48, 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', ''),
+(96, 49, 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', ''),
+(97, 50, 2372, '', '', 'Barton St E', 'L8E 2W7', 'Hamilton', 'Ontario', '43.2376467', '-79.765102399999', ''),
+(98, 49, 18, '', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', ''),
+(99, 51, 18, '', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', ''),
+(100, 52, 18, 'I''m fat', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '');
 
 -- --------------------------------------------------------
 
@@ -435,20 +475,22 @@ CREATE TABLE IF NOT EXISTS `users` (
   `stripecustid` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=45 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=53 ;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `phone`, `lastlogin`, `loginattempts`, `profiletype`, `authcode`, `stripecustid`) VALUES
-(1, 'Roy Wall', 'roy@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '0000-00-00 00:00:00', '2017-02-01 15:15:40', '9055315331', 1487608084, 1, 1, '', 'cus_AKTZRRBh7quhme'),
-(20, 'Roy Test', 'roy+test@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2016-11-16 20:20:28', '0000-00-00 00:00:00', '9055315331', 0, 0, 0, '', ''),
-(21, 'Fabulous', 'roy+fab@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2016-11-16 20:49:31', '0000-00-00 00:00:00', '9055315331', 1481048458, 0, 2, '', 'cus_9yYE78hosPbuGH'),
-(35, 'Marvellous', 'roy+mar@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-02-14 20:28:50', '0000-00-00 00:00:00', '9055315331', 0, 0, 2, '', ''),
-(42, 'Van Trinh', 'info@trinoweb.com', '$2y$10$DzNoghpkgYPiVGNfAabiU./v1zrv4SxJIhmOX6JQ77x8U3oAOiILG', '', '2017-02-20 21:40:08', '0000-00-00 00:00:00', '9055315331', 0, 0, 0, '', 'cus_A9dVM6WuoVRSCq'),
-(43, 'Van Trinh', 'roy+info@trinoweb.com', '$2y$10$JBx25r2Kv7T5Od5IcMBptuelQGOruBJJQIgDqu8S2weK9L0JgEr9C', '', '2017-03-14 21:57:28', '0000-00-00 00:00:00', '', 0, 0, 0, '', ''),
-(44, 'Van Trinh', 'roy+tes@trinoweb.com', '$2y$10$Y1WLmtdwfzDQRkS3UaMM/OcSDxkpH7sMRCJrjQd/J8k0g3nx3vAj.', '', '2017-03-14 22:01:44', '0000-00-00 00:00:00', '', 0, 0, 0, '', '');
+(1, 'Roy Wall', 'roy@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '0000-00-00 00:00:00', '2017-02-01 15:15:40', '', 1487608084, 0, 1, '', 'cus_AKTZRRBh7quhme'),
+(2, 'Roy Test', 'roy+test@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2016-11-16 20:20:28', '0000-00-00 00:00:00', '9055315331', 0, 0, 0, '', ''),
+(3, 'Fabulous', 'info+fab@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2016-11-16 20:49:31', '0000-00-00 00:00:00', '9055315331', 1481048458, 0, 2, '', 'cus_9yYE78hosPbuGH'),
+(4, 'Marvellous', 'info+mar@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-02-14 20:28:50', '0000-00-00 00:00:00', '9055555555', 0, 0, 2, '', ''),
+(48, 'van trinh', 'info@trinoweb.com', '$2y$10$.0DQCK8l9YOr49mc3AcEr.8zemyiRmUa1j69p5MJO4vf6PCIAOip.', '', '2017-04-01 21:18:32', '0000-00-00 00:00:00', '9055315331', 0, 0, 0, '', 'cus_AOdXYiiOWQgnl0'),
+(49, 'Van Account 2', 'dvt1985@hotmail.com', '$2y$10$U7sVKr5wZxX4q7tHqlACgOp5b6mtaiA7XU6oiBgjHvbZxYptKN4E2', '', '2017-04-01 21:51:14', '0000-00-00 00:00:00', '9055555555', 1491173929, 1, 0, '', 'cus_AOewx5Y9EC4GYy'),
+(50, 'Quality Pizza & Wings', 'info+qua@trinoweb.com', '$2y$10$S5SNVTZgWk9Ufe.kLdtaMOOMo2VxRqkXUpv1k/af09Bn1c32UUrcq', '', '2017-04-01 22:20:18', '0000-00-00 00:00:00', '9055315331', 0, 0, 2, '', ''),
+(51, 'Ellen', 'ellentrinh17@hotmail.com', '$2y$10$qWy/VqUvDQ818.d4h6uo3OcsQo9cXvDzmGY6.Ze90L1dC7rQ.6.T2', '', '2017-04-02 03:31:20', '0000-00-00 00:00:00', '2897006367', 0, 0, 0, '', 'cus_AOjCut5qMBakH4'),
+(52, 'M', 'ngocminh89@hotmail.com', '$2y$10$KWTO4ry2XYuiOBXnfbAdmeFJyEFFq3CBHyvhH8yotPU7k7nEofvty', '', '2017-04-02 05:17:07', '0000-00-00 00:00:00', '9055315333', 0, 0, 0, '', 'cus_AOktWUGBmxxRCr');
 
 -- --------------------------------------------------------
 
@@ -474,11 +516,12 @@ CREATE TABLE IF NOT EXISTS `wings_sauce` (
 
 INSERT INTO `wings_sauce` (`id`, `name`, `type`, `isfree`, `qualifiers`, `isall`, `groupid`) VALUES
 (1, 'Honey Garlic', 'Sauce', 0, '', 1, 1),
-(2, 'BBQ', 'Sauce', 0, '', 1, 1),
-(3, 'Hot', 'Sauce', 0, '', 1, 1),
-(4, 'Suicide', 'Sauce', 0, '', 1, 1),
-(5, 'Sauce on Side', 'zPreparation', 1, '', 1, 2),
-(6, 'Well Done', 'zPreparation', 1, '', 1, 3);
+(2, 'Mild', 'Sauce', 0, '', 1, 1),
+(3, 'BBQ', 'Sauce', 0, '', 1, 1),
+(4, 'Hot', 'Sauce', 0, '', 1, 1),
+(5, 'Suicide', 'Sauce', 0, '', 1, 1),
+(6, 'Sauce on Side', 'zPreparation', 1, '', 1, 2),
+(7, 'Well Done', 'zPreparation', 1, '', 1, 3);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

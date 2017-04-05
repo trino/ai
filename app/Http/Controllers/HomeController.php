@@ -10,20 +10,16 @@ use App\Http\Controllers\Controller;
 use App\Task;
 use App\Repositories\TaskRepository;
 
-class HomeController extends Controller
-{
-    public function index(Request $request)
-    {
+class HomeController extends Controller {
+    public function index(Request $request){
         return view("home_keyword")->render();
     }
 
-    public function help(Request $request)
-    {
+    public function help(Request $request){
         return view("home_help")->render();
     }
 
-    public function tablelist($table)
-    {
+    public function tablelist($table){
         if (isset($_POST["action"])) {
             switch ($_POST["action"]) {
                 case "testemail":
@@ -37,31 +33,31 @@ class HomeController extends Controller
         return view("home_list", array("table" => $table))->render();
     }
 
-    public function edituser($user_id = false)
-    {
+    public function edituser($user_id = false){
         if (!$user_id) {
             $user_id = read("id");
         }
         return view("home_edituser", array("user_id" => $user_id))->render();
     }
 
-    public function edit(Request $request)
-    {
+    public function robocall(Request $request){
+        echo '<?xml version="1.0" encoding="UTF-8"?><Response><Say voice="woman" language="en">' . $_GET["message"] . '</Say></Response>';
+        die();
+    }
+
+    public function edit(Request $request){
         return view("home_editor")->render();
     }
 
-    public function edittable(Request $request)
-    {
+    public function edittable(Request $request){
         return view("home_edittable")->render();
     }
 
-    public function editmenu(Request $request)
-    {
+    public function editmenu(Request $request){
         return view("home_editmenu")->render();
     }
 
-    public function placeorder($POST = "")
-    {
+    public function placeorder($POST = ""){
         if (!read("id")) {
             return array("Status" => false, "Reason" => "You are not logged in");
         }
@@ -226,12 +222,10 @@ class HomeController extends Controller
         }
     }
 
-    function order_placed($orderid, &$info = false, $party = -1, $event = "order_placed", $Reason = "")
-    {
+    function order_placed($orderid, &$info = false, $party = -1, $event = "order_placed", $Reason = ""){
         if (!$info) {
             $info = first("SELECT * FROM orders WHERE id = " . $orderid);
         }
-
         $user = first("SELECT * FROM users WHERE id = " . $info["user_id"]);
         $admin = first("SELECT * FROM users WHERE profiletype = 1");
         if ($party > -2) {
@@ -239,7 +233,6 @@ class HomeController extends Controller
             if ($party > -1) {
                 $actions = array($actions);
             }
-            //     dd($actions);
             foreach ($actions as $action) {
                 $party = null;
                 $email = null;
@@ -265,7 +258,7 @@ class HomeController extends Controller
                         $phone_restro = filternonnumeric($restaurant["restaurant"]["phone"]);
                         $phone = filternonnumeric($restaurant["user"]["phone"]);
 
-                        /*   $phone = filternonnumeric($restaurant["user"]["phone"]);
+                        /*
                         if ($phone != $phone2) {
                             $phone = array($phone, $phone2);
                         }
@@ -287,12 +280,10 @@ class HomeController extends Controller
                     $this->sendSMS($phone, $action["message"]);
                 }
                 if ($action["phone"]) {
-
                     //if SMS restro then SMS user of the restro instead since all of the restro phones are lan lines
                     if (isset($phone_restro)) {
                         $phone = $phone_restro;
                     }
-
                     debugprint("Calling " . $party . ": " . var_export($phone, true));
                     $this->sendSMS($phone, $action["message"], true);
                 }
@@ -307,8 +298,7 @@ class HomeController extends Controller
      * @param bool|false $gethours
      * @return array|bool|\mysqli_result
      */
-    function closestrestaurant($data, $gethours = false)
-    {
+    function closestrestaurant($data, $gethours = false){
         //if(!isset($data['radius'])){$data['radius'] = 100;}//default radius
         $SQL = "SELECT address_id FROM restaurants WHERE address_id > 0";
         if (isset($data["restaurant_id"])) {
@@ -341,8 +331,7 @@ class HomeController extends Controller
         return $Restaurants;
     }
 
-    function processrestaurant($Restaurant)
-    {
+    function processrestaurant($Restaurant){
         if (!is_array($Restaurant)) {
             $Restaurant = array("id" => $Restaurant);
             $Restaurant["restaurant"] = first("SELECT * FROM restaurants WHERE id = " . $Restaurant["id"]);
@@ -356,8 +345,7 @@ class HomeController extends Controller
         return $Restaurant;
     }
 
-    function processaddress($info)
-    {
+    function processaddress($info){
         //autosave address changes
         $address = first("SELECT * FROM useraddresses WHERE user_id = " . $info["user_id"] . " AND number = '" . $info["number"] . "' AND street = '" . $info["street"] . "' AND city = '" . $info["city"] . "'");
         if (!$address) {
