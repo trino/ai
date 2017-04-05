@@ -37,6 +37,21 @@ button, .btn-sm, a, .btn {
     background: #0275d8 !important;
     color: white;
 }
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
+    text-decoration: none;
+    border-bottom: 2px solid #464a4c !important;
+
+}
+
+
+.nav-tabs .nav-link {
+
+    padding: .5rem .5rem;
+    margin-bottom: 1rem;
+}
+
+
+
 
 .sprite {
     background-image: url('../../public/images/grid.png');
@@ -70,7 +85,6 @@ h2 {
     padding: 0 !important;
     font-weight: bold;
     margin: .5rem 0 !important;
-    color: goldenrod;
 }
 
 .list-group-item, .modal-header {
@@ -89,7 +103,7 @@ h2 {
 }
 
 .container-fluid {
-    max-width: 1400px !important;
+    max-width: 1275px !important;
 }
 
 .modal-content {
@@ -425,9 +439,6 @@ option {
 }
 */
 
-.nav-tabs .nav-link {
-    padding: 1rem .5rem;
-}
 
 .fab {
     font-size: .8rem;
