@@ -20,7 +20,7 @@
             </div>
             <div class="modal-body" style="padding: 0 !important;">
                 <FORM ID="orderinfo" name="orderinfo">
-                    <div class="input_left_icon"><i class="fa fa-home"></i></div>
+                    <div class="input_left_icon"><i style="font-size: 1.1rem !important;" class="fa fa-home"></i></div>
                     <div class="input_right">
                         <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
                         <?php
@@ -38,7 +38,7 @@
 
 
 
-                    <div class="input_left_icon"><i class="fa fa-clock-o"></i></div>
+                    <div class="input_left_icon"><i  style="font-size: 1.1rem !important;" c class="fa fa-clock-o"></i></div>
                     <div class="input_right">
                         <div class="">
                             <SELECT id="deliverytime" TITLE="Delivery Time" class="form-control"/>

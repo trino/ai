@@ -89,7 +89,7 @@
             </SPAN>
             <LI><A CLASS="dropdown-item" href="help"><i class="fa fa-question-circle icon-width"></i> Info</A></LI>
             @if(read("id"))
-            <LI><A ONCLICK="handlelogin('logout');" CLASS="dropdown-item" href="#"><i class="fa fa-home icon-width"></i> Log Out</A></LI>
+            <LI><A ONCLICK="handlelogin('logout');" CLASS="dropdown-item" href="#"><i class="fa fa-sign-out icon-width"></i> Log Out</A></LI>
             </SPAN>
 
         @endif
