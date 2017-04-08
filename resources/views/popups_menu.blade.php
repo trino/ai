@@ -112,7 +112,7 @@
             }
             $itemsInCol += $menuitemcount;
         ?>
-        <div class="bg-inverse list-group-item">
+        <div class="bg-inverse list-group-item list-group-item-action">
             <h2>   {{$category['category']}}</h2>
         </div>
         @foreach ($menuitems as $menuitem)

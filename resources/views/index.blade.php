@@ -7,10 +7,10 @@
             echo view("popups_login")->render();
         } else {
             ?>
-            <div class="row shadow">
+            <div class="row">
                 <?php
                     //menu caching
-                    $doCache = false;//disabled for development
+                    $doCache = true;//disabled for development
                     $menucache_filename = resource_path() . "/menucache.html";
                     $menublade_filename = resource_path() . "/views/popups_menu.blade.php";
                     $menucache_uptodate = isFileUpToDate("menucache", $menucache_filename) && !isFileUpToDate("menucache", $menublade_filename);
@@ -25,7 +25,7 @@
                         echo '<!-- menu cache generated at: ' . now() . ' --> ' . $menu;
                     }
                 ?>
-                <div class="col-lg-3 col-md-12 bg-inverse" style="border-right: 0 !important;background: #dcdcdc !important;">
+                <div class="col-lg-3 col-md-12 bg-inverse" style="background: #dcdcdc !important;">
                     @include("popups_checkout")
                 </div>
             </div>

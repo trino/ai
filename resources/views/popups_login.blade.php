@@ -26,11 +26,12 @@
                     <div class="input_right">
                         <INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control" onkeydown="enterkey(event, 'login');" required>
                     </div>
-
                     <div class="clearfix my-2"></div>
-                    <BUTTON CLASS="btn btn-primary pull-right" onclick="handlelogin('login');">LOG IN</BUTTON>
+
+                    <BUTTON CLASS="pull-left btn-link btn-sm" href="#" style="font-weight: normal !important;color: #dadada !important;" onclick="handlelogin('forgotpassword');">Forgot Password</BUTTON>
+
+                    <BUTTON CLASS="pull-right btn btn-primary pull-right" onclick="handlelogin('login');">LOG IN</BUTTON>
                     <div class="clearfix"></div>
-                    <BUTTON CLASS="btn-link text-muted btn-sm" href="#" onclick="handlelogin('forgotpassword');">Forgot Password</BUTTON>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="buzz">
                     <FORM id="addform">
@@ -64,7 +65,7 @@
 
         <DIV CLASS="clearfix"></DIV>
     </DIV>
-    <div class="col-lg-9 col-md-8" style="opacity: .5">
+    <div class="col-lg-9 col-md-8 bg-inverse" style="">
 
         <!--div class="jumbotron" style="border-radius: 0">
             <h1 class="display-3">Hello, world!</h1>

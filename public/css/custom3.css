@@ -1,3 +1,7 @@
+*{
+    border: 0 !important;
+}
+
 .addon-addon {
     text-align: left;
 }
@@ -46,7 +50,7 @@ button, .btn-sm, a, .btn {
 
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
     text-decoration: none;
-    border-bottom: 2px solid #464a4c !important;
+    border-bottom: 4px solid #d9534f !important;
 }
 
 .nav-tabs .nav-link {
@@ -164,10 +168,15 @@ h2 {
 }
 
 
+.fourthwidth{
 
+    width: 25%;
+    float: left !important;
+    display: inline !important;
+}
 
 .thirdwidth {
-    width: 25%;
+    width: calc(100% / 3);
     float: left !important;
     display: inline !important;
 }
@@ -302,7 +311,7 @@ body {
         background-image: linear-gradient(rgba(174,149,86,.45),rgba(255,255,255,0));
         background: rgba(174, 149, 86, .45);
    */
-    background: #fff;
+    background: #d7d7d7;
 }
 
 .full {
@@ -410,7 +419,7 @@ body {
 
 input, select, textarea, option {
     border: 0 !important;
-    border-bottom: 1px solid #e7e7e7 !important;
+    border-bottom:1px solid #cdcdcd !important; ;
     background: #dedede !important;
     border-radius: 0 !important;
     /*

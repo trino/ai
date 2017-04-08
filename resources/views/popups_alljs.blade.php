@@ -583,7 +583,7 @@
                 $("#checkout-btn").show();
             } else {
                 $("#checkout-btn").hide();
-                tempHTML += '<button CLASS="list-padding bg-secondary btn-block text-normal">minimum $' + minimumfee + ' total to order</button>';
+                tempHTML += '<button CLASS="list-padding bg-secondary btn-block text-normal">minimum $' + minimumfee + ' to order</button>';
             }
             tempHTML += '<DIV id="newvalues"';
             if (fadein || forcefade) {
@@ -1946,7 +1946,7 @@
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
-                    HTML += '<button class="thirdwidth bg-white bg-'+types[i]+' addon-addon list-group-item-action toppings_btn';
+                    HTML += '<button class="fourthwidth bg-white bg-'+types[i]+' addon-addon list-group-item-action toppings_btn';
                     if (isaddon_free(String(currentaddontype), String(addon))) {
                         title = "Free addon";
                     }
@@ -1954,8 +1954,8 @@
                 }
             }
 
-            HTML += '<button class="thirdwidth toppings_btn list-group-item-action bg-white" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button>' +
-                '<button class=" btn-primary thirdwidth toppings_btn strong" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button>';
+            HTML += '<button class="fourthwidth toppings_btn list-group-item-action bg-white" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button>' +
+                '<button class=" btn-primary fourthwidth toppings_btn strong" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button>';
 
             HTML += '<div style="clear:both;"></div>';
 

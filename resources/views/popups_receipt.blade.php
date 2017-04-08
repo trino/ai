@@ -165,8 +165,11 @@
 ?>
 
 @if($includeextradata)
-    <h2 class="mt-2 mb-3">Order Arriving {{ $duration }}</h2>
+    <div class="alert alert-success text-center text-sm-center">
+        <h2>Order Arriving {{ $duration }}</h2>
+    </div>
     @if($timer)
+
         <!--div style="font-size: 2rem !important;" CLASS="mb-2 countdown btn-lg badge badge-pill badge-success" hours="<?= $hours; ?>" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"
              title="Time is approximate and not a guarantee"><?= $time; ?></div-->
     @elseif($place != "email")
@@ -321,7 +324,7 @@
                                             if ($debugmode) {
                                                 $debug = ' TITLE="' . $onlydebug . print_r($menuitem, true) . '"';
                                             }
-                                            echo '<TD ALIGN="RIGHT"' . $debug . '>$' . number_format($menuitem["price"], 2) . '</TD><TD>';
+                                            echo '<TD  ALIGN="RIGHT"' . $debug . '>$' . number_format($menuitem["price"], 2) . '</TD><TD>';
                                             break;
                                         case 2:
                                             $imagefile = str_replace(" ", "-", strtolower($menuitem["category"]));
@@ -336,7 +339,7 @@
                                                 }
                                             }
                                            // $imagefile = '<img class="pull-left" src="' . $localdir . $imagefile . ".png" . '" style="width:22px;margin-right:5px;">';
-                                            echo '<TR><TD valign="middle">'  . showifabove1($quantity, 'x&nbsp;')  . $item->itemname . '</TD><TD width="1%"></TD><TD width="1%"></TD><TD ALIGN="RIGHT" WIDTH="5%">';
+                                            echo '<TR><TD valign="middle" style="font-weight: bold;">'  . showifabove1($quantity, 'x&nbsp;')  . $item->itemname . '</TD><TD width="1%"></TD><TD width="1%"></TD><TD ALIGN="RIGHT" WIDTH="5%">';
                                             break;
                                     }
 
@@ -439,8 +442,8 @@
                         echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Sub-total&nbsp;</TD><TD ALIGN="RIGHT">$' . number_format($subtotal, 2) . '</TD></TR>';
                         echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Delivery&nbsp;</TD><TD ALIGN="RIGHT">$' . number_format($deliveryfee, 2) . '</TD></TR>';
                         echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Tax&nbsp;</TD><TD ALIGN="RIGHT">$' . number_format($tax, 2) . '</TD></TR>';
-                        echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Total&nbsp;</TD><TD ALIGN="RIGHT">$' . number_format($total, 2) . '</TD></TR>';
-                        echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">&nbsp;</TD><TD ALIGN="RIGHT"><span style="color:#d9534f !important;">Paid</span></TD></TR>';
+                        echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Total&nbsp;</TD><TD ALIGN="RIGHT" style="font-weight: bold;">$' . number_format($total, 2) . '</TD></TR>';
+                        echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">&nbsp;</TD><TD ALIGN="RIGHT"><span style="color:#d9534f !important;font-weight: bold;">Paid</span></TD></TR>';
                         if ($Order["cookingnotes"]) {
                             echo '<TR><TD COLSPAN="' . $colspan . '"><B>Notes: </B>' . $Order["cookingnotes"] . '</TD></TR>';
                         }
@@ -487,7 +490,9 @@
 
 @if($includeextradata)
         <h2 class="mt-3">Questions about your order?</h2>
-        Please contact the restaurant directly or email us at info@londonpizza.ca
+        Please contact the restaurant directly<br>
+
+    <a href="<?= webroot("help"); ?>">More Info</a>
 @endif
 
         <!--div>

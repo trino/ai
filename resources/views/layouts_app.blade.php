@@ -101,7 +101,7 @@
         <div class="container-fluid hidden-md-down list-group-item">
             <div class="row">
                 <div class="col-sm-12">
-                    <a CLASS="btn btn-sm text-white" href="<?= webroot("help"); ?>"> <i style="font-size: 1rem !important;" class="fa fa-question-circle icon-width"></i> Info</a>
+                    <a CLASS="btn btn-sm text-muted" href="<?= webroot("help"); ?>"> <i style="font-size: 1rem !important;" class="fa fa-question-circle icon-width"></i> Info</a>
                 </div>
             </div>
         </div>
