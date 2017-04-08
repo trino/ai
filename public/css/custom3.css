@@ -15,12 +15,19 @@ button, .btn-sm, a, .btn {
     font-weight: bold !important;
 }
 
+
+
+
+
+
+
 .bg-transparent {
     background: transparent;
+    color: white;
 }
 
 .fa {
-    font-size: 1rem !important;
+    font-size: 1.15rem !important;
 }
 
 .bg-inverse {
@@ -105,8 +112,8 @@ h2 {
 }
 
 .list-group-item-action {
-    border-top: 1px solid #f8f8f8 !important;
-    border-right: 1px solid #f8f8f8 !important;
+    border-top: 1px solid #dadada !important;
+    border-right: 1px solid #dadada !important;
     font-weight: normal !important;
 
 }
@@ -117,7 +124,8 @@ h2 {
 }
 
 .modal-header {
-    background: white !important;
+  background-color:   #d9534f!important;
+    color:white;
 }
 
 .list-padding {
@@ -134,12 +142,35 @@ h2 {
     border-radius: 0 !important;
     overflow: hidden !important;
     font-size: .80vw;
-    font-size: .80rem;
-    font-weight: bold !important;
-    height: 32px !important;
-    min-height: 32px !important;
+    font-size: .85rem;
+    height: 46px !important;
+    min-height: 46px !important;
+    text-align: center;
+
 }
 
+
+
+
+.bg-Meat{
+
+}
+.bg-Vegetable{
+
+
+}
+.bg-zPreparation{
+
+}
+
+
+
+
+.thirdwidth {
+    width: 25%;
+    float: left !important;
+    display: inline !important;
+}
 .addonlist {
     width: 100%;
 }
@@ -228,7 +259,7 @@ body.loading #loadingmodal {
 }
 
 .receipt-addons-list {
-    height: 110px;
+    height: 500px;
     overflow-y: auto;
     overflow-x: auto;
 }
@@ -239,11 +270,7 @@ body.loading #loadingmodal {
     display: inline !important;
 }
 
-.thirdwidth {
-    width: 33.33%;
-    float: left !important;
-    display: inline !important;
-}
+
 
 .n55555avbar {
     z-index: 1;
@@ -274,17 +301,18 @@ body {
         background-image: -moz-linear-gradient(rgba(174,149,86,.45),rgba(255,255,255,0));
         background-image: linear-gradient(rgba(174,149,86,.45),rgba(255,255,255,0));
         background: rgba(174, 149, 86, .45);
-        background: #e7e7e7;
    */
-    background: transparent;
+    background: #fff;
 }
 
 .full {
+    /*
     background: url(../../public/images/background.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    */
 }
 
 @media screen and (max-width: 400px) {
@@ -741,10 +769,12 @@ input, textarea {
 
 table {
     border-collapse: collapse;
+    border: 1px solid #d4d4d4  !important;
+
 }
 
 table td, table th {
-    border: 1px solid #dadada !important;
+    border: 1px solid #d4d4d4  !important;
 }
 
 table tr:first-child th {

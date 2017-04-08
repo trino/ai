@@ -184,12 +184,12 @@
                 <SPAN ID="modal-itemcat"></SPAN>
             </div>
 
-            <div class="list-group-item bg-white">
+            <div class="list-group-item">
                 <h2 class="text-normal" id="myModalLabel">
                     <SPAN ID="modal-itemname"></SPAN><br>
                     <small ID="toppingcost" class="nowrap text-muted">+$<SPAN id="modal-toppingcost"></SPAN> per topping</small>
                 </h2>
-                <button data-dismiss="modal" class="btn btn-sm ml-auto bg-transparent"><i class="fa fa-close"></i></button>
+                <button data-dismiss="modal" class="btn btn-sm ml-auto bg-transparent text-normal"><i class="fa fa-close"></i></button>
 
 
             </div>

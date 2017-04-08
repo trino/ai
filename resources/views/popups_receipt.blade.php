@@ -187,7 +187,7 @@
             <th align="right">Price</th>
         </TR>
         @else
-            <TABLE WIDTH="100%" class="noborder" cellspacing="0" cellpadding="0">
+            <TABLE WIDTH="100%" class="" cellspacing="0" cellpadding="0">
                 @endif
 
                 <?php
@@ -335,8 +335,8 @@
                                                     }
                                                 }
                                             }
-                                            $imagefile = '<img class="pull-left" src="' . $localdir . $imagefile . ".png" . '" style="width:22px;margin-right:5px;">';
-                                            echo '<TR><TD width="1%">' . $imagefile . '</TD><TD width="1%"> ' . showifabove1($quantity, 'x&nbsp;') . '</TD><TD valign="middle">' . $item->itemname . '</TD><TD ALIGN="RIGHT" WIDTH="5%">';
+                                           // $imagefile = '<img class="pull-left" src="' . $localdir . $imagefile . ".png" . '" style="width:22px;margin-right:5px;">';
+                                            echo '<TR><TD valign="middle">'  . showifabove1($quantity, 'x&nbsp;')  . $item->itemname . '</TD><TD width="1%"></TD><TD width="1%"></TD><TD ALIGN="RIGHT" WIDTH="5%">';
                                             break;
                                     }
 

@@ -14,7 +14,7 @@
 <div class="modal" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="list-group-item bg-white">
+            <div class="modal-header">
                 <h2 id="myModalLabel">Hi, <SPAN CLASS="session_name"></SPAN></h2>
                 <button data-dismiss="modal" data-popup-close="checkoutmodal" class="btn btn-sm ml-auto align-middle bg-transparent"><i class="fa fa-close"></i></button>
             </div>

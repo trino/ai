@@ -346,8 +346,8 @@
 
     function refreshremovebutton() {
         if (currentaddonlist[currentitemindex].length == 0) {
-            $(".removeitemarrow").fadeTo("fast", 0.50);
-            $("#removeitemfromorder").attr("title", "").attr("onclick", "").attr("style", "cursor: not-allowed");
+         //   $(".removeitemarrow").fadeTo("fast", 0.50);
+         //   $("#removeitemfromorder").attr("title", "").attr("onclick", "").attr("style", "cursor: not-allowed");
         } else {
             var index = currentaddonlist[currentitemindex].length - 1;
             var lastitem = currentaddonlist[currentitemindex][index];
@@ -1877,7 +1877,7 @@
                 var currentaddon = currentaddonlist[itemindex][i];
                 var qualifier = "";
                 tempstr += '<DIV CLASS="pr-3 ' + classname + '" id="topping_' + itemindex + '_' + i + '">' + currentaddon.name +
-                    '<span ONCLICK="removelistitem(' + itemindex + ', ' + i + ');">&nbsp; <i CLASS="fa fa-times"></i> </span></div>';
+                    '<!--span ONCLICK="removelistitem(' + itemindex + ', ' + i + ');">&nbsp; <i CLASS="fa fa-times"></i> </span--></div>';
                 qualifier = currentaddon.qual;
                 if (qualifier == 0) {
                     qualifier = 0.5;
@@ -1935,31 +1935,29 @@
         currentaddontype = table;
         var HTML = '<DIV class="receipt-addons-list"><DIV id="theaddons"></DIV></DIV>';
         if (currentstyle == 0) {
-            HTML += '<DIV CLASS="addonlist" ID="addontypes">';
+            HTML += '<DIV CLASS="addonlist" style="border:3px solid green !important;" ID="addontypes">';
         }
         var types = Object.keys(alladdons[table]);
         if (currentstyle == 0) {
             $("#addonlist").html(HTML + '</DIV>');
         } else {
+            HTML += '<div style="border:0px solid blue !important;position: absolute; bottom: 0;width:100%">';
             for (var i = 0; i < types.length; i++) {
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
-                    HTML += '<button class="thirdwidth bg-white addon-addon list-group-item-action toppings_btn';
-
+                    HTML += '<button class="thirdwidth bg-white bg-'+types[i]+' addon-addon list-group-item-action toppings_btn';
                     if (isaddon_free(String(currentaddontype), String(addon))) {
-                        //HTML += ' ';//free topping, this should be different from a paid topping
                         title = "Free addon";
-                        //} else {
-                        //HTML += ' '//paid topping
                     }
-
-                    HTML += '" TITLE="' + title + '">' + addon + '</button>';
+                    HTML += '" TITLE="' + title + '">' + addon +'</button>';
                 }
             }
 
             HTML += '<button class="thirdwidth toppings_btn list-group-item-action bg-white" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button>' +
-                '<button class="list-group-item-action bg-white thirdwidth text-primary toppings_btn strong" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button>';
+                '<button class=" btn-primary thirdwidth toppings_btn strong" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button>';
+
+            HTML += '<div style="clear:both;"></div>';
 
             $("#addonlist").html(HTML);
             $(".addon-addon").click(
