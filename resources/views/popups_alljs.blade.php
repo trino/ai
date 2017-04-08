@@ -14,7 +14,7 @@
         left: 0;
         height: 100%;
         width: 100%;
-        background: rgba(255, 255, 255, .9) url('<?= webroot("public/images/slice.gif"); ?>') 50% 50% no-repeat;
+        background: rgba(0, 0, 0, .6) url('<?= webroot("public/images/slice.gif"); ?>') 50% 50% no-repeat;
     }
 </STYLE>
 <script>
@@ -22,7 +22,7 @@
     var is_android = navigator.userAgent.toLowerCase().indexOf('android') > -1;
     var is_firefox_for_android = is_firefox && is_android;
     var currentitemID = -1;
-    var MAX_DISTANCE = 20;//km
+    var MAX_DISTANCE = 3;//km
     var debugmode = false;//'<?= !islive(); ?>' == '1';
 
     String.prototype.isEqual = function (str) {
