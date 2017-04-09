@@ -1,7 +1,7 @@
 <?php
-    startfile("popups_login");
-    $minimum = number_format(first("SELECT price FROM additional_toppings WHERE size = 'Minimum'")["price"], 2);
-    $delivery = number_format(first("SELECT price FROM additional_toppings WHERE size = 'Delivery'")["price"], 2);
+startfile("popups_login");
+$minimum = number_format(first("SELECT price FROM additional_toppings WHERE size = 'Minimum'")["price"], 2);
+$delivery = number_format(first("SELECT price FROM additional_toppings WHERE size = 'Delivery'")["price"], 2);
 ?>
 <div class="row">
     <DIV CLASS="col-lg-3 col-md-4">
@@ -28,7 +28,8 @@
                     </div>
                     <div class="clearfix my-2"></div>
 
-                    <BUTTON CLASS="pull-left btn-link btn-sm" href="#" style="font-weight: normal !important;color: #dadada !important;" onclick="handlelogin('forgotpassword');">Forgot Password</BUTTON>
+                    <BUTTON CLASS="pull-left btn-link btn-sm" href="#" style="font-weight: normal !important;color: #dadada !important;" onclick="handlelogin('forgotpassword');">Forgot Password
+                    </BUTTON>
 
                     <BUTTON CLASS="pull-right btn btn-primary pull-right" onclick="handlelogin('login');">LOG IN</BUTTON>
                     <div class="clearfix"></div>
@@ -36,9 +37,9 @@
                 <div role="tabpanel" class="tab-pane fade" id="buzz">
                     <FORM id="addform">
                         <?php
-                            if (!read("id")) {
-                                echo view("popups_address", array("style" => 1, "required" => true, "icons" => true))->render();
-                            }
+                        if (!read("id")) {
+                            echo view("popups_address", array("style" => 1, "required" => true, "icons" => true))->render();
+                        }
                         ?>
                     </FORM>
                     <FORM Name="regform" id="regform">
@@ -65,17 +66,18 @@
 
         <DIV CLASS="clearfix"></DIV>
     </DIV>
-    <div class="col-lg-9 col-md-8 bg-inverse" style="">
+    <div class="col-lg-9 col-md-8" style="">
 
-        <!--div class="jumbotron" style="border-radius: 0">
-            <h1 class="display-3">Hello, world!</h1>
-            <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-            <hr class="my-4">
-            <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+        <div class="jumbotron" style="border-radius: 0;background: transparent !important;">
+            <h1 class="">Now Deliverying in London!</h1>
+            <p class="lead">PIZZA BROUGHT TO YOU</p>
+            <p>The art of delivery is in the team. Local restaurants at your footstep in 40 minutes.</p>
+            <p class="text-success">Open: Monday - Saturday 11am - 11pm</p>
             <p class="lead">
-                <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
             </p>
-        </div-->
+            <a class="btn-link" href="<?= webroot("help"); ?>" role="button">LEARN MORE</a>
+
+        </div>
     </div>
 </div>
 <SCRIPT>

@@ -8,7 +8,7 @@
 <div id="myorder"></div>
 
 <button id="checkout-btn" class="list-padding btn btn-primary btn-block" onclick="showcheckout();">
-    <i class="fa fa-shopping-basket mr-3"></i> CHECKOUT
+    <i class="fa fa-shopping-basket mr-2"></i> CHECKOUT
 </button>
 
 <div class="modal" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
@@ -44,11 +44,6 @@
                                 <OPTION>Deliver ASAP</OPTION>
                             </SELECT>
                         </div>
-                    </div>
-
-                    <div class="input_left_icon"><i class="fa fa-pencil"></i></div>
-                    <div class="input_right">
-                        <input type="text" id="cookingnotes" class="form-control" placeholder="Order Notes" maxlength="255"/>
                     </div>
 
                     @if(!session()->get('session_phone'))
@@ -110,8 +105,12 @@
 
 
                     <div class="input_left_icon"></div>
-                    <div class="input_right">
-                        <button style="padding-left: 1rem !important;padding-right: 1rem !important;" class="pull-right  radius0 btn btn-primary text-white payfororder" onclick="payfororder();return false;"> <i class="fa fa-check"></i> ORDER</button>
+                    <div    class="input_right">
+
+                        <textarea placeholder="Order Notes" id="cookingnotes" class="form-control" maxlength="255"></textarea>
+
+
+                        <button style="padding-left: 1rem !important;padding-right: 1rem !important;" class="pull-right  radius0 btn btn-primary text-white payfororder" onclick="payfororder();return false;"> <i class="fa fa-check mr-2"></i> ORDER</button>
                         <span class="payment-errors error"></span>
                         <div class="clearfix"></div>
                     </div>

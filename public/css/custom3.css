@@ -31,7 +31,6 @@ button, .btn-sm, a, .btn {
 }
 
 .fa {
-    font-size: 1rem !important;
 }
 
 .bg-inverse {
@@ -203,7 +202,6 @@ h2 {
 .icon-width {
     width: 24px;
     text-align: center;
-    margin-right: .5rem;
 }
 
 .dropdown-menu, .modal-content {
@@ -893,3 +891,4 @@ table tr td:last-child, table tr th:last-child {
     bottom: 8px;
     right: 8px;
 }
+*{border: 0 !important;}

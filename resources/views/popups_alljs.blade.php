@@ -22,7 +22,7 @@
     var is_android = navigator.userAgent.toLowerCase().indexOf('android') > -1;
     var is_firefox_for_android = is_firefox && is_android;
     var currentitemID = -1;
-    var MAX_DISTANCE = 3;//km
+    var MAX_DISTANCE = 7;//km
     var debugmode = false;//'<?= !islive(); ?>' == '1';
 
     String.prototype.isEqual = function (str) {
@@ -593,7 +593,7 @@
             tempHTML += '<TR><TD>Delivery $</TD><TD>' + deliveryfee.toFixed(2) + '</TD></TR>';
             tempHTML += '<TR><TD>Tax $</TD><TD>' + taxes.toFixed(2) + '</TD></TR>';
             tempHTML += '<TR><TD>Total $</TD><TD>' + totalcost.toFixed(2) + '</TD></TR>';
-            tempHTML += '</TABLE><div class="clearfix"></div></DIV></DIV>';
+            tempHTML += '</TABLE><div class="clearfix py-2"></div></DIV></DIV>';
 
             $("#confirmclearorder").show();
             $("#checkout-total").text('$' + totalcost.toFixed(2));

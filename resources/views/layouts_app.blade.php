@@ -72,8 +72,12 @@
                     </SPAN>
 
                     <SPAN class="loggedin">
-                        <li id="profileinfo"> <A data-toggle="modal" data-target="#profilemodal" href="#" class="dropdown-item">
-                            <i class="fa fa-user icon-width"></i> <SPAN CLASS="session_name"></SPAN></A>
+                        <li id="profileinfo">
+
+                       <SPAN CLASS="session_name " style="display: none"></SPAN>
+
+                            <A data-toggle="modal" data-target="#profilemodal" href="#" class="dropdown-item">
+                            <i class="fa fa-user icon-width"></i> My Profile</A>
                         </li>
                         <!--li class="profiletype_not profiletype_not2"><A ONCLICK="orders();" class="dropdown-item" href="#"><i class="fa fa-clock-o icon-width"></i> Past Orders</A></li-->
                     </SPAN>
@@ -83,7 +87,7 @@
                     <LI><A CLASS="dropdown-item" href="<?= webroot(""); ?>"><i class="fa fa-user icon-width"></i> Log In</A></LI>
                 </SPAN>
 
-                <LI><A CLASS="dropdown-item" href="help"><i class="fa fa-question-circle icon-width"></i> Info</A></LI>
+                <LI><A CLASS="dropdown-item" href="help"><i class="fa fa-question-circle icon-width"></i> More Info</A></LI>
 
                 @if(read("id"))
                     <LI><A ONCLICK="handlelogin('logout');" CLASS="dropdown-item" href="#"><i class="fa fa-sign-out icon-width"></i> Log Out</A></LI>
