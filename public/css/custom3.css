@@ -31,7 +31,7 @@ button, .btn-sm, a, .btn {
 }
 
 .fa {
-    font-size: 1.15rem !important;
+    font-size: 1rem !important;
 }
 
 .bg-inverse {
@@ -92,11 +92,11 @@ h2 {
     margin: .5rem 0 !important;
 }
 
-.list-group-item, .modal-header {
+.list-group-item {
     background: transparent;
     border-radius: 0 !important;
     padding: .30rem .50rem !important;
-    min-height: 55px;
+    min-height: 50px;
     margin-bottom: 0 !important;
     border-radius: 0;
     border: 0 !important;
@@ -104,6 +104,15 @@ h2 {
         border-right: 1px solid #eceeef !important;
         border-bottom: 1px solid #eceeef !important;
     */
+}
+.modal-header{
+    padding: .30rem .50rem !important;
+    min-height: 50px;
+}
+.list-padding {
+    border-radius: 0;
+    padding: .30rem .50rem !important;
+    min-height: 50px;
 }
 
 .container-fluid {
@@ -132,12 +141,6 @@ h2 {
     color:white;
 }
 
-.list-padding {
-    border-radius: 0;
-    padding: .30rem .50rem !important;
-    min-height: 55px;
-}
-
 .strong {
     font-weight: bold !important;
 }
@@ -147,8 +150,8 @@ h2 {
     overflow: hidden !important;
     font-size: .80vw;
     font-size: .85rem;
-    height: 46px !important;
-    min-height: 46px !important;
+    height: 45px !important;
+    min-height: 45px !important;
     text-align: center;
 
 }
@@ -233,7 +236,9 @@ body.loading #loadingmodal {
 }
 
 .red{ /*, input:invalid, select:invalid, textarea:invalid {*/
+    /*
      border-bottom: 1px solid #d9534f !important;
+     */
 }
 
 .error {
@@ -300,7 +305,7 @@ body {
     /*  prevents horizontal scroll for full width container-fluid */
     overflow-x: hidden;
     color: #373a3c;
-    font-family: 'Roboto', sans-serif;
+
     animation: fadein 1s;
     -moz-animation: fadein 1s; /* Firefox */
     -webkit-animation: fadein 1s; /* Safari and Chrome */
@@ -404,16 +409,18 @@ body {
     width: 100% !important;
     */
 }
-
+.fa-125{font-size: 1.25rem !important;}
+.fa-15{font-size: 1.5rem !important;}
 .input_left_icon {
-    width: 10%;
+    width: 13%;
     text-align: center;
-    padding-top: 8px;
+    padding-top: 10px;
+    font-size: 1rem;
     float: left
 }
 
 .input_right {
-    width: 90%;
+    width: 87%;
     float: left
 }
 
@@ -421,7 +428,8 @@ input, select, textarea, option {
     border: 0 !important;
     border-bottom:1px solid #cdcdcd !important; ;
     background: #dedede !important;
-    border-radius: 0 !important;
+    border-radius: 0 !important;    margin: 3px 0 !important;
+
     /*
     -webkit-appearance: none;
     -moz-appearance: none;

@@ -73,7 +73,7 @@
 
                     <SPAN class="loggedin">
                         <li id="profileinfo"> <A data-toggle="modal" data-target="#profilemodal" href="#" class="dropdown-item">
-                            <i class="fa fa-user icon-width"></i><SPAN CLASS="session_name"></SPAN></A>
+                            <i class="fa fa-user icon-width"></i> <SPAN CLASS="session_name"></SPAN></A>
                         </li>
                         <!--li class="profiletype_not profiletype_not2"><A ONCLICK="orders();" class="dropdown-item" href="#"><i class="fa fa-clock-o icon-width"></i> Past Orders</A></li-->
                     </SPAN>
@@ -152,4 +152,47 @@
             }
         ?>
     </div>
+
+
+
+
+
+    @if(false)
+        <style>
+            * {
+                border: 1px solid orange !important;
+            }
+
+            input, select, textarea {
+                border: 1px solid green !important;
+                background: #dadada !important;
+            }
+
+            div {
+                border: 1px solid #dadada !important;
+            }
+
+            .row {
+                border: 1px solid blue !important;
+            }
+
+            div[class^="col-"], div[class*=" col-"] {
+                border: 1px solid red !important;
+            }
+
+            table {
+                border: 1px solid yellow !important;
+            }
+
+            tr {
+                border: 1px solid pink !important;
+            }
+
+            td {
+                border: 1px solid black !important;
+            }
+
+
+        </style>
+    @endif
 </html>

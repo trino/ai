@@ -490,9 +490,10 @@
 
 @if($includeextradata)
         <h2 class="mt-3">Questions about your order?</h2>
-        Please contact the restaurant directly<br>
+        Please contact the restaurant directly.<br>
 
-    <a href="<?= webroot("help"); ?>">More Info</a>
+    <a class="pull-left btn-link mt-1" href="<?= webroot("help"); ?>">MORE INFO</a>
+    <div class="clearfix"></div>
 @endif
 
         <!--div>

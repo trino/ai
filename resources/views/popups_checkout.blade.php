@@ -20,7 +20,7 @@
             </div>
             <div class="modal-body" style="padding: 0 !important;">
                 <FORM ID="orderinfo" name="orderinfo">
-                    <div class="input_left_icon"><i style="font-size: 1.1rem !important;" class="fa fa-home"></i></div>
+                    <div class="input_left_icon"><i style="font-size: 1.1rem !important;" class="fa fa-map-marker"></i></div>
                     <div class="input_right">
                         <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
                         <?php
@@ -52,10 +52,10 @@
                     </div>
 
                     @if(!session()->get('session_phone'))
-                        <div class="input_left_icon"><i class="fa fa-user"></i></div>
+                        <div class="input_left_icon"><i class="fa fa-mobile-phone" style="font-size: 1.5rem !important;"></i></div>
                         <div class="input_right">
-                                <!--?= view("popups_edituser", array("email" => false, "profile1" => true, "password" => false, "phone" => false, "required" => true, "icons" => false))->render(); ?-->
-                                <?= view("popups_edituser", array("email" => false, "profile1" => false, "password" => false, "phone" => true, "required" => true, "icons" => false, "class" => "autored"))->render(); ?>
+                                <?= view("popups_edituser", array("email" => false, "profile1" => false, "password" => false, "phone" => true,
+                                "required" => true, "icons" => false, "class" => "autored"))->render(); ?>
                         </div>
                     @endif
 
@@ -111,7 +111,7 @@
 
                     <div class="input_left_icon"></div>
                     <div class="input_right">
-                        <a style="vertical-align: middle !important;" class="radius0 btn btn-primary text-white pull-right payfororder" onclick="payfororder();"> <i class="fa fa-check mr-2"></i> ORDER</a>
+                        <button style="padding-left: 1rem !important;padding-right: 1rem !important;" class="pull-right  radius0 btn btn-primary text-white payfororder" onclick="payfororder();return false;"> <i class="fa fa-check"></i> ORDER</button>
                         <span class="payment-errors error"></span>
                         <div class="clearfix"></div>
                     </div>

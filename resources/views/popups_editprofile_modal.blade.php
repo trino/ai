@@ -27,7 +27,7 @@
                     > Past orders can be found in your email
                     <br> > Add a new address on checkout
                     <br> > Add a new credit/debit card on checkout
-                    <br> > <a href="help" class="btn-link">More Info</a>
+                    <br> > <a href="help" class="btn-link">MORE INFO</a>
                 </div>
                 <!--div CLASS="editprofilediv mt-2">
                     <button ONCLICK="orders();" CLASS="btn btn-primary" href="#">PAST ORDERS</button>
