@@ -569,7 +569,7 @@
         createCookieValue("theorder", JSON.stringify(theorder));
 
         if (theorder.length == 0) {
-            HTML = '<div CLASS="list-padding py-3 btn-block radius0"><div class="d-flex justify-content-center"><i class="fa fa-shopping-basket empty-shopping-cart fa-2x text-muted"></i></div><div class="d-flex justify-content-center text-muted">Empty</div></div>';
+            HTML = '<div CLASS="list-padding py-3 btn-block radius0"><div class="d-flex justify-content-center"><i class="fa fa-shopping-basket empty-shopping-cart fa-2x pb-1 text-muted"></i></div><div class="d-flex justify-content-center text-muted">Empty</div></div>';
             $("#checkout").hide();
             $("#checkoutbutton").hide();
             $("#confirmclearorder").hide();

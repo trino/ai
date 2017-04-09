@@ -159,7 +159,7 @@
                     ?>
                 >
 
-                <span class="align-middle rounded-circle bg-warning sprite sprite-{{$itemclass}} sprite-medium"></span>
+                <span style="margin:-20px;" class="align-middle rounded-circle bg-warning sprite sprite-{{$itemclass}} sprite-medium"></span>
                 <span class="align-middle">{{$menuitem['item']}} </span>
                 <span class="ml-auto align-middle btn-sm-padding"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
             </button>
