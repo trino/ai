@@ -1331,16 +1331,16 @@
             $("#add_" + keyname).val(keyvalue);
         }
         $("#ffaddress").hide();
+        refreshform("#saveaddresses").trigger("click");
         if (SelectedVal == 0) {
             Text = '';
-            //$("#saveaddresses").addClass("red");
-            $("#red_address").addClass("redhighlite");
         } else {
             //$("#saveaddresses").removeClass("red");
-            $("#red_address").removeClass("redhighlite");
+            //$("#red_address").removeClass("redhighlite");
             $("#formatted_address").hide();
             if (SelectedVal == "addaddress") {
                 visible_address(true);
+                //refreshform("#formatted_address");
                 $("#add_unit").show();
                 Text = "";
                 handlefirefox("addresschanged:" + why);
@@ -1510,7 +1510,6 @@
             }
             var formdata = getform("#orderinfo");
         } else {//needs latitude and longitude, radius and limit optional
-            log("GOT HERE");
             var formdata = {latitude:  place.geometry.location.lat, longitude:  place.geometry.location.lng};
         }
         formdata.limit = 10;
@@ -1635,6 +1634,8 @@
             });
         });
         $("#restaurant").html('<option value="0">Restaurant</option>').val("0");
+        $("#saveaddresses").attr("autored", "red_address");
+        refreshform("#saveaddresses");
     }
 
     var daysofweek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];

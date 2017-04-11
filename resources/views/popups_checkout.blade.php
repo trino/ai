@@ -165,7 +165,15 @@
 
     function refreshform(t){
         var ID = t;
+        var ActualID = $(t).attr("id");
         var value = $(t).val();
+        var tagname = $(t).prop("tagName").toUpperCase();
+        if(tagname == "SELECT" && value == 0){value = false;}
+        switch(tagname + "." + ActualID){
+            case "SELECT.saveaddresses":
+                if(value == "addaddress"){value = false;}
+                break;
+        }
         var classname = "red";
         if ($(t).hasAttr("autored")){
             ID = "#" + $(t).attr("autored").replaceAll('"', "");
@@ -175,9 +183,12 @@
             if (value) {
                 $(ID).removeClass(classname);
             } else {
+                value = "[EMPTY]";
                 $(ID).addClass(classname);
             }
+            log(tagname + "." + ActualID + " Autored value: " + value);
         }
+        return $(ID);
     }
 </SCRIPT>
 <?php endfile("popups_checkout"); ?>
