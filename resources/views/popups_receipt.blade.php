@@ -165,10 +165,10 @@
 ?>
 
 @if($includeextradata)
-    <div class="alert alert-success text-center text-sm-center">
-        <h2>Order Arriving {{ $duration }}</h2>
-    </div>
     @if($timer)
+        <div class="alert alert-success text-center text-sm-center">
+            <h2>Order Arriving {{ $duration }}</h2>
+        </div>
         <!--div style="font-size: 2rem !important;" CLASS="mb-2 countdown btn-lg badge badge-pill badge-success" hours="<?= $hours; ?>" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"
              title="Time is approximate and not a guarantee"><?= $time; ?></div-->
     @elseif($place != "email")

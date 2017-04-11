@@ -73,7 +73,6 @@
 
                     <SPAN class="loggedin">
                         <li id="profileinfo">
-                            <SPAN CLASS="session_name" style="display: none"></SPAN>
                             <A data-toggle="modal" data-target="#profilemodal" href="#" class="dropdown-item">
                             <i class="fa fa-user icon-width"></i> My Profile</A>
                         </li>
