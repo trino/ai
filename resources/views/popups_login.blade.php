@@ -1,7 +1,14 @@
 <?php
     startfile("popups_login");
-    $minimum = number_format(first("SELECT price FROM additional_toppings WHERE size = 'Minimum'")["price"], 2);
-    $delivery = number_format(first("SELECT price FROM additional_toppings WHERE size = 'Delivery'")["price"], 2);
+    $Additional_Toppings = first("SELECT * FROM additional_toppings", false);
+    function getVal($Additional_Toppings, $size){
+        $it = getiterator($Additional_Toppings, "size", $size, false);
+        return $Additional_Toppings[$it]["price"];
+    }
+    $minimum = number_format(getVal($Additional_Toppings, "Minimum"), 2);
+    $delivery = number_format(getVal($Additional_Toppings, "Delivery"), 2);
+    $time = getVal($Additional_Toppings, "DeliveryTime");
+    $hours = first("SELECT * FROM hours WHERE restaurant_id = 0");
 ?>
 <div class="row">
     <DIV CLASS="col-lg-4 col-md-5">
@@ -71,10 +78,27 @@
         <div class="jumbotron" style="border-radius: 0;background: transparent !important;">
             <h1>London Pizza Delivery</h1>
             <p class="lead">PIZZA BROUGHT TO YOU</p>
-            <p>The art of delivery is in the team. Local restaurants at your footstep in 40 minutes.</p>
-            <p class="text-success">Open: Monday - Saturday 11am - 11pm</p>
-            <p class="lead">
+            <p>The art of delivery is in the team. Local restaurants at your footstep in <?= $time; ?> minutes.</p>
+            <p class="text-success">Open:
+                <TABLE>
+                    <?php
+                        $daysofweek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                        for($day = 0; $day < 7; $day ++){
+                            echo '<TR><TD>' . $daysofweek[$day] . ": </TD>";
+                            $open = $hours[$day . "_open"];
+                            $close = $hours[$day . "_close"];
+                            if($open == "-1" || $close == "-1"){
+                                echo '<TD COLSPAN="2" ALIGN="CENTER">[Closed]';
+                            } else {
+                                echo '<TD>' . GenerateTime($open) . '</TD><TD>' . GenerateTime($close);
+                            }
+                            //. " = " . $hours[$day . "_open"] . " to " . ;
+                            echo '</TD></TR>';
+                        }
+                    ?>
+                </TABLE>
             </p>
+            <p class="lead"></p>
             <a class="btn-link" href="<?= webroot("help"); ?>" role="button">LEARN MORE</a>
 
         </div>
