@@ -261,6 +261,11 @@ class HomeController extends Controller {
                     debugprint("Sending email to " . $party . ": " . $email);
                     $this->sendEMail("email_receipt", ["orderid" => $orderid, "email" => $email, "mail_subject" => $action["message"]]);//send emails to customer also generates the cost
                 }
+
+                //http://localhost/ai/public/list/orders?action=getreceipt&orderid=224
+                $action["message"] = str_replace("[orderid]", $orderid, $action["message"]);
+                $action["message"] = str_replace("[url]", webroot("list/orders?action=getreceipt&orderid=") . $orderid, $action["message"]);
+
                 if ($action["sms"]) {
                     debugprint("Sending SMS to " . $party . ": " . var_export($phone, true));
                     $this->sendSMS($phone, $action["message"]);

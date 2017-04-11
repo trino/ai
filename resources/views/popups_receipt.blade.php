@@ -1,4 +1,7 @@
+@extends(isset($isGET) ? 'layouts_app' : 'layouts_blank')
+@section('content')
 <?php
+    //http://localhost/ai/public/list/orders?action=getreceipt&orderid=224
     startfile("popups_receipt");
     $debugmode = !islive();
     $debug = "";
@@ -462,7 +465,7 @@
                         echo '</TD></TR>';
                     }
                 } else {
-                    echo '<TR><TD COLSPAN="' . $colspan . '" ALIGN="CENTER"><B>FILE NOT FOUND</B></TD></TR>';
+                    echo '<TR><TD COLSPAN="' . $colspan . '" ALIGN="CENTER"><B TITLE="' . $filename . '">FILE NOT FOUND</B></TD></TR>';
                 }
                 endfile("popups_receipt");
                 ?>
@@ -569,3 +572,4 @@
         }
     </SCRIPT>
 @endif
+@endsection

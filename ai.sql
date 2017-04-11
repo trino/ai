@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 04, 2017 at 09:38 AM
+-- Generation Time: Apr 11, 2017 at 02:00 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -35,20 +35,21 @@ CREATE TABLE IF NOT EXISTS `actions` (
   `email` tinyint(1) NOT NULL,
   `message` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `actions`
 --
 
 INSERT INTO `actions` (`id`, `eventname`, `party`, `sms`, `phone`, `email`, `message`) VALUES
-(1, 'order_placed', 2, 1, 1, 1, 'londonpizza.ca - A new order was placed'),
+(1, 'order_placed', 2, 0, 1, 1, 'londonpizza.ca - A new order was placed'),
 (2, 'order_placed', 1, 1, 0, 0, 'londonpizza.ca - A new order was placed'),
 (3, 'order_placed', 0, 0, 0, 1, 'londonpizza.ca - Here is your receipt'),
 (4, 'order_declined', 0, 1, 0, 1, 'londonpizza.ca - Your order was cancelled: [reason]'),
 (5, 'order_declined', 1, 1, 0, 0, 'londonpizza.ca - An order was cancelled: [reason]'),
 (6, 'order_confirmed', 1, 1, 0, 0, 'londonpizza.ca - An order was approved: [reason]'),
-(7, 'user_registered', 0, 0, 0, 1, 'londonpizza.ca - Thank you for registering');
+(7, 'user_registered', 0, 0, 0, 1, 'londonpizza.ca - Thank you for registering'),
+(8, 'order_placed', 2, 1, 0, 0, 'londonpizza.ca - A new order was placed. Click [url] to see it');
 
 -- --------------------------------------------------------
 
@@ -204,7 +205,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `price` decimal(10,2) NOT NULL,
   `email` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=224 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=225 ;
 
 --
 -- Dumping data for table `orders`
@@ -266,7 +267,8 @@ INSERT INTO `orders` (`id`, `user_id`, `placed_at`, `number`, `unit`, `buzzcode`
 (220, 52, '2017-04-02 01:20:20', 18, 'I''m fat', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055315333', '', 1, 'tok_AOktyVNv6phsmq', 'April 2 at 0030', '', 0, '46.70', NULL),
 (221, 49, '2017-04-02 14:47:29', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 1, '', 'April 3 at 1130', '', 0, '38.30', NULL),
 (222, 49, '2017-04-02 18:02:19', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 1, '', 'April 3 at 1100', '', 0, '47.38', NULL),
-(223, 49, '2017-04-02 23:27:56', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 1, '', 'April 3 at 1100', '', 0, '25.92', NULL);
+(223, 49, '2017-04-02 23:27:56', 300, '', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 1, '', 'April 3 at 1100', '', 0, '25.92', NULL),
+(224, 1, '2017-04-04 14:57:20', 2396, '18 Oakland Dr', '', 'Asima Dr', 'N6M 0B3', 'London', 'Ontario', '42.9505', '-81.1735999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'April 4 at 1145', '', 0, '15.19', NULL);
 
 -- --------------------------------------------------------
 
@@ -343,17 +345,17 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1077 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1123 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1491312989'),
+(1, 'lastSQL', '1491313081'),
 (20, 'orders', '1487775876'),
-(24, 'menucache', '1491144488'),
-(25, 'useraddresses', '1490747182'),
+(24, 'menucache', '1491933047'),
+(25, 'useraddresses', '1491932853'),
 (37, 'users', '1487175217'),
 (38, 'additional_toppings', '1487175322'),
 (43, 'actions', '1488998737'),
@@ -435,7 +437,7 @@ CREATE TABLE IF NOT EXISTS `useraddresses` (
   `phone` varchar(16) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=101 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=102 ;
 
 --
 -- Dumping data for table `useraddresses`
@@ -451,7 +453,8 @@ INSERT INTO `useraddresses` (`id`, `user_id`, `number`, `unit`, `buzzcode`, `str
 (97, 50, 2372, '', '', 'Barton St E', 'L8E 2W7', 'Hamilton', 'Ontario', '43.2376467', '-79.765102399999', ''),
 (98, 49, 18, '', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', ''),
 (99, 51, 18, '', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', ''),
-(100, 52, 18, 'I''m fat', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '');
+(100, 52, 18, 'I''m fat', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', ''),
+(101, 1, 2396, '18 Oakland Dr', '', 'Asima Dr', 'N6M 0B3', 'London', 'Ontario', '42.9505', '-81.1735999', '');
 
 -- --------------------------------------------------------
 
@@ -482,7 +485,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `phone`, `lastlogin`, `loginattempts`, `profiletype`, `authcode`, `stripecustid`) VALUES
-(1, 'Roy Wall', 'roy@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '0000-00-00 00:00:00', '2017-02-01 15:15:40', '', 1487608084, 0, 1, '', 'cus_AKTZRRBh7quhme'),
+(1, 'Roy Wall', 'roy@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '0000-00-00 00:00:00', '2017-02-01 15:15:40', '9055315331', 1487608084, 0, 1, '', ''),
 (2, 'Roy Test', 'roy+test@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2016-11-16 20:20:28', '0000-00-00 00:00:00', '9055315331', 0, 0, 0, '', ''),
 (3, 'Fabulous', 'info+fab@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2016-11-16 20:49:31', '0000-00-00 00:00:00', '9055315331', 1481048458, 0, 2, '', 'cus_9yYE78hosPbuGH'),
 (4, 'Marvellous', 'info+mar@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-02-14 20:28:50', '0000-00-00 00:00:00', '9055555555', 0, 0, 2, '', ''),

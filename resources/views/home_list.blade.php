@@ -114,6 +114,9 @@
                     $adminsonly=false;
                 }
             }
+            if(isset($_GET["action"]) && $_GET["action"] == "getreceipt" && isset($_GET["orderid"])){
+                $adminsonly=false;
+            }
             if(isset($_GET["restaurant"])){
                 $where = "restaurant_id = " . $_GET["restaurant"];
                 $extratitle = "for restaurant " . $_GET["restaurant"];
@@ -135,7 +138,7 @@
                 $where = "user_id = " . read("id");
             }
             break;
-        default: die("This table is not whitelisted");
+        default: die("The table '" . $table . "' is not whitelisted");
     }
     if($datafields){//get all fields
         $datafields = describe($table);
@@ -148,6 +151,10 @@
         }
     }
 
+    if(isset($_GET["action"]) && !isset($_POST["action"])){
+        $_POST = $_GET;
+        $_POST["isGET"] = true;
+    }
     if(isset($_POST["action"])){
         $results = array("Status" => true, "POST" => $_POST);
         if($_POST["action"] == "saveaddress"){
