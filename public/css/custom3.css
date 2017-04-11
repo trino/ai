@@ -21,7 +21,6 @@ button, .btn-sm, a, .btn {
     color: white;
 }
 
-
 .bg-inverse {
     background: #e7e7e7 !important;
 }
@@ -104,9 +103,6 @@ h2 {
     min-height: 50px;
 }
 
-.col-lg-3 {
-}
-
 .container-fluid {
     max-width: 1275px !important;
 }
@@ -120,7 +116,6 @@ h2 {
     border-right: 1px solid #dadada!important;
     border-bottom: 1px solid #dadada!important;
     font-weight: normal !important;
-
 }
 
 .receipt_item {
@@ -148,27 +143,14 @@ h2 {
 
 }
 
-.bg-Meat {
-
-}
-
-.bg-Vegetable {
-
-}
-
-.bg-zPreparation {
-
-}
-
 .fourthwidth {
-
     width: 25%;
     float: left !important;
     display: inline !important;
 }
 
 .thirdwidth {
-    width: calc(100% / 3);
+    width: 33%;
     float: left !important;
     display: inline !important;
 }
@@ -424,7 +406,6 @@ input, select, textarea, option {
     background: #dedede !important;
     border-radius: 0 !important;
     margin: 3px 0 !important;
-
     /*
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -471,6 +452,43 @@ input, textarea {
     option {
         text-align: left !important;
     }
+
+
+
+            * {
+                border: 1px solid orange !important;
+            }
+
+            input, select, textarea {
+                border: 1px solid green !important;
+                background: #dadada !important;
+            }
+
+            div {
+                border: 1px solid #dadada !important;
+            }
+
+            .row {
+                border: 1px solid blue !important;
+            }
+
+            div[class^="col-"], div[class*=" col-"] {
+                border: 1px solid red !important;
+            }
+
+            table {
+                border: 1px solid yellow !important;
+            }
+
+            tr {
+                border: 1px solid pink !important;
+            }
+
+            td {
+                border: 1px solid black !important;
+            }
+
+
 */
 
 .fab {

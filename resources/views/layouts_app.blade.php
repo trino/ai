@@ -73,9 +73,7 @@
 
                     <SPAN class="loggedin">
                         <li id="profileinfo">
-
-                       <SPAN CLASS="session_name " style="display: none"></SPAN>
-
+                            <SPAN CLASS="session_name" style="display: none"></SPAN>
                             <A data-toggle="modal" data-target="#profilemodal" href="#" class="dropdown-item">
                             <i class="fa fa-user icon-width"></i> My Profile</A>
                         </li>
@@ -156,47 +154,4 @@
             }
         ?>
     </div>
-
-
-
-
-
-    @if(false)
-        <style>
-            * {
-                border: 1px solid orange !important;
-            }
-
-            input, select, textarea {
-                border: 1px solid green !important;
-                background: #dadada !important;
-            }
-
-            div {
-                border: 1px solid #dadada !important;
-            }
-
-            .row {
-                border: 1px solid blue !important;
-            }
-
-            div[class^="col-"], div[class*=" col-"] {
-                border: 1px solid red !important;
-            }
-
-            table {
-                border: 1px solid yellow !important;
-            }
-
-            tr {
-                border: 1px solid pink !important;
-            }
-
-            td {
-                border: 1px solid black !important;
-            }
-
-
-        </style>
-    @endif
 </html>

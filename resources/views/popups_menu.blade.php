@@ -159,7 +159,7 @@
                     ?>
                 >
 
-                <span style="" class="align-middle rounded-circle bg-warning sprite sprite-{{$itemclass}} sprite-medium"></span>
+                <span class="align-middle rounded-circle bg-warning sprite sprite-{{$itemclass}} sprite-medium"></span>
                 <span class="align-middle">{{$menuitem['item']}} </span>
                 <span class="ml-auto align-middle btn-sm-padding"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
             </button>
@@ -190,8 +190,6 @@
                     <small ID="toppingcost" class="nowrap text-muted">+$<SPAN id="modal-toppingcost"></SPAN> per topping</small>
                 </h2>
                 <button data-dismiss="modal" class="btn btn-sm ml-auto bg-transparent text-normal"><i class="fa fa-close"></i></button>
-
-
             </div>
 
             <div class="modal-body" style="padding: 0 !important;">

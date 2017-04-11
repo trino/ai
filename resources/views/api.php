@@ -587,4 +587,12 @@
     function getdeliverytime($var = "DeliveryTime") {
         return first("SELECT price FROM additional_toppings WHERE size = '" . $var . "'")["price"];
     }
+
+    function formatphone($phone){
+        $phone = filternonnumeric($phone);
+        if(strlen($phone) == 10){
+            return preg_replace('/(\d{3})(\d{3})(\d{4})/', "($1) $2-$3", $phone);
+        }
+        return $phone;
+    }
 ?>

@@ -105,12 +105,9 @@
 
 
                     <div class="input_left_icon"></div>
-                    <div    class="input_right">
-
+                    <div class="input_right">
                         <textarea placeholder="Order Notes" id="cookingnotes" class="form-control" maxlength="255"></textarea>
-
-
-                        <button style="padding-left: 1rem !important;padding-right: 1rem !important;" class="pull-right  radius0 btn btn-primary text-white payfororder" onclick="payfororder();return false;"> <i class="fa fa-check mr-2"></i> ORDER</button>
+                        <button style="padding-left: 1rem !important;padding-right: 1rem !important;" class="pull-right radius0 btn btn-primary text-white payfororder" onclick="payfororder();return false;"> <i class="fa fa-check mr-2"></i> ORDER</button>
                         <span class="payment-errors error"></span>
                         <div class="clearfix"></div>
                     </div>

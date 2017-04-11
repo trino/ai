@@ -178,8 +178,7 @@ class HomeController extends Controller {
                         }
 
                         $charge = array(
-                                "amount" => $amount,
-                            //"amount" => "50",
+                            "amount" => $amount,
                             "currency" => "cad",
                             //"source" => $info["stripeToken"],//charge card directly
                             "customer" => $customer_id,//charge customer ID

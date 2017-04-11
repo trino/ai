@@ -190,10 +190,10 @@
             <th align="right">Price</th>
         </TR>
         @else
-            <TABLE WIDTH="100%" class="" cellspacing="0" cellpadding="0">
-                @endif
+            <TABLE WIDTH="100%" cellspacing="0" cellpadding="0">
+        @endif
 
-                <?php
+        <?php
                 $integrity = true;
                 if (!function_exists("findkey")) {
                     function findkey($arr, $key, $value){
@@ -324,7 +324,7 @@
                                             if ($debugmode) {
                                                 $debug = ' TITLE="' . $onlydebug . print_r($menuitem, true) . '"';
                                             }
-                                            echo '<TD  ALIGN="RIGHT"' . $debug . '>$' . number_format($menuitem["price"], 2) . '</TD><TD>';
+                                            echo '<TD ALIGN="RIGHT"' . $debug . '>$' . number_format($menuitem["price"], 2) . '</TD><TD>';
                                             break;
                                         case 2:
                                             $imagefile = str_replace(" ", "-", strtolower($menuitem["category"]));
@@ -458,7 +458,7 @@
                         if (isset($JSON)) {
                             echo '<BUTTON CLASS="btn btn-block btn-primary" ONCLICK="orders(' . $orderid . ', true);">LOAD ORDER</BUTTON>';
                         } else {
-                            echo $Order["name"] . " - " . $Order["email"] . "<BR>" . $Order["phone"] . " " . $Order["cell"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . ", " . $Order["province"] . "<BR>" . $Order["postalcode"] . '<BR>' . $Order["unit"];
+                            echo $Order["name"] . " - " . $Order["email"] . "<BR>" . formatphone($Order["phone"]) . " " . formatphone($Order["cell"]) . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . ", " . $Order["province"] . "<BR>" . $Order["postalcode"] . '<BR>' . $Order["unit"];
                         }
                         echo '</TD></TR>';
                     }
@@ -469,12 +469,10 @@
                 ?>
             </TABLE>
 
-
-<h2 class="mt-3">Delivery Info</h2>
-<?= $Order["name"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . " " . $Order["province"] . " " . $Order["postalcode"] . '<BR>' . $Order["unit"]; ?>
-
-
 @if(!isset($JSON))
+    <h2 class="mt-3">Delivery Info</h2>
+    <?= $Order["name"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . " " . $Order["province"] . " " . $Order["postalcode"] . '<BR>' . $Order["unit"] . '<BR>' . formatphone($Order["phone"]); ?>
+
     <h2 class="mt-3">Restaurant</h2>
     Order #<span ID="receipt_id"><?= $orderid; ?></span><br>
     <?php

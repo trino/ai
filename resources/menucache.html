@@ -1,5 +1,5 @@
 <div class="col-lg-3 col-md-12 bg-white">
-                    <div class="bg-inverse list-group-item">
+                    <div class="bg-inverse list-group-item list-group-item-action">
             <h2>   Pizza</h2>
         </div>
                     <button class="cursor-pointer list-group-item list-group-item-action d-flex justify-content-start item_pizza"
@@ -98,7 +98,7 @@
                 <span class="align-middle">2 X-Large Pizzas </span>
                 <span class="ml-auto align-middle btn-sm-padding"> $19.95<SPAN TITLE="Addons are extra">+</SPAN></span>
             </button>
-                                    <div class="bg-inverse list-group-item">
+                                    <div class="bg-inverse list-group-item list-group-item-action">
             <h2>   Dips</h2>
         </div>
                     <button class="cursor-pointer list-group-item list-group-item-action d-flex justify-content-start item_dips"
@@ -176,7 +176,7 @@
                 </div>
 
 <div class="col-lg-3 col-md-12 bg-white">
-                        <div class="bg-inverse list-group-item">
+                        <div class="bg-inverse list-group-item list-group-item-action">
             <h2>   Wings</h2>
         </div>
                     <button class="cursor-pointer list-group-item list-group-item-action d-flex justify-content-start item_wings"
@@ -239,7 +239,7 @@
                 <span class="align-middle">5 lb Wings </span>
                 <span class="ml-auto align-middle btn-sm-padding"> $28.99</span>
             </button>
-                                    <div class="bg-inverse list-group-item">
+                                    <div class="bg-inverse list-group-item list-group-item-action">
             <h2>   Sides</h2>
         </div>
                     <button class="cursor-pointer list-group-item list-group-item-action d-flex justify-content-start item_sides"
@@ -329,7 +329,7 @@
                 </div>
 
 <div class="col-lg-3 col-md-12 bg-white">
-                        <div class="bg-inverse list-group-item">
+                        <div class="bg-inverse list-group-item list-group-item-action">
             <h2>   Drinks</h2>
         </div>
                     <button class="cursor-pointer list-group-item list-group-item-action d-flex justify-content-start item_drinks"
@@ -502,12 +502,12 @@
                 <SPAN ID="modal-itemcat"></SPAN>
             </div>
 
-            <div class="list-group-item bg-secondary">
-                <button data-dismiss="modal" class="btn btn-sm mr-3 bg-transparent"><i class="fa fa-close"></i></button>
+            <div class="list-group-item" style="background: #fff !important;border-bottom:0px solid #d7d7d7 !important;" >
                 <h2 class="text-normal" id="myModalLabel">
                     <SPAN ID="modal-itemname"></SPAN><br>
                     <small ID="toppingcost" class="nowrap text-muted">+$<SPAN id="modal-toppingcost"></SPAN> per topping</small>
                 </h2>
+                <button data-dismiss="modal" class="btn btn-sm ml-auto bg-transparent text-normal"><i class="fa fa-close"></i></button>
             </div>
 
             <div class="modal-body" style="padding: 0 !important;">
@@ -518,13 +518,13 @@
 </div>
 <script>
     var tables = ["toppings","wings_sauce"];
-    var alladdons = {"toppings":{"Meat":[["Anchovies"],["Bacon"],["Beef Salami"],["Chicken"],["Ground Beef"],["Ham"],["Hot Italian Sausage"],["Hot Sausage"],["Italian Sausage"],["Mild Sausage"],["Pepperoni"],["Salami"]],"Vegetable":[["Artichoke Heart"],["Black Olives"],["Broccoli"],["Green Olives"],["Green Peppers"],["Hot Banana Peppers"],["Hot Peppers"],["Jalapeno Peppers"],["Mushrooms"],["Onions"],["Pineapple"],["Red Onions"],["Red Peppers"],["Spinach"],["Sundried Tomatoes"],["Tomatoes"],["Extra Cheese"]],"zPreparation":[["Lightly Done"],["Well Done"]]},"wings_sauce":{"Sauce":[["Honey Garlic"],["BBQ"],["Hot"],["Suicide"]],"zPreparation":[["Sauce on Side"],["Well Done"]]}};
-    var freetoppings = {"Small":"0.95","Medium":"1.2","Large":"1.5","X-Large":"1.7","Panzerotti":"0.95","Delivery":"0.1","Minimum":"15.99","toppings":["Lightly Done","Well Done"],"isall":{"toppings":["Lightly Done","Well Done"],"wings_sauce":["Honey Garlic","BBQ","Hot","Suicide","Sauce on Side","Well Done"]},"wings_sauce":["Sauce on Side","Well Done"]};
+    var alladdons = {"toppings":{"Meat":[["Anchovies"],["Bacon"],["Beef Salami"],["Chicken"],["Ground Beef"],["Ham"],["Hot Italian Sausage"],["Hot Sausage"],["Italian Sausage"],["Mild Sausage"],["Pepperoni"],["Salami"]],"Vegetable":[["Artichoke Heart"],["Black Olives"],["Broccoli"],["Green Olives"],["Green Peppers"],["Hot Banana Peppers"],["Hot Peppers"],["Jalapeno Peppers"],["Mushrooms"],["Onions"],["Pineapple"],["Red Onions"],["Red Peppers"],["Spinach"],["Sundried Tomatoes"],["Tomatoes"],["Extra Cheese"]],"zPreparation":[["Lightly Done"],["Well Done"]]},"wings_sauce":{"Sauce":[["Honey Garlic"],["Mild"],["BBQ"],["Hot"],["Suicide"]],"zPreparation":[["Sauce on Side"],["Well Done"]]}};
+    var freetoppings = {"Small":"0.95","Medium":"1.2","Large":"1.5","X-Large":"1.7","Panzerotti":"0.95","Delivery":"2.99","Minimum":"14.99","DeliveryTime":"40","toppings":["Lightly Done","Well Done"],"isall":{"toppings":["Lightly Done","Well Done"],"wings_sauce":["Honey Garlic","Mild","BBQ","Hot","Suicide","Sauce on Side","Well Done"]},"wings_sauce":["Sauce on Side","Well Done"]};
     var qualifiers = {"DEFAULT":["1\/2","1x","2x","3x"]};
-    var groups = {"toppings":{"Lightly Done":"1","Well Done":"1"},"wings_sauce":{"Honey Garlic":"1","BBQ":"1","Hot":"1","Suicide":"1","Sauce on Side":"2","Well Done":"3"}};
+    var groups = {"toppings":{"Lightly Done":"1","Well Done":"1"},"wings_sauce":{"Honey Garlic":"1","Mild":"1","BBQ":"1","Hot":"1","Suicide":"1","Sauce on Side":"2","Well Done":"3"}};
     var theorder = new Array;
-    var deliveryfee = 0.1;
-    var minimumfee = 15.99;
+    var deliveryfee = 2.99;
+    var minimumfee = 14.99;
     var classlist = ["pizza","dips","wings","sides","drinks"];
     var ordinals = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th"];
 </script>

@@ -1,7 +1,7 @@
 <?php
-startfile("popups_login");
-$minimum = number_format(first("SELECT price FROM additional_toppings WHERE size = 'Minimum'")["price"], 2);
-$delivery = number_format(first("SELECT price FROM additional_toppings WHERE size = 'Delivery'")["price"], 2);
+    startfile("popups_login");
+    $minimum = number_format(first("SELECT price FROM additional_toppings WHERE size = 'Minimum'")["price"], 2);
+    $delivery = number_format(first("SELECT price FROM additional_toppings WHERE size = 'Delivery'")["price"], 2);
 ?>
 <div class="row">
     <DIV CLASS="col-lg-4 col-md-5">
@@ -66,10 +66,10 @@ $delivery = number_format(first("SELECT price FROM additional_toppings WHERE siz
 
         <DIV CLASS="clearfix"></DIV>
     </DIV>
-    <div class="col-lg-8 col-md-7 bg-white" style="">
+    <div class="col-lg-8 col-md-7 bg-white">
 
         <div class="jumbotron" style="border-radius: 0;background: transparent !important;">
-            <h1 class="">London Pizza Delivery</h1>
+            <h1>London Pizza Delivery</h1>
             <p class="lead">PIZZA BROUGHT TO YOU</p>
             <p>The art of delivery is in the team. Local restaurants at your footstep in 40 minutes.</p>
             <p class="text-success">Open: Monday - Saturday 11am - 11pm</p>
