@@ -1,9 +1,11 @@
 <?php
     startfile("popups_address");
-    if (!isset($style)) {$style = 0;}
-    if (!isset($required)) {$required = false;} else {$required = " required";}
-    if (!isset($class)) {$class = "";} else {$class = " " . $class;}
-    if (!isset($icons)) {$icons = false;}
+    if (!isset($style))     {$style = 0;}
+    if (!isset($required))  {$required = "";} else {$required = " required";}
+    if (!isset($class))     {$class = "";} else {$class = " " . $class;}
+    if (!isset($icons))     {$icons = false;}
+    if (isset($autored))    {$required .= ' autored="' . $autored . '"';}
+
     switch ($style) {
         case 0:
             echo '<DIV CLASS="row"><DIV CLASS="col-md-2">Address</DIV><DIV CLASS="col-md-10" ID="gmapc">';

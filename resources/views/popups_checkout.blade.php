@@ -20,12 +20,12 @@
             </div>
             <div class="modal-body" style="padding: 0 !important;">
                 <FORM ID="orderinfo" name="orderinfo">
-                    <div class="input_left_icon"><i style="font-size: 1.1rem !important;" class="fa fa-map-marker"></i></div>
+                    <div class="input_left_icon" id="red_address"><i style="font-size: 1.1rem !important;" class="fa fa-map-marker"></i></div>
                     <div class="input_right">
                         <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
                         <?php
                             if (read("id")) {
-                                echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false, "findclosest" => true, "class" => "autored"))->render();
+                                echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false, "findclosest" => true, "autored" => "red_address"))->render();
                             }
                         ?>
                     </div>
@@ -47,21 +47,21 @@
                     </div>
 
                     @if(!session()->get('session_phone'))
-                        <div class="input_left_icon"><i class="fa fa-mobile-phone" style="font-size: 1.5rem !important;"></i></div>
+                        <div class="input_left_icon" id="red_phone"><i class="fa fa-mobile-phone" style="font-size: 1.5rem !important;"></i></div>
                         <div class="input_right">
                                 <?= view("popups_edituser", array("email" => false, "profile1" => false, "password" => false, "phone" => true,
-                                "required" => true, "icons" => false, "class" => "autored"))->render(); ?>
+                                "required" => true, "icons" => false, "autored" => "red_phone"))->render(); ?>
                         </div>
                     @endif
 
-                    <div class="input_left_icon"><i class="fa fa-credit-card-alt" style="padding-top: 12px;"></i></div>
+                    <div class="input_left_icon" id="red_card"><i class="fa fa-credit-card-alt" style="padding-top: 12px;"></i></div>
                     <div class="input_right">
                         <DIV ID="credit-info"></DIV>
                     </div>
 
                     <div class="input_left_icon"></div>
                     <div class="input_right">
-                        <input type="text" size="20" class="form-control credit-info autored" data-stripe="number" placeholder="Card Number">
+                        <input type="text" size="20" class="form-control credit-info" autored="red_card" data-stripe="number" placeholder="Card Number">
                     </div>
 
                     <div class="input_left_icon"></div>
@@ -96,7 +96,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="thirdwidth">
-                            <input type="text" size="4" data-stripe="cvc" CLASS="credit-info form-control autored" PLACEHOLDER="CVC" style="padding: .54rem .75rem;">
+                            <input type="text" size="4" data-stripe="cvc" CLASS="credit-info form-control" autored="red_card" PLACEHOLDER="CVC" style="padding: .54rem .75rem;">
                             <INPUT class="credit-info" TYPE="hidden" name="istest" id="istest">
                             @if(!islive()) <a class="credit-info pull-right btn" onclick="testcard();" TITLE="Don't remove this, I need it!">Test Card</a> @endif
                             <div class="clearfix"></div>
@@ -162,13 +162,16 @@
     });
 
     function refreshform(t){
-        if($(t).hasClass("autored")) {
-            var ID = $(t).attr("id");
-            var value = $(t).val();
+        var ID = t;
+        var value = $(t).val();
+        if ($(t).hasAttr("autored")){
+            //ID = "#" + $(t).attr("autored").replaceAll('"', "");
+        }
+        if ($(t).hasAttr("autored") || $(t).hasClass("autored")){
             if (value) {
-                $(t).removeClass("red");
+                $(ID).removeClass("red");
             } else {
-                $(t).addClass("red");
+                $(ID).addClass("red");
             }
         }
     }
