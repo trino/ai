@@ -4,7 +4,7 @@ $minimum = number_format(first("SELECT price FROM additional_toppings WHERE size
 $delivery = number_format(first("SELECT price FROM additional_toppings WHERE size = 'Delivery'")["price"], 2);
 ?>
 <div class="row">
-    <DIV CLASS="col-lg-3 col-md-4">
+    <DIV CLASS="col-lg-4 col-md-5">
         <DIV CLASS="btn-sm-padding bg-white" style="padding-bottom: .5rem !important;">
             <ul class="nav nav-tabs mb-1" role="tablist">
                 <li class="nav-item">
@@ -28,7 +28,7 @@ $delivery = number_format(first("SELECT price FROM additional_toppings WHERE siz
                     </div>
                     <div class="clearfix my-2"></div>
 
-                    <BUTTON CLASS="pull-left btn-link btn-sm" href="#" style="font-weight: normal !important;color: #dadada !important;" onclick="handlelogin('forgotpassword');">Forgot Password
+                    <BUTTON CLASS="pull-left btn-link btn-sm" href="#" style="font-weight: normal !important;color: #dadada !important;font-weight: bold !important;" onclick="handlelogin('forgotpassword');">Forgot Password
                     </BUTTON>
 
                     <BUTTON CLASS="pull-right btn btn-primary pull-right" onclick="handlelogin('login');">LOG IN</BUTTON>
@@ -66,10 +66,10 @@ $delivery = number_format(first("SELECT price FROM additional_toppings WHERE siz
 
         <DIV CLASS="clearfix"></DIV>
     </DIV>
-    <div class="col-lg-9 col-md-8" style="">
+    <div class="col-lg-8 col-md-7 bg-white" style="">
 
         <div class="jumbotron" style="border-radius: 0;background: transparent !important;">
-            <h1 class="">Now Deliverying in London!</h1>
+            <h1 class="">London Pizza Delivery</h1>
             <p class="lead">PIZZA BROUGHT TO YOU</p>
             <p>The art of delivery is in the team. Local restaurants at your footstep in 40 minutes.</p>
             <p class="text-success">Open: Monday - Saturday 11am - 11pm</p>
