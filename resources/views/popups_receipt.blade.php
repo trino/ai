@@ -134,11 +134,11 @@
         } else if ($Order["deliverytime"] == "Deliver Now") {
             $time = strtotime($Order["placed_at"]) + ($minutes * 60);
             $open = parsetime(gethours($Order["restaurant_id"])[date("w")]["open"]) + ($minutes * 60);
-            if ($time < $open) {
+            if ($time < $open && date("F j", $time) == date("F j", $open)) {
                 $time = $open;
             }
             $time = roundTime($time);
-            $duration = GenerateDate(date("F j", $time)) . " at " . date("g:i A", $time);
+            $duration = GenerateDate(date("F j ", $time)) . "at " . date("g:i A", $time);
             if (time() > $time) {
                 $timer = false;//expired
             } else {
@@ -169,7 +169,6 @@
         <h2>Order Arriving {{ $duration }}</h2>
     </div>
     @if($timer)
-
         <!--div style="font-size: 2rem !important;" CLASS="mb-2 countdown btn-lg badge badge-pill badge-success" hours="<?= $hours; ?>" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"
              title="Time is approximate and not a guarantee"><?= $time; ?></div-->
     @elseif($place != "email")
@@ -479,7 +478,7 @@
         $Restaurant = first("SELECT * FROM restaurants WHERE id = " . $Order["restaurant_id"]);
         $Raddress = first("SELECT * FROM useraddresses WHERE id = " . $Restaurant["address_id"]);
         echo $Restaurant["name"] . "<BR>" . $Raddress["number"] . " " . $Raddress["street"] . "<br>" .
-        $Raddress["city"] . " " . $Raddress["province"] . " " . $Raddress["postalcode"] . '<BR>' . $Raddress["unit"] . " " . $Restaurant["phone"];
+        $Raddress["city"] . " " . $Raddress["province"] . " " . $Raddress["postalcode"] . '<BR>' . $Raddress["unit"] . " " . formatphone($Restaurant["phone"]);
         echo '<INPUT TYPE="HIDDEN" ID="cust_latitude" VALUE="' . $Order["latitude"] . '"><INPUT TYPE="HIDDEN" ID="cust_longitude" VALUE="' . $Order["longitude"]
         . '"><INPUT TYPE="HIDDEN" ID="rest_latitude" VALUE="' . $Raddress["latitude"]
         . '"><INPUT TYPE="HIDDEN" ID="rest_longitude" VALUE="' . $Raddress["longitude"] . '">';
