@@ -257,23 +257,24 @@ class HomeController extends Controller {
                 if ($Reason) {
                     $action["message"] = str_replace("[reason]", $Reason, $action["message"]);
                 }
+
+                $action["message"] = str_replace("[orderid]", $orderid, $action["message"]);
+                $message = $action["message"];
                 if ($action["email"]) {
+                    $action["message"] = str_replace("[url]", "", $message);
                     debugprint("Sending email to " . $party . ": " . $email);
                     $this->sendEMail("email_receipt", ["orderid" => $orderid, "email" => $email, "mail_subject" => $action["message"]]);//send emails to customer also generates the cost
                 }
-
-                //http://localhost/ai/public/list/orders?action=getreceipt&orderid=224
-                $action["message"] = str_replace("[orderid]", $orderid, $action["message"]);
-                $action["message"] = str_replace("[url]", webroot("list/orders?action=getreceipt&orderid=") . $orderid, $action["message"]);
-
                 if ($action["sms"]) {
-                    debugprint("Sending SMS to " . $party . ": " . var_export($phone, true));
+                    $action["message"] = str_replace("[url]", webroot("list/orders?action=getreceipt&orderid=") . $orderid, $message);//http://localhost/ai/public/list/orders?action=getreceipt&orderid=224
+                    debugprint("Sending SMS to " . $party . ": " . $phone);
                     $this->sendSMS($phone, $action["message"]);
                 }
                 if ($action["phone"]) {
                     //if SMS restaurant then SMS user of the restaurant instead since all of the restaurant phones are land lines
+                    $action["message"] = str_replace("[url]", "", $message);
                     if ($phone_restro) {$phone = $phone_restro;}
-                    debugprint("Calling " . $party . ": " . var_export($phone, true));
+                    debugprint("Calling " . $party . ": " . $phone);
                     $this->sendSMS($phone, $action["message"], true);
                 }
             }
