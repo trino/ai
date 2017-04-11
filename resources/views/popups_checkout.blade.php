@@ -25,7 +25,7 @@
                         <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
                         <?php
                             if (read("id")) {
-                                echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false, "findclosest" => true))->render();
+                                echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false, "findclosest" => true, "class" => "autored"))->render();
                             }
                         ?>
                     </div>
@@ -54,14 +54,14 @@
                         </div>
                     @endif
 
-                    <div class="input_left_icon"><i class="fa fa-credit-card-alt"></i></div>
+                    <div class="input_left_icon"><i class="fa fa-credit-card-alt" style="padding-top: 12px;"></i></div>
                     <div class="input_right">
                         <DIV ID="credit-info"></DIV>
                     </div>
 
                     <div class="input_left_icon"></div>
                     <div class="input_right">
-                        <input type="text" size="20" class="form-control credit-info" data-stripe="number" placeholder="Card Number">
+                        <input type="text" size="20" class="form-control credit-info autored" data-stripe="number" placeholder="Card Number">
                     </div>
 
                     <div class="input_left_icon"></div>
@@ -96,7 +96,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="thirdwidth">
-                            <input type="text" size="4" data-stripe="cvc" CLASS="credit-info form-control" PLACEHOLDER="CVC" style="padding: .54rem .75rem;">
+                            <input type="text" size="4" data-stripe="cvc" CLASS="credit-info form-control autored" PLACEHOLDER="CVC" style="padding: .54rem .75rem;">
                             <INPUT class="credit-info" TYPE="hidden" name="istest" id="istest">
                             @if(!islive()) <a class="credit-info pull-right btn" onclick="testcard();" TITLE="Don't remove this, I need it!">Test Card</a> @endif
                             <div class="clearfix"></div>
@@ -145,7 +145,9 @@
         } else {
             $("#restaurant").removeClass("red");
         }
-        GenerateHours(closest[index].hours);//GenerateHours(closest[index]["hours"]);
+        if(closest.length>0) {
+            GenerateHours(closest[index].hours);//GenerateHours(closest[index]["hours"]);
+        }
     }
 
     function fffa() {
@@ -155,8 +157,8 @@
     }
 
     $('#orderinfo input').each(function() {
-        $(this).click(function(){refreshform(this)});
-        $(this).blur(function(){refreshform(this)});
+        $(this).click(function(){refreshform(this)}).blur(function(){refreshform(this)});
+        refreshform(this);
     });
 
     function refreshform(t){

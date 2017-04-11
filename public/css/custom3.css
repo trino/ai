@@ -207,9 +207,7 @@ body.loading #loadingmodal {
 }
 
 .red { /*, input:invalid, select:invalid, textarea:invalid {*/
-    /*
      border-bottom: 1px solid #d9534f !important;
-     */
 }
 
 .error {

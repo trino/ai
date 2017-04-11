@@ -1411,15 +1411,15 @@
     }
 
     function testcard() {
-        $('input[data-stripe=number]').val('4242424242424242');
-        $('input[data-stripe=address_zip]').val('L8L6V6');
-        $('input[data-stripe=cvc]').val(rnd(100, 999));
-        $('select[data-stripe=exp_year]').val({{ right($CURRENT_YEAR,2) }} +1);
+        $('input[data-stripe=number]').val('4242424242424242').trigger("click");
+        $('input[data-stripe=address_zip]').val('L8L6V6').trigger("click");
+        $('input[data-stripe=cvc]').val(rnd(100, 999)).trigger("click");
+        $('select[data-stripe=exp_year]').val({{ right($CURRENT_YEAR,2) }} +1).trigger("click");
         @if(islive())
             log("Changing stripe key");
-        $("#istest").val("true");
-        setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', "test");
-        log("Stripe key changed");
+            $("#istest").val("true");
+            setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', "test");
+            log("Stripe key changed");
         @endif
     }
 
@@ -1518,6 +1518,7 @@
             info: formdata,
             action: "closestrestaurant"
         }, function (result) {
+            log("GOT HERE!");
             if (handleresult(result)) {
                 closest = JSON.parse(result)["closest"];
                 var smallest = "0";
