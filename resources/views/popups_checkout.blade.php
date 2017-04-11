@@ -30,7 +30,7 @@
                         ?>
                     </div>
 
-                    <div class="input_left_icon"><i class="fa fa-cutlery"></i></div>
+                    <div class="input_left_icon" id="red_rest"><i class="fa fa-cutlery"></i></div>
                     <div class="input_right">
                         <SELECT class="form-control" ID="restaurant" ONCHANGE="restchange();">
                             <OPTION VALUE="0" SELECTED>Restaurant</OPTION>
@@ -141,9 +141,11 @@
         var value = $("#restaurant").val();
         var index = findwhere(closest, "restid", value);
         if (value == 0) {
-            $("#restaurant").addClass("red");
+            //$("#restaurant").addClass("red");
+            $("#red_rest").addClass("redhighlite");
         } else {
-            $("#restaurant").removeClass("red");
+            //$("#restaurant").removeClass("red");
+            $("#red_rest").removeClass("redhighlite");
         }
         if(closest.length>0) {
             GenerateHours(closest[index].hours);//GenerateHours(closest[index]["hours"]);
@@ -164,14 +166,16 @@
     function refreshform(t){
         var ID = t;
         var value = $(t).val();
+        var classname = "red";
         if ($(t).hasAttr("autored")){
-            //ID = "#" + $(t).attr("autored").replaceAll('"', "");
+            ID = "#" + $(t).attr("autored").replaceAll('"', "");
+            classname = "redhighlite";
         }
         if ($(t).hasAttr("autored") || $(t).hasClass("autored")){
             if (value) {
-                $(ID).removeClass("red");
+                $(ID).removeClass(classname);
             } else {
-                $(ID).addClass("red");
+                $(ID).addClass(classname);
             }
         }
     }

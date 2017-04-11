@@ -1251,7 +1251,7 @@
         $(".profiletype_not").show();
         $(".profiletype_not" + user["profiletype"]).hide();
 
-        var HTML = 'red form-control saveaddresses" id="saveaddresses" onchange="addresschanged(' + "'saveaddress'" + ');"><OPTION value="0">Select Address</OPTION>';
+        var HTML = 'form-control saveaddresses" id="saveaddresses" onchange="addresschanged(' + "'saveaddress'" + ');"><OPTION value="0">Select Address</OPTION>';
         var FirstAddress = false;
 
         if (user["Addresses"].length > 0) {
@@ -1333,9 +1333,11 @@
         $("#ffaddress").hide();
         if (SelectedVal == 0) {
             Text = '';
-            $("#saveaddresses").addClass("red");
+            //$("#saveaddresses").addClass("red");
+            $("#red_address").addClass("redhighlite");
         } else {
-            $("#saveaddresses").removeClass("red");
+            //$("#saveaddresses").removeClass("red");
+            $("#red_address").removeClass("redhighlite");
             $("#formatted_address").hide();
             if (SelectedVal == "addaddress") {
                 visible_address(true);
@@ -1345,7 +1347,8 @@
             }
         }
         $("#formatted_address").val(Text);
-        $("#restaurant").html('<OPTION VALUE="0" SELECTED>Restaurant</OPTION>').addClass("red");
+        $("#restaurant").html('<OPTION VALUE="0" SELECTED>Restaurant</OPTION>');//.addClass("red");
+        $("#red_rest").addClass("redhighlite");
         addresshaschanged();
     }
 
@@ -1394,11 +1397,13 @@
         $(".payment-errors").text("");
         $(".red").removeClass("red");
         if (!validaddress()) {
-            $("#saveaddresses").addClass("red");
+            //$("#saveaddresses").addClass("red");
+            $("#red_address").addClass("redhighlite");
             $(".payment-errors").text("Please enter a valid London address");
         } else if (!$("#saved-credit-info").val()) {
             if (!isvalidcreditcard()) {
-                $("#saved-credit-info").addClass("red");
+                //$("#saved-credit-info").addClass("red");
+                $("#red_card").addClass("redhighlite");
                 $("[data-stripe=number]").addClass("red");
                 $(".payment-errors").text("Please select or enter a valid credit card");
                 return false;

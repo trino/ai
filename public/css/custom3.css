@@ -209,6 +209,9 @@ body.loading #loadingmodal {
 .red { /*, input:invalid, select:invalid, textarea:invalid {*/
      border-bottom: 1px solid #d9534f !important;
 }
+.redhighlite{
+    color: red;
+}
 
 .error {
     color: #d9534f !important
