@@ -1511,7 +1511,7 @@
         formdata.limit = 10;
         if (!formdata.latitude || !formdata.longitude) {return;}
         if (!debugmode) {formdata.radius = MAX_DISTANCE;}
-        skiploadingscreen = true;
+        //skiploadingscreen = true;
         //canplaceorder = false;
         $.post(webroot + "placeorder", {
             _token: token,
