@@ -105,8 +105,6 @@ h2 {
 }
 
 .col-lg-3 {
-    border-right: 1px solid #dadada!important;
-    border-left: 1px solid #dadada!important;
 }
 
 .container-fluid {
@@ -119,8 +117,8 @@ h2 {
 }
 
 .list-group-item-action {
-    border-bottom: 1px solid #dadada !important;
-    border-right: 0px solid #dadada !important;
+    border-right: 1px solid #dadada!important;
+    border-bottom: 1px solid #dadada!important;
     font-weight: normal !important;
 
 }
