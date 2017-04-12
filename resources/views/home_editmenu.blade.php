@@ -393,6 +393,7 @@
                                 echo 'HTML+= makeinput2(cols, table_name, data, "' . ucfirst($table) . '", "' . $table . '", "number", "How many items (ie: pizzas) does the customer have to customize")' . $CRLF;
                             }
                         ?>
+                        HTML += makeinput2(cols, table_name, data, "Calories", "calories", "text", "for 2 items, separate with a / (ie: 200/400). For more items, use a - (ie: 200-400)");
                         break;
                     default:
                         HTML = table_name + " is unhandled";

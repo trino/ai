@@ -910,3 +910,15 @@ table tr td:last-child, table tr th:last-child {
 * {
     border: 0 !important;
 }
+
+#myorder{
+    max-height: 697.98px;
+    overflow-y: scroll;
+}
+
+.custom-tooltip{
+    display: none;
+    border: solid black;
+    background-color: white;
+    z-index: 999;
+}

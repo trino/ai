@@ -96,6 +96,7 @@
     $maxmenuitemspercol = $totalmenuitems / 3; //17
     $itemsInCol = 0;
     $CurrentCol = 1;
+    $CurrentCat = 0;
 ?>
 <div class="col-lg-3 col-md-12 bg-white">
     @foreach ($categories as $category)
@@ -111,17 +112,18 @@
                 //echo '</DIV><div class="col-md-4" style="background:white;">';
             }
             $itemsInCol += $menuitemcount;
+            echo '<div class="bg-inverse list-group-item list-group-item-action" ID="category_' . $CurrentCat . '"><h2>' . $category['category'] . '</h2></div>';
+            $CurrentCat +=1;
         ?>
-        <div class="bg-inverse list-group-item list-group-item-action">
-            <h2>   {{$category['category']}}</h2>
-        </div>
         @foreach ($menuitems as $menuitem)
-            <button class="cursor-pointer list-group-item list-group-item-action d-flex justify-content-start item_{{ $catclass }}"
+            <button class="cursor-pointer list-group-item list-group-item-action hoveritem d-flex justify-content-start item_{{ $catclass }}"
                  itemid="{{$menuitem["id"]}}"
                  itemname="{{trim($menuitem['item'])}}"
                  itemprice="{{$menuitem['price']}}"
-                 itemsize="{{ getsize($menuitem['item'], $isfree) }}"
+                 itemsize="{{getsize($menuitem['item'], $isfree)}}"
                  itemcat="{{$menuitem['category']}}"
+                 calories="{{$menuitem['calories']}}"
+                 allergens="{{$menuitem['allergens']}}"
                  <?php
                     $itemclass = $catclass;
                     if ($itemclass == "sides") {
@@ -198,6 +200,7 @@
         </div>
     </div>
 </div>
+
 <script>
     var tables = <?= json_encode($tables); ?>;
     var alladdons = <?= json_encode($addons); ?>;
@@ -209,12 +212,44 @@
     var minimumfee = <?= $minimum; ?>;
     var classlist = <?= json_encode($classlist); ?>;
     var ordinals = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th"];
+
+    $(".hoveritem").hover(
+        function(e){
+            if($(this).attr("calories") || $(this).attr("allergens")) {
+                var position = $(this).position();
+                position.left = $(this).offset().left - $("#category_0").offset().left;
+                var height = $(this).outerHeight();
+                var bottom = position.top + height;
+                var tooltipheight = height * 2 - 1;
+                if (position.left > 400) {//last col
+                    position.left = position.left - $(this).outerWidth();
+                }
+                if (isbelowhalf(bottom)) {//below middle of screen
+                    bottom = position.top - tooltipheight - 1;
+                }
+                $("#nutritiontooltip").css({
+                    position: "absolute",
+                    left: position.left,
+                    top: bottom,
+                    width: $(this).outerWidth() * 2 - 2,
+                    height: tooltipheight
+                }).stop().show(100);
+            }
+        },
+        function(e){
+            $("#nutritiontooltip").hide();
+        }
+    );
+
+    function isbelowhalf(Y){
+        return Y - $(window).scrollTop() > $( window ).height() * 0.5;
+    }
 </script>
 
+<DIV ID="nutritiontooltip" class="custom-tooltip">
+    <DIV ID="nutritioninfo"></DIV>
+    2,000 calories a day is used for general nutrition advice, but calorie needs vary
+</DIV>
 <!-- end order menu item Modal -->
 <!-- end menu cache -->
 <?php endfile("popups_menu"); ?>
-
-
-
-
