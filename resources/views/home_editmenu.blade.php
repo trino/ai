@@ -43,7 +43,12 @@
             -webkit-appearance:checkbox;
         }
 
-        .is-even, .is-even .form-control{
+        .is-even, .is-odd{
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .is-even{
             background: lightsteelblue;
         }
 
@@ -53,6 +58,29 @@
 
         .card-block.bg-danger h2{
             color: white !important;
+        }
+
+        .clear-row{
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .table_main{
+            display: block;
+            padding-left: 10px;
+            padding-right: 24px;
+        }
+
+        #allergens li{
+            margin-bottom: 0px;
+            line-height: 16px;
+        }
+        #allergens label{
+            margin-bottom: 0px;
+        }
+        #allergens input[type=checkbox]{
+            height: 16px;
+            width: 16px;
         }
     </STYLE>
     <div class="row m-t-1">
@@ -71,7 +99,7 @@
                             @else
                                 <div class="row">
                                     <div class="col-md-2">
-                                        <DIV>
+                                        <DIV class="clear-row">
                                             <UL ID="catlist">
                                                 <LI class="main hyperlink" onclick="main_click(this);" table="additional_toppings">Size costs</LI>
                                                 <LI class="main hyperlink" onclick="main_click(this);" table="toppings">Pizza Toppings</LI>
@@ -89,6 +117,7 @@
                                             <button class="btn btn-block btn-success" onclick="$('.newitembtn').trigger('click');">New</button>
                                             <button ID="savechanges" class="btn btn-block btn-success changes dont-show" onclick="savechanges();">Save Changes</button>
                                             <button ID="discardchanges" class="btn btn-block btn-secondary changes dont-show" onclick="discard(false);">Discard Changes</button>
+                                            <DIV id="allergens"></DIV>
                                         </div>
                                     </DIV>
                                     <DIV CLASS="clearfix"></DIV>
@@ -394,6 +423,7 @@
                             }
                         ?>
                         HTML += makeinput2(cols, table_name, data, "Calories", "calories", "text", "for 2 items, separate with a / (ie: 200/400). For more items, use a - (ie: 200-400)");
+                        HTML += makeinput2(cols, table_name, data, "Allergens", "allergens", "allergens");
                         break;
                     default:
                         HTML = table_name + " is unhandled";
@@ -432,6 +462,9 @@
                         if(value.length > 0 && value != "0"){HTML += ' ORIGINAL="CHECKED"';} else {HTML += ' ORIGINAL=""';}
                         HTML += '>';
                         break;
+                    case "allergens":
+                        HTML = '<INPUT TYPE="text" READONLY' + HTML + 'ID="allergen' + primarykeyID + '" VALUE="' + newddata + '" ORIGINAL="' + value + '" ONCLICK="loadallergens(this);">';
+                        break;
                     default:
                         switch(type){
                             case "number":
@@ -441,6 +474,58 @@
                         HTML = '<INPUT TYPE="' + type + '"' + HTML + 'VALUE="' + newddata + '" ORIGINAL="' + value + '">';
                 }
                 return '<DIV CLASS="row"><DIV CLASS="col-md-2 itemname">' + text + ':</DIV><DIV CLASS="col-md-10">' + HTML + '</DIV></DIV>';
+            }
+
+            function loadallergens(element){
+                var target = $(element).attr("id");
+                var value = $(element).val().split(",");
+                var allergens = ["eggs", "milk", "mustard", "peanuts", "seafood", "sesame", "soy", "sulphites", "treenuts", "wheat", "sugar", "vegetarian", "vegan"];
+                var HTML = '<UL>';
+                for(i=0;i<allergens.length;i++){
+                    HTML += '<LI><LABEL CLASS="cursor-pointer"><INPUT TYPE="CHECKBOX" ALLERGEN="' + allergens[i] + '" ONCLICK="allergenclick(this);"> ' + ucfirst(allergens[i]) + '</LABEL></LI>';
+                }
+                HTML += '</UL>';
+                $("#allergens").html("TESTING: " + target + " " + HTML).attr("attached-to", target);
+            }
+            function allergenclick(element){
+                var checked =  $(element).prop("checked");
+                var target = "#" + $("#allergens").attr("attached-to");
+                var allergen = $(element).attr("allergen");
+                var value = $(target).val().split(",");
+                var includes_quantity = false;
+                switch (allergen){
+                    case "sugar":
+                        includes_quantity = true;
+                        break;
+                }
+                if(checked){//add
+                    if(includes_quantity){
+                        allergen += "=" + prompt("What would you like '" + allergen + "' to be?", "20 mg");
+                    }
+                    value.push(allergen);
+                } else {//remove
+                    var index = -1;
+                    if(includes_quantity){
+                        for(var i=0;i<value;i++){
+                            if(value[i].startswith(allergen + "=")){
+                                index = i;
+                                break;
+                            }
+                        }
+                    } else {
+                        index = value.indexOf(allergen);
+                    }
+                    if(index>-1){
+                        value = removeindex(value, index);
+                    }
+                }
+                value = value.join(",");
+                if(value.startswith(",")){
+                    value = value.right(value.length-1);
+                }
+                $(target).val(value);
+                autoupdate(target);
+                log(target + "." + allergen + "=" + checked + " (" + value + ")");
             }
 
             (function($) {

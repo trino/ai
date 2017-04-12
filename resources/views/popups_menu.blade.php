@@ -215,7 +215,9 @@
 
     $(".hoveritem").hover(
         function(e){
-            if($(this).attr("calories") || $(this).attr("allergens")) {
+            var calories = $(this).attr("calories");
+            var allergens = $(this).attr("allergens");
+            if(calories || allergens) {
                 var position = $(this).position();
                 position.left = $(this).offset().left - $("#category_0").offset().left;
                 var height = $(this).outerHeight();
@@ -234,6 +236,29 @@
                     width: $(this).outerWidth() * 2 - 2,
                     height: tooltipheight
                 }).stop().show(100);
+                var HTML = "";
+                if(calories){
+                    HTML += "Calories: " + calories;
+                }
+                if(allergens){
+                    allergens = allergens.split(",");
+                    for(var i=0;i<allergens.length;i++){
+                        var allergen = allergens[i];
+                        var quantity = false;
+                        var indexOf = allergen.indexOf("=");
+                        if(indexOf > -1){
+                            quantity = allergen.right( allergen.length - indexOf - 1);
+                            allergen = allergen.left(indexOf);
+                        }
+                        if(HTML){HTML += ", ";}
+                        HTML += ucfirst(allergen);
+                        if(quantity) {
+                            HTML += ": " + quantity;
+                        }
+                    }
+                }
+                $("#nutritioninfo").html(HTML);
+                visible("#nutritionnote", $(this).attr("calories"));
             }
         },
         function(e){
@@ -248,7 +273,7 @@
 
 <DIV ID="nutritiontooltip" class="custom-tooltip">
     <DIV ID="nutritioninfo"></DIV>
-    2,000 calories a day is used for general nutrition advice, but calorie needs vary
+    <SPAN CLASS="nutritionnote">2,000 calories a day is used for general nutrition advice, but calorie needs vary</SPAN>
 </DIV>
 <!-- end order menu item Modal -->
 <!-- end menu cache -->
