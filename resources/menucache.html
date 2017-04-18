@@ -602,8 +602,16 @@
                 var height = $(this).outerHeight();
                 var bottom = position.top + height;
                 var tooltipheight = height * 2 - 1;
-                if (position.left > 400) {//last col
-                    position.left = position.left - $(this).outerWidth();
+                var onecolumnwidth = $(this).outerWidth();
+                var twocolumnwidth = onecolumnwidth * 2 - 2;
+                var containerwidth = $(".container-fluid").width();
+
+                if(containerwidth < onecolumnwidth){//rare mobile device with hover ability
+                    position.top = position.top + $(this).parent().position().top;
+                    bottom = position.top + height;
+                    twocolumnwidth = onecolumnwidth - 1;
+                } else if (position.left > 400) {//last col
+                    position.left = position.left - onecolumnwidth;
                 }
                 if (isbelowhalf(bottom)) {//below middle of screen
                     bottom = position.top - tooltipheight - 1;
@@ -612,7 +620,7 @@
                     position: "absolute",
                     left: position.left,
                     top: bottom,
-                    width: $(this).outerWidth() * 2 - 2,
+                    width: twocolumnwidth,
                     height: tooltipheight
                 }).stop().show(100);
                 var HTML = "";
