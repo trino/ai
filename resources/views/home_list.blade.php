@@ -1247,7 +1247,7 @@
                         currentpage = Number(currentpage);
                         var pages = Math.ceil(Number(itemcount) / itemsperpage);
                         lastpage = pages-1;
-                        var HTML = '<BUTTON CLASS="btn btn-sm btn-success" onclick="newitem();">New</BUTTON>';
+                        var HTML = '<BUTTON CLASS="btn btn-sm btn-success" onclick="newitem();">New</BUTTON> Double click a cell to edit it';
                         if(TableStyle == '1'){HTML = '<SPAN ID="sortcols"></SPAN>';}
                         HTML += '<TABLE BORDER="1" CLASS="pull-right"><TR>';
                         var printpages = 10;
