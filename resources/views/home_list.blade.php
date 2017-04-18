@@ -434,6 +434,10 @@
                     padding-left: 2px;
                     padding-right: 3px !important;
                 }
+
+                .container-fluid {
+                    max-width: 100% !important;
+                }
             </STYLE>
             <div class="row m-t-1">
                 <div class="col-md-12">
@@ -638,7 +642,8 @@
                     }
 
                     function getdata(field, data){
-                        switch(table + "." + field){
+                        field = table + "." + field;
+                        switch(field){
                             case "orders.status":                                               return statuses[data]; break;
                             case "users.profiletype": case "actions.party":                     return usertype[data]; break;
                             case "users.authcode":                                              return iif(data, "Not Authorized", "Authorized"); break;
@@ -715,6 +720,7 @@
                                         for (var v = 0; v < fields.length; v++) {
                                             var field = data.table[i][fields[v]];
                                             field = getdata(fields[v], field);
+                                            var title = "";
                                             switch(table + "." + fields[v]){
                                                 case "orders.placed_at":
                                                     CurrentDate = field;
@@ -724,9 +730,14 @@
                                                     break;
                                             }
                                             if (fields[v] == "phone"){
-                                                field = field.replace(/[^0-9+]/g, "");
-                                                if(field.length == 10) {
-                                                    field = field.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3");
+                                                var test = field.replace(/[^0-9+]/g, "");
+                                                if(test.length == 10) {
+                                                    field = test.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3");
+                                                } else {
+                                                    switch(table){
+                                                        case "actions": break;
+                                                        default: title = "This is not a valid phone number";
+                                                    }
                                                 }
                                             }
                                             if(TableStyle == '1'){
@@ -742,7 +753,7 @@
                                                 tempHTML += '" onclick="sort(' + "'" + fields[v] + "', 'ASC'" + ')" TITLE="Sort by ' + formatted + ' ascending"></i></SPAN></TD>';
                                                 */
                                             }
-                                            tempHTML += '<TD NOWRAP ID="' + table + "_" + ID + "_" + fields[v] + '" class="field ' + evenodd + '" field="' + fields[v] + '" index="' + ID + '">' + field + '</TD>';
+                                            tempHTML += '<TD NOWRAP ID="' + table + "_" + ID + "_" + fields[v] + '" class="field ' + evenodd + '" field="' + fields[v] + '" index="' + ID + '" TITLE="' + title + '">' + field + '</TD>';
                                             if(TableStyle == '1'){tempHTML += '</TR>';}
                                             Address = Address.replace("[" + fields[v] + "]", field);
                                         }
@@ -884,6 +895,12 @@
                                                                 return;
                                                                 break;
                                                             default:
+                                                                switch(colname){
+                                                                    case "actions.message":
+                                                                        title = "[reason] will be replaced with the reason the restaurant owner specifies. [url] will be replaced with a URL to the receipt";
+                                                                        break;
+                                                                }
+
                                                                 HTML = '<INPUT TYPE="TEXT" ID="' + ID + "_" + field + '" VALUE="' + HTML + '" CLASS="textfield" COLNAME="' + colname;
                                                                 HTML += '" maxlength="' + column["Len"] + '" TITLE="' + title + '">';
                                                         }
