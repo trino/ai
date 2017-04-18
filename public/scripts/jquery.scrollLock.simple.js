@@ -1,23 +1,18 @@
+/*
 $.scrollLock = ( function scrollLockSimple(){
 	var locked   = false;
 	var $body;
 	var previous;
 
 	function lock(){
-	  if( !$body ){
-	    $body = $( 'body' );
-	  }
-	  
+	  if( !$body ){$body = $( 'body' );}
 	  previous = $body.css( 'overflow' );
-		
 	  $body.css( 'overflow', 'hidden' );
-
 	  locked = true;
 	}
 
 	function unlock(){
 	  $body.css( 'overflow', previous );
-
 	  locked = false;
 	}
 
@@ -42,3 +37,4 @@ $.scrollLock = ( function scrollLockSimple(){
 		}
 	};
 }() );
+*/

@@ -315,7 +315,6 @@
                     overflow-x: scroll;
                 }
 
-
                 .pull-center>i{
                     padding-top: 3px;
                     cursor: pointer;
@@ -434,7 +433,6 @@
                     padding-top: 1px;
                     padding-left: 2px;
                     padding-right: 3px !important;
-
                 }
             </STYLE>
             <div class="row m-t-1">
@@ -1097,9 +1095,6 @@
                         return Math.ceil((((now - onejan) / 86400000) + onejan.getDay() + 1) / 7);
                     };
                     //END DATE FORMAT
-
-
-
 
                     function parseverbosedate(TheDate){
                         log("Parsing: " + TheDate);

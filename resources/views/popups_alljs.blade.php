@@ -6,7 +6,7 @@
 ?>
 <STYLE>
     /* STOP MOVING THIS TO THE CSS, IT WON'T WORK! */
-    #loadingmodal {
+    #oldloadingmodal {
         display: none;
         position: fixed;
         z-index: 1000;
@@ -1678,9 +1678,7 @@
         }
     }
 
-    $.fn.hasAttr = function(name) {
-        return this.attr(name) !== undefined;
-    };
+
 
     function gettime(now, IncrementBig, IncrementSmall, OldTime){
         var minutes = now.getMinutes();
