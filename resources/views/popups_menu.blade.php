@@ -161,9 +161,9 @@
                     ?>
                 >
 
-                <span class="align-middle rounded-circle bg-warning sprite sprite-{{$itemclass}} sprite-medium"></span>
-                <span class="align-middle">{{$menuitem['item']}} </span>
-                <span class="ml-auto align-middle btn-sm-padding"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
+                <span class="align-middle item-icon rounded-circle bg-warning sprite sprite-{{$itemclass}} sprite-medium"></span>
+                <span class="align-middle item-name">{{$menuitem['item']}} </span>
+                <span class="ml-auto align-middle btn-sm-padding item-cost"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
             </button>
         @endforeach
         @if($catclass=="dips" || $catclass=="sides")

@@ -255,7 +255,7 @@ body.loading #loadingmodal {
     display: inline !important;
 }
 
-.n55555avbar {
+.navbar {
     z-index: 1;
     padding: .75rem;
 }
@@ -920,4 +920,25 @@ table tr td:last-child, table tr th:last-child {
     border: solid black;
     background-color: white;
     z-index: 999;
+}
+
+/* firefox specific */
+@-moz-document url-prefix() {
+    .list-group-item{
+        height: 50px;
+    }
+    .item-name{
+        position: absolute;
+        left: 50px;
+        top: 11px;
+    }
+    .item-cost{
+        position: absolute;
+        right: 10px;
+        top: 7px;
+    }
+    .receipt-icon{
+        position: relative;
+        top: 12px;
+    }
 }

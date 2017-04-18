@@ -511,7 +511,7 @@
                     sprite += " sprite-" + toclassname(item["itemname"].trim()).replaceAll("_", "-").replace(/\./g, '');
                 }
 
-                tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item list-group-item"><span CLASS="rounded-circle bg-warning sprite sprite-' + sprite + ' sprite-medium"></span>';
+                tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item list-group-item"><span CLASS="rounded-circle receipt-icon bg-warning sprite sprite-' + sprite + ' sprite-medium"></span>';
                 if(quantity > 1) {tempHTML += '<SPAN CLASS="item_qty">' + quantity + 'x </SPAN>';}
                 // tempHTML += '<span title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '" class="receipt_itemcost"></span>';
                 tempHTML += ' <span class="ml-1 receipt-itemname">' + item["itemname"] + '</SPAN> <span class="ml-auto align-middle">';
