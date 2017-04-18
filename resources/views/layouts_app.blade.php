@@ -84,7 +84,7 @@
                     <LI><A CLASS="dropdown-item" href="<?= webroot(""); ?>"><i class="fa fa-user icon-width"></i> Log In</A></LI>
                 </SPAN>
 
-                <LI><A CLASS="dropdown-item" href="help"><i class="fa fa-question-circle icon-width"></i> More Info</A></LI>
+                <LI><A CLASS="dropdown-item" href="<?= webroot("help"); ?>"><i class="fa fa-question-circle icon-width"></i> More Info</A></LI>
 
                 @if(read("id"))
                     <LI><A ONCLICK="handlelogin('logout');" CLASS="dropdown-item" href="#"><i class="fa fa-sign-out icon-width"></i> Log Out</A></LI>

@@ -620,6 +620,7 @@
                     $(window).load(function () {
                     //$(document).ready(function() {
                         getpage(0);
+                        $("#profileinfo").remove();
                     });
 
                     $("#searchtext").on('keyup', function (e) {
