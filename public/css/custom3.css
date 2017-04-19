@@ -216,7 +216,7 @@ body.loading #loadingmodal {
     color: #d9534f !important
 }
 
-.cursor-pointer, .btn, button, .hyperlink {
+.cursor-pointer, .btn:not(.no-icon), button:not(.no-icon), .hyperlink {
     /* !!!!!!!!!!!!!stop removing this!!!!!!!!!!!! */
     cursor: pointer;
     /* !!!!!!!!!!!!!stop removing this!!!!!!!!!!!! */

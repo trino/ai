@@ -585,7 +585,7 @@
                 $("#checkout-btn").show();
             } else {
                 $("#checkout-btn").hide();
-                tempHTML += '<button CLASS="list-padding bg-secondary btn-block text-normal">minimum $' + minimumfee + ' to order</button>';
+                tempHTML += '<button CLASS="list-padding bg-secondary btn-block text-normal no-icon">Minimum $' + minimumfee + ' to order</button>';
             }
             tempHTML += '<DIV id="newvalues"';
             if (fadein || forcefade) {
