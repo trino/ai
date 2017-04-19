@@ -1431,12 +1431,18 @@
         @endif
     }
 
+    function flash(delay){
+        $('.redhighlite').fadeTo(delay, 0.3, function() { $(this).fadeTo(delay, 1.0).fadeTo(delay, 0.3, function() { $(this).fadeTo(delay, 1.0).fadeTo(delay, 0.3, function() { $(this).fadeTo(delay, 1.0); }); }); });
+    }
+
     function payfororder() {
         $(".payment-errors").html("");
         if (!canplaceanorder()) {
+            flash(500);
             return cantplaceorder();
         }
         if ($("#orderinfo").find(".error:visible[for]").length > 0) {
+            flash(500);
             return false;
         }
         var $form = $('#orderinfo');
