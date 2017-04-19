@@ -88,9 +88,9 @@
             break;
         case "restaurants":
             $TableStyle=1;
-            $fields = array("id", "name", "phone", "email", "address_id", "number", "street", "postalcode", "city", "province", "latitude", "longitude", "user_phone");
+            $fields = array("id", "name", "phone", "email", "address_id", "number", "street", "postalcode", "city", "province", "latitude", "longitude", "user_phone", "is_delivery");
             $searchcols = array("name", "email");
-            $SQL='SELECT restaurants.id, restaurants.name, restaurants.phone, restaurants.email, restaurants.address_id, useraddresses.number, useraddresses.street, useraddresses.postalcode, useraddresses.city, useraddresses.province, useraddresses.latitude, useraddresses.longitude, useraddresses.phone as user_phone FROM useraddresses AS useraddresses RIGHT JOIN restaurants ON restaurants.address_id = useraddresses.id';
+            $SQL='SELECT restaurants.id, restaurants.name, restaurants.phone, restaurants.email, restaurants.address_id, useraddresses.number, useraddresses.street, useraddresses.postalcode, useraddresses.city, useraddresses.province, useraddresses.latitude, useraddresses.longitude, useraddresses.phone as user_phone, restaurants.is_delivery FROM useraddresses AS useraddresses RIGHT JOIN restaurants ON restaurants.address_id = useraddresses.id';
             break;
         case "orders":
             $TableStyle=1;
@@ -452,11 +452,10 @@
                                             //show all administratable tables
                                             foreach(array("users" => true, "restaurants" => true, "additional_toppings" => true, "useraddresses" => false, "orders" => $profiletype != 2, "actions" => true) as $thetable => $onlyadmins){
                                                 if(($profiletype == 1 || !$onlyadmins) && $table != $thetable){
-                                                    echo '<LI><A HREF="' . webroot("public/list/" . $thetable) . '" class="dropdown-item"><i class="fa fa-user-plus"></i> ' . ucfirst($thetable) . ' list</A></LI>';
+                                                    echo '<LI><A HREF="' . webroot("public/list/" . $thetable) . '" class="dropdown-item"><i class="fa fa-user-plus"></i> ' . str_replace("_", " ", ucfirst($thetable)) . ' list</A></LI>';
                                                 }
                                             }
                                         ?>
-                                        <HR>
                                         <LI><A HREF="<?= webroot("public/editmenu"); ?>" class="dropdown-item"><i class="fa fa-user-plus"></i> Edit Menu</A></LI>
                                         <LI><A HREF="<?= webroot("public/list/debug"); ?>" class="dropdown-item"><i class="fa fa-user-plus"></i> Debug log</A></LI>
                                     </ul>
@@ -634,6 +633,7 @@
                     }
 
                     function tofieldname(name){
+                        if(table + "." + name == "restaurants.is_delivery"){return "Is Active";}
                         name = name.replaceAll("_", " ").replace("code", " code").replace("deliverytime", "delivery time").split(" ");
                         for(var i=0; i<name.length; i++){
                             name[i] = ucfirst(name[i]);
@@ -648,7 +648,8 @@
                             case "orders.status":                                               return statuses[data]; break;
                             case "users.profiletype": case "actions.party":                     return usertype[data]; break;
                             case "users.authcode":                                              return iif(data, "Not Authorized", "Authorized"); break;
-                            case "actions.sms": case "actions.phone": case "actions.email":     return iif(data == 1, "Yes", "No"); break;
+                            case "actions.sms": case "actions.phone": case "actions.email": case "restaurants.is_delivery":
+                                return iif(data == 1, "Yes", "No"); break;
                         }
                         return data;
                     }
@@ -873,7 +874,7 @@
                                                                 console.log(HTML + " was edited");
                                                                 break;
 
-                                                            case "actions.sms":case "actions.phone":case "actions.email"://boolean values
+                                                            case "actions.sms": case "actions.phone": case "actions.email": case "restaurants.is_delivery"://boolean values
                                                                 isSelect=true;
                                                                 HTML = makeselect(ID + "_" + field, "selectfield form-control", colname, HTML, [{value: 0, text: "No"}, {value: 1, text: "Yes"}]   );
                                                                 break;

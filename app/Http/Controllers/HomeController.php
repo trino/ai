@@ -290,7 +290,7 @@ class HomeController extends Controller {
      */
     function closestrestaurant($data, $gethours = false){
         //if(!isset($data['radius'])){$data['radius'] = 100;}//default radius
-        $SQL = "SELECT address_id FROM restaurants WHERE address_id > 0";
+        $SQL = "SELECT address_id FROM restaurants WHERE address_id > 0 AND is_delivery = 1";
         if (isset($data["restaurant_id"])) {
             $SQL .= " AND id = " . $data["restaurant_id"];
         }

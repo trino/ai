@@ -64,7 +64,7 @@
                     <SPAN class="loggedin profiletype profiletype1">
                         <?php
                             foreach (array("users", "restaurants", "useraddresses", "orders", "additional_toppings", "actions") as $table) {
-                                echo '<li><A HREF="' . webroot("public/list/" . $table) . '" CLASS="dropdown-item"><i class="fa fa-user-plus icon-width"></i> ' . ucfirst($table) . ' list</A></li>';
+                                echo '<li><A HREF="' . webroot("public/list/" . $table) . '" CLASS="dropdown-item"><i class="fa fa-user-plus icon-width"></i> ' . str_replace("_", " ", ucfirst($table)) . ' list</A></li>';
                             }
                         ?>
                         <li><A HREF="<?= webroot("public/editmenu"); ?>" CLASS="dropdown-item"><i class="fa fa-user-plus icon-width"></i> Edit Menu</A></li>
