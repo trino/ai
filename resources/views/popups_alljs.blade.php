@@ -539,19 +539,21 @@
                         } else {
                             tempHTML += '<DIV>';
                         }
-                        if (addons["addons"].length == 0) {
-                            tempHTML += 'no ' + nonames[tablename] + '';
-                        } else {
-                            for (var addonid = 0; addonid < addons["addons"].length; addonid++) {
-                                if (addonid > 0) {
-                                    tempHTML += ", ";
-                                }
-                                var addonname = addons["addons"][addonid]["text"];
-                                var isfree = isaddon_free(tablename, addonname);
-                                if (isfree) {
-                                    tempHTML += '<I TITLE="Free addon">' + addonname + '</I>';
-                                } else {
-                                    tempHTML += addonname;
+                        if(addons.hasOwnProperty("addons")) {
+                            if (addons["addons"].length == 0) {
+                                tempHTML += 'no ' + nonames[tablename] + '';
+                            } else {
+                                for (var addonid = 0; addonid < addons["addons"].length; addonid++) {
+                                    if (addonid > 0) {
+                                        tempHTML += ", ";
+                                    }
+                                    var addonname = addons["addons"][addonid]["text"];
+                                    var isfree = isaddon_free(tablename, addonname);
+                                    if (isfree) {
+                                        tempHTML += '<I TITLE="Free addon">' + addonname + '</I>';
+                                    } else {
+                                        tempHTML += addonname;
+                                    }
                                 }
                             }
                         }

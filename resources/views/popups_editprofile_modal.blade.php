@@ -28,16 +28,13 @@
                     <DIV ID="cardlist"></DIV>
                 </div>
                 <div class="alert alert-warning mt-3" style="font-size: .85rem">
-                    > Past orders can be found in your email
-                    <br> > Add a new address on checkout
+                    > Add a new address on checkout
                     <br> > Add a new credit/debit card on checkout
                     <br> > <a href="help" class="btn-link">MORE INFO</a>
                 </div>
-                <!--div CLASS="editprofilediv mt-2">
-                    <button ONCLICK="orders();" CLASS="btn btn-primary" href="#">PAST ORDERS</button>
-                </div>
                 <div CLASS="editprofilediv mt-2">
                     <button ONCLICK="handlelogin('logout');" CLASS="btn btn-primary pull-left" href="#">LOG OUT</button>
+                    <button ONCLICK="orders();" CLASS="btn btn-primary pull-right" href="#">PAST ORDERS</button>
                     <div class="clearfix"></div>
                 </div-->
             </div>
