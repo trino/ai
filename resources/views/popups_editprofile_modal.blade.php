@@ -21,18 +21,22 @@
                     <BUTTON CLASS="btn-link pull-right" onclick="return userform_submit(true);">SAVE</BUTTON>
                 </FORM>
 
+
                 <div CLASS="editprofilediv">
                     <DIV ID="addresslist"></DIV>
                 </div>
+                <hr>
                 <div CLASS="editprofilediv">
                     <DIV ID="cardlist"></DIV>
                 </div>
-                <div class="alert alert-warning mt-3" style="font-size: .85rem">
-                    > Add a new address on checkout
+
+                <div class="alert alert-warning mt-3 mb-0" style="font-size: .85rem">
+                    > Past orders can be found in your email
+                   <br> > Add a new address on checkout
                     <br> > Add a new credit/debit card on checkout
                     <br> > <a href="help" class="btn-link">MORE INFO</a>
                 </div>
-                <div CLASS="editprofilediv mt-2">
+                <!--div CLASS="editprofilediv mt-2">
                     <button ONCLICK="handlelogin('logout');" CLASS="btn btn-primary pull-left" href="#">LOG OUT</button>
                     <button ONCLICK="orders();" CLASS="btn btn-primary pull-right" href="#">PAST ORDERS</button>
                     <div class="clearfix"></div>
@@ -40,5 +44,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 <!-- end edit profile Modal -->

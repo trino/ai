@@ -1,6 +1,5 @@
 @extends('layouts_app')
 @section('content')
-
     <?php
         startfile("index");
         if(!read("id")){
@@ -29,18 +28,14 @@
                     @include("popups_checkout")
                 </div>
             </div>
-            @if(read("id") && read("profiletype") <> 2)
-                <div class="fixed-action-btn hidden-lg-up sticky-footer">
-                    <button class="fab bg-danger" onclick="window.scrollTo(0,document.body.scrollHeight);">
-                        <span class="white" id="checkout-total"></span>
-                    </button>
-                </div>
-            @endif
-
     @include("popups_editprofile_modal")
-
-
-
+    @if(read("id") && read("profiletype") <> 2)
+        <div class="fixed-action-btn hidden-lg-up sticky-footer">
+            <button class="fab bg-danger" onclick="window.scrollTo(0,document.body.scrollHeight);">
+                <span class="white" id="checkout-total"></span>
+            </button>
+        </div>
+    @endif
     <?php }
         endfile("index");
     ?>

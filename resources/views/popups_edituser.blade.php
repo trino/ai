@@ -51,10 +51,10 @@
         printarow("Email", $name, array("name" => "email", "value" => $user["email"], "type" => "email", "placeholder" => "Email", "class" => $class . "session_email_val", "required" => $required, "icon" => "fa-envelope"));
     }
     if (isset($user_id) || isset($showpass)) {
-        printarow("Old Password", $name, array("name" => "oldpassword", "type" => "password", "class" => $class, "placeholder" => "Old Password", "autocomplete" => $autocomplete, "required" => $required, "icon" => "fa-key"));
-        printarow("New Password", $name, array("name" => "newpassword", "type" => "password", "class" => $class, "placeholder" => "New Password", "autocomplete" => $autocomplete, "required" => $required, "icon" => "fa-key"));
+        printarow("Old Password", $name, array("name" => "oldpassword", "type" => "password", "class" => $class, "placeholder" => "Old Password", "autocomplete" => $autocomplete, "required" => $required, "icon" => "fa-lock"));
+        printarow("New Password", $name, array("name" => "newpassword", "type" => "password", "class" => $class, "placeholder" => "New Password", "autocomplete" => $autocomplete, "required" => $required, "icon" => "fa-lock"));
     } else if ($password) {
-        printarow("Password", $name, array("name" => "password", "type" => "password", "class" => $class, "placeholder" => "Password", "autocomplete" => $autocomplete, "required" => $required, "icon" => "fa-key"));
+        printarow("Password", $name, array("name" => "password", "type" => "password", "class" => $class, "placeholder" => "Password", "autocomplete" => $autocomplete, "required" => $required, "icon" => "fa-lock"));
     }
     if (isset($address) && $address) {
         echo view("popups_address", array("style" => 1))->render();

@@ -12,7 +12,7 @@
 ?>
 <div class="row">
     <DIV CLASS="col-lg-4 col-md-5">
-        <DIV CLASS="btn-sm-padding bg-white" style="padding-bottom: .5rem !important;">
+        <DIV CLASS="btn-sm-padding bg-white" style="padding-bottom: 1.5rem !important;padding-top: 1.5rem !important;">
             <ul class="nav nav-tabs mb-1" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" href="#profile" role="tab" data-toggle="tab" id="logintab" onclick="skiploadingscreen = false;" style="font-weight: bold">Log In</a>
@@ -29,13 +29,13 @@
                         <INPUT TYPE="text" id="login_email" placeholder="Email" class="form-control" onkeydown="enterkey(event, '#login_password');" required>
                     </div>
 
-                    <div class="input_left_icon"><i class="fa fa-key"></i></div>
+                    <div class="input_left_icon"><i class="fa fa-lock" style="font-size: 1.25rem"></i></div>
                     <div class="input_right">
                         <INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control" onkeydown="enterkey(event, 'login');" required>
                     </div>
                     <div class="clearfix my-2"></div>
 
-                    <BUTTON CLASS="pull-left btn-link btn-sm" href="#" style="font-weight: normal !important;color: #dadada !important;font-weight: bold !important;" onclick="handlelogin('forgotpassword');">Forgot Password
+                    <BUTTON CLASS="pull-left btn-link btn-sm" href="#" style="font-weight: normal !important;color: #dadada !important;" onclick="handlelogin('forgotpassword');">Forgot Password
                     </BUTTON>
 
                     <BUTTON CLASS="pull-right btn btn-primary pull-right" onclick="handlelogin('login');">LOG IN</BUTTON>
