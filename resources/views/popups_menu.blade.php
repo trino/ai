@@ -101,7 +101,7 @@
 <div class="col-lg-3 col-md-12 bg-white">
     @foreach ($categories as $category)
         <?php
-            $toppings_extra = '<SPAN TITLE="Addons are extra">+</SPAN>';
+            $toppings_extra = '+';
             $catclass = toclass($category['category']);
             $classlist[] = $catclass;
             $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "' order by id", true);

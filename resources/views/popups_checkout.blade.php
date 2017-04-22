@@ -15,7 +15,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="myModalLabel">Hi, <SPAN CLASS="session_name"></SPAN></h2>
+                <h2 id="myModalLabel" style="text-transform: uppercase;">Hi, <SPAN CLASS="session_name"></SPAN></h2>
                 <button data-dismiss="modal" data-popup-close="checkoutmodal" class="btn btn-sm ml-auto align-middle bg-transparent"><i class="fa fa-close"></i></button>
             </div>
             <div class="modal-body" style="padding: 0 !important;">
@@ -33,7 +33,7 @@
                     <div class="input_left_icon" id="red_rest"><i class="fa fa-cutlery"></i></div>
                     <div class="input_right">
                         <SELECT class="form-control" ID="restaurant" ONCHANGE="restchange();">
-                            <OPTION VALUE="0" SELECTED>Restaurant</OPTION>
+                            <OPTION VALUE="0" SELECTED> Select Restaurant</OPTION>
                         </SELECT>
                     </div>
 

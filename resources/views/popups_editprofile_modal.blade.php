@@ -30,7 +30,7 @@
                     <DIV ID="cardlist"></DIV>
                 </div>
 
-                <div class="alert alert-warning mt-3 mb-0" style="font-size: .85rem">
+                <div class="alert alert-info mt-3 mb-0" style="font-size: .85rem">
                     > Past orders can be found in your email
                    <br> > Add a new address on checkout
                     <br> > Add a new credit/debit card on checkout

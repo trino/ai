@@ -115,7 +115,7 @@
         if (isvalidaddress()) {
             $("#reg_address-error").remove();
         } else if ($("#reg_address-error").length == 0) {
-            $('<label id="reg_address-error" class="error" for="reg_name">Please enter a valid London address</label>').insertAfter("#formatted_address");
+            $('<label id="reg_address-error" class="error" for="reg_name">Please check your address</label>').insertAfter("#formatted_address");
         }
         redirectonlogin = false;
         $('#regform').submit();

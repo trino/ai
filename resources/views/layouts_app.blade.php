@@ -145,4 +145,48 @@
     }
     ?>
 </div>
+
+
+
+
+@if(false)
+    <style>
+
+        /* STOP DELETING THIS */
+        * {
+            border: 1px solid orange !important;
+        }
+        input, select, textarea {
+            border: 1px solid green !important;
+            background: #dadada !important;
+        }
+        div {
+            border: 1px solid #dadada !important;
+        }
+        .row {
+            border: 1px solid blue !important;
+        }
+        div[class^="col-"], div[class*=" col-"] {
+            border: 1px solid red !important;
+        }
+        table {
+            border: 1px solid yellow !important;
+        }
+        tr {
+            border: 1px solid pink !important;
+        }
+        td {
+            border: 1px solid black !important;
+        }
+        * {
+            /*
+            padding: 4px;
+            border-radius: .5rem;
+            */
+        }
+    </style>
+@endif
+
+
+
 </html>

@@ -269,7 +269,7 @@
 
     $.validator.addMethod('validaddress', function (Data, element) {
         log("TESTING ADDRESS");
-    }, "Please enter a valid London address");
+    }, "Please check your address");
 
     function isvalidaddress() {
         var fields = ["formatted_address", "add_latitude", "add_longitude"];//, "add_postalcode"
@@ -585,7 +585,7 @@
                 $("#checkout-btn").show();
             } else {
                 $("#checkout-btn").hide();
-                tempHTML += '<button CLASS="list-padding bg-secondary btn-block text-normal no-icon">Minimum $' + minimumfee + ' to order</button>';
+                tempHTML += '<button CLASS="list-padding bg-secondary btn-block text-normal no-icon">Minimum $' + minimumfee + ' to Order</button>';
             }
             tempHTML += '<DIV id="newvalues"';
             if (fadein || forcefade) {
@@ -855,7 +855,7 @@
             }, function (result) {
                 $("#checkoutmodal").modal("hide");
                 if (result.contains("ordersuccess")) {
-                    handleresult(result, "Receipt");
+                    handleresult(result, "Receipt - Thank you for your Order!");
                     if ($("#saveaddresses").val() == "addaddress") {
                         var Address = {
                             id: $(".ordersuccess").attr("addressid"),
@@ -1404,7 +1404,7 @@
         if (!validaddress()) {
             //$("#saveaddresses").addClass("red");
             $("#red_address").addClass("redhighlite");
-            $(".payment-errors").text("Please enter a valid London address");
+            $(".payment-errors").text("Please check your address");
         } else if (!$("#saved-credit-info").val()) {
             if (!isvalidcreditcard()) {
                 //$("#saved-credit-info").addClass("red");
@@ -1642,7 +1642,7 @@
                 }
             });
         });
-        $("#restaurant").html('<option value="0">Restaurant</option>').val("0");
+        $("#restaurant").html('<option value="0">Select Restaurant</option>').val("0");
         $("#saveaddresses").attr("autored", "red_address");
         refreshform("#saveaddresses");
     }
