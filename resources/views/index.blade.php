@@ -10,7 +10,7 @@
             <div class="row">
                 <?php
                     //menu caching
-                    $doCache = true;//disabled for development
+                    $doCache = false;//disabled for development
                     $menucache_filename = resource_path() . "/menucache.html";
                     $menublade_filename = resource_path() . "/views/popups_menu.blade.php";
                     $menucache_uptodate = isFileUpToDate("menucache", $menucache_filename) && !isFileUpToDate("menucache", $menublade_filename);
@@ -29,7 +29,6 @@
                     @include("popups_checkout")
                 </div>
             </div>
-            @include("popups_editprofile_modal")
             @if(read("id") && read("profiletype") <> 2)
                 <div class="fixed-action-btn hidden-lg-up sticky-footer">
                     <button class="fab bg-danger" onclick="window.scrollTo(0,document.body.scrollHeight);">
@@ -37,6 +36,11 @@
                     </button>
                 </div>
             @endif
+
+    @include("popups_editprofile_modal")
+
+
+
     <?php }
         endfile("index");
     ?>

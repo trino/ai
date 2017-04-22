@@ -209,7 +209,7 @@ body.loading #loadingmodal {
      border-bottom: 1px solid #d9534f !important;
 }
 .redhighlite{
-    color: red;
+    color: #d9534f;
 }
 
 .error {
@@ -798,12 +798,9 @@ input, textarea {
 
 table {
     border-collapse: collapse;
-    border: 1px solid #d4d4d4 !important;
-
 }
 
 table td, table th {
-    border: 1px solid #d4d4d4 !important;
 }
 
 table tr:first-child th {

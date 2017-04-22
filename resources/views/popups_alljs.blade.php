@@ -22,7 +22,7 @@
     var is_android = navigator.userAgent.toLowerCase().indexOf('android') > -1;
     var is_firefox_for_android = is_firefox && is_android;
     var currentitemID = -1;
-    var MAX_DISTANCE = 7;//km
+    var MAX_DISTANCE = 17;//km
     var debugmode = false;//'<?= !islive(); ?>' == '1';
 
     String.prototype.isEqual = function (str) {

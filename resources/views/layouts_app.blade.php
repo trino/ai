@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" class="full">
     <head>
+
         <?php
-            $time = microtime(true); // Gets microseconds
+            $time = microtime(true);
+            // Gets microseconds
             if (read("id")) {
                 $user = getuser(false);
-                if (!$user) {//check for deleted user
+                if (!$user) {
+                    //check for deleted user
                     unset($user);
                     write("id", false);
                 } else {
@@ -15,6 +18,7 @@
             $scripts = webroot("public/scripts");
             $css = webroot("public/css");
         ?>
+
         <script type="text/javascript">
             var timerStart = Date.now();
             var currentURL = "<?= Request::url(); ?>";
@@ -51,10 +55,11 @@
         @include("popups_alljs")
     </head>
     <body>
+
         <div class="modal loading" ID="loadingmodal"></div>
 
-        <div class="list-group-item container-fluid bg-danger">
 
+        <div class="list-group-item container-fluid bg-danger">
             <button data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-sm bg-transparent">
                 <i class="fa fa-bars text-white"></i>
             </button>
