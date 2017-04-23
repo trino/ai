@@ -36,7 +36,7 @@
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <meta http-equiv="content-language" content="en-CA">
     <meta name="mobile-web-app-capable" content="yes">
-    <title>londonpizza.ca - Mobile Pizza Delivery</title>
+    <title>londonpizza.ca - Pizza Delivery for London Ontario</title>
     <!--link rel="manifest" href="<?= webroot("resources/assets/manifest.json"); ?>"-->
     <link rel="icon" sizes="128x128" href="<?= webroot("public/images/pizza128.png"); ?>">
     <link rel="icon" sizes="192x192" href="<?= webroot("public/images/pizza192.png"); ?>">
@@ -84,7 +84,7 @@
             <LI><A ONCLICK="handlelogin('logout');" CLASS="dropdown-item" href="#"><i class="fa fa-sign-out icon-width"></i> Log Out</A></LI>
         @endif
     </ul>
-    <a HREF="<?= webroot("public/index"); ?>" class="ml-3 align-middle text-white" style="font-weight: bold;font-size: 1rem !important;" href="/">londonpizza.ca</a>
+    <a HREF="<?= webroot("public/index"); ?>" class=" align-middle text-white" style="margin-left:22px;font-weight: bold;font-size: 1rem !important;" href="/">LONDON<span class="text-warning">PIZZA</span>.CA</a>
 </div>
 
 <div class="container-fluid">
@@ -94,7 +94,7 @@
 <div class="container-fluid hidden-md-down list-group-item">
     <div class="row">
         <div class="col-sm-12">
-            <a CLASS="btn btn-sm text-muted" href="<?= webroot("help"); ?>"> <i style="font-size: 1rem !important;" class="fa fa-question-circle icon-width"></i> Info</a>
+            <a CLASS="btn btn-sm text-muted" href="<?= webroot("help"); ?>"> <i style="font-size: 1rem !important;" class="fa fa-question-circle icon-width"></i>More Info</a>
         </div>
     </div>
 </div>

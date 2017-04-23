@@ -358,11 +358,11 @@
                                                 switch ($tablename) {
                                                     case "toppings":
                                                         $itemtype = "Pizza";
-                                                        $none = "no toppings";
+                                                        $none = "No Toppings";
                                                         break;
                                                     case "wings_sauce":
                                                         $itemtype = "lb";
-                                                        $none = "no sauce";
+                                                        $none = "No Sauce";
                                                         break;
                                                 }
                                                 if (isset($addon->addons)) {
@@ -475,7 +475,8 @@
     <h2 class="mt-3">Delivery Info</h2>
     <?= $Order["name"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . " " . $Order["province"] . " " . $Order["postalcode"] .
                 '<BR>' . $Order["unit"] . '<BR>' . formatphone($Order["phone"]); ?>
-    <h2 class="">Restaurant</h2>
+
+    <h2 class="mt-3">Restaurant</h2>
     Order #<span ID="receipt_id"><?= $orderid; ?></span><br>
     <?php
         $Restaurant = first("SELECT * FROM restaurants WHERE id = " . $Order["restaurant_id"]);

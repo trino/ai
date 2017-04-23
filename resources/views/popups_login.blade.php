@@ -12,13 +12,13 @@
 ?>
 <div class="row">
     <DIV CLASS="col-lg-4 col-md-5">
-        <DIV CLASS="btn-sm-padding bg-white" style="padding-bottom: 1.5rem !important;padding-top: 1.5rem !important;">
+        <DIV CLASS="btn-sm-padding bg-white " style="padding-bottom: 1.5rem !important;padding-top: .5rem !important;">
             <ul class="nav nav-tabs mb-1" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#profile" role="tab" data-toggle="tab" id="logintab" onclick="skiploadingscreen = false;" style="font-weight: bold">Log In</a>
+                    <a class="nav-link active" href="#profile" role="tab" data-toggle="tab" id="logintab" onclick="skiploadingscreen = false;" style="font-weight: bold">LOG IN</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#buzz" role="tab" data-toggle="tab" id="signuptab" onclick="skiploadingscreen = true;" style="font-weight: bold">Sign Up</a>
+                    <a class="nav-link" href="#buzz" role="tab" data-toggle="tab" id="signuptab" onclick="skiploadingscreen = true;" style="font-weight: bold">SIGN UP</a>
                 </li>
             </ul>
             <!-- Tab panes -->
@@ -35,10 +35,9 @@
                     </div>
                     <div class="clearfix my-2"></div>
 
-                    <BUTTON CLASS="pull-left btn-link btn-sm" href="#" style="font-weight: normal !important;color: #dadada !important;" onclick="handlelogin('forgotpassword');">Forgot Password
-                    </BUTTON>
+                    <BUTTON CLASS="pull-left btn btn-link  " href="#" style="color: #dadada !important;" onclick="handlelogin('forgotpassword');">FORGOT PASSWORD</BUTTON>
+                    <BUTTON CLASS="pull-right btn btn-primary " href="#" onclick="handlelogin('login');">LOG IN</BUTTON>
 
-                    <BUTTON CLASS="pull-right btn btn-primary pull-right" onclick="handlelogin('login');">LOG IN</BUTTON>
                     <div class="clearfix"></div>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="buzz">
@@ -53,7 +52,7 @@
                         <?= view("popups_edituser", array("phone" => false, "autocomplete" => "new-password", "required" => true, "icons" => true))->render(); ?>
                     </FORM>
                     <div class="clearfix my-2"></div>
-                    <button class="btn btn-primary pull-right" onclick="register();">
+                    <button class="btn btn-primary pull-right " onclick="register();">
                         SIGN UP
                     </button>
                 </div>
@@ -61,7 +60,7 @@
             <DIV CLASS="clearfix"></DIV>
         </DIV>
 
-        <div class="py-3 bg-inverse">
+        <div class="py-3 bg-inverse" style="border: 0rem solid #eceeef !important;">
             <center>
                 <img src="<?= webroot("images/pizzaria.png"); ?>" style="width: 45%;"/>
                 <h2 class="text-danger" style="text-align: center;">Mobile Pizza Delivery</h2>
@@ -73,32 +72,36 @@
 
         <DIV CLASS="clearfix"></DIV>
     </DIV>
-    <div class="col-lg-8 col-md-7 bg-white">
+    <div class="col-lg-8 col-md-7 bg-white py-2 bg-inverse" style="border: .5rem solid #eceeef!important">
 
-        <div class="jumbotron" style="border-radius: 0;background: transparent !important;">
-            <h1>London Pizza Delivery</h1>
-            <p class="lead">PIZZA BROUGHT TO YOU</p>
+        <div class="btn-sm-padding" style="border-radius: 0;background: transparent !important;"><br>
+            <span style=";font-size: 3rem; font-weight: bold;line-height: 3.1rem;"> LONDON PIZZA DELIVERY</span>
+            <br>
+            <br>
+
             <p>The art of delivery is in the team. Local restaurants at your footstep in <?= $time; ?> minutes.</p>
-            <p class="text-success">Open:
+            <p class="lead text-success">HOURS OF OPERATION</p>
+
                 <TABLE>
                     <?php
                         $daysofweek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
                         for($day = 0; $day < 7; $day ++){
-                            echo '<TR><TD>' . $daysofweek[$day] . ": </TD>";
+                            echo '<TR><TD>' . $daysofweek[$day] . "&nbsp;&nbsp;&nbsp; </TD>";
                             $open = $hours[$day . "_open"];
                             $close = $hours[$day . "_close"];
                             if($open == "-1" || $close == "-1"){
-                                echo '<TD COLSPAN="2" ALIGN="CENTER">[Closed]';
+                                echo '<TD COLSPAN="2"">Closed';
                             } else {
-                                echo '<TD>' . GenerateTime($open) . '</TD><TD>' . GenerateTime($close);
+                                echo '<TD>' . GenerateTime($open) . ' to </TD><TD>' . GenerateTime($close);
                             }
-                            //. " = " . $hours[$day . "_open"] . " to " . ;
                             echo '</TD></TR>';
                         }
                     ?>
                 </TABLE>
+<br>
+            <p class="lead">PIZZA BROUGHT TO YOU
+
             </p>
-            <p class="lead"></p>
             <a class="btn-link" href="<?= webroot("help"); ?>" role="button">LEARN MORE</a>
 
         </div>

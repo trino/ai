@@ -511,23 +511,28 @@
                     sprite += " sprite-" + toclassname(item["itemname"].trim()).replaceAll("_", "-").replace(/\./g, '');
                 }
 
-                tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item list-group-item"><span CLASS="rounded-circle receipt-icon bg-warning sprite sprite-' + sprite + ' sprite-medium"></span>';
-                if(quantity > 1) {tempHTML += '<SPAN CLASS="item_qty">' + quantity + 'x </SPAN>';}
-                // tempHTML += '<span title="Base cost: ' + item["itemprice"] + ' Non-free Toppings: ' + item["toppingcount"] + ' Topping cost: $' + item["toppingcost"] + '" class="receipt_itemcost"></span>';
-                tempHTML += ' <span class="ml-1 receipt-itemname">' + item["itemname"] + '</SPAN> <span class="ml-auto align-middle">';
-                tempHTML += '<span id="cost_' + itemid + '">$' + totalcost;
-                //if (quantity > 1) {tempHTML += ' (' + quantity + ')';}
-                tempHTML += '</span><button class="bg-transparent text-muted fa fa-minus btn-sm" onclick="removeorderitem(' + itemid + ', ' + quantity + ');"></button>';
+                tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item list-group-item">';
+
+                if(quantity > 1) {
+                    tempHTML += '<SPAN CLASS="item_qty">' + quantity + ' x&nbsp;</SPAN> ';
+                }
+
+                tempHTML += ' <span class="receipt-itemname">' + item["itemname"] + '</SPAN> <span class="ml-auto align-middle">';
+
+                tempHTML += '<span id="cost_' + itemid + '">$' + totalcost +'</span>';
+
+                tempHTML += '<button class="bg-transparent text-normal fa fa-minus btn-sm" onclick="removeorderitem(' + itemid + ', ' + quantity + ');"></button>';
+
                 if (hasaddons) {
-                    tempHTML += '<button class="bg-transparent text-muted fa fa-pencil btn-sm" onclick="edititem(this, ' + itemid + ');"></button>';
+                    tempHTML += '<button class="bg-transparent text-normal fa fa-pencil btn-sm" onclick="edititem(this, ' + itemid + ');"></button>';
                 } else {
-                    tempHTML += '<button class="bg-transparent text-muted fa fa-plus btn-sm" onclick="cloneitem(this, ' + itemid + ');"></button>';
+                    tempHTML += '<button class="bg-transparent text-normal fa fa-plus btn-sm" onclick="cloneitem(this, ' + itemid + ');"></button>';
                 }
                 tempHTML += '</SPAN></div>';
 
                 var itemname = "";
                 if (hasaddons) {
-                    tempHTML += '<DIV class="btn-sm-padding item_addons list-group-item">';
+                    tempHTML += '<DIV style="" class="btn-sm-padding text-muted item_addons list-group-item">';
                     var tablename = item["itemaddons"][0]["tablename"];
                     if (item["itemaddons"].length > 1) {
                         itemname = itemnames[tablename];
@@ -591,10 +596,10 @@
             if (fadein || forcefade) {
                 tempHTML += 'class="dont-show"';
             }
-            tempHTML += '><div class="pull-right py-2 text-normal"><TABLE><TR><TD>Sub-total $</TD><TD>' + subtotal.toFixed(2) + '</TD></TR>';
+            tempHTML += '><div class="pull-right text-normal py-1"><TABLE><TR><TD>Sub-total $</TD><TD>' + subtotal.toFixed(2) + '</TD></TR>';
             tempHTML += '<TR><TD>Delivery $</TD><TD>' + deliveryfee.toFixed(2) + '</TD></TR>';
             tempHTML += '<TR><TD>Tax $</TD><TD>' + taxes.toFixed(2) + '</TD></TR>';
-            tempHTML += '<TR><TD>Total $</TD><TD>' + totalcost.toFixed(2) + '</TD></TR>';
+            tempHTML += '<TR><TD class="strong">Total $</TD><TD class="strong">' + totalcost.toFixed(2) + '</TD></TR>';
             tempHTML += '</TABLE><div class="clearfix py-2"></div></DIV></DIV>';
 
             $("#confirmclearorder").show();
@@ -873,7 +878,7 @@
                         };
                         userdetails.Addresses.push(Address);
                         $("#addaddress").remove();
-                        $("#saveaddresses").append(AddressToOption(Address) + '<OPTION VALUE="addaddress" ID="addaddress">ADD ADDRESS</OPTION>');
+                        $("#saveaddresses").append(AddressToOption(Address) + '<OPTION VALUE="addaddress" ID="addaddress">never shows ADD ADDRESS</OPTION>');
                     }
                     userdetails["Orders"].unshift({
                         id: $("#receipt_id").text(),
@@ -1971,7 +1976,7 @@
             HTML += '<button class="fourthwidth toppings_btn list-group-item-action bg-white" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button>' +
                 '<button class="btn-primary fourthwidth toppings_btn strong" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button>';
 
-            HTML += '<div style="clear:both;"></div>';
+         //   HTML += '<div style="clear:both;"></div>';
 
             $("#addonlist").html(HTML);
             $(".addon-addon").click(

@@ -2,10 +2,10 @@
 
 <div class="list-group-item">
     <h2 class="mr-auto align-left"> My Order</h2>
-    <button class="btn-sm dont-show text-muted ml-auto align-right bg-transparent" ONCLICK="confirmclearorder();" id="confirmclearorder"><i class="fa fa-close"></i></button>
+    <button class="btn-sm dont-show text-normal ml-auto align-right bg-transparent" ONCLICK="confirmclearorder();" id="confirmclearorder"><i class="fa fa-close"></i></button>
 </div>
 
-<div id="myorder"></div>
+<div id="myorder" style='text-transform: uppercase;border: 5px solid green; font-family:sans Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;font-weight: bold;font-size: .85rem'></div>
 
 <button id="checkout-btn" class="list-padding btn btn-primary btn-block" onclick="showcheckout();">
     <i class="fa fa-shopping-basket mr-2"></i> CHECKOUT

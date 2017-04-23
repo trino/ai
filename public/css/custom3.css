@@ -1,3 +1,19 @@
+::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+}
+/* optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: #FF0000;
+}
+
+
+
+* {
+    border: 0 !important;
+    margin: 0;
+}
+
 .addon-addon {
     text-align: left;
 }
@@ -36,12 +52,11 @@ button, .btn-sm, a, .btn {
 
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
     text-decoration: none;
-    border-bottom: 4px solid #d9534f !important;
+    border-bottom: 5px solid #d9534f !important;
 }
 
 .nav-tabs .nav-link {
-    padding: .5rem .5rem;
-    margin-bottom: 1rem;
+    margin-bottom: .75rem;
 }
 
 .sprite {
@@ -112,13 +127,13 @@ h2 {
 }
 
 .list-group-item-action {
-    border-right: 1px solid #dadada!important;
-    border-bottom: 1px solid #dadada!important;
+    border-right: 1px solid #dadada !important;
+    border-bottom: 1px solid #dadada !important;
     font-weight: normal !important;
 }
 
 .receipt_item {
-    border: 0 !important;
+min-height: 35px !important;
 }
 
 .modal-header {
@@ -205,9 +220,10 @@ body.loading #loadingmodal {
 }
 
 .red { /*, input:invalid, select:invalid, textarea:invalid {*/
-     border-bottom: 1px solid #d9534f !important;
+    border-bottom: 1px solid #d9534f !important;
 }
-.redhighlite{
+
+.redhighlite {
     color: #d9534f;
 }
 
@@ -378,6 +394,7 @@ body {
     */
 }
 
+.fa{font-weight: normal !important;}
 .fa-125 {
     font-size: 1.25rem !important;
 }
@@ -401,7 +418,7 @@ body {
 
 input, select, textarea, option {
     border: 0 !important;
-    border-bottom: 1px solid #cdcdcd !important;;
+    border-bottom: 0px solid #cdcdcd !important;;
     background: #dedede !important;
     border-radius: 0 !important;
     margin: 3px 0 !important;
@@ -791,10 +808,6 @@ input, textarea {
     height: 100%
 }
 
-* {
-    border: 0 !important;
-}
-
 table {
     border-collapse: collapse;
 }
@@ -906,12 +919,12 @@ table tr td:last-child, table tr th:last-child {
     border: 0 !important;
 }
 
-#myorder{
+#myorder {
     max-height: 697.98px;
     overflow-y: scroll;
 }
 
-.custom-tooltip{
+.custom-tooltip {
     display: none;
     border: solid black;
     background-color: white;
@@ -920,20 +933,20 @@ table tr td:last-child, table tr th:last-child {
 
 /* firefox specific */
 @-moz-document url-prefix() {
-    .list-group-item{
+    .list-group-item {
         height: 50px;
     }
-    .item-name{
+    .item-name {
         position: absolute;
         left: 50px;
         top: 11px;
     }
-    .item-cost{
+    .item-cost {
         position: absolute;
         right: 10px;
         top: 7px;
     }
-    .receipt-icon{
+    .receipt-icon {
         position: relative;
         top: 12px;
     }
