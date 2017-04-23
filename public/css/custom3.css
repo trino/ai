@@ -118,7 +118,7 @@ h2 {
 }
 
 .container-fluid {
-    max-width: 1275px !important;
+    max-width: 1140px !important;
 }
 
 .modal-content {
@@ -127,8 +127,8 @@ h2 {
 }
 
 .list-group-item-action {
-    border-right: 1px solid #dadada !important;
-    border-bottom: 1px solid #dadada !important;
+    border-right: 1px solid #eceeef !important;
+    border-bottom: 1px solid #eceeef !important;
     font-weight: normal !important;
 }
 
