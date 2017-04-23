@@ -447,7 +447,7 @@
                         echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Total&nbsp;</TD><TD ALIGN="RIGHT" style="font-weight: bold;">$' . number_format($total, 2) . '</TD></TR>';
                         echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">&nbsp;</TD><TD ALIGN="RIGHT"><span style="">Paid</span></TD></TR>';
                         if ($Order["cookingnotes"]) {
-                            echo '<TR><TD COLSPAN="' . $colspan . '"><B>Notes: </B>' . $Order["cookingnotes"] . '</TD></TR>';
+                            echo '<TR><TD COLSPAN="' . $colspan . '"><B>Notes </B>' . $Order["cookingnotes"] . '</TD></TR>';
                         }
 
                         insertdb("orders", array("id" => $orderid, "price" => $total));//saved for stripe

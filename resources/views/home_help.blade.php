@@ -143,12 +143,14 @@
 
             <div class="card-block bg-danger text-white">
                 <p>
-                    londonpizza.ca has been in the works for over 5 years.
-                    Created by Van and Roy, natives of Hamilton, Ontario.
-                    We've seen what's out there for food delivery and we're confident that we can do better.
-                    With your support I'm sure we will help many people in the years to come and that's why
-                    we're pledging to donate $0.25 from every order we receive to the local food drive.
-                    This is the lifetime commitment of londonpizza.ca
+                    LondonPizza.CA is a pizza delivery service that's "faster than picking up the phone".
+
+                    Created by Van and Roy of Hamilton; we've seen what's out there for online ordering and we're confident that we can do better.
+
+                    We're pledging to donate $0.25 from every order the local food bank. With your support; we will help many people in the years to come. This is the lifetime commitment of LondonPizza.CA.
+<br>
+                    Thank you for your support.
+
                 </p>
                 <hr>
 

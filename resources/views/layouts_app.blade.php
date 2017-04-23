@@ -37,7 +37,7 @@
     <meta http-equiv="content-language" content="en-CA">
     <meta name="mobile-web-app-capable" content="yes">
     <title>londonpizza.ca - Pizza Delivery for London Ontario</title>
-    <!--link rel="manifest" href="<?= webroot("resources/assets/manifest.json"); ?>"-->
+<!--link rel="manifest" href="<?= webroot("resources/assets/manifest.json"); ?>"-->
     <link rel="icon" sizes="128x128" href="<?= webroot("public/images/pizza128.png"); ?>">
     <link rel="icon" sizes="192x192" href="<?= webroot("public/images/pizza192.png"); ?>">
     <link href="<?= $css; ?>/font-awesome.min.css" rel='stylesheet' type='text/css'>
@@ -73,7 +73,7 @@
                             <A data-toggle="modal" data-target="#profilemodal" href="#" class="dropdown-item">
                             <i class="fa fa-user icon-width"></i> My Profile</A>
                         </li>
-                        <!--li class="profiletype_not profiletype_not2"><A ONCLICK="orders();" class="dropdown-item" href="#"><i class="fa fa-clock-o icon-width"></i> Past Orders</A></li-->
+                <!--li class="profiletype_not profiletype_not2"><A ONCLICK="orders();" class="dropdown-item" href="#"><i class="fa fa-clock-o icon-width"></i> Past Orders</A></li-->
                     </SPAN>
         @endif
         <SPAN class="loggedout">
@@ -84,7 +84,7 @@
             <LI><A ONCLICK="handlelogin('logout');" CLASS="dropdown-item" href="#"><i class="fa fa-sign-out icon-width"></i> Log Out</A></LI>
         @endif
     </ul>
-    <a HREF="<?= webroot("public/index"); ?>" class=" align-middle text-white" style="margin-left:22px;font-weight: bold;font-size: 1rem !important;" href="/">LONDON<span class="text-warning">PIZZA</span>.CA</a>
+    <a HREF="<?= webroot("public/index"); ?>" class=" align-left text-white" style="margin-left:22px;font-weight: bold;font-size: 1rem !important;" href="/">LONDON<br><span class="text-warning">PIZZA</span><br>.CA</a>
 </div>
 
 <div class="container-fluid">
@@ -147,8 +147,6 @@
 </div>
 
 
-
-
 @if(false)
     <style>
 
@@ -156,28 +154,36 @@
         * {
             border: 1px solid orange !important;
         }
+
         input, select, textarea {
             border: 1px solid green !important;
             background: #dadada !important;
         }
+
         div {
             border: 1px solid #dadada !important;
         }
+
         .row {
             border: 1px solid blue !important;
         }
+
         div[class^="col-"], div[class*=" col-"] {
             border: 1px solid red !important;
         }
+
         table {
             border: 1px solid yellow !important;
         }
+
         tr {
             border: 1px solid pink !important;
         }
+
         td {
             border: 1px solid black !important;
         }
+
         * {
             /*
             padding: 4px;
@@ -186,7 +192,23 @@
         }
     </style>
 @endif
+@if(islive())
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
+        ga('create', 'UA-39190394-2', 'auto');
+        ga('send', 'pageview');
 
-
+    </script>
+@endif
 </html>
