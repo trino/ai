@@ -330,13 +330,13 @@ class HomeController extends Controller {
         $Restaurant["hours"] = gethours($Restaurant["id"]);
         $Restaurant["user"] = first("SELECT id, name, phone, email FROM users WHERE id = " . $Restaurant["user_id"]);//do not send password
         $Restaurant["shortage"] = first("SELECT item_id, tablename FROM shortage WHERE restaurant_id = " . $Restaurant["id"], false);
-        if($Restaurant["shortage"]){
+        /*if($Restaurant["shortage"]){
             foreach($Restaurant["shortage"] as $Index => $Data){
                 if($Data["tablename"] != "menu"){
                     $Restaurant["shortage"][$Index]["addon"] = first("SELECT name FROM " . $Data["tablename"] . " WHERE id = " . $Data["item_id"])["name"];
                 }
             }
-        }
+        }*/
         return $Restaurant;
     }
 

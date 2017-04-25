@@ -181,15 +181,12 @@
     }
 
     function isShort(shortage, tablename, ID){
+        if(tablename != "menu") {
+            ID = getKeyByValue(alladdons[tablename + "_id"], ID);
+        }
         for(var i = 0; i < shortage.length; i++){
-            if(tablename == "menu") {
-                if (shortage[i].item_id == ID && shortage[i].tablename == "menu") {
-                    return true;
-                }
-            } else if(shortage[i].hasOwnProperty("addon")) {
-                if (shortage[i].addon == ID && shortage[i].tablename == tablename) {
-                    return true;
-                }
+            if (shortage[i].item_id == ID && shortage[i].tablename == tablename) {
+                return true;
             }
         }
         return false;

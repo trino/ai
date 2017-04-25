@@ -101,6 +101,10 @@
         return this.substring(this.length - n);
     };
 
+    function getKeyByValue(object, value) {
+        return Object.keys(object).find(key => object[key] === value);
+    }
+
     //Period: year, month, day, hour, minute, second, millisecond
     Date.prototype.add = function (Period, Increment){
         switch(Period){

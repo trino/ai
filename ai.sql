@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2017 at 12:00 PM
+-- Generation Time: Apr 25, 2017 at 01:26 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -294,16 +294,16 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1438 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1444 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1493128076'),
+(1, 'lastSQL', '1493136034'),
 (20, 'orders', '1487775876'),
-(24, 'menucache', '1493135996'),
+(24, 'menucache', '1493141126'),
 (25, 'useraddresses', '1491932853'),
 (37, 'users', '1487175217'),
 (38, 'additional_toppings', '1487175322'),

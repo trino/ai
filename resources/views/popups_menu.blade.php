@@ -33,8 +33,8 @@
                     $toppings_display .= '<optgroup label="' . $topping["type"] . '">';
                     $currentsection = $topping["type"];
                 }
-    
                 $addons[$Table][$topping["type"]][] = explodetrim($topping["name"]);
+                $addons[$Table . "_id"][$topping["id"]] = $topping["name"];
                 $topping["displayname"] = $topping["name"];
                 if ($topping["isfree"]) {
                     $isfree[$Table][] = $topping["name"];
