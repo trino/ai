@@ -133,13 +133,15 @@ class HomeController extends Controller {
 
             $order = $_POST["order"];
             unset($info["istest"]);
+            if(!isset($info["phone"]) || !trim($info["phone"])){
+                $info["phone"] = read("phone");
+            }
             $orderid = insertdb("orders", $info);
             $dir = resource_path("orders");//no / at the end
             if (!is_dir($dir)) {
                 mkdir($dir, 0777, true);
             }
             file_put_contents($dir . "/" . $orderid . ".json", json_encode($order, JSON_PRETTY_PRINT));
-
             $user = $this->order_placed($orderid, $info, -2);//get user data without processing the event
             if ($user["name"] != $_POST["name"] || $user["phone"] != $_POST["phone"]) {
                 $user["name"] = $_POST["name"];
@@ -147,7 +149,7 @@ class HomeController extends Controller {
                 insertdb("users", array("id" => $info["user_id"], "name" => $_POST["name"], "phone" => $_POST["phone"]));//attempt to update user profile
             }
 
-            $HTML = view("popups_receipt", array("orderid" => $orderid, "timer" => true, "place" => "placeorder", "style" => 2, "includeextradata" => true))->render();//generate total
+            $HTML = view("popups_receipt", array("orderid" => $orderid, "timer" => true, "place" => "placeorder", "style" => 2, "includeextradata" => true, "party" => "user"))->render();//generate total
             //if ($text) {return $text;} //shows email errors. Uncomment when email works
             if (isset($info["stripeToken"]) || $user["stripecustid"]) {//process stripe payment here
                 $amount = select_field_where("orders", "id=" . $orderid, "price");

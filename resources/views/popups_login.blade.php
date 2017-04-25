@@ -49,7 +49,7 @@
                         ?>
                     </FORM>
                     <FORM Name="regform" id="regform">
-                        <?= view("popups_edituser", array("phone" => false, "autocomplete" => "new-password", "required" => true, "icons" => true))->render(); ?>
+                        <?= view("popups_edituser", array("autocomplete" => "new-password", "required" => true, "icons" => true))->render(); ?>
                     </FORM>
                     <div class="clearfix my-2"></div>
                     <button class="btn btn-primary pull-right" onclick="register();">
@@ -150,6 +150,9 @@
                 },
                 password: {
                     minlength: minlength
+                },
+                phone: {
+                    phonenumber: true
                 }
             },
             messages: {
@@ -162,6 +165,10 @@
                     required: "Please enter an email address",
                     email: "Please enter a valid email address",
                     remote: "Please enter a unique email address"
+                },
+                phone: {
+                    required: "Please enter a cell phone number",
+                    phonenumber: "Please enter a valid cell phone number"
                 }
             },
             submitHandler: function (form) {

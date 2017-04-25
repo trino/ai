@@ -263,6 +263,10 @@
             case "getreceipt"://get an order receipt
                 $_POST["place"] = "getreceipt";
                 $_POST["style"] = 2;
+                $_POST["party"] = "admin";
+                if($profiletype == 2){
+                    $_POST["party"] = "restaurant";
+                }
                 die(view("popups_receipt", $_POST)->render());
                 break;
 
