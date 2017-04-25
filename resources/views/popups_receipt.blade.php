@@ -170,7 +170,7 @@
 @if($includeextradata)
     @if($timer)
         <div class="alert alert-success text-center text-sm-center">
-            <h2 style="font-weight: normal !important; ">Order Arriving {{ $duration }}</h2>
+            <h2 style="font-weight: normal !important;">Order Arriving {{ $duration }}</h2>
         </div>
         <!--div style="font-size: 2rem !important;" CLASS="mb-2 countdown btn-lg badge badge-pill badge-success" hours="<?= $hours; ?>" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"
              title="Time is approximate and not a guarantee"><?= $time; ?></div-->
@@ -445,7 +445,7 @@
                         echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Delivery&nbsp;</TD><TD ALIGN="RIGHT">$' . number_format($deliveryfee, 2) . '</TD></TR>';
                         echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Tax&nbsp;</TD><TD ALIGN="RIGHT">$' . number_format($tax, 2) . '</TD></TR>';
                         echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Total&nbsp;</TD><TD ALIGN="RIGHT" style="font-weight: bold;">$' . number_format($total, 2) . '</TD></TR>';
-                        echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">&nbsp;</TD><TD ALIGN="RIGHT"><span style="">Paid</span></TD></TR>';
+                        echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">&nbsp;</TD><TD ALIGN="RIGHT"><span>Paid</span></TD></TR>';
                         if ($Order["cookingnotes"]) {
                             echo '<TR><TD COLSPAN="' . $colspan . '"><B>Notes </B>' . $Order["cookingnotes"] . '</TD></TR>';
                         }

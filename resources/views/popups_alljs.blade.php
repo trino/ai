@@ -532,7 +532,7 @@
 
                 var itemname = "";
                 if (hasaddons) {
-                    tempHTML += '<DIV style="" class="btn-sm-padding text-muted item_addons list-group-item">';
+                    tempHTML += '<DIV class="btn-sm-padding text-muted item_addons list-group-item">';
                     var tablename = item["itemaddons"][0]["tablename"];
                     if (item["itemaddons"].length > 1) {
                         itemname = itemnames[tablename];

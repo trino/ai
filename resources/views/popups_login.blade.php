@@ -12,7 +12,7 @@
 ?>
 <div class="row">
     <DIV CLASS="col-lg-4 col-md-5">
-        <DIV CLASS="btn-sm-padding bg-white " style="padding-bottom: 1.5rem !important;padding-top: .5rem !important;">
+        <DIV CLASS="btn-sm-padding bg-white" style="padding-bottom: 1.5rem !important;padding-top: .5rem !important;">
             <ul class="nav nav-tabs mb-1" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" href="#profile" role="tab" data-toggle="tab" id="logintab" onclick="skiploadingscreen = false;" style="font-weight: bold">LOG IN</a>
@@ -35,24 +35,24 @@
                     </div>
                     <div class="clearfix my-2"></div>
 
-                    <BUTTON CLASS="pull-left btn btn-link  " href="#" style="color: #dadada !important;" onclick="handlelogin('forgotpassword');">FORGOT PASSWORD</BUTTON>
-                    <BUTTON CLASS="pull-right btn btn-primary " href="#" onclick="handlelogin('login');">LOG IN</BUTTON>
+                    <BUTTON CLASS="pull-left btn btn-link" href="#" style="color: #dadada !important;" onclick="handlelogin('forgotpassword');">FORGOT PASSWORD</BUTTON>
+                    <BUTTON CLASS="pull-right btn btn-primary" href="#" onclick="handlelogin('login');">LOG IN</BUTTON>
 
                     <div class="clearfix"></div>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="buzz">
                     <FORM id="addform">
                         <?php
-                        if (!read("id")) {
-                            echo view("popups_address", array("style" => 1, "required" => true, "icons" => true))->render();
-                        }
+                            if (!read("id")) {
+                                echo view("popups_address", array("style" => 1, "required" => true, "icons" => true))->render();
+                            }
                         ?>
                     </FORM>
                     <FORM Name="regform" id="regform">
                         <?= view("popups_edituser", array("phone" => false, "autocomplete" => "new-password", "required" => true, "icons" => true))->render(); ?>
                     </FORM>
                     <div class="clearfix my-2"></div>
-                    <button class="btn btn-primary pull-right " onclick="register();">
+                    <button class="btn btn-primary pull-right" onclick="register();">
                         SIGN UP
                     </button>
                 </div>

@@ -33,11 +33,11 @@
                     <div class="input_left_icon" id="red_rest"><i class="fa fa-cutlery"></i></div>
                     <div class="input_right">
                         <SELECT class="form-control" ID="restaurant" ONCHANGE="restchange();">
-                            <OPTION VALUE="0" SELECTED> Select Restaurant</OPTION>
+                            <OPTION VALUE="0" SELECTED>Select Restaurant</OPTION>
                         </SELECT>
                     </div>
 
-                    <div class="input_left_icon"><i  style="font-size: 1.1rem !important;" c class="fa fa-clock-o"></i></div>
+                    <div class="input_left_icon"><i  style="font-size: 1.1rem !important;" class="fa fa-clock-o"></i></div>
                     <div class="input_right">
                         <div>
                             <SELECT id="deliverytime" TITLE="Delivery Time" class="form-control"/>
