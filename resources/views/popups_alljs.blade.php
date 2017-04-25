@@ -989,7 +989,7 @@
                 if (!First) {
                     First = ID;
                 }
-                HTML += '<li class="list-group-item" ONCLICK="orders(' + ID + ');"><span class="tag tag-default tag-pill pull-xs-right pad5">ID: ' + ID + ' </span> &nbsp;AT: ' + order["placed_at"] + '<SPAN ID="pastreceipt' + ID + '"></SPAN></li>';
+                HTML += '<li class="list-group-item" ONCLICK="orders(' + ID + ');"><span class="tag tag-default tag-pill pull-xs-right pad5">ID: ' + ID + ' </span> &nbsp;AT: ' + order["placed_at"] + '<DIV ID="pastreceipt' + ID + '"></DIV></li>';
             }
             HTML += '</ul>';
             if (!First) {
@@ -1057,18 +1057,6 @@
             loading(false, "GetNextOrder");
         }, 10);
     }
-
-    /*
-    function loading(state, where) {
-        if (state) {
-            $body.addClass("loading");
-            $("#loadingmodal").show();
-        } else {
-            $body.removeClass("loading");
-            $("#loadingmodal").hide();
-        }
-    }
-    */
 
     $(document).ready(function () {
         loading(false, "page");
@@ -1188,7 +1176,7 @@
 
     var generalhours = <?= json_encode(gethours()) ?>;
 
-    var lockloading = false, previoushash = "";
+    var lockloading = false, previoushash = "", $body = "";
 
     $(document).ready(function () {
         //make every AJAX request show the loading animation
@@ -1302,7 +1290,7 @@
         var tempHTML = '<OPTION';
         var streetformat = "<?= $STREET_FORMAT; ?>";
         if (address["unit"].trim()) {
-            streetformat = "[unit] - " + streetformat;
+            streetformat = streetformat + " - [unit]";
         }
         for (var keyID = 0; keyID < addresskeys.length; keyID++) {
             var keyname = addresskeys[keyID];
@@ -2214,10 +2202,11 @@
 
 <?php $nprog = "#F0AD4E"; ?>
 <STYLE>
+    #loading {z-index: 9999;}
     #nprogress{pointer-events:none;}
-    #nprogress .bar{background:<?= $nprog; ?>;position:fixed;z-index:1031;top:0;left:0;width:100%;height:10px;}
+    #nprogress .bar{background:<?= $nprog; ?>;position:fixed;z-index:10000;top:0;left:0;width:100%;height:10px;}
     #nprogress .peg{display:block;position:absolute;right:0px;width:100px;height:100%;box-shadow:0 0 10px <?= $nprog; ?>,0 0 5px <?= $nprog; ?>;opacity:1.0;-webkit-transform:rotate(3deg) translate(0px,-4px);-ms-transform:rotate(3deg) translate(0px,-4px);transform:rotate(3deg) translate(0px,-4px);}
-    #nprogress .spinner{display:block;position:fixed;z-index:1031;top:15px;right:15px;}
+    #nprogress .spinner{display:block;position:fixed;z-index:10000;top:15px;right:15px;}
     #nprogress .spinner-icon{width:18px;height:18px;box-sizing:border-box;border:solid 2px transparent;border-top-color:<?= $nprog; ?>;border-left-color:<?= $nprog; ?>;border-radius:50%;-webkit-animation:nprogress-spinner 400ms linear infinite;animation:nprogress-spinner 400ms linear infinite;}
     .nprogress-custom-parent{overflow:hidden;position:relative;}
     .nprogress-custom-parent #nprogress .spinner,.nprogress-custom-parent #nprogress .bar{position:absolute;}
@@ -2227,7 +2216,7 @@
 <SCRIPT>
     //NProgress.start(); NProgress.set(0.4); NProgress.inc(); NProgress.done(); http://ricostacruz.com/nprogress/
     ;(function(root,factory){if(typeof define==='function'&&define.amd){define(factory);}else if(typeof exports==='object'){module.exports=factory();}else{root.NProgress=factory();}})(this,function(){var NProgress={};NProgress.version='0.2.0';var Settings=NProgress.settings={minimum:0.08,easing:'ease',positionUsing:'',speed:200,trickle:true,trickleRate:0.02,trickleSpeed:800,showSpinner:true,barSelector:'[role="bar"]',spinnerSelector:'[role="spinner"]',parent:'body',template:'<div class="bar" role="bar"><div class="peg"></div></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'};NProgress.configure=function(options){var key,value;for(key in options){value=options[key];if(value!==undefined&&options.hasOwnProperty(key))Settings[key]=value;}
-        return this;};NProgress.status=null;NProgress.set=function(n){var started=NProgress.isStarted();n=clamp(n,Settings.minimum,1);NProgress.status=(n===1?null:n);var progress=NProgress.render(!started),bar=progress.querySelector(Settings.barSelector),speed=Settings.speed,ease=Settings.easing;progress.offsetWidth;queue(function(next){if(Settings.positionUsing==='')Settings.positionUsing=NProgress.getPositioningCSS();css(bar,barPositionCSS(n,speed,ease));if(n===1){css(progress,{transition:'none',opacity:1});progress.offsetWidth;setTimeout(function(){css(progress,{transition:'all '+ speed+'ms linear',opacity:0});setTimeout(function(){NProgress.remove();next();},speed);},speed);}else{setTimeout(next,speed);}});return this;};NProgress.isStarted=function(){return typeof NProgress.status==='number';};NProgress.start=function(){if(!NProgress.status)NProgress.set(0);var work=function(){setTimeout(function(){if(!NProgress.status)return;NProgress.trickle();work();},Settings.trickleSpeed);};if(Settings.trickle)work();return this;};NProgress.done=function(force){if(!force&&!NProgress.status)return this;return NProgress.inc(0.3+ 0.5*Math.random()).set(1);};NProgress.inc=function(amount){var n=NProgress.status;if(!n){return NProgress.start();}else{if(typeof amount!=='number'){amount=(1- n)*clamp(Math.random()*n,0.1,0.95);}
+        return this;};NProgress.status=null;NProgress.set=function(n){var started=NProgress.isStarted();n=clamp(n,Settings.minimum,1);NProgress.status=(n===1?null:n);var progress=NProgress.render(!started),bar=progress.querySelector(Settings.barSelector),speed=Settings.speed,ease=Settings.easing;progress.offsetWidth;queue(function(next){if(Settings.positionUsing==='')Settings.positionUsing=NProgress.getPositioningCSS();css(bar,barPositionCSS(n,speed,ease));if(n===1){css(progress,{transition:'none',opacity:1});progress.offsetWidth;setTimeout(function(){css(progress,{transition:'all '+ speed+'ms linear',opacity:0});setTimeout(function(){NProgress.remove();next();},speed);},speed);}else{setTimeout(next,speed);}});return this;};NProgress.isStarted=function(){return typeof NProgress.status==='number';};NProgress.start=function(){$("#loading").show();if(!NProgress.status)NProgress.set(0);var work=function(){setTimeout(function(){if(!NProgress.status)return;NProgress.trickle();work();},Settings.trickleSpeed);};if(Settings.trickle)work();return this;};NProgress.done=function(force){$("#loading").hide();if(!force&&!NProgress.status)return this;return NProgress.inc(0.3+ 0.5*Math.random()).set(1);};NProgress.inc=function(amount){var n=NProgress.status;if(!n){return NProgress.start();}else{if(typeof amount!=='number'){amount=(1- n)*clamp(Math.random()*n,0.1,0.95);}
         n=clamp(n+ amount,0,0.994);return NProgress.set(n);}};NProgress.trickle=function(){return NProgress.inc(Math.random()*Settings.trickleRate);};(function(){var initial=0,current=0;NProgress.promise=function($promise){if(!$promise||$promise.state()==="resolved"){return this;}
         if(current===0){NProgress.start();}
         initial++;current++;$promise.always(function(){current--;if(current===0){initial=0;NProgress.done();}else{NProgress.set((initial- current)/ initial);

@@ -68,7 +68,7 @@
     function userform_submit(isSelf) {
         var formdata = getform("#userform");
         $("#edituser_error").text("");
-        var keys = ["name", "email", "phone"];
+        var keys = ["name", "phone"];//"email",
         for (var keyid = 0; keyid < keys.length; keyid++) {
             var key = keys[keyid];
             var val = formdata[key];

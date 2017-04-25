@@ -54,12 +54,11 @@
                         </div>
                     @endif
 
-                    <div class="input_left_icon" id="red_card"><i class="fa fa-credit-card-alt" style="padding-top: 12px;"></i></div>
+                    <div class="input_left_icon" id="red_card"><i class="fa fa-credit-card-alt" oldstyle="padding-top: 12px;"></i></div>
                     <div class="input_right">
                         <DIV ID="credit-info"></DIV>
                     </div>
 
-                    <div class="input_left_icon"></div>
                     <div class="input_right">
                         <input type="text" size="20" class="form-control credit-info" autored="red_card" data-stripe="number" placeholder="Card Number">
                     </div>
@@ -155,7 +154,9 @@
 
     function alertshortage(){
         if(shortitems.length) {
-            alert("Sorry, but this store is currently out of:<BR><UL><LI>" + shortitems.join("</LI><LI>") + "</LI></UL><BR>Please remove them from your order or select a different restaurant", "Product Shortage");
+            var otherstores = " or select a different restaurant to continue";
+            if(closest.length==1){otherstores = "";}
+            alert("Sorry, but this restaurant is currently out of:<BR><UL><LI>" + shortitems.join("</LI><LI>") + "</LI></UL><BR>Please remove them from your order" + otherstores, "Product Shortage");
             return true;
         }
         return false;
@@ -167,12 +168,14 @@
             if(isShort(shortage, "menu", theorder[i].itemid)){
                 shortitems.push( theorder[i].itemname );
             }
-            for(var subitem=0; subitem< theorder[i].itemaddons.length; subitem++){
-                var addons = theorder[i].itemaddons[subitem].addons;
-                var tablename = theorder[i].itemaddons[subitem].tablename;
-                for(var addon=0; addon < addons.length; addon++){
-                    if( isShort(shortage, tablename, addons[addon].text)){
-                        shortitems.push("'" + addons[addon].text + "' for the '" + theorder[i].itemname + "'");
+            if(theorder[i].hasOwnProperty("itemaddons")) {
+                for (var subitem = 0; subitem < theorder[i].itemaddons.length; subitem++) {
+                    var addons = theorder[i].itemaddons[subitem].addons;
+                    var tablename = theorder[i].itemaddons[subitem].tablename;
+                    for (var addon = 0; addon < addons.length; addon++) {
+                        if (isShort(shortage, tablename, addons[addon].text)) {
+                            shortitems.push("'" + addons[addon].text + "' for the '" + theorder[i].itemname + "'");
+                        }
                     }
                 }
             }

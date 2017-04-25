@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2017 at 01:26 PM
+-- Generation Time: Apr 25, 2017 at 01:32 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -99,7 +99,9 @@ CREATE TABLE IF NOT EXISTS `hours` (
   `5_open` smallint(6) NOT NULL,
   `5_close` smallint(6) NOT NULL,
   `6_open` smallint(6) NOT NULL,
-  `6_close` smallint(6) NOT NULL
+  `6_close` smallint(6) NOT NULL,
+  PRIMARY KEY (`restaurant_id`),
+  UNIQUE KEY `restaurant_id` (`restaurant_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -107,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `hours` (
 --
 
 INSERT INTO `hours` (`restaurant_id`, `0_open`, `0_close`, `1_open`, `1_close`, `2_open`, `2_close`, `3_open`, `3_close`, `4_open`, `4_close`, `5_open`, `5_close`, `6_open`, `6_close`) VALUES
-(0, -1, -1, 1100, 2250, 1100, 2250, 1100, 2250, 1100, 2250, 1100, 50, 1100, 50);
+(0, -1, -1, 1100, 2225, 1100, 2225, 1100, 2225, 1100, 2225, 1000, 2350, 1100, 2350);
 
 -- --------------------------------------------------------
 

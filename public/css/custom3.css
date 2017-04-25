@@ -209,12 +209,6 @@ body.loading {
     overflow: hidden;
 }
 
-/* Anytime the body has the loading class, our modal element will be visible */
-body.loading #loadingmodal {
-    display: block;
-    z-index: 999999;
-}
-
 .text-normal {
     color: #373a3c !important;
 }
