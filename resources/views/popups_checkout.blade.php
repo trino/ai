@@ -137,19 +137,62 @@
         });
     @endif
 
+    var shortitems = [];
     function restchange() {
         var value = $("#restaurant").val();
         var index = findwhere(closest, "restid", value);
         if (value == 0) {
-            //$("#restaurant").addClass("red");
             $("#red_rest").addClass("redhighlite");
         } else {
-            //$("#restaurant").removeClass("red");
             $("#red_rest").removeClass("redhighlite");
         }
         if(closest.length>0) {
-            GenerateHours(closest[index].hours);//GenerateHours(closest[index]["hours"]);
+            GenerateHours(closest[index].hours);
+            shortitems = CheckforShortage(closest[index].shortage);
+            alertshortage();
         }
+    }
+
+    function alertshortage(){
+        if(shortitems.length) {
+            alert("Sorry, but this store is currently out of:<BR><UL><LI>" + shortitems.join("</LI><LI>") + "</LI></UL><BR>Please remove them from your order or select a different restaurant", "Product Shortage");
+            return true;
+        }
+        return false;
+    }
+
+    function CheckforShortage(shortage){
+        var shortitems = [];
+        for(var i=0; i < theorder.length; i++){
+            if(isShort(shortage, "menu", theorder[i].itemid)){
+                shortitems.push( theorder[i].itemname );
+            }
+            for(var subitem=0; subitem< theorder[i].itemaddons.length; subitem++){
+                var addons = theorder[i].itemaddons[subitem].addons;
+                var tablename = theorder[i].itemaddons[subitem].tablename;
+                for(var addon=0; addon < addons.length; addon++){
+                    if( isShort(shortage, tablename, addons[addon].text)){
+                        shortitems.push("'" + addons[addon].text + "' for the '" + theorder[i].itemname + "'");
+                    }
+                }
+            }
+        }
+        return shortitems;
+    }
+
+    function isShort(shortage, tablename, ID){
+        for(var i = 0; i < shortage.length; i++){
+            if(tablename == "menu") {
+                if (shortage[i].item_id == ID && shortage[i].tablename == "menu") {
+                    return true;
+                }
+            } else if(shortage[i].hasOwnProperty("addon")) {
+                if (shortage[i].addon == ID && shortage[i].tablename == tablename) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     function fffa() {

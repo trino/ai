@@ -1,6 +1,7 @@
 <?php
     startfile("popups_address");
     if (!isset($style))     {$style = 0;}
+    if (!isset($firefox))   {$firefox = true;}
     if (!isset($required))  {$required = "";} else {$required = " required";}
     if (!isset($class))     {$class = "";} else {$class = " " . $class;}
     if (!isset($icons))     {$icons = false;}
@@ -41,14 +42,16 @@
     @if($form) </FORM> @endif
 
 <SCRIPT>
-    if(is_firefox_for_android) {
-        $(window).load(function () {
-            var HTML = $("#gmapc").html();
-            $("#gmapffac").html(HTML);
-            $("#gmapc").html('<DIV CLASS="fake-form-control"><SPAN CLASS="address fake-address" ID="ffaddress"></SPAN><BUTTON CLASS="btn btn-sm btn-primary radius0 pull-right full-height" ONCLICK="handlefirefox();">EDIT</BUTTON></DIV><DIV CLASS="separator"></DIV>');
-            initAutocomplete();
-        });
-    }
+    @if($firefox)
+        if(is_firefox_for_android) {
+            $(window).load(function () {
+                var HTML = $("#gmapc").html();
+                $("#gmapffac").html(HTML);
+                $("#gmapc").html('<DIV CLASS="fake-form-control"><SPAN CLASS="address fake-address" ID="ffaddress"></SPAN><BUTTON CLASS="btn btn-sm btn-primary radius0 pull-right full-height" ONCLICK="handlefirefox();">EDIT</BUTTON></DIV><DIV CLASS="separator"></DIV>');
+                initAutocomplete();
+            });
+        }
+    @endif
 
     function editaddresses() {
         $("#checkoutmodal").modal("hide");

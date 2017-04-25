@@ -44,7 +44,7 @@
                     <FORM id="addform">
                         <?php
                             if (!read("id")) {
-                                echo view("popups_address", array("style" => 1, "required" => true, "icons" => true))->render();
+                                echo view("popups_address", array("style" => 1, "required" => true, "icons" => true, "firefox" => false))->render();
                             }
                         ?>
                     </FORM>

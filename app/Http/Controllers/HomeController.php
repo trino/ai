@@ -99,9 +99,6 @@ class HomeController extends Controller {
                         insertdb("orders", array("id" => $_POST["orderid"], "status" => $_POST["status"]));
                         $Status = $Status[$_POST["status"]];
                         $ret["Reason"] = "Order #" . $_POST["orderid"] . ": " . $Status;
-                        //$actions = actions("order_" . strtolower($Status));
-                        //$order = first("SELECT * FROM orders WHERE id = " . $_POST["orderid"]);
-
                         if (debugmode) {
                             $ret["Reason"] .= " - Action: order_" . strtolower($Status);
                         }
@@ -263,7 +260,7 @@ class HomeController extends Controller {
                 if ($action["email"]) {
                     $action["message"] = str_replace("[url]", "", $message);
                     debugprint("Sending email to " . $party . ": " . $email);
-                    $this->sendEMail("email_receipt", ["orderid" => $orderid, "email" => $email, "mail_subject" => $action["message"]]);//send emails to customer also generates the cost
+                    $this->sendEMail("email_receipt", ["orderid" => $orderid, "email" => $email, "party" => $party, "mail_subject" => $action["message"]]);//send emails to customer also generates the cost
                 }
                 if ($action["sms"]) {
                     $action["message"] = str_replace("[url]", webroot("list/orders?action=getreceipt&orderid=") . $orderid, $message);//http://localhost/ai/public/list/orders?action=getreceipt&orderid=224
@@ -332,6 +329,14 @@ class HomeController extends Controller {
         }
         $Restaurant["hours"] = gethours($Restaurant["id"]);
         $Restaurant["user"] = first("SELECT id, name, phone, email FROM users WHERE id = " . $Restaurant["user_id"]);//do not send password
+        $Restaurant["shortage"] = first("SELECT item_id, tablename FROM shortage WHERE restaurant_id = " . $Restaurant["id"], false);
+        if($Restaurant["shortage"]){
+            foreach($Restaurant["shortage"] as $Index => $Data){
+                if($Data["tablename"] != "menu"){
+                    $Restaurant["shortage"][$Index]["addon"] = first("SELECT name FROM " . $Data["tablename"] . " WHERE id = " . $Data["item_id"])["name"];
+                }
+            }
+        }
         return $Restaurant;
     }
 

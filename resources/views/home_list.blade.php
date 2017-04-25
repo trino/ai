@@ -107,6 +107,7 @@
                 if(isset($user["Addresses"][0])){
                     $_GET["restaurant"] = first("SELECT id FROM restaurants WHERE address_id = " . $user["Addresses"][0]["id"]);
                     if(isset($_GET["restaurant"]["id"])){
+                        $RestaurantID = $_GET["restaurant"]["id"];
                         $_GET["restaurant"] = $_GET["restaurant"]["id"];
                     } else {
                         die("Address not found for this restaurant, contact tech support");
@@ -138,6 +139,17 @@
                 $where = "user_id = " . read("id");
             }
             break;
+        case "shortage":
+            $fields = array("id", "restaurant_id", "tablename", "item_id");
+            if($profiletype == 2){
+                $_GET["restaurant"] = first("SELECT id FROM restaurants WHERE address_id = " . $user["Addresses"][0]["id"]);
+                if(isset($_GET["restaurant"]["id"])){
+                    $adminsonly=false;
+                    $RestaurantID = $_GET["restaurant"]["id"];
+                    $where = "restaurant_id = " . $RestaurantID;
+                }
+            }
+            break;
         default: die("The table '" . $table . "' is not whitelisted");
     }
     if($datafields){//get all fields
@@ -165,7 +177,11 @@
             case "getpage"://get a page of data via AJAX
                 if(!in_array($table, array("all", "debug"))){
                     if($_POST["makenew"] == "true"){
-                        Query("INSERT INTO " . $table . " () VALUES();");
+                        if($profiletype == 2 && $table == "shortage"){
+                            Query("INSERT INTO " . $table . " (restaurant_id) VALUES(" . $RestaurantID . ");");
+                        } else {
+                            Query("INSERT INTO " . $table . " () VALUES();");
+                        }
                     }
                     if(!isset($fields)){$fields[] = "id";}
 
@@ -450,7 +466,7 @@
                                     <ul class="dropdown-menu" id="alllist">
                                         <?php
                                             //show all administratable tables
-                                            foreach(array("users" => true, "restaurants" => true, "additional_toppings" => true, "useraddresses" => false, "orders" => $profiletype != 2, "actions" => true) as $thetable => $onlyadmins){
+                                            foreach(array("users" => true, "restaurants" => true, "additional_toppings" => true, "useraddresses" => false, "orders" => $profiletype != 2, "actions" => true, "shortage" => $profiletype != 2) as $thetable => $onlyadmins){
                                                 if(($profiletype == 1 || !$onlyadmins) && $table != $thetable){
                                                     echo '<LI><A HREF="' . webroot("public/list/" . $thetable) . '" class="dropdown-item"><i class="fa fa-user-plus"></i> ' . str_replace("_", " ", ucfirst($thetable)) . ' list</A></LI>';
                                                 }
@@ -597,6 +613,23 @@
                     };
                     var restaurantID = Number("<?= $RestaurantID; ?>");
                     var debuglogdate = <?= $filedate; ?>;
+                    var menuitems = {
+                        <?php
+                            if($table == "shortage"){
+                                foreach(array("wings_sauce", "toppings", "menu", "restaurants") as $tablename){
+                                    $fieldname = "name";
+                                    if($tablename == "menu"){
+                                        $fieldname = "item";
+                                    }
+                                    echo $tablename . ": {";
+                                    foreach(first("SELECT id, " . $fieldname . " AS name FROM " . $tablename, false) as $data){
+                                        echo $data["id"] . ': "' .  $data["name"] . '", ';
+                                    }
+                                    echo "},\r\n";
+                                }
+                            }
+                        ?>
+                    };
 
                     var sort_col = "", sort_dir = "";
                     function sort(col, dir){
@@ -642,7 +675,7 @@
                         return name.join(" ");
                     }
 
-                    function getdata(field, data){
+                    function getdata(field, data, alldata){
                         field = table + "." + field;
                         switch(field){
                             case "orders.status":                                               return statuses[data]; break;
@@ -650,6 +683,29 @@
                             case "users.authcode":                                              return iif(data, "Not Authorized", "Authorized"); break;
                             case "actions.sms": case "actions.phone": case "actions.email": case "restaurants.is_delivery":
                                 return iif(data == 1, "Yes", "No"); break;
+                            case "shortage.restaurant_id":
+                                return menuitems["restaurants"][data];
+                                break;
+                            case "shortage.item_id":
+                                if(isNumeric(alldata)){
+                                    if($("#" + alldata + "_tablename").length ){
+                                        var tablename = $("#" + alldata + "_tablename").val();//get from select dropdown
+                                    } else {
+                                        var tablename = $("#shortage_" + alldata + "_tablename").text();//get from element
+                                    }
+                                } else if(isObject(alldata)){//shortage_1_tablename is not given, retrieve it
+                                    var tablename = alldata["tablename"];//get from data
+                                }
+                                if(tablename) {
+                                    if (menuitems[tablename].hasOwnProperty(data)) {
+                                        return menuitems[tablename][data];
+                                    } else {
+                                        return tablename + " doesn't have ID#: " + data;
+                                    }
+                                } else {
+                                    return "table not set";
+                                }
+                                break;
                         }
                         return data;
                     }
@@ -721,7 +777,8 @@
                                         if(TableStyle == '1'){tempHTML += '<TR><TD COLSPAN="2" CLASS="' + evenodd + '" ALIGN="CENTER"><B>' + data.table[i][namefield] + '</B></TD></TR>';}
                                         for (var v = 0; v < fields.length; v++) {
                                             var field = data.table[i][fields[v]];
-                                            field = getdata(fields[v], field);
+                                            var oldfield = field;
+                                            field = getdata(fields[v], field, data.table[i]);
                                             var title = "";
                                             switch(table + "." + fields[v]){
                                                 case "orders.placed_at":
@@ -755,7 +812,7 @@
                                                 tempHTML += '" onclick="sort(' + "'" + fields[v] + "', 'ASC'" + ')" TITLE="Sort by ' + formatted + ' ascending"></i></SPAN></TD>';
                                                 */
                                             }
-                                            tempHTML += '<TD NOWRAP ID="' + table + "_" + ID + "_" + fields[v] + '" class="field ' + evenodd + '" field="' + fields[v] + '" index="' + ID + '" TITLE="' + title + '">' + field + '</TD>';
+                                            tempHTML += '<TD NOWRAP ID="' + table + "_" + ID + "_" + fields[v] + '" class="field ' + evenodd + '" field="' + fields[v] + '" index="' + ID + '" TITLE="' + title + '" realvalue="' + oldfield + '">' + field + '</TD>';
                                             if(TableStyle == '1'){tempHTML += '</TR>';}
                                             Address = Address.replace("[" + fields[v] + "]", field);
                                         }
@@ -799,7 +856,7 @@
                                     }
                                     if(needsAddresses) {addmarker2();}
                                 } else {
-                                    HTML = '<TR><TD COLSPAN="100">No results found' + result + '</TD></TR>';
+                                    HTML = '<TR><TD COLSPAN="100">No results found @if($profiletype == 1) <BR>DATA: ' + result + ' @endif </TD></TR>';
                                 }
                                 currentpage=index;
                                 $("#data > TBODY").html(HTML);
@@ -879,6 +936,21 @@
                                                                 HTML = makeselect(ID + "_" + field, "selectfield form-control", colname, HTML, [{value: 0, text: "No"}, {value: 1, text: "Yes"}]   );
                                                                 break;
 
+                                                            case "shortage.restaurant_id":
+                                                                log("esiggdjkfsgkjg");
+                                                                @if($profiletype == 2)
+                                                                    log("error");
+                                                                    return false;
+                                                                @endif
+                                                                log("GOT HERE");
+                                                                HTML = makeselect(ID + "_" + field, "selectfield form-control", colname, HTML, itemlist2select(ID, "restaurants") );
+                                                            break;
+
+                                                            case "shortage.item_id":
+                                                                isSelect=true;
+                                                                HTML = makeselect(ID + "_" + field, "selectfield form-control", colname, HTML, itemlist2select(ID) );
+                                                                break;
+
                                                             default:
                                                                 title= "Type: " + colname;
                                                                 HTML = '<INPUT TYPE="NUMBER" ID="' + ID + "_" + field + '" VALUE="' + HTML + '" CLASS="textfield" TITLE="' + title + '" MIN="';
@@ -891,6 +963,11 @@
                                                                 isSelect=true;
                                                                 HTML = makeselect(ID + "_eventname", "selectfield form-control", colname, HTML, <?= json_encode($actionlist); ?> );
                                                                 break;
+                                                            case "shortage.tablename":
+                                                                isSelect=true;
+                                                                HTML = makeselect(ID + "_tablename", "selectfield form-control", colname, HTML, ["toppings", "wings_sauce", "menu"]);
+                                                                break;
+
                                                             case "users.authcode":
                                                                 edititem(ID, "authcode", "");
                                                                 alert(makestring("{user_auth}"));
@@ -954,6 +1031,21 @@
                         });
                     }
 
+
+                    function itemlist2select(ID, tablename){
+                        if(isUndefined(tablename)) {
+                            var tablename = $("#shortage_" + ID + "_tablename").text();
+                        }
+                        var Ret = [];
+                        var keynames = Object.keys(menuitems[tablename]);
+                        for(var i = 0; i < keynames.length; i++){
+                            Ret.push({
+                                value: keynames[i],
+                                text: menuitems[tablename][keynames[i]]
+                            });
+                        }
+                        return Ret;
+                    }
 
                     //BEGIN DATE FORMAT (Clones PHP's formatting)           EXAMPLE
                     //DAY
@@ -1369,7 +1461,7 @@
                         var newdata=data;
                         if(data) {
                             var datatype="";
-                            newdata = getdata(field, data);
+                            newdata = getdata(field, data, ID);
                             switch (colname) {
                                 case "users.phone": case "restaurants.phone":
                                     newdata = clean_data(newdata, "phone");
@@ -1378,6 +1470,10 @@
                                 case "users.email": case "restaurants.email":
                                     if(validate_data(data, "email")){newdata = clean_data(data, "email");}
                                     datatype="email address";
+                                    break;
+                                case "shortage.tablename":
+                                    var itemid = "#shortage_" + ID + "_item_id";
+                                    $(itemid).text(getdata("item_id", $(itemid).attr("realvalue"), ID));
                                     break;
                             }
                             log("Verifying: " + colname + " = '" + data + "' (" + datatype + ")");
@@ -1399,7 +1495,7 @@
                         }, function (result) {
                             if(handleresult(result)) {
                                 log(table + "." + field + " became " + newdata);
-                                $("#" + table + "_" + ID + "_" + field).html(newdata);
+                                $("#" + table + "_" + ID + "_" + field).html(newdata).attr("realvalue", newdata);
                                 $("#formatted_address").show().val("");
                             }
                         });

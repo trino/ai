@@ -61,7 +61,7 @@
             @if(read("id"))
                 <SPAN class="loggedin profiletype profiletype1">
                     <?php
-                        foreach (array("users", "restaurants", "useraddresses", "orders", "additional_toppings", "actions") as $table) {
+                        foreach (array("users", "restaurants", "useraddresses", "orders", "additional_toppings", "actions", "shortage") as $table) {
                             echo '<li><A HREF="' . webroot("public/list/" . $table) . '" CLASS="dropdown-item"><i class="fa fa-user-plus icon-width"></i> ' . str_replace("_", " ", ucfirst($table)) . ' list</A></li>';
                         }
                     ?>
@@ -73,7 +73,7 @@
                         <A data-toggle="modal" data-target="#profilemodal" href="#" class="dropdown-item">
                         <i class="fa fa-user icon-width"></i> My Profile</A>
                     </li>
-                    <-li class="profiletype_not profiletype_not2"><A ONCLICK="orders();" class="dropdown-item" href="#"><i class="fa fa-clock-o icon-width"></i> Past Orders</A></li>
+                    <li class="profiletype_not profiletype_not2"><A ONCLICK="orders();" class="dropdown-item" href="#"><i class="fa fa-clock-o icon-width"></i> Past Orders</A></li>
                 </SPAN>
             @endif
             <SPAN class="loggedout">
@@ -84,7 +84,7 @@
                 <LI><A ONCLICK="handlelogin('logout');" CLASS="dropdown-item" href="#"><i class="fa fa-sign-out icon-width"></i> Log Out</A></LI>
             @endif
         </ul>
-        <a HREF="<?= webroot("public/index"); ?>" class="align-left text-white" style="margin-left:22px;font-weight: bold;font-size: 1rem !important;" href="/">LONDON<br><span class="text-warning">PIZZA</span><br>.CA</a>
+        <a HREF="<?= webroot("public/index"); ?>" class="align-left text-white" style="margin-left:22px;font-weight: bold;font-size: 1rem !important;" href="/">LONDON PIZZA.CA</a>
     </div>
 
     <div class="container-fluid">

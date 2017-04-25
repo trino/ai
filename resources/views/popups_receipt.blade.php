@@ -490,8 +490,10 @@
 @endif
 
 @if($includeextradata)
+    @if($party != "restaurant")
         <h2 class="mt-3">Questions about your order?</h2>
         Please contact the restaurant directly.<br>
+    @endif
 
     <a class="pull-left btn-link mt-1" href="<?= webroot("help"); ?>">MORE INFO</a>
     <div class="clearfix"></div>

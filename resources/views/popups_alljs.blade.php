@@ -1444,6 +1444,7 @@
 
     function payfororder() {
         $(".payment-errors").html("");
+        if(alertshortage()){return false;}
         if (!canplaceanorder()) {
             flash(500);
             return cantplaceorder();
