@@ -46,6 +46,7 @@
         <link href='<?= $css; ?>/Roboto-slab.css' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="<?= $css; ?>/bootstrap.min.css">
         <link rel="stylesheet" href="<?= $css . "/custom3.css?v=" . time(); ?>">
+        <link rel="stylesheet" href="<?= $css . "/google.css?v=" . time(); ?>">
         <script src="<?= $scripts; ?>/jquery.min.js"></script>
         <script src="<?= $scripts; ?>/tether.min.js"></script>
         <script src="<?= $scripts; ?>/bootstrap.min.js"></script>
@@ -53,7 +54,7 @@
         @include("popups_alljs")
     </head>
     <body>
-        <div ID="loading" class="fullscreen grey-backdrop dont-show">test</div>
+        <div ID="loading" class="fullscreen grey-backdrop dont-show"></div>
         <div class="list-group-item container-fluid bg-danger">
             <button data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-sm bg-transparent">
                 <i class="fa fa-bars text-white"></i>

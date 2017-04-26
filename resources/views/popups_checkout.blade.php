@@ -208,6 +208,7 @@
 
     function refreshform(t){
         var ID = t;
+        if(!$(t).is(":visible")){return $(ID);}
         var ActualID = $(t).attr("id");
         var value = $(t).val();
         var tagname = $(t).prop("tagName").toUpperCase();
@@ -229,7 +230,7 @@
                 value = "[EMPTY]";
                 $(ID).addClass(classname);
             }
-            //log(tagname + "." + ActualID + " Autored value: " + value);
+            log(tagname + "." + ActualID + " Autored value: " + value);
         }
         return $(ID);
     }

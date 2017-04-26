@@ -1398,13 +1398,13 @@
     function cantplaceorder() {
         $(".payment-errors").text("");
         $(".red").removeClass("red");
+        $("#red_card").removeClass("redhighlite");
         if (!validaddress()) {
             //$("#saveaddresses").addClass("red");
             $("#red_address").addClass("redhighlite");
             $(".payment-errors").text("Please check your address");
         } else if (!$("#saved-credit-info").val()) {
             if (!isvalidcreditcard()) {
-                //$("#saved-credit-info").addClass("red");
                 $("#red_card").addClass("redhighlite");
                 $("[data-stripe=number]").addClass("red");
                 $(".payment-errors").text("Please select or enter a valid credit card");
@@ -1594,7 +1594,11 @@
         $("#saved-credit-info").removeClass("red");
         $("[data-stripe=number]").removeClass("red");
         var val = $("#saved-credit-info").val();
+        $("#red_card").removeClass("redhighlite");
         if (!val) {
+            if (!isvalidcreditcard()) {
+                $("#red_card").addClass("redhighlite");
+            }
             $(".credit-info").show();//let cust edit the card
         } else {
             $(".credit-info").hide();//use saved card info
