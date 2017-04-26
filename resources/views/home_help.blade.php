@@ -127,6 +127,7 @@
         }
     </SCRIPT>
     <?php
+        $site_name = sitename;
         $launchdate = "April 1, 2017";
         $datestamp = strtotime($launchdate);
         $SQLdate = date("Y-m-d", $datestamp);
@@ -143,11 +144,11 @@
 
             <div class="card-block bg-danger text-white">
                 <p>
-                    LondonPizza.CA is a pizza delivery service that's "faster than picking up the phone".
+                    <?= $site_name; ?> is a pizza delivery service that's "faster than picking up the phone".
 
                     Created by Van and Roy of Hamilton; we've seen what's out there for online ordering and we're confident that we can do better.
 
-                    We're pledging to donate $0.25 from every order the local food bank. With your support; we will help many people in the years to come. This is the lifetime commitment of LondonPizza.CA.
+                    We're pledging to donate $0.25 from every order the local food bank. With your support; we will help many people in the years to come. This is the lifetime commitment of <?= $site_name; ?>.
 <br>
                     Thank you for your support.
 
@@ -167,7 +168,6 @@
 
         <h3>FAQ</h3>
     <?php
-        $site_name = "londonpizza.ca";
         $email = '<A HREF="mailto:info@trinoweb.ca?subject=' . $site_name . '">info@trinoweb.ca</A>';
         $minimum = first("SELECT price FROM additional_toppings WHERE size = 'Minimum'")["price"];
 
@@ -271,7 +271,7 @@
             newitem("FILE NOT FOUND", "The order file is missing. Delete the order as the order itself is useless");
 
             newlist("Communication Actions");
-            newitem("Editing actions", 'This can only done in <B><i class="fa fa-fw fa-user-plus"></i> Actions list</B>. This tells the system who to contact and how depending on specific events.<BR>(<SPAN class="reason">[reason]</SPAN> is replaced with the message entered by the restaurant, and must be lower-cased)');
+            newitem("Editing actions", 'This can only done in <B><i class="fa fa-fw fa-user-plus"></i> Actions list</B>. This tells the system who to contact and how depending on specific events.<BR><SPAN class="reason">[reason]</SPAN> is replaced with the message entered by the restaurant<BR><SPAN class="reason">[url]</SPAN> with a link to the receipt that doesn&apos;t require logging in<BR><SPAN class="reason">[sitename]</SPAN> with &apos;' . $site_name . '&apos;<BR>and the [tags] must be lower-cased');
             actionitem("order_placed", "the order is placed");
             actionitem("order_delivered", 'the <jump class="btn btn-sm btn-warning btn-border no-u">Delivered</jump> button is clicked');
             actionitem("order_confirmed", 'the <jump class="btn btn-sm btn-primary btn-border no-u">Confirmed</jump> button is clicked');

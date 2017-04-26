@@ -101,6 +101,9 @@
     
         function GenerateDate($Date){
             $today = date("F j");
+            if(isset($_GET["day"]) && is_numeric($_GET["day"]) && $_GET["day"] >= 0 && $_GET["day"] <= 6){
+
+            }
             $Date = str_replace($today, "Today (" . $today . ")", $Date);
             $tomorrow = date("F j", strtotime("+ 1 day"));
             $Date = str_replace($tomorrow, "Tomorrow (" . $tomorrow . ")", $Date);
@@ -117,12 +120,19 @@
     $hours = 0;
     $duration = "";
     $timer = $place != "email";
+    $day_of_week = date("w");
+    if(isset($_GET["day"]) && is_numeric($_GET["day"]) && $_GET["day"] >= 0 && $_GET["day"] < 7){
+        $day_of_week = $_GET["day"];
+    }
     
     if ($Order["deliverytime"]) {
         $duration = $Order["deliverytime"];
         $Time = trim(right($Order["deliverytime"], 4));//1500
         if (is_numeric($Time)) {
             $CurrentTime = date("Gi");
+            if(isset($_GET["time"]) && is_numeric($_GET["time"]) && $_GET["time"] >= 0 && $_GET["time"] < 2400){
+                $CurrentTime = $_GET["time"];
+            }
             $date = str_replace(" at ", "", left($Order["deliverytime"], strlen($Order["deliverytime"]) - 4));
             $duration = GenerateDate($date) . " at " . GenerateTime(intval($Time));
             $tomorrow = date("F j", strtotime("+ 1 day"));
@@ -136,7 +146,7 @@
             }
         } else if ($Order["deliverytime"] == "Deliver Now") {
             $time = strtotime($Order["placed_at"]) + ($minutes * 60);
-            $open = parsetime(gethours($Order["restaurant_id"])[date("w")]["open"]) + ($minutes * 60);
+            $open = parsetime(gethours($Order["restaurant_id"])[$day_of_week]["open"]) + ($minutes * 60);
             if ($time < $open && date("F j", $time) == date("F j", $open)) {
                 $time = $open;
             }
@@ -282,7 +292,7 @@
                         $menu = Query("SELECT * FROM menu WHERE id IN(" . $itemIDs . ")", true);
                         $localdir = webroot("public/images/icon-");
                         if ($place == "email" && !islive()) {
-                            $localdir = "http://londonpizza.ca/public/images/icon-";
+                            $localdir = "http://" . serverurl . "/public/images/icon-";
                         }
 
                         //convert the JSON into an HTML receipt, using only item/addon IDs, reobtaining cost/names from the database for security

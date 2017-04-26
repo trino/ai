@@ -1,6 +1,9 @@
 <?php
     $webroot = webroot();
     define("debugmode", true);
+    define("serverurl", "londonpizza.ca");
+    define("sitename", "londonpizza.ca");
+
     date_default_timezone_set("America/Toronto");
 
     function webroot($file = "") {
@@ -372,7 +375,16 @@
 
     //returns the current date/time
     function now($totime = false, $now = false) {
-        if (!$now) {$now = time();}
+        if (!$now) {
+            $now = time();
+            if(read("profiletype") == 1 && isset($_GET["time"])){
+                if(is_numeric($_GET["time"]) && $_GET["time"] >= 0 && $_GET["time"] <= 2400) {
+                    $hour = floor($_GET["time"] / 100);
+                    $minute = $_GET["time"] % 100;
+                    $now = mktime($hour, $minute);
+                }
+            }
+        }
         if(!is_numeric($now)){return $now;}
         if ($totime === true) {return $now;}
         if ($totime !== false && $totime !== true) {return date($totime, $now);}
@@ -498,7 +510,7 @@
     }
 
     function islive(){
-        return $_SERVER["SERVER_NAME"] == "londonpizza.ca";
+        return $_SERVER["SERVER_NAME"] == serverurl;
     }
 
     function verbosedate($date){

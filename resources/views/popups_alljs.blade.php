@@ -1649,13 +1649,13 @@
     var monthnames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
     function now() {
+        if(newtime > -1){return newtime;}
         var now = new Date();
         return now.getHours() * 100 + now.getMinutes();
     }
 
     function getToday() {
-        var now = new Date();//doesn't take into account <= because it takes more than 1 minute to place an order
-        return now.getDay();
+        return getNow(3);//doesn't take into account <= because it takes more than 1 minute to place an order
     }
 
     function GenerateTime(time) {
@@ -1702,22 +1702,64 @@
         return time;
     }
 
+    //Index: 0=hour, 1=minute, 2=24hr time, 3=day of week(0-6), 4=date, 5=tomorrow
+    function getNow(Index){
+        var now = new Date();
+        switch (Index){
+            case 0: //hour
+                if(newtime > -1){return Math.floor(newtime / 100);}
+                return now.getHours();
+                break;
+            case 1: //minute
+                if(newtime > -1){return Math.floor(newtime % 100);}
+                return now.getMinutes();
+                break;
+            case 2://hour+minute(24 hour)
+                if(newtime > -1){return newtime;}
+                return now.getHours() * 100 + now.getMinutes();
+                break;
+            case 3: //day of week
+                if(newday > -1){return newday;}
+                return now.getDay();
+                break;
+            case 4: case 5: //date
+                if(newtime > -1){
+                    now.setHours(Math.floor(newtime / 100));
+                    now.setMinutes(Math.floor(newtime % 100));
+                }
+                if(newday > -1){
+                    var currentday = now.getDay();
+                    if(currentday > newday){
+                        now = now.add("day", 6 - currentday + newday);
+                    } else if (currentday < newday){
+                        now = now.add("day", newday - currentday);
+                    }
+                }
+                if(Index == 5){
+                    return now.add("day", 1);
+                }
+                return now;
+                break;
+        }
+    }
+
     function GenerateHours(hours, increments) {
-        var now = new Date();//doesn't take into account <= because it takes more than 1 minute to place an order
+        //doesn't take into account <= because it takes more than 1 minute to place an order
         //now.setMinutes(now.getMinutes() + minutes);//start 40 minutes ahead
         if (isUndefined(increments)) {increments = 15;}
         var minutes = <?= getdeliverytime(); ?>;
-        var dayofweek = now.getDay();
+        var dayofweek = getNow(3);
         var minutesinaday = 1440;
         var totaldays = 2;
         var dayselapsed = 0;
         var today = dayofweek;
         var tomorrow = (today + 1) % 7;
-        var tomorrowdate = new Date().add("day", 1);
+        var now = getNow(4);
+        var tomorrowdate = getNow(5);//new Date().add("day", 1);
         var today_text = "Today (" + monthnames[now.getMonth()] + " " + now.getDate() + ")";
         var tomor_text = "Tomorrow (" + monthnames[tomorrowdate.getMonth()] + " " + tomorrowdate.getDate() + ")";
 
-        var time = now.getHours() * 100 + now.getMinutes();
+        var time = getNow(2);
         time = time + (increments - (time % increments));
         var oldValue = $("#deliverytime").val();
         var HTML = '';
@@ -1764,10 +1806,11 @@
         $("#deliverytime").html(HTML).val(oldValue);
     }
 
+    //function getNow(Index){Index: 0=hour, 1=minute, 2=24hr time, 3=day of week(0-6), 4=date, 5=tomorrow
     function isopen(hours, dayofweek, time) {
-        var now = new Date();//doesn't take into account <= because it takes more than 1 minute to place an order
-        if (isUndefined(dayofweek)) {dayofweek = now.getDay();}
-        if (isUndefined(time)) {time = now.getHours() * 100 + now.getMinutes();}
+        var now = getNow(4);//doesn't take into account <= because it takes more than 1 minute to place an order
+        if (isUndefined(dayofweek)) {dayofweek = getNow(3);}
+        if (isUndefined(time)) {time = getNow(2);}//now.getHours() * 100 + now.getMinutes();
         var today = hours[dayofweek];
         var yesterday = dayofweek - 1;
         if (yesterday < 0) {

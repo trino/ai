@@ -980,7 +980,7 @@
                                                             default:
                                                                 switch(colname){
                                                                     case "actions.message":
-                                                                        title = "[reason] will be replaced with the reason the restaurant owner specifies. [url] will be replaced with a URL to the receipt";
+                                                                        title = "[reason] will be replaced with the reason the restaurant owner specifies. [url] will be replaced with a URL to the receipt. [sitename] with '<?= sitename; ?>'";
                                                                         break;
                                                                 }
 

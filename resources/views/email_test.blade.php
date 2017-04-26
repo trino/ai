@@ -5,4 +5,4 @@
 ?>
 <HR>
 Thank you,
-The londonpizza.ca Team
+The <?= sitename; ?> Team

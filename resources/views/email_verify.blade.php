@@ -1,4 +1,4 @@
-Hi {{ $name }}. Thank you for registering at londonpizza.ca
+Hi {{ $name }}. Thank you for registering at <?= sitename; ?>
 Your password is {{ $password }}
 
 @if($requiresauth)

@@ -258,7 +258,7 @@ class HomeController extends Controller {
                 }
 
                 $action["message"] = str_replace("[orderid]", $orderid, $action["message"]);
-                $message = $action["message"];
+                $message = str_replace("[sitename]", sitename, $action["message"]);
                 if ($action["email"]) {
                     $action["message"] = str_replace("[url]", "", $message);
                     debugprint("Sending email to " . $party . ": " . $email);

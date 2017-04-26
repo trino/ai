@@ -37,7 +37,7 @@
         <meta name="viewport" content="width=device-width, user-scalable=no">
         <meta http-equiv="content-language" content="en-CA">
         <meta name="mobile-web-app-capable" content="yes">
-        <title>londonpizza.ca - Pizza Delivery for London Ontario</title>
+        <title><?= sitename; ?> - Pizza Delivery for London Ontario</title>
         <!--link rel="manifest" href="<?= webroot("resources/assets/manifest.json"); ?>"-->
         <link rel="icon" sizes="128x128" href="<?= webroot("public/images/pizza128.png"); ?>">
         <link rel="icon" sizes="192x192" href="<?= webroot("public/images/pizza192.png"); ?>">
@@ -89,7 +89,7 @@
                     <LI><A ONCLICK="handlelogin('logout');" CLASS="dropdown-item" href="#"><i class="fa fa-sign-out icon-width"></i> Log Out</A></LI>
                 @endif
             </ul>
-            <a HREF="<?= webroot("public/index"); ?>" class="align-left text-white" style="margin-left:22px;font-weight: bold;font-size: 1rem !important;" href="/">LONDON PIZZA.CA</a>
+            <a HREF="<?= webroot("public/index"); ?>" class="align-left text-white" style="margin-left:22px;font-weight: bold;font-size: 1rem !important;" href="/"><?= strtoupper(sitename); ?></a>
         </div>
 
         <div class="container-fluid">
@@ -101,6 +101,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <a CLASS="btn btn-sm text-muted" href="<?= webroot("help"); ?>"> <i style="font-size: 1rem !important;" class="fa fa-question-circle icon-width"></i>More Info</a>
+                        @if(isset($_GET["time"])) <SPAN id="servertime" CLASS="text-muted pull-right">Server time: <?= now(); ?></SPAN> @endif
                     </div>
                 </div>
             </div>
@@ -108,6 +109,13 @@
     </body>
 
     <script type="text/javascript">
+        var newtime = -1, newday = -1;
+        @if(isset($_GET["time"]) && is_numeric($_GET["time"]) && $_GET["time"] >= 0 && $_GET["time"] < 2400)
+            newtime = Number("<?= $_GET["time"]; ?>");
+        @endif
+        @if(isset($_GET["day"]) && is_numeric($_GET["day"]) && $_GET["day"] >= 0 && $_GET["day"] <= 6)
+            newday = Number("<?= $_GET["day"]; ?>");
+        @endif
         $(window).load(function () {
             var time = Date.now() - timerStart;
             $("#td_loaded").text(time / 1000 + "s");
@@ -118,6 +126,7 @@
             $("#td_ready").text(time / 1000 + "s");
             console.log("Time until DOMready: ", time);
             $("#navbar-text").text("<?= "" . round((microtime(true) - $time), 5) . "s"; ?>");
+            $("#servertime").text($("#servertime").text() + " - Javascript time: " + getNow(4) );
         });
         log("Page has loaded at: " + Date.now());
     </script>
