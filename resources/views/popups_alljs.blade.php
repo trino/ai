@@ -864,7 +864,7 @@
             }, function (result) {
                 $("#checkoutmodal").modal("hide");
                 if (result.contains("ordersuccess")) {
-                    handleresult(result, "Receipt - Thank you for your Order!");
+                    handleresult(result, "RECEIPT");
                     if ($("#saveaddresses").val() == "addaddress") {
                         var Address = {
                             id: $(".ordersuccess").attr("addressid"),

@@ -90,7 +90,7 @@
                     <LI><A ONCLICK="handlelogin('logout');" CLASS="dropdown-item" href="#"><i class="fa fa-sign-out icon-width"></i> Log Out</A></LI>
                 @endif
             </ul>
-            <a HREF="<?= webroot("public/index"); ?>" class="align-left text-white" style="margin-left:22px;font-weight: bold;font-size: 1rem !important;" href="/"><?= strtoupper(sitename); ?></a>
+            <a HREF="<?= webroot("public/index"); ?>" class="align-left text-white" style="margin-left:7px;font-weight: bold;font-size: 1rem !important;" href="/"><?= strtoupper(sitename); ?></a>
         </div>
 
         <div class="container-fluid">

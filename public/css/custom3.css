@@ -1,17 +1,11 @@
 ::-webkit-scrollbar {
-    width: 0px;  /* remove scrollbar space */
-    background: transparent;  /* optional: just make scrollbar invisible */
+    width: 0px; /* remove scrollbar space */
+    background: transparent; /* optional: just make scrollbar invisible */
 }
+
 /* optional: show position indicator in red */
 ::-webkit-scrollbar-thumb {
     background: #FF0000;
-}
-
-
-
-* {
-    border: 0 !important;
-    margin: 0;
 }
 
 .addon-addon {
@@ -133,7 +127,7 @@ h2 {
 }
 
 .receipt_item {
-min-height: 35px !important;
+    min-height: 35px !important;
 }
 
 .modal-header {
@@ -388,7 +382,10 @@ body {
     */
 }
 
-.fa{font-weight: normal !important;}
+.fa {
+    font-weight: normal !important;
+}
+
 .fa-125 {
     font-size: 1.25rem !important;
 }
@@ -407,7 +404,7 @@ body {
 
 .input_right {
     width: 89%;
-    float: left
+    float: right
 }
 
 input, select, textarea, option {
@@ -415,13 +412,12 @@ input, select, textarea, option {
     border-bottom: 0px solid #cdcdcd !important;;
     background: #dedede !important;
     border-radius: 0 !important;
-    margin: 3px 0 !important;
+    margin: 0px 0 !important;
     /*
     -webkit-appearance: none;
     -moz-appearance: none;
     */
 }
-
 input, textarea {
     padding-left: 15px !important;
 }
@@ -909,10 +905,6 @@ table tr td:last-child, table tr th:last-child {
     right: 8px;
 }
 
-* {
-    border: 0 !important;
-}
-
 #myorder {
     max-height: 697.98px;
     overflow-y: scroll;
@@ -944,4 +936,15 @@ table tr td:last-child, table tr th:last-child {
         position: relative;
         top: 12px;
     }
+}
+
+* {
+    border: 0 !important;
+    margin: 0;
+}
+
+
+.table td, .table th, .table-bordered td, .table-bordered th, .table-bordered {
+    BORDER: 1PX SOLID #dadada;
+    PADDING: 0;
 }
