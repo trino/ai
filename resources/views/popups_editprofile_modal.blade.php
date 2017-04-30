@@ -35,11 +35,11 @@
                     <br> > Add a new credit/debit card on checkout
                     <br> > <a href="help" class="btn-link">MORE INFO</a>
                 </div>
-                <!div CLASS="editprofilediv mt-2">
+                <!--div CLASS="editprofilediv mt-2">
                     <button ONCLICK="handlelogin('logout');" CLASS="btn btn-primary pull-left" href="#">LOG OUT</button>
                     <button ONCLICK="orders();" CLASS="btn btn-primary pull-right" href="#">PAST ORDERS</button>
                     <div class="clearfix"></div>
-                </div>
+                </div-->
             </div>
         </div>
     </div>

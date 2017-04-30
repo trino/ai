@@ -498,7 +498,8 @@
                 @if(!isset($JSON))
                     <hr>
 
-                    <h2 class="">Delivery Info</h2>
+                    <h2 class="mt-2">
+                    Delivery Info</h2>
                     <?php
                     echo $Order["name"] . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>'
                     . $Order["city"] . " " . $Order["province"] . " " . $Order["postalcode"] . "<br>"
@@ -509,7 +510,7 @@
                     ?>
                     <hr>
 
-                    <h2 class="">
+                    <h2 class="mt-2">
                     Order #<span ID="receipt_id"><?= $orderid; ?></span></h2>
 
                     <?php
@@ -526,8 +527,10 @@
                 @if($includeextradata)
                     @if($party != "restaurant")
                         <hr>
-                        <h2 class="">Questions about your order?</h2>
-                        Please contact the restaurant directly.<br>
+                        <h2 class="mt-2">
+                            Questions about your order?</h2>
+                        Please contact the restaurant directly
+                        <DIV CLASS="clearfix my-2"></DIV>
                     @endif
  <button class="pull-left btn-link btn pl-0" href="<?= webroot("help"); ?>">MORE INFO</button>
                 @endif

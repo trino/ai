@@ -1,18 +1,19 @@
 <?php
-    startfile("popups_login");
-    $Additional_Toppings = first("SELECT * FROM additional_toppings", false);
-    function getVal($Additional_Toppings, $size){
-        $it = getiterator($Additional_Toppings, "size", $size, false);
-        return $Additional_Toppings[$it]["price"];
-    }
-    $minimum = number_format(getVal($Additional_Toppings, "Minimum"), 2);
-    $delivery = number_format(getVal($Additional_Toppings, "Delivery"), 2);
-    $time = getVal($Additional_Toppings, "DeliveryTime");
-    $hours = first("SELECT * FROM hours WHERE restaurant_id = 0");
+startfile("popups_login");
+$Additional_Toppings = first("SELECT * FROM additional_toppings", false);
+function getVal($Additional_Toppings, $size)
+{
+    $it = getiterator($Additional_Toppings, "size", $size, false);
+    return $Additional_Toppings[$it]["price"];
+}
+$minimum = number_format(getVal($Additional_Toppings, "Minimum"), 2);
+$delivery = number_format(getVal($Additional_Toppings, "Delivery"), 2);
+$time = getVal($Additional_Toppings, "DeliveryTime");
+$hours = first("SELECT * FROM hours WHERE restaurant_id = 0");
 ?>
 <div class="row">
     <DIV CLASS="col-lg-4 col-md-5">
-        <DIV CLASS="btn-sm-padding bg-white" style="padding-bottom: 1.5rem !important;padding-top: .5rem !important;">
+        <DIV CLASS="btn-sm-padding bg-white" style="padding-bottom: 1rem !important;padding-top: .5rem !important;">
             <ul class="nav nav-tabs mb-1" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" href="#profile" role="tab" data-toggle="tab" id="logintab" onclick="skiploadingscreen = false;" style="font-weight: bold">LOG IN</a>
@@ -28,30 +29,27 @@
                     <div class="input_right">
                         <INPUT TYPE="text" id="login_email" placeholder="Email" class="form-control" onkeydown="enterkey(event, '#login_password');" required>
                     </div>
-
-                    <div class="input_left_icon"><i class="fa fa-lock" style="font-size: 1.25rem"></i></div>
+                    <div class="input_left_icon"><i class="fa fa-lock" style="font-size: 1.2rem !important;"></i></div>
                     <div class="input_right">
                         <INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control" onkeydown="enterkey(event, 'login');" required>
                     </div>
-                    <div class="clearfix my-2"></div>
-
+                    <div class="clearfix my-3"></div>
                     <BUTTON CLASS="pull-left btn btn-link" href="#" style="color: #dadada !important;" onclick="handlelogin('forgotpassword');">FORGOT PASSWORD</BUTTON>
                     <BUTTON CLASS="pull-right btn btn-primary" href="#" onclick="handlelogin('login');">LOG IN</BUTTON>
-
-                    <div class="clearfix"></div>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="buzz">
                     <FORM id="addform">
                         <?php
-                            if (!read("id")) {
-                                echo view("popups_address", array("style" => 1, "required" => true, "icons" => true, "firefox" => false))->render();
-                            }
+                        if (!read("id")) {
+                            echo view("popups_address", array("style" => 1, "required" => true, "icons" => true, "firefox" => false))->render();
+                        }
                         ?>
                     </FORM>
                     <FORM Name="regform" id="regform">
                         <?= view("popups_edituser", array("phone" => false, "autocomplete" => "new-password", "required" => true, "icons" => true))->render(); ?>
                     </FORM>
-                    <div class="clearfix my-2"></div>
+                    <div class="clearfix my-3"></div>
+
                     <button class="btn btn-primary pull-right" onclick="register();">
                         SIGN UP
                     </button>
@@ -60,9 +58,9 @@
             <DIV CLASS="clearfix"></DIV>
         </DIV>
 
-        <div class="py-3 bg-inverse" style="border: 0rem solid #eceeef !important;">
+        <div class="py-3 bg-inverse">
             <center>
-                <img src="<?= webroot("images/pizzaria.png"); ?>" style="width: 45%;"/>
+                <img src="<?= webroot("images/pizzaria.png"); ?>" style="width: 50%;"/>
                 <h2 class="text-danger" style="text-align: center;">Mobile Pizza Delivery</h2>
                 ${{ $minimum }} Minimum<br>
                 ${{ $delivery }} Delivery<br>
@@ -70,40 +68,33 @@
             </center>
         </div>
 
-        <DIV CLASS="clearfix"></DIV>
     </DIV>
-    <div class="col-lg-8 col-md-7 bg-white py-2 bg-inverse" style="border: .5rem solid #eceeef!important">
-
+    <div class="col-lg-8 col-md-7 bg-white py-2 bg-inverse" style="border: .75rem solid #eceeef!important">
         <div class="btn-sm-padding" style="border-radius: 0;background: transparent !important;"><br>
-            <span style=";font-size: 3rem; font-weight: bold;line-height: 3.1rem;"> LONDON PIZZA DELIVERY</span>
+            <span style=";font-size: 2.5rem; font-weight: bold;line-height: 3.1rem;"> <?=strtoupper(sitename2);?> DELIVERY</span>
             <br>
             <br>
-
-            <p>The art of delivery is in the team. Local restaurants at your footstep in <?= $time; ?> minutes.</p>
-            <p class="lead text-success">HOURS OF OPERATION</p>
-
-                <TABLE>
-                    <?php
-                        $daysofweek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-                        for($day = 0; $day < 7; $day ++){
-                            echo '<TR><TD>' . $daysofweek[$day] . "&nbsp;&nbsp;&nbsp; </TD>";
-                            $open = $hours[$day . "_open"];
-                            $close = $hours[$day . "_close"];
-                            if($open == "-1" || $close == "-1"){
-                                echo '<TD COLSPAN="2"">Closed';
-                            } else {
-                                echo '<TD>' . GenerateTime($open) . ' to </TD><TD>' . GenerateTime($close);
-                            }
-                            echo '</TD></TR>';
-                        }
-                    ?>
-                </TABLE>
-<br>
-            <p class="lead">PIZZA BROUGHT TO YOU
-
-            </p>
+            <p>The art of delivery is in the team, local restaurants at your footstep in <?= $time; ?> minutes.</p>
+            <p class="lead text-warning">HOURS OF OPERATION</p>
+            <TABLE>
+                <?php
+                $daysofweek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                for ($day = 0; $day < 7; $day++) {
+                    echo '<TR><TD>' . $daysofweek[$day] . "&nbsp;&nbsp;&nbsp; </TD>";
+                    $open = $hours[$day . "_open"];
+                    $close = $hours[$day . "_close"];
+                    if ($open == "-1" || $close == "-1") {
+                        echo '<TD COLSPAN="2"">Closed';
+                    } else {
+                        echo '<TD>' . GenerateTime($open) . ' to </TD><TD>' . GenerateTime($close);
+                    }
+                    echo '</TD></TR>';
+                }
+                ?>
+            </TABLE>
+            <br>
+            <p class="lead text-warning">FASTER THAN PICKING UP THE PHONE</p>
             <a class="btn-link" href="<?= webroot("help"); ?>" role="button">LEARN MORE</a>
-
         </div>
     </div>
 </div>
@@ -152,8 +143,8 @@
                     minlength: minlength
                 },
                 /*phone: {
-                    phonenumber: true
-                }*/
+                 phonenumber: true
+                 }*/
             },
             messages: {
                 name: "Please enter your name",
@@ -166,10 +157,10 @@
                     email: "Please enter a valid email address",
                     remote: "Please enter a unique email address"
                 }/*,
-                phone: {
-                    required: "Please enter a cell phone number",
-                    phonenumber: "Please enter a valid cell phone number"
-                }*/
+                 phone: {
+                 required: "Please enter a cell phone number",
+                 phonenumber: "Please enter a valid cell phone number"
+                 }*/
             },
             submitHandler: function (form) {
                 if (!isvalidaddress()) {
