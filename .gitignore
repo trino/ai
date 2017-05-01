@@ -20,3 +20,5 @@ config/mail.php
 *.iml
 .idea/workspace.xml
 *.xml
+.idea/ai.iml
+*.iml
