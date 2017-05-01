@@ -142,7 +142,11 @@ h2 {
     border-bottom: 1px solid #eceeef !important;
     font-weight: normal !important;
 }
+.border-category{
 
+    border-right: 1px solid #eceeef !important;
+    border-bottom: 1px solid #eceeef !important;
+}
 .modal-header {
     padding: .30rem .75rem !important;
     min-height: 50px;
@@ -222,7 +226,7 @@ h2 {
     text-align: center;
 }
 
-.dropdown-menu, .modal-content {
+.dropdown-menu, .modal-content ,.shadow{
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
@@ -326,8 +330,9 @@ body {
         background-image: linear-gradient(rgba(174,149,86,.45),rgba(255,255,255,0));
         background: rgba(174, 149, 86, .45);
    */
+    background: rgba(165, 146, 97, .45);
+
     background: #d7d7d7;
-    background: rgba(165, 146, 97, .45) !important;
 }
 
 .full {
@@ -426,8 +431,6 @@ body {
 }
 
 .fa {
-    font-weight: normal !important;
-    font-size: 1rem !important;
 }
 
 .fa-125 {
