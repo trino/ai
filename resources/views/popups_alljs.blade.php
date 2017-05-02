@@ -921,7 +921,7 @@
     });
 
     $(window).on('hashchange', function (event) {//delete button closes modal
-        if (window.location.hash != "#modal" && window.location.hash != "#loading") {
+        if (window.location.hash != "#modal" && window.location.hash != "#loading" && !is_firefox_for_android) {
             if (skipone > Date.now()) {
                 return;
             }
@@ -991,7 +991,7 @@
                 if (!First) {
                     First = ID;
                 }
-                HTML += '<li class="list-group-item" ONCLICK="orders(' + ID + ');"><span class="tag tag-default tag-pill pull-xs-right pad5">ID: ' + ID + ' </span> &nbsp;AT: ' + order["placed_at"] + '<DIV ID="pastreceipt' + ID + '"></DIV></li>';
+                HTML += '<li ONCLICK="orders(' + ID + ');"><span class="tag tag-default tag-pill pull-xs-right pad5">ID: ' + ID + ' </span> &nbsp;AT: ' + order["placed_at"] + '<DIV ID="pastreceipt' + ID + '"></DIV></li>';
             }
             HTML += '</ul>';
             if (!First) {
