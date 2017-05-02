@@ -106,6 +106,7 @@
                     <div class="input_left_icon"><i class="fa fa-pencil"></i></div>
                     <div class="input_right">
                         <textarea placeholder="Order Notes" id="cookingnotes" class="form-control" maxlength="255"></textarea>
+                        <button class="pull-right list-padding radius0 btn btn-primary text-white payfororder" onclick="payfororder(); return false;"> <i class="fa fa-check mr-2"></i> ORDER</button>
                         <span class="payment-errors error"></span>
                         <div class="clearfix"></div>
                     </div>
