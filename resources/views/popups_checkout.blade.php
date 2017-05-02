@@ -37,7 +37,7 @@
                         </SELECT>
                     </div>
 
-                    <div class="input_left_icon"><i  style="font-size: 1.2rem !important;" class="fa fa-clock-o"></i></div>
+                    <div class="input_left_icon"><i style="font-size: 1.2rem !important;" class="fa fa-clock-o"></i></div>
                     <div class="input_right">
                         <div>
                             <SELECT id="deliverytime" TITLE="Delivery Time" class="form-control"/>
@@ -46,11 +46,10 @@
                         </div>
                     </div>
 
-                    @if(!session()->get('session_phone'))
-                        <div class="input_left_icon" id="red_phone"><i class="fa fa-mobile-phone" style="font-size: 1.35rem !important;"></i></div>
+                    @if(!read('phone'))
+                        <div class="input_left_icon redhighlite" id="red_phone"><i class="fa fa-mobile-phone" style="font-size: 1.35rem !important;"></i></div>
                         <div class="input_right">
-                                <?= view("popups_edituser", array("email" => false, "profile1" => false, "password" => false, "phone" => true,
-                                "required" => true, "icons" => false, "autored" => "red_phone"))->render(); ?>
+                            <input type="tel" name="phone" id="reg_phone" class="form-control session_phone_val" placeholder="Cell Phone" required="true" autored="red_phone" aria-required="true">
                         </div>
                     @endif
 
@@ -184,7 +183,6 @@
     }
 
     function isShort(shortage, tablename, ID){
-        /*
         if(tablename != "menu") {
             ID = getKeyByValue(alladdons[tablename + "_id"], ID);
         }
@@ -193,7 +191,6 @@
                 return true;
             }
         }
-        */
         return false;
     }
 
@@ -205,7 +202,7 @@
 
     $('#orderinfo input').each(function() {
         $(this).click(function(){refreshform(this)}).blur(function(){refreshform(this)});
-        refreshform(this);
+        log("Autored: " + refreshform(this).attr("id"));
     });
 
     function refreshform(t){

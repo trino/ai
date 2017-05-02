@@ -1631,6 +1631,7 @@
         addresschanged("showcheckout");
         var HTML = $("#checkoutaddress").html();
         HTML = HTML.replace('class="', 'class="corner-top ');
+        var needscreditrefresh = false;
         if (loadsavedcreditinfo()) {
             $(".credit-info").hide();
             var creditHTML = '<SELECT ID="saved-credit-info" name="creditcard" onchange="changecredit();" class="form-control proper-height">';
@@ -1645,6 +1646,7 @@
             $("#credit-info").html(creditHTML + '</SELECT>');
         } else {
             $("#credit-info").html('<INPUT TYPE="hidden" VALUE="" ID="saved-credit-info">');
+            needscreditrefresh = true;
         }
         $("#checkoutaddress").html(HTML);
         $("#deliverytime").val($("#deliverytime option:first").val());
@@ -1659,6 +1661,7 @@
         $("#restaurant").html('<option value="0">Select Restaurant</option>').val("0");
         $("#saveaddresses").attr("autored", "red_address");
         refreshform("#saveaddresses");
+        if(needscreditrefresh){changecredit();}
     }
 
     var daysofweek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
