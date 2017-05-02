@@ -1,8 +1,9 @@
 <?php
     $webroot = webroot();
-    define("debugmode", true);
-    define("serverurl", "londonpizza.ca");
-    define("sitename", "londonpizza.ca");
+    define("debugmode", false);
+    define("serverurl", "scpizza.ca");
+    define("sitename", "scpizza.ca");
+    define("sitename2", "stoney creek pizza");
 
     date_default_timezone_set("America/Toronto");
 

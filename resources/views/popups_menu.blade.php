@@ -112,7 +112,7 @@
                 //echo '</DIV><div class="col-md-4" style="background:white;">';
             }
             $itemsInCol += $menuitemcount;
-            echo '<div class="bg-inverse list-group-item list-group-item-action" ID="category_' . $CurrentCat . '"><h2>' . $category['category'] . '</h2></div>';
+            echo '<div class="border-category text-danger strong list-group-item" ID="category_' . $CurrentCat . '"><h2>' . $category['category'] . '</h2></div>';
             $CurrentCat +=1;
         ?>
         @foreach ($menuitems as $menuitem)
@@ -163,7 +163,7 @@
 
                 <span class="align-middle item-icon rounded-circle bg-warning sprite sprite-{{$itemclass}} sprite-medium"></span>
                 <span class="align-middle item-name">{{$menuitem['item']}} </span>
-                <span class="ml-auto align-middle btn-sm-padding item-cost"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
+                <span class="text-muted ml-auto align-middle btn-sm-padding item-cost"> ${{number_format($menuitem["price"], 2)}}<?= $icon; ?></span>
             </button>
         @endforeach
         @if($catclass=="dips" || $catclass=="sides")

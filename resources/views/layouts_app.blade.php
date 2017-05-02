@@ -55,7 +55,7 @@
     </head>
     <body>
         <div ID="loading" class="fullscreen grey-backdrop dont-show"></div>
-        <div class="list-group-item container-fluid bg-danger">
+        <div class="list-group-item container-fluid bg-danger shadow">
             <button data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-sm bg-transparent">
                 <i class="fa fa-bars text-white"></i>
             </button>
@@ -98,7 +98,7 @@
             ?>
         </div>
 
-        <div class="container-fluid">
+        <div class="container-fluid shadow">
             @yield('content')
         </div>
 

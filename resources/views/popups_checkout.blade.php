@@ -2,10 +2,10 @@
 
 <div class="list-group-item">
     <h2 class="mr-auto align-left"> My Order</h2>
-    <button class="btn-sm dont-show text-normal ml-auto align-right bg-transparent" ONCLICK="confirmclearorder();" id="confirmclearorder"><i class="fa fa-close"></i></button>
+    <button class="btn-sm dont-show text-muted ml-auto align-right bg-transparent" ONCLICK="confirmclearorder();" id="confirmclearorder"><i class="fa fa-close"></i></button>
 </div>
 
-<div id="myorder" style='text-transform: uppercase;border: 5px solid green; font-family:sans Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;font-weight: bold;font-size: .85rem'></div>
+<div id="myorder" style='text-transform: uppercase; font-family:sans Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;font-weight: bold;font-size: .85rem'></div>
 
 <button id="checkout-btn" class="list-padding btn btn-primary btn-block" onclick="showcheckout();">
     <i class="fa fa-shopping-basket mr-2"></i> CHECKOUT
@@ -37,7 +37,7 @@
                         </SELECT>
                     </div>
 
-                    <div class="input_left_icon"><i  style="font-size: 1.1rem !important;" class="fa fa-clock-o"></i></div>
+                    <div class="input_left_icon"><i  style="font-size: 1.2rem !important;" class="fa fa-clock-o"></i></div>
                     <div class="input_right">
                         <div>
                             <SELECT id="deliverytime" TITLE="Delivery Time" class="form-control"/>
@@ -47,14 +47,14 @@
                     </div>
 
                     @if(!session()->get('session_phone'))
-                        <div class="input_left_icon" id="red_phone"><i class="fa fa-mobile-phone" style="font-size: 1.5rem !important;"></i></div>
+                        <div class="input_left_icon" id="red_phone"><i class="fa fa-mobile-phone" style="font-size: 1.35rem !important;"></i></div>
                         <div class="input_right">
                                 <?= view("popups_edituser", array("email" => false, "profile1" => false, "password" => false, "phone" => true,
                                 "required" => true, "icons" => false, "autored" => "red_phone"))->render(); ?>
                         </div>
                     @endif
 
-                    <div class="input_left_icon" id="red_card"><i class="fa fa-credit-card-alt" oldstyle="padding-top: 12px;"></i></div>
+                    <div class="input_left_icon" id="red_card"><i class="fa fa-credit-card-alt"></i></div>
                     <div class="input_right">
                         <DIV ID="credit-info"></DIV>
                     </div>
@@ -101,12 +101,11 @@
                             <div class="clearfix"></div>
                         </div>
                     </div>
+<div class="clearfix"></div>
 
-
-                    <div class="input_left_icon"></div>
+                    <div class="input_left_icon"><i class="fa fa-pencil"></i></div>
                     <div class="input_right">
                         <textarea placeholder="Order Notes" id="cookingnotes" class="form-control" maxlength="255"></textarea>
-                        <button style="padding-left: 1rem !important;padding-right: 1rem !important;" class="pull-right radius0 btn btn-primary text-white payfororder" onclick="payfororder(); return false;"> <i class="fa fa-check mr-2"></i> ORDER</button>
                         <span class="payment-errors error"></span>
                         <div class="clearfix"></div>
                     </div>
@@ -184,6 +183,7 @@
     }
 
     function isShort(shortage, tablename, ID){
+        /*
         if(tablename != "menu") {
             ID = getKeyByValue(alladdons[tablename + "_id"], ID);
         }
@@ -192,6 +192,7 @@
                 return true;
             }
         }
+        */
         return false;
     }
 
