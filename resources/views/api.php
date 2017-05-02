@@ -31,9 +31,17 @@
         $localhost = "localhost";
         if ($_SERVER["SERVER_NAME"] == "localhost"){$localhost.= ":3306";}
         if(islive()){
-            $database = "londonpi_db";
-            $username = "londonpi_user";
-            $password = "Pass1234!";
+            switch(sitename){
+                case "londonpizza.ca":
+                    $database = "londonpi_db";
+                    $username = "londonpi_user";
+                    $password = "Pass1234!";
+                    break;
+                default:
+                    die("Username/password for '" . sitename . "' are not on file");
+            }
+        } else {
+            $_SERVER['SERVER_ADDR'] = gethostbyname(gethostname());
         }
         $GLOBALS["database"] = $database;
         $con = mysqli_connect($localhost, $username, $password, $database) or die("Error " . mysqli_connect_error($con));

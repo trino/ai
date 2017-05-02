@@ -590,12 +590,6 @@
             $("#checkout-total").text('$0.00');
         } else {
             tempHTML = "";
-            if (totalcost >= minimumfee) {
-                $("#checkout-btn").show();
-            } else {
-                $("#checkout-btn").hide();
-                tempHTML += '<button CLASS="list-padding bg-secondary btn-block text-normal no-icon">Minimum $' + minimumfee + ' to Order</button>';
-            }
             tempHTML += '<DIV id="newvalues"';
             if (fadein || forcefade) {
                 tempHTML += 'class="dont-show"';
@@ -605,12 +599,19 @@
             tempHTML += '<TR><TD>Tax $</TD><TD>' + taxes.toFixed(2) + '</TD></TR>';
             tempHTML += '<TR><TD class="strong">Total $</TD><TD class="strong">' + totalcost.toFixed(2) + '</TD></TR>';
             tempHTML += '</TABLE><div class="clearfix py-2"></div></DIV></DIV>';
-
             $("#confirmclearorder").show();
             $("#checkout-total").text('$' + totalcost.toFixed(2));
         }
         if (fadein || forcefade) {
             tempHTML += '<DIV id="oldvalues">' + oldvalues + '</div>';
+        }
+        if (theorder.length > 0) {
+            if (totalcost >= minimumfee) {
+                $("#checkout-btn").show();
+            } else {
+                $("#checkout-btn").hide();
+                tempHTML += '<button CLASS="list-padding bg-secondary btn-block text-normal no-icon">Minimum $' + minimumfee + ' to Order</button>';
+            }
         }
         $("#myorder").html(HTML + tempHTML);
         if (fadein || forcefade) {
