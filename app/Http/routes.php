@@ -39,7 +39,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::any('/auth/gettoken',        'AuthController@gettoken');
     Route::any('/placeorder',           'HomeController@placeorder');
 
-    Route::get('/call',                 'HomeController@robocall');
+    Route::any('/call',                 'HomeController@robocall');
     Route::any('/test',                 'HomeController@index');
     Route::any('/help',                 'HomeController@help');
     Route::any('/editmenu',             'HomeController@editmenu');

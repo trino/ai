@@ -156,24 +156,24 @@
         }
     };
 
-    //make a cookie value that expires in exdays
-    function setCookie(cname, cvalue, exdays) {
-        var d = new Date();
-        d.setTime(d.getTime() + (exdays * 86400000));//24 * 60 * 60 * 1000
-        var expires = "expires=" + d.toUTCString();
-        document.cookie = cname + "=" + cvalue + "; " + expires;
+    function setCookie(c_name, value, exdays) {
+        var exdate = new Date();
+        exdate.setDate(exdate.getDate() + exdays);
+        var c_value = value + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString());
+        document.cookie = c_name + "=" + c_value + ";path={{sitename}};";
     }
 
     //gets a cookie value
-    function getCookie(cname) {
-        var name = cname + "=";
-        var ca = document.cookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') c = c.substring(1);
-            if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+    function getCookie(c_name) {
+        var i, x, y, ARRcookies = document.cookie.split(";");
+        for (i = 0; i < ARRcookies.length; i++) {
+            x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="));
+            y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1);
+            x = x.replace(/^\s+|\s+$/g, "");
+            if (x == c_name) {
+                return unescape(y);
+            }
         }
-        return "";
     }
 
     //deletes a cookie value
@@ -181,10 +181,14 @@
         if (isUndefined(cname)) {//erase all cookies
             var cookies = document.cookie.split(";");
             for (var i = 0; i < cookies.length; i++) {
-                removeCookie(cookies[i].split("=")[0]);
+                var cookie = cookies[i];
+                var eqPos = cookie.indexOf("=");
+                var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                removeCookie(name);
             }
         } else {
-            setCookie(cname, '', -10);
+            log(cname + " removed");
+            document.cookie = cname + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path={{sitename}};";
         }
     }
 

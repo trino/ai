@@ -237,16 +237,19 @@ class HomeController extends Controller {
                         $party = "customer";
                         $email = $user["email"];
                         $phone = $user["phone"];
+                        $name = $user["name"];
                         break;
                     case 1://admin
                         $party = "admin";
                         $email = $admin["email"];
                         $phone = $admin["phone"];
+                        $name = $admin["name"];
                         break;
                     case 2://restaurant
                         $restaurant = $this->processrestaurant($info["restaurant_id"]);
                         $party = "restaurant";
                         $email = $restaurant["user"]["email"];
+                        $name = $restaurant["restaurant"]["name"];
                         $phone_restro = filternonnumeric($restaurant["restaurant"]["phone"]);
                         $phone = filternonnumeric($restaurant["user"]["phone"]);
                         break;
@@ -259,6 +262,7 @@ class HomeController extends Controller {
 
                 $action["message"] = str_replace("[orderid]", $orderid, $action["message"]);
                 $message = str_replace("[sitename]", sitename, $action["message"]);
+                $message = str_replace("[name]", $name, $message);
                 if ($action["email"]) {
                     $action["message"] = str_replace("[url]", "", $message);
                     debugprint("Sending email to " . $party . ": " . $email);

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 02, 2017 at 10:29 AM
+-- Generation Time: May 02, 2017 at 11:07 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -35,14 +35,14 @@ CREATE TABLE IF NOT EXISTS `actions` (
   `email` tinyint(1) NOT NULL,
   `message` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `actions`
 --
 
 INSERT INTO `actions` (`id`, `eventname`, `party`, `sms`, `phone`, `email`, `message`) VALUES
-(1, 'order_placed', 2, 0, 1, 1, '[sitename] - A new order was placed'),
+(1, 'order_placed', 2, 0, 0, 1, '[sitename] - A new order was placed'),
 (2, 'order_placed', 1, 1, 0, 0, '[sitename] - A new order was placed [url]'),
 (3, 'order_placed', 0, 0, 0, 1, '[sitename] - Here is your receipt'),
 (4, 'order_declined', 0, 1, 0, 1, '[sitename] - Your order was cancelled: [reason]'),
@@ -50,7 +50,8 @@ INSERT INTO `actions` (`id`, `eventname`, `party`, `sms`, `phone`, `email`, `mes
 (6, 'order_confirmed', 1, 1, 0, 0, '[sitename] - An order was approved: [reason]'),
 (7, 'user_registered', 0, 0, 0, 1, '[sitename] - Thank you for registering'),
 (9, 'user_registered', 1, 0, 0, 1, '[sitename] - Thank you for registering'),
-(10, 'order_placed', 2, 1, 0, 0, '[sitename] - A new order was placed [url]');
+(10, 'order_placed', 2, 1, 0, 0, '[sitename] - A new order was placed [url]'),
+(11, 'order_placed', 2, 0, 1, 0, 'Hello [name], you have an order on [sitename]');
 
 -- --------------------------------------------------------
 
@@ -306,14 +307,14 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1534 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1535 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1493224558'),
+(1, 'lastSQL', '1493735357'),
 (20, 'orders', '1487775876'),
 (24, 'menucache', '1493733784'),
 (25, 'useraddresses', '1491932853'),
