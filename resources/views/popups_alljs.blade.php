@@ -863,6 +863,7 @@
                 name: $("#reg_name").val(),
                 phone: $("#reg_phone").val()
             }, function (result) {
+                paydisabled=false;
                 $("#checkoutmodal").modal("hide");
                 if (result.contains("ordersuccess")) {
                     handleresult(result, "ORDER RECEIPT");
@@ -1435,6 +1436,7 @@
         $('.redhighlite').fadeTo(delay, 0.3, function() { $(this).fadeTo(delay, 1.0).fadeTo(delay, 0.3, function() { $(this).fadeTo(delay, 1.0).fadeTo(delay, 0.3, function() { $(this).fadeTo(delay, 1.0); }); }); });
     }
 
+    var paydisabled = false;
     function payfororder() {
         $(".payment-errors").html("");
         if(alertshortage()){return false;}
@@ -1446,6 +1448,11 @@
             flash(500);
             return false;
         }
+        if(paydisabled){
+            log("Already placing an order");
+            return false;
+        }
+        paydisabled=true;
         var $form = $('#orderinfo');
         log("Attempt to pay: " + changecredit());
         if (!changecredit()) {//new card

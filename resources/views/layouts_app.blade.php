@@ -93,7 +93,7 @@
             <a HREF="<?= webroot("public/index"); ?>" class="align-left text-white" style="margin-left:22px;font-weight: bold;font-size: 1rem !important;" href="/"><?= strtoupper(sitename); ?></a>
             <?php
                 if(!islive()){
-                    echo '&emsp;LOCAL IP IS: ' . $_SERVER['SERVER_ADDR'];
+                    echo '<SPAN TITLE="This will not show on the live server">&emsp;LOCAL IP IS: ' . $_SERVER['SERVER_ADDR'] . '</SPAN>';
                 }
             ?>
         </div>

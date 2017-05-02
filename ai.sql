@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 26, 2017 at 12:35 PM
+-- Generation Time: May 02, 2017 at 10:29 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `actions` (
   `email` tinyint(1) NOT NULL,
   `message` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `actions`
@@ -43,13 +43,14 @@ CREATE TABLE IF NOT EXISTS `actions` (
 
 INSERT INTO `actions` (`id`, `eventname`, `party`, `sms`, `phone`, `email`, `message`) VALUES
 (1, 'order_placed', 2, 0, 1, 1, '[sitename] - A new order was placed'),
-(2, 'order_placed', 1, 1, 0, 0, '[sitename] - A new order was placed'),
+(2, 'order_placed', 1, 1, 0, 0, '[sitename] - A new order was placed [url]'),
 (3, 'order_placed', 0, 0, 0, 1, '[sitename] - Here is your receipt'),
 (4, 'order_declined', 0, 1, 0, 1, '[sitename] - Your order was cancelled: [reason]'),
 (5, 'order_declined', 1, 1, 0, 0, '[sitename] - An order was cancelled: [reason]'),
 (6, 'order_confirmed', 1, 1, 0, 0, '[sitename] - An order was approved: [reason]'),
 (7, 'user_registered', 0, 0, 0, 1, '[sitename] - Thank you for registering'),
-(9, 'user_registered', 1, 0, 0, 1, '[sitename] - Thank you for registering');
+(9, 'user_registered', 1, 0, 0, 1, '[sitename] - Thank you for registering'),
+(10, 'order_placed', 2, 1, 0, 0, '[sitename] - A new order was placed [url]');
 
 -- --------------------------------------------------------
 
@@ -209,7 +210,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `price` decimal(10,2) NOT NULL,
   `email` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=249 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=254 ;
 
 --
 -- Dumping data for table `orders`
@@ -223,7 +224,12 @@ INSERT INTO `orders` (`id`, `user_id`, `placed_at`, `number`, `unit`, `buzzcode`
 (245, 1, '2017-04-25 18:33:31', 2396, '', '', 'Asima Dr', 'N6M 0B3', 'London', 'Ontario', '42.9505', '-81.1735999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 1, 'tok_AXdl4E9HUc2Th9', 'Deliver Now', '', 0, '36.15', NULL),
 (246, 1, '2017-04-25 18:35:59', 2396, '', '', 'Asima Dr', 'N6M 0B3', 'London', 'Ontario', '42.9505', '-81.1735999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 1, 'tok_AXdnBCIKoVbsDy', 'Deliver Now', '', 0, '36.15', NULL),
 (247, 1, '2017-04-25 18:39:36', 2396, '', '', 'Asima Dr', 'N6M 0B3', 'London', 'Ontario', '42.9505', '-81.1735999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '36.15', NULL),
-(248, 1, '2017-04-25 18:47:53', 2396, '', '', 'Asima Dr', 'N6M 0B3', 'London', 'Ontario', '42.9505', '-81.1735999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, 'tok_AXdzjNM00RsENx', 'Deliver Now', '', 0, '36.15', NULL);
+(248, 1, '2017-04-25 18:47:53', 2396, '', '', 'Asima Dr', 'N6M 0B3', 'London', 'Ontario', '42.9505', '-81.1735999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, 'tok_AXdzjNM00RsENx', 'Deliver Now', '', 0, '36.15', NULL),
+(249, 1, '2017-04-26 17:42:26', 2396, '', '', 'Asima Dr', 'N6M 0B3', 'London', 'Ontario', '42.9505', '-81.1735999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, 'tok_AY0Ar7ZSXPx0lB', 'Deliver Now', '', 0, '36.15', NULL),
+(250, 1, '2017-05-02 13:44:52', 2396, '', '', 'Asima Dr', 'N6M 0B3', 'London', 'Ontario', '42.9505', '-81.1735999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'May 2 at 1100', '', 0, '36.15', NULL),
+(251, 1, '2017-05-02 14:21:58', 2396, '', '', 'Asima Dr', 'N6M 0B3', 'London', 'Ontario', '42.9505', '-81.1735999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, 'tok_AaCHA085DdmEOd', 'May 2 at 1115', '', 0, '36.15', NULL),
+(252, 1, '2017-05-02 14:21:58', 2396, '', '', 'Asima Dr', 'N6M 0B3', 'London', 'Ontario', '42.9505', '-81.1735999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, 'tok_AaCHqSPACG0gmV', 'May 2 at 1115', '', 0, '36.15', NULL),
+(253, 1, '2017-05-02 14:25:03', 2396, '', '', 'Asima Dr', 'N6M 0B3', 'London', 'Ontario', '42.9505', '-81.1735999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'May 2 at 1115', '', 0, '36.15', NULL);
 
 -- --------------------------------------------------------
 
@@ -300,20 +306,20 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1493 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1534 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1493141560'),
+(1, 'lastSQL', '1493224558'),
 (20, 'orders', '1487775876'),
-(24, 'menucache', '1493146054'),
+(24, 'menucache', '1493733784'),
 (25, 'useraddresses', '1491932853'),
 (37, 'users', '1487175217'),
 (38, 'additional_toppings', '1487175322'),
-(43, 'actions', '1493224293'),
+(43, 'actions', '1493735344'),
 (87, 'restaurants', '1489588141'),
 (1398, 'shortage', '1493135529');
 
@@ -462,7 +468,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `phone`, `lastlogin`, `loginattempts`, `profiletype`, `authcode`, `stripecustid`) VALUES
-(1, 'Roy Wall', 'roy@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '0000-00-00 00:00:00', '2017-04-25 17:52:10', '9055315331', 1487608084, 0, 1, '', 'cus_AXdlFr7Uf7SXoM'),
+(1, 'Roy Wall', 'roy@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '0000-00-00 00:00:00', '2017-04-25 17:52:10', '9055315331', 1487608084, 0, 1, '', 'cus_AaCHoacic12HrC'),
 (2, 'Roy Test', 'roy+test@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2016-11-16 20:20:28', '0000-00-00 00:00:00', '9055315331', 0, 0, 0, '', ''),
 (3, 'Fabulous', 'info+fab@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2016-11-16 20:49:31', '0000-00-00 00:00:00', '9055315331', 1481048458, 0, 2, '', 'cus_9yYE78hosPbuGH'),
 (4, 'Marvellous', 'info+mar@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-02-14 20:28:50', '0000-00-00 00:00:00', '9055315331', 0, 0, 2, '', ''),
