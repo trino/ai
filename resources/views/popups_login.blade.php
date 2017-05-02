@@ -70,7 +70,7 @@
     </DIV>
     <div class="col-lg-8 col-md-7 bg-white py-2 bg-inverse" style="border: .75rem solid #eceeef!important">
         <div class="btn-sm-padding" style="border-radius: 0;background: transparent !important;"><br>
-            <span style=";font-size: 2.5rem; font-weight: bold;line-height: 3.1rem;"> <?=strtoupper(sitename2);?> DELIVERY</span>
+            <span style=";font-size: 2.5rem; font-weight: bold;line-height: 3.1rem;"> <?=strtoupper(sitelongname);?> DELIVERY</span>
             <br>
             <br>
             <p>The art of delivery is in the team, local restaurants at your footstep in <?= $time; ?> minutes.</p>

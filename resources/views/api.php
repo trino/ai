@@ -3,6 +3,7 @@
     define("debugmode", true);
     define("serverurl", "londonpizza.ca");
     define("sitename", "londonpizza.ca");
+    define("sitelongname", "london pizza");
 
     date_default_timezone_set("America/Toronto");
 
