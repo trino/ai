@@ -204,16 +204,22 @@
     }
 
     //deletes a cookie value
-    function removeCookie(cname) {
+    function removeCookie(cname, forcecookie) {
+        if(isUndefined(forcecookie)){forcecookie = false;}
         if (isUndefined(cname)) {//erase all cookies
             var cookies = document.cookie.split(";");
             for (var i = 0; i < cookies.length; i++) {
                 var cookie = cookies[i];
                 var eqPos = cookie.indexOf("=");
                 var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-                removeCookie(name);
+                removeCookie(name, true);
             }
-        } else if(hasItem(cname)){
+            if(uselocalstorage) {
+                for (var i in window['localStorage']) {
+                    removeCookie(window['localStorage'][i]);
+                }
+            }
+        } else if(hasItem(cname) && !forcecookie){
             window['localStorage'].removeItem(cname);
         } else {
             document.cookie = cname + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;";
