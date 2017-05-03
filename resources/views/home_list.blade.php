@@ -28,8 +28,14 @@
         foreach($field as $ID => $text){
             $field[$ID] = ucfirst($text);
             if($text == "id"){$field[$ID] = "ID";}
+            if($text == "ids"){$field[$ID] = "IDs";}
         }
         return implode(" ", $field);
+    }
+    function toclass($text) {
+        $text = str_replace('/', '_', $text);
+        $text = strtolower(str_replace(" ", "_", trim(strip_tags($text))));
+        return $text;
     }
     function touchtable($table){
         setsetting($table, now(true));
@@ -80,6 +86,9 @@
                 $actionlist[$ID] = $Value["eventname"];
             }
             $fields=true;
+            break;
+        case "combos":
+            $fields=true;//all fields
             break;
         case "users":
             $faicon = "user";
@@ -252,6 +261,14 @@
                             break;
                     }
                     insertdb($table, array("id" => $_POST["id"], $_POST["key"] => $_POST["value"]));
+                }
+                break;
+
+            case "edititems"://edit multiple columns in a row
+                if(isset($_POST["value"])){
+                    touchtable($table);
+                    $_POST["value"]["id"] = $_POST["id"];
+                    insertdb($table, $_POST["value"]);
                 }
                 break;
 
@@ -470,7 +487,7 @@
                                     <ul class="dropdown-menu" id="alllist">
                                         <?php
                                             //show all administratable tables
-                                            foreach(array("users" => true, "restaurants" => true, "additional_toppings" => true, "useraddresses" => false, "orders" => $profiletype != 2, "actions" => true, "shortage" => $profiletype != 2) as $thetable => $onlyadmins){
+                                            foreach(array("users" => true, "restaurants" => true, "additional_toppings" => true, "useraddresses" => false, "orders" => $profiletype != 2, "actions" => true, "shortage" => $profiletype != 2, "combos" => true) as $thetable => $onlyadmins){
                                                 if(($profiletype == 1 || !$onlyadmins) && $table != $thetable){
                                                     echo '<LI><A HREF="' . webroot("public/list/" . $thetable) . '" class="dropdown-item"><i class="fa fa-user-plus"></i> ' . str_replace("_", " ", ucfirst($thetable)) . ' list</A></LI>';
                                                 }
@@ -762,6 +779,7 @@
                             sort_col: sort_col,
                             sort_dir: sort_dir
                         }).done(function (result) {
+                            log("getpage: " + result);
                             try {
                                 var data = JSON.parse(result);
                                 var HTML = "";
@@ -912,7 +930,7 @@
                                                 log("Type clicked: " + column["Type"] + " Colname: " + colname);
                                                 switch(column["Type"]){
                                                     //timestamp (date)
-                                                    case "tinyint": case "smallint": case "mediumint": case "bigint":case "int":case "double":
+                                                    case "tinyint": case "smallint": case "mediumint": case "bigint":case "int":case "double"://decimal is unhandled, but should be
                                                     case "tinyintunsigned": case "smallintunsigned": case "mediumintunsigned": case "bigintunsigned": case "intunsigned":
                                                         var min = intranges[column["Type"]]["min"];
                                                         var max = intranges[column["Type"]]["max"];
@@ -963,6 +981,10 @@
                                                         break;
                                                     default://simple text
                                                         switch(colname){
+                                                            case "combos.baseprice":
+                                                                alert("Double-click the Item IDs column to edit the price/items");
+                                                                return;
+                                                                break;
                                                             case "actions.eventname":
                                                                 isSelect=true;
                                                                 HTML = makeselect(ID + "_eventname", "selectfield form-control", colname, HTML, <?= json_encode($actionlist); ?> );
@@ -971,7 +993,9 @@
                                                                 isSelect=true;
                                                                 HTML = makeselect(ID + "_tablename", "selectfield form-control", colname, HTML, ["toppings", "wings_sauce", "menu"]);
                                                                 break;
-
+                                                            case "combos.item_ids":
+                                                                showcombo(ID);
+                                                                break;
                                                             case "users.authcode":
                                                                 edititem(ID, "authcode", "");
                                                                 alert(makestring("{user_auth}"));
@@ -983,7 +1007,6 @@
                                                                         title = "[reason] will be replaced with the reason the restaurant owner specifies. [url] will be replaced with a URL to the receipt. [sitename] with '<?= sitename; ?>', [name] with the name of the party";
                                                                         break;
                                                                 }
-
                                                                 HTML = '<INPUT TYPE="TEXT" ID="' + ID + "_" + field + '" VALUE="' + HTML + '" CLASS="textfield" COLNAME="' + colname;
                                                                 HTML += '" maxlength="' + column["Len"] + '" TITLE="' + title + '">';
                                                         }
@@ -1746,10 +1769,6 @@
                         if (isFirst) { return countdown;}
                     }
 
-                    function getNow(){
-                        return Math.floor(Date.now() / 1000);//reduce to seconds
-                    }
-
                     function backtotime(timestamp){
                         var d = new Date(timestamp * 1000);
                         return d.getHours() + ":" + d.getMinutes();
@@ -1857,6 +1876,83 @@
                         });
                     }
 
+                    var comboID = -1;
+                    var comboChanged = false;
+                    function splitcombo(ElementID){
+                        var items = $(ElementID).text().trim().split(",");
+                        if(items.length > 0) {
+                            if (items[0].trim().length == 0) {
+                                removeindex(items, 0);
+                            }
+                        }
+                        return items;
+                    }
+                    function showcombo(ID){
+                        comboID=ID;
+                        comboChanged=false;
+                        var comboitems = splitcombo("#combos_" + ID + "_item_ids");
+                        var baseprice = parseFloat(0.00);
+                        $("#comboname").val( $("#combos_" + ID + "_name").text() );
+                        $(".comboitem").prop('checked', false);
+                        $(".comboqty").text("0");
+                        for(var i = 0; i < comboitems.length; i++){
+                            if(isNumeric(comboitems[i]) && comboitems[i].trim()) {
+                                baseprice += parseFloat($("#comboitem_" + comboitems[i]).prop('checked', true).attr("price"));
+                                $("#comboqty_" + comboitems[i]).text( Number($("#comboqty_" + comboitems[i]).text()) + 1 );
+                            }
+                        }
+                        $("#comboitems").text(comboitems.join(","));
+                        $("#comboprice").text(baseprice.toFixed(2));
+                        $("#combomodal").modal("show");
+                    }
+                    function comboitem(ID, additem){
+                        var comboitems = splitcombo("#comboitems");
+                        var baseprice = parseFloat($("#comboprice").text());
+                        var itemprice = parseFloat($("#comboitem_" + ID).attr("price"));
+                        var indexOf = comboitems.indexOf(ID.toString());
+                        var quantity = Number($("#comboqty_" + ID).text());
+                        if(additem){
+                            comboitems.push(Number(ID));
+                            baseprice += itemprice;
+                            quantity += 1;
+                        } else if (indexOf > -1) {
+                            removeindex(comboitems, indexOf, 1);
+                            baseprice -= itemprice;
+                            quantity -= 1;
+                        }
+                        comboChanged=true;
+                        $("#comboitems").text(comboitems.join(","));
+                        $("#comboprice").text(baseprice.toFixed(2));
+                        $("#comboqty_" + ID).text(quantity);
+                    }
+                    function savecombo(){
+                        edititems(comboID, {item_ids: $("#comboitems").text(), baseprice: $("#comboprice").text(), name: ucfirst($("#comboname").val().trim())});
+                        $("#combomodal").modal("hide");
+                        comboChanged=false;
+                    }
+                    function edititems(ID, fields){
+                        $.post(currentURL, {
+                            action: "edititems",
+                            _token: token,
+                            id: ID,
+                            value: fields
+                        }, function (result) {
+                            if(handleresult(result)) {
+                                var keys = Object.keys(fields);
+                                for(var i=0; i<keys.length; i++){
+                                    var field = keys[i];
+                                    $("#" + table + "_" + ID + "_" + field).html(fields[field]).attr("realvalue", fields[field]);
+                                }
+                            }
+                        });
+                    }
+                    function closecombo(){
+                        if(!comboChanged){$("#combomodal").modal("hide");}
+                        confirm2("", makestring("{nochanges}"), function () {
+                            $("#combomodal").modal("hide");
+                        });
+                    }
+
                     unikeys = {
                         cant_edit: "[table].[field] can not be edited",
                         user_auth: "User is now authorized",
@@ -1866,7 +1962,8 @@
                         new_addrs: "'[number] [street]' was saved",
                         no_select: "There are no selected items to delete",
                         new_passw: "What would you like this user's new password to be?",
-                        new_statu: "What would you like the [0] reason to be?"
+                        new_statu: "What would you like the [0] reason to be?",
+                        nochanges: "Are you sure you want to discard your changes?"
                     };
                 </SCRIPT>
             @else
@@ -1890,6 +1987,54 @@
                                 <?= view("popups_googlemaps"); ?>
                             @endif
                             <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal" id="combomodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 id="myModalLabel">Combo Items</h2>
+                            <button onclick="closecombo();" class="btn btn-sm ml-auto align-middle"><i class="fa fa-close"></i></button>
+                        </div>
+                        <div class="modal-body">
+                            Name: <INPUT TYPE="text" id="comboname" class="form-control" style="background-color: white !important;" onchange="comboChanged=true;">
+                            Base price: $<SPAN ID="comboprice"></SPAN><P>
+                            Item IDs: <SPAN ID="comboitems"></SPAN><P>
+                            <SPAN ID="combocontents">
+                                <?php
+                                    if($table == "combos"){
+                                        $keys = false;
+                                        $categories = Query("SELECT category FROM menu GROUP BY category ORDER BY id", true);
+                                        foreach($categories as $category){
+                                            $category = $category["category"];
+                                            $class = toclass($category);
+                                            echo '<LI data-toggle="collapse" data-target="#' . $class . '">';
+                                            echo '<SPAN CLASS="title cursor-pointer">' . $category . '</SPAN></LI>';
+                                            echo '<div id="' . $class . '" class="collapse">';
+                                            foreach(first("SELECT * FROM menu WHERE category = '" . $category . "'", false) as $data){
+                                                if(!$keys){
+                                                    $keys = array_keys($data);
+                                                }
+                                                echo '<button class="bg-transparent text-muted fa fa-minus btn-sm" onclick="comboitem(' . $data["id"] . ', false);"></button>';
+                                                echo '<button class="bg-transparent text-muted fa fa-plus btn-sm" onclick="comboitem(' . $data["id"] . ', true);"></button>';
+                                                echo '<LABEL ID="comboitem_' . $data["id"] . '"';
+                                                foreach($keys as $key){
+                                                    if($key != "id" && $key != "item"){
+                                                        echo ' ' . $key . '="' . $data[$key] . '"';
+                                                    }
+                                                }
+                                                echo '>' . $data["item"] . '</LABEL><SPAN CLASS="pull-right comboqty" id="comboqty_' . $data["id"] . '"></SPAN><BR>';
+                                            }
+                                            echo '</div>';
+                                        }
+                                    }
+                                ?>
+                            </SPAN>
+                            <div class="clearfix"></div>
+                            <BUTTON onclick="savecombo();" class="btn btn-sm btn-primary pull-right" STYLE="margin-top: 20px;">Save Changes</BUTTON>
                         </div>
                     </div>
                 </div>

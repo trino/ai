@@ -215,8 +215,9 @@
                 removeCookie(name, true);
             }
             if(uselocalstorage) {
-                for (var i in window['localStorage']) {
-                    removeCookie(window['localStorage'][i]);
+                cookies = Object.keys(window['localStorage']);
+                for (var i = 0; i < cookies.length; i++) {
+                    removeCookie(cookies[i]);
                 }
             }
         } else if(hasItem(cname) && !forcecookie){
@@ -1757,6 +1758,9 @@
 
     //Index: 0=hour, 1=minute, 2=24hr time, 3=day of week(0-6), 4=date, 5=tomorrow
     function getNow(Index){
+        if(isUndefined(Index)){
+            return Math.floor(Date.now() / 1000);//reduce to seconds
+        }
         var now = new Date();
         switch (Index){
             case 0: //hour
@@ -1859,12 +1863,13 @@
         $("#deliverytime").html(HTML).val(oldValue);
     }
 
-    //function getNow(Index){Index: 0=hour, 1=minute, 2=24hr time, 3=day of week(0-6), 4=date, 5=tomorrow
+    //getNow(Index){Index: 0=hour, 1=minute, 2=24hr time, 3=day of week(0-6), 4=date, 5=tomorrow
     function isopen(hours, dayofweek, time) {
         var now = getNow(4);//doesn't take into account <= because it takes more than 1 minute to place an order
         if (isUndefined(dayofweek)) {dayofweek = getNow(3);}
         if (isUndefined(time)) {time = getNow(2);}//now.getHours() * 100 + now.getMinutes();
         var today = hours[dayofweek];
+        if (!today.hasOwnProperty("open")){return false;}
         var yesterday = dayofweek - 1;
         if (yesterday < 0) {
             yesterday = 6;

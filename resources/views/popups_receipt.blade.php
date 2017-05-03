@@ -526,10 +526,6 @@
                             }, 1000);
                         }
 
-                        function getNow() {
-                            return Math.floor(Date.now() / 1000);//reduce to seconds
-                        }
-
                         function backtotime(timestamp) {
                             var d = new Date(timestamp * 1000);
                             return d.getHours() + ":" + d.getMinutes();
