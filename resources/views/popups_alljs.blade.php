@@ -156,15 +156,42 @@
         }
     };
 
+    function storageAvailable(type) {
+        try {//types: sessionStorage, localStorage
+            var storage = window[type], x = '__storage_test__';
+            storage.setItem(x, x);
+            storage.removeItem(x);
+            return true;
+        } catch(e) {
+            return false;
+        }
+    }
+    var uselocalstorage = storageAvailable('localStorage');
+    log("Local storage is available: " + iif(uselocalstorage, "Yes", "No (use cookie instead)"));
+    function hasItem(c_name){
+        if(uselocalstorage){
+            return window['localStorage'].getItem(c_name) !== null;
+        }
+        return false;
+    }
+
     function setCookie(c_name, value, exdays) {
-        var exdate = new Date();
-        exdate.setDate(exdate.getDate() + exdays);
-        var c_value = value + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString());
-        document.cookie = c_name + "=" + c_value + ";path={{sitename}};";
+        if(uselocalstorage){
+            window['localStorage'].setItem(c_name, value);
+        } else {
+            var exdate = new Date();
+            exdate.setDate(exdate.getDate() + exdays);
+            var c_value = value + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString());
+            c_value = c_name + "=" + c_value + ";path=/;";
+            document.cookie = c_value;
+        }
     }
 
     //gets a cookie value
     function getCookie(c_name) {
+        if(hasItem(c_name)){
+            return window['localStorage'].getItem(c_name);
+        }
         var i, x, y, ARRcookies = document.cookie.split(";");
         for (i = 0; i < ARRcookies.length; i++) {
             x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="));
@@ -186,9 +213,10 @@
                 var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
                 removeCookie(name);
             }
+        } else if(hasItem(cname)){
+            window['localStorage'].removeItem(cname);
         } else {
-            log(cname + " removed");
-            document.cookie = cname + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path={{sitename}};";
+            document.cookie = cname + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;";
         }
     }
 
@@ -1749,9 +1777,9 @@
                 if(newday > -1){
                     var currentday = now.getDay();
                     if(currentday > newday){
-                        now = now.add("day", 6 - currentday + newday);
+                        now.add("day", 6 - currentday + newday);
                     } else if (currentday < newday){
-                        now = now.add("day", newday - currentday);
+                        now.add("day", newday - currentday);
                     }
                 }
                 if(Index == 5){
