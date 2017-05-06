@@ -1,9 +1,9 @@
 <?php
     $webroot = webroot();
     define("debugmode", true);
-    define("serverurl", "londonpizza.ca");
-    define("sitename", "londonpizza.ca");
-    define("sitelongname", "london pizza");
+    define("serverurl", "scpizza.ca");
+    define("sitename", "scpizza.ca");
+    define("sitelongname", "sc pizza");
 
     date_default_timezone_set("America/Toronto");
 
@@ -34,6 +34,11 @@
         if(islive()){
             switch(sitename){
                 case "londonpizza.ca":
+                    $database = "londonpi_db";
+                    $username = "londonpi_user";
+                    $password = "Pass1234!";
+                    break;
+                case "scpizza.ca":
                     $database = "londonpi_db";
                     $username = "londonpi_user";
                     $password = "Pass1234!";

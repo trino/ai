@@ -515,7 +515,7 @@
                         Please contact the restaurant directly
                         <DIV CLASS="clearfix my-2"></DIV>
                     @endif
- <button class="pull-left btn-link btn pl-0" href="<?= webroot("help"); ?>">MORE INFO</button>
+ <a class="pull-left btn-link btn pl-0" href="<?= webroot("help"); ?>">MORE INFO</a>
                 @endif
 
                 @if($timer && $place != "getreceipt")
