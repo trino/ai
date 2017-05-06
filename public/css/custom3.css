@@ -1,6 +1,5 @@
 .input_left_icon {
-    padding: .85rem .3rem .3rem .3rem !important;
-    width: 8%;
+    width: 17%;
     text-align: center;
     float: left;
     border: 0px solid #c8c8c8 !important;
@@ -9,19 +8,18 @@
 }
 
 .input_right {
-    width: 92%;
+    width: 83%;
     float: right;
     border: 0px solid #c8c8c8 !important;
 }
 
 .form-control{
-    margin-top:.5rem !important;
+
 }
 
 input, select, textarea, option {
-    border: 0 !important;
-    border-bottom: 0px solid #cdcdcd !important;;
-    background: #dedede !important;
+
+    background: transparent !important;
     border-radius: 0 !important;
     margin: 0px 0 !important;
     /*
@@ -63,7 +61,6 @@ button, .btn-sm, a, .btn {
 
 .bg-transparent {
     background: transparent;
-    color: white;
 }
 
 .bg-inverse {
@@ -151,6 +148,8 @@ h2 {
     padding: .30rem .75rem !important;
     min-height: 50px;
     border: 0 !important;
+    border-bottom: 5px solid #d9534f !important;
+
 }
 
 .list-padding {
@@ -177,8 +176,7 @@ h2 {
 }
 
 .modal-header {
-    background-color: #d9534f !important;
-    color: white;
+    background-color: #dcdcdc !important;
 }
 
 .strong {
@@ -251,7 +249,10 @@ body.loading {
 .red { /*, input:invalid, select:invalid, textarea:invalid {*/
     border-bottom: 1px solid #d9534f !important;
 }
-
+.bottom-danger{
+    background: white !important;
+    border-bottom: 5px solid #d9534f !important;
+}
 .redhighlite {
     color: #d9534f;
 }
@@ -330,6 +331,39 @@ body {
    */
     background: #d7d7d7;
 }
+
+
+.note_green {
+    position:relative;
+}
+
+.note_green:before {
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    border-width:10px 10px 0 0;
+    border-style:solid;
+    border-color:#5cb85c #fff;
+}
+
+
+.note_red {
+    position:relative;
+}
+
+.note_red:before {
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    border-width:10px 10px 0 0;
+    border-style:solid;
+    border-color:#d9534f #fff;
+}
+
+
+
 
 .full {
     /*
@@ -413,6 +447,11 @@ body {
     background-color: white
 }
 
+
+.fa-stack-1x{font-size: 1.25rem}
+.fa-stack-2x{
+
+}
 .fa-125 {
     font-size: 1.25rem !important;
 }

@@ -9,7 +9,7 @@
             <div class="row">
                 <?php
                     //menu caching
-                    $doCache = false;//false for development
+                    $doCache = true;//false for development
                     $menucache_filename = resource_path() . "/menucache.html";
                     $menublade_filename = resource_path() . "/views/popups_menu.blade.php";
                     $menucache_uptodate = isFileUpToDate("menucache", $menucache_filename) && !isFileUpToDate("menucache", $menublade_filename);

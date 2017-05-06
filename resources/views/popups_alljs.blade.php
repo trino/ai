@@ -1,8 +1,8 @@
 <?php
-    startfile("popups_alljs");
-    $CURRENT_YEAR = date("Y");
-    $STREET_FORMAT = "[number] [street], [city] [postalcode]";
-    //["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
+startfile("popups_alljs");
+$CURRENT_YEAR = date("Y");
+$STREET_FORMAT = "[number] [street], [city] [postalcode]";
+//["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
 ?>
 <STYLE>
     /* STOP MOVING THIS TO THE CSS, IT WON'T WORK! */
@@ -389,8 +389,8 @@
 
     function refreshremovebutton() {
         if (currentaddonlist[currentitemindex].length == 0) {
-         //   $(".removeitemarrow").fadeTo("fast", 0.50);
-         //   $("#removeitemfromorder").attr("title", "").attr("onclick", "").attr("style", "cursor: not-allowed");
+            //   $(".removeitemarrow").fadeTo("fast", 0.50);
+            //   $("#removeitemfromorder").attr("title", "").attr("onclick", "").attr("style", "cursor: not-allowed");
         } else {
             var index = currentaddonlist[currentitemindex].length - 1;
             var lastitem = currentaddonlist[currentitemindex][index];
@@ -1030,7 +1030,7 @@
                 if (!First) {
                     First = ID;
                 }
-                HTML += '<li ONCLICK="orders(' + ID + ');"><span class="tag tag-default tag-pill pull-xs-right pad5">ID: ' + ID + ' </span> &nbsp;AT: ' + order["placed_at"] + '<DIV ID="pastreceipt' + ID + '"></DIV></li>';
+                HTML += '<li ONCLICK="orders(' + ID + ');"><span class="text-danger strong">ORDER # ' + ID + ' </span><br>' + order["placed_at"] + '<DIV ID="pastreceipt' + ID + '"></DIV></li>';
             }
             HTML += '</ul>';
             if (!First) {
@@ -1258,7 +1258,7 @@
 
         @if(isset($user) && $user)
             login(<?= json_encode($user); ?>, false); //user is already logged in, use the data
-        @endif
+                @endif
 
         var HTML = '';
         var todaysdate = isopen(generalhours);
@@ -1465,9 +1465,9 @@
         $('select[data-stripe=exp_year]').val({{ right($CURRENT_YEAR,2) }} +1).trigger("click");
         @if(islive())
             log("Changing stripe key");
-            $("#istest").val("true");
-            setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', "test");
-            log("Stripe key changed");
+        $("#istest").val("true");
+        setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', "test");
+        log("Stripe key changed");
         @endif
     }
 
@@ -1780,23 +1780,23 @@
                 return now.getDay();
                 break;
             case 4: case 5: //date
-                if(newtime > -1){
-                    now.setHours(Math.floor(newtime / 100));
-                    now.setMinutes(Math.floor(newtime % 100));
+            if(newtime > -1){
+                now.setHours(Math.floor(newtime / 100));
+                now.setMinutes(Math.floor(newtime % 100));
+            }
+            if(newday > -1){
+                var currentday = now.getDay();
+                if(currentday > newday){
+                    now.add("day", 6 - currentday + newday);
+                } else if (currentday < newday){
+                    now.add("day", newday - currentday);
                 }
-                if(newday > -1){
-                    var currentday = now.getDay();
-                    if(currentday > newday){
-                        now.add("day", 6 - currentday + newday);
-                    } else if (currentday < newday){
-                        now.add("day", newday - currentday);
-                    }
-                }
-                if(Index == 5){
-                    return now.add("day", 1);
-                }
-                return now;
-                break;
+            }
+            if(Index == 5){
+                return now.add("day", 1);
+            }
+            return now;
+            break;
         }
     }
 
@@ -2055,22 +2055,46 @@
             $("#addonlist").html(HTML + '</DIV>');
         } else {
             HTML += '<div style="border:0px solid blue !important;position: absolute; bottom: 0;width:100%">';
+
+            var breaker_green = 0;
+            var breaker_red = 0;
             for (var i = 0; i < types.length; i++) {
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
-                    HTML += '<button class="fourthwidth bg-white bg-'+types[i]+' addon-addon list-group-item-action toppings_btn';
+
+
+                    var breaker_css_green = "";
+                    var breaker_css_red = "";
+
+                    if(types[i] == 'Vegetable' && breaker_green == 0){
+                        breaker_css_green = ' note_green ';
+                        breaker_green = 1;
+                    }
+                    if(types[i] == 'Meat' && breaker_red == 0){
+                        breaker_css_red = ' note_red ';
+                        breaker_red = 1;
+                    }
+
+
+
+
+
+                    HTML += '<button class="fourthwidth bg-white bg-'+types[i]+ ' ' + breaker_css_green +  breaker_css_red + ' addon-addon list-group-item-action toppings_btn';
+
+
                     if (isaddon_free(String(currentaddontype), String(addon))) {
                         title = "Free addon";
                     }
+
+
+
                     HTML += '" TITLE="' + title + '">' + addon +'</button>';
                 }
             }
 
             HTML += '<button class="fourthwidth toppings_btn list-group-item-action bg-white" id="removeitemfromorder"><i class="fa fa-arrow-left removeitemarrow"></i></button>' +
                 '<button class="btn-primary fourthwidth toppings_btn strong" data-popup-close="menumodal" data-dismiss="modal" id="additemtoorder" onclick="additemtoorder();">ADD</button>';
-
-         //   HTML += '<div style="clear:both;"></div>';
 
             $("#addonlist").html(HTML);
             $(".addon-addon").click(
@@ -2252,13 +2276,13 @@
 
     @if(read("id"))
         $(document).ready(function () {
-            <?php
-                if (islive() || $GLOBALS["testlive"]) {
-                    echo "setPublishableKey('pk_vnR0dLVmyF34VAqSegbpBvhfhaLNi', 'live')";
-                } else {
-                    echo "setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', 'test');";
-                }
-            ?>
+        <?php
+        if (islive() || $GLOBALS["testlive"]) {
+            echo "setPublishableKey('pk_vnR0dLVmyF34VAqSegbpBvhfhaLNi', 'live')";
+        } else {
+            echo "setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', 'test');";
+        }
+        ?>
     });
 
     function setPublishableKey(Key, mode) {

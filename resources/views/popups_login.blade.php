@@ -32,9 +32,13 @@
                     <div class="input_right">
                         <INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control" onkeydown="enterkey(event, 'login');" required>
                     </div>
-                    <div class="clearfix my-3"></div>
-                    <BUTTON CLASS="pull-left btn btn-link" href="#" style="color: #dadada !important;" onclick="handlelogin('forgotpassword');">FORGOT PASSWORD</BUTTON>
-                    <BUTTON CLASS="pull-right btn btn-primary" href="#" onclick="handlelogin('login');">LOG IN</BUTTON>
+                    <div class="clearfix py-2"></div>
+                    <BUTTON CLASS="btn-block btn btn-primary" href="#" onclick="handlelogin('login');">LOG IN</BUTTON>
+                    <div class="clearfix py-2"></div>
+
+                    <BUTTON CLASS="btn-block btn-sm btn btn-link" href="#" style="color: #dadada !important;" onclick="handlelogin('forgotpassword');">FORGOT PASSWORD</BUTTON>
+
+
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="buzz">
                     <FORM id="addform">
@@ -47,9 +51,9 @@
                     <FORM Name="regform" id="regform">
                         <?= view("popups_edituser", array("phone" => false, "autocomplete" => "new-password", "required" => true, "icons" => true))->render(); ?>
                     </FORM>
-                    <div class="clearfix my-3"></div>
+                    <div class="clearfix py-3"></div>
 
-                    <button class="btn btn-primary pull-right" onclick="register();">
+                    <button class="btn btn-block btn-primary" onclick="register();">
                         SIGN UP
                     </button>
                 </div>
@@ -60,7 +64,7 @@
         <div class="py-3 bg-inverse">
             <center>
                 <img src="<?= webroot("images/pizzaria.png"); ?>" style="width: 50%;"/>
-                <h2 class="text-danger" style="text-align: center;">Mobile Pizza Delivery</h2>
+                <h2 class="text-danger" style="text-align: center;">Only the Best Pizza in <?=sitelongname;?></h2>
                 ${{ $minimum }} Minimum<br>
                 ${{ $delivery }} Delivery<br>
                 Credit/Debit Only

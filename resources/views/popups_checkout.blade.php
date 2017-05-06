@@ -20,7 +20,48 @@
             </div>
             <div class="modal-body" style="padding: 0 !important;">
                 <FORM ID="orderinfo" name="orderinfo">
-                    <div class="input_left_icon" id="red_address"><i style="font-size: 1.1rem !important;" class="fa fa-map-marker"></i></div>
+
+
+
+
+
+                    <div class="input_left_icon">
+
+
+
+
+
+                        <span class="fa-stack fa-2x">
+  <i class="fa fa-circle fa-stack-2x "></i>
+  <i class="fa fa-pencil text-white fa-stack-1x"></i>
+</span>
+
+
+                    </div>
+                    <div class="input_right">
+
+                        <textarea placeholder="Order Notes" id="cookingnotes" class="form-control" maxlength="255"></textarea>
+
+
+                    </div>
+
+
+
+
+                    <div class="input_left_icon" id="red_address">
+                        
+
+
+
+                        <span class="fa-stack fa-2x">
+  <i class="fa fa-circle fa-stack-2x "></i>
+  <i class="fa fa-map-marker text-white fa-stack-1x"></i>
+</span>
+
+
+
+
+                    </div>
                     <div class="input_right">
                         <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
                         <?php
@@ -30,14 +71,33 @@
                         ?>
                     </div>
 
-                    <div class="input_left_icon" id="red_rest"><i class="fa fa-cutlery"></i></div>
+                    <div class="input_left_icon" id="red_rest">
+
+
+
+
+                        <span class="fa-stack fa-2x">
+  <i class="fa fa-circle fa-stack-2x "></i>
+  <i class="fa fa-cutlery text-white fa-stack-1x"></i>
+</span>
+
+
+
+                    </div>
                     <div class="input_right">
                         <SELECT class="form-control" ID="restaurant" ONCHANGE="restchange();">
                             <OPTION VALUE="0" SELECTED>Select Restaurant</OPTION>
                         </SELECT>
                     </div>
 
-                    <div class="input_left_icon"><i style="font-size: 1.2rem !important;" class="fa fa-clock-o"></i></div>
+                    <div class="input_left_icon">
+
+                        <span class="fa-stack fa-2x">
+  <i class="fa fa-circle fa-stack-2x "></i>
+  <i class="fa fa-clock-o text-white fa-stack-1x"></i>
+</span>
+
+                    </div>
                     <div class="input_right">
                         <div>
                             <SELECT id="deliverytime" TITLE="Delivery Time" class="form-control"/>
@@ -47,13 +107,42 @@
                     </div>
 
                     @if(!read('phone'))
-                        <div class="input_left_icon redhighlite" id="red_phone"><i class="fa fa-mobile-phone" style="font-size: 1.35rem !important;"></i></div>
+                        <div class="input_left_icon redhighlite" id="red_phone">
+
+
+
+                            <span class="fa-stack fa-2x">
+  <i class="fa fa-circle fa-stack-2x "></i>
+  <i class="fa fa-mobile-phone text-white fa-stack-1x"></i>
+</span>
+
+
+
+                        </div>
                         <div class="input_right">
                             <input type="tel" name="phone" id="reg_phone" class="form-control session_phone_val" placeholder="Cell Phone" required="true" autored="red_phone" aria-required="true">
                         </div>
                     @endif
 
-                    <div class="input_left_icon" id="red_card"><i class="fa fa-credit-card-alt"></i></div>
+                    <div class="input_left_icon" id="red_card">
+
+
+
+
+
+
+
+                        <span class="fa-stack fa-2x">
+  <i class="fa fa-circle fa-stack-2x "></i>
+  <i class="fa fa-credit-card-alt text-white fa-stack-1x"></i>
+</span>
+
+
+
+
+
+
+                    </div>
                     <div class="input_right">
                         <DIV ID="credit-info"></DIV>
                     </div>
@@ -102,13 +191,14 @@
                     </div>
 <div class="clearfix"></div>
 
-                    <div class="input_left_icon"><i class="fa fa-pencil"></i></div>
-                    <div class="input_right">
-                        <textarea placeholder="Order Notes" id="cookingnotes" class="form-control" maxlength="255"></textarea>
-                        <button class="pull-right list-padding radius0 btn btn-primary text-white payfororder" onclick="payfororder(); return false;"> <i class="fa fa-check mr-2"></i> ORDER</button>
-                        <span class="payment-errors error"></span>
-                        <div class="clearfix"></div>
-                    </div>
+
+
+
+                    <button class="btn-block list-padding radius0 btn btn-primary text-white payfororder" onclick="payfororder(); return false;"> <i class="fa fa-check mr-2"></i> ORDER</button>
+                    <span class="payment-errors error"></span>
+                    <div class="clearfix"></div>
+
+
                 </FORM>
             </div>
         </div>

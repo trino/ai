@@ -468,14 +468,14 @@
                         if ($style == 2 && !$includeextradata) {
                             echo '<TR><TD COLSPAN="' . $colspan . '">';
                             if (isset($JSON)) {
-                                echo '<BUTTON CLASS="btn btn-block btn-primary" ONCLICK="orders(' . $orderid . ', true);">LOAD ORDER</BUTTON>';
+                                echo '<BUTTON CLASS="btn btn-block btn-primary mb-3" ONCLICK="orders(' . $orderid . ', true);">LOAD ORDER</BUTTON><hr>';
                             } else {
                                 echo $Order["name"] . " - " . $Order["email"] . "<BR>" . formatphone($Order["phone"]) . " " . formatphone($Order["cell"]) . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . ", " . $Order["province"] . "<BR>" . $Order["postalcode"] . '<BR>' . $Order["unit"];
                             }
                             echo '</TD></TR>';
                         }
                     } else {
-                        echo '<TR><TD COLSPAN="' . $colspan . '" ALIGN="CENTER"><B TITLE="' . $filename . '">FILE NOT FOUND</B></TD></TR>';
+                        echo '<TR><TD COLSPAN="' . $colspan . '" ALIGN="CENTER"><B TITLE="' . $filename . '">ORDER NOT FOUND</B></TD></TR>';
                     }
                     endfile("popups_receipt");
                     ?>

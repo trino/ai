@@ -186,7 +186,7 @@
                 <SPAN ID="modal-itemcat"></SPAN>
             </div>
 
-            <div class="list-group-item" style="background: #fff !important;border-bottom:0px solid #d7d7d7 !important;" >
+            <div class="list-group-item" style="background: #fff !important;    border-bottom: 5px solid #d9534f !important;" >
                 <h2 class="text-normal" id="myModalLabel">
                     <SPAN ID="modal-itemname"></SPAN><br>
                     <small ID="toppingcost" class="nowrap text-muted">+$<SPAN id="modal-toppingcost"></SPAN> per topping</small>
