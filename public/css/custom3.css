@@ -83,7 +83,7 @@ button, .btn-sm, a, .btn {
 
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
     text-decoration: none;
-    border-bottom: 5px solid #d9534f !important;
+    border-bottom: 3px solid #d9534f !important;
 }
 
 .nav-tabs {
@@ -114,7 +114,10 @@ button, .btn-sm, a, .btn {
 .text-muted {
     color: #999 !important;
 }
-
+.fa-2x{
+    font-size: 1.5em !important;
+    margin-top: .25rem !important;
+}
 h2 {
     font-size: 1rem !important;
     line-height: 1rem !important;
@@ -148,7 +151,7 @@ h2 {
     padding: .30rem .75rem !important;
     min-height: 50px;
     border: 0 !important;
-    border-bottom: 5px solid #d9534f !important;
+    border-bottom: 3px solid #d9534f !important;
 
 }
 
@@ -251,7 +254,7 @@ body.loading {
 }
 .bottom-danger{
     background: white !important;
-    border-bottom: 5px solid #d9534f !important;
+    border-bottom: 3px solid #d9534f !important;
 }
 .redhighlite {
     color: #d9534f;

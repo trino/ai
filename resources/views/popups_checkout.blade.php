@@ -22,32 +22,6 @@
                 <FORM ID="orderinfo" name="orderinfo">
 
 
-
-
-
-                    <div class="input_left_icon">
-
-
-
-
-
-                        <span class="fa-stack fa-2x">
-  <i class="fa fa-circle fa-stack-2x "></i>
-  <i class="fa fa-pencil text-white fa-stack-1x"></i>
-</span>
-
-
-                    </div>
-                    <div class="input_right">
-
-                        <textarea placeholder="Order Notes" id="cookingnotes" class="form-control" maxlength="255"></textarea>
-
-
-                    </div>
-
-
-
-
                     <div class="input_left_icon" id="red_address">
                         
 
@@ -59,15 +33,13 @@
 </span>
 
 
-
-
                     </div>
                     <div class="input_right">
                         <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
                         <?php
-                            if (read("id")) {
-                                echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false, "findclosest" => true, "autored" => "red_address"))->render();
-                            }
+                        if (read("id")) {
+                            echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false, "findclosest" => true, "autored" => "red_address"))->render();
+                        }
                         ?>
                     </div>
 
@@ -80,7 +52,6 @@
   <i class="fa fa-circle fa-stack-2x "></i>
   <i class="fa fa-cutlery text-white fa-stack-1x"></i>
 </span>
-
 
 
                     </div>
@@ -101,7 +72,7 @@
                     <div class="input_right">
                         <div>
                             <SELECT id="deliverytime" TITLE="Delivery Time" class="form-control"/>
-                                <OPTION>Deliver ASAP</OPTION>
+                            <OPTION>Deliver ASAP</OPTION>
                             </SELECT>
                         </div>
                     </div>
@@ -115,7 +86,6 @@
   <i class="fa fa-circle fa-stack-2x "></i>
   <i class="fa fa-mobile-phone text-white fa-stack-1x"></i>
 </span>
-
 
 
                         </div>
@@ -136,10 +106,6 @@
   <i class="fa fa-circle fa-stack-2x "></i>
   <i class="fa fa-credit-card-alt text-white fa-stack-1x"></i>
 </span>
-
-
-
-
 
 
                     </div>
@@ -173,11 +139,11 @@
                         <div class="thirdwidth">
                             <SELECT CLASS="credit-info form-control" data-stripe="exp_year">
                                 <?php
-                                    $CURRENT_YEAR = date("Y");
-                                    $TOTAL_YEARS = 6;
-                                    for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
-                                        echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
-                                    }
+                                $CURRENT_YEAR = date("Y");
+                                $TOTAL_YEARS = 6;
+                                for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
+                                    echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
+                                }
                                 ?>
                             </SELECT>
                             <div class="clearfix"></div>
@@ -189,15 +155,20 @@
                             <div class="clearfix"></div>
                         </div>
                     </div>
-<div class="clearfix"></div>
+                    <div class="clearfix"></div>
+                    <div class="input_left_icon">
+                        <span class="fa-stack fa-2x">
+                        <i class="fa fa-circle fa-stack-2x "></i>
+                        <i class="fa fa-pencil text-white fa-stack-1x"></i>
+                        </span>
+                    </div>
+                    <div class="input_right">
+                        <textarea placeholder="Order Notes" id="cookingnotes" class="form-control" maxlength="255"></textarea>
+                    </div>
 
-
-
-
-                    <button class="btn-block list-padding radius0 btn btn-primary text-white payfororder" onclick="payfororder(); return false;"> <i class="fa fa-check mr-2"></i> ORDER</button>
+                    <button class="btn-block list-padding radius0 btn btn-primary text-white payfororder" onclick="payfororder(); return false;"><i class="fa fa-check mr-2"></i> ORDER</button>
                     <span class="payment-errors error"></span>
                     <div class="clearfix"></div>
-
 
                 </FORM>
             </div>
@@ -209,21 +180,21 @@
     //https://stripe.com/docs/custom-form
     @if(read("id"))
         $(document).ready(function () {
-            getcloseststore = true;
-            visible_address(false);
-            $("#saveaddresses").append('<OPTION VALUE="addaddress" ID="addaddress">Add Address</OPTION>');
-            $(".credit-info").change(function () {
-                if (isvalidcreditcard()) {
-                    $(".payment-errors").text("");
-                }
-            });
-        });
-        $('#reg_phone').keypress(function () {
-            if ($('#reg_phone').valid()) {
-                clearphone();
+        getcloseststore = true;
+        visible_address(false);
+        $("#saveaddresses").append('<OPTION VALUE="addaddress" ID="addaddress">Add Address</OPTION>');
+        $(".credit-info").change(function () {
+            if (isvalidcreditcard()) {
+                $(".payment-errors").text("");
             }
         });
-    @endif
+    });
+    $('#reg_phone').keypress(function () {
+        if ($('#reg_phone').valid()) {
+            clearphone();
+        }
+    });
+            @endif
 
     var shortitems = [];
     function restchange() {
@@ -234,30 +205,32 @@
         } else {
             $("#red_rest").removeClass("redhighlite");
         }
-        if(closest.length>0) {
+        if (closest.length > 0) {
             GenerateHours(closest[index].hours);
-            shortitems = CheckforShortage(closest[index].shortage);
+           // shortitems = CheckforShortage(closest[index].shortage);
             alertshortage();
         }
     }
 
-    function alertshortage(){
-        if(shortitems.length) {
+    function alertshortage() {
+        if (shortitems.length) {
             var otherstores = " or select a different restaurant to continue";
-            if(closest.length==1){otherstores = "";}
+            if (closest.length == 1) {
+                otherstores = "";
+            }
             alert("Sorry, but this restaurant is currently out of:<BR><UL><LI>" + shortitems.join("</LI><LI>") + "</LI></UL><BR>Please remove them from your order" + otherstores, "Product Shortage");
             return true;
         }
         return false;
     }
 
-    function CheckforShortage(shortage){
+    function CheckforShortage(shortage) {
         var shortitems = [];
-        for(var i=0; i < theorder.length; i++){
-            if(isShort(shortage, "menu", theorder[i].itemid)){
-                shortitems.push( theorder[i].itemname );
+        for (var i = 0; i < theorder.length; i++) {
+            if (isShort(shortage, "menu", theorder[i].itemid)) {
+                shortitems.push(theorder[i].itemname);
             }
-            if(theorder[i].hasOwnProperty("itemaddons")) {
+            if (theorder[i].hasOwnProperty("itemaddons")) {
                 for (var subitem = 0; subitem < theorder[i].itemaddons.length; subitem++) {
                     var addons = theorder[i].itemaddons[subitem].addons;
                     var tablename = theorder[i].itemaddons[subitem].tablename;
@@ -272,11 +245,11 @@
         return shortitems;
     }
 
-    function isShort(shortage, tablename, ID){
-        if(tablename != "menu") {
+    function isShort(shortage, tablename, ID) {
+        if (tablename != "menu") {
             ID = getKeyByValue(alladdons[tablename + "_id"], ID);
         }
-        for(var i = 0; i < shortage.length; i++){
+        for (var i = 0; i < shortage.length; i++) {
             if (shortage[i].item_id == ID && shortage[i].tablename == tablename) {
                 return true;
             }
@@ -290,29 +263,39 @@
         $("#firefoxandroid").hide();
     }
 
-    $('#orderinfo input').each(function() {
-        $(this).click(function(){refreshform(this)}).blur(function(){refreshform(this)});
+    $('#orderinfo input').each(function () {
+        $(this).click(function () {
+            refreshform(this)
+        }).blur(function () {
+            refreshform(this)
+        });
         log("Autored: " + refreshform(this).attr("id"));
     });
 
-    function refreshform(t){
+    function refreshform(t) {
         var ID = t;
-        if(!$(t).is(":visible")){return $(ID);}
+        if (!$(t).is(":visible")) {
+            return $(ID);
+        }
         var ActualID = $(t).attr("id");
         var value = $(t).val();
         var tagname = $(t).prop("tagName").toUpperCase();
-        if(tagname == "SELECT" && value == 0){value = false;}
-        switch(tagname + "." + ActualID){
+        if (tagname == "SELECT" && value == 0) {
+            value = false;
+        }
+        switch (tagname + "." + ActualID) {
             case "SELECT.saveaddresses":
-                if(value == "addaddress"){value = false;}
+                if (value == "addaddress") {
+                    value = false;
+                }
                 break;
         }
         var classname = "red";
-        if ($(t).hasAttr("autored")){
+        if ($(t).hasAttr("autored")) {
             ID = "#" + $(t).attr("autored").replaceAll('"', "");
             classname = "redhighlite";
         }
-        if ($(t).hasAttr("autored") || $(t).hasClass("autored")){
+        if ($(t).hasAttr("autored") || $(t).hasClass("autored")) {
             if (value) {
                 $(ID).removeClass(classname);
             } else {

@@ -14,7 +14,7 @@
             break;
         case 1:
             if($icons) {echo '<div class="input_left_icon"><i class="fa fa-home"></i></div><div class="input_right">';}
-            echo '<SPAN ID="gmapc"><INPUT TYPE="text" ID="formatted_address" PLACEHOLDER="Delivery Address" CLASS="form-control formatted_address' . $class . '"' . $required . ' name="formatted_address"></SPAN>';
+            echo '<SPAN ID="gmapc"><INPUT TYPE="text" ID="formatted_address" PLACEHOLDER="Start by Typing Address" CLASS="form-control formatted_address' . $class . '"' . $required . ' name="formatted_address"></SPAN>';
             if($icons) {echo '</div>';}
             echo '<STYLE>.address:focus{z-index: 999;}</STYLE>';
             break;
