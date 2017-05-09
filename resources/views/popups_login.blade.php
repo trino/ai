@@ -24,11 +24,11 @@
             <!-- Tab panes -->
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active" id="profile">
-                    <div class="input_left_icon"><i class="fa fa-envelope"></i></div>
+                    <div class="input_left_icon"><span class="fa-stack fa-2x"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-envelope text-white fa-stack-1x"></i></span></div>
                     <div class="input_right">
-                        <INPUT TYPE="text" id="login_email" placeholder="Email" class="form-control" onkeydown="enterkey(event, '#login_password');" required>
+                        <INPUT TYPE="text" id="login_email" placeholder="Email" class="form-control session_email_val" onkeydown="enterkey(event, '#login_password');" required>
                     </div>
-                    <div class="input_left_icon"><i class="fa fa-lock" style="font-size: 1.2rem !important;"></i></div>
+                    <div class="input_left_icon"><span class="fa-stack fa-2x"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-lock text-white fa-stack-1x"></i></span></div>
                     <div class="input_right">
                         <INPUT TYPE="password" id="login_password" placeholder="Password" class="form-control" onkeydown="enterkey(event, 'login');" required>
                     </div>
@@ -37,8 +37,6 @@
                     <div class="clearfix py-2"></div>
 
                     <BUTTON CLASS="btn-block btn-sm btn btn-link" href="#" style="color: #dadada !important;" onclick="handlelogin('forgotpassword');">FORGOT PASSWORD</BUTTON>
-
-
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="buzz">
                     <FORM id="addform">
@@ -117,6 +115,10 @@
         redirectonlogin = false;
         $('#regform').submit();
     }
+
+    $(".session_email_val").on("keydown", function (e) {
+        return e.which !== 32;
+    });
 
     $(function () {
         $("form[name='regform']").validate({

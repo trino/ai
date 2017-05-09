@@ -561,11 +561,8 @@
                 }
 
                 tempHTML += ' <span class="receipt-itemname">' + item["itemname"] + '</SPAN> <span class="ml-auto align-middle">';
-
                 tempHTML += '<span id="cost_' + itemid + '">$' + totalcost +'</span>';
-
                 tempHTML += '<button class="bg-transparent text-normal fa fa-minus btn-sm" onclick="removeorderitem(' + itemid + ', ' + quantity + ');"></button>';
-
                 if (hasaddons) {
                     tempHTML += '<button class="bg-transparent text-normal fa fa-pencil btn-sm" onclick="edititem(this, ' + itemid + ');"></button>';
                 } else {
@@ -1121,6 +1118,7 @@
             if (action.left(1) == "#") {
                 $(action).focus();
             } else {
+                log("Handle action " + action);
                 handlelogin(action);
             }
         }

@@ -14,7 +14,7 @@
             //if ($field["type"] != "hidden") {echo '';}
             if($GLOBALS["icons"]){
                 if(!isset($field["icon"])){$field["icon"] = "fa-user";}
-                echo '<div class="input_left_icon"><i class="fa ' . $field["icon"] . '"></i></div><div class="input_right">';
+                echo '<div class="input_left_icon"><span class="fa-stack fa-2x"><i class="fa fa-circle fa-stack-2x"></i><i class="fa ' . $field["icon"] . ' text-white fa-stack-1x"></i></span></div><div class="input_right">';
             }
             echo '<INPUT TYPE="' . $field["type"] . '" NAME="' . $field["name"] . '" ID="' . $Prepend . '_' . $field["name"] . '"';
             if (isset($field["class"]))                                     {echo ' CLASS="' . trim($field["class"]) . '" ';}

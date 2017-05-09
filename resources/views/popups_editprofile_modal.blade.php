@@ -11,7 +11,8 @@
                 <FORM NAME="user" id="userform">
                     @include("popups_edituser", array("showpass" => true, "email" => false, "icons" => true))
 
-                    <div class="input_left_icon"><i class="fa fa-envelope"></i></div>
+                    <div class="input_left_icon"><span class="fa-stack fa-2x"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-envelope text-white fa-stack-1x"></i></span></div>
+
                     <div class="input_right"><input type="text" readonly class="form-control session_email_val"></div>
 
                     <DIV class="clearfix mt-1"></DIV>
