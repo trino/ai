@@ -564,12 +564,12 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
 
                 tempHTML += '<span id="cost_' + itemid + '">$' + totalcost +'</span>';
 
-                tempHTML += '<button class="bg-transparent text-muted fa fa-minus btn-sm" onclick="removeorderitem(' + itemid + ', ' + quantity + ');"></button>';
+                tempHTML += '<button class="bg-transparent text-normal fa fa-minus btn-sm" onclick="removeorderitem(' + itemid + ', ' + quantity + ');"></button>';
 
                 if (hasaddons) {
-                    tempHTML += '<button class="bg-transparent text-muted fa fa-pencil btn-sm" onclick="edititem(this, ' + itemid + ');"></button>';
+                    tempHTML += '<button class="bg-transparent text-normal fa fa-pencil btn-sm" onclick="edititem(this, ' + itemid + ');"></button>';
                 } else {
-                    tempHTML += '<button class="bg-transparent text-muted fa fa-plus btn-sm" onclick="cloneitem(this, ' + itemid + ');"></button>';
+                    tempHTML += '<button class="bg-transparent text-normal fa fa-plus btn-sm" onclick="cloneitem(this, ' + itemid + ');"></button>';
                 }
                 tempHTML += '</SPAN></div>';
 

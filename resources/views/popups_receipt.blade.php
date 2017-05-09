@@ -468,7 +468,7 @@
                         if ($style == 2 && !$includeextradata) {
                             echo '<TR><TD COLSPAN="' . $colspan . '">';
                             if (isset($JSON)) {
-                                echo '<BUTTON CLASS="btn btn-block btn-primary mb-3" ONCLICK="orders(' . $orderid . ', true);">LOAD ORDER</BUTTON><hr>';
+                                echo '<BUTTON CLASS="btn btn-block btn-primary mb-3" ONCLICK="orders(' . $orderid . ', true);">LOAD ORDER</BUTTON>';
                             } else {
                                 echo $Order["name"] . " - " . $Order["email"] . "<BR>" . formatphone($Order["phone"]) . " " . formatphone($Order["cell"]) . "<BR>" . $Order["number"] . " " . $Order["street"] . '<BR>' . $Order["city"] . ", " . $Order["province"] . "<BR>" . $Order["postalcode"] . '<BR>' . $Order["unit"];
                             }
@@ -482,7 +482,7 @@
                 </TABLE>
 
                 @if(!isset($JSON))
-                    <hr>
+                    
 
                     <h2 class="mt-2">
                     Delivery Info</h2>
@@ -491,7 +491,7 @@
                         if($Order["unit"]){echo $Order["unit"]. '<BR>';}
                         echo formatphone($Order["phone"]);
                     ?>
-                    <hr>
+                    
 
                     <h2 class="mt-2">
                     Order #<span ID="receipt_id"><?= $orderid; ?></span></h2>
@@ -509,12 +509,13 @@
 
                 @if($includeextradata)
                     @if($party != "restaurant")
-                        <hr>
+                        
                         <h2 class="mt-2">
                             Questions about your order?</h2>
                         Please contact the restaurant directly
                         <DIV CLASS="clearfix my-2"></DIV>
                     @endif
+                <br>
  <a class="pull-left btn-link btn pl-0" href="<?= webroot("help"); ?>">MORE INFO</a>
                 @endif
 
