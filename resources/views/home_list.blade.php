@@ -62,6 +62,52 @@
         return $ID;
     }
 
+    function getfields($result, $asSQL = false){
+        $result = mysqli_fetch_fields($result);
+        foreach($result as $ID => $Value){
+            $result[$ID] = $Value->name;
+        }
+        if($asSQL){
+            $result = "(`" . join("`, `", $result) . "`)";
+        }
+        return $result;
+    }
+    function exporttable($table = false) {
+        $return="";
+        if($table){
+            $result = Query('SELECT * FROM ' . $table);
+            $return = "-- --------------------------------------------------------\n--\n-- Table structure for table `" . $table . "`\n--\n\n";
+            $return .= "DROP TABLE `" . $table . "`;";
+            $row2 = mysqli_fetch_row(Query('SHOW CREATE TABLE ' . $table));
+            $fields_amount=$result->field_count;
+            $rows_num=$result->num_rows;
+            $return .= "\n\n" . $row2[1] . ";\n\n--\n-- Dumping data for table `" . $table . "`\n--\n\nLOCK TABLES `" . $table . "` WRITE;\n";
+            for ($i = 0, $st_counter = 0; $i < $fields_amount;   $i++, $st_counter=0) {
+                while($row = $result->fetch_row())  {
+                    if ($st_counter%100 == 0 || $st_counter == 0 )  {
+                        $return .= "\nINSERT INTO `" . $table . "` " . getfields($result, true) . " VALUES";
+                    }
+                    $return .= "\n(";
+                    for($j=0; $j<$fields_amount; $j++)  {
+                        $row[$j] = str_replace("\n","\\n", addslashes($row[$j]) );
+                        if (isset($row[$j])){$return .= '"'.$row[$j].'"' ; }else {$return .= '""';}
+                        if ($j<($fields_amount-1)){$return.= ',';}
+                    }
+                    $return .=")";
+                    if ( (($st_counter+1)%100==0 && $st_counter!=0) || $st_counter+1==$rows_num) {$return .= ";";} else {$return .= ",";} $st_counter=$st_counter+1;
+                }
+            }
+            $return .= "\n\nUNLOCK TABLES;\n\n";
+        } else {
+            $return = "-- Internal data dump \n" . 'SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";' . "\n" . 'SET time_zone = "+00:00";' . "\n\n";
+            $tables = enum_tables();
+            foreach($tables as $tablename) {
+                $return .= exporttable($tablename);
+            }
+        }
+        return $return;
+    }
+
     //sets permissions, SQL, fields for each whitelisted table
     $TableStyle = 0;
     $namefield = "name";//which field acts as the name for the confirm delete popup
@@ -80,6 +126,9 @@
         case "all":case "debug"://system value
             $datafields=false;
             if($table == "debug"){$secondword = "log";}
+            break;
+        case "dump":
+            die("<PRE>" . exporttable() . '</PRE>');
             break;
         case "actions":
             $actionlist = Query("SELECT distinct(eventname) FROM actions", true);
@@ -628,6 +677,7 @@
                                         echo 'Menu cache last update: <SPAN ID="filetime">' . $filetime . '</SPAN>';
                                         ?>
                                             <BR><a class="btn btn-sm btn-danger cursor-pointer" onclick="settingaction(1);" id="setting1">Delete Session Variables and Cookie</a>
+                                            <BR><A class="btn btn-sm btn-primary cursor-pointer" HREF="<?= webroot("list/dump"); ?>" download="ai.sql">Export SQL</A>
                                         <?php
                                         break;
                                 }

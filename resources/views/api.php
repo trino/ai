@@ -25,7 +25,7 @@
         $start = strpos($webroot, "/", 1) + 1;
         $webroot = substr($webroot, 0, $start);
         $protocol = "http";
-        if ($_SERVER["SERVER_NAME"] != "localhost") {
+        if (islive()) {
             //$webroot = str_replace("application/", "", $webroot);
             //$webroot = str_replace("public/", "", $webroot);
             $webroot = "/";
@@ -620,7 +620,17 @@
     }
 
     function islive(){
-        return $_SERVER["SERVER_NAME"] == serverurl;
+        $server = $_SERVER["SERVER_NAME"];
+        if($server == "localhost" || $server == "127.0.0.1"){return false;}
+        if(strpos($server, ".") !== false){
+            if(is_numeric(str_replace(".", "", $server))) {
+                $server = explode(".", $server);
+                if ($server[0] == "10") {return false;}
+                if ($server[0] == "172" && $server[1] > "15" && $server[1] < 32) {return false;}
+                if ($server[0] == "192" && $server[1] == "168") {return false;}
+            }
+        }
+        return true;
     }
 
     function verbosedate($date){
