@@ -2274,6 +2274,12 @@
         ?>
     });
 
+    $(document).keyup(function(e) {
+        if (e.keyCode == 27) {//escape key
+            $(".modal:visible").modal("hide");
+        }
+    });
+
     function setPublishableKey(Key, mode) {
         try {
             Stripe.setPublishableKey(Key);

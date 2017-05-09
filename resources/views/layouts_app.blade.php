@@ -63,7 +63,7 @@
                 @if(read("id"))
                     <SPAN class="loggedin profiletype profiletype1">
                         <?php
-                            foreach (array("users", "restaurants", "useraddresses", "orders", "additional_toppings", "actions", "shortage") as $table) {
+                            foreach (array("users", "restaurants", "useraddresses", "orders", "additional_toppings", "actions", "shortage", "settings") as $table) {
                                 echo '<li><A HREF="' . webroot("public/list/" . $table) . '" CLASS="dropdown-item"><i class="fa fa-user-plus icon-width"></i> ' . str_replace("_", " ", ucfirst($table)) . ' list</A></li>';
                             }
                         ?>
@@ -75,14 +75,18 @@
                             <A data-toggle="modal" data-target="#profilemodal" href="#" class="dropdown-item">
                             <i class="fa fa-user icon-width"></i> My Profile</A>
                         </li>
-                        <li class="profiletype_not profiletype_not2"><A ONCLICK="orders();" class="dropdown-item" href="#"><i class="fa fa-clock-o icon-width"></i> Past Orders</A></li>
+                        @if($routename != "help")
+                            <li class="profiletype_not profiletype_not2"><A ONCLICK="orders();" class="dropdown-item" href="#"><i class="fa fa-clock-o icon-width"></i> Past Orders</A></li>
+                        @endif
                     </SPAN>
                 @endif
-                <SPAN class="loggedout">
-                    <LI><A CLASS="dropdown-item" href="<?= webroot(""); ?>"><i class="fa fa-user icon-width"></i> Log In</A></LI>
-                </SPAN>
+                @if($routename != "/")
+                    <SPAN class="loggedout">
+                        <LI><A CLASS="dropdown-item" href="<?= webroot(""); ?>"><i class="fa fa-user icon-width"></i> Log In</A></LI>
+                    </SPAN>
+                @endif
                 @if($routename == "help")
-                    <LI><A CLASS="dropdown-item" href="<?= webroot("/"); ?>"><i class="fa fa fa-shopping-basket icon-width"></i> Order Now</A></LI>
+                    <LI><A CLASS="dropdown-item" href="<?= webroot(""); ?>"><i class="fa fa fa-shopping-basket icon-width"></i> Order Now</A></LI>
                 @else
                     <LI><A CLASS="dropdown-item" href="<?= webroot("help"); ?>"><i class="fa fa-question-circle icon-width"></i> More Info</A></LI>
                 @endif
@@ -93,7 +97,7 @@
             <a HREF="<?= webroot("public/index"); ?>" class="align-left text-white" style="margin-left:22px;font-weight: bold;font-size: 1rem !important;" href="/"><?= strtoupper(sitename); ?></a>
             <?php
                 if(!islive()){
-                    echo '<SPAN TITLE="This will not show on the live server">&emsp;LOCAL IP IS: ' . $_SERVER['SERVER_ADDR'] . '</SPAN>';
+                    echo '<SPAN TITLE="This will not show on the live server">&emsp;LOCAL IP IS: <B>' . $_SERVER['SERVER_ADDR'] . "</B> ROUTE NAME IS: <B>" . $routename . '</B></SPAN>';
                 }
             ?>
         </div>

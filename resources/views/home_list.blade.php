@@ -6,6 +6,7 @@
     $extratitle = "";
     $secondword = "list";
     $filedate = -1;
+    $menucache_filename = resource_path() . "/menucache.html";
     //gets text between $start and $end in $string
     function get_string_between($string, $start, $end){
         $string = ' ' . $string;
@@ -159,6 +160,11 @@
                 }
             }
             break;
+        case "settings":
+            $fields = array("id", "keyname", "value");
+            $searchcols = array("keyname", "value");
+            $SQL = "SELECT * FROM `settings` WHERE keyname NOT IN (SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='" . $GLOBALS["database"] . "') AND keyname NOT IN ('lastSQL', 'menucache')";
+            break;
         default: die("The table '" . $table . "' is not whitelisted");
     }
     if($datafields){//get all fields
@@ -183,6 +189,21 @@
             $table = "useraddresses";
         }
         switch($_POST["action"]){
+            case "settingaction":
+                switch($_POST["ID"]){
+                    case "0"://delete menu cache
+                        unlink($menucache_filename);
+                        $results["Reason"] = "Menu cache deleted";
+                        break;
+                    case "1":
+                        Session::flush();
+                        $results["Reason"] = "Session deleted";
+                        break;
+                    default:
+                        $results["Status"] = false;
+                        $results["Reason"] = "Setting Action: " . $_POST["ID"] . " is unhandled";
+                }
+                break;
             case "getpage"://get a page of data via AJAX
                 if(!in_array($table, array("all", "debug"))){
                     if($_POST["makenew"] == "true"){
@@ -487,7 +508,7 @@
                                     <ul class="dropdown-menu" id="alllist">
                                         <?php
                                             //show all administratable tables
-                                            foreach(array("users" => true, "restaurants" => true, "additional_toppings" => true, "useraddresses" => false, "orders" => $profiletype != 2, "actions" => true, "shortage" => $profiletype != 2, "combos" => true) as $thetable => $onlyadmins){
+                                            foreach(array("users" => true, "restaurants" => true, "additional_toppings" => true, "useraddresses" => false, "orders" => $profiletype != 2, "actions" => true, "shortage" => $profiletype != 2, "settings" => true) as $thetable => $onlyadmins){//, "combos" => true
                                                 if(($profiletype == 1 || !$onlyadmins) && $table != $thetable){
                                                     echo '<LI><A HREF="' . webroot("public/list/" . $thetable) . '" class="dropdown-item"><i class="fa fa-user-plus"></i> ' . str_replace("_", " ", ucfirst($thetable)) . ' list</A></LI>';
                                                 }
@@ -596,6 +617,18 @@
                                                 echo view("popups_googlemaps", $Address);
                                             }
                                         }
+                                        break;
+                                    case "settings":
+                                        $filetime = "[DELETED]";
+                                        if(!$GLOBALS["settings"]["domenucache"]){
+                                            $filetime = "[DISABLED]";
+                                        } if(file_exists($menucache_filename)){
+                                            $filetime = date("l F j, Y - g:i A", filemtime($menucache_filename)) . ' <a class="btn btn-sm btn-danger cursor-pointer" onclick="settingaction(0);">Delete</a>';
+                                        }
+                                        echo 'Menu cache last update: <SPAN ID="filetime">' . $filetime . '</SPAN>';
+                                        ?>
+                                            <BR><a class="btn btn-sm btn-danger cursor-pointer" onclick="settingaction(1);" id="setting1">Delete Session Variables and Cookie</a>
+                                        <?php
                                         break;
                                 }
                             ?>
@@ -727,8 +760,24 @@
                                     return "table not set";
                                 }
                                 break;
+                            case "settings.value":
+                                var keyname = getcolumn(alldata, "keyname");
+                                switch(keyname){
+                                    case "debugmode":case "domenucache":case "onlyfiftycents":
+                                        return iif(data == 1, "Yes", "No");
+                                        break;
+                                }
+                                break;
                         }
                         return data;
+                    }
+
+                    function getcolumn(alldata, column){
+                        if(isNumeric(alldata)){
+                            return $("#" + table + "_" + alldata + "_" + column).text();
+                        } else if(isObject(alldata)){
+                            return alldata[column];
+                        }
                     }
 
                     function checkheaders(TableID){
@@ -1000,6 +1049,17 @@
                                                                 edititem(ID, "authcode", "");
                                                                 alert(makestring("{user_auth}"));
                                                                 return;
+                                                                break;
+                                                            case "settings.value":
+                                                                switch(getcolumn(ID, "keyname")){
+                                                                    case "debugmode":case "domenucache":case "onlyfiftycents":
+                                                                        isSelect=true;
+                                                                        HTML = makeselect(ID + "_" + field, "selectfield form-control", colname, HTML, [{value: 0, text: "No"}, {value: 1, text: "Yes"}]   );
+                                                                        break;
+                                                                    default:
+                                                                        HTML = '<INPUT TYPE="TEXT" ID="' + ID + "_" + field + '" VALUE="' + HTML + '" CLASS="textfield" COLNAME="' + colname;
+                                                                        HTML += '" maxlength="' + column["Len"] + '" TITLE="' + title + '">';
+                                                                }
                                                                 break;
                                                             default:
                                                                 switch(colname){
@@ -1474,6 +1534,52 @@
                             });
                         });
                     }
+
+                    function settingaction(ID, DoIT){
+                        if(isUndefined(DoIT)) {
+                            DoIT = true;
+                            var Title = false;
+                            var Prompt = false;
+                            switch (ID) {//IDs with a Title/Prompt will need confirming
+                                case 0:
+                                    Title = "Delete Menu Cache";
+                                    Prompt = "Are you sure you want to delete the menu cache?";
+                                    break;
+                                case 1:
+                                    Title = "Delete Session";
+                                    Prompt = "Are you sure you want to delete all session variables?";
+                                    break;
+                            }
+                            if(Title){
+                                DoIT=false;
+                                confirm2(Prompt, Title, function () {
+                                    settingaction(ID, true);
+                                });
+                            }
+                        }
+                        if(DoIT){
+                            $.post(currentURL, {
+                                action: "settingaction",
+                                ID: ID,
+                                _token: token
+                            }, function (result) {
+                                if(handleresult(result)) {
+                                    switch(ID){
+                                        case 0://delete menucache
+                                            $("#filetime").text("[DELETED]");
+                                            break;
+                                        case 1://delete session
+                                            handlelogin('logout');
+                                            break;
+                                        default:
+                                            alert(JSON.parse(result).Reason);
+                                    }
+                                }
+                            });
+                        }
+                    }
+
+
 
                     function changepass(ID){
                         inputbox2(makestring("{new_passw}"), "Change Password", "123abc", function(response){

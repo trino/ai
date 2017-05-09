@@ -1,6 +1,5 @@
 <?php
     $webroot = webroot();
-    define("debugmode", true);
     switch($_SERVER["SERVER_NAME"]){
         case 'scpizza.ca':
             define("serverurl", "scpizza.ca");
@@ -14,10 +13,11 @@
             break;
         default:
             define("serverurl", "http://localhost/ai/");
-            define("sitename", "local");
+            define("sitename", "localhost");
             define("cityname", "local");
     }
     date_default_timezone_set("America/Toronto");
+    $Filename = base_path() . "/ai.sql";
 
     function webroot($file = ""){
         $isSecure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443;
@@ -26,8 +26,9 @@
         $webroot = substr($webroot, 0, $start);
         $protocol = "http";
         if ($_SERVER["SERVER_NAME"] != "localhost") {
-            $webroot = str_replace("application/", "", $webroot);
-            $webroot = str_replace("public/", "", $webroot);
+            //$webroot = str_replace("application/", "", $webroot);
+            //$webroot = str_replace("public/", "", $webroot);
+            $webroot = "/";
             if ($isSecure) {
                 $protocol = "https";
             }
@@ -254,8 +255,7 @@
     }
 
     if (!function_exists("mysqli_fetch_all")) {
-        function mysqli_fetch_all($result)
-        {
+        function mysqli_fetch_all($result) {
             $data = [];
             if (is_object($result)) {
                 while ($row = $result->fetch_assoc()) {
@@ -429,7 +429,13 @@
     }
 
     $con = connectdb();
-    $Filename = base_path() . "/ai.sql";
+    $settings = first("SELECT * FROM `settings` WHERE keyname NOT IN (SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='" . $GLOBALS["database"] . "') AND keyname NOT IN ('lastSQL', 'menucache')", false);
+    foreach($settings as $ID => $Value){
+        $settings[$Value["keyname"]] = $Value["value"];
+        unset($settings[$ID]);
+    }
+
+    define("debugmode", $GLOBALS["settings"]["debugmode"]);
     if (isFileUpToDate("lastSQL", $Filename)) {
         $lastSQLupdate = getsetting("lastSQL", "0");
         $lastFILupdate = filemtime($Filename);
@@ -724,5 +730,4 @@
         }
         return $phone;
     }
-
 ?>
