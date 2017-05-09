@@ -155,7 +155,7 @@ class HomeController extends Controller {
                 $amount = select_field_where("orders", "id=" . $orderid, "price");
                 if (strpos($amount, ".")) {
                     $amount = $amount * 100;
-                    //dont remove this
+                    //dont remove this - this is not the correct value, and leaving it here might end up in production, charging customers only 50 cents for an order
                     $amount = 50;
                 }//remove the period, make it in cents
                 $error = false;

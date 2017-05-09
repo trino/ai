@@ -2,7 +2,7 @@
     width: 17%;
     text-align: center;
     float: left;
-    border: 0px solid #c8c8c8 !important;
+    border: 0 solid #c8c8c8 !important;
     clear: both;
     color: #999;
 }
@@ -10,18 +10,13 @@
 .input_right {
     width: 83%;
     float: right;
-    border: 0px solid #c8c8c8 !important;
-}
-
-.form-control{
-
+    border: 0 solid #c8c8c8 !important;
 }
 
 input, select, textarea, option {
-
     background: transparent !important;
     border-radius: 0 !important;
-    margin: 0px 0 !important;
+    margin: 0 0 !important;
     /*
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -33,7 +28,7 @@ input, textarea {
 }
 
 ::-webkit-scrollbar {
-    width: 0px; /* remove scrollbar space */
+    width: 0; /* remove scrollbar space */
     background: transparent; /* optional: just make scrollbar invisible */
 }
 
@@ -132,7 +127,6 @@ h2 {
     padding: .30rem .75rem !important;
     min-height: 50px;
     margin-bottom: 0 !important;
-    border-radius: 0;
     border: 0 !important;
 }
 
@@ -151,8 +145,7 @@ h2 {
     padding: .30rem .75rem !important;
     min-height: 50px;
     border: 0 !important;
-    border-bottom: 0px solid #d9534f !important;
-
+    border-bottom: 0 solid #d9534f !important;
 }
 
 .list-padding {
@@ -170,7 +163,7 @@ h2 {
 }
 
 .modal-content {
-    border: 0px solid #e7e7e7;
+    border: 0 solid #e7e7e7;
     border-radius: 0 !important;
 }
 
@@ -189,7 +182,6 @@ h2 {
 .toppings_btn {
     border-radius: 0 !important;
     overflow: hidden !important;
-    font-size: .80vw;
     font-size: .85rem;
     height: 45px !important;
     min-height: 45px !important;
@@ -254,7 +246,7 @@ body.loading {
 }
 .bottom-danger{
     background: white !important;
-    border-bottom: 0px solid #d9534f !important;
+    border-bottom: 0 solid #d9534f !important;
 }
 .redhighlite {
     color: #d9534f;
@@ -284,7 +276,7 @@ body.loading {
 }
 
 .receipt-addons {
-    padding: .5rem 0rem;
+    padding: .5rem 0;
     cursor: pointer;
     width: 100% !important;
     float: left;
@@ -350,7 +342,6 @@ body {
     border-color:#5cb85c #fff;
 }
 
-
 .note_red {
     position:relative;
 }
@@ -363,19 +354,6 @@ body {
     border-width:10px 10px 0 0;
     border-style:solid;
     border-color:#d9534f #fff;
-}
-
-
-
-
-.full {
-    /*
-        background: url(../../public/images/background.jpg) no-repeat center center fixed;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-    */
 }
 
 @media screen and (max-width: 400px) {
@@ -399,7 +377,7 @@ body {
 }
 
 .col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9 {
-    padding: 0rem;
+    padding: 0;
 }
 
 .clearfix {
@@ -473,9 +451,9 @@ body {
     line-height: 1;
     border-radius: 28px;
     margin: auto;
-    -webkit-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
-    -moz-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
-    box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
+    -webkit-box-shadow: 2px 3px 3px 0 rgba(41, 41, 41, .3);
+    -moz-box-shadow: 2px 3px 3px 0 rgba(41, 41, 41, .3);
+    box-shadow: 2px 3px 3px 0 rgba(41, 41, 41, .3);
 }
 
 .fab:hover {
@@ -528,107 +506,107 @@ body {
 }
 
 .sprite-pizza {
-    background-position: 0px 0px;
+    background-position: 0 0;
 }
 
 .sprite-salad {
-    background-position: -96px 0px;
+    background-position: -96px 0;
 }
 
 .sprite-potato-wedges {
-    background-position: -192px 0px;
+    background-position: -192px 0;
 }
 
 .sprite-panzerotti {
-    background-position: -288px 0px;
+    background-position: -288px 0;
 }
 
 .sprite-onion-rings {
-    background-position: -384px 0px;
+    background-position: -384px 0;
 }
 
 .sprite-wings {
-    background-position: -480px 0px;
+    background-position: -480px 0;
 }
 
 .sprite-241_pizza {
-    background-position: -576px 0px;
+    background-position: -576px 0;
 }
 
 .sprite-lasagna {
-    background-position: -672px 0px;
+    background-position: -672px 0;
 }
 
 .sprite-dips {
-    background-position: -768px 0px;
+    background-position: -768px 0;
 }
 
 .sprite-garlic-bread {
-    background-position: -864px 0px;
+    background-position: -864px 0;
 }
 
 .sprite-french-fries {
-    background-position: -960px 0px;
+    background-position: -960px 0;
 }
 
 .sprite-drinks {
-    background-position: -1056px 0px;
+    background-position: -1056px 0;
 }
 
 .sprite-chicken-nuggets {
-    background-position: -1152px 0px;
+    background-position: -1152px 0;
 }
 
 .sprite-veggie-sticks {
-    background-position: -1248px 0px;
+    background-position: -1248px 0;
 }
 
 .sprite-pepsi {
-    background-position: -1344px 0px;
+    background-position: -1344px 0;
 }
 
 .sprite-diet-pepsi {
-    background-position: -1440px 0px;
+    background-position: -1440px 0;
 }
 
 .sprite-2l-sprite {
-    background-position: -1536px 0px;
+    background-position: -1536px 0;
 }
 
 .sprite-sprite {
-    background-position: -1632px 0px;
+    background-position: -1632px 0;
 }
 
 .sprite-water-bottle {
-    background-position: -1728px 0px;
+    background-position: -1728px 0;
 }
 
 .sprite-2l-coca-cola {
-    background-position: -1824px 0px;
+    background-position: -1824px 0;
 }
 
 .sprite-crush-orange {
-    background-position: -1920px 0px;
+    background-position: -1920px 0;
 }
 
 .sprite-ginger-ale {
-    background-position: -2016px 0px;
+    background-position: -2016px 0;
 }
 
 .sprite-diet-coca-cola {
-    background-position: -2112px 0px;
+    background-position: -2112px 0;
 }
 
 .sprite-nestea {
-    background-position: -2208px 0px;
+    background-position: -2208px 0;
 }
 
 .sprite-2l-brisk-iced-tea {
-    background-position: -2304px 0px;
+    background-position: -2304px 0;
 }
 
 .sprite-dr-pepper {
-    background-position: -2400px 0px;
+    background-position: -2400px 0;
 }
 
 .sprite-medium {
@@ -752,7 +730,7 @@ body {
 
 .c-rays {
     width: 100%;
-    margin-top: 0px;
+    margin-top: 0;
     position: relative;
     overflow: hidden
 }
@@ -917,7 +895,6 @@ table tr td:last-child, table tr th:last-child {
     BORDER: 1PX SOLID #dadada;
     PADDING: 0;
 }
-
 
 /*
 

@@ -1,8 +1,8 @@
 <?php
-startfile("popups_alljs");
-$CURRENT_YEAR = date("Y");
-$STREET_FORMAT = "[number] [street], [city] [postalcode]";
-//["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
+    startfile("popups_alljs");
+    $CURRENT_YEAR = date("Y");
+    $STREET_FORMAT = "[number] [street], [city] [postalcode]";
+    //["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
 ?>
 <STYLE>
     /* STOP MOVING THIS TO THE CSS, IT WON'T WORK! */
@@ -2062,8 +2062,6 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                 for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                     var addon = alladdons[currentaddontype][types[i]][i2];
                     var title = "";
-
-
                     var breaker_css_green = "";
                     var breaker_css_red = "";
 
@@ -2076,19 +2074,10 @@ $STREET_FORMAT = "[number] [street], [city] [postalcode]";
                         breaker_red = 1;
                     }
 
-
-
-
-
                     HTML += '<button class="fourthwidth bg-white bg-'+types[i]+ ' ' + breaker_css_green +  breaker_css_red + ' addon-addon list-group-item-action toppings_btn';
-
-
                     if (isaddon_free(String(currentaddontype), String(addon))) {
                         title = "Free addon";
                     }
-
-
-
                     HTML += '" TITLE="' + title + '">' + addon +'</button>';
                 }
             }

@@ -64,7 +64,7 @@
         <div class="py-3 bg-inverse">
             <center>
                 <img src="<?= webroot("images/pizzaria.png"); ?>" style="width: 50%;"/>
-                <h2 class="text-danger" style="text-align: center;">Only the Best Pizza in <?=sitelongname;?></h2>
+                <h2 class="text-danger" style="text-align: center;">Only the Best Pizza in <?= cityname; ?></h2>
                 ${{ $minimum }} Minimum<br>
                 ${{ $delivery }} Delivery<br>
                 Credit/Debit Only
@@ -74,7 +74,7 @@
     </DIV>
     <div class="col-lg-8 col-md-7 bg-white py-2 bg-inverse" style="border: .75rem solid #eceeef!important">
         <div class="btn-sm-padding" style="border-radius: 0;background: transparent !important;"><br>
-            <span style=";font-size: 2.5rem; font-weight: bold;line-height: 3.1rem;"> <?=strtoupper(sitelongname);?> DELIVERY</span>
+            <span style=";font-size: 2.5rem; font-weight: bold;line-height: 3.1rem;"> <?= strtoupper(cityname); ?> DELIVERY</span>
             <br>
             <br>
             <p>The art of delivery is in the team, local restaurants at your footstep in <?= $time; ?> minutes.</p>
