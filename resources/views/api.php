@@ -1,5 +1,4 @@
 <?php
-    $webroot = webroot();
     switch($_SERVER["SERVER_NAME"]){
         case 'scpizza.ca':
             define("serverurl", "scpizza.ca");
@@ -12,10 +11,11 @@
             define("cityname", "London");
             break;
         default:
-            define("serverurl", "http://localhost/ai/");
+            define("serverurl", "http://" . $_SERVER["SERVER_NAME"] . "/ai/");
             define("sitename", "localhost");
             define("cityname", "local");
     }
+    $webroot = webroot();
     date_default_timezone_set("America/Toronto");
     $Filename = base_path() . "/ai.sql";
 
@@ -621,7 +621,8 @@
 
     function islive(){
         $server = $_SERVER["SERVER_NAME"];
-        if($server == "localhost" || $server == "127.0.0.1"){return false;}
+        return $server == serverurl;
+        /*if($server == "localhost" || $server == "127.0.0.1"){return false;}
         if(strpos($server, ".") !== false){
             if(is_numeric(str_replace(".", "", $server))) {
                 $server = explode(".", $server);
@@ -630,7 +631,7 @@
                 if ($server[0] == "192" && $server[1] == "168") {return false;}
             }
         }
-        return true;
+        return true;*/
     }
 
     function verbosedate($date){
