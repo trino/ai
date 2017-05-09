@@ -151,7 +151,7 @@ h2 {
     padding: .30rem .75rem !important;
     min-height: 50px;
     border: 0 !important;
-    border-bottom: 3px solid #d9534f !important;
+    border-bottom: 0px solid #d9534f !important;
 
 }
 
@@ -254,7 +254,7 @@ body.loading {
 }
 .bottom-danger{
     background: white !important;
-    border-bottom: 3px solid #d9534f !important;
+    border-bottom: 0px solid #d9534f !important;
 }
 .redhighlite {
     color: #d9534f;
