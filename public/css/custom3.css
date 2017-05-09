@@ -822,17 +822,19 @@ table tr td:last-child, table tr th:last-child {
     }
 }
 
+.firefox-child{
+    background-color: #DCDCDC;
+}
+
 .fake-form-control {
     height: 37px !important;
     border-radius: 0;
     border: 0;
-    background-color: #DEDEDE;
     padding-left: 15px;
 }
 
 .fake-address {
     position: absolute;
-    top: 10px;
 }
 
 .full-height {

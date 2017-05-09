@@ -1398,6 +1398,7 @@
         if(is_firefox_for_android){
             log("handlefirefox Why: " + why);
             $("#ffaddress").show();
+            $("#formatted_address").show();
             $("#checkoutmodal").modal("hide");
             $("#firefoxandroid").show();
         }
