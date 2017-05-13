@@ -11,7 +11,7 @@
     $hours = first("SELECT * FROM hours WHERE restaurant_id = 0");
 ?>
 <div class="row">
-    <DIV CLASS="col-lg-4 col-md-5">
+    <DIV CLASS="col-lg-4 col-md-5 bg-white">
         <DIV CLASS="btn-sm-padding bg-white" style="padding-bottom: 1rem !important;padding-top: .5rem !important;">
             <ul class="nav nav-tabs mb-1" role="tablist">
                 <li class="nav-item">
@@ -49,7 +49,7 @@
                     <FORM Name="regform" id="regform">
                         <?= view("popups_edituser", array("phone" => false, "autocomplete" => "new-password", "required" => true, "icons" => true))->render(); ?>
                     </FORM>
-                    <div class="clearfix py-3"></div>
+                    <div class="clearfix py-2"></div>
 
                     <button class="btn btn-block btn-primary" onclick="register();">
                         SIGN UP
@@ -59,9 +59,9 @@
             <DIV CLASS="clearfix"></DIV>
         </DIV>
 
-        <div class="py-3 bg-inverse">
+        <div class="py-3">
             <center>
-                <img src="<?= webroot("images/pizzaria.png"); ?>" style="width: 50%;"/>
+                <img src="<?= webroot("images/delivery.jpg"); ?>" style="width: 50%;"/>
                 <h2 class="text-danger" style="text-align: center;">Only the Best Pizza in <?= cityname; ?></h2>
                 ${{ $minimum }} Minimum<br>
                 ${{ $delivery }} Delivery<br>
@@ -72,11 +72,11 @@
     </DIV>
     <div class="col-lg-8 col-md-7 bg-white py-2 bg-inverse" style="border: .75rem solid #eceeef!important">
         <div class="btn-sm-padding" style="border-radius: 0;background: transparent !important;"><br>
-            <span style=";font-size: 2.5rem; font-weight: bold;line-height: 3.1rem;"> <?= strtoupper(cityname); ?> DELIVERY</span>
+            <span style=";font-size: 2.5rem; font-weight: bold;line-height: 3.1rem;"> <?= strtoupper(cityname); ?> PIZZA DELIVERY</span>
             <br>
             <br>
             <p>The art of delivery is in the team, local restaurants at your footstep in <?= $time; ?> minutes.</p>
-            <p class="lead text-warning">HOURS OF OPERATION</p>
+            <p class="lead strong">HOURS OF OPERATION</p>
             <TABLE>
                 <?php
                     $daysofweek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -94,7 +94,7 @@
                 ?>
             </TABLE>
             <br>
-            <p class="lead text-warning">FASTER THAN PICKING UP THE PHONE</p>
+            <i class="lead text-danger strong">"FASTER THAN PICKING UP THE PHONE!"</i><br><br>
             <a class="btn-link" href="<?= webroot("help"); ?>" role="button">LEARN MORE</a>
         </div>
     </div>

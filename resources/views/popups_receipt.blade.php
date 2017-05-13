@@ -179,8 +179,8 @@
 
     @if($includeextradata)
         @if($timer)
-            <div class="alert alert-success text-center text-sm-center">
-                <h2 style="font-weight: normal !important;">Order Arriving {{ $duration }}</h2>
+            <div class="alert alert-success text-center text-sm-center mb-0">
+                <h2 style="font-weight: normal !important;">Delivery {{ $duration }}</h2>
             </div>
             <!--div style="font-size: 2rem !important;" CLASS="mb-2 countdown btn-lg badge badge-pill badge-success" hours="<?= $hours; ?>" minutes="<?= $minutes; ?>" seconds="<?= $seconds; ?>"
              title="Time is approximate and not a guarantee"><?= $time; ?></div-->
@@ -190,7 +190,7 @@
     @endif
 
     @if($style==1)
-        <TABLE <?= inline("table mt-3 table-sm table-bordered"); ?> oldclass="table-responsive">
+        <TABLE <?= inline("table table-sm "); ?>>
             <TR>
                 <TH>#</TH>
                 <TH>Item</TH>
@@ -202,7 +202,7 @@
                 <th align="right">Price</th>
             </TR>
     @else
-        <TABLE WIDTH="100%" class="table table-sm  table-bordered" cellspacing="0" cellpadding="0">
+        <TABLE WIDTH="100%" class="table table-sm  bg-white " style="border: 15px solid #fff !important;" cellspacing="0" cellpadding="0">
     @endif
 
                 <?php
@@ -451,14 +451,11 @@
                             $tax = ($subtotal + $deliveryfee) * $tax_percent;
                             $total = $subtotal + $deliveryfee + $tax;
                             $colspanminus1 = $colspan - 1;
-                            echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Sub-total&nbsp;</TD><TD ALIGN="RIGHT">$' . number_format($subtotal, 2) . '</TD></TR>';
-                            echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Delivery&nbsp;</TD><TD ALIGN="RIGHT">$' . number_format($deliveryfee, 2) . '</TD></TR>';
-                            echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Tax&nbsp;</TD><TD ALIGN="RIGHT">$' . number_format($tax, 2) . '</TD></TR>';
-                            echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Total&nbsp;</TD><TD ALIGN="RIGHT" style="font-weight: bold;">$' . number_format($total, 2) . '</TD></TR>';
+                            echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Sub-total $&nbsp;</TD><TD ALIGN="RIGHT">' . number_format($subtotal, 2) . '</TD></TR>';
+                            echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Delivery $&nbsp;</TD><TD ALIGN="RIGHT">' . number_format($deliveryfee, 2) . '</TD></TR>';
+                            echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Tax $&nbsp;</TD><TD ALIGN="RIGHT">' . number_format($tax, 2) . '</TD></TR>';
+                            echo '<TR style="font-weight: bold;"><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">Total $&nbsp;</TD><TD ALIGN="RIGHT">' . number_format($total, 2) . '</TD></TR>';
                             echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT">&nbsp;</TD><TD ALIGN="RIGHT"><span>Paid</span></TD></TR>';
-                            if ($Order["cookingnotes"]) {
-                                echo '<TR><TD COLSPAN="' . $colspan . '"><B>Notes </B>' . $Order["cookingnotes"] . '</TD></TR>';
-                            }
 
                             insertdb("orders", array("id" => $orderid, "price" => $total));//saved for stripe
                         } catch (exception $e) {
@@ -481,7 +478,15 @@
                     ?>
                 </TABLE>
 
-                @if(!isset($JSON))
+
+                @if ($Order["cookingnotes"])
+                    <B>Notes </B><br> {{$Order["cookingnotes"]}}
+                @endif
+
+
+
+
+            @if(!isset($JSON))
                     
 
                     <h2 class="mt-2">
@@ -513,7 +518,7 @@
                         <h2 class="mt-2">
                             Questions about your order?</h2>
                         Please contact the restaurant directly
-                        <DIV CLASS="clearfix my-2"></DIV>
+                        <DIV CLASS="clearfix"></DIV>
                     @endif
                 <br>
  <a class="pull-left btn-link btn pl-0" href="<?= webroot("help"); ?>">MORE INFO</a>

@@ -147,16 +147,20 @@
                     <?= $site_name; ?> is a pizza delivery service that's "faster than picking up the phone".
 
                     Created by Van and Roy of Hamilton; we've seen what's out there for online ordering and we're confident that we can do better.
+<br><br>
 
-                    We're pledging to donate $0.25 from every order the local food bank. With your support; we will help many people in the years to come. This is the lifetime commitment of <?= $site_name; ?>.
-<br>
-                    Thank you for your support.
+
+                        We believe in the community and we must give back at all cost.
+                    That's why we're pledging to donate $0.25 from every order the local food bank. With your support; we will help many people for many years. This is the lifetime commitment of <?= $site_name; ?>.
+<br><br>
+
+                        Thank you for your support.
 
                 </p>
                 <hr>
 
                 <div class="btn-outlined-danger text-center pt-1">
-                    <strong>April, 2017</strong>
+                    <strong>June, 2017</strong>
                     <p> Orders: <?= $orders; ?>
                     <br> Donated: $<?= number_format((float)$orders * 0.25, 2, '.', ''); ?>
                     <br> Charity: London Food Bank</p>
