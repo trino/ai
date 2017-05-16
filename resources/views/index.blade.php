@@ -1,11 +1,15 @@
 @extends('layouts_app')
 @section('content')
     <?php
-        startfile("index");
-        if(!read("id")){
-            echo view("popups_login")->render();
-        } else {
-            ?>
+
+    startfile("index");
+
+    if(!read("id")){
+
+
+    echo view("popups_login")->render();
+}
+    ?>
             <div class="row">
                 <?php
                     //menu caching
@@ -36,7 +40,15 @@
             </button>
         </div>
     @endif
-    <?php }
+
+
+
+
+
+
+
+
+<?php
         endfile("index");
     ?>
 @endsection
