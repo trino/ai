@@ -7,9 +7,15 @@
 
 <div id="myorder" style='font-family:sans Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;font-weight: bold;font-size: .85rem'></div>
 
-<button id="checkout-btn" class="list-padding btn btn-primary btn-block" onclick="showcheckout();">
-    <i class="fa fa-shopping-basket mr-2"></i> CHECKOUT
-</button>
+@if(read("id"))
+    <button id="checkout-btn" class="list-padding btn btn-primary btn-block" onclick="showcheckout();">
+        <i class="fa fa-shopping-basket mr-2"></i> CHECKOUT
+    </button>
+@else
+    <button id="checkout-btn" class="list-padding btn btn-primary btn-block" onclick="scrolltotop();">
+        <i class="fa fa-shopping-basket mr-2"></i> LOG IN TO CHECKOUT
+    </button>
+@endif
 
 <div class="modal" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" role="document">

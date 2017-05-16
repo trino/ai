@@ -152,8 +152,10 @@ class AuthController extends Controller {
                         case "registration":
                             $RequireAuthorization = false;
                             $oldpassword = $_POST["password"];
-
-                            $address = $_POST["address"];
+                            $address = false;
+                            if(isset($_POST["address"])) {
+                                $address = $_POST["address"];
+                            }
                             unset($address["formatted_address"]);
                             unset($_POST["action"]);
                             unset($_POST["_token"]);
@@ -166,9 +168,11 @@ class AuthController extends Controller {
                             $_POST["updated_at"] = 0;
 
                             $_POST["password"] = \Hash::make($_POST["password"]);
-                            $address["user_id"] = insertdb("users", $_POST);
-                            insertdb("useraddresses", $address);
-
+                            $user_id = insertdb("users", $_POST);
+                            if($address) {
+                                $address["user_id"] = $user_id;
+                                insertdb("useraddresses", $address);
+                            }
                             $actions = actions("user_registered");//phone sms email
                             foreach($actions as $action){
                                 switch($action["party"]){

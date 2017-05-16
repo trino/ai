@@ -1,15 +1,15 @@
 <?php
-startfile("popups_login");
-$Additional_Toppings = first("SELECT * FROM additional_toppings", false);
-function getVal($Additional_Toppings, $size)
-{
-    $it = getiterator($Additional_Toppings, "size", $size, false);
-    return $Additional_Toppings[$it]["price"];
-}
-$minimum = number_format(getVal($Additional_Toppings, "Minimum"), 2);
-$delivery = number_format(getVal($Additional_Toppings, "Delivery"), 2);
-$time = getVal($Additional_Toppings, "DeliveryTime");
-$hours = first("SELECT * FROM hours WHERE restaurant_id = 0");
+    startfile("popups_login");
+    $Additional_Toppings = first("SELECT * FROM additional_toppings", false);
+    function getVal($Additional_Toppings, $size) {
+        $it = getiterator($Additional_Toppings, "size", $size, false);
+        return $Additional_Toppings[$it]["price"];
+    }
+    $minimum = number_format(getVal($Additional_Toppings, "Minimum"), 2);
+    $delivery = number_format(getVal($Additional_Toppings, "Delivery"), 2);
+    $time = getVal($Additional_Toppings, "DeliveryTime");
+    $hours = first("SELECT * FROM hours WHERE restaurant_id = 0");
+    $useaddress = false;//cant have the address popup showing more than once!!!
 ?>
 
 
@@ -44,9 +44,9 @@ $hours = first("SELECT * FROM hours WHERE restaurant_id = 0");
                 <div role="tabpanel" class="tab-pane fade" id="buzz">
                     <FORM id="addform">
                         <?php
-                        if (!read("id")) {
-                            echo view("popups_address", array("style" => 1, "required" => true, "icons" => true, "firefox" => false))->render();
-                        }
+                            if (!read("id") && $useaddress) {
+                                echo view("popups_address", array("style" => 1, "required" => true, "icons" => true, "firefox" => false))->render();
+                            }
                         ?>
                     </FORM>
                     <FORM Name="regform" id="regform">
@@ -83,25 +83,23 @@ $hours = first("SELECT * FROM hours WHERE restaurant_id = 0");
             <p class="lead strong">HOURS OF OPERATION</p>
             <TABLE>
                 <?php
-                $daysofweek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-                for ($day = 0; $day < 7; $day++) {
-                    echo '<TR><TD>' . $daysofweek[$day] . "&nbsp;&nbsp;&nbsp; </TD>";
-                    $open = $hours[$day . "_open"];
-                    $close = $hours[$day . "_close"];
-                    if ($open == "-1" || $close == "-1") {
-                        echo '<TD COLSPAN="2"">Closed';
-                    } else {
-                        echo '<TD>' . GenerateTime($open) . ' to </TD><TD>' . GenerateTime($close);
+                    $daysofweek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                    for ($day = 0; $day < 7; $day++) {
+                        echo '<TR><TD>' . $daysofweek[$day] . "&nbsp;&nbsp;&nbsp; </TD>";
+                        $open = $hours[$day . "_open"];
+                        $close = $hours[$day . "_close"];
+                        if ($open == "-1" || $close == "-1") {
+                            echo '<TD COLSPAN="2"">Closed';
+                        } else {
+                            echo '<TD>' . GenerateTime($open) . ' to </TD><TD>' . GenerateTime($close);
+                        }
+                        echo '</TD></TR>';
                     }
-                    echo '</TD></TR>';
-                }
                 ?>
             </TABLE>
             <br>
             <i class="lead text-danger strong">"FASTER THAN PICKING UP THE PHONE!"</i><br><br>
-            <a class="btn-link" href="<?= webroot("help"); ?>" role="button">LEARN MORE</a>
-<br>
-<br>
+            <a class="btn-link" href="<?= webroot("help"); ?>" role="button">LEARN MORE</a><br><br>
         </div>
     </div>
 
@@ -117,11 +115,13 @@ $hours = first("SELECT * FROM hours WHERE restaurant_id = 0");
     blockerror = true;
 
     function register() {
-        if (isvalidaddress()) {
-            $("#reg_address-error").remove();
-        } else if ($("#reg_address-error").length == 0) {
-            $('<label id="reg_address-error" class="error" for="reg_name">Please check your address</label>').insertAfter("#formatted_address");
-        }
+        @if($useaddress)
+            if (isvalidaddress()) {
+                $("#reg_address-error").remove();
+            } else if ($("#reg_address-error").length == 0) {
+                $('<label id="reg_address-error" class="error" for="reg_name">Please check your address</label>').insertAfter("#formatted_address");
+            }
+        @endif
         redirectonlogin = false;
         $('#regform').submit();
     }
@@ -134,10 +134,12 @@ $hours = first("SELECT * FROM hours WHERE restaurant_id = 0");
         $("form[name='regform']").validate({
             rules: {
                 name: "required",
-                formatted_address: {
-                    validaddress: true,
-                    required: true
-                },
+                @if($useaddress)
+                    formatted_address: {
+                        validaddress: true,
+                        required: true
+                    },
+                @endif
                 email: {
                     required: true,
                     email: true,
@@ -178,13 +180,17 @@ $hours = first("SELECT * FROM hours WHERE restaurant_id = 0");
                  }*/
             },
             submitHandler: function (form) {
-                if (!isvalidaddress()) {
-                    return false;
-                }
+                @if($useaddress)
+                    if (!isvalidaddress()) {
+                        return false;
+                    }
+                @endif
                 var formdata = getform("#regform");
                 formdata["action"] = "registration";
                 formdata["_token"] = token;
-                formdata["address"] = getform("#addform");
+                @if($useaddress)
+                    formdata["address"] = getform("#addform");
+                @endif
                 $.post(webroot + "auth/login", formdata, function (result) {
                     if (result) {
                         try {

@@ -2386,6 +2386,9 @@
     }
     @endif
 
+    function scrolltotop(){
+        $('html,body').animate({scrollTop: 0}, "slow");
+    }
     function scrolltobottom() {
         $('html,body').animate({scrollTop: document.body.scrollHeight}, "slow");
     }
