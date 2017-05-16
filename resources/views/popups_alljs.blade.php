@@ -1296,7 +1296,7 @@
 
         @if(isset($user) && $user)
             login(<?= json_encode($user); ?>, false); //user is already logged in, use the data
-                @endif
+        @endif
 
         var HTML = '';
         var todaysdate = isopen(generalhours);
@@ -1504,10 +1504,11 @@
         $('select[data-stripe=exp_year]').val({{ right($CURRENT_YEAR,2) }} +1).trigger("click");
         @if(islive())
             log("Changing stripe key");
-        $("#istest").val("true");
-        setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', "test");
-        log("Stripe key changed");
+            $("#istest").val("true");
+            setPublishableKey('pk_rlgl8pX7nDG2JA8O3jwrtqKpaDIVf', "test");
+            log("Stripe key changed");
         @endif
+        changecredit();
     }
 
     function flash(delay){
@@ -1735,7 +1736,8 @@
         $("#restaurant").html('<option value="0">Select Restaurant</option>').val("0");
         $("#saveaddresses").attr("autored", "red_address");
         refreshform("#saveaddresses");
-        if(needscreditrefresh){changecredit();}
+        //if(needscreditrefresh){changecredit();}
+        changecredit();
     }
 
     var daysofweek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -2395,24 +2397,25 @@
 
     /* checkout */
     @if(read("id"))
-    $(document).ready(function () {
-                getcloseststore = true;
-                visible_address(false);
-                $("#saveaddresses").append('<OPTION VALUE="addaddress" ID="addaddress">Add Address</OPTION>');
-                $(".credit-info").change(function () {
-                    if (isvalidcreditcard()) {
-                        $(".payment-errors").text("");
-                    }
-                });
+        $(document).ready(function () {
+            getcloseststore = true;
+            visible_address(false);
+            $("#saveaddresses").append('<OPTION VALUE="addaddress" ID="addaddress">Add Address</OPTION>');
+            $(".credit-info").on('keyup', function () {
+                changecredit();
+                if (isvalidcreditcard()) {
+                    $(".payment-errors").text("");
+                }
             });
-    $('#reg_phone').keypress(function () {
-        if ($('#reg_phone').valid()) {
-            clearphone();
-        }
-    });
-            @endif
+        });
+        $('#reg_phone').keypress(function () {
+            if ($('#reg_phone').valid()) {
+                clearphone();
+            }
+        });
+    @endif
 
-            var shortitems = [];
+    var shortitems = [];
     function restchange() {
         var value = $("#restaurant").val();
         var index = findwhere(closest, "restid", value);
