@@ -66,9 +66,9 @@ class AuthController extends Controller {
                 write($Key, '');
             }
             \Session::save();
-        } else if ($action == "verify" && isset($_POST["code"])){//verification code URL clicked
+        } else if ($action == "verify" && isset($_POST["code"])) {//verification code URL clicked
             $user = first("SELECT * FROM users WHERE authcode = '" . $_POST["code"] . "'");
-            if($user){
+            if ($user) {
                 $user["authcode"] = "";
                 insertdb("users", $user);
                 die("Your account has been verified");
@@ -76,112 +76,129 @@ class AuthController extends Controller {
                 die("Code not found");
             }
         } else {//actions which require a user
-            if(!$email){$email= trim($_POST["email"]);}
-            $user = getuser($email);// first("SELECT * FROM users WHERE email = '" . $email . "'");
-            $passwordmismatch = "Password and email address do not match a known account";
-            if ($user) {
-                switch ($action) {
-                    case "registration":
-                        $ret["Status"] = false;
-                        $ret["Reason"] = "Email address is in use";
-                        break;
-                    case "verify":
-                        $this->sendverifemail($email);
-                    case "login":
-                        if ($user["lastlogin"] >= ($now - $attempttime) && $user["loginattempts"] > 5) {
-                            $ret["Status"] = false;//brute-force prevention
-                            $ret["Reason"] = "Too many login attempts. Please wait 5 minutes";
-                        } else if($user["authcode"]) {
-                            $ret["Status"] = false;//require the user to be verified
-                            $ret["Reason"] = 'Email address not verified. Please click the [verify] button in your email';
-                        } else if (\Hash::check($_POST["password"], $user["password"])) {//login successful
-                            unset($user["password"]);//do not send this to the user!
-                            $ret["User"] = $user;
-                            foreach ($user as $Key => $Value) {
-                                write($Key, $Value);
-                            }
-                            \Session::save();
-                            $ret["Token"] = csrf_token();
-                        } else {//login failed
-                            $ret["Status"] = false;
-                            $ret["Reason"] = $passwordmismatch;//"Password mismatch";
-                            $user["lastlogin"] = $now;
-                            if ($user["lastlogin"] >= ($now - $attempttime)) {
-                                $user["loginattempts"]++;
-                            } else {
-                                $user["loginattempts"]=1;
-                            }
-                            insertdb("users", $user);
-                        }
-                        break;
-                    case "forgotpassword":
-                        $user["password"] = $this->generateRandomString(6);
-                        $user["mail_subject"] = "Forgot password";
-                        $text = $this->sendEMail("email_forgotpassword", $user);
-                        if($text){//email failed to send
-                            $ret["Status"] = false;
-                            $ret["Reason"] = $text;
-                        } else {//only save change if email was sent
-                            $ret["Reason"] = "A new password has been emailed to you";
-                            $user["password"] = \Hash::make($user["password"]);
-                            unset($user["mail_subject"]);
-                            unset($user["Addresses"]);
-                            unset($user["Others"]);
-                            insertdb("users", $user);
-                        }
-                        break;
-                }
+            if($action=="depossess"){
+                $email = read("originaluserid");
+                write("originaluserid", "");
+            } else if(!$email){
+                $email= trim($_POST["email"]);
+            }
+            $numberisallowed = (read("profiletype") == 1 && $action == "possess") || $action == "depossess";
+            if(is_numeric($email) && !$numberisallowed){
+                $ret["Status"] = false;
+                $ret["Reason"] = "Email address is not valid " . iif($numberisallowed, "Yes", "No") . " " . $action;
             } else {
-                switch ($action) {
-                    case "registration":
-                        $RequireAuthorization = false;
-                        $oldpassword = $_POST["password"];
-
-                        $address = $_POST["address"];
-                        unset($address["formatted_address"]);
-                        unset($_POST["action"]);
-                        unset($_POST["_token"]);
-                        unset($_POST["address"]);
-                        $_POST["remember_token"]="";
-                        if($RequireAuthorization) {
-                            $_POST["authcode"] = $this->guidv4();
-                        }
-                        $_POST["created_at"] = now();
-                        $_POST["updated_at"] = 0;
-
-                        $_POST["password"] = \Hash::make($_POST["password"]);
-                        $address["user_id"] = insertdb("users", $_POST);
-                        insertdb("useraddresses", $address);
-
-                        $actions = actions("user_registered");//phone sms email
-                        foreach($actions as $action){
-                            switch($action["party"]){
-                                case 0://customer
-                                    if($action["email"]){$this->sendverifemail($_POST["email"], $RequireAuthorization, $oldpassword);}
-                                    if($action["phone"]){$this->sendSMS($_POST["phone"], $action["message"], true);}
-                                    if($action["sms"]){$this->sendSMS($_POST["phone"], $action["message"]);}
-                                    break;
-                                case 1://admin
-                                    if($action["email"]){
-                                        $this->sendEMail("email_test", array(
-                                            'mail_subject' => "A new user has registered",
-                                            "email" => "admin",
-                                            "body" => $_POST["name"] . " has registered"
-                                        ));
-                                    }
-                                    if($action["phone"]){$this->sendSMS("admin", $action["message"], true);}
-                                    if($action["sms"]){$this->sendSMS("admin", $action["message"]);}
-                                    break;
+                $user = getuser($email);
+                $passwordmismatch = "Password and email address do not match a known account";
+                if ($user) {
+                    switch ($action) {
+                        case "registration":
+                            $ret["Status"] = false;
+                            $ret["Reason"] = "Email address is in use";
+                            break;
+                        case "verify":
+                            $this->sendverifemail($email);
+                        case "login": case "possess": case "depossess":
+                            if($action != "login"){
+                                $_POST["password"]="TEST";
                             }
-                        }
-                        break;
-                    case "forgotpassword":
-                        $ret["Status"] = false;
-                        $ret["Reason"] = "Email address not found.";
-                        break;
-                    default:
-                        $ret["Status"] = false;
-                        $ret["Reason"] = $passwordmismatch;//"Email address not found."
+                            if ($user["lastlogin"] >= ($now - $attempttime) && $user["loginattempts"] > 5) {
+                                $ret["Status"] = false;//brute-force prevention
+                                $ret["Reason"] = "Too many login attempts. Please wait 5 minutes";
+                            } else if($user["authcode"]) {
+                                $ret["Status"] = false;//require the user to be verified
+                                $ret["Reason"] = 'Email address not verified. Please click the [verify] button in your email';
+                            } else if (\Hash::check($_POST["password"], $user["password"]) || $action == "possess" || $action == "depossess") {//login successful
+                                if($action == "possess" && read("profiletype") == 1){
+                                    write("originaluserid", read("id"));
+                                }
+                                unset($user["password"]);//do not send this to the user!
+                                $ret["User"] = $user;
+                                foreach ($user as $Key => $Value) {
+                                    write($Key, $Value);
+                                }
+                                \Session::save();
+                                $ret["Token"] = csrf_token();
+                            } else {//login failed
+                                $ret["Status"] = false;
+                                $ret["Reason"] = $passwordmismatch;//"Password mismatch";
+                                $user["lastlogin"] = $now;
+                                if ($user["lastlogin"] >= ($now - $attempttime)) {
+                                    $user["loginattempts"]++;
+                                } else {
+                                    $user["loginattempts"]=1;
+                                }
+                                insertdb("users", $user);
+                            }
+                            break;
+                        case "forgotpassword":
+                            $user["password"] = $this->generateRandomString(6);
+                            $user["mail_subject"] = "Forgot password";
+                            $text = $this->sendEMail("email_forgotpassword", $user);
+                            if($text){//email failed to send
+                                $ret["Status"] = false;
+                                $ret["Reason"] = $text;
+                            } else {//only save change if email was sent
+                                $ret["Reason"] = "A new password has been emailed to you";
+                                $user["password"] = \Hash::make($user["password"]);
+                                unset($user["mail_subject"]);
+                                unset($user["Addresses"]);
+                                unset($user["Others"]);
+                                insertdb("users", $user);
+                            }
+                            break;
+                    }
+                } else {
+                    switch ($action) {
+                        case "registration":
+                            $RequireAuthorization = false;
+                            $oldpassword = $_POST["password"];
+
+                            $address = $_POST["address"];
+                            unset($address["formatted_address"]);
+                            unset($_POST["action"]);
+                            unset($_POST["_token"]);
+                            unset($_POST["address"]);
+                            $_POST["remember_token"]="";
+                            if($RequireAuthorization) {
+                                $_POST["authcode"] = $this->guidv4();
+                            }
+                            $_POST["created_at"] = now();
+                            $_POST["updated_at"] = 0;
+
+                            $_POST["password"] = \Hash::make($_POST["password"]);
+                            $address["user_id"] = insertdb("users", $_POST);
+                            insertdb("useraddresses", $address);
+
+                            $actions = actions("user_registered");//phone sms email
+                            foreach($actions as $action){
+                                switch($action["party"]){
+                                    case 0://customer
+                                        if($action["email"]){$this->sendverifemail($_POST["email"], $RequireAuthorization, $oldpassword);}
+                                        if($action["phone"]){$this->sendSMS($_POST["phone"], $action["message"], true);}
+                                        if($action["sms"]){$this->sendSMS($_POST["phone"], $action["message"]);}
+                                        break;
+                                    case 1://admin
+                                        if($action["email"]){
+                                            $this->sendEMail("email_test", array(
+                                                'mail_subject' => "A new user has registered",
+                                                "email" => "admin",
+                                                "body" => $_POST["name"] . " has registered"
+                                            ));
+                                        }
+                                        if($action["phone"]){$this->sendSMS("admin", $action["message"], true);}
+                                        if($action["sms"]){$this->sendSMS("admin", $action["message"]);}
+                                        break;
+                                }
+                            }
+                            break;
+                        case "forgotpassword":
+                            $ret["Status"] = false;
+                            $ret["Reason"] = "Email address not found.";
+                            break;
+                        default:
+                            $ret["Status"] = false;
+                            $ret["Reason"] = $passwordmismatch;//"Email address not found."
+                    }
                 }
             }
         }

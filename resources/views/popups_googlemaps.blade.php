@@ -62,10 +62,10 @@
 @if(!isset($includeapi))
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWSUc8EbZYVKF37jWVCb3lpBQwWqXUZw8&signed_in=true&libraries=places&callback=initMap" async defer></script>
 @else
-    <SCRIPT>
-        //$(window).load(function() {
+    <!--SCRIPT>
+        $(window).load(function() {
            //initMap();
-        //});
-    </SCRIPT>
+        });
+    </SCRIPT--!>
 @endif
 <?php endfile("popups_googlemaps"); ?>

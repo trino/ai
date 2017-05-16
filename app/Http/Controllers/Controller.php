@@ -102,7 +102,8 @@ class Controller extends BaseController {
         } else {
             $Phone = filternonnumeric($Phone);
         }
-        if (islive() && $Phone !== "9055123067" && $Phone) {//never call me
+        if($Phone){
+        //if (islive() && $Phone !== "9055123067" && $Phone) {//never call me
             $sid = 'AC81b73bac3d9c483e856c9b2c8184a5cd';
             $token = "3fd30e06e99b5c9882610a033ec59cbd";
             $fromnumber = "2897685936";
@@ -118,6 +119,6 @@ class Controller extends BaseController {
             // debugprint($ret);
             return $this->cURL($URL, http_build_query($data), $sid, $token);
         }
-        debugprint('ERROR - ' . $ret . " - Is not live/valid or is a blocked number, did not contact");
+        return debugprint('ERROR - ' . $ret . " - Is not live/valid or is a blocked number, did not contact");
     }
 }

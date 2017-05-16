@@ -3,6 +3,7 @@
     $CURRENT_YEAR = date("Y");
     $STREET_FORMAT = "[number] [street], [city] [postalcode]";
     //["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
+    $nprog = "#F0AD4E";
 ?>
 <STYLE>
     /* STOP MOVING THIS TO THE CSS, IT WON'T WORK! */
@@ -16,8 +17,30 @@
         width: 100%;
         background: rgba(0, 0, 0, .6) url('<?= webroot("public/images/slice.gif"); ?>') 50% 50% no-repeat;
     }
+
+    #loading {z-index: 9999;}
+    #nprogress{pointer-events:none;}
+    #nprogress .bar{background:<?= $nprog; ?>;position:fixed;z-index:10000;top:0;left:0;width:100%;height:10px;}
+    #nprogress .peg{display:block;position:absolute;right:0px;width:100px;height:100%;box-shadow:0 0 10px <?= $nprog; ?>,0 0 5px <?= $nprog; ?>;opacity:1.0;-webkit-transform:rotate(3deg) translate(0px,-4px);-ms-transform:rotate(3deg) translate(0px,-4px);transform:rotate(3deg) translate(0px,-4px);}
+    #nprogress .spinner{display:block;position:fixed;z-index:10000;top:15px;right:15px;}
+    #nprogress .spinner-icon{width:18px;height:18px;box-sizing:border-box;border:solid 2px transparent;border-top-color:<?= $nprog; ?>;border-left-color:<?= $nprog; ?>;border-radius:50%;-webkit-animation:nprogress-spinner 400ms linear infinite;animation:nprogress-spinner 400ms linear infinite;}
+    .nprogress-custom-parent{overflow:hidden;position:relative;}
+    .nprogress-custom-parent #nprogress .spinner,.nprogress-custom-parent #nprogress .bar{position:absolute;}
+    @-webkit-keyframes nprogress-spinner{0%{-webkit-transform:rotate(0deg);}100%{-webkit-transform:rotate(360deg);}}
+    @keyframes nprogress-spinner{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
 </STYLE>
-<script>
+
+<script type="text/javascript">
+    var timerStart = Date.now();
+    var currentURL = "<?= Request::url(); ?>";
+    var token = "<?= csrf_token(); ?>";
+    var webroot = "<?= webroot("public/"); ?>";
+    var redirectonlogout = false;
+    var redirectonlogin = false;
+    var addresskeys = ["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
+    var userdetails = false;
+    var currentRoute = "<?= Route::getCurrentRoute()->getPath(); ?>";
+
     var is_firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
     var is_android = navigator.userAgent.toLowerCase().indexOf('android') > -1;
     var is_firefox_for_android = is_firefox && is_android;
@@ -879,6 +902,7 @@
     }
 
     //send an order to the server
+    var countdown;//receipt timer
     function placeorder(StripeResponse) {
         if (!canplaceanorder()) {
             return cantplaceorder();
@@ -903,6 +927,7 @@
                 $("#checkoutmodal").modal("hide");
                 if (result.contains("ordersuccess")) {
                     handleresult(result, "ORDER RECEIPT");
+                    //countdown = window.setTimeout(function () {incrementtime()}, 1000);
                     if ($("#saveaddresses").val() == "addaddress") {
                         var Address = {
                             id: $(".ordersuccess").attr("addressid"),
@@ -1128,7 +1153,7 @@
         if (isUndefined(action)) {
             action = "verify";
         }
-        if (!$("#login_email").val() && action !== "logout") {
+        if (!$("#login_email").val() && action !== "logout" && action !== "depossess") {
             alert(makestring("{email_needed}"));
             return;
         }
@@ -1145,13 +1170,13 @@
                     alert(data["Reason"], makestring("{error_login}"));
                 } else {
                     switch (action) {
-                        case "login":
+                        case "login": case "depossess":
                             token = data["Token"];
                             if (!login(data["User"], true)) {
                                 redirectonlogin = false;
                             }
                             $("#loginmodal").modal("hide");
-                            if (redirectonlogin) {
+                            if (redirectonlogin || action == "depossess") {
                                 log("Login reload");
                                 location.reload();
                             }
@@ -2279,6 +2304,61 @@
         }
     });
 
+    function backtotime(timestamp) {
+        var d = new Date(timestamp * 1000);
+        return d.getHours() + ":" + d.getMinutes();
+    }
+
+    function incrementtime() {
+        if (!$(".countdown").hasAttr("timestamp")) {
+            var seconds = Number($(".countdown").attr("seconds"));
+            var minutes = Number($(".countdown").attr("minutes"));
+            var timestamp = getNow();
+            $(".countdown").attr("startingtime", backtotime(timestamp));
+            timestamp += (minutes * 60) + seconds;
+            $(".countdown").attr("endingtime", backtotime(timestamp));
+            $(".countdown").attr("timestamp", timestamp);
+        } else {
+            var timestamp = $(".countdown").attr("timestamp");
+            var seconds = timestamp - getNow();
+            var minutes = Math.floor(seconds / 60);
+            seconds = seconds % 60;
+        }
+        var hours = Math.floor(minutes / 60);
+
+        var result = false;
+        if (seconds == 0) {
+            if (minutes == 0) {
+                result = "[EXPIRED]";
+                window.clearInterval(countdown);
+            } else {
+                minutes -= 1;
+            }
+            seconds = 59;
+        } else {
+            seconds -= 1;
+        }
+        if (!result) {
+            if (hours == 0) {
+                result = minutes;
+            } else {
+                result = hours + "h:" + minpad(minutes % 60);
+            }
+            result += "m:" + minpad(seconds) + "s";
+        }
+        $(".countdown").text(result);
+        countdown = window.setTimeout(function () {
+            incrementtime()
+        }, 1000);
+    }
+
+    function minpad(time) {
+        if (time < 10) {
+            return "0" + time;
+        }
+        return time;
+    }
+
     function setPublishableKey(Key, mode) {
         try {
             Stripe.setPublishableKey(Key);
@@ -2294,45 +2374,138 @@
     function scrolltobottom() {
         $('html,body').animate({scrollTop: document.body.scrollHeight}, "slow");
     }
-</SCRIPT>
 
-<div class="modal z-index-9999" id="alertmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title" id="alertmodallabel">Title</h2>
-                <button data-dismiss="modal" class="btn btn-sm ml-auto bg-transparent align-middle"><i class="fa fa-close"></i></button>
-            </div>
-            <div class="modal-body">
-                <DIV ID="alertmodalbody"></DIV>
-                <div CLASS="pull-right">
-                    <button class="btn btn-link text-muted" id="alert-cancel" data-dismiss="modal">
-                        CANCEL
-                    </button>
-                    <button class="btn btn-link" id="alert-confirm" data-dismiss="modal">
-                        OK
-                    </button>
-                </div>
-                <DIV CLASS="clearfix"></DIV>
-            </div>
-        </div>
-    </div>
-</DIV>
+    /* checkout */
+    @if(read("id"))
+    $(document).ready(function () {
+                getcloseststore = true;
+                visible_address(false);
+                $("#saveaddresses").append('<OPTION VALUE="addaddress" ID="addaddress">Add Address</OPTION>');
+                $(".credit-info").change(function () {
+                    if (isvalidcreditcard()) {
+                        $(".payment-errors").text("");
+                    }
+                });
+            });
+    $('#reg_phone').keypress(function () {
+        if ($('#reg_phone').valid()) {
+            clearphone();
+        }
+    });
+            @endif
 
-<?php $nprog = "#F0AD4E"; ?>
-<STYLE>
-    #loading {z-index: 9999;}
-    #nprogress{pointer-events:none;}
-    #nprogress .bar{background:<?= $nprog; ?>;position:fixed;z-index:10000;top:0;left:0;width:100%;height:10px;}
-    #nprogress .peg{display:block;position:absolute;right:0px;width:100px;height:100%;box-shadow:0 0 10px <?= $nprog; ?>,0 0 5px <?= $nprog; ?>;opacity:1.0;-webkit-transform:rotate(3deg) translate(0px,-4px);-ms-transform:rotate(3deg) translate(0px,-4px);transform:rotate(3deg) translate(0px,-4px);}
-    #nprogress .spinner{display:block;position:fixed;z-index:10000;top:15px;right:15px;}
-    #nprogress .spinner-icon{width:18px;height:18px;box-sizing:border-box;border:solid 2px transparent;border-top-color:<?= $nprog; ?>;border-left-color:<?= $nprog; ?>;border-radius:50%;-webkit-animation:nprogress-spinner 400ms linear infinite;animation:nprogress-spinner 400ms linear infinite;}
-    .nprogress-custom-parent{overflow:hidden;position:relative;}
-    .nprogress-custom-parent #nprogress .spinner,.nprogress-custom-parent #nprogress .bar{position:absolute;}
-    @-webkit-keyframes nprogress-spinner{0%{-webkit-transform:rotate(0deg);}100%{-webkit-transform:rotate(360deg);}}
-    @keyframes nprogress-spinner{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
-</STYLE>
-<SCRIPT>
+            var shortitems = [];
+    function restchange() {
+        var value = $("#restaurant").val();
+        var index = findwhere(closest, "restid", value);
+        if (value == 0) {
+            $("#red_rest").addClass("redhighlite");
+        } else {
+            $("#red_rest").removeClass("redhighlite");
+        }
+        if (closest.length > 0) {
+            GenerateHours(closest[index].hours);
+            // shortitems = CheckforShortage(closest[index].shortage);
+            alertshortage();
+        }
+    }
+
+    function alertshortage() {
+        if (shortitems.length) {
+            var otherstores = " or select a different restaurant to continue";
+            if (closest.length == 1) {
+                otherstores = "";
+            }
+            alert("Sorry, but this restaurant is currently out of:<BR><UL><LI>" + shortitems.join("</LI><LI>") + "</LI></UL><BR>Please remove them from your order" + otherstores, "Product Shortage");
+            return true;
+        }
+        return false;
+    }
+
+    function CheckforShortage(shortage) {
+        var shortitems = [];
+        for (var i = 0; i < theorder.length; i++) {
+            if (isShort(shortage, "menu", theorder[i].itemid)) {
+                shortitems.push(theorder[i].itemname);
+            }
+            if (theorder[i].hasOwnProperty("itemaddons")) {
+                for (var subitem = 0; subitem < theorder[i].itemaddons.length; subitem++) {
+                    var addons = theorder[i].itemaddons[subitem].addons;
+                    var tablename = theorder[i].itemaddons[subitem].tablename;
+                    for (var addon = 0; addon < addons.length; addon++) {
+                        if (isShort(shortage, tablename, addons[addon].text)) {
+                            shortitems.push("'" + addons[addon].text + "' for the '" + theorder[i].itemname + "'");
+                        }
+                    }
+                }
+            }
+        }
+        return shortitems;
+    }
+
+    function isShort(shortage, tablename, ID) {
+        if (tablename != "menu") {
+            ID = getKeyByValue(alladdons[tablename + "_id"], ID);
+        }
+        for (var i = 0; i < shortage.length; i++) {
+            if (shortage[i].item_id == ID && shortage[i].tablename == tablename) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function fffa() {
+        $("#ffaddress").text($("#formatted_address").val());
+        $('#checkoutmodal').modal('show');
+        $("#firefoxandroid").hide();
+    }
+
+    $('#orderinfo input').each(function () {
+        $(this).click(function () {
+            refreshform(this)
+        }).blur(function () {
+            refreshform(this)
+        });
+        log("Autored: " + refreshform(this).attr("id"));
+    });
+
+    function refreshform(t) {
+        var ID = t;
+        if (!$(t).is(":visible")) {
+            return $(ID);
+        }
+        var ActualID = $(t).attr("id");
+        var value = $(t).val();
+        var tagname = $(t).prop("tagName").toUpperCase();
+        if (tagname == "SELECT" && value == 0) {
+            value = false;
+        }
+        switch (tagname + "." + ActualID) {
+            case "SELECT.saveaddresses":
+                if (value == "addaddress") {
+                    value = false;
+                }
+                break;
+        }
+        var classname = "red";
+        if ($(t).hasAttr("autored")) {
+            ID = "#" + $(t).attr("autored").replaceAll('"', "");
+            classname = "redhighlite";
+        }
+        if ($(t).hasAttr("autored") || $(t).hasClass("autored")) {
+            if (value) {
+                $(ID).removeClass(classname);
+            } else {
+                value = "[EMPTY]";
+                $(ID).addClass(classname);
+            }
+            log(tagname + "." + ActualID + " Autored value: " + value);
+        }
+        return $(ID);
+    }
+    /* end checkout */
+
     //NProgress.start(); NProgress.set(0.4); NProgress.inc(); NProgress.done(); http://ricostacruz.com/nprogress/
     ;(function(root,factory){if(typeof define==='function'&&define.amd){define(factory);}else if(typeof exports==='object'){module.exports=factory();}else{root.NProgress=factory();}})(this,function(){var NProgress={};NProgress.version='0.2.0';var Settings=NProgress.settings={minimum:0.08,easing:'ease',positionUsing:'',speed:200,trickle:true,trickleRate:0.02,trickleSpeed:800,showSpinner:true,barSelector:'[role="bar"]',spinnerSelector:'[role="spinner"]',parent:'body',template:'<div class="bar" role="bar"><div class="peg"></div></div><div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'};NProgress.configure=function(options){var key,value;for(key in options){value=options[key];if(value!==undefined&&options.hasOwnProperty(key))Settings[key]=value;}
         return this;};NProgress.status=null;NProgress.set=function(n){var started=NProgress.isStarted();n=clamp(n,Settings.minimum,1);NProgress.status=(n===1?null:n);var progress=NProgress.render(!started),bar=progress.querySelector(Settings.barSelector),speed=Settings.speed,ease=Settings.easing;progress.offsetWidth;queue(function(next){if(Settings.positionUsing==='')Settings.positionUsing=NProgress.getPositioningCSS();css(bar,barPositionCSS(n,speed,ease));if(n===1){css(progress,{transition:'none',opacity:1});progress.offsetWidth;setTimeout(function(){css(progress,{transition:'all '+ speed+'ms linear',opacity:0});setTimeout(function(){NProgress.remove();next();},speed);},speed);}else{setTimeout(next,speed);}});return this;};NProgress.isStarted=function(){return typeof NProgress.status==='number';};NProgress.start=function(){$("#loading").show();if(!NProgress.status)NProgress.set(0);var work=function(){setTimeout(function(){if(!NProgress.status)return;NProgress.trickle();work();},Settings.trickleSpeed);};if(Settings.trickle)work();return this;};NProgress.done=function(force){$("#loading").hide();if(!force&&!NProgress.status)return this;return NProgress.inc(0.3+ 0.5*Math.random()).set(1);};NProgress.inc=function(amount){var n=NProgress.status;if(!n){return NProgress.start();}else{if(typeof amount!=='number'){amount=(1- n)*clamp(Math.random()*n,0.1,0.95);}
@@ -2386,9 +2559,7 @@
         }, false);
         return xhr;
     } });
-</SCRIPT>
 
-<script type="text/javascript">
     function checkblock(e) {
         var checked = $(e.target).is(':checked');
         BeforeUnload(checked);
@@ -2404,6 +2575,29 @@
             log("Page transitions allowed");
         }
     }
-</script>
+</SCRIPT>
+
+<div class="modal z-index-9999" id="alertmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="alertmodallabel">Title</h2>
+                <button data-dismiss="modal" class="btn btn-sm ml-auto bg-transparent align-middle"><i class="fa fa-close"></i></button>
+            </div>
+            <div class="modal-body">
+                <DIV ID="alertmodalbody"></DIV>
+                <div CLASS="pull-right">
+                    <button class="btn btn-link text-muted" id="alert-cancel" data-dismiss="modal">
+                        CANCEL
+                    </button>
+                    <button class="btn btn-link" id="alert-confirm" data-dismiss="modal">
+                        OK
+                    </button>
+                </div>
+                <DIV CLASS="clearfix"></DIV>
+            </div>
+        </div>
+    </div>
+</DIV>
 
 <?php endfile("popups_alljs"); ?>

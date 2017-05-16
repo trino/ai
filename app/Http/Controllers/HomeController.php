@@ -19,13 +19,14 @@ class HomeController extends Controller {
         return view("home_help")->render();
     }
 
-    public function tablelist($table){
-        if (isset($_POST["action"])) {
+    public function tablelist($table, $action = ""){
+        if (isset($_POST["action"]) || $action) {
+            if(!isset($_POST["action"])){$_POST["action"] = $action;}
             switch ($_POST["action"]) {
                 case "testemail":
                     return $this->sendEMail("email_test", array(
                         'mail_subject' => "test",
-                        "email" => "roy@trinoweb.com"
+                        "email" => read("email")
                     ));
                     break;
             }

@@ -18,19 +18,6 @@
             $css = webroot("public/css");
             $routename = Route::getCurrentRoute()->getPath();
         ?>
-
-        <script type="text/javascript">
-            var timerStart = Date.now();
-            var currentURL = "<?= Request::url(); ?>";
-            var token = "<?= csrf_token(); ?>";
-            var webroot = "<?= webroot("public/"); ?>";
-            var redirectonlogout = false;
-            var redirectonlogin = false;
-            var addresskeys = ["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
-            var userdetails = false;
-            var currentRoute = "<?= Route::getCurrentRoute()->getPath(); ?>";
-        </script>
-
         <meta charset="utf-8">
         <meta name="theme-color" content="#d9534f">
         <meta name="viewport" content="width=device-width, user-scalable=no">
@@ -91,7 +78,11 @@
                     <LI><A CLASS="dropdown-item" href="<?= webroot("help"); ?>"><i class="fa fa-question-circle icon-width"></i> More Info</A></LI>
                 @endif
                 @if(read("id"))
-                    <LI><A ONCLICK="handlelogin('logout');" CLASS="dropdown-item" href="#"><i class="fa fa-sign-out icon-width"></i> Log Out</A></LI>
+                    @if(read("originaluserid"))
+                        <LI><A ONCLICK="handlelogin('depossess');" CLASS="dropdown-item" href="#"><i class="fa fa-snapchat-ghost icon-width"></i> Depossess</A></LI>
+                    @else
+                        <LI><A ONCLICK="handlelogin('logout');" CLASS="dropdown-item" href="#"><i class="fa fa-sign-out icon-width"></i> Log Out</A></LI>
+                    @endif
                 @endif
             </ul>
             <a HREF="<?= webroot("public/index"); ?>" class="align-left text-white" style="margin-left:22px;font-weight: bold;font-size: 1rem !important;" href="/"><?= strtoupper(sitename); ?></a>
@@ -185,10 +176,8 @@
                 a.src = g;
                 m.parentNode.insertBefore(a, m)
             })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-
             ga('create', 'UA-39190394-2', 'auto');
             ga('send', 'pageview');
-
         </script>
     @endif
 </html>

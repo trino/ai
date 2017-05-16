@@ -1,111 +1,112 @@
 <?php
     use App\Http\Controllers\HomeController;//used for order "changestatus"
-
     startfile("home_list");
     $RestaurantID= "";
     $extratitle = "";
     $secondword = "list";
     $filedate = -1;
     $menucache_filename = resource_path() . "/menucache.html";
-    //gets text between $start and $end in $string
-    function get_string_between($string, $start, $end){
-        $string = ' ' . $string;
-        $ini = strpos($string, $start);
-        if ($ini == 0) return '';
-        $ini += strlen($start);
-        $len = strpos($string, $end, $ini) - $ini;
-        return substr($string, $ini, $len);
-    }
-    //removes (this text) from $text
-    function remove_brackets($text){
-        return preg_replace('/\(([^()]*+|(?R))*\)\s*/', '', $text);
-    }
-    function deletefile($file){
-        if(file_exists($file)){unlink($file);}
-    }
-    //change a field name into a column name (upper case first letter of each word, switch underscores to a space, add a space before "code")
-    function formatfield($field){
-        $field = explode(" ", str_replace("code", " code", str_replace("_", " ", $field)));
-        foreach($field as $ID => $text){
-            $field[$ID] = ucfirst($text);
-            if($text == "id"){$field[$ID] = "ID";}
-            if($text == "ids"){$field[$ID] = "IDs";}
+    if(!function_exists("get_string_between")){
+        //gets text between $start and $end in $string
+        function get_string_between($string, $start, $end){
+            $string = ' ' . $string;
+            $ini = strpos($string, $start);
+            if ($ini == 0) return '';
+            $ini += strlen($start);
+            $len = strpos($string, $end, $ini) - $ini;
+            return substr($string, $ini, $len);
         }
-        return implode(" ", $field);
-    }
-    function toclass($text) {
-        $text = str_replace('/', '_', $text);
-        $text = strtolower(str_replace(" ", "_", trim(strip_tags($text))));
-        return $text;
-    }
-    function touchtable($table){
-        setsetting($table, now(true));
-        if(in_array($table, array("toppings", "wings_sauce", "menu", "additional_toppings"))){
-            setsetting("menucache", now(true));
+        //removes (this text) from $text
+        function remove_brackets($text){
+            return preg_replace('/\(([^()]*+|(?R))*\)\s*/', '', $text);
         }
-    }
-    function appendSQL($CurrentSQL, $AppendSQL){
-        if($CurrentSQL){return $CurrentSQL . " AND " . $AppendSQL;}
-        return $AppendSQL;
-    }
-    function newcol($field, $NoWrap = true){
-        $formatted = formatfield($field);
-        echo '<TH CLASS="th-left col_' . $field . '"';
-        if($NoWrap){ echo ' NOWRAP';}
-        echo '><DIV CLASS="pull-center nowrap"><i class="btn btn-sm btn-primary fa fa-arrow-down pull-left desc_' . $field . '" onclick="sort(' . "'" . $field . "', 'DESC'" . ')" TITLE="Sort by ' . $formatted;
-        echo ' descending"> </i>' . $formatted . ' <i class="btn btn-sm btn-primary fa fa-arrow-up pull-right asc_' . $field . '" onclick="sort(' . "'" . $field . "', 'ASC'" . ')" TITLE="Sort by ' . $formatted;
-        echo ' ascending"></i></DIV></TH>';
-    }
-    function changeorderstatus($ID, $Status, $Reason){
-        //HomeController::placeorder(["action" => "changestatus", "orderid" => $ID, "status" => $Status, "reason" => $Reason]);
-        App::make('App\Http\Controllers\HomeController')->placeorder(["action" => "changestatus", "orderid" => $ID, "status" => $Status, "reason" => $Reason]);
-        return $ID;
-    }
+        function deletefile($file){
+            if(file_exists($file)){unlink($file);}
+        }
+        //change a field name into a column name (upper case first letter of each word, switch underscores to a space, add a space before "code")
+        function formatfield($field){
+            $field = explode(" ", str_replace("code", " code", str_replace("_", " ", $field)));
+            foreach($field as $ID => $text){
+                $field[$ID] = ucfirst($text);
+                if($text == "id"){$field[$ID] = "ID";}
+                if($text == "ids"){$field[$ID] = "IDs";}
+            }
+            return implode(" ", $field);
+        }
+        function toclass($text) {
+            $text = str_replace('/', '_', $text);
+            $text = strtolower(str_replace(" ", "_", trim(strip_tags($text))));
+            return $text;
+        }
+        function touchtable($table){
+            setsetting($table, now(true));
+            if(in_array($table, array("toppings", "wings_sauce", "menu", "additional_toppings"))){
+                setsetting("menucache", now(true));
+            }
+        }
+        function appendSQL($CurrentSQL, $AppendSQL){
+            if($CurrentSQL){return $CurrentSQL . " AND " . $AppendSQL;}
+            return $AppendSQL;
+        }
+        function newcol($field, $NoWrap = true){
+            $formatted = formatfield($field);
+            echo '<TH CLASS="th-left col_' . $field . '"';
+            if($NoWrap){ echo ' NOWRAP';}
+            echo '><DIV CLASS="pull-center nowrap"><i class="btn btn-sm btn-primary fa fa-arrow-down pull-left desc_' . $field . '" onclick="sort(' . "'" . $field . "', 'DESC'" . ')" TITLE="Sort by ' . $formatted;
+            echo ' descending"> </i>' . $formatted . ' <i class="btn btn-sm btn-primary fa fa-arrow-up pull-right asc_' . $field . '" onclick="sort(' . "'" . $field . "', 'ASC'" . ')" TITLE="Sort by ' . $formatted;
+            echo ' ascending"></i></DIV></TH>';
+        }
+        function changeorderstatus($ID, $Status, $Reason){
+            //HomeController::placeorder(["action" => "changestatus", "orderid" => $ID, "status" => $Status, "reason" => $Reason]);
+            App::make('App\Http\Controllers\HomeController')->placeorder(["action" => "changestatus", "orderid" => $ID, "status" => $Status, "reason" => $Reason]);
+            return $ID;
+        }
 
-    function getfields($result, $asSQL = false){
-        $result = mysqli_fetch_fields($result);
-        foreach($result as $ID => $Value){
-            $result[$ID] = $Value->name;
+        function getfields($result, $asSQL = false){
+            $result = mysqli_fetch_fields($result);
+            foreach($result as $ID => $Value){
+                $result[$ID] = $Value->name;
+            }
+            if($asSQL){
+                $result = "(`" . join("`, `", $result) . "`)";
+            }
+            return $result;
         }
-        if($asSQL){
-            $result = "(`" . join("`, `", $result) . "`)";
-        }
-        return $result;
-    }
-    function exporttable($table = false) {
-        $return="";
-        if($table){
-            $result = Query('SELECT * FROM ' . $table);
-            $return = "-- --------------------------------------------------------\n--\n-- Table structure for table `" . $table . "`\n--\n\n";
-            $return .= "DROP TABLE `" . $table . "`;";
-            $row2 = mysqli_fetch_row(Query('SHOW CREATE TABLE ' . $table));
-            $fields_amount=$result->field_count;
-            $rows_num=$result->num_rows;
-            $return .= "\n\n" . $row2[1] . ";\n\n--\n-- Dumping data for table `" . $table . "`\n--\n\nLOCK TABLES `" . $table . "` WRITE;\n";
-            for ($i = 0, $st_counter = 0; $i < $fields_amount;   $i++, $st_counter=0) {
-                while($row = $result->fetch_row())  {
-                    if ($st_counter%100 == 0 || $st_counter == 0 )  {
-                        $return .= "\nINSERT INTO `" . $table . "` " . getfields($result, true) . " VALUES";
+        function exporttable($table = false) {
+            $return="";
+            if($table){
+                $result = Query('SELECT * FROM ' . $table);
+                $return = "-- --------------------------------------------------------\n--\n-- Table structure for table `" . $table . "`\n--\n\n";
+                $return .= "DROP TABLE `" . $table . "`;";
+                $row2 = mysqli_fetch_row(Query('SHOW CREATE TABLE ' . $table));
+                $fields_amount=$result->field_count;
+                $rows_num=$result->num_rows;
+                $return .= "\n\n" . $row2[1] . ";\n\n--\n-- Dumping data for table `" . $table . "`\n--\n\nLOCK TABLES `" . $table . "` WRITE;\n";
+                for ($i = 0, $st_counter = 0; $i < $fields_amount;   $i++, $st_counter=0) {
+                    while($row = $result->fetch_row())  {
+                        if ($st_counter%100 == 0 || $st_counter == 0 )  {
+                            $return .= "\nINSERT INTO `" . $table . "` " . getfields($result, true) . " VALUES";
+                        }
+                        $return .= "\n(";
+                        for($j=0; $j<$fields_amount; $j++)  {
+                            $row[$j] = str_replace("\n","\\n", addslashes($row[$j]) );
+                            if (isset($row[$j])){$return .= '"'.$row[$j].'"' ; }else {$return .= '""';}
+                            if ($j<($fields_amount-1)){$return.= ',';}
+                        }
+                        $return .=")";
+                        if ( (($st_counter+1)%100==0 && $st_counter!=0) || $st_counter+1==$rows_num) {$return .= ";";} else {$return .= ",";} $st_counter=$st_counter+1;
                     }
-                    $return .= "\n(";
-                    for($j=0; $j<$fields_amount; $j++)  {
-                        $row[$j] = str_replace("\n","\\n", addslashes($row[$j]) );
-                        if (isset($row[$j])){$return .= '"'.$row[$j].'"' ; }else {$return .= '""';}
-                        if ($j<($fields_amount-1)){$return.= ',';}
-                    }
-                    $return .=")";
-                    if ( (($st_counter+1)%100==0 && $st_counter!=0) || $st_counter+1==$rows_num) {$return .= ";";} else {$return .= ",";} $st_counter=$st_counter+1;
+                }
+                $return .= "\n\nUNLOCK TABLES;\n\n";
+            } else {
+                $return = "-- Internal data dump \n" . 'SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";' . "\n" . 'SET time_zone = "+00:00";' . "\n\n";
+                $tables = enum_tables();
+                foreach($tables as $tablename) {
+                    $return .= exporttable($tablename);
                 }
             }
-            $return .= "\n\nUNLOCK TABLES;\n\n";
-        } else {
-            $return = "-- Internal data dump \n" . 'SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";' . "\n" . 'SET time_zone = "+00:00";' . "\n\n";
-            $tables = enum_tables();
-            foreach($tables as $tablename) {
-                $return .= exporttable($tablename);
-            }
+            return $return;
         }
-        return $return;
     }
 
     //sets permissions, SQL, fields for each whitelisted table
@@ -121,6 +122,17 @@
     $showmap=false;
     $searchcols=false;
     $profiletype = read("profiletype");
+    $hostbypass = false;
+    if(read("originaluserid")){
+        if(isset($_GET["bypass"])){
+            if(!isset($_POST["action"])){ echo '<div class="list-group-item container-fluid bg-danger"><i class="fa fa-snapchat-ghost"></i> Using host profiletype instead of the possessed user profiletype</DIV>';}
+            $profiletype = 1;
+            $hostbypass = true;
+        } else if(!isset($_POST["action"])){
+            $bypass_link = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]?bypass";
+            echo '<div class="list-group-item container-fluid bg-danger"><A HREF="' . $bypass_link . '" CLASS="btn btn-primary">Possessed user detected! Click here to bypass the profiletype requirement</A></DIV>';
+        }
+    }
     $actionlist = [];
     switch($table){
         case "all":case "debug"://system value
@@ -244,9 +256,22 @@
                         unlink($menucache_filename);
                         $results["Reason"] = "Menu cache deleted";
                         break;
-                    case "1":
+                    case "1"://clear session
                         Session::flush();
                         $results["Reason"] = "Session deleted";
+                        break;
+                    case "2":
+                        $text = App::make('App\Http\Controllers\HomeController')->sendEMail("email_test", array(
+                                'mail_subject' => "test email from: " . sitename,
+                                "email" => read("email")
+                        ));
+                        if($text){
+                            $results["Reason"] = $text;
+                            $results["Status"] = false;
+                        }
+                        break;
+                    case "3":case "4":
+                        $results["Reason"] = App::make('App\Http\Controllers\HomeController')->sendSMS(read("phone"), "This is a test", $_POST["ID"] == 4);
                         break;
                     default:
                         $results["Status"] = false;
@@ -559,7 +584,9 @@
                                             //show all administratable tables
                                             foreach(array("users" => true, "restaurants" => true, "additional_toppings" => true, "useraddresses" => false, "orders" => $profiletype != 2, "actions" => true, "shortage" => $profiletype != 2, "settings" => true) as $thetable => $onlyadmins){//, "combos" => true
                                                 if(($profiletype == 1 || !$onlyadmins) && $table != $thetable){
-                                                    echo '<LI><A HREF="' . webroot("public/list/" . $thetable) . '" class="dropdown-item"><i class="fa fa-user-plus"></i> ' . str_replace("_", " ", ucfirst($thetable)) . ' list</A></LI>';
+                                                    echo '<LI><A HREF="' . webroot("public/list/" . $thetable);
+                                                    if($hostbypass){echo '?bypass';}
+                                                    echo '" class="dropdown-item"><i class="fa fa-user-plus"></i> ' . str_replace("_", " ", ucfirst($thetable)) . ' list</A></LI>';
                                                 }
                                             }
                                         ?>
@@ -676,8 +703,11 @@
                                         }
                                         echo 'Menu cache last update: <SPAN ID="filetime">' . $filetime . '</SPAN>';
                                         ?>
-                                            <BR><a class="btn btn-sm btn-danger cursor-pointer" onclick="settingaction(1);" id="setting1">Delete Session Variables and Cookie</a>
-                                            <BR><A class="btn btn-sm btn-primary cursor-pointer" HREF="<?= webroot("list/dump"); ?>" download="ai.sql">Export SQL</A>
+                                            <a class="btn btn-sm btn-danger cursor-pointer" onclick="settingaction(1);" id="setting1"><i class="fa fa-times"></i>Delete Session Variables and Cookie</a>
+                                            <a class="btn btn-sm btn-secondary cursor-pointer" onclick="settingaction(2);"><i class="fa fa-envelope"></i> Send test email to <?= read("email"); ?></a>
+                                            <a class="btn btn-sm btn-secondary cursor-pointer" onclick="settingaction(3);"><i class="fa fa-mobile"></i> Send test SMS to <?= read("phone"); ?></a>
+                                            <a class="btn btn-sm btn-secondary cursor-pointer" onclick="settingaction(4);"><i class="fa fa-phone"></i> Send test Call to <?= read("phone"); ?></a>
+                                            <A class="btn btn-sm btn-primary cursor-pointer" HREF="<?= webroot("list/dump"); ?>" download="ai.sql"><i class="fa fa-floppy-o"></i> Export SQL</A>
                                         <?php
                                         break;
                                 }
@@ -946,6 +976,7 @@
                                                 tempHTML += '<A CLASS="btn btn-sm btn-success cursor-pointer" href="' + baseURL + 'useraddresses?user_id=' + ID + '">Addresses</A> ';
                                                 tempHTML += '<A CLASS="btn btn-sm btn-secondary cursor-pointer" href="{{ webroot("public/user/info/") }}' + ID + '">Edit</A> ';
                                                 tempHTML += '<A CLASS="btn btn-sm btn-success cursor-pointer" ONCLICK="changepass(' + ID + ');" TITLE="Change their password">Password</A> ';
+                                                tempHTML += '<A CLASS="btn btn-sm btn-warning cursor-pointer" ONCLICK="possess(' + ID + ');">Possess</A> ';
                                                 break;
                                             case "useraddresses":
                                                 tempHTML += '<A CLASS="btn btn-sm btn-success cursor-pointer" onclick="editaddress(' + ID + ');">Edit</A> ';
@@ -1585,7 +1616,26 @@
                         });
                     }
 
-                    function settingaction(ID, DoIT){
+                    function possess(UserID){
+                        $.post(webroot + "auth/login", {
+                            action: "possess",
+                            email: UserID,
+                            _token: token
+                        }, function (result) {
+                            if (result) {
+                                try {
+                                    var data = JSON.parse(result);
+                                    token = data["Token"];
+                                    login(data["User"], true);
+                                    location.reload();
+                                } catch (e) {
+                                    alert(result, "Registration");
+                                }
+                            }
+                        });
+                    }
+
+                    function settingaction(ID, DoIT, Data){
                         if(isUndefined(DoIT)) {
                             DoIT = true;
                             var Title = false;
@@ -1608,11 +1658,14 @@
                             }
                         }
                         if(DoIT){
+                            if(isUndefined(Data)){Data = [];}
+                            var starttime = Date.now();
                             $.post(currentURL, {
                                 action: "settingaction",
                                 ID: ID,
                                 _token: token
                             }, function (result) {
+                                var endtime = Date.now();
                                 if(handleresult(result)) {
                                     switch(ID){
                                         case 0://delete menucache
@@ -1621,6 +1674,9 @@
                                         case 1://delete session
                                             handlelogin('logout');
                                             break;
+                                        case 2://send test email
+                                            alert("Test email sent, delay was: " + ((endtime-starttime)/1000).toFixed(3) + " seconds");
+                                            break;
                                         default:
                                             alert(JSON.parse(result).Reason);
                                     }
@@ -1628,8 +1684,6 @@
                             });
                         }
                     }
-
-
 
                     function changepass(ID){
                         inputbox2(makestring("{new_passw}"), "Change Password", "123abc", function(response){
