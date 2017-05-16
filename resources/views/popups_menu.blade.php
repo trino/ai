@@ -21,7 +21,7 @@
     
         //process addons, generating the option group dropdown HTML, enumerating free toppings and qualifiers
         function getaddons($Table, &$isfree, &$qualifiers, &$addons, &$groups){
-            $toppings = Query("SELECT * FROM " . $Table . " ORDER BY id asc, type ASC, name ASC", true);
+            $toppings = Query("SELECT * FROM " . $Table . " WHERE enabled = 1 ORDER BY id asc, type ASC, name ASC", true);
             $toppings_display = '';
             $currentsection = "";
             $isfree[$Table] = array();
@@ -104,7 +104,7 @@
             $toppings_extra = '+';
             $catclass = toclass($category['category']);
             $classlist[] = $catclass;
-            $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "' order by id", true);
+            $menuitems = Query("SELECT * FROM menu WHERE category = '" . $category['category'] . "' AND enabled = 1 order by id", true);
             $menuitemcount = count($menuitems);
             if ($itemsInCol + $menuitemcount > $maxmenuitemspercol && $CurrentCol < 3) {
                 $itemsInCol = 0;

@@ -411,6 +411,7 @@
                         HTML = makeinput2(cols, table_name, data, "Name", "name", "text");
                         HTML += makeinput2(cols, table_name, data, "Category", "type", "category");
                         HTML += makeinput2(cols, table_name, data, "Is Free", "isfree", "checkbox", "For free addons like 'well done', or 'easy on the sauce'");
+                        HTML += makeinput2(cols, table_name, data, "Enabled", "enabled", "checkbox", "Whether or not this item will show to the user");
                         HTML += makeinput2(cols, table_name, data, "Group #", "groupid", "number", "If the Group # is above 0, only 1 item in this group can be added to the menu item");
                         break;
                     case 'menu':
@@ -424,6 +425,7 @@
                         ?>
                         HTML += makeinput2(cols, table_name, data, "Calories", "calories", "text", "for 2 items, separate with a / (ie: 200/400). For more items, use a - (ie: 200-400)");
                         HTML += makeinput2(cols, table_name, data, "Allergens", "allergens", "allergens");
+                        HTML += makeinput2(cols, table_name, data, "Enabled", "enabled", "checkbox", "Whether or not this item will show to the user");
                         break;
                     default:
                         HTML = table_name + " is unhandled";

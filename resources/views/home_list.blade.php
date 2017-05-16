@@ -827,7 +827,7 @@
                             case "orders.status":                                               return statuses[data]; break;
                             case "users.profiletype": case "actions.party":                     return usertype[data]; break;
                             case "users.authcode":                                              return iif(data, "Not Authorized", "Authorized"); break;
-                            case "actions.sms": case "actions.phone": case "actions.email": case "restaurants.is_delivery":
+                            case "actions.sms": case "actions.phone": case "actions.email": case "restaurants.is_delivery":case "menu.enabled":case "toppings.enabled":case "wings_sauce.enabled":
                                 return iif(data == 1, "Yes", "No"); break;
                             case "shortage.restaurant_id":
                                 return menuitems["restaurants"][data];

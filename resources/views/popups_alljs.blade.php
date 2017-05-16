@@ -40,7 +40,7 @@
     var addresskeys = ["id", "value", "user_id", "number", "unit", "buzzcode", "street", "postalcode", "city", "province", "latitude", "longitude", "phone"];
     var userdetails = false;
     var currentRoute = "<?= Route::getCurrentRoute()->getPath(); ?>";
-
+    var settings = <?= json_encode($GLOBALS["settings"]); ?>;
     var is_firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
     var is_android = navigator.userAgent.toLowerCase().indexOf('android') > -1;
     var is_firefox_for_android = is_firefox && is_android;
