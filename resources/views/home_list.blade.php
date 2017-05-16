@@ -186,7 +186,7 @@
                     $adminsonly=false;
                 }
             }
-            if(isset($_GET["action"]) && $_GET["action"] == "getreceipt" && isset($_GET["orderid"])){
+            if(isset($_GET["action"]) && ($_GET["action"] == "getreceipt" || $_GET["action"] == "getreceipts") && isset($_GET["orderid"])){
                 $adminsonly=false;
             }
             if(isset($_GET["restaurant"])){
@@ -372,7 +372,19 @@
                 $results["id"] = insertdb($table, $_POST["value"]);
                 break;
 
-            case "getreceipt"://get an order receipt
+            case "getreceipts"://get multiple
+                $_POST["place"] = "getreceipt";
+                $_POST["style"] = 2;
+                $_POST["party"] = "user";
+                $ret = array();
+                foreach($_POST["orderids"] as $ID){
+                    $_POST["orderid"] = $ID;
+                    $ret[$ID] = view("popups_receipt", $_POST)->render();
+                }
+                die(json_encode($ret));
+                break;
+
+            case "getreceipt": //get an order receipt
                 $_POST["place"] = "getreceipt";
                 $_POST["style"] = 2;
                 $_POST["party"] = "admin";

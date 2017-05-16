@@ -1042,63 +1042,68 @@
     }
     //handles the orders list modal
     function orders(ID, getJSON) {
+        if (isUndefined(getJSON)) {
+            getJSON = false;
+        }
         if (isUndefined(ID)) {//no ID specified, get a list of order IDs from the user's profile and make buttons
             $("#profilemodal").modal("hide");
             var HTML = '<ul class="list-group">';
-            var First = false;
+            var First = new Array();
             for (var i = 0; i < userdetails["Orders"].length; i++) {
                 var order = userdetails["Orders"][i];
                 ID = order["id"];
-                if (!First) {
-                    First = ID;
+                HTML += '<li ONCLICK="orders(' + ID + ');"><span class="text-danger strong">ORDER # ' + ID + ' </span><br>' + order["placed_at"] + '<DIV ID="pastreceipt' + ID + '">';
+                if(userdetails["Orders"][i].hasOwnProperty("Contents")) {
+                    HTML += userdetails["Orders"][i]["Contents"];
+                } else {
+                    First.push(ID);
                 }
-                HTML += '<li ONCLICK="orders(' + ID + ');"><span class="text-danger strong">ORDER # ' + ID + ' </span><br>' + order["placed_at"] + '<DIV ID="pastreceipt' + ID + '"></DIV></li>';
+                HTML += '</DIV></li>';
             }
             HTML += '</ul>';
-            if (!First) {
+            if (First) {
+                orders(First)
+            } else {
                 HTML = "No orders placed yet";
             }
             alert(HTML, "Orders");
-            if (First) {
-                orders(First)
-            }
-        } else {
-            if (isUndefined(getJSON)) {
-                getJSON = false;
-            }
-            var Index = getIterator(userdetails["Orders"], "id", ID);
-            if (!getJSON && userdetails["Orders"][Index].hasOwnProperty("Contents")) {
-                $("#pastreceipt" + ID).html(userdetails["Orders"][Index]["Contents"]);
-                GetNextOrder(ID);
-                return;
-            }
+        } else if (getJSON) {
             $.post("<?= webroot('public/list/orders'); ?>", {
                 _token: token,
                 action: "getreceipt",
                 orderid: ID,
                 JSON: getJSON
             }, function (result) {
-                if (getJSON) {
-                    //JSON recieved, put it in the order
-                    result = JSON.parse(result);
-                    theorder = result["Order"];
-                    $("#cookingnotes").val(result["cookingnotes"]);
-                    generatereceipt();
-                    $("#alertmodal").modal('hide');
-                    scrolltobottom();
-                } else {//HTML recieved, put it in the pastreceipt element
-                    skipunloadingscreen = true;
-                    setTimeout(function () {
-                        loading(true, "SHOWRESULT");
-                    }, 10);
-                    $("#pastreceipt" + ID).html(result);
-                    if (Index > -1) {
-                        userdetails["Orders"][Index]["Contents"] = result;
+                result = JSON.parse(result);
+                theorder = result["Order"];
+                $("#cookingnotes").val(result["cookingnotes"]);
+                generatereceipt();
+                $("#alertmodal").modal('hide');
+                scrolltobottom();
+            });
+        } else if (isArray(ID)) {
+            $.post("<?= webroot('public/list/orders'); ?>", {
+                _token: token,
+                action: "getreceipts",
+                orderids: ID,
+                JSON: false
+            }, function (result) {
+                result = JSON.parse(result);
+                var IDs = Object.keys(result);
+                for(var i=0; i<IDs.length; i++){
+                    ID = IDs[i];
+                    $("#pastreceipt" + ID).html(result[ID]);
+                    var index = getOrderIndex(ID);
+                    if (index > -1) {
+                        userdetails["Orders"][index]["Contents"] = result[ID];
                     }
-                    GetNextOrder(ID);
                 }
             });
         }
+    }
+
+    function getOrderIndex(OrderID){
+        return getIterator(userdetails["Orders"], "id", OrderID);
     }
 
     function getIterator(arr, key, value) {
@@ -1108,17 +1113,6 @@
             }
         }
         return -1;
-    }
-
-    function GetNextOrder(CurrentID) {
-        var CurrentIndex = getIterator(userdetails["Orders"], "id", CurrentID);
-        if (CurrentIndex > -1 && CurrentIndex < userdetails["Orders"].length - 1) {
-            orders(userdetails["Orders"][CurrentIndex + 1]["id"]);
-            return true;
-        }
-        setTimeout(function () {
-            loading(false, "GetNextOrder");
-        }, 10);
     }
 
     $(document).ready(function () {
