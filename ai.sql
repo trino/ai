@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 16, 2017 at 10:26 AM
+-- Generation Time: May 16, 2017 at 10:30 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -331,14 +331,14 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1566 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1578 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1494940695'),
+(1, 'lastSQL', '1494944796'),
 (20, 'orders', '1487775876'),
 (24, 'menucache', '1493733784'),
 (25, 'useraddresses', '1491932853'),
@@ -350,8 +350,11 @@ INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
 (1537, 'combos', '1493826841'),
 (1552, 'debugmode', '1'),
 (1553, 'domenucache', '0'),
-(1554, 'settings', '1494344646'),
-(1560, 'onlyfiftycents', '1');
+(1554, 'settings', '1494944979'),
+(1560, 'onlyfiftycents', '1'),
+(1567, 'over$20', '10%'),
+(1571, 'over$30', '20%'),
+(1575, 'over$40', '30%');
 
 -- --------------------------------------------------------
 

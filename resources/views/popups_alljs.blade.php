@@ -654,6 +654,16 @@
                 tempHTML += 'class="dont-show"';
             }
             tempHTML += '><div class="pull-right text-normal py-1"><TABLE><TR><TD>Sub-total $</TD><TD>' + subtotal.toFixed(2) + '</TD></TR>';
+            var discount = getdiscount(subtotal);
+            if(discount){
+                if(discount.left(1) == "$"){
+                    discount = Number(discount.right(discount.length-1));
+                } else if (discount.right(1) == "%"){
+                    discount = Number(discount.left(discount.length-1)) * 0.01 * subtotal;
+                }
+                tempHTML += '<TR><TD>Discount $</TD><TD>' + discount.toFixed(2) + '</TD></TR>';
+                subtotal -= discount;
+            }
             tempHTML += '<TR><TD>Delivery $</TD><TD>' + deliveryfee.toFixed(2) + '</TD></TR>';
             tempHTML += '<TR><TD>Tax $</TD><TD>' + taxes.toFixed(2) + '</TD></TR>';
             tempHTML += '<TR><TD class="strong">Total $</TD><TD class="strong">' + totalcost.toFixed(2) + '</TD></TR>';
@@ -679,6 +689,17 @@
             }
             $("#oldvalues").show().fadeOut("slow", function () {$("#newvalues").fadeIn();});
         }
+    }
+
+    function getdiscount(subtotal){
+        subtotal = Math.floor(subtotal/10) * 10;
+        for(var dollars = subtotal; dollars > 0; dollars-=10){
+            var keyname = "over$" + dollars;
+            if(settings.hasOwnProperty(keyname)){
+                return settings[keyname];
+            }
+        }
+        return false;
     }
 
     //hides the checkout form
