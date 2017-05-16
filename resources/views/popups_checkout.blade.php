@@ -5,7 +5,7 @@
     <button class="btn-sm dont-show ml-auto align-right bg-transparent" ONCLICK="confirmclearorder();" id="confirmclearorder"><i class="fa fa-close"></i></button>
 </div>
 
-<div id="myorder" style='text-transform: uppercase; font-family:sans Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;font-weight: bold;font-size: .85rem'></div>
+<div id="myorder" style='font-family:sans Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;font-weight: bold;font-size: .85rem'></div>
 
 <button id="checkout-btn" class="list-padding btn btn-primary btn-block" onclick="showcheckout();">
     <i class="fa fa-shopping-basket mr-2"></i> CHECKOUT
@@ -39,7 +39,7 @@
                     <div class="input_left_icon" id="red_rest">
                         <span class="fa-stack fa-2x">
                           <i class="fa fa-circle fa-stack-2x"></i>
-                          <i class="fa fa-cutlery text-white fa-stack-1x"></i>
+                          <i class="fa fa-cutlery text-white fa-stack-1x" style="font-size: .9rem !important;"></i>
                         </span>
                     </div>
 
@@ -59,7 +59,7 @@
                     <div class="input_right">
                         <div>
                             <SELECT id="deliverytime" TITLE="Delivery Time" class="form-control"/>
-                            <OPTION>Deliver ASAP</OPTION>
+                                <OPTION>Deliver ASAP</OPTION>
                             </SELECT>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                         <div class="input_left_icon redhighlite" id="red_phone">
                             <span class="fa-stack fa-2x">
                               <i class="fa fa-circle fa-stack-2x"></i>
-                              <i class="fa fa-mobile-phone text-white fa-stack-1x"></i>
+                              <i class="fa fa-mobile-phone text-white fa-stack-1x" style="font-size: 1.5rem !important;"></i>
                             </span>
                         </div>
                         <div class="input_right">
@@ -79,7 +79,7 @@
                     <div class="input_left_icon" id="red_card">
                         <span class="fa-stack fa-2x">
                           <i class="fa fa-circle fa-stack-2x"></i>
-                          <i class="fa fa-credit-card-alt text-white fa-stack-1x"></i>
+                          <i class="fa fa-credit-card-alt text-white fa-stack-1x" style="font-size: .9rem !important;"></i>
                         </span>
                     </div>
 
@@ -94,7 +94,7 @@
                     <div class="input_left_icon"></div>
                     <div class="input_right">
                         <div class="thirdwidth">
-                            <SELECT CLASS="credit-info form-control" data-stripe="exp_month">
+                            <SELECT  style="margin-top: 0 !important;" CLASS="credit-info form-control" data-stripe="exp_month">
                                 <OPTION VALUE="01">01/Jan</OPTION>
                                 <OPTION VALUE="02">02/Feb</OPTION>
                                 <OPTION VALUE="03">03/Mar</OPTION>
@@ -111,7 +111,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="thirdwidth">
-                            <SELECT CLASS="credit-info form-control" data-stripe="exp_year">
+                            <SELECT style="margin-top: 0 !important;" CLASS="credit-info form-control" data-stripe="exp_year">
                                 <?php
                                     $CURRENT_YEAR = date("Y");
                                     $TOTAL_YEARS = 6;

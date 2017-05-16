@@ -128,7 +128,7 @@
     </SCRIPT>
     <?php
         $site_name = sitename;
-        $launchdate = "April 1, 2017";
+        $launchdate = "June 1, 2017";
         $datestamp = strtotime($launchdate);
         $SQLdate = date("Y-m-d", $datestamp);
         $launched = iif(time() > $datestamp, " (Launched)");
@@ -147,16 +147,19 @@
                     <?= $site_name; ?> is a pizza delivery service that's "faster than picking up the phone".
 
                     Created by Van and Roy of Hamilton; we've seen what's out there for online ordering and we're confident that we can do better.
+                    <br><br>
 
-                    We're pledging to donate $0.25 from every order the local food bank. With your support; we will help many people in the years to come. This is the lifetime commitment of <?= $site_name; ?>.
-<br>
-                    Thank you for your support.
+                        We believe in the community and we must give back at all cost.
+                    That's why we're pledging to donate $0.25 from every order the local food bank. With your support; we will help many people for many years. This is the lifetime commitment of <?= $site_name; ?>.
+                    <br><br>
+
+                        Thank you for your support.
 
                 </p>
                 <hr>
 
                 <div class="btn-outlined-danger text-center pt-1">
-                    <strong>April, 2017</strong>
+                    <strong><?= $launchdate; ?></strong>
                     <p> Orders: <?= $orders; ?>
                     <br> Donated: $<?= number_format((float)$orders * 0.25, 2, '.', ''); ?>
                     <br> Charity: London Food Bank</p>
@@ -529,10 +532,10 @@
     </DIV>
     </DIV>
     <div class="btn-group" style="display: none">
-    <button id="gototop" class="btn btn-sm btn-primary "><A HREF="#top"><i class="fa fa-arrow-up"></i> Go to the top</A></button>
-    <button id="expandall" class="btn btn-sm btn-primary footer" onclick="expandall(true);"><i class="fa fa-expand"></i> Expand all</button>
-    <button id="contractall" class="btn btn-sm btn-primary footer" onclick="expandall(false);"><i class="fa fa-compress"></i> Contract all</button>
-    <button id="gotobottom" class="btn btn-sm btn-primary footer"><A HREF="#bottom"><i class="fa fa-arrow-down"></i> Go to the bottom</A></button>
+        <button id="gototop" class="btn btn-sm btn-primary "><A HREF="#top"><i class="fa fa-arrow-up"></i> Go to the top</A></button>
+        <button id="expandall" class="btn btn-sm btn-primary footer" onclick="expandall(true);"><i class="fa fa-expand"></i> Expand all</button>
+        <button id="contractall" class="btn btn-sm btn-primary footer" onclick="expandall(false);"><i class="fa fa-compress"></i> Contract all</button>
+        <button id="gotobottom" class="btn btn-sm btn-primary footer"><A HREF="#bottom"><i class="fa fa-arrow-down"></i> Go to the bottom</A></button>
     </div>
 @endsection
 

@@ -45,7 +45,7 @@
     var is_android = navigator.userAgent.toLowerCase().indexOf('android') > -1;
     var is_firefox_for_android = is_firefox && is_android;
     var currentitemID = -1;
-    var MAX_DISTANCE = 17;//km
+    var MAX_DISTANCE = 5;//km
     var debugmode = false;//'<?= !islive(); ?>' == '1';
 
     String.prototype.isEqual = function (str) {
@@ -577,7 +577,7 @@
                     sprite += " sprite-" + toclassname(item["itemname"].trim()).replaceAll("_", "-").replace(/\./g, '');
                 }
 
-                tempHTML = '<DIV ID="receipt_item_' + itemid + '" class="receipt_item list-group-item">';
+                tempHTML = '<DIV ID="receipt_item_' + itemid + '" style="padding-top:0 !important;padding-bottom:0 !important;" class="receipt_item list-group-item">';
 
                 if(quantity > 1) {
                     tempHTML += '<SPAN CLASS="item_qty">' + quantity + ' x&nbsp;</SPAN> ';
@@ -1317,7 +1317,7 @@
         $(".profiletype_not").show();
         $(".profiletype_not" + user["profiletype"]).hide();
 
-        var HTML = 'form-control saveaddresses" id="saveaddresses" onchange="addresschanged(' + "'saveaddress'" + ');"><OPTION value="0">Select Address</OPTION>';
+        var HTML = 'form-control saveaddresses" id="saveaddresses" onchange="addresschanged(' + "'saveaddress'" + ');"><OPTION value="0">Select Delivery Address</OPTION>';
         var FirstAddress = false;
 
         if (user["Addresses"].length > 0) {
@@ -1931,14 +1931,14 @@
 
     if (isUndefined(unikeys)) {
         var unikeys = {
-            exists_already: "'[name]' exists already",
+            exists_already: "'[name]' already exists",
             cat_name: "What name would you like the category to be?\r\nIt will only be saved when you add an item to the category",
             not_placed: "Order was not placed!",
             error_login: "Error logging in",
             email_needed: "Please enter an email address",
             long_lat: "Longitude and/or latitude missing",
             ten_closest: "10 closest restaurants",
-            clear_order: "Are you sure you want to clear your order?"
+            clear_order: "Clear your order?"
         };
     }
 
