@@ -5,8 +5,39 @@
     $extratitle = "";
     $secondword = "list";
     $filedate = -1;
+    $settings_booleans = join('": case "', array("debugmode", "domenucache", "onlyfiftycents", "deletetopping", "localhostdialing"));
     $menucache_filename = resource_path() . "/menucache.html";
+
     if(!function_exists("get_string_between")){
+        function deleteinvalid(){
+            $Orders = first("SELECT id FROM orders", false);
+            $IDS = array();
+            $path = resource_path("orders");
+            foreach($Orders as $ID => $Order){
+                $Orders[$ID] = $Order["id"];
+                $filename = $path . "/" . $Order["id"] . ".json";
+                if (!file_exists($filename)) {
+                    $IDS[] = $Order["id"];
+                }
+            }
+            if($IDS){
+                deleterow("orders", "id IN(" . implode(",", $IDS) . ")");
+            }
+            $DeletedFiles = array();
+            $Files = scandir($path);
+            foreach($Files as $ID => $Filename){
+                if(right($Filename, 5) == ".json"){
+                    $ID = left($Filename, strlen($Filename) - 5);
+                    $OrderExists = in_array($ID, $Orders);
+                    if(!$OrderExists){
+                        unlink($path . "/" . $Filename);
+                        $DeletedFiles[] = $ID;
+                    }
+                }
+            }
+            return array("database" => $IDS, "files" => $DeletedFiles);
+        }
+
         //gets text between $start and $end in $string
         function get_string_between($string, $start, $end){
             $string = ' ' . $string;
@@ -272,6 +303,10 @@
                         break;
                     case "3":case "4":
                         $results["Reason"] = App::make('App\Http\Controllers\HomeController')->sendSMS(read("phone"), "This is a test", $_POST["ID"] == 4);
+                        break;
+                    case "5"://delete invalid orders
+                        $Deleted = deleteinvalid();
+                        $results["Reason"] = count($Deleted["database"]) . " invalid orders deleted from the database, and " . count($Deleted["files"]) . " invalid order files deleted";
                         break;
                     default:
                         $results["Status"] = false;
@@ -705,6 +740,7 @@
                                                 echo view("popups_googlemaps", $Address);
                                             }
                                         }
+                                        echo '<a class="btn btn-sm btn-danger cursor-pointer" onclick="settingaction(5);" id="setting1"><i class="fa fa-times"></i>Delete missing Orders/JSON files</a>';
                                         break;
                                     case "settings":
                                         $filetime = "[DELETED]";
@@ -855,7 +891,7 @@
                             case "settings.value":
                                 var keyname = getcolumn(alldata, "keyname");
                                 switch(keyname){
-                                    case "debugmode":case "domenucache":case "onlyfiftycents":
+                                    case "<?= $settings_booleans; ?>":
                                         return iif(data == 1, "Yes", "No");
                                         break;
                                 }
@@ -1145,7 +1181,7 @@
                                                                 break;
                                                             case "settings.value":
                                                                 switch(getcolumn(ID, "keyname")){
-                                                                    case "debugmode":case "domenucache":case "onlyfiftycents":
+                                                                    case "<?= $settings_booleans; ?>":
                                                                         isSelect=true;
                                                                         HTML = makeselect(ID + "_" + field, "selectfield form-control", colname, HTML, [{value: 0, text: "No"}, {value: 1, text: "Yes"}]   );
                                                                         break;
@@ -1661,6 +1697,10 @@
                                     Title = "Delete Session";
                                     Prompt = "Are you sure you want to delete all session variables?";
                                     break;
+                                case 5:
+                                    Title = "Delete Invalid Orders";
+                                    Prompt = "Are you sure you want to delete the orders that are missing their JSON files/JSON files missing their orders?";
+                                    break;
                             }
                             if(Title){
                                 DoIT=false;
@@ -1679,6 +1719,7 @@
                             }, function (result) {
                                 var endtime = Date.now();
                                 if(handleresult(result)) {
+                                    result = JSON.parse(result);
                                     switch(ID){
                                         case 0://delete menucache
                                             $("#filetime").text("[DELETED]");
@@ -1689,8 +1730,11 @@
                                         case 2://send test email
                                             alert("Test email sent, delay was: " + ((endtime-starttime)/1000).toFixed(3) + " seconds");
                                             break;
+                                        case 5://delete invalid
+                                            alert(result.Reason, function(){location.reload();});
+                                            break;
                                         default:
-                                            alert(JSON.parse(result).Reason);
+                                            alert(result.Reason);
                                     }
                                 }
                             });

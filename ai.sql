@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 16, 2017 at 10:30 AM
+-- Generation Time: May 17, 2017 at 10:18 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -240,7 +240,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `placed_at`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `accepted_at`, `restaurant_id`, `type`, `payment_type`, `phone`, `cell`, `paid`, `stripeToken`, `deliverytime`, `cookingnotes`, `status`, `price`, `email`) VALUES
-(241, 1, '2017-04-25 14:31:02', 300, '123', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, 'tok_AWVffGXm9uLn37', 'Deliver Now', '', 0, '145.33', ''),
+(241, 1, '2017-05-16 14:44:53', 300, '123', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, 'tok_AWVffGXm9uLn37', 'Deliver Now', '', 0, '66.84', ''),
 (242, 1, '2017-04-25 13:41:36', 18, 'side door', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055315331', '', 1, 'tok_AWrHyVmwWDT0Js', 'April 24 at 1100', '', 0, '68.46', ''),
 (243, 1, '2017-04-25 13:41:38', 18, 'side door', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055315331', '', 1, 'tok_AWrJfau3ExrF5E', 'April 24 at 1100', '', 0, '25.93', ''),
 (244, 1, '2017-04-25 14:31:04', 18, 'side door', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055315331', '', 1, '', 'April 24 at 1100', '', 0, '15.20', ''),
@@ -331,14 +331,14 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1578 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1588 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1494944796'),
+(1, 'lastSQL', '1494945013'),
 (20, 'orders', '1487775876'),
 (24, 'menucache', '1493733784'),
 (25, 'useraddresses', '1491932853'),
@@ -350,11 +350,13 @@ INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
 (1537, 'combos', '1493826841'),
 (1552, 'debugmode', '1'),
 (1553, 'domenucache', '0'),
-(1554, 'settings', '1494944979'),
+(1554, 'settings', '1495030516'),
 (1560, 'onlyfiftycents', '1'),
 (1567, 'over$20', '10%'),
 (1571, 'over$30', '20%'),
-(1575, 'over$40', '30%');
+(1575, 'over$40', '30%'),
+(1579, 'deletetopping', '0'),
+(1582, 'localhostdialing', '0');
 
 -- --------------------------------------------------------
 
@@ -486,7 +488,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `stripecustid` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=56 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=57 ;
 
 --
 -- Dumping data for table `users`
@@ -500,7 +502,8 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `creat
 (48, 'Van Trinh', 'info@trinoweb.com', '$2y$10$.0DQCK8l9YOr49mc3AcEr.8zemyiRmUa1j69p5MJO4vf6PCIAOip.', '', '2017-04-01 17:18:32', '2017-04-22 13:15:53', '9055315331', 0, 0, 0, '', ''),
 (50, 'Quality Pizza & Wings', 'odealyonline@gmail.com', '$2y$10$S5SNVTZgWk9Ufe.kLdtaMOOMo2VxRqkXUpv1k/af09Bn1c32UUrcq', '', '2017-04-01 18:20:18', '0000-00-00 00:00:00', '9055315331', 0, 0, 2, '', ''),
 (54, 'Van Dao Trinh', 'dvt1985@hotmail.com', '$2y$10$202F5bICMxbyYm1VT7Petey5iUhHeMKI.HJgpM9bsB0MWFg7o5mPa', '', '2017-04-23 16:16:17', '0000-00-00 00:00:00', '9055315331', 0, 0, 0, '', 'cus_AWrH95lAblBCVy'),
-(55, 'J', 'j@j.com', '$2y$10$4HDeNQb4bjCIr8.LL9LVoeKxK8H.y9ao7GNnqIo7iKWcOVClFptCm', '', '2017-04-23 21:26:03', '0000-00-00 00:00:00', '', 0, 0, 0, '', '');
+(55, 'J', 'j@j.com', '$2y$10$4HDeNQb4bjCIr8.LL9LVoeKxK8H.y9ao7GNnqIo7iKWcOVClFptCm', '', '2017-04-23 21:26:03', '0000-00-00 00:00:00', '', 0, 0, 0, '', ''),
+(56, 'Van Trinh', 'info+test@trinoweb.com', '$2y$10$enHdNDAfQcdCP/LibPfuPugxsRQ09aeOr.gWpHzYxpsWoyYTUClCO', '', '2017-05-16 19:25:13', '0000-00-00 00:00:00', '', 0, 0, 0, '', '');
 
 -- --------------------------------------------------------
 
