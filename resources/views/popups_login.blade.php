@@ -45,12 +45,12 @@
                     <FORM id="addform">
                         <?php
                             if (!read("id") && $useaddress) {
-                                echo view("popups_address", array("style" => 1, "required" => true, "icons" => true, "firefox" => false))->render();
+                                echo popups_view("address", array("style" => 1, "required" => true, "icons" => true, "firefox" => false));
                             }
                         ?>
                     </FORM>
                     <FORM Name="regform" id="regform">
-                        <?= view("popups_edituser", array("phone" => false, "autocomplete" => "new-password", "required" => true, "icons" => true))->render(); ?>
+                        <?= popups_view("edituser", array("phone" => false, "autocomplete" => "new-password", "required" => true, "icons" => true)); ?>
                     </FORM>
                     <div class="clearfix py-2"></div>
 

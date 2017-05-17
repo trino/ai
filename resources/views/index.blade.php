@@ -3,7 +3,7 @@
     <?php
         startfile("index");
         if(!read("id")){
-            echo view("popups_login")->render();
+            echo popups_view("login");
         }
     ?>
     <div class="row">
@@ -16,7 +16,7 @@
             if ($menucache_uptodate && $doCache) {
                 echo '<!-- menu cache pre-generated at: ' . filemtime($menucache_filename) . ' --> ' . file_get_contents($menucache_filename);
             } else {
-                $menu = view("popups_menu");
+                $menu = popups_view("menu");
                 if ($doCache) {
                     file_put_contents($menucache_filename, $menu);
                     setsetting("menucache", filemtime($menucache_filename));
@@ -25,10 +25,8 @@
             }
         ?>
         <div class="col-lg-3 col-md-12 bg-inverse" style="background: #dcdcdc !important;">
-            @include("popups_checkout")
         </div>
     </div>
-    @include("popups_editprofile_modal")
     @if(read("id") && read("profiletype") <> 2)
         <div class="fixed-action-btn hidden-lg-up sticky-footer">
             <button class="fab bg-danger" onclick="window.scrollTo(0,document.body.scrollHeight);">

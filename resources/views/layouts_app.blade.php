@@ -38,7 +38,7 @@
         <script src="<?= $scripts; ?>/tether.min.js"></script>
         <script src="<?= $scripts; ?>/bootstrap.min.js"></script>
         <SCRIPT SRC="<?= $scripts; ?>/jquery.validate.min.js"></SCRIPT>
-        @include("popups_alljs")
+        <?= popups_view("alljs", get_defined_vars()); ?>
     </head>
     <body>
         <div ID="loading" class="fullscreen grey-backdrop dont-show"></div>

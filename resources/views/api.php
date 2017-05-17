@@ -741,4 +741,12 @@
         }
         return $phone;
     }
+
+    function popups_view($filename, $parameters = false, $parameters2 = false){
+        //if you used include instead of view, one of the parameters needs to be get_defined_vars();
+        if(!$parameters){$parameters = array();} else if($parameters2){$parameters = array_merge($parameters, $parameters2);}
+        //old method
+        //new method
+        $parameters["popup"] = $filename;
+    }
 ?>

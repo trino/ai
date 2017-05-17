@@ -9,7 +9,7 @@
 
             <div class="modal-body">
                 <FORM NAME="user" id="userform">
-                    @include("popups_edituser", array("showpass" => true, "email" => false, "icons" => true))
+                    <?= popups_view("edituser", array("showpass" => true, "email" => false, "icons" => true)); ?>
 
                     <div class="input_left_icon"><span class="fa-stack fa-2x"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-envelope text-white fa-stack-1x"></i></span></div>
 
@@ -44,6 +44,5 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 <!-- end edit profile Modal -->

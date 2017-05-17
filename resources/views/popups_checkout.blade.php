@@ -36,9 +36,9 @@
                     <div class="input_right">
                         <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
                         <?php
-                            if (read("id")) {
-                                echo view("popups_address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false, "findclosest" => true, "autored" => "red_address"))->render();
-                            }
+                        if (read("id")) {
+                            echo popups_view("address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false, "findclosest" => true, "autored" => "red_address"));
+                        }
                         ?>
                     </div>
 
@@ -156,7 +156,6 @@
     </div>
 </div>
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-<?php endfile("popups_checkout"); ?>
 
 <DIV ID="firefoxandroid" class="fullscreen grey-backdrop dont-show">
     <DIV CLASS="centered firefox-child bg-white">
@@ -165,3 +164,5 @@
         <BUTTON ONCLICK="fffa();" CLASS="btn btn-primary radius0 btn-full pull-down-right">OK</BUTTON>
     </DIV>
 </DIV>
+
+<?php endfile("popups_checkout"); ?>

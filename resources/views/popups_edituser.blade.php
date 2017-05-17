@@ -57,7 +57,7 @@
         printarow("Password", $name, array("name" => "password", "type" => "password", "class" => $class, "placeholder" => "Password", "autocomplete" => $autocomplete, "required" => $required, "icon" => "fa-lock"));
     }
     if (isset($address) && $address) {
-        echo view("popups_address", array("style" => 1))->render();
+        echo popups_view("address", array("style" => 1));
     }
     echo '</DIV>';
 ?>

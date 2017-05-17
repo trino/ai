@@ -414,7 +414,7 @@
                 $ret = array();
                 foreach($_POST["orderids"] as $ID){
                     $_POST["orderid"] = $ID;
-                    $ret[$ID] = view("popups_receipt", $_POST)->render();
+                    $ret[$ID] = popups_view("receipt", $_POST);
                 }
                 die(json_encode($ret));
                 break;
@@ -426,7 +426,7 @@
                 if($profiletype == 2){
                     $_POST["party"] = "restaurant";
                 }
-                die(view("popups_receipt", $_POST)->render());
+                die(popups_view("receipt", $_POST);
                 break;
 
             case "deletedebug"://delete the debug file
@@ -671,7 +671,7 @@
                                         <!--a class="loggedout dropdown-item hyperlink" data-toggle="modal" data-target="#loginmodal"> <i class="fa fa-home"></i> Log In</a-->
                                         <?php
                                             if(!read("id")){
-                                                echo view("popups_login")->render();
+                                                echo popups_view("login");
                                             }
                                         ?>
                                     @elseif($table == "debug")
@@ -723,10 +723,10 @@
                                         echo '<A ONCLICK="saveaddress(0);" CLASS="btn btn-sm btn-success">New</A> ';
                                         echo '<A ONCLICK="saveaddress(selecteditem);" CLASS="btn btn-sm btn-secondary" id="saveaddress" DISABLED>Save</A>';
                                         $_GET["dontincludeGoogle"] = true;
-                                        echo view("popups_address", $_GET)->render();
+                                        echo popups_view("address", $_GET);
                                         break;
                                     case "restaurants":
-                                        echo view("popups_address", array("dontincludeGoogle" => true))->render();
+                                        echo popups_view("address", array("dontincludeGoogle" => true));
                                         echo '<DIV ID="addressdropdown" class="addressdropdown dont-show"></DIV>';
                                         echo '<A ONCLICK="saveaddress(-1);" CLASS="btn btn-sm btn-success m-t-1">Add to dropdowns</A>';
                                         break;
@@ -737,7 +737,7 @@
                                             $Restaurant = first("SELECT * FROM restaurants WHERE id=" . $_GET["restaurant"]);
                                             if($Restaurant){
                                                 $Address = first("SELECT * FROM useraddresses WHERE id=" . $Restaurant["address_id"]);
-                                                echo view("popups_googlemaps", $Address);
+                                                echo popups_view("googlemaps", $Address);
                                             }
                                         }
                                         echo '<a class="btn btn-sm btn-danger cursor-pointer" onclick="settingaction(5);" id="setting1"><i class="fa fa-times"></i>Delete missing Orders/JSON files</a>';
@@ -2257,7 +2257,7 @@
                             <SPAN ID="ordercontents"></SPAN><P>
                             <div class="clearfix"></div>
                             @if(!$showmap)
-                                <?= view("popups_googlemaps"); ?>
+                                <?= popups_view("googlemaps"); ?>
                             @endif
                             <div class="clearfix"></div>
                         </div>
