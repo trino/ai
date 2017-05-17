@@ -102,8 +102,8 @@ class Controller extends BaseController {
         } else {
             $Phone = filternonnumeric($Phone);
         }
-        if($Phone){
-        //if (islive() && $Phone !== "9055123067" && $Phone) {//never call me
+        //if($Phone){
+        if (islive() && $Phone !== "9055123067" && $Phone) {//never call me
             $sid = 'AC81b73bac3d9c483e856c9b2c8184a5cd';
             $token = "3fd30e06e99b5c9882610a033ec59cbd";
             $fromnumber = "2897685936";

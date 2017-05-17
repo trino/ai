@@ -469,6 +469,7 @@
                     if(left($discount,1) == "$"){
                         $discount = right($discount, strlen($discount)-1);
                     } else if (right($discount, 1) == "%"){
+                        echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT" TITLE="' . $originaldiscount . '">Discount &nbsp;&nbsp;</TD><TD ALIGN="RIGHT">' . $discount . '</TD></TR>';
                         $discount = left($discount, strlen($discount)-1) * 0.01 * $subtotal;
                     }
                     echo '<TR><TD COLSPAN="' . $colspanminus1 . '" ALIGN="RIGHT" TITLE="' . $originaldiscount . '">Discount $&nbsp;</TD><TD ALIGN="RIGHT">' . number_format($discount, 2) . '</TD></TR>';

@@ -659,6 +659,7 @@
                 if(discount.left(1) == "$"){
                     discount = Number(discount.right(discount.length-1));
                 } else if (discount.right(1) == "%"){
+                    tempHTML += '<TR><TD>Discount&nbsp;&nbsp;</TD><TD>' + discount + '</TD></TR>';
                     discount = Number(discount.left(discount.length-1)) * 0.01 * subtotal;
                 }
                 tempHTML += '<TR><TD>Discount $</TD><TD>' + discount.toFixed(2) + '</TD></TR>';
