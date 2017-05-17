@@ -13,7 +13,7 @@
     </button>
 @else
     <button id="checkout-btn" class="list-padding btn btn-primary btn-block" onclick="scrolltotop();">
-        <i class="fa fa-shopping-basket mr-2"></i> LOG IN TO CHECKOUT
+        <i class="fa fa-sign-in mr-2"></i> LOG IN TO CHECKOUT
     </button>
 @endif
 

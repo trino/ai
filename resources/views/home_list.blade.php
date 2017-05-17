@@ -753,8 +753,9 @@
                                         ?>
                                             <a class="btn btn-sm btn-danger cursor-pointer" onclick="settingaction(1);" id="setting1"><i class="fa fa-times"></i>Delete Session Variables and Cookie</a>
                                             <a class="btn btn-sm btn-secondary cursor-pointer" onclick="settingaction(2);"><i class="fa fa-envelope"></i> Send test email to <?= read("email"); ?></a>
-                                            <a class="btn btn-sm btn-secondary cursor-pointer" onclick="settingaction(3);"><i class="fa fa-mobile"></i> Send test SMS to <?= read("phone"); ?></a>
-                                            <a class="btn btn-sm btn-secondary cursor-pointer" onclick="settingaction(4);"><i class="fa fa-phone"></i> Send test Call to <?= read("phone"); ?></a>
+                                            <a class="btn btn-sm btn-secondary cursor-pointer localhostdialing" onclick="settingaction(3);"><i class="fa fa-mobile"></i> Send test SMS to <?= read("phone"); ?></a>
+                                            <a class="btn btn-sm btn-secondary cursor-pointer localhostdialing" onclick="settingaction(4);"><i class="fa fa-phone"></i> Send test Call to <?= read("phone"); ?></a>
+                                            <A CLASS="btn btn-sm btn-secondary nolocalhostdialing">localhostdialing is disabled, no calls or SMS messages will be sent out</A>
                                             <A class="btn btn-sm btn-primary cursor-pointer" HREF="<?= webroot("list/dump"); ?>" download="ai.sql"><i class="fa fa-floppy-o"></i> Export SQL</A>
                                         <?php
                                         break;
@@ -892,6 +893,12 @@
                                 var keyname = getcolumn(alldata, "keyname");
                                 switch(keyname){
                                     case "<?= $settings_booleans; ?>":
+                                        if(keyname = "localhostdialing"){
+                                            var test = data;
+                                            @if(islive()) test = 1; @endif
+                                            visible(".localhostdialing", test == 1);
+                                            visible(".nolocalhostdialing", test == 0);
+                                        }
                                         return iif(data == 1, "Yes", "No");
                                         break;
                                 }

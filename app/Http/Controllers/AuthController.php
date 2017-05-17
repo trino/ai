@@ -237,9 +237,8 @@ class AuthController extends Controller {
         if($RequireAuthorization) {
             $user["mail_subject"] = "Please click the verify button";
         } else {
+            //SELECT * FROM actions WHERE eventname = "user_registered" AND party = 0;
             $user["mail_subject"] = "You have successfully registered!";
-            //$user["body"] = "Thank you for registering";
-            //$text = $this->sendEMail("email_test", $user);
         }
         $text = $this->sendEMail("email_verify", $user);
         if($text){

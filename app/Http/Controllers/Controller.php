@@ -16,6 +16,11 @@ class Controller extends BaseController {
             $array["body"] = $array["message"];
             unset($array["message"]);
         }
+        if(left($template_name, 6) == "email_"){
+            $template_name = right($template_name, strlen($template_name) - 6);
+        }
+        $array["layout"] = $template_name;
+        $template_name = "email_all";
         if (isset($array['email']) && is_array($array['email'])) {
             $emails = $array['email'];
             foreach ($emails as $email) {
