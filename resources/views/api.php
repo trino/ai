@@ -746,7 +746,9 @@
         //if you used include instead of view, one of the parameters needs to be get_defined_vars();
         if(!$parameters){$parameters = array();} else if($parameters2){$parameters = array_merge($parameters, $parameters2);}
         //old method
+        //return '<!-- begin old include ' . $filename . ' -->' . view("popups_" . $filename, $parameters)->render() . '<!-- end old include ' . $filename . ' -->';
         //new method
         $parameters["popup"] = $filename;
+        return '<!-- begin new include ' . $filename . ' -->' . view("popups_all", $parameters)->render() . '<!-- end new include ' . $filename . ' -->';
     }
 ?>

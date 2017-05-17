@@ -25,8 +25,10 @@
             }
         ?>
         <div class="col-lg-3 col-md-12 bg-inverse" style="background: #dcdcdc !important;">
+            <?= popups_view("checkout", get_defined_vars()); ?>
         </div>
     </div>
+    <?= popups_view("editprofile_modal", get_defined_vars()); ?>
     @if(read("id") && read("profiletype") <> 2)
         <div class="fixed-action-btn hidden-lg-up sticky-footer">
             <button class="fab bg-danger" onclick="window.scrollTo(0,document.body.scrollHeight);">

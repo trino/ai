@@ -170,6 +170,7 @@
 @endif
 
 <FORM NAME="user" id="userform">
+    <?= popups_view("edituser", get_defined_vars(), array("user_id" => $user_id)); ?>
     <DIV CLASS="row">
         <DIV CLASS="col-md-12" align="center">
             <BUTTON CLASS="btn btn-primary" onclick="return userform_submit(false);">Save</BUTTON>
