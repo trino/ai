@@ -1007,7 +1007,7 @@
                         var is_android = navigator.userAgent.toLowerCase().indexOf('android') > -1;
                         var is_firefox_for_android = is_firefox && is_android;
                         var currentitemID = -1;
-                        var MAX_DISTANCE = 5;//km
+                        var MAX_DISTANCE = <?= $GLOBALS["settings"]["maxdistance_" . iif(islive(), "live", "local") ] ?>;//km
                         var debugmode = false;//'<?= !islive(); ?>' == '1';
 
                         String.prototype.isEqual = function (str) {

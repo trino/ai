@@ -345,7 +345,7 @@ class HomeController extends Controller {
                     $Restaurant["shortage"][$Index]["addon"] = first("SELECT name FROM " . $Data["tablename"] . " WHERE id = " . $Data["item_id"])["name"];
                 }
             }
-        }*/
+        }
         return $Restaurant;
     }
 

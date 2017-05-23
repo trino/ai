@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 17, 2017 at 10:18 AM
+-- Generation Time: May 23, 2017 at 10:19 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -241,8 +241,6 @@ CREATE TABLE IF NOT EXISTS `orders` (
 
 INSERT INTO `orders` (`id`, `user_id`, `placed_at`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `accepted_at`, `restaurant_id`, `type`, `payment_type`, `phone`, `cell`, `paid`, `stripeToken`, `deliverytime`, `cookingnotes`, `status`, `price`, `email`) VALUES
 (241, 1, '2017-05-16 14:44:53', 300, '123', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, 'tok_AWVffGXm9uLn37', 'Deliver Now', '', 0, '66.84', ''),
-(242, 1, '2017-04-25 13:41:36', 18, 'side door', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055315331', '', 1, 'tok_AWrHyVmwWDT0Js', 'April 24 at 1100', '', 0, '68.46', ''),
-(243, 1, '2017-04-25 13:41:38', 18, 'side door', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055315331', '', 1, 'tok_AWrJfau3ExrF5E', 'April 24 at 1100', '', 0, '25.93', ''),
 (244, 1, '2017-04-25 14:31:04', 18, 'side door', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055315331', '', 1, '', 'April 24 at 1100', '', 0, '15.20', ''),
 (245, 1, '2017-04-25 14:33:31', 2396, '', '', 'Asima Dr', 'N6M 0B3', 'London', 'Ontario', '42.9505', '-81.1735999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 1, 'tok_AXdl4E9HUc2Th9', 'Deliver Now', '', 0, '36.15', ''),
 (246, 1, '2017-04-25 14:35:59', 2396, '', '', 'Asima Dr', 'N6M 0B3', 'London', 'Ontario', '42.9505', '-81.1735999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 1, 'tok_AXdnBCIKoVbsDy', 'Deliver Now', '', 0, '36.15', ''),
@@ -331,14 +329,14 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1588 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1595 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1494945013'),
+(1, 'lastSQL', '1495030699'),
 (20, 'orders', '1487775876'),
 (24, 'menucache', '1493733784'),
 (25, 'useraddresses', '1491932853'),
@@ -350,13 +348,15 @@ INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
 (1537, 'combos', '1493826841'),
 (1552, 'debugmode', '1'),
 (1553, 'domenucache', '0'),
-(1554, 'settings', '1495030516'),
+(1554, 'settings', '1495034190'),
 (1560, 'onlyfiftycents', '1'),
 (1567, 'over$20', '10%'),
 (1571, 'over$30', '20%'),
 (1575, 'over$40', '30%'),
 (1579, 'deletetopping', '0'),
-(1582, 'localhostdialing', '0');
+(1582, 'localhostdialing', '0'),
+(1593, 'maxdistance_live', '5'),
+(1594, 'maxdistance_local', '20');
 
 -- --------------------------------------------------------
 
