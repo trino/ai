@@ -426,7 +426,7 @@
                 if($profiletype == 2){
                     $_POST["party"] = "restaurant";
                 }
-                die(popups_view("receipt", $_POST);
+                die(popups_view("receipt", $_POST));
                 break;
 
             case "deletedebug"://delete the debug file

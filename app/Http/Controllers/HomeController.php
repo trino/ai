@@ -150,7 +150,7 @@ class HomeController extends Controller {
                 insertdb("users", array("id" => $info["user_id"], "name" => $_POST["name"], "phone" => $_POST["phone"]));//attempt to update user profile
             }
 
-            $HTML = popups_view("receipt", array("orderid" => $orderid, "timer" => true, "place" => "placeorder", "style" => 2, "includeextradata" => true, "party" => "user"))->render();//generate total
+            $HTML = popups_view("receipt", array("orderid" => $orderid, "timer" => true, "place" => "placeorder", "style" => 2, "includeextradata" => true, "party" => "user"));//generate total
             //if ($text) {return $text;} //shows email errors. Uncomment when email works
             if (isset($info["stripeToken"]) || $user["stripecustid"]) {//process stripe payment here
                 $amount = select_field_where("orders", "id=" . $orderid, "price");
@@ -345,7 +345,7 @@ class HomeController extends Controller {
                     $Restaurant["shortage"][$Index]["addon"] = first("SELECT name FROM " . $Data["tablename"] . " WHERE id = " . $Data["item_id"])["name"];
                 }
             }
-        }
+        }*/
         return $Restaurant;
     }
 

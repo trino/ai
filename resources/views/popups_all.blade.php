@@ -3779,7 +3779,7 @@
             break;
         default:
             echo '<!-- begin old include ' . $popup . ' -->';
-            echo view("popups_" . $popup, get_defined_vars())->render;
+            echo view("popups_" . $popup, get_defined_vars())->render();
             echo '<!-- end old include ' . $popup . ' -->';
     }
     endfile("popups_" . $popup);
