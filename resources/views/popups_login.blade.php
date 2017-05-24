@@ -124,6 +124,7 @@
         @endif
         redirectonlogin = false;
         $('#regform').submit();
+        loading(true, "register");
     }
 
     $(".session_email_val").on("keydown", function (e) {
@@ -140,12 +141,13 @@
                         required: true
                     },
                 @endif
-                email: {
+                email: {//https://stackoverflow.com/questions/7247250/jquery-validation-not-waiting-for-remote-validation-to-return-true-considers-fo
                     required: true,
                     email: true,
                     remote: {
                         url: '<?= webroot('public/user/info'); ?>',
                         type: "post",
+                        async: false,
                         data: {
                             action: "testemail",
                             _token: token,

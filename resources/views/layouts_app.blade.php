@@ -81,7 +81,7 @@
                     @if(read("originaluserid"))
                         <LI><A ONCLICK="handlelogin('depossess');" CLASS="dropdown-item" href="#"><i class="fa fa-snapchat-ghost icon-width"></i> Depossess</A></LI>
                     @else
-                        <LI><A ONCLICK="handlelogin('logout');" CLASS="dropdown-item" href="#"><i class="fa fa-sign-out icon-width"></i> Log Out</A></LI>
+                        <LI><A ONCLICK="handlelogin('logout');" CLASS="dropdown-item loggedin" href="#"><i class="fa fa-sign-out icon-width"></i> Log Out</A></LI>
                     @endif
                 @endif
             </ul>

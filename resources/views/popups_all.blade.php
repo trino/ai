@@ -697,6 +697,7 @@
                         @endif
                         redirectonlogin = false;
                         $('#regform').submit();
+                        loading(true, "register");
                     }
 
                     $(".session_email_val").on("keydown", function (e) {
@@ -719,6 +720,7 @@
                                     remote: {
                                         url: '<?= webroot('public/user/info'); ?>',
                                         type: "post",
+                                        async: false,
                                         data: {
                                             action: "testemail",
                                             _token: token,
@@ -1287,6 +1289,13 @@
                             return this.attr(name) !== undefined;
                         };
 
+                        $.validator.addMethod( //override email with django email validator regex - fringe cases: "user@admin.state.in..us" or "name@website.a"
+                                'email',
+                                function(value, element){
+                                    return this.optional(element) || /(^[-!#$%&'*+/=?^_`{}|~0-9A-Z]+(\.[-!#$%&'*+/=?^_`{}|~0-9A-Z]+)*|^"([\001-\010\013\014\016-\037!#-\[\]-\177]|\\[\001-\011\013\014\016-\177])*")@((?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)$)|\[(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}\]$/i.test(value);
+                                },
+                                'Please enter a valid email address.'
+                        );
                         $.validator.addMethod('phonenumber', function (Data, element) {
                             Data = Data.replace(/\D/g, "");
                             if (Data.substr(0, 1) == "0") {
@@ -2149,15 +2158,15 @@
                                     } else {
                                         switch (action) {
                                             case "login": case "depossess":
-                                            token = data["Token"];
-                                            if (!login(data["User"], true)) {
-                                                redirectonlogin = false;
-                                            }
-                                            $("#loginmodal").modal("hide");
-                                            if (redirectonlogin || action == "depossess") {
-                                                log("Login reload");
-                                                location.reload();
-                                            }
+                                                token = data["Token"];
+                                                if (!login(data["User"], true)) {
+                                                    redirectonlogin = false;
+                                                }
+                                                $("#loginmodal").modal("hide");
+                                                if (redirectonlogin || action == "depossess") {
+                                                    log("Login reload");
+                                                    location.reload();
+                                                }
                                             break;
                                             case "forgotpassword":
                                             case "verify":
@@ -2701,6 +2710,7 @@
                             refreshform("#saveaddresses");
                             //if(needscreditrefresh){changecredit();}
                             changecredit();
+                            orderinfocheck();
                         }
 
                         var daysofweek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -3448,14 +3458,19 @@
                             $("#firefoxandroid").hide();
                         }
 
-                        $('#orderinfo input').each(function () {
-                            $(this).click(function () {
-                                refreshform(this)
-                            }).blur(function () {
-                                refreshform(this)
+                        var haschecked = false;
+                        function orderinfocheck() {
+                            if(haschecked){return;}
+                            haschecked=true;
+                            $('#orderinfo input').each(function () {
+                                $(this).click(function () {
+                                    refreshform(this)
+                                }).blur(function () {
+                                    refreshform(this)
+                                });
+                                log("Autored: " + refreshform(this).attr("id"));
                             });
-                            log("Autored: " + refreshform(this).attr("id"));
-                        });
+                        }
 
                         function refreshform(t) {
                             var ID = t;
@@ -3778,9 +3793,9 @@
                     }
             break;
         default:
-            echo '<!-- begin old include ' . $popup . ' -->';
+            //echo '<!-- begin old include ' . $popup . ' -->';
             echo view("popups_" . $popup, get_defined_vars())->render();
-            echo '<!-- end old include ' . $popup . ' -->';
+            //echo '<!-- end old include ' . $popup . ' -->';
     }
     endfile("popups_" . $popup);
 ?>
