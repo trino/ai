@@ -444,9 +444,9 @@
                                     <div class="input_right">
                                         <div class="clear_loggedout addressdropdown proper-height" id="checkoutaddress"></div>
                                         <?php
-                                        if (read("id")) {
-                                            echo popups_view("address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false, "findclosest" => true, "autored" => "red_address"));
-                                        }
+                                            if (read("id")) {
+                                                echo popups_view("address", array("dontincludeAPI" => true, "style" => 1, "saveaddress" => true, "form" => false, "findclosest" => true, "autored" => "red_address"));
+                                            }
                                         ?>
                                     </div>
 
@@ -473,7 +473,7 @@
                                     <div class="input_right">
                                         <div>
                                             <SELECT id="deliverytime" TITLE="Delivery Time" class="form-control"/>
-                                            <OPTION>Deliver ASAP</OPTION>
+                                                <OPTION>Deliver ASAP</OPTION>
                                             </SELECT>
                                         </div>
                                     </div>
@@ -527,11 +527,11 @@
                                         <div class="thirdwidth">
                                             <SELECT style="margin-top: 0 !important;" CLASS="credit-info form-control" data-stripe="exp_year">
                                                 <?php
-                                                $CURRENT_YEAR = date("Y");
-                                                $TOTAL_YEARS = 6;
-                                                for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
-                                                    echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
-                                                }
+                                                    $CURRENT_YEAR = date("Y");
+                                                    $TOTAL_YEARS = 6;
+                                                    for ($year = $CURRENT_YEAR; $year < $CURRENT_YEAR + $TOTAL_YEARS; $year++) {
+                                                        echo '<OPTION VALUE="' . right($year, 2) . '">' . $year . '</OPTION>';
+                                                    }
                                                 ?>
                                             </SELECT>
                                             <div class="clearfix"></div>
@@ -757,29 +757,29 @@
                             submitHandler: function (form) {
                                 @if($useaddress)
                                     if (!isvalidaddress()) {
-                                    return false;
-                                }
-                                        @endif
-                                        var formdata = getform("#regform");
+                                        return false;
+                                    }
+                                @endif
+                                var formdata = getform("#regform");
                                 formdata["action"] = "registration";
                                 formdata["_token"] = token;
                                 @if($useaddress)
                                     formdata["address"] = getform("#addform");
                                 @endif
                                 $.post(webroot + "auth/login", formdata, function (result) {
-                                            if (result) {
-                                                try {
-                                                    var data = JSON.parse(result);
-                                                    $("#logintab").trigger("click");
-                                                    $("#login_email").val(formdata["email"]);
-                                                    $("#login_password").val(formdata["password"]);
-                                                    redirectonlogin = true;
-                                                    handlelogin('login');
-                                                } catch (e) {
-                                                    alert(result, "Registration");
-                                                }
-                                            }
-                                        });
+                                    if (result) {
+                                        try {
+                                            var data = JSON.parse(result);
+                                            $("#logintab").trigger("click");
+                                            $("#login_email").val(formdata["email"]);
+                                            $("#login_password").val(formdata["password"]);
+                                            redirectonlogin = true;
+                                            handlelogin('login');
+                                        } catch (e) {
+                                            alert(result, "Registration");
+                                        }
+                                    }
+                                });
                                 return false;
                             }
                         });
@@ -1289,13 +1289,10 @@
                             return this.attr(name) !== undefined;
                         };
 
-                        $.validator.addMethod( //override email with django email validator regex - fringe cases: "user@admin.state.in..us" or "name@website.a"
-                                'email',
-                                function(value, element){
-                                    return this.optional(element) || /(^[-!#$%&'*+/=?^_`{}|~0-9A-Z]+(\.[-!#$%&'*+/=?^_`{}|~0-9A-Z]+)*|^"([\001-\010\013\014\016-\037!#-\[\]-\177]|\\[\001-\011\013\014\016-\177])*")@((?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)$)|\[(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}\]$/i.test(value);
-                                },
-                                'Please enter a valid email address.'
-                        );
+                        $.validator.addMethod('email', function(value, element){ //override email with django email validator regex - fringe cases: "user@admin.state.in..us" or "name@website.a"
+                            return this.optional(element) || /(^[-!#$%&'*+/=?^_`{}|~0-9A-Z]+(\.[-!#$%&'*+/=?^_`{}|~0-9A-Z]+)*|^"([\001-\010\013\014\016-\037!#-\[\]-\177]|\\[\001-\011\013\014\016-\177])*")@((?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)$)|\[(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}\]$/i.test(value);
+                        }, 'Please enter a valid email address.');
+
                         $.validator.addMethod('phonenumber', function (Data, element) {
                             Data = Data.replace(/\D/g, "");
                             if (Data.substr(0, 1) == "0") {
@@ -1395,13 +1392,6 @@
 
                         //get the data from the modal and add it to the order
                         function additemtoorder(element, Index) {
-                            // Get the snackbar DIV
-                            // var x = document.getElementById("snackbar");
-                            // Add the "show" class to DIV
-                            //  x.className = "show";
-                            // After 3 seconds, remove the show class from DIV
-                            //  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 1200);
-
                             var itemid = 0, itemname = "", itemprice = 0.00, itemaddons = new Array, itemsize = "", toppingcost = 0.00, toppingscount = 0, itemcat = "", oldcost = "";
                             if (!isUndefined(Index)) {currentitemID = Index;}
                             if (isUndefined(element)) {//modal with addons
@@ -2708,7 +2698,6 @@
                             $("#restaurant").html('<option value="0">Select Restaurant</option>').val("0");
                             $("#saveaddresses").attr("autored", "red_address");
                             refreshform("#saveaddresses");
-                            //if(needscreditrefresh){changecredit();}
                             changecredit();
                             orderinfocheck();
                         }
@@ -2752,8 +2741,6 @@
                             }
                         }
 
-
-
                         function gettime(now, IncrementBig, IncrementSmall, OldTime){
                             var minutes = now.getMinutes();
                             minutes = minutes + IncrementBig;
@@ -2762,6 +2749,7 @@
                             var time = now.getHours() * 100 + now.getMinutes();
                             return [now, time, OldTime, IncrementBig, IncrementSmall];
                         }
+
                         function addtotime(time, increments){
                             time = time + increments;
                             if (time % 100 >= 60) {
@@ -2998,7 +2986,7 @@
                                 HTML += '">' + '<strong class="pr-3" id="item_' + itemindex + '">' + ucfirst(item_name) + ' #' + (itemindex + 1) + '</strong>';
 
                                 if(currentaddonlist[itemindex].length == 0){
-                                    tempstr += ' No ' + addonname; /* trust me, some users have a hard time figuring this out. If they don't explicitly see this, some will assume we picked toppings for them; */
+                                    tempstr += ' No ' + addonname;
                                 }
                                 for (var i = 0; i < currentaddonlist[itemindex].length; i++) {
                                     var currentaddon = currentaddonlist[itemindex][i];
@@ -3024,7 +3012,6 @@
                                 if (debugmode) {
                                     HTML += " (Paid: " + paidtoppings + " Free: " + freetoppings + ')';
                                 }
-                                //tempstr += '<span id="cursor' + itemindex + '" class="blinking-cursor">|</span>';
                                 HTML += tempstr + '</DIV>';
                             }
 
@@ -3073,25 +3060,22 @@
                             } else {
                                 HTML += '<div style="border:0px solid blue !important;position: absolute; bottom: 0;width:100%">';
 
-                                var breaker_green = 0;
-                                var breaker_red = 0;
+                                var breaker_green = false, breaker_red = false;
                                 for (var i = 0; i < types.length; i++) {
                                     for (var i2 = 0; i2 < alladdons[currentaddontype][types[i]].length; i2++) {
                                         var addon = alladdons[currentaddontype][types[i]][i2];
                                         var title = "";
-                                        var breaker_css_green = "";
-                                        var breaker_css_red = "";
-
-                                        if(types[i] == 'Vegetable' && breaker_green == 0){
-                                            breaker_css_green = ' note_green ';
-                                            breaker_green = 1;
+                                        var breaker_color = "";
+                                        if(types[i] == 'Vegetable' && !breaker_green){
+                                            breaker_color = 'note_green';
+                                            breaker_green=true;
                                         }
-                                        if(types[i] == 'Meat' && breaker_red == 0){
-                                            breaker_css_red = ' note_red ';
-                                            breaker_red = 1;
+                                        if(types[i] == 'Meat' && !breaker_red){
+                                            breaker_color = 'note_red';
+                                            breaker_red=true;
                                         }
 
-                                        HTML += '<button class="fourthwidth bg-white bg-'+types[i]+ ' ' + breaker_css_green +  breaker_css_red + ' addon-addon list-group-item-action toppings_btn';
+                                        HTML += '<button class="fourthwidth bg-white bg-' + types[i] + ' ' + breaker_color + ' addon-addon list-group-item-action toppings_btn';
                                         if (isaddon_free(String(currentaddontype), String(addon))) {
                                             title = "Free addon";
                                         }
@@ -3150,7 +3134,6 @@
                             if (isaddon_free(currentaddontype, addonname)) {
                                 HTML += '<DIV>This is a free addon</DIV>';
                             }
-
                             if (hashalves) {
                                 if (isaddon_onall(currentaddontype, addonname)) {
                                     HTML += '<DIV>This addon goes on the whole item</DIV>';
@@ -3291,77 +3274,77 @@
                                 ?>
                             });
 
-                        $(document).keyup(function(e) {
-                            if (e.keyCode == 27) {//escape key
-                                $(".modal:visible").modal("hide");
-                            }
-                        });
-
-                        function backtotime(timestamp) {
-                            var d = new Date(timestamp * 1000);
-                            return d.getHours() + ":" + d.getMinutes();
-                        }
-
-                        function incrementtime() {
-                            if (!$(".countdown").hasAttr("timestamp")) {
-                                var seconds = Number($(".countdown").attr("seconds"));
-                                var minutes = Number($(".countdown").attr("minutes"));
-                                var timestamp = getNow();
-                                $(".countdown").attr("startingtime", backtotime(timestamp));
-                                timestamp += (minutes * 60) + seconds;
-                                $(".countdown").attr("endingtime", backtotime(timestamp));
-                                $(".countdown").attr("timestamp", timestamp);
-                            } else {
-                                var timestamp = $(".countdown").attr("timestamp");
-                                var seconds = timestamp - getNow();
-                                var minutes = Math.floor(seconds / 60);
-                                seconds = seconds % 60;
-                            }
-                            var hours = Math.floor(minutes / 60);
-
-                            var result = false;
-                            if (seconds == 0) {
-                                if (minutes == 0) {
-                                    result = "[EXPIRED]";
-                                    window.clearInterval(countdown);
-                                } else {
-                                    minutes -= 1;
+                            $(document).keyup(function(e) {
+                                if (e.keyCode == 27) {//escape key
+                                    $(".modal:visible").modal("hide");
                                 }
-                                seconds = 59;
-                            } else {
-                                seconds -= 1;
+                            });
+
+                            function backtotime(timestamp) {
+                                var d = new Date(timestamp * 1000);
+                                return d.getHours() + ":" + d.getMinutes();
                             }
-                            if (!result) {
-                                if (hours == 0) {
-                                    result = minutes;
+
+                            function incrementtime() {
+                                if (!$(".countdown").hasAttr("timestamp")) {
+                                    var seconds = Number($(".countdown").attr("seconds"));
+                                    var minutes = Number($(".countdown").attr("minutes"));
+                                    var timestamp = getNow();
+                                    $(".countdown").attr("startingtime", backtotime(timestamp));
+                                    timestamp += (minutes * 60) + seconds;
+                                    $(".countdown").attr("endingtime", backtotime(timestamp));
+                                    $(".countdown").attr("timestamp", timestamp);
                                 } else {
-                                    result = hours + "h:" + minpad(minutes % 60);
+                                    var timestamp = $(".countdown").attr("timestamp");
+                                    var seconds = timestamp - getNow();
+                                    var minutes = Math.floor(seconds / 60);
+                                    seconds = seconds % 60;
                                 }
-                                result += "m:" + minpad(seconds) + "s";
-                            }
-                            $(".countdown").text(result);
-                            countdown = window.setTimeout(function () {
-                                incrementtime()
-                            }, 1000);
-                        }
+                                var hours = Math.floor(minutes / 60);
 
-                        function minpad(time) {
-                            if (time < 10) {
-                                return "0" + time;
+                                var result = false;
+                                if (seconds == 0) {
+                                    if (minutes == 0) {
+                                        result = "[EXPIRED]";
+                                        window.clearInterval(countdown);
+                                    } else {
+                                        minutes -= 1;
+                                    }
+                                    seconds = 59;
+                                } else {
+                                    seconds -= 1;
+                                }
+                                if (!result) {
+                                    if (hours == 0) {
+                                        result = minutes;
+                                    } else {
+                                        result = hours + "h:" + minpad(minutes % 60);
+                                    }
+                                    result += "m:" + minpad(seconds) + "s";
+                                }
+                                $(".countdown").text(result);
+                                countdown = window.setTimeout(function () {
+                                    incrementtime()
+                                }, 1000);
                             }
-                            return time;
-                        }
 
-                        function setPublishableKey(Key, mode) {
-                            try {
-                                Stripe.setPublishableKey(Key);
-                                @if(!islive())
-                                    log(mode + " stripe mode");
-                                @endif
-                            } catch (error) {
-                                log("Stripe not available on this page");
+                            function minpad(time) {
+                                if (time < 10) {
+                                    return "0" + time;
+                                }
+                                return time;
                             }
-                        }
+
+                            function setPublishableKey(Key, mode) {
+                                try {
+                                    Stripe.setPublishableKey(Key);
+                                    @if(!islive())
+                                        log(mode + " stripe mode");
+                                    @endif
+                                } catch (error) {
+                                    log("Stripe not available on this page");
+                                }
+                            }
                         @endif
 
                         function scrolltotop(){
@@ -3402,7 +3385,7 @@
                             }
                             if (closest.length > 0) {
                                 GenerateHours(closest[index].hours);
-                                // shortitems = CheckforShortage(closest[index].shortage);
+                                shortitems = CheckforShortage(closest[index].shortage);
                                 alertshortage();
                             }
                         }
@@ -3647,7 +3630,6 @@
                         @if($form) </FORM> @endif
 
                         <SCRIPT>
-                            //if($firefox)
                             if(is_firefox_for_android) {
                                 $(window).load(function () {
                                     var HTML = $("#gmapc").html();
@@ -3658,7 +3640,6 @@
                                     initAutocomplete();
                                 });
                             }
-                            //endif
 
                             function editaddresses() {
                                 $("#checkoutmodal").modal("hide");
@@ -3793,9 +3774,7 @@
                     }
             break;
         default:
-            //echo '<!-- begin old include ' . $popup . ' -->';
             echo view("popups_" . $popup, get_defined_vars())->render();
-            //echo '<!-- end old include ' . $popup . ' -->';
     }
     endfile("popups_" . $popup);
 ?>

@@ -37,7 +37,11 @@
             }
             return array("database" => $IDS, "files" => $DeletedFiles);
         }
-
+        //gets the last key of an array
+        function lastkey($array){
+            $keys = array_keys($array);
+            return last($keys);
+        }
         //gets text between $start and $end in $string
         function get_string_between($string, $start, $end){
             $string = ' ' . $string;

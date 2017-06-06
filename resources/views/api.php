@@ -205,22 +205,6 @@
         }
     }
 
-    function get($Key, $default = "", $arr = false){
-        if (is_array($arr)) {
-            if (isset($arr[$Key])) {
-                return $arr[$Key];
-            }
-        } else {
-            if (isset($_POST[$Key])) {
-                return $_POST[$Key];
-            }
-            if (isset($_GET[$Key])) {
-                return $_GET[$Key];
-            }
-        }
-        return $default;
-    }
-
     function collapsearray($Arr, $ValueKey = false, $KeyKey = false, $Delimiter = false){
         foreach ($Arr as $index => $value) {
             if (!$ValueKey) {
@@ -290,23 +274,6 @@
         return '<option' . $value . $tempstr . ">" . $option . "</option>";
     }
 
-    function printoptions($name, $valuearray, $selected = "", $optionarray = false, $isdisabled = ""){
-        $tempstr = '<SELECT ' . $isdisabled . ' name="' . $name . '" id="' . $name . '" CLASS="form-control">';
-        if (!$optionarray) {
-            $optionarray = $valuearray;
-        }
-        for ($temp = 0; $temp < count($valuearray); $temp += 1) {
-            if (is_array($optionarray)) {
-                $value = $optionarray[$temp];
-            } else {
-                $value = $temp;
-            }
-            $tempstr .= printoption($valuearray[$temp], $selected, $value);
-        }
-        $tempstr .= '</SELECT>';
-        return $tempstr;
-    }
-
     function iif($value, $istrue, $isfalse = ""){
         if ($value) {
             return $istrue;
@@ -314,14 +281,8 @@
         return $isfalse;
     }
 
-    function is_iterable($var){
-        return (is_array($var) || $var instanceof Traversable);
-    }
-
-    //$src = source array, $keys = the keys to remove
-    function removekeys($src, $keys){
-        return array_diff_key($src, array_flip($keys));
-    }
+    //function is_iterable($var){return (is_array($var) || $var instanceof Traversable);}
+    //function removekeys($src, $keys){return array_diff_key($src, array_flip($keys));}
 
     function printrow($row, &$FirstResult = false, $PrimaryKey = "id", $TableID = ""){
         if ($FirstResult) {
@@ -359,10 +320,6 @@
             echo '</TD>';
         }
         echo '</TR>';
-    }
-
-    function printfile($filename){
-        echo '<DIV CLASS="blue">' . $filename . '</DIV>';
     }
 
     function filternumeric($text, $withwhat = ''){
@@ -518,19 +475,6 @@
         return strtolower(pathinfo($path, PATHINFO_EXTENSION)); // extension only, no period
     }
 
-    function file_size($path){
-        if (file_exists($path)) {
-            return filesize($path);
-        }
-        return 0;
-    }
-
-    //gets the last key of an array
-    function lastkey($array){
-        $keys = array_keys($array);
-        return last($keys);
-    }
-
     function getiterator($arr, $key, $value, $retValue = true){
         foreach ($arr as $index => $item) {
             if (is_array($item)) {
@@ -608,6 +552,12 @@
         }
     }
 
+/*
+     function like_match($pattern, $subject){
+        $pattern = str_replace('%', '.*', preg_quote($pattern, '/'));
+        return (bool)preg_match("/^{$pattern}$/i", $subject);
+    }
+
     function isencrypted($text){
         if (left($text, 9) == "eyJpdiI6I") {
             try {
@@ -618,20 +568,11 @@
         }
         return $text;
     }
+*/
 
     function islive(){
         $server = $_SERVER["SERVER_NAME"];
         return $server == serverurl;
-        /*if($server == "localhost" || $server == "127.0.0.1"){return false;}
-        if(strpos($server, ".") !== false){
-            if(is_numeric(str_replace(".", "", $server))) {
-                $server = explode(".", $server);
-                if ($server[0] == "10") {return false;}
-                if ($server[0] == "172" && $server[1] > "15" && $server[1] < 32) {return false;}
-                if ($server[0] == "192" && $server[1] == "168") {return false;}
-            }
-        }
-        return true;*/
     }
 
     function verbosedate($date){
@@ -692,11 +633,6 @@
         } else {
             return $tempstr . " PM" . $extra;
         }
-    }
-
-    function like_match($pattern, $subject){
-        $pattern = str_replace('%', '.*', preg_quote($pattern, '/'));
-        return (bool)preg_match("/^{$pattern}$/i", $subject);
     }
 
     function lastupdatetime($table){//will not work on live!
