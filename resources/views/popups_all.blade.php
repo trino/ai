@@ -1997,16 +1997,17 @@
 
                         function creditcards() {
                             var HTML = '<DIV CLASS="section"><div class="clearfix mt-1"></div><h2>Credit Card</h2>';
-                            if (userdetails.Stripe.length == 0) {
+                            if(loadsavedcreditinfo()) {
+                                for (var i = 0; i < userdetails.Stripe.length; i++) {
+                                    var card = userdetails.Stripe[i];
+                                    //id,object=card,brand,country,customer,cvc_check=pass,exp_month,exp_year=2018,funding=credit,last4=4242
+                                    HTML += '<DIV id="card_' + i + '"><A ONCLICK="deletecard(' + i + ", '" + card.id + "', " + card.last4 + ", '" + card.exp_month.pad(2) + "', " + right(card.exp_year, 2) + ');" CLASS="cursor-pointer">';
+                                    HTML += '<i class="fa fa-fw fa-times error"></i></A> ' + card.brand + ' x-' + card.last4 + ' Expires: ' + card.exp_month.pad(2) + '/20' + right(card.exp_year, 2) + '</DIV>';
+                                }
+                                return HTML + '</DIV>';
+                            } else {
                                 return HTML + "No Credit Cards";
                             }
-                            for (var i = 0; i < userdetails.Stripe.length; i++) {
-                                var card = userdetails.Stripe[i];
-                                //id,object=card,brand,country,customer,cvc_check=pass,exp_month,exp_year=2018,funding=credit,last4=4242
-                                HTML += '<DIV id="card_' + i + '"><A ONCLICK="deletecard(' + i + ", '" + card.id + "', " + card.last4 + ", '" + card.exp_month.pad(2) + "', " + right(card.exp_year, 2) + ');" CLASS="cursor-pointer">';
-                                HTML += '<i class="fa fa-fw fa-times error"></i></A> ' + card.brand + ' x-' + card.last4 + ' Expires: ' + card.exp_month.pad(2) + '/20' + right(card.exp_year, 2) + '</DIV>';
-                            }
-                            return HTML + '</DIV>';
                         }
 
                         function deletecard(Index, ID, last4, month, year) {
@@ -2044,7 +2045,7 @@
                                     HTML += '</DIV></li>';
                                 }
                                 HTML += '</ul>';
-                                if (First) {
+                                if (First.length) {
                                     orders(First)
                                 } else {
                                     HTML = "No orders placed yet";
@@ -2632,7 +2633,7 @@
                         }
 
                         function loadsavedcreditinfo() {
-                            if (userdetails.stripecustid.length > 0) {
+                            if (userdetails.stripecustid.length > 0 && userdetails.hasOwnProperty("Stripe")) {
                                 return userdetails.Stripe.length > 0;
                             }
                             return false;
