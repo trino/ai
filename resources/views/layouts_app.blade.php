@@ -83,7 +83,7 @@
                 @if($routename == "help")
                     <LI><A CLASS="dropdown-item" href="<?= webroot(""); ?>"><i class="fa fa fa-shopping-basket icon-width"></i> Order Now</A></LI>
                 @else
-                    <LI><A CLASS="dropdown-item" href="<?= webroot("help"); ?>"><i class="fa fa-question-circle icon-width"></i> More Info</A></LI>
+                    <LI><A CLASS="dropdown-item" href="<?= webroot("help"); ?>" target="_blank"><i class="fa fa-question-circle icon-width"></i> More Info</A></LI>
                 @endif
                 @if(read("id"))
                     @if(read("originaluserid"))
@@ -109,7 +109,7 @@
             <div class="container-fluid hidden-md-down list-group-item">
                 <div class="row">
                     <div class="col-sm-12">
-                        <a CLASS="btn btn-sm text-muted" href="<?= webroot("help"); ?>"> <i style="font-size: 1rem !important;" class="fa fa-question-circle icon-width"></i>More Info</a>
+                        <a CLASS="btn btn-sm text-muted" href="<?= webroot("help"); ?>" target="_blank"> <i style="font-size: 1rem !important;" class="fa fa-question-circle icon-width"></i>More Info</a>
                         @if(isset($_GET["time"])) <SPAN id="servertime" CLASS="text-muted pull-right">Server time: <?= now(); ?></SPAN> @endif
                     </div>
                 </div>
