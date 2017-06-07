@@ -57,6 +57,14 @@
                         <li><A HREF="<?= webroot("public/editmenu"); ?>" CLASS="dropdown-item"><i class="fa fa-user-plus icon-width"></i> Edit Menu</A></li>
                         <li><A HREF="<?= webroot("public/list/debug"); ?>" CLASS="dropdown-item"><i class="fa fa-user-plus icon-width"></i> Debug log</A></li>
                     </SPAN>
+                    <SPAN class="loggedin profiletype profiletype2">
+                        <?php
+                            foreach (array("orders", "shortage") as $table) {
+                                echo '<li><A HREF="' . webroot("public/list/" . $table) . '" CLASS="dropdown-item"><i class="fa fa-user-plus icon-width"></i> ' . str_replace("_", " ", ucfirst($table)) . ' list</A></li>';
+                            }
+                        ?>
+                        <li><A HREF="<?= webroot("public/editmenu"); ?>" CLASS="dropdown-item"><i class="fa fa-user-plus icon-width"></i> Edit Menu</A></li>
+                    </SPAN>
                     <SPAN class="loggedin">
                         <li id="profileinfo">
                             <A data-toggle="modal" data-target="#profilemodal" href="#" class="dropdown-item">

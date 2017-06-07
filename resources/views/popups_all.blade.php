@@ -371,8 +371,12 @@
                                     <?= popups_view("edituser", array("showpass" => true, "email" => false, "icons" => true)); ?>
 
                                     <div class="input_left_icon"><span class="fa-stack fa-2x"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-envelope text-white fa-stack-1x"></i></span></div>
-
                                     <div class="input_right"><input type="text" readonly class="form-control session_email_val"></div>
+
+                                    @if(read("profiletype"))
+                                        <div class="input_left_icon"><span class="fa-stack fa-2x"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-user-plus text-white fa-stack-1x"></i></span></div>
+                                        <div class="input_right"><input type="text" readonly class="form-control" value="<?= array("User", "Admin", "Restaurant")[read("profiletype")]; ?>"></div>
+                                    @endif
 
                                     <DIV class="clearfix mt-1"></DIV>
                                     <DIV CLASS="error" id="edituser_error"></DIV>
@@ -1996,8 +2000,11 @@
                         }
 
                         function creditcards() {
-                            var HTML = '<DIV CLASS="section"><div class="clearfix mt-1"></div><h2>Credit Card</h2>';
-                            if(loadsavedcreditinfo()) {
+                            var Cards = loadsavedcreditinfo();
+                            var HTML = '<DIV CLASS="section"><div class="clearfix mt-1"></div><h2>Credit Card';
+                            if(Cards != 1){HTML += 's';}
+                            HTML += '</h2>';
+                            if(Cards) {
                                 for (var i = 0; i < userdetails.Stripe.length; i++) {
                                     var card = userdetails.Stripe[i];
                                     //id,object=card,brand,country,customer,cvc_check=pass,exp_month,exp_year=2018,funding=credit,last4=4242
@@ -2634,9 +2641,9 @@
 
                         function loadsavedcreditinfo() {
                             if (userdetails.stripecustid.length > 0 && userdetails.hasOwnProperty("Stripe")) {
-                                return userdetails.Stripe.length > 0;
+                                return userdetails.Stripe.length;
                             }
-                            return false;
+                            return 0;
                         }
 
                         function changecredit() {

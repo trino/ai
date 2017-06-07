@@ -248,6 +248,7 @@
         case "shortage":
             $fields = array("id", "restaurant_id", "tablename", "item_id");
             if($profiletype == 2){
+                $user = getuser();
                 $_GET["restaurant"] = first("SELECT id FROM restaurants WHERE address_id = " . $user["Addresses"][0]["id"]);
                 if(isset($_GET["restaurant"]["id"])){
                     $adminsonly=false;
@@ -621,6 +622,20 @@
                 .container-fluid {
                     max-width: 100% !important;
                 }
+
+                .cursor-notallowed{
+                    cursor: not-allowed !important;
+                }
+
+                .btn-select, .btn-select input{
+                    cursor: pointer !important;
+                }
+                .btn-select{
+                    height: 27px;
+                }
+                .btn-select input{
+                    margin-top: 2px !important;
+                }
             </STYLE>
             <div class="row m-t-1">
                 <div class="col-md-12">
@@ -976,6 +991,7 @@
                                     var fields = Object.keys(data.table[0]);
                                     items = 0;
                                     for (var i = 0; i < data.table.length; i++) {
+                                        var candelete = true;
                                         var evenodd = "odd";
                                         if(i % 2 == 0){evenodd = "even";}
                                         var ID = data.table[i]["id"];
@@ -1035,7 +1051,12 @@
                                                 tempHTML += '<A CLASS="btn btn-sm btn-success cursor-pointer" href="' + baseURL + 'useraddresses?user_id=' + ID + '">Addresses</A> ';
                                                 tempHTML += '<A CLASS="btn btn-sm btn-secondary cursor-pointer" href="{{ webroot("public/user/info/") }}' + ID + '">Edit</A> ';
                                                 tempHTML += '<A CLASS="btn btn-sm btn-success cursor-pointer" ONCLICK="changepass(' + ID + ');" TITLE="Change their password">Password</A> ';
-                                                tempHTML += '<A CLASS="btn btn-sm btn-warning cursor-pointer" ONCLICK="possess(' + ID + ');">Possess</A> ';
+                                                if(userdetails["id"] == data.table[i]["id"]) {
+                                                    tempHTML += '<A CLASS="btn btn-sm btn-secondary cursor-notallowed">Can&#39;t possess or delete yourself</A> ';
+                                                    candelete=false;
+                                                } else {
+                                                    tempHTML += '<A CLASS="btn btn-sm btn-warning cursor-pointer" ONCLICK="possess(' + ID + ');">Possess user</A> ';
+                                                }
                                                 break;
                                             case "useraddresses":
                                                 tempHTML += '<A CLASS="btn btn-sm btn-success cursor-pointer" onclick="editaddress(' + ID + ');">Edit</A> ';
@@ -1055,9 +1076,9 @@
                                                 tempHTML += '<A CLASS="btn btn-sm btn-success cursor-pointer" HREF="{{ webroot("public/list/orders?restaurant=") }}' + ID + '">View</A> ';
                                                 break;
                                         }
-                                        if(profiletype == 1) {
+                                        if(profiletype == 1 && candelete) {
                                             tempHTML += '<A CLASS="btn btn-sm btn-danger cursor-pointer" onclick="deleteitem(' + ID + ');">Delete</A>';
-                                            tempHTML += '<label CLASS="btn btn-sm cursor-pointer"><input type="checkbox" class="selitem" index="' + ID + '" onclick="selecttableitem(this, ' + ID + ');"> Select</label>';
+                                            tempHTML += '<label CLASS="btn btn-sm btn-select"><input type="checkbox" class="selitem" index="' + ID + '" onclick="selecttableitem(this, ' + ID + ');"> Select</label>';
                                         }
                                         HTML += tempHTML + '</TD></TR>';
                                         items++;
@@ -1073,7 +1094,7 @@
                                 $("#data > TBODY").html(HTML);
                                 checkheaders("#data");
                                 generatepagelist(data.count, index);
-                                if(TableStyle == 1){
+                                if(TableStyle == 1 && !isUndefined(fields)){
                                     HTML = 'Sort by: <SELECT ID="sortby" onchange="updatesort(1);">';
                                     for(var i=0; i<fields.length; i++){
                                         HTML += '<OPTION VALUE="' + fields[i] + '"';
@@ -1866,7 +1887,7 @@
                             if(result) {
                                 var button = '<DIV CLASS="col-md-6"><button data-dismiss="modal" class="width-full btn btn-';
                                 var HTML = '<DIV CLASS="row col-md-12" style="padding-left: 25px;">';// + button + 'primary status-confirmed" onclick="changeorderstatus(' + ID + ', 1);">' + statuses[1] + '</button></DIV>';
-                                HTML += button + 'secondary pull-center red status-email" onclick="changeorderstatus(' + ID + ');">Email Receipt To Customer</button></DIV>';
+                                HTML += button + 'secondary pull-center red status-email" onclick="changeorderstatus(' + ID + ');">Email to Customer</button></DIV>';
                                 //HTML += button + 'warning pull-right status-delivered" onclick="changeorderstatus(' + ID + ', 3);">' + statuses[3] + '</button></DIV>';
                                 HTML += button + 'danger pull-right status-declined" onclick="changeorderstatus(' + ID + ', 2);">' + statuses[2] + '</button></DIV></DIV>';
                                 $("#ordercontents").html(result + HTML);

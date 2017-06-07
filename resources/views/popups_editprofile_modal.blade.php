@@ -12,8 +12,12 @@
                     <?= popups_view("edituser", array("showpass" => true, "email" => false, "icons" => true)); ?>
 
                     <div class="input_left_icon"><span class="fa-stack fa-2x"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-envelope text-white fa-stack-1x"></i></span></div>
-
                     <div class="input_right"><input type="text" readonly class="form-control session_email_val"></div>
+
+                    @if(read("profiletype"))
+                        <div class="input_left_icon"><span class="fa-stack fa-2x"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-user-plus text-white fa-stack-1x"></i></span></div>
+                        <div class="input_right"><input type="text" readonly class="form-control" value="<?= array("User", "Admin", "Restaurant")[read("profiletype")]; ?>"></div>
+                    @endif
 
                     <DIV class="clearfix mt-1"></DIV>
                     <DIV CLASS="error" id="edituser_error"></DIV>

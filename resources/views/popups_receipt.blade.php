@@ -533,7 +533,7 @@
             <DIV CLASS="clearfix"></DIV>
         @endif
         <br>
-        <a class="pull-left btn-link btn pl-0" href="<?= webroot("help"); ?>">MORE INFO</a>
+        <a class="pull-left btn-link btn pl-0" href="<?= webroot("help"); ?>" target="_blank">MORE INFO</a>
     @endif
 
     @if($timer && $place != "getreceipt")
