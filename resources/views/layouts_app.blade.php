@@ -24,7 +24,7 @@
         <meta name="viewport" content="width=device-width, user-scalable=no">
         <meta http-equiv="content-language" content="en-CA">
         <meta name="mobile-web-app-capable" content="yes">
-        <title><?= sitename; ?> - Pizza Delivery for London Ontario</title>
+        <title><?= sitename; ?> - Delivery </title>
         <!--link rel="manifest" href="<?= webroot("resources/assets/manifest.json"); ?>"-->
         <link rel="icon" sizes="128x128" href="<?= webroot("public/images/pizza128.png"); ?>">
         <link rel="icon" sizes="192x192" href="<?= webroot("public/images/pizza192.png"); ?>">
