@@ -934,5 +934,9 @@ td {
     border: 1px solid black !important;
 }*/
 
-
-
+#myorder{
+    font-family:sans Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+    font-weight: bold;
+    font-size: .85rem;
+    overflow-y: auto;
+}
