@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 23, 2017 at 10:19 AM
+-- Generation Time: Jun 13, 2017 at 02:46 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -132,7 +132,40 @@ CREATE TABLE IF NOT EXISTS `hours` (
 --
 
 INSERT INTO `hours` (`restaurant_id`, `0_open`, `0_close`, `1_open`, `1_close`, `2_open`, `2_close`, `3_open`, `3_close`, `4_open`, `4_close`, `5_open`, `5_close`, `6_open`, `6_close`) VALUES
-(0, -1, -1, 1100, 2225, 1100, 2225, 1100, 2225, 1100, 2225, 1000, 2350, 1100, 2350);
+(0, -1, -1, 1100, 2225, 1100, 2225, 1100, 2225, 1100, 2225, 1000, 2350, 1100, 2350),
+(4, -1, -1, -1, -1, 1500, 2200, 1500, 2200, 1500, 2200, 1500, 2200, 1500, 2200),
+(6, 2400, 2200, 2400, 2330, 2400, 2330, 2400, 2330, 2400, 2330, 2400, 1200, 2400, 1200),
+(7, 2400, 2300, 1100, 2300, 1100, 2300, 1100, 2300, 1100, 100, 1100, 100, 1100, 100),
+(9, 1100, 1200, 1100, 1200, 1100, 1200, 1100, 1200, 1100, 1200, 1100, 1200, 1100, 1200),
+(10, 2400, 2100, 1130, 2100, 1130, 2100, 1130, 2100, 1130, 2200, 1130, 2200, 2400, 2200),
+(11, 1130, 2100, 1130, 2200, 1130, 2200, 1130, 2200, 1130, 2200, 1130, 2300, 1130, 2300),
+(12, 1600, 2300, -1, -1, 1630, 2300, 1630, 2300, 1630, 2300, 1630, 1200, 1600, 1200),
+(13, 1500, 200, -1, -1, 1500, 200, 1500, 200, 1500, 200, 1500, 200, 1500, 200),
+(14, 2400, 2100, 1100, 2200, 1100, 2200, 1100, 2200, 1100, 2230, 1100, 2230, 2400, 2230),
+(15, -1, -1, -1, -1, 1100, 2200, 1100, 2200, 1100, 2200, 1100, 2300, 1100, 2300),
+(16, 1600, 2200, 1600, 2200, 1600, 2200, 1600, 2200, 1600, 2200, 1600, 2300, 1600, 2300),
+(18, 1100, 2200, 1100, 2200, 1100, 2300, 1100, 2300, 1100, 2300, 1100, 1200, 1100, 1200),
+(19, 1100, 2300, 1100, 2300, 1100, 2300, 1100, 2300, 1100, 1200, 1100, 1200, 1100, 1200),
+(20, 1100, 1200, 1100, 1200, 1100, 1200, 1100, 1200, 1100, 1200, 1100, 200, 1100, 200),
+(21, 1100, 1200, 1100, 1200, 1100, 1200, 1100, 1200, 1100, 1200, 1100, 200, 1100, 200),
+(22, 1100, 2300, 1100, 2300, 1100, 2300, 1100, 1200, 1100, 1200, 1100, 100, 1100, 100),
+(23, 1100, 2300, 1100, 2300, 1100, 2300, 1100, 2300, 1100, 2300, 1100, 1200, 1100, 1200),
+(24, 2400, 1200, 1100, 200, 1100, 200, 1100, 200, 1100, 200, 1100, 300, 1100, 300),
+(25, 1300, 2000, 1100, 2300, 1100, 2300, 1100, 2300, 1100, 2300, 1100, 2300, 1100, 2300),
+(26, 1100, 1200, 1100, 1200, 1100, 1200, 1100, 1200, 1100, 100, 1100, 300, 1100, 300),
+(27, 1100, 1200, 1100, 1200, 1100, 1200, 1100, 1200, 1100, 200, 1100, 300, 1100, 300),
+(28, 2400, 2300, 1030, 2300, 1030, 2300, 1030, 2300, 1030, 2300, 900, 100, 1100, 2300),
+(29, 1100, 1200, 1100, 1200, 1100, 1200, 1100, 1200, 1100, 300, 1100, 300, 1100, 300),
+(30, -1, -1, 1100, 2200, 1100, 2200, 1100, 2200, 1100, 2200, 1100, 1200, 1100, 1200),
+(31, 1100, 2230, 1100, 2230, 1100, 2230, 1100, 2230, 1100, 2230, 1100, 1200, 1100, 1200),
+(32, 1500, 2300, 1500, 1200, 1500, 1200, 1500, 1200, 1500, 1200, 1500, 100, 1500, 100),
+(33, 1500, 2300, 1100, 200, 1100, 200, 1100, 200, 1100, 200, 1100, 200, 1100, 300),
+(34, 1700, 2200, -1, -1, 1700, 2200, 2400, 2200, 2400, 2200, 2400, 2200, 1700, 2200),
+(35, 1100, 2300, 1100, 2300, 1100, 2300, 1100, 2300, 1100, 2300, 1100, 1200, 1100, 1200),
+(36, 1030, 100, 1030, 100, 1030, 100, 1030, 100, 1030, 100, 1030, 100, 1030, 100),
+(38, 1100, 1200, 1100, 1200, 1100, 1200, 1100, 1200, 1100, 1200, 1100, 200, 1100, 200),
+(39, 1030, 1100, 1030, 2300, 1030, 2300, 1030, 2300, 1030, 100, 1030, 100, 1030, 100),
+(40, 1500, 2300, 1500, 100, 1500, 100, 1500, 100, 1500, 100, 1500, 200, 1500, 200);
 
 -- --------------------------------------------------------
 
@@ -233,14 +266,14 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `price` decimal(10,2) NOT NULL,
   `email` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=256 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=257 ;
 
 --
 -- Dumping data for table `orders`
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `placed_at`, `number`, `unit`, `buzzcode`, `street`, `postalcode`, `city`, `province`, `latitude`, `longitude`, `accepted_at`, `restaurant_id`, `type`, `payment_type`, `phone`, `cell`, `paid`, `stripeToken`, `deliverytime`, `cookingnotes`, `status`, `price`, `email`) VALUES
-(241, 1, '2017-05-16 14:44:53', 300, '123', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, 'tok_AWVffGXm9uLn37', 'Deliver Now', '', 0, '66.84', ''),
+(241, 1, '2017-06-07 15:07:06', 300, '123', '', 'Dundas St', 'N6B 1T6', 'London', 'Ontario', '42.9854177', '-81.244139099999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, 'tok_AWVffGXm9uLn37', 'Deliver Now', '', 0, '66.84', ''),
 (244, 1, '2017-04-25 14:31:04', 18, 'side door', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', '0000-00-00 00:00:00', 3, 0, 0, '9055315331', '', 1, '', 'April 24 at 1100', '', 0, '15.20', ''),
 (245, 1, '2017-04-25 14:33:31', 2396, '', '', 'Asima Dr', 'N6M 0B3', 'London', 'Ontario', '42.9505', '-81.1735999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 1, 'tok_AXdl4E9HUc2Th9', 'Deliver Now', '', 0, '36.15', ''),
 (246, 1, '2017-04-25 14:35:59', 2396, '', '', 'Asima Dr', 'N6M 0B3', 'London', 'Ontario', '42.9505', '-81.1735999', '0000-00-00 00:00:00', 1, 0, 0, '', '', 1, 'tok_AXdnBCIKoVbsDy', 'Deliver Now', '', 0, '36.15', ''),
@@ -252,7 +285,8 @@ INSERT INTO `orders` (`id`, `user_id`, `placed_at`, `number`, `unit`, `buzzcode`
 (252, 1, '2017-05-02 10:21:58', 2396, '', '', 'Asima Dr', 'N6M 0B3', 'London', 'Ontario', '42.9505', '-81.1735999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, 'tok_AaCHqSPACG0gmV', 'May 2 at 1115', '', 0, '36.15', ''),
 (253, 1, '2017-05-02 10:25:03', 2396, '', '', 'Asima Dr', 'N6M 0B3', 'London', 'Ontario', '42.9505', '-81.1735999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'May 2 at 1115', '', 0, '36.15', ''),
 (254, 1, '2017-05-02 11:51:51', 2396, '', '', 'Asima Dr', 'N6M 0B3', 'London', 'Ontario', '42.9505', '-81.1735999', '0000-00-00 00:00:00', 1, 0, 0, '9055315331', '', 1, '', 'Deliver Now', '', 0, '20.57', ''),
-(255, 1, '2017-05-03 10:04:41', 2396, '', '', 'Asima Dr', 'N6M 0B3', 'London', 'Ontario', '42.9505', '-81.1735999', '0000-00-00 00:00:00', 1, 0, 0, '9055123067', '', 1, '', 'May 3 at 1100', '', 0, '21.64', '');
+(255, 1, '2017-05-03 10:04:41', 2396, '', '', 'Asima Dr', 'N6M 0B3', 'London', 'Ontario', '42.9505', '-81.1735999', '0000-00-00 00:00:00', 1, 0, 0, '9055123067', '', 1, '', 'May 3 at 1100', '', 0, '21.64', ''),
+(256, 1, '2017-05-23 14:20:42', 2396, '', '', 'Asima Dr', 'N6M 0B3', 'London', 'Ontario', '42.9505', '-81.1735999', '0000-00-00 00:00:00', 1, 0, 0, '9055123067', '', 1, '', 'May 23 at 1115', '', 0, '36.15', NULL);
 
 -- --------------------------------------------------------
 
@@ -306,7 +340,7 @@ CREATE TABLE IF NOT EXISTS `restaurants` (
   `franchise` int(11) NOT NULL,
   `address_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=41 ;
 
 --
 -- Dumping data for table `restaurants`
@@ -315,7 +349,42 @@ CREATE TABLE IF NOT EXISTS `restaurants` (
 INSERT INTO `restaurants` (`id`, `name`, `slug`, `email`, `phone`, `cuisine`, `website`, `description`, `logo`, `is_delivery`, `is_pickup`, `max_delivery_distance`, `delivery_fee`, `minimum`, `is_complete`, `lastorder_id`, `franchise`, `address_id`) VALUES
 (1, 'Fabulous 2 for 1 Pizza', '', '(905) 512-3067', '9055315331', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 1),
 (2, 'INACTIVE Marvellous Pizza', '', '(519) 452-1044', '9055315331', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 2),
-(3, 'Quality Pizza & Wings', '', '', '9055315331', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 97);
+(3, 'Quality Pizza & Wings', '', '', '9055315331', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 97),
+(4, 'BBQ pizza', '', 'info+BBQpizza@trinoweb.com', '(905) 544-2828', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 106),
+(5, 'Double Double Pizza & Chicken Inc', '', 'info+DoubleDoublePizzaChickenInc@trinoweb.com', '(905) 528-0000', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 107),
+(6, 'Royal Pizza & Wings', '', 'info+RoyalPizzaWings@trinoweb.com', '(905) 529-4242', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 108),
+(7, 'Royal Pizza & Wings', '', 'info+RoyalPizzaWings2@trinoweb.com', '(905) 664-8075', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 109),
+(9, 'City Pizza & Wings', '', 'info+CityPizzaWings@trinoweb.com', '(905) 528-1111', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 111),
+(10, 'The Express Restaurant', '', 'info+TheExpressRestaurant@trinoweb.com', '(905) 560-1475', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 112),
+(11, 'The Express Restaurant', '', 'info+TheExpressRestaurant1@trinoweb.com', '(289) 389-2008', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 113),
+(12, 'Chicago Style Pizza', '', 'info+ChicagoStylePizza@trinoweb.com', '(905) 575-8800', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 114),
+(13, 'Doors Pub: Taco Joint & Metal Bar', '', 'info+DoorsPubTacoJointMetalBar@trinoweb.com', '(905) 540-8888', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 115),
+(14, 'Bronzie''s Place', '', 'info+BronziesPlace@trinoweb.com', '(905) 529-3403', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 116),
+(15, 'Alfredo''s Place', '', 'info+AlfredosPlace@trinoweb.com', '(905) 383-3555', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 117),
+(17, 'Star Pizza', '', 'info+StarPizza@trinoweb.com', '(905) 664-4444', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 119),
+(18, 'Red Rockets', '', 'info+RedRockets@trinoweb.com', '(905) 318-9555', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 120),
+(19, 'Mattina Pizzeria', '', 'info+MattinaPizzeria@trinoweb.com', '(905) 527-7918', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 121),
+(20, 'National Pizza & Wings', '', 'info+NationalPizzaWings@trinoweb.com', '(905) 549-7734', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 122),
+(21, 'National Pizza & Wings', '', 'info+NationalPizzaWings1@trinoweb.com', '(905) 575-4500', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 123),
+(22, 'Topper''s Pizza Hamilton - Upper James', '', 'info+ToppersPizzaHamiltonUpperJames@trinoweb.com', '(905) 387-7171', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 124),
+(23, 'Rymal Pizza-Wings', '', 'info+RymalPizzaWings@trinoweb.com', '(905) 387-1800', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 125),
+(24, 'Hess Village Pizza & Wings', '', 'info+HessVillagePizzaWings@trinoweb.com', '(905) 525-5444', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 126),
+(25, 'Diana''s Pizza & Grille', '', 'info+DianasPizzaGrille@trinoweb.com', '(905) 549-7474', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 127),
+(26, 'Niva Pizza & Wings', '', 'info+NivaPizzaWings@trinoweb.com', '(905) 544-4544', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 128),
+(27, 'Lava Pizza', '', 'info+LavaPizza@trinoweb.com', '(905) 777-0666', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 129),
+(28, 'Hi-Line Pizza & Wings on Parkdale', '', 'info+HiLinePizzaWingsonParkdale@trinoweb.com', '(905) 543-9555', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 130),
+(29, 'Lava Pizza & Wings', '', 'info+LavaPizzaWings@trinoweb.com', '(905) 574-6666', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 131),
+(30, 'Weston Pizza And Wings', '', 'info+WestonPizzaAndWings@trinoweb.com', '(905) 521-9919', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 132),
+(31, 'The Pizza House', '', 'info+ThePizzaHouse@trinoweb.com', '(905) 561-0220', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 133),
+(32, 'Bella Pizza', '', 'info+BellaPizza@trinoweb.com', '(905) 544-1444', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 134),
+(33, 'Express 2 For 1 Pizza & Wings', '', 'info+Express2For1PizzaWings@trinoweb.com', '(905) 549-7171', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 135),
+(34, 'Giuseppe''s Italian Cuisine & Pizza', '', 'info+GiuseppesItalianCuisinePizza@trinoweb.com', '(905) 525-3334', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 136),
+(35, 'Marino Pizza And Wings', '', 'info+MarinoPizzaAndWings@trinoweb.com', '(905) 574-2020', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 137),
+(36, 'Twice The Deal Pizza', '', 'info+TwiceTheDealPizza@trinoweb.com', '(905) 385-0505', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 138),
+(37, 'A 1 Pizza Place', '', 'info+A1PizzaPlace@trinoweb.com', '(905) 318-5050', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 139),
+(38, 'Plaza Pizza & Wings', '', 'info+PlazaPizzaWings@trinoweb.com', '(905) 522-0909', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 140),
+(39, 'Pizza Depot', '', 'info+PizzaDepot@trinoweb.com', '(905) 525-9711', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 141),
+(40, 'Le Bella Pizza', '', 'info+LeBellaPizza@trinoweb.com', '(905) 529-7627', '', '', '', '', 1, 0, 0, 0, 0, 0, 0, 0, 142);
 
 -- --------------------------------------------------------
 
@@ -329,14 +398,14 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `value` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `keyname` (`keyname`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1595 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1596 ;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`id`, `keyname`, `value`) VALUES
-(1, 'lastSQL', '1495030699'),
+(1, 'lastSQL', '1495549190'),
 (20, 'orders', '1487775876'),
 (24, 'menucache', '1493733784'),
 (25, 'useraddresses', '1491932853'),
@@ -448,7 +517,7 @@ CREATE TABLE IF NOT EXISTS `useraddresses` (
   `phone` varchar(16) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=106 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=143 ;
 
 --
 -- Dumping data for table `useraddresses`
@@ -464,7 +533,42 @@ INSERT INTO `useraddresses` (`id`, `user_id`, `number`, `unit`, `buzzcode`, `str
 (97, 50, 2372, '', '', 'Barton St E', 'L8E 2W7', 'Hamilton', 'Ontario', '43.2376467', '-79.765102399999', ''),
 (103, 54, 18, 'side door', '', 'Oakland Dr', 'L8E 3Z2', 'Hamilton', 'Ontario', '43.2304400000000', '-79.7693198', ''),
 (104, 55, 1001, '', '', 'Fanshawe College Blvd', 'N5V 2A5', 'London', 'Ontario', '43.013414', '-81.199466000000', ''),
-(105, 1, 2396, '', '', 'Asima Dr', 'N6M 0B3', 'London', 'Ontario', '42.9505', '-81.1735999', '');
+(105, 1, 2396, '', '', 'Asima Dr', 'N6M 0B3', 'London', 'Ontario', '42.9505', '-81.1735999', ''),
+(106, 59, 2, '', '', 'Ottawa St N', 'L8H 3Y7', 'Hamilton', 'Ontario', '43.2427012', '-79.8195032', ''),
+(107, 61, 225, '', '', 'John St S', 'L8N 2C7', 'Hamilton', 'Ontario', '43.2501868', '-79.8685682', ''),
+(108, 62, 180, '', '', 'James St S', 'L8P 4V1', 'Hamilton', 'Ontario', '43.2511833', '-79.87147', ''),
+(109, 63, 826, '', '', 'Queenston Rd', 'L8G 2B5', 'Hamilton', 'Ontario', '43.227685', '-79.7626864', ''),
+(111, 65, 581, '', '', 'Main St E', 'L8M 1H9', 'Hamilton', 'Ontario', '43.2500393', '-79.8477776', ''),
+(112, 66, 349, '', '', 'Grays Rd', 'L8E 2Z1', 'Hamilton', 'Ontario', '43.2334163', '-79.7401695', ''),
+(113, 67, 1034, '', '', 'King St W', 'L8S 1L5', 'Hamilton', 'Ontario', '43.261727', '-79.9066278', ''),
+(114, 68, 534, '', '', 'Upper Sherman Ave', 'L8V 3M1', 'Hamilton', 'Ontario', '43.2320924', '-79.8475259', ''),
+(115, 69, 56, '', '', 'Hess St S', 'L8P 4R8', 'Hamilton', 'Ontario', '43.2574042', '-79.8780152', ''),
+(116, 70, 201, '', '', 'James St S', 'L8P 3A8', 'Hamilton', 'Ontario', '43.250534', '-79.8715325', ''),
+(117, 71, 931, '', '', 'Fennell Ave E', 'L8V 1W9', 'Hamilton', 'Ontario', '43.2285016', '-79.8403698', ''),
+(119, 73, 450, '', '', 'Hamilton Regional Rd 8', 'L8G', 'Hamilton', 'Ontario', '43.217317', '-79.7196697', ''),
+(120, 74, 1405, '', '', 'Upper Ottawa St', 'L8W 3J6', 'Hamilton', 'Ontario', '43.1983765', '-79.839967', ''),
+(121, 75, 104, '', '', 'Cannon St E', 'L8L 2A3', 'Hamilton', 'Ontario', '43.2595937', '-79.8629033', ''),
+(122, 76, 134, '', '', 'Ottawa St N', 'L8H 3Z3', 'Hamilton', 'Ontario', '43.246283', '-79.8177461', ''),
+(123, 77, 870, '', '', 'Upper James St', 'L9C 3A4', 'Hamilton', 'Ontario', '43.227159', '-79.8830249', ''),
+(124, 78, 1400, '', '', 'Upper James St', 'L9B 1K2', 'Hamilton', 'Ontario', '43.2096249', '-79.8910243', ''),
+(125, 79, 1001, '', '', 'Rymal Rd E', 'L8W 3R9', 'Hamilton', 'Ontario', '43.1920407', '-79.8485062', ''),
+(126, 80, 54, '', '', 'Queen St S', 'L8P 3R5', 'Hamilton', 'Ontario', '43.2579948', '-79.8797476', ''),
+(127, 81, 263, '', '', 'Kenilworth Ave N', 'L8H 4S6', 'Hamilton', 'Ontario', '43.2482697', '-79.8067173', ''),
+(128, 82, 800, '', '', 'Barton St E', 'L8L 3B3', 'Hamilton', 'Ontario', '43.2547963', '-79.8306975', ''),
+(129, 83, 387, '', '', 'Barton St E', 'L8L 2Y2', 'Hamilton', 'Ontario', '43.2601395', '-79.8487452', ''),
+(130, 84, 237, '', '', 'Parkdale Ave N', 'L8H', 'Hamilton', 'Ontario', '43.2431745', '-79.7895812', ''),
+(131, 85, 550, '', '', 'Fennell Ave E', 'L8V 1S9', 'Hamilton', 'Ontario', '43.2316562', '-79.8572042', ''),
+(132, 86, 574, '', '', 'James St N', 'L8L 1J7', 'Hamilton', 'Ontario', '43.2721007', '-79.8621156', ''),
+(133, 87, 205, '', '', 'Quigley Rd', 'L8K 5M8', 'Hamilton', 'Ontario', '43.2162208', '-79.783788', ''),
+(134, 88, 2145, '', '', 'King St E', 'L8K 1W5', 'Hamilton', 'Ontario', '43.2311692', '-79.8017835', ''),
+(135, 89, 1357, '', '', 'Main St E', 'L8K 1B6', 'Hamilton', 'Ontario', '43.2411024', '-79.8120347', ''),
+(136, 90, 762, '', '', 'King St E', 'L8M 1A6', 'Hamilton', 'Ontario', '43.2513318', '-79.8446862', ''),
+(137, 91, 601, '', '', 'Upper James St', 'L9C 2Y7', 'Hamilton', 'Ontario', '43.2396665', '-79.8765188', ''),
+(138, 92, 25, '', '', 'Redmond Dr', 'L8W 3K7', 'Hamilton', 'Ontario', '43.2057258', '-79.8647566', ''),
+(139, 93, 919, '', '', 'Upper Paradise Rd', 'L9B 2M9', 'Hamilton', 'Ontario', '43.2177863', '-79.9182575', ''),
+(140, 94, 90, '', '', 'Wellington St N', 'L8R 1N1', 'Hamilton', 'Ontario', '43.2559382', '-79.8577265', ''),
+(141, 95, 160, '', '', 'Centennial Pkwy N', 'L8E 1H9', 'Hamilton', 'Ontario', '43.2337926', '-79.7610652', ''),
+(142, 96, 455, '', '', 'Barton St E', 'L8L 2Y7', 'Hamilton', 'Ontario', '43.2593099', '-79.846162', '');
 
 -- --------------------------------------------------------
 
@@ -488,7 +592,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `stripecustid` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=57 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=97 ;
 
 --
 -- Dumping data for table `users`
@@ -496,14 +600,50 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `phone`, `lastlogin`, `loginattempts`, `profiletype`, `authcode`, `stripecustid`) VALUES
 (1, 'Roy Wall', 'roy@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '0000-00-00 00:00:00', '2017-04-25 13:52:10', '9055123067', 1487608084, 0, 1, '', 'cus_AaCHoacic12HrC'),
-(2, 'Roy Test', 'roy+test@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2016-11-16 15:20:28', '0000-00-00 00:00:00', '9055315331', 0, 0, 0, '', ''),
 (3, 'Fabulous', 'info+fab@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2016-11-16 15:49:31', '0000-00-00 00:00:00', '9055315331', 1481048458, 0, 2, '', 'cus_9yYE78hosPbuGH'),
 (4, 'Marvellous', 'info+mar@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-02-14 15:28:50', '0000-00-00 00:00:00', '9055315331', 0, 0, 2, '', ''),
 (48, 'Van Trinh', 'info@trinoweb.com', '$2y$10$.0DQCK8l9YOr49mc3AcEr.8zemyiRmUa1j69p5MJO4vf6PCIAOip.', '', '2017-04-01 17:18:32', '2017-04-22 13:15:53', '9055315331', 0, 0, 0, '', ''),
 (50, 'Quality Pizza & Wings', 'odealyonline@gmail.com', '$2y$10$S5SNVTZgWk9Ufe.kLdtaMOOMo2VxRqkXUpv1k/af09Bn1c32UUrcq', '', '2017-04-01 18:20:18', '0000-00-00 00:00:00', '9055315331', 0, 0, 2, '', ''),
 (54, 'Van Dao Trinh', 'dvt1985@hotmail.com', '$2y$10$202F5bICMxbyYm1VT7Petey5iUhHeMKI.HJgpM9bsB0MWFg7o5mPa', '', '2017-04-23 16:16:17', '0000-00-00 00:00:00', '9055315331', 0, 0, 0, '', 'cus_AWrH95lAblBCVy'),
 (55, 'J', 'j@j.com', '$2y$10$4HDeNQb4bjCIr8.LL9LVoeKxK8H.y9ao7GNnqIo7iKWcOVClFptCm', '', '2017-04-23 21:26:03', '0000-00-00 00:00:00', '', 0, 0, 0, '', ''),
-(56, 'Van Trinh', 'info+test@trinoweb.com', '$2y$10$enHdNDAfQcdCP/LibPfuPugxsRQ09aeOr.gWpHzYxpsWoyYTUClCO', '', '2017-05-16 19:25:13', '0000-00-00 00:00:00', '', 0, 0, 0, '', '');
+(56, 'Van Trinh', 'info+test@trinoweb.com', '$2y$10$enHdNDAfQcdCP/LibPfuPugxsRQ09aeOr.gWpHzYxpsWoyYTUClCO', '', '2017-05-16 19:25:13', '0000-00-00 00:00:00', '', 0, 0, 0, '', ''),
+(58, 'Van Trinh', 'roy+test@trinoweb.com', '$2y$10$/XBPlDw/8HoAw9Pxl1d1MuMgHc0sRMOH0q8oMBC0ts/ylI9Crft5m', '', '2017-05-24 17:57:35', '0000-00-00 00:00:00', '', 0, 0, 0, '', ''),
+(59, 'BBQ pizza', 'info+BBQpizza@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', NULL, '2017-06-13 21:28:32', NULL, '(905) 544-2828', 0, 0, 2, '', ''),
+(61, 'Double Double Pizza & Chicken Inc', 'info+DoubleDoublePizzaChickenInc@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', NULL, '2017-06-13 21:49:24', NULL, '(905) 528-0000', 0, 0, 2, '', ''),
+(62, 'Royal Pizza & Wings', 'info+RoyalPizzaWings@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', NULL, '2017-06-13 21:49:38', NULL, '(905) 529-4242', 0, 0, 2, '', ''),
+(63, 'Royal Pizza & Wings', 'info+RoyalPizzaWings2@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', NULL, '2017-06-13 22:01:35', NULL, '(905) 664-8075', 0, 0, 2, '', ''),
+(64, 'Royal Pizza & Wings', 'info+RoyalPizzaWings1@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:04:46', '0000-00-00 00:00:00', '(905) 664-8075', 0, 0, 2, '', ''),
+(65, 'City Pizza & Wings', 'info+CityPizzaWings@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:12:25', '0000-00-00 00:00:00', '(905) 528-1111', 0, 0, 2, '', ''),
+(66, 'The Express Restaurant', 'info+TheExpressRestaurant@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:12:37', '0000-00-00 00:00:00', '(905) 560-1475', 0, 0, 2, '', ''),
+(67, 'The Express Restaurant', 'info+TheExpressRestaurant1@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:14:23', '0000-00-00 00:00:00', '(289) 389-2008', 0, 0, 2, '', ''),
+(68, 'Chicago Style Pizza', 'info+ChicagoStylePizza@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:14:32', '0000-00-00 00:00:00', '(905) 575-8800', 0, 0, 2, '', ''),
+(69, 'Doors Pub: Taco Joint & Metal Bar', 'info+DoorsPubTacoJointMetalBar@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:15:29', '0000-00-00 00:00:00', '(905) 540-8888', 0, 0, 2, '', ''),
+(70, 'Bronzie''s Place', 'info+BronziesPlace@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:15:43', '0000-00-00 00:00:00', '(905) 529-3403', 0, 0, 2, '', ''),
+(71, 'Alfredo''s Place', 'info+AlfredosPlace@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:15:54', '0000-00-00 00:00:00', '(905) 383-3555', 0, 0, 2, '', ''),
+(73, 'Star Pizza', 'info+StarPizza@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:19:31', '0000-00-00 00:00:00', '(905) 664-4444', 0, 0, 2, '', ''),
+(74, 'Red Rockets', 'info+RedRockets@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:26:11', '0000-00-00 00:00:00', '(905) 318-9555', 0, 0, 2, '', ''),
+(75, 'Mattina Pizzeria', 'info+MattinaPizzeria@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:26:20', '0000-00-00 00:00:00', '(905) 527-7918', 0, 0, 2, '', ''),
+(76, 'National Pizza & Wings', 'info+NationalPizzaWings@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:26:28', '0000-00-00 00:00:00', '(905) 549-7734', 0, 0, 2, '', ''),
+(77, 'National Pizza & Wings', 'info+NationalPizzaWings1@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:26:38', '0000-00-00 00:00:00', '(905) 575-4500', 0, 0, 2, '', ''),
+(78, 'Topper''s Pizza Hamilton - Upper James', 'info+ToppersPizzaHamiltonUpperJames@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:32:33', '0000-00-00 00:00:00', '(905) 387-7171', 0, 0, 2, '', ''),
+(79, 'Rymal Pizza-Wings', 'info+RymalPizzaWings@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:39:11', '0000-00-00 00:00:00', '(905) 387-1800', 0, 0, 2, '', ''),
+(80, 'Hess Village Pizza & Wings', 'info+HessVillagePizzaWings@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:39:20', '0000-00-00 00:00:00', '(905) 525-5444', 0, 0, 2, '', ''),
+(81, 'Diana''s Pizza & Grille', 'info+DianasPizzaGrille@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:39:27', '0000-00-00 00:00:00', '(905) 549-7474', 0, 0, 2, '', ''),
+(82, 'Niva Pizza & Wings', 'info+NivaPizzaWings@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:43:36', '0000-00-00 00:00:00', '(905) 544-4544', 0, 0, 2, '', ''),
+(83, 'Lava Pizza', 'info+LavaPizza@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:43:45', '0000-00-00 00:00:00', '(905) 777-0666', 0, 0, 2, '', ''),
+(84, 'Hi-Line Pizza & Wings on Parkdale', 'info+HiLinePizzaWingsonParkdale@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:43:52', '0000-00-00 00:00:00', '(905) 543-9555', 0, 0, 2, '', ''),
+(85, 'Lava Pizza & Wings', 'info+LavaPizzaWings@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:44:01', '0000-00-00 00:00:00', '(905) 574-6666', 0, 0, 2, '', ''),
+(86, 'Weston Pizza And Wings', 'info+WestonPizzaAndWings@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:44:09', '0000-00-00 00:00:00', '(905) 521-9919', 0, 0, 2, '', ''),
+(87, 'The Pizza House', 'info+ThePizzaHouse@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:44:17', '0000-00-00 00:00:00', '(905) 561-0220', 0, 0, 2, '', ''),
+(88, 'Bella Pizza', 'info+BellaPizza@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:44:25', '0000-00-00 00:00:00', '(905) 544-1444', 0, 0, 2, '', ''),
+(89, 'Express 2 For 1 Pizza & Wings', 'info+Express2For1PizzaWings@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:44:33', '0000-00-00 00:00:00', '(905) 549-7171', 0, 0, 2, '', ''),
+(90, 'Giuseppe''s Italian Cuisine & Pizza', 'info+GiuseppesItalianCuisinePizza@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:44:41', '0000-00-00 00:00:00', '(905) 525-3334', 0, 0, 2, '', ''),
+(91, 'Marino Pizza And Wings', 'info+MarinoPizzaAndWings@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:44:49', '0000-00-00 00:00:00', '(905) 574-2020', 0, 0, 2, '', ''),
+(92, 'Twice The Deal Pizza', 'info+TwiceTheDealPizza@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:45:36', '0000-00-00 00:00:00', '(905) 385-0505', 0, 0, 2, '', ''),
+(93, 'A 1 Pizza Place', 'info+A1PizzaPlace@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:45:44', '0000-00-00 00:00:00', '(905) 318-5050', 0, 0, 2, '', ''),
+(94, 'Plaza Pizza & Wings', 'info+PlazaPizzaWings@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:45:53', '0000-00-00 00:00:00', '(905) 522-0909', 0, 0, 2, '', ''),
+(95, 'Pizza Depot', 'info+PizzaDepot@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:46:00', '0000-00-00 00:00:00', '(905) 525-9711', 0, 0, 2, '', ''),
+(96, 'Le Bella Pizza', 'info+LeBellaPizza@trinoweb.com', '$2y$10$440weczzi7gl8OpXQJROPey1Eiyx1BQWk4dFEj9pAHWO2FmagZQ52', '', '2017-06-13 22:46:08', '0000-00-00 00:00:00', '(905) 529-7627', 0, 0, 2, '', '');
 
 -- --------------------------------------------------------
 

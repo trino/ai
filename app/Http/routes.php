@@ -49,6 +49,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::any('/user/info/{id}',       'HomeController@edituser');
 
     Route::any('/edit',                 'HomeController@edit');
+    Route::any('/import',               'HomeController@import');
 
     Route::auth();
 });

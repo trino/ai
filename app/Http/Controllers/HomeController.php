@@ -58,6 +58,10 @@ class HomeController extends Controller {
         return view("home_editmenu")->render();
     }
 
+    public function import(Request $request){
+        return view("home_import")->render();
+    }
+
     public function placeorder($POST = ""){
         if (!read("id")) {
             return array("Status" => false, "Reason" => "You are not logged in");
